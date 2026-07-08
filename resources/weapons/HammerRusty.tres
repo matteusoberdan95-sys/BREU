@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://breu_hammer_rusty"]
+
+[ext_resource type="Script" path="res://scripts/weapons/WeaponData.cs" id="1_hammer"]
+
+[resource]
+script = ExtResource("1_hammer")
+WeaponName = "Martelo enferrujado"
+Kind = 2
+Damage = 22.0
+Range = 1.45
+MaxDurability = 7
+CurrentDurability = 7
+StaminaCost = 18.0
+AttackCooldown = 0.82
+ImpactForce = 6.0

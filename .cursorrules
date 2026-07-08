@@ -1,0 +1,21 @@
+# BREU - Cursor rules
+
+Ao abrir este projeto no Cursor ou Cursor CLI, comece lendo:
+
+1. docs/PROJECT_STATE.md
+2. docs/HANDOFF.md
+3. docs/gameplay/NEXT_SPRINT_TASKS.md
+4. docs/technical/TDD.md
+5. docs/design/GDD.md
+6. docs/design/IMPLEMENTATION_PLAN.md
+
+Use os docs em docs/agents conforme a area de trabalho.
+
+Padroes:
+- Projeto Godot 4.x .NET/C#.
+- Nome publico: BREU.
+- Cena principal: scenes/levels/demo_room/DemoRoom.tscn.
+- Manter responsabilidades separadas por pasta/script.
+- Nao criar assets finais 3D; preparar placeholders para receber .glb do Blender.
+- Atualizar docs/PROJECT_STATE.md e docs/HANDOFF.md antes de encerrar uma sessao.
+- Rodar dotnet build BREU.sln apos mudancas em C#.

@@ -1,0 +1,9 @@
+.godot/
+.import/
+bin/
+obj/
+*.tmp
+*.user
+*.suo
+export_presets.cfg
+*.translation

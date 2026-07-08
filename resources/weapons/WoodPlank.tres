@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://breu_wood_plank"]
+
+[ext_resource type="Script" path="res://scripts/weapons/WeaponData.cs" id="1_wood"]
+
+[resource]
+script = ExtResource("1_wood")
+WeaponName = "Tabua rachada"
+Kind = 4
+Damage = 13.0
+Range = 1.55
+MaxDurability = 4
+CurrentDurability = 4
+StaminaCost = 15.0
+AttackCooldown = 0.7
+ImpactForce = 4.5

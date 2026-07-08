@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://breu_player"]
+
+[ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_controller"]
+[ext_resource type="Script" path="res://scripts/player/PlayerStamina.cs" id="2_stamina"]
+[ext_resource type="Script" path="res://scripts/inventory/PlayerInventory.cs" id="3_inventory"]
+[ext_resource type="Script" path="res://scripts/player/PlayerInteractor.cs" id="4_interactor"]
+[ext_resource type="Script" path="res://scripts/player/PlayerLook.cs" id="5_look"]
+[ext_resource type="Script" path="res://scripts/player/FlashlightController.cs" id="6_flashlight"]
+[ext_resource type="Script" path="res://scripts/weapons/WeaponController.cs" id="7_weapon_controller"]
+[ext_resource type="Resource" uid="uid://breu_unarmed_weapon" path="res://resources/weapons/UnarmedWeapon.tres" id="8_unarmed"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 0.32
+height = 1.72
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_controller")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.86, 0)
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="PlayerStamina" type="Node" parent="."]
+script = ExtResource("2_stamina")
+
+[node name="PlayerInventory" type="Node" parent="."]
+script = ExtResource("3_inventory")
+
+[node name="PlayerInteractor" type="Node" parent="."]
+script = ExtResource("4_interactor")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+position = Vector3(0, 1.55, 0)
+script = ExtResource("5_look")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+current = true
+fov = 72.0
+
+[node name="InteractionRay" type="RayCast3D" parent="CameraPivot/Camera3D"]
+enabled = true
+target_position = Vector3(0, 0, -2.15)
+
+[node name="AttackRay" type="RayCast3D" parent="CameraPivot/Camera3D"]
+enabled = true
+target_position = Vector3(0, 0, -1.45)
+
+[node name="Flashlight" type="SpotLight3D" parent="CameraPivot/Camera3D"]
+light_energy = 3.4
+spot_range = 11.0
+spot_angle = 34.0
+script = ExtResource("6_flashlight")
+
+[node name="WeaponHand" type="Node3D" parent="CameraPivot"]
+position = Vector3(0.28, -0.26, -0.55)
+
+[node name="WeaponController" type="Node3D" parent="CameraPivot/WeaponHand"]
+script = ExtResource("7_weapon_controller")
+StartingWeapon = ExtResource("8_unarmed")
+UnarmedWeapon = ExtResource("8_unarmed")
