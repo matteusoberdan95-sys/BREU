@@ -1,0 +1,221 @@
+[gd_scene load_steps=21 format=3 uid="uid://breu_house_exterior"]
+
+[ext_resource type="PackedScene" path="res://assets/blender_exports/house_exterior/pensao_santa_luzia_exterior_blockout.glb" id="1_house_blockout"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/levels/EnterHouseTrigger.cs" id="3_enter_house"]
+[ext_resource type="Script" path="res://scripts/levels/BackToTrailTrigger.cs" id="4_back_trail"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/wind_old_house_01.ogg" id="5_wind"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="6_hud"]
+[ext_resource type="Script" path="res://scripts/world/SurfaceTag.cs" id="7_surface_tag"]
+[ext_resource type="Script" path="res://scripts/player/PlayerSpawnResolver.cs" id="8_spawn_resolver"]
+[ext_resource type="Script" path="res://scripts/levels/OneShotMessageTrigger.cs" id="9_one_shot_message"]
+
+[sub_resource type="Environment" id="Environment_night"]
+background_mode = 1
+background_color = Color(0.0784314, 0.0941176, 0.129412, 1)
+ambient_light_energy = 0.12
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(11, 0.2, 18)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_house_front_side"]
+size = Vector3(2.6, 2.7, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_house_back"]
+size = Vector3(6.4, 2.7, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_house_side"]
+size = Vector3(0.3, 2.7, 4.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_porch"]
+size = Vector3(4.2, 0.25, 1.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_door_blocker"]
+size = Vector3(0.95, 2.1, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_boundary_side"]
+size = Vector3(0.3, 2, 18)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_boundary_front_back"]
+size = Vector3(11, 2, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_enter_house"]
+size = Vector3(1.4, 2, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_back_to_trail"]
+size = Vector3(3, 2, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_door_scent_message"]
+size = Vector3(3, 2, 0.8)
+
+[node name="HouseExterior" type="Node3D"]
+editor_description = "Fachada da Pensao Santa Luzia. O GLB importado fica separado das colisoes e triggers auxiliares."
+
+[node name="PlayerSpawnResolver" type="Node" parent="."]
+script = ExtResource("8_spawn_resolver")
+CheckpointName = "HouseExterior_Entrance"
+
+[node name="Environment" type="Node3D" parent="."]
+editor_description = "Asset visual importado do Blender. Nao colocar gameplay dentro do GLB."
+
+[node name="pensao_santa_luzia_exterior_blockout" parent="Environment" instance=ExtResource("1_house_blockout")]
+
+[node name="PlayerSpawn" type="Marker3D" parent="."]
+editor_description = "Spawn do player vindo da trilha, olhando para a porta da Pensao."
+position = Vector3(0, 1, -8.5)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector3(0, 1, -8.5)
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="MoonLight" type="DirectionalLight3D" parent="Lighting"]
+rotation = Vector3(-0.785398, 0.610865, 0)
+light_color = Color(0.686275, 0.768627, 0.839216, 1)
+light_energy = 0.35
+shadow_enabled = true
+
+[node name="FrontLanternLight" type="OmniLight3D" parent="Lighting"]
+editor_description = "Luz quente do lampiao na entrada."
+position = Vector3(-0.75, 1.85, -16.25)
+light_color = Color(0.843137, 0.603922, 0.294118, 1)
+light_energy = 2.0
+shadow_enabled = true
+omni_range = 6.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_night")
+
+[node name="Collisions" type="Node3D" parent="."]
+editor_description = "Colisoes auxiliares temporarias. Ajustar visualmente apos validar o GLB no editor."
+
+[node name="GroundCollision" type="StaticBody3D" parent="Collisions" groups=["surface_concrete"]]
+position = Vector3(0, 0, -15.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/GroundCollision"]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="SurfaceTag" type="Node" parent="Collisions/GroundCollision"]
+script = ExtResource("7_surface_tag")
+
+[node name="HouseWallCollision" type="Node3D" parent="Collisions"]
+editor_description = "Paredes auxiliares em partes para deixar a regiao da porta legivel."
+
+[node name="FrontWallLeft" type="StaticBody3D" parent="Collisions/HouseWallCollision"]
+position = Vector3(-1.9, 1.35, -16.75)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/HouseWallCollision/FrontWallLeft"]
+shape = SubResource("BoxShape3D_house_front_side")
+
+[node name="FrontWallRight" type="StaticBody3D" parent="Collisions/HouseWallCollision"]
+position = Vector3(1.9, 1.35, -16.75)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/HouseWallCollision/FrontWallRight"]
+shape = SubResource("BoxShape3D_house_front_side")
+
+[node name="BackWall" type="StaticBody3D" parent="Collisions/HouseWallCollision"]
+position = Vector3(0, 1.35, -21.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/HouseWallCollision/BackWall"]
+shape = SubResource("BoxShape3D_house_back")
+
+[node name="LeftWall" type="StaticBody3D" parent="Collisions/HouseWallCollision"]
+position = Vector3(-3.2, 1.35, -18.95)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/HouseWallCollision/LeftWall"]
+shape = SubResource("BoxShape3D_house_side")
+
+[node name="RightWall" type="StaticBody3D" parent="Collisions/HouseWallCollision"]
+position = Vector3(3.2, 1.35, -18.95)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/HouseWallCollision/RightWall"]
+shape = SubResource("BoxShape3D_house_side")
+
+[node name="PorchCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 0.12, -15.75)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/PorchCollision"]
+shape = SubResource("BoxShape3D_porch")
+
+[node name="DoorBlockerCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 1.05, -16.55)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/DoorBlockerCollision"]
+shape = SubResource("BoxShape3D_door_blocker")
+
+[node name="BoundaryCollisions" type="Node3D" parent="Collisions"]
+
+[node name="BoundaryLeft" type="StaticBody3D" parent="Collisions/BoundaryCollisions"]
+position = Vector3(-5.5, 1, -15.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/BoundaryCollisions/BoundaryLeft"]
+shape = SubResource("BoxShape3D_boundary_side")
+
+[node name="BoundaryRight" type="StaticBody3D" parent="Collisions/BoundaryCollisions"]
+position = Vector3(5.5, 1, -15.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/BoundaryCollisions/BoundaryRight"]
+shape = SubResource("BoxShape3D_boundary_side")
+
+[node name="BoundaryBack" type="StaticBody3D" parent="Collisions/BoundaryCollisions"]
+position = Vector3(0, 1, -24.4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/BoundaryCollisions/BoundaryBack"]
+shape = SubResource("BoxShape3D_boundary_front_back")
+
+[node name="BoundaryFront" type="StaticBody3D" parent="Collisions/BoundaryCollisions"]
+position = Vector3(0, 1, -6.6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/BoundaryCollisions/BoundaryFront"]
+shape = SubResource("BoxShape3D_boundary_front_back")
+
+[node name="Triggers" type="Node3D" parent="."]
+
+[node name="DoorScentMessageTrigger" type="Area3D" parent="Triggers"]
+editor_description = "Mensagem de atmosfera antes de interagir com a porta."
+position = Vector3(0, 1, -13.85)
+collision_layer = 0
+script = ExtResource("9_one_shot_message")
+Message = "Tem cheiro de vela queimada."
+Duration = 3.0
+HudPath = NodePath("../../UI/HUD")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/DoorScentMessageTrigger"]
+shape = SubResource("BoxShape3D_door_scent_message")
+
+[node name="EnterHouseDoor" type="Area3D" parent="Triggers"]
+editor_description = "Area interativa da porta. Mire e pressione E para entrar no Quarto 07."
+position = Vector3(0, 1, -15.05)
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("3_enter_house")
+InteractionText = "Entrar na Pensao"
+HudPath = NodePath("../../UI/HUD")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/EnterHouseDoor"]
+shape = SubResource("BoxShape3D_enter_house")
+
+[node name="BackToTrailTrigger" type="Area3D" parent="Triggers"]
+editor_description = "Trigger informativo. Ainda nao volta para TrailIntro nesta sprint."
+position = Vector3(0, 1, -7.2)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("4_back_trail")
+HudPath = NodePath("../../UI/HUD")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/BackToTrailTrigger"]
+shape = SubResource("BoxShape3D_back_to_trail")
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="ExteriorAmbience" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("5_wind")
+volume_db = -16.0
+autoplay = true
+
+[node name="UI" type="Node" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("6_hud")]
+
+[node name="Debug" type="Node3D" parent="."]
+editor_description = "Notas e marcadores debug da fachada."

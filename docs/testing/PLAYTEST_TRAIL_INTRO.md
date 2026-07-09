@@ -27,14 +27,23 @@ Validar a primeira caminhada noturna antes da chegada a Pensao Santa Luzia:
 - nao cair no vazio;
 - nao atravessar facilmente as laterais;
 - ouvir o vento/ambiencia;
-- receber mensagem de chegada perto da casa.
+- chegar ao trigger da casa;
+- transicionar para `HouseExterior.tscn`.
+
+## Fluxo esperado
+
+```text
+TrailIntro -> HouseExterior -> DemoRoom
+```
 
 ## Validar escala
 
 - A largura jogavel temporaria fica entre os bloqueios laterais em `X -3.5` e `X 3.5`.
-- O comprimento jogavel usa aproximadamente `Z 15` no inicio da trilha ate `Z -15` perto da casa.
+- O comprimento jogavel usa aproximadamente `Z 15` no inicio da trilha ate `Z -13` perto do portao de transicao.
+- A casinha placeholder antiga do GLB da trilha esta escondida na cena; a fachada real aparece apenas em `HouseExterior.tscn`.
 - O player deve parecer em escala humana diante da cerca, vegetacao e silhueta da casa.
 - Se o GLB parecer rotacionado ou deslocado, ajustar os nos auxiliares da cena, nao o asset importado.
+- A luz da silhueta usa `LightFlicker` para oscilar sutilmente e servir como guia distante.
 
 ## Validar colisao
 
@@ -62,22 +71,62 @@ Posicao aproximada:
 ```text
 X 0
 Y 1.0
-Z -14.8
+Z -12.9
 ```
 
 Ao entrar no trigger, o console deve imprimir:
 
 ```text
-Chegada a Pensao Santa Luzia.
+Transicao: TrailIntro -> HouseExterior
 ```
 
-Se o HUD estiver carregado, deve aparecer:
+Se o HUD estiver carregado, deve aparecer brevemente:
 
 ```text
-A casa parece estar esperando por voce.
+A Pensao Santa Luzia.
 ```
 
-Ainda nao ha troca de cena. O script `HouseEntryTrigger.cs` tem TODO para futura transicao para `HouseExterior.tscn`.
+Depois o jogo deve trocar para:
+
+`res://scenes/levels/house_exterior/HouseExterior.tscn`
+
+A troca usa `SceneTransition.ChangeSceneWithFade`, com tela preta e mensagem curta.
+
+## Silhueta distante da Pensao
+
+`TrailIntro.tscn` usa apenas uma silhueta simples da casa no fim da trilha:
+
+`DistantHouseSilhouette`
+
+Ela e composta por:
+
+- `HouseShadowBody`
+- `HouseShadowRoof`
+- `HouseShadowDoor`
+- `HouseDistantLamp`
+- `HouseLampGlowMarker`
+
+A silhueta fica em `Z -16.8`, atras do trigger de chegada. Ela nao tem colisao, interacao, janelas detalhadas ou props. A funcao dela e ser um objetivo visual distante: de longe, o jogador entende que existe uma casa no fim da trilha.
+
+A fachada detalhada continua apenas em:
+
+`res://scenes/levels/house_exterior/HouseExterior.tscn`
+
+Isso evita carregar a casa completa duas vezes. Ao chegar perto da silhueta/portao, o `HouseEntryTrigger` troca para a fachada real.
+
+Antes da troca, o trigger narrativo `SilhouetteMessageTrigger` pode mostrar:
+
+```text
+A luz nao deveria estar acesa.
+```
+
+## Testar continuidade ate o quarto
+
+1. Rodar `TrailIntro.tscn`.
+2. Caminhar ate a casa.
+3. Confirmar troca para `HouseExterior.tscn`.
+4. Caminhar ate a porta da fachada.
+5. Confirmar troca para `DemoRoom.tscn`.
 
 ## Audio
 
@@ -94,14 +143,13 @@ O import do OGG esta configurado com loop ligado e o player de audio usa `Autopl
 ## Problemas conhecidos
 
 - Colisoes sao caixas temporarias e podem nao seguir perfeitamente cercas/vegetacao.
-- A cena nao troca para fachada ainda.
+- A transicao para `HouseExterior.tscn` registra checkpoint em memoria, mas ainda nao preserva inventario/estado persistente.
 - A luz da casa e apenas guia visual temporario.
 - A validacao headless direta com `--scene TrailIntro.tscn` derrubou o executavel Godot 4.7 nesta maquina; validar manualmente com F6 no editor.
 
 ## Proximos passos
 
 - Ajustar a orientacao/escala da trilha dentro do editor apos playtest visual.
-- Criar `HouseExterior.tscn`.
-- Trocar o trigger de chegada por transicao real para a fachada.
+- Refinar a area de chegada na fachada.
 - Adicionar props bloqueadores mais organicos nas laterais.
 - Refinar ambiencia com camadas de noite, vento e casa distante.

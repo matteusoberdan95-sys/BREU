@@ -20,16 +20,19 @@ Depois leia os docs de agentes em `docs/agents/` relacionados a tarefa atual.
 - Engine: Godot 4.7 Mono.
 - Linguagem: C# / .NET 10.
 - Cena principal atual: `res://scenes/levels/demo_room/DemoRoom.tscn`.
-- Cena de teste da entrada: `res://scenes/levels/trail_intro/TrailIntro.tscn`.
-- Cenario atual: Trilha Noturna, Quarto 07, corredor e `RitualRoom` placeholder.
+- Cenas de teste do inicio: `TrailIntro.tscn` e `HouseExterior.tscn`.
+- Cenario atual: Trilha Noturna, Fachada da Pensao, Quarto 07, corredor e `RitualRoom` placeholder.
+- Asset da trilha: `res://assets/blender_exports/trail_intro/trail_intro_blockout.glb`.
+- Asset da fachada: `res://assets/blender_exports/house_exterior/pensao_santa_luzia_exterior_blockout.glb`.
 - Asset do Quarto 07: `res://assets/blender_exports/quarto_07/quarto_07_blockout.glb`.
-- Asset da Trilha Noturna: `res://assets/blender_exports/trail_intro/trail_intro_blockout.glb`.
 
 ## Estado jogavel atual
 
 O jogador consegue:
 
-- testar a Trilha Noturna antes da Pensao, com player, colisoes, vento, luz da casa e trigger de chegada;
+- iniciar na Trilha Noturna;
+- chegar na fachada da Pensao Santa Luzia;
+- entrar no Quarto 07;
 - andar, correr com stamina, agachar (`Ctrl`) e pular (`Space`);
 - ouvir passos por superficie;
 - usar lanterna com HUD de bateria;
@@ -38,23 +41,17 @@ O jogador consegue:
 - percorrer corredor, disparar susto e interagir com a porta final;
 - fazer fade para `RitualRoom.tscn`.
 
-Fluxo atual da demo principal:
+Fluxo atual:
 
 ```text
-Quarto 07 -> corredor -> susto -> porta final -> RitualRoom
-```
-
-Fluxo atual da trilha:
-
-```text
-TrailIntro -> chegada na casa (mensagem HUD, sem transicao ainda)
+TrailIntro -> HouseExterior -> DemoRoom -> corredor -> RitualRoom
 ```
 
 Ainda nao existe:
 
 - combate funcional completo;
 - IA de perseguicao avancada;
-- fachada da casa;
+- porta visual/animada na fachada;
 - Sala dos Santos Secos modelada;
 - inimigo Blender final.
 

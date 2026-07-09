@@ -6,6 +6,9 @@
 [ext_resource type="AudioStream" uid="uid://cgt0o56il12pq" path="res://assets/audio/ambience/wind_old_house_01.ogg" id="4_wind_ambience"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="5_hud"]
 [ext_resource type="Script" uid="uid://csp8yxk63xbmx" path="res://scripts/world/SurfaceTag.cs" id="6_surface_tag"]
+[ext_resource type="Script" path="res://scripts/player/PlayerSpawnResolver.cs" id="7_spawn_resolver"]
+[ext_resource type="Script" path="res://scripts/horror/LightFlicker.cs" id="8_light_flicker"]
+[ext_resource type="Script" path="res://scripts/levels/OneShotMessageTrigger.cs" id="9_one_shot_message"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_trail_floor"]
 size = Vector3(10, 0.2, 34)
@@ -16,6 +19,40 @@ size = Vector3(0.3, 2, 30)
 [sub_resource type="BoxShape3D" id="BoxShape3D_house_entry"]
 size = Vector3(2.5, 2, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_silhouette_message"]
+size = Vector3(3.5, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_house_shadow_body"]
+albedo_color = Color(0.0666667, 0.0627451, 0.0509804, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Material_house_shadow_roof"]
+albedo_color = Color(0.0313725, 0.0313725, 0.027451, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Material_house_shadow_door"]
+albedo_color = Color(0.00784314, 0.00784314, 0.00784314, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Material_house_lamp_marker"]
+albedo_color = Color(0.839216, 0.639216, 0.290196, 1)
+emission_enabled = true
+emission = Color(0.839216, 0.639216, 0.290196, 1)
+emission_energy_multiplier = 1.4
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_house_shadow_body"]
+size = Vector3(5.4, 2.3, 0.35)
+
+[sub_resource type="BoxMesh" id="BoxMesh_house_shadow_roof"]
+size = Vector3(5.9, 0.35, 0.55)
+
+[sub_resource type="BoxMesh" id="BoxMesh_house_shadow_door"]
+size = Vector3(0.9, 1.8, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_house_lamp_marker"]
+size = Vector3(0.18, 0.18, 0.04)
+
 [sub_resource type="Environment" id="Environment_xjmjh"]
 background_mode = 1
 background_color = Color(0.078431375, 0.09411765, 0.12941177, 1)
@@ -24,10 +61,29 @@ ambient_light_energy = 0.18
 [node name="TrailIntro" type="Node3D" unique_id=1223194314]
 editor_description = "Playtest da Trilha Noturna antes da chegada a Pensao Santa Luzia. O GLB importado fica separado dos nos auxiliares de gameplay."
 
+[node name="PlayerSpawnResolver" type="Node" parent="."]
+script = ExtResource("7_spawn_resolver")
+CheckpointName = "TrailIntro_Start"
+
 [node name="Environment" type="Node3D" parent="." unique_id=349555436]
 editor_description = "Assets visuais importados do Blender. Nao colocar logica de gameplay dentro do GLB."
 
 [node name="trail_intro_blockout" parent="Environment" unique_id=551328905 instance=ExtResource("1_trail_blockout")]
+
+[node name="house_placeholder_body" parent="Environment/trail_intro_blockout" index="57"]
+visible = false
+
+[node name="house_placeholder_door" parent="Environment/trail_intro_blockout" index="58"]
+visible = false
+
+[node name="house_placeholder_roof" parent="Environment/trail_intro_blockout" index="59"]
+visible = false
+
+[node name="house_placeholder_window_left" parent="Environment/trail_intro_blockout" index="60"]
+visible = false
+
+[node name="house_placeholder_window_right" parent="Environment/trail_intro_blockout" index="61"]
+visible = false
 
 [node name="PlayerSpawn" type="Marker3D" parent="." unique_id=1984734263]
 editor_description = "Spawn inicial no comeco da trilha. Godot usa Y como altura e Z como profundidade."
@@ -47,11 +103,49 @@ shadow_enabled = true
 
 [node name="DistantHouseLight" type="OmniLight3D" parent="Lighting" unique_id=357137046]
 editor_description = "Luz amarelada velha perto da casa, usada como guia visual no fim da trilha."
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -13.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -12.8)
 light_color = Color(0.84313726, 0.6039216, 0.29411766, 1)
-light_energy = 2.0
+light_energy = 0.45
 shadow_enabled = true
 omni_range = 8.0
+
+[node name="DistantHouseSilhouette" type="Node3D" parent="."]
+editor_description = "Silhueta simples da Pensao no fim da trilha. Nao carrega a fachada real; serve apenas como objetivo visual."
+position = Vector3(0, 0, -16.8)
+
+[node name="HouseShadowBody" type="MeshInstance3D" parent="DistantHouseSilhouette"]
+position = Vector3(0, 1.15, 0)
+mesh = SubResource("BoxMesh_house_shadow_body")
+surface_material_override/0 = SubResource("Material_house_shadow_body")
+
+[node name="HouseShadowRoof" type="MeshInstance3D" parent="DistantHouseSilhouette"]
+position = Vector3(0, 2.45, 0)
+mesh = SubResource("BoxMesh_house_shadow_roof")
+surface_material_override/0 = SubResource("Material_house_shadow_roof")
+
+[node name="HouseShadowDoor" type="MeshInstance3D" parent="DistantHouseSilhouette"]
+position = Vector3(0, 0.9, 0.19)
+mesh = SubResource("BoxMesh_house_shadow_door")
+surface_material_override/0 = SubResource("Material_house_shadow_door")
+
+[node name="HouseDistantLamp" type="OmniLight3D" parent="DistantHouseSilhouette"]
+position = Vector3(-0.65, 1.65, 0.35)
+light_color = Color(0.843137, 0.603922, 0.294118, 1)
+light_energy = 1.5
+omni_range = 5.0
+shadow_enabled = false
+
+[node name="HouseLampGlowMarker" type="MeshInstance3D" parent="DistantHouseSilhouette"]
+position = Vector3(-0.65, 1.65, 0.22)
+mesh = SubResource("BoxMesh_house_lamp_marker")
+surface_material_override/0 = SubResource("Material_house_lamp_marker")
+
+[node name="LightFlicker" type="Node" parent="DistantHouseSilhouette"]
+script = ExtResource("8_light_flicker")
+LightPath = NodePath("../HouseDistantLamp")
+MinEnergy = 0.85
+MaxEnergy = 1.55
+FlickerSpeed = 0.14
 
 [node name="Collisions" type="Node3D" parent="." unique_id=519895650]
 editor_description = "Colisoes temporarias da trilha. Ajustar depois da validacao visual do GLB."
@@ -81,8 +175,20 @@ shape = SubResource("BoxShape3D_fence_blocker")
 [node name="Triggers" type="Node3D" parent="." unique_id=681369313]
 editor_description = "Triggers temporarios da trilha. A chegada na casa ainda nao troca de cena."
 
+[node name="SilhouetteMessageTrigger" type="Area3D" parent="Triggers"]
+editor_description = "Mensagem curta quando a luz da Pensao distante entra no campo de jogo."
+position = Vector3(0, 1, -9.8)
+collision_layer = 0
+script = ExtResource("9_one_shot_message")
+Message = "A luz nao deveria estar acesa."
+Duration = 3.0
+HudPath = NodePath("../../UI/HUD")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/SilhouetteMessageTrigger"]
+shape = SubResource("BoxShape3D_silhouette_message")
+
 [node name="HouseEntryTrigger" type="Area3D" parent="Triggers" unique_id=322121636]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -14.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -12.9)
 collision_layer = 0
 script = ExtResource("3_house_entry")
 HudPath = NodePath("../../UI/HUD")

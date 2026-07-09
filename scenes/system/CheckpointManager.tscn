@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://breu_checkpoint_manager"]
+
+[ext_resource type="Script" path="res://scripts/system/CheckpointManager.cs" id="1_checkpoint"]
+
+[node name="CheckpointManager" type="Node"]
+script = ExtResource("1_checkpoint")

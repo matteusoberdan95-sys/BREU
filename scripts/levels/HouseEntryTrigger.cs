@@ -2,8 +2,9 @@ namespace BREU.Scripts.Levels;
 
 public partial class HouseEntryTrigger : Area3D
 {
-    [Export] public string DebugMessage { get; set; } = "Chegada a Pensao Santa Luzia.";
-    [Export] public string HudMessage { get; set; } = "A casa parece estar esperando por voce.";
+    [Export] public string TargetScenePath { get; set; } = "res://scenes/levels/house_exterior/HouseExterior.tscn";
+    [Export] public string DebugMessage { get; set; } = "Transicao: TrailIntro -> HouseExterior";
+    [Export] public string HudMessage { get; set; } = "A Pensao Santa Luzia.";
     [Export] public NodePath HudPath { get; set; } = new("");
     [Export] public float HudMessageDuration { get; set; } = 4.0f;
 
@@ -23,9 +24,7 @@ public partial class HouseEntryTrigger : Area3D
 
         _triggered = true;
         GD.Print(DebugMessage);
-        ShowHudMessage();
-
-        // TODO: trocar para futura transicao para HouseExterior.tscn.
+        ChangeScene();
     }
 
     private void ShowHudMessage()
@@ -41,5 +40,28 @@ public partial class HouseEntryTrigger : Area3D
         }
 
         hud.Call("ShowTemporaryMessage", HudMessage, HudMessageDuration);
+    }
+
+    private void ChangeScene()
+    {
+        if (!ResourceLoader.Exists(TargetScenePath))
+        {
+            GD.PrintErr($"HouseEntryTrigger: cena nao encontrada: {TargetScenePath}");
+            return;
+        }
+
+        if (SceneTransitionController.Instance != null)
+        {
+            SceneTransitionController.Instance.ChangeSceneWithFade(TargetScenePath, HudMessage);
+            return;
+        }
+
+        ShowHudMessage();
+
+        var error = GetTree().ChangeSceneToFile(TargetScenePath);
+        if (error != Error.Ok)
+        {
+            GD.PrintErr($"HouseEntryTrigger: falha ao trocar para {TargetScenePath} ({error}).");
+        }
     }
 }

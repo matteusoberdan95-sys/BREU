@@ -71,11 +71,27 @@ Interativos ativos na demo:
 
 `DemoRoom.tscn` instancia o GLB importado em `Environment/quarto_07_blockout` e adiciona nos auxiliares para gameplay, colisoes, interacoes, luz, player e debug. O asset importado nao deve ser alterado para gameplay.
 
-`TrailIntro.tscn` instancia `trail_intro_blockout.glb` em `Environment/trail_intro_blockout` e adiciona player, HUD, colisoes temporarias, luzes, ambiencia e `HouseEntryTrigger`. A cena e um playtest independente da caminhada inicial antes da Pensao Santa Luzia.
+`TrailIntro.tscn` instancia `trail_intro_blockout.glb` em `Environment/trail_intro_blockout` e adiciona player, HUD, colisoes temporarias, luzes, ambiencia e `HouseEntryTrigger`. A cena inicia o fluxo e transiciona para `HouseExterior.tscn`. A casa completa nao e instanciada na trilha; `DistantHouseSilhouette` usa meshes simples e `LightFlicker` para criar objetivo visual distante.
+
+`HouseExterior.tscn` instancia `pensao_santa_luzia_exterior_blockout.glb` em `Environment/pensao_santa_luzia_exterior_blockout`. A cena tem player, HUD, colisoes auxiliares, luz da lua, lampiao, ambiencia externa, `EnterHouseDoor` e `BackToTrailTrigger`.
+
+`PlayerSpawnResolver` e usado nas cenas do fluxo principal para posicionar o player no marcador de spawn e registrar checkpoints em memoria.
+
+### Sistemas globais
+
+`SceneTransition` e autoload em `res://scenes/system/SceneTransition.tscn`. Ele usa `SceneTransitionController` para `ChangeSceneWithFade(scenePath, message)`, tela preta e mensagem opcional.
+
+`CheckpointManager` e autoload em `res://scenes/system/CheckpointManager.tscn`. Ele guarda apenas `LastSceneName` e `LastCheckpoint` em memoria; nao existe save em disco ainda.
 
 ### Triggers de level
 
-`HouseEntryTrigger` e um `Area3D` usado na Trilha Noturna. Ao detectar o player, imprime a chegada no console e tenta mostrar uma mensagem temporaria no HUD. Ele ainda nao troca cena; ha um TODO para futura transicao para `HouseExterior.tscn`.
+`HouseEntryTrigger` e um `Area3D` usado na Trilha Noturna. Ao detectar o player, imprime debug e troca para `HouseExterior.tscn` usando `SceneTransition.ChangeSceneWithFade` quando disponivel.
+
+`EnterHouseTrigger` e o script da porta interativa da fachada, usado no no `EnterHouseDoor`. O player precisa mirar na porta e apertar `E`; entao o script mostra mensagem no HUD, imprime debug e troca para `DemoRoom.tscn` usando `SceneTransition.ChangeSceneWithFade` quando disponivel.
+
+`OneShotMessageTrigger` e um `Area3D` narrativo simples para mensagens curtas de atmosfera que disparam uma unica vez.
+
+`BackToTrailTrigger` e um `Area3D` informativo usado na fachada. Ele mostra mensagem e imprime debug, mas ainda nao troca cena.
 
 ## Sistemas preparados, mas fora da demo atual
 
@@ -101,7 +117,8 @@ Interativos ativos na demo:
 - `DemoRoom/Environment/CorridorPlaceholder` fornece um corredor curto temporario depois da porta, com chao, paredes, teto, bloqueio final e `DemoEndTrigger`.
 - Combate e inimigo nao entram neste playtest inicial.
 - HUD usa Labels simples, sem arte final.
-- `TrailIntro.tscn` ainda usa colisoes laterais retas e trigger de chegada sem transicao real.
+- `TrailIntro.tscn` ainda usa colisoes laterais retas.
+- `HouseExterior.tscn` usa colisoes temporarias em caixas, porta sem animacao visual, entrada por prompt `[E]` e retorno para trilha apenas informativo.
 
 ## Riscos e cuidados
 

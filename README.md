@@ -2,7 +2,7 @@
 
 Survival horror brutal em primeira pessoa, feito em Godot 4.7 Mono/C# com assets criados no Blender.
 
-O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre os anos 70/80. O fluxo atual tem uma trilha noturna de entrada, o Quarto 07, um corredor escuro, susto, porta final e uma Fase 2 placeholder.
+O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre os anos 70/80. O fluxo atual comeca na trilha noturna, passa pela fachada da Pensao, entra no Quarto 07, segue por um corredor escuro, susto, porta final e uma Fase 2 placeholder.
 
 ## Comece aqui
 
@@ -17,7 +17,8 @@ O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre 
 
 | Area | Status |
 |------|--------|
-| Trilha Noturna | Playtest inicial criado |
+| Trilha Noturna | Jogavel, leva para fachada |
+| Fachada da Pensao | Blockout jogavel, leva para Quarto 07 |
 | Quarto 07 | Jogavel |
 | Player FPS | Andar, correr, agachar, pular, lanterna |
 | Audio | Pack v01 + passos por superficie + vento |
@@ -25,16 +26,19 @@ O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre 
 | Fase 2 | `RitualRoom.tscn` placeholder |
 | Combate / IA | Placeholder apenas |
 
+A cena principal do projeto ja aponta para `TrailIntro.tscn`, entao o botao Play testa a entrada completa da vertical slice.
+
 ## Cenas principais
 
 - Trilha inicial: `res://scenes/levels/trail_intro/TrailIntro.tscn`
+- Fachada: `res://scenes/levels/house_exterior/HouseExterior.tscn`
 - Fase 1 / Quarto 07: `res://scenes/levels/demo_room/DemoRoom.tscn`
 - Fase 2 placeholder: `res://scenes/levels/phase_02/RitualRoom.tscn`
 
 ## Fluxos atuais
 
 ```text
-TrailIntro -> chegada na casa (mensagem HUD, sem transicao ainda)
+TrailIntro -> HouseExterior -> DemoRoom
 ```
 
 ```text
@@ -60,7 +64,9 @@ Controles:
 
 Guias:
 
+- [`docs/testing/PLAYTEST_PHASE_01_FLOW.md`](docs/testing/PLAYTEST_PHASE_01_FLOW.md)
 - [`docs/testing/PLAYTEST_TRAIL_INTRO.md`](docs/testing/PLAYTEST_TRAIL_INTRO.md)
+- [`docs/testing/PLAYTEST_HOUSE_EXTERIOR.md`](docs/testing/PLAYTEST_HOUSE_EXTERIOR.md)
 - [`docs/testing/PLAYTEST_DEMO_ROOM.md`](docs/testing/PLAYTEST_DEMO_ROOM.md)
 
 ## Build

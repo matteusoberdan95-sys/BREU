@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://breu_demo_room"]
+[gd_scene load_steps=47 format=3 uid="uid://breu_demo_room"]
 
 [ext_resource type="PackedScene" path="res://assets/blender_exports/quarto_07/quarto_07_blockout.glb" id="1_quarto07"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" path="res://scripts/audio/AmbienceController.cs" id="19_ambience"]
 [ext_resource type="Script" path="res://scripts/world/SurfaceTag.cs" id="20_surface_tag"]
 [ext_resource type="Script" path="res://scripts/interaction/CorridorEndDoorInteractable.cs" id="21_corridor_end_door"]
+[ext_resource type="Script" path="res://scripts/player/PlayerSpawnResolver.cs" id="22_spawn_resolver"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(5.7, 0.1, 6.7)
@@ -109,6 +110,13 @@ size = Vector3(1.2, 2.1, 0.45)
 
 [node name="DemoRoom" type="Node3D"]
 editor_description = "Cena principal do Quarto 07 - Pensao Santa Luzia. Mantem o GLB importado separado dos pontos auxiliares de gameplay."
+
+[node name="PlayerSpawnResolver" type="Node" parent="."]
+script = ExtResource("22_spawn_resolver")
+PlayerSpawnPath = NodePath("SpawnPoints/PlayerStart")
+CheckpointName = "DemoRoom_Quarto07"
+StartMessage = "O quarto parece preparado para alguem."
+StartMessageDuration = 3.5
 
 [node name="DemoRoomSequenceController" type="Node" parent="." groups=["demo_sequence"]]
 script = ExtResource("16_sequence")

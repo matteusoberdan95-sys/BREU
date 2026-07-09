@@ -15,13 +15,14 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="BREU"
-run/main_scene="res://scenes/levels/demo_room/DemoRoom.tscn"
+run/main_scene="res://scenes/levels/trail_intro/TrailIntro.tscn"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-SceneTransition="*res://autoload/SceneTransition.tscn"
+SceneTransition="*res://scenes/system/SceneTransition.tscn"
+CheckpointManager="*res://scenes/system/CheckpointManager.tscn"
 
 [dotnet]
 

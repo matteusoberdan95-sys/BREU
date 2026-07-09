@@ -58,6 +58,7 @@ global using BREU.Scripts.Doors;
 // BREU — Horror
 // =============================================================================
 global using BREU.Scripts.Horror;
+global using BREU.Scripts.Systems;
 
 // =============================================================================
 // BREU — World (superficies, tags de cenario)

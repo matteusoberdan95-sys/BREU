@@ -13,6 +13,8 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [x] Documentacao de visao Fases 1 e 2.
 - [x] Audio pack v01, passos, pulo, bilhete, susto.
 - [x] Sprint B base - `TrailIntro.tscn` com GLB, player, colisoes, luz, audio e trigger de chegada.
+- [x] Sprint C base - `HouseExterior.tscn` com GLB, player, colisoes, luz, audio e triggers.
+- [x] Sprint C.5 - costura jogavel do fluxo `TrailIntro -> HouseExterior -> DemoRoom`.
 
 ## Sprint B - Trilha de entrada
 
@@ -20,19 +22,25 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [x] Instanciar `trail_intro_blockout.glb`.
 - [x] Player no inicio da trilha.
 - [x] Colisoes temporarias de chao e laterais.
-- [x] Ambience + trigger de chegada a casa.
-- [ ] Validar escala/orientacao manualmente no editor.
+- [x] Ambience + trigger de chegada a fachada.
+- [x] Transicao para `HouseExterior.tscn`.
 - [ ] Ajustar colisoes conforme o GLB final.
 - [ ] Adicionar bloqueios mais organicos: vegetacao seca, cerca, cactos, pedras.
-- [ ] Preparar transicao para `HouseExterior.tscn`.
 
 ## Sprint C - Fachada da Pensao Santa Luzia
 
-- [ ] Exterior casa de barro no Blender.
-- [ ] `HouseExterior.tscn`.
-- [ ] Porta de entrada.
-- [ ] Transicao `TrailIntro.tscn` -> `HouseExterior.tscn`.
-- [ ] Depois, definir fluxo para entrada na Pensao.
+- [x] Exterior blockout importado.
+- [x] `HouseExterior.tscn`.
+- [x] Porta de entrada como trigger para `DemoRoom.tscn`.
+- [x] Transicao `TrailIntro.tscn` -> `HouseExterior.tscn`.
+- [x] Transicao `HouseExterior.tscn` -> `DemoRoom.tscn`.
+- [x] Fade com mensagem entre cenas.
+- [x] Checkpoints em memoria por cena.
+- [x] Mensagens narrativas curtas na trilha, fachada e quarto.
+- [ ] Validar escala/orientacao manualmente no editor.
+- [ ] Ajustar colisoes da fachada.
+- [ ] Criar porta visual/animada.
+- [ ] Criar retorno real para a trilha, se fizer sentido.
 
 ## Sprint D - Sala dos Santos Secos
 

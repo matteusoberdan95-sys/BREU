@@ -1,143 +1,132 @@
-# Plano de Produção — Fases 1 e 2
+# Plano de Producao - Fases 1 e 2
 
-Este documento organiza as sprints de produção para consolidar a Fase 1 (demo atual) e construir a Fase 2 (Sala dos Santos Secos e primeiro combate).
+Este documento organiza as sprints de producao para consolidar a Fase 1 e construir a Fase 2.
 
----
+## Sprint A - Consolidar Quarto 07
 
-## Sprint A — Consolidar Quarto 07
+**Status:** base jogavel concluida; ajustes finos continuam.
 
-**Status:** Em andamento / parcialmente concluído.
-
-### Objetivos
+### Entregas
 
 - Player
 - Lanterna
 - Passos
 - Pulo
+- Agachamento
 - Martelo
 - Bilhete
 - Porta
 - Corredor
 - Susto
 - HUD
-- Áudio base
+- Audio base
+- Porta final e transicao para `RitualRoom.tscn`
 
-### Próximos ajustes
+### Proximos ajustes
 
 - Melhorar UI
-- Sons reais
-- Colisões finas
-- Porta final
-- Trigger de transição
+- Sons finais
+- Colisoes finas
+- Porta final com arte/animacao real
 
 ---
 
-## Sprint B — Trilha de Entrada
+## Sprint B - Trilha de Entrada
 
-### Objetivos
+**Status:** base Godot criada e conectada.
 
-- Criar blockout da trilha
-- Vegetação seca
-- Cerca
-- Cactos
+### Entregas
+
+- `TrailIntro.tscn`
+- `trail_intro_blockout.glb`
+- Player no inicio da trilha
+- Colisoes temporarias
 - Luz da casa ao longe
 - Sons noturnos
-- Chegada à fachada
-
-### Assets Blender
-
-- Chão de terra
-- Cactos
-- Pedras
-- Cerca
-- Galhos
-- Silhueta da casa
-
-### Godot
-
-- Cena `TrailIntro.tscn`
 - Trigger de chegada
-- Ambience loop
-- Luz da lanterna
-- Som de vento
+- Transicao `TrailIntro -> HouseExterior`
+
+### Proximos ajustes
+
+- Vegetacao seca
+- Cerca, cactos, pedras e galhos como bloqueios mais organicos
+- Ajuste fino de escala/orientacao
+- Ambiencia em camadas
 
 ---
 
-## Sprint C — Fachada da Casa
+## Sprint C - Fachada da Pensao Santa Luzia
 
-### Objetivos
+**Status:** blockout importado; fluxo `TrailIntro -> HouseExterior -> DemoRoom` jogavel e costurado.
 
-- Criar exterior da Pensão Santa Luzia
-- Porta de entrada
-- Janelas
-- Quintal
-- Cruzes
-- Lampião
-- Conexão com Quarto 07
+### Entregas
 
-### Assets Blender
+- `HouseExterior.tscn`
+- `pensao_santa_luzia_exterior_blockout.glb`
+- Player na frente da fachada
+- Colisoes temporarias do terreno, paredes, varanda, porta e limites
+- `MoonLight`
+- `FrontLanternLight`
+- `ExteriorAmbience`
+- `EnterHouseTrigger` para `DemoRoom.tscn`
+- `BackToTrailTrigger` informativo
 
-- Casa de barro
-- Telhado gasto
-- Porta
-- Janela
-- Cruzes
-- Cerca
-- Lampião
-- Entulho
+### Sprint C.5 - Costura da Fase 1
 
-### Godot
+**Status:** concluida como base jogavel.
 
-- Cena `HouseExterior.tscn`
-- Porta de entrada
-- Transição para Quarto 07
-- Trigger de som
+### Entregas
+
+- Cena principal do projeto apontando para `TrailIntro.tscn`.
+- `SceneTransition` com `ChangeSceneWithFade(scenePath, message)` e mensagens de fade.
+- `PlayerSpawnResolver` para alinhar player aos marcadores de spawn das cenas.
+- `CheckpointManager` em memoria para registrar `TrailIntro_Start`, `HouseExterior_Entrance` e `DemoRoom_Quarto07`.
+- `OneShotMessageTrigger` para mensagens narrativas curtas.
+- `LightFlicker` aplicado na luz distante da silhueta da Pensao.
+- Guia `docs/testing/PLAYTEST_PHASE_01_FLOW.md`.
+
+### Proximos ajustes
+
+- Validar escala/orientacao no editor
+- Ajustar colisoes da fachada
+- Criar porta visual/animada
+- Criar retorno real `HouseExterior -> TrailIntro`, se necessario
+- Refinar lampiao e leitura visual da entrada
 
 ---
 
-## Sprint D — Sala dos Santos Secos
+## Sprint D - Sala dos Santos Secos
 
 ### Objetivos
 
-- Criar sala ritualística
+- Criar sala ritualistica
 - Mesa com velas
 - Ossos
 - Cruzes
 - Rede
-- Símbolos
+- Simbolos
 - Primeira arena de combate/fuga
-
-### Assets Blender
-
-- Mesa ritual
-- Velas
-- Pratos
-- Ossos
-- Rede
-- Cruzes
-- Ferramentas
-- Parede de barro
 
 ### Godot
 
-- Cena `RitualRoom.tscn`
+- Substituir `RitualRoom.tscn` placeholder por asset Blender
 - Luz de vela
 - Trigger narrativo
 - Inimigo placeholder
-- Colisões
+- Colisoes
 
 ---
 
-## Sprint E — Primeiro Inimigo Placeholder
+## Sprint E - Primeiro Inimigo Placeholder
 
 ### Objetivos
 
 - Melhorar placeholder
-- Perseguição simples
-- Stun básico
-- Som de respiração
+- Perseguicao simples
+- Stun basico
+- Som de respiracao
 - Som de passos
-- Reação à lanterna no futuro
+- Reacao a lanterna em prototipo futuro
 
 ### Godot
 
@@ -146,23 +135,23 @@ Este documento organiza as sprints de produção para consolidar a Fase 1 (demo 
 - `EnemyPerception.cs`
 - `EnemyAudio.cs`
 
-**Não usar Blender ainda.**
+Nao usar Blender ainda.
 
 ---
 
-## Sprint F — Inimigo Final no Blender
+## Sprint F - Inimigo Final no Blender
 
-Só iniciar após validar:
+So iniciar apos validar:
 
-- Escala
-- Distância
-- Perseguição
-- Timing do susto
-- Comportamento básico
+- escala;
+- distancia;
+- perseguicao;
+- timing do susto;
+- comportamento basico.
 
 ### Criar primeiro inimigo
 
-**O Hóspede**
+O Hospede.
 
 ### Assets Blender
 
@@ -171,35 +160,29 @@ Só iniciar após validar:
 - Materiais sujos
 - Rig simples
 
-### Animações
+### Animacoes
 
 - Idle
 - Walk
 - Chase
 - Attack
 - Hit reaction
-- Death/stun (opcional)
+- Death/stun opcional
 
 ---
 
 ## Ordem recomendada
 
-```
-Sprint A (consolidar) → Sprint B (trilha) → Sprint C (fachada)
-                              ↓
-                    Sprint D (sala ritual)
-                              ↓
-                    Sprint E (IA placeholder)
-                              ↓
-                    Sprint F (modelo Blender)
+```text
+Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F
 ```
 
 ## Documentos relacionados
 
-- [Visão Geral do Jogo](../design/GAME_VISION.md)
-- [Fase 1 — Level Design](../design/PHASE_01_LEVEL_DESIGN.md)
-- [Fase 2 — Level Design](../design/PHASE_02_LEVEL_DESIGN.md)
-- [Design de Inimigos](../design/ENEMY_DESIGN.md)
-- [Direção de Arte](../design/SCENARIO_ART_DIRECTION.md)
-- [Histórico de Sprints](../SPRINT_HISTORY.md)
-- [Próximas Tarefas](../gameplay/NEXT_SPRINT_TASKS.md)
+- `docs/design/GAME_VISION.md`
+- `docs/design/PHASE_01_LEVEL_DESIGN.md`
+- `docs/design/PHASE_02_LEVEL_DESIGN.md`
+- `docs/design/ENEMY_DESIGN.md`
+- `docs/design/SCENARIO_ART_DIRECTION.md`
+- `docs/SPRINT_HISTORY.md`
+- `docs/gameplay/NEXT_SPRINT_TASKS.md`
