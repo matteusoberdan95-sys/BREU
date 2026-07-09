@@ -1,223 +1,55 @@
-[gd_scene load_steps=23 format=3 uid="uid://breu_demo_room"]
+[gd_scene load_steps=4 format=3 uid="uid://breu_demo_room"]
 
-[ext_resource type="PackedScene" uid="uid://breu_player" path="res://scenes/player/Player.tscn" id="1_player"]
-[ext_resource type="PackedScene" uid="uid://breu_hud" path="res://scenes/ui/HUD.tscn" id="2_hud"]
-[ext_resource type="PackedScene" uid="uid://breu_door" path="res://scenes/props/Door.tscn" id="3_door"]
-[ext_resource type="PackedScene" uid="uid://breu_corridor" path="res://scenes/levels/corridor/Corridor.tscn" id="4_corridor"]
-[ext_resource type="Script" path="res://scripts/interaction/PickupItem.cs" id="5_pickup"]
-[ext_resource type="Resource" uid="uid://breu_hammer_rusty" path="res://resources/weapons/HammerRusty.tres" id="6_hammer"]
+[ext_resource type="PackedScene" path="res://assets/blender_exports/quarto_07/quarto_07_blockout.glb" id="1_quarto07"]
 
-[sub_resource type="Environment" id="env_room"]
+[sub_resource type="Environment" id="Environment_room07"]
 ambient_light_source = 1
-ambient_light_color = Color(0.18, 0.16, 0.13, 1)
-ambient_light_energy = 0.18
+ambient_light_color = Color(0.18, 0.155, 0.12, 1)
+ambient_light_energy = 0.22
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="mat_floor"]
-albedo_color = Color(0.17, 0.13, 0.1, 1)
-roughness = 0.95
-
-[sub_resource type="StandardMaterial3D" id="mat_wall"]
-albedo_color = Color(0.31, 0.33, 0.25, 1)
-roughness = 1.0
-
-[sub_resource type="StandardMaterial3D" id="mat_dirty"]
-albedo_color = Color(0.09, 0.07, 0.055, 1)
-roughness = 1.0
-
-[sub_resource type="StandardMaterial3D" id="mat_blood"]
-albedo_color = Color(0.19, 0.015, 0.01, 1)
-roughness = 0.85
-
-[sub_resource type="BoxMesh" id="mesh_floor"]
-size = Vector3(5.2, 0.18, 5.8)
-
-[sub_resource type="BoxShape3D" id="shape_floor"]
-size = Vector3(5.2, 0.18, 5.8)
-
-[sub_resource type="BoxMesh" id="mesh_wall_long"]
-size = Vector3(5.2, 2.7, 0.18)
-
-[sub_resource type="BoxShape3D" id="shape_wall_long"]
-size = Vector3(5.2, 2.7, 0.18)
-
-[sub_resource type="BoxMesh" id="mesh_wall_side"]
-size = Vector3(0.18, 2.7, 5.8)
-
-[sub_resource type="BoxShape3D" id="shape_wall_side"]
-size = Vector3(0.18, 2.7, 5.8)
-
-[sub_resource type="BoxMesh" id="mesh_bed"]
-size = Vector3(1.15, 0.45, 2.05)
-
-[sub_resource type="BoxMesh" id="mesh_table"]
-size = Vector3(0.7, 0.62, 0.7)
-
-[sub_resource type="BoxMesh" id="mesh_small"]
-size = Vector3(0.35, 0.08, 0.22)
-
-[sub_resource type="BoxShape3D" id="shape_pickup"]
-size = Vector3(0.45, 0.18, 0.35)
-
-[sub_resource type="CylinderMesh" id="mesh_hammer_handle"]
-top_radius = 0.045
-bottom_radius = 0.045
-height = 0.75
-
-[sub_resource type="BoxMesh" id="mesh_hammer_head"]
-size = Vector3(0.42, 0.12, 0.14)
+[sub_resource type="BoxShape3D" id="BoxShape3D_demo_end"]
+size = Vector3(1.5, 2.2, 0.5)
 
 [node name="DemoRoom" type="Node3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("env_room")
+[node name="Environment" type="Node3D" parent="."]
 
-[node name="Player" parent="." instance=ExtResource("1_player")]
-position = Vector3(0, 0.05, 1.7)
+[node name="quarto_07_blockout" parent="Environment" instance=ExtResource("1_quarto07")]
 
-[node name="HUD" parent="." instance=ExtResource("2_hud")]
+[node name="SpawnPoints" type="Node3D" parent="."]
 
-[node name="Floor" type="StaticBody3D" parent="."]
-position = Vector3(0, -0.09, 0)
+[node name="PlayerStart" type="Marker3D" parent="SpawnPoints"]
+position = Vector3(0, 0.05, 2.35)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-mesh = SubResource("mesh_floor")
-surface_material_override/0 = SubResource("mat_floor")
+[node name="InteractionPoints" type="Node3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-shape = SubResource("shape_floor")
+[node name="DoorPoint" type="Marker3D" parent="InteractionPoints"]
+position = Vector3(0, 1.025, 3.05)
 
-[node name="Ceiling" type="StaticBody3D" parent="."]
-position = Vector3(0, 2.7, 0)
+[node name="HammerPickupPoint" type="Marker3D" parent="InteractionPoints"]
+position = Vector3(-0.35, 0.12, 0.92)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ceiling"]
-mesh = SubResource("mesh_floor")
-surface_material_override/0 = SubResource("mat_wall")
+[node name="NotePoint" type="Marker3D" parent="InteractionPoints"]
+position = Vector3(1.15, 0.84, -1.35)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceiling"]
-shape = SubResource("shape_floor")
+[node name="Lighting" type="Node3D" parent="."]
 
-[node name="BackWall" type="StaticBody3D" parent="."]
-position = Vector3(0, 1.25, 2.9)
+[node name="RoomWorldEnvironment" type="WorldEnvironment" parent="Lighting"]
+environment = SubResource("Environment_room07")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BackWall"]
-mesh = SubResource("mesh_wall_long")
-surface_material_override/0 = SubResource("mat_wall")
+[node name="RoomLightPoint" type="OmniLight3D" parent="Lighting"]
+position = Vector3(0, 2.05, 0)
+light_color = Color(1, 0.76, 0.48, 1)
+light_energy = 0.85
+omni_range = 4.6
+shadow_enabled = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BackWall"]
-shape = SubResource("shape_wall_long")
+[node name="Debug" type="Node3D" parent="."]
 
-[node name="FrontWall_Left" type="StaticBody3D" parent="."]
-position = Vector3(-1.7, 1.25, -2.9)
+[node name="DemoEndTrigger" type="Area3D" parent="Debug"]
+position = Vector3(0, 1.1, 3.65)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="FrontWall_Left"]
-mesh = SubResource("mesh_wall_long")
-scale = Vector3(0.35, 1, 1)
-surface_material_override/0 = SubResource("mat_wall")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FrontWall_Left"]
-scale = Vector3(0.35, 1, 1)
-shape = SubResource("shape_wall_long")
-
-[node name="FrontWall_Right" type="StaticBody3D" parent="."]
-position = Vector3(1.7, 1.25, -2.9)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="FrontWall_Right"]
-mesh = SubResource("mesh_wall_long")
-scale = Vector3(0.35, 1, 1)
-surface_material_override/0 = SubResource("mat_wall")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FrontWall_Right"]
-scale = Vector3(0.35, 1, 1)
-shape = SubResource("shape_wall_long")
-
-[node name="LeftWall" type="StaticBody3D" parent="."]
-position = Vector3(-2.6, 1.25, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftWall"]
-mesh = SubResource("mesh_wall_side")
-surface_material_override/0 = SubResource("mat_wall")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftWall"]
-shape = SubResource("shape_wall_side")
-
-[node name="RightWall" type="StaticBody3D" parent="."]
-position = Vector3(2.6, 1.25, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RightWall"]
-mesh = SubResource("mesh_wall_side")
-surface_material_override/0 = SubResource("mat_wall")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightWall"]
-shape = SubResource("shape_wall_side")
-
-[node name="Door_ToCorridor" parent="." instance=ExtResource("3_door")]
-position = Vector3(0, 0, -2.92)
-rotation = Vector3(0, 1.5708, 0)
-
-[node name="Corridor" parent="." instance=ExtResource("4_corridor")]
-position = Vector3(0, 0, -3.08)
-
-[node name="Light_YellowBulb" type="OmniLight3D" parent="."]
-position = Vector3(0.2, 2.45, 0.3)
-light_color = Color(1, 0.77, 0.46, 1)
-light_energy = 0.55
-omni_range = 4.0
-
-[node name="Bed_IronPlaceholder" type="MeshInstance3D" parent="."]
-position = Vector3(-1.6, 0.32, 0.85)
-mesh = SubResource("mesh_bed")
-surface_material_override/0 = SubResource("mat_dirty")
-
-[node name="Table_Placeholder" type="MeshInstance3D" parent="."]
-position = Vector3(1.55, 0.35, 1.25)
-mesh = SubResource("mesh_table")
-surface_material_override/0 = SubResource("mat_dirty")
-
-[node name="Window_BarsPlaceholder" type="MeshInstance3D" parent="."]
-position = Vector3(0.9, 1.65, 2.805)
-scale = Vector3(2.5, 2.2, 0.2)
-mesh = SubResource("mesh_small")
-surface_material_override/0 = SubResource("mat_dirty")
-
-[node name="Blood_DryPatch" type="MeshInstance3D" parent="."]
-position = Vector3(-0.45, 0.015, 0.15)
-scale = Vector3(2.0, 0.05, 1.3)
-mesh = SubResource("mesh_small")
-surface_material_override/0 = SubResource("mat_blood")
-
-[node name="Note_Old" type="StaticBody3D" parent="."]
-position = Vector3(1.55, 0.72, 1.25)
-script = ExtResource("5_pickup")
-ItemId = "note_room_07"
-DisplayName = "Bilhete antigo"
-PromptText = "Ler bilhete"
-DocumentText = "Quarto 07. Nao apague a luz. Se baterem tres vezes, nao responda."
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Note_Old"]
-mesh = SubResource("mesh_small")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Note_Old"]
-shape = SubResource("shape_pickup")
-
-[node name="Hammer_Rusty" type="StaticBody3D" parent="."]
-position = Vector3(-1.1, 0.18, -0.25)
-rotation = Vector3(1.5708, 0.2, 0)
-script = ExtResource("5_pickup")
-ItemId = "hammer_rusty_01"
-DisplayName = "Martelo enferrujado"
-PromptText = "Pegar martelo"
-WeaponToEquip = ExtResource("6_hammer")
-
-[node name="Handle" type="MeshInstance3D" parent="Hammer_Rusty"]
-mesh = SubResource("mesh_hammer_handle")
-surface_material_override/0 = SubResource("mat_dirty")
-
-[node name="Head" type="MeshInstance3D" parent="Hammer_Rusty"]
-position = Vector3(0, 0.42, 0)
-mesh = SubResource("mesh_hammer_head")
-surface_material_override/0 = SubResource("mat_dirty")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hammer_Rusty"]
-shape = SubResource("shape_pickup")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Debug/DemoEndTrigger"]
+shape = SubResource("BoxShape3D_demo_end")

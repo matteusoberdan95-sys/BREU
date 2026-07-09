@@ -47,17 +47,20 @@ Ao iniciar uma nova sessao, leia primeiro:
   - `AGENTS.md`
   - `.cursorrules`
   - `.cursor/rules/breu-project.mdc`
+- Integrado o blockout Blender do Quarto 07 em `DemoRoom.tscn` como asset importado.
+- Criado `docs/blender_pipeline/QUARTO_07_IMPORT.md`.
 
 ## Onde continuar
 
 Prioridade imediata:
 
 1. Abrir no Godot 4.x .NET.
-2. Ver se scripts C# aparecem corretamente no editor.
-3. Rodar `DemoRoom.tscn`.
-4. Corrigir erros de importacao, NodePath, colisao ou instanciamento.
-5. Ajustar pivo/colisao da porta.
-6. Implementar vida do player e dano real do inimigo.
+2. Ver se o GLB `assets/blender_exports/quarto_07/quarto_07_blockout.glb` importa corretamente.
+3. Abrir `DemoRoom.tscn` e conferir a estrutura de importacao do Quarto 07.
+4. Ajustar pontos auxiliares se a escala/posicao do Blender mudar.
+5. Reinstanciar gameplay usando `PlayerStart`, `DoorPoint`, `HammerPickupPoint`, `NotePoint` e `RoomLightPoint`.
+6. Ajustar pivo/colisao da porta.
+7. Implementar vida do player e dano real do inimigo.
 
 ## Definicao de pronto da Sprint 1
 
@@ -86,6 +89,7 @@ Prioridade imediata:
 ## Bugs conhecidos
 
 - Validacao visual no Godot ainda nao foi feita nesta maquina via linha de comando.
+- O arquivo GLB estava inicialmente em `assets/blender_exports/quarto_07/quarto-07/quarto_07_blockout.glb`; foi criada copia canonica em `assets/blender_exports/quarto_07/quarto_07_blockout.glb`.
 - Ataque do inimigo ainda nao aplica dano real no player.
 - Porta ainda usa rotacao simples e precisa de revisao de pivo/colisao no editor.
 - UI de bilhete ainda e debug log, nao tela dedicada.

@@ -24,6 +24,8 @@ Status:
 - Corredor placeholder criado.
 - `Enemy_Hospede` criado com perseguicao simples, ataque por debug, dano, stun e morte.
 - Docs de agentes, GDD, TDD, pipeline Blender e backlog criados.
+- Blockout Blender do Quarto 07 integrado como asset importado em `DemoRoom.tscn`.
+- Documento de importacao criado em `docs/blender_pipeline/QUARTO_07_IMPORT.md`.
 
 ## Ultima verificacao tecnica
 
@@ -46,9 +48,9 @@ Na primeira sessao, `godot`, `godot4` e `Godot_v4*` nao foram encontrados no PAT
 ## Proximo passo recomendado
 
 1. Abrir a pasta `BREU` no Godot 4.x .NET.
-2. Deixar o editor importar scripts, resources e cenas.
-3. Rodar `DemoRoom.tscn`.
-4. Validar movimento, mouse look, lanterna, stamina, HUD, interacao, martelo, porta, corredor e inimigo.
+2. Deixar o editor importar `assets/blender_exports/quarto_07/quarto_07_blockout.glb`.
+3. Abrir `DemoRoom.tscn` e conferir alinhamento de `PlayerStart`, `DoorPoint`, `HammerPickupPoint`, `NotePoint` e `RoomLightPoint`.
+4. Instanciar player/HUD/gameplay usando os pontos auxiliares da cena.
 5. Registrar problemas encontrados em `docs/HANDOFF.md`.
 
 ## Arquivos principais
