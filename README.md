@@ -1,47 +1,67 @@
 # BREU DE DENTRO
 
-Survival horror brutal em primeira pessoa — Godot 4.7 Mono/C#, assets no Blender.
+Survival horror brutal em primeira pessoa, feito em Godot 4.7 Mono/C# com assets criados no Blender.
 
-O jogador explora a **Pensão Santa Luzia** no interior do Nordeste (anos 70/80): quarto preparado, bilhete ameaçador, corredor escuro, susto e porta final que leva à **Fase 2 — Sala dos Santos Secos** (placeholder).
+O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre os anos 70/80. O fluxo atual tem uma trilha noturna de entrada, o Quarto 07, um corredor escuro, susto, porta final e uma Fase 2 placeholder.
 
 ## Comece aqui
 
 1. [`docs/START_HERE.md`](docs/START_HERE.md)
 2. [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md)
-3. [`docs/design/GAME_VISION.md`](docs/design/GAME_VISION.md)
-4. [`docs/HANDOFF.md`](docs/HANDOFF.md)
+3. [`docs/HANDOFF.md`](docs/HANDOFF.md)
+4. [`docs/SPRINT_HISTORY.md`](docs/SPRINT_HISTORY.md)
 5. [`docs/gameplay/NEXT_SPRINT_TASKS.md`](docs/gameplay/NEXT_SPRINT_TASKS.md)
+6. [`docs/design/GAME_VISION.md`](docs/design/GAME_VISION.md)
 
-## Estado atual (2026-07-09)
+## Estado atual
 
 | Area | Status |
 |------|--------|
-| Quarto 07 (Blender GLB) | Jogavel |
+| Trilha Noturna | Playtest inicial criado |
+| Quarto 07 | Jogavel |
 | Player FPS | Andar, correr, agachar, pular, lanterna |
-| Audio | Pack v01 + passos por superficie |
-| Fase 1 | Quarto → corredor → susto → porta final |
+| Audio | Pack v01 + passos por superficie + vento |
+| Fase 1 | Quarto -> corredor -> susto -> porta final |
 | Fase 2 | `RitualRoom.tscn` placeholder |
 | Combate / IA | Placeholder apenas |
 
-### Fluxo da demo
+## Cenas principais
 
+- Trilha inicial: `res://scenes/levels/trail_intro/TrailIntro.tscn`
+- Fase 1 / Quarto 07: `res://scenes/levels/demo_room/DemoRoom.tscn`
+- Fase 2 placeholder: `res://scenes/levels/phase_02/RitualRoom.tscn`
+
+## Fluxos atuais
+
+```text
+TrailIntro -> chegada na casa (mensagem HUD, sem transicao ainda)
 ```
-Quarto 07 → porta do quarto → corredor → susto (Z~5.5) → porta final (Z~9.1) → RitualRoom
+
+```text
+Quarto 07 -> porta do quarto -> corredor -> susto -> porta final -> RitualRoom
 ```
-
-### Cenas
-
-- **Fase 1:** `res://scenes/levels/demo_room/DemoRoom.tscn`
-- **Fase 2:** `res://scenes/levels/phase_02/RitualRoom.tscn`
 
 ## Como testar
 
 1. Abrir `BREU` no Godot 4.7 Mono.
-2. F6 em `DemoRoom.tscn`.
-3. Controles:
-   - `WASD` — mover | `Shift` — correr | `Ctrl` — agachar | `Space` — pular
-   - `Mouse` — olhar | `F` — lanterna | `E` — interagir
-4. Guia completo: [`docs/testing/PLAYTEST_DEMO_ROOM.md`](docs/testing/PLAYTEST_DEMO_ROOM.md)
+2. Abrir uma das cenas principais.
+3. Rodar com F6.
+4. Clicar na janela/aba **Entrada** para dar foco.
+
+Controles:
+
+- `WASD`: mover
+- `Shift`: correr
+- `Ctrl`: agachar
+- `Space`: pular
+- `Mouse`: olhar
+- `F`: lanterna
+- `E`: interagir
+
+Guias:
+
+- [`docs/testing/PLAYTEST_TRAIL_INTRO.md`](docs/testing/PLAYTEST_TRAIL_INTRO.md)
+- [`docs/testing/PLAYTEST_DEMO_ROOM.md`](docs/testing/PLAYTEST_DEMO_ROOM.md)
 
 ## Build
 
@@ -49,7 +69,7 @@ Quarto 07 → porta do quarto → corredor → susto (Z~5.5) → porta final (Z~
 dotnet build BREU.sln
 ```
 
-Godot (esta maquina):
+Godot usado nesta maquina:
 
 ```text
 C:\Users\mober\OneDrive\Desktop\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_mono_win64_console.exe
@@ -57,11 +77,18 @@ C:\Users\mober\OneDrive\Desktop\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_m
 
 ## Documentacao de design
 
-- Visao e lore: `docs/design/GAME_VISION.md`, `STORY_AND_LORE.md`
-- Level design Fases 1–2: `docs/design/PHASE_01_LEVEL_DESIGN.md`, `PHASE_02_LEVEL_DESIGN.md`
+- Visao e lore: `docs/design/GAME_VISION.md`, `docs/design/STORY_AND_LORE.md`
+- Level design: `docs/design/PHASE_01_LEVEL_DESIGN.md`, `docs/design/PHASE_02_LEVEL_DESIGN.md`
 - Plano de producao: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - Historico: `docs/SPRINT_HISTORY.md`
 
 ## Continuidade
 
-Antes de commit/push, atualizar `docs/SPRINT_HISTORY.md`, `PROJECT_STATE.md`, `HANDOFF.md` e `NEXT_SPRINT_TASKS.md` (ver `.cursor/rules/pre-commit-docs.mdc`).
+Antes de commit/push, atualizar:
+
+- `docs/PROJECT_STATE.md`
+- `docs/HANDOFF.md`
+- `docs/SPRINT_HISTORY.md`
+- `docs/gameplay/NEXT_SPRINT_TASKS.md`
+
+Ver tambem `.cursor/rules/pre-commit-docs.mdc`.

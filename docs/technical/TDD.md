@@ -71,6 +71,12 @@ Interativos ativos na demo:
 
 `DemoRoom.tscn` instancia o GLB importado em `Environment/quarto_07_blockout` e adiciona nos auxiliares para gameplay, colisoes, interacoes, luz, player e debug. O asset importado nao deve ser alterado para gameplay.
 
+`TrailIntro.tscn` instancia `trail_intro_blockout.glb` em `Environment/trail_intro_blockout` e adiciona player, HUD, colisoes temporarias, luzes, ambiencia e `HouseEntryTrigger`. A cena e um playtest independente da caminhada inicial antes da Pensao Santa Luzia.
+
+### Triggers de level
+
+`HouseEntryTrigger` e um `Area3D` usado na Trilha Noturna. Ao detectar o player, imprime a chegada no console e tenta mostrar uma mensagem temporaria no HUD. Ele ainda nao troca cena; ha um TODO para futura transicao para `HouseExterior.tscn`.
+
 ## Sistemas preparados, mas fora da demo atual
 
 ### Stamina
@@ -95,6 +101,7 @@ Interativos ativos na demo:
 - `DemoRoom/Environment/CorridorPlaceholder` fornece um corredor curto temporario depois da porta, com chao, paredes, teto, bloqueio final e `DemoEndTrigger`.
 - Combate e inimigo nao entram neste playtest inicial.
 - HUD usa Labels simples, sem arte final.
+- `TrailIntro.tscn` ainda usa colisoes laterais retas e trigger de chegada sem transicao real.
 
 ## Riscos e cuidados
 

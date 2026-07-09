@@ -122,6 +122,33 @@ Ver secao "Assets futuros necessarios" em `docs/testing/PLAYTEST_DEMO_ROOM.md`.
 
 ---
 
+## Sprint 11 - Trilha Noturna blockout
+
+**Data:** 2026-07-09 | **Status:** base criada
+
+### Objetivo
+
+Criar o primeiro playtest da caminhada inicial antes da chegada a Pensao Santa Luzia.
+
+### Entregas
+
+- `scenes/levels/trail_intro/TrailIntro.tscn`.
+- Instancia de `assets/blender_exports/trail_intro/trail_intro_blockout.glb`.
+- Player reutilizado no inicio da trilha (`Vector3(0, 1, 14)`), olhando para a casa em `Z negativo`.
+- Colisoes temporarias: chao e bloqueios laterais.
+- Iluminacao noturna: `MoonLight` e `DistantHouseLight`.
+- Ambiencia: `wind_old_house_01.ogg` em loop.
+- `scripts/levels/HouseEntryTrigger.cs` com debug e mensagem no HUD.
+- `docs/testing/PLAYTEST_TRAIL_INTRO.md`.
+
+### Validacao
+
+- `dotnet build BREU.sln` passou com 0 erros.
+- Godot editor headless importou o GLB e o OGG.
+- Validacao jogavel deve ser feita manualmente com F6 em `TrailIntro.tscn`.
+
+---
+
 ## Proxima sprint recomendada
 
 1. Adicionar arquivos `.ogg` (ver `assets/audio/AUDIO_ASSETS_NEEDED.md`).

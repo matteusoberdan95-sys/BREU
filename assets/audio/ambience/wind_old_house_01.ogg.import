@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/wind_old_house_01.ogg-0b219bcf7c9c1fdd8945227
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0
