@@ -1,8 +1,46 @@
-[gd_scene load_steps=2 format=3 uid="uid://breu_hud"]
+[gd_scene load_steps=5 format=3 uid="uid://breu_hud"]
 
 [ext_resource type="Script" path="res://scripts/ui/HUDController.cs" id="1_hud"]
 
-[node name="HUD" type="CanvasLayer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_status"]
+bg_color = Color(0.04, 0.04, 0.05, 0.72)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18, 0.17, 0.16, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_message"]
+bg_color = Color(0.02, 0.02, 0.03, 0.82)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.2, 0.18, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_hud"]
+font_color = Color(0.95, 0.94, 0.9, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_offset = Vector2(1, 1)
+
+[node name="HUD" type="CanvasLayer" groups=["hud"]]
 script = ExtResource("1_hud")
 
 [node name="Root" type="Control" parent="."]
@@ -14,45 +52,84 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="InteractionLabel" type="Label" parent="Root"]
+[node name="StatusPanel" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -118.0
+offset_right = 280.0
+offset_bottom = -16.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_status")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/StatusPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="StaminaLabel" type="Label" parent="Root/StatusPanel/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+text = "Stamina 100/100"
+label_settings = SubResource("LabelSettings_hud")
+
+[node name="FlashlightLabel" type="Label" parent="Root/StatusPanel/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+text = "Lanterna 100/100"
+label_settings = SubResource("LabelSettings_hud")
+
+[node name="WeaponLabel" type="Label" parent="Root/StatusPanel/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+text = "Arma: Maos vazias"
+label_settings = SubResource("LabelSettings_hud")
+
+[node name="InteractionPrompt" type="Label" parent="Root"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = 70.0
-offset_right = 150.0
-offset_bottom = 100.0
+offset_left = -220.0
+offset_top = 56.0
+offset_right = 220.0
+offset_bottom = 88.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 horizontal_alignment = 1
+vertical_alignment = 1
+label_settings = SubResource("LabelSettings_hud")
 
-[node name="Stats" type="VBoxContainer" parent="Root"]
+[node name="MessagePanel" type="PanelContainer" parent="Root"]
+visible = false
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 18.0
-offset_top = -98.0
-offset_right = 320.0
-offset_bottom = -18.0
+offset_left = -260.0
+offset_top = -148.0
+offset_right = 260.0
+offset_bottom = -96.0
+grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_message")
 
-[node name="StaminaLabel" type="Label" parent="Root/Stats"]
+[node name="MessageLabel" type="Label" parent="Root/MessagePanel"]
 layout_mode = 2
 mouse_filter = 2
-text = "Stamina 100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+label_settings = SubResource("LabelSettings_hud")
 
-[node name="BatteryLabel" type="Label" parent="Root/Stats"]
-layout_mode = 2
-mouse_filter = 2
-text = "Lanterna 100/100"
-
-[node name="WeaponLabel" type="Label" parent="Root/Stats"]
-layout_mode = 2
-mouse_filter = 2
-text = "Soco 999/999"
+[node name="MessageTimer" type="Timer" parent="."]
+one_shot = true

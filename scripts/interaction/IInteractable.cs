@@ -1,5 +1,3 @@
-using BREU.Scripts.Player;
-
 namespace BREU.Scripts.Interaction;
 
 public interface IInteractable

@@ -1,73 +1,52 @@
 # BREU - Proximas tarefas
 
-## Como usar este arquivo
+Ultima atualizacao: 2026-07-09
 
-Este e o backlog vivo do projeto. Ao abrir o projeto no Codex, Cursor IDE ou Cursor CLI, leia primeiro:
+## Como usar
 
-1. `docs/START_HERE.md`
-2. `docs/PROJECT_STATE.md`
-3. `docs/HANDOFF.md`
+Backlog vivo. Historico de sprints concluidas: `docs/SPRINT_HISTORY.md`.  
+Antes de commit/push: `.cursor/rules/pre-commit-docs.mdc`.
 
-Ao terminar uma tarefa, atualize `docs/PROJECT_STATE.md` e registre o handoff em `docs/HANDOFF.md`.
+## Concluido recentemente
 
-## Estado atual da vertical slice
+- [x] Corredor placeholder conectado (+Z) com colisoes e materiais.
+- [x] Martelo na mao ajustado (`WeaponHolder`).
+- [x] HUD lanterna corrigido (100/100, dreno condicional).
+- [x] `GlobalUsings.cs` por camadas.
+- [x] HUD survival horror (painel, prompt, mensagens).
+- [x] Som de porta preparado (`DoorAudioController`).
+- [x] Radio/interferencia (`RadioInterferenceController`).
+- [x] Primeiro susto no corredor (`CorridorScareTrigger`).
+- [x] Inimigo placeholder (`EnemyPlaceholder`).
+- [x] `DemoRoomSequenceController`.
 
-O Quarto 07 ja esta jogavel em primeira pessoa:
+## Sprint 6 — Audio e polish de atmosfera (prioridade imediata)
 
-- Player anda, olha, corre e usa lanterna.
-- HUD minimo mostra prompts de interacao.
-- Bilhete e martelo funcionam.
-- Martelo aparece na mao como placeholder apos coleta.
-- Porta abre em modo debug.
-- Corredor placeholder esta conectado.
-- Trigger de fim de demo existe no fim do corredor.
-- Combate e inimigo ainda nao devem entrar sem pedido explicito.
+- Adicionar `.ogg`: porta, radio, susto (caminhos em `PLAYTEST_DEMO_ROOM.md`).
+- Ajustar volumes e distancias 3D no editor.
+- UI dedicada de leitura do bilhete.
+- Adicionar `PlayerStamina` ao `Player.tscn` e ligar ao HUD.
 
-## Sprint 1 - Fechamento da base jogavel
+## Sprint 7 — Corredor e transicao
 
-Prioridade imediata:
+- Trocar corredor placeholder por cena modular Blender.
+- Porta final / transicao de cena no fim do corredor.
+- Escurecimento progressivo em `CorridorDarkZone`.
 
-- Ajustar visualmente no editor as areas `HammerPickup`, `NoteInteractable` e `DoorInteractable`.
-- Ajustar colisao dos moveis se o player prender ou atravessar algo.
-- Trocar o corredor placeholder por uma cena modular definitiva.
-- Criar porta final/transicao no fim do corredor.
-- Criar UI de leitura do bilhete em vez de apenas console.
-- Criar feedback minimo de interacao: som curto ou destaque simples.
+## Sprint 8 — Inimigo (sem combate completo)
 
-## Sprint 2 - Quarto demo
+- Modelar inimigo no Blender e substituir placeholder.
+- Perseguicao simples (`CanChase`) sem dano ao player.
+- Sons: respiracao e passos (`enemy_breath_01.ogg`, `enemy_step_01.ogg`).
 
-- Substituir placeholders principais por blocos mais fieis feitos no Blender.
-- Criar material inicial de parede mofada.
-- Criar radio placeholder com som chiado.
-- Melhorar layout do quarto para leitura visual.
-- Revisar luz amarela fraca e sombras.
+## Sprint 9 — Combate (quando solicitado)
 
-## Sprint 3 - Inventario e arma sem combate
+- Ataque do martelo com stamina e durabilidade.
+- Dano ao inimigo e feedback visual/sonoro.
+- Fallback soco quando martelo quebrar.
 
-- Evoluir `PlayerInventory` para itens simples.
-- Trocar martelo placeholder na mao por asset final/animado.
-- Preparar durabilidade visual do martelo no HUD.
-- Ainda nao ativar dano/combate sem tarefa explicita.
+## Fora de escopo ate pedido explicito
 
-## Sprint 4 - Combate
-
-- Trocar RayCast de ataque por ShapeCast/Area temporizada.
-- Criar ataque do martelo com custo de stamina.
-- Adicionar feedback sonoro e visual para impacto.
-- Balancear stamina, dano e durabilidade.
-- Adicionar fallback para soco quando o martelo quebrar.
-
-## Sprint 5 - Inimigo
-
-- Criar vida do player e feedback de dano.
-- Melhorar percepcao do inimigo por visao/som.
-- Adicionar patrulha basica.
-- Adicionar animacoes placeholder.
-- Criar estados de investigacao e perda de alvo.
-
-## Sprint 6 - Atmosfera
-
-- Ambiencia: vento, radio, madeira rangendo, passos no corredor.
-- Decals: sangue seco, mofo, marcas de unha, sujeira.
-- Props finais do Quarto 07.
-- Checklist de QA e performance.
+- Combate completo balanceado.
+- IA avancada com navmesh.
+- Multiplos inimigos na demo room.

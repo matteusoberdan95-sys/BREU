@@ -1,0 +1,36 @@
+---
+description: Obrigatorio registrar sprints e atualizar docs antes de commit/push
+alwaysApply: true
+---
+
+# BREU — Regra obrigatoria antes de commit/push
+
+Nunca faca `git commit` ou `git push` sem atualizar a documentacao do projeto.
+
+## Checklist obrigatorio
+
+1. **`docs/SPRINT_HISTORY.md`** — adicionar ou atualizar entrada da sprint com data, objetivo, entregas e arquivos principais.
+2. **`docs/PROJECT_STATE.md`** — refletir o estado jogavel atual.
+3. **`docs/HANDOFF.md`** — o que foi feito, como testar, bugs conhecidos e proximo passo.
+4. **`docs/gameplay/NEXT_SPRINT_TASKS.md`** — marcar concluido e ajustar prioridades se mudaram.
+5. **`docs/testing/PLAYTEST_DEMO_ROOM.md`** — quando gameplay ou HUD mudarem.
+6. **`README.md`** e **`AGENTS.md`** — quando o estado publico do projeto mudar.
+
+## Validacao tecnica
+
+- Se alterou C#: `dotnet build BREU.sln` (0 erros).
+- Se possivel: Godot headless ou F6 em `DemoRoom.tscn`.
+
+## Mensagem de commit
+
+- Resumir o **porque** da mudanca (sprint/objetivo), nao apenas listar arquivos.
+- Mencionar a sprint no corpo do commit quando aplicavel.
+
+## Exemplo de fluxo
+
+```
+1. Implementar tarefas da sprint
+2. Atualizar SPRINT_HISTORY + PROJECT_STATE + HANDOFF + NEXT_SPRINT_TASKS
+3. dotnet build BREU.sln
+4. git add ... && git commit && git push
+```

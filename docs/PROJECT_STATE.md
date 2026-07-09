@@ -4,101 +4,75 @@ Ultima atualizacao: 2026-07-09
 
 ## Resumo rapido
 
-BREU esta na base jogavel da vertical slice. A cena principal `DemoRoom.tscn` ja permite andar pelo Quarto 07, interagir com bilhete/martelo/porta, sair para um corredor placeholder e chegar a um trigger de fim de demo.
+BREU esta na vertical slice jogavel do Quarto 07 com corredor placeholder, primeira camada de atmosfera/terror e HUD survival horror. O jogador percorre quarto → corredor → susto → fim da demo.
+
+Historico completo: `docs/SPRINT_HISTORY.md`
 
 ## Stack
 
 - Engine: Godot 4.7 Mono.
-- Linguagem: C#.
-- Runtime alvo: .NET 10.
+- Linguagem: C# / .NET 10.
 - Cena principal: `res://scenes/levels/demo_room/DemoRoom.tscn`.
 - Asset principal: `res://assets/blender_exports/quarto_07/quarto_07_blockout.glb`.
+- Usings globais: `GlobalUsings.cs` (camadas Engine → BREU).
 
 ## Estado jogavel atual
 
-- Player FPS com movimento WASD, mouse look, sprint e lanterna.
-- HUD minimo com prompt `[E] <acao>` e arma equipada.
-- Bilhete interativo com texto no console.
-- Martelo coletavel.
-- Inventario simples registra martelo, nome equipado e durabilidade.
-- Martelo placeholder aparece na mao/camera apos coleta.
-- Porta do Quarto 07 abre em modo debug.
-- Abertura da porta leva a um corredor placeholder.
-- Trigger de fim de demo no fim do corredor.
-- Colisoes temporarias para quarto, moveis, porta e corredor.
+### Quarto 07
+
+- Player FPS: WASD, mouse look, sprint, lanterna (bateria 100/100, dreno so ligada).
+- HUD com painel escuro, prompt `[E]`, mensagens temporarias.
+- Bilhete, martelo, porta interativos com feedback HUD + console.
+- Martelo placeholder na mao (`WeaponHolder`).
+- Porta abre com som preparado (`DoorAudioController` — streams ainda vazios).
+- `DemoRoomSequenceController` rastreia progresso da demo.
+
+### Corredor
+
+- Placeholder modular (+Z) com materiais, colisoes e luz.
+- `CorridorScareTrigger`: flicker, radio, silhueta inimigo (1x).
+- `EnemyPlaceholder` no fim do corredor (sem ataque/dano).
+- `CorridorEndTrigger` no final.
 
 ## Fora de escopo agora
 
-- Combate ativo.
-- Inimigo ativo dentro do fluxo atual.
-- UI final de leitura do bilhete.
-- Animacao/pivo/som real da porta.
-- Corredor modular definitivo.
-- Audio/ambiencia.
+- Combate completo e dano ao player.
+- IA avancada / navmesh do inimigo.
+- Modelo final do inimigo no Blender.
+- UI dedicada de leitura do bilhete.
+- Arquivos de audio reais (nos preparados).
+- Corredor modular definitivo e porta final/transicao.
 
 ## Verificacao tecnica
-
-Ultimos comandos validados:
 
 ```powershell
 dotnet build BREU.sln
 ```
 
-Resultado:
+Resultado (2026-07-09): Build com sucesso. 0 erros. 0 avisos.
 
-- Build com sucesso.
-- 0 erros.
-- 0 avisos.
-
-Godot headless validado com:
-
-```powershell
-& 'C:\Users\mober\OneDrive\Desktop\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_mono_win64_console.exe' --headless --path . --quit
-```
-
-Resultado:
-
-- Cena carregou sem erro.
-
-## Observacoes importantes
-
-- Ao rodar no editor, clicar na aba/janela **Entrada** para dar foco ao input.
-- O HUD deve ignorar mouse; `PlayerLook` usa `_Input` para nao perder mouse look.
-- O Quarto 07 usa apenas a pasta `assets/blender_exports/quarto_07`.
-- O GLB importado nao deve ser editado para gameplay; usar nos auxiliares no Godot.
+Godot headless: cena carrega sem erro.
 
 ## Proximo passo recomendado
 
-1. Abrir `DemoRoom.tscn` no Godot 4.7 Mono.
-2. Validar visualmente prompts do HUD, martelo na mao, porta e corredor.
-3. Ajustar areas/colisoes auxiliares se necessario.
-4. Trocar corredor placeholder por uma cena modular definitiva.
-5. Criar porta final/transicao no fim do corredor.
-6. Criar UI de leitura do bilhete.
+1. Adicionar `.ogg` de porta, radio e susto.
+2. UI de leitura do bilhete.
+3. Corredor Blender + porta final/transicao.
+4. Inimigo Blender + perseguicao simples.
 
 ## Arquivos principais
 
-- `README.md`
-- `AGENTS.md`
-- `.cursorrules`
-- `.cursor/rules/breu-project.mdc`
-- `docs/START_HERE.md`
+- `docs/SPRINT_HISTORY.md`
 - `docs/HANDOFF.md`
-- `docs/gameplay/NEXT_SPRINT_TASKS.md`
-- `docs/technical/TDD.md`
 - `docs/testing/PLAYTEST_DEMO_ROOM.md`
-- `project.godot`
-- `BREU.csproj`
+- `GlobalUsings.cs`
 - `scenes/levels/demo_room/DemoRoom.tscn`
-- `scenes/player/Player.tscn`
-- `scenes/ui/HUD.tscn`
+- `scenes/enemies/EnemyPlaceholder.tscn`
+- `scripts/doors/DoorAudioController.cs`
+- `scripts/horror/CorridorScareTrigger.cs`
+- `scripts/horror/RadioInterferenceController.cs`
+- `scripts/levels/DemoRoomSequenceController.cs`
 
 ## Como manter este arquivo
 
-Atualize sempre que:
-
-- Uma sprint mudar de estado.
-- Uma mecanica for concluida.
-- Um bug importante for descoberto.
-- O projeto for testado em outra maquina/ferramenta.
-- O Godot importar ou falhar ao importar o projeto.
+Atualize antes de todo commit/push (regra em `.cursor/rules/pre-commit-docs.mdc`).

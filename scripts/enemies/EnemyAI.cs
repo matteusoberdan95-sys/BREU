@@ -1,5 +1,3 @@
-using Godot;
-
 namespace BREU.Scripts.Enemies;
 
 public enum EnemyState

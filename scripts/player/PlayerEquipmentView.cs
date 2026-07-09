@@ -1,12 +1,9 @@
-using Godot;
-using BREU.Scripts.Inventory;
-
 namespace BREU.Scripts.Player;
 
 public partial class PlayerEquipmentView : Node
 {
     [Export] public NodePath InventoryPath { get; set; } = "../PlayerInventory";
-    [Export] public NodePath HammerVisualPath { get; set; } = "../CameraPivot/Camera3D/WeaponHand/HammerVisual";
+    [Export] public NodePath HammerVisualPath { get; set; } = "../CameraPivot/Camera3D/WeaponHolder/EquippedHammerVisual";
 
     private PlayerInventory? _inventory;
     private Node3D? _hammerVisual;

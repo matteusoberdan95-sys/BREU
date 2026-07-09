@@ -53,19 +53,20 @@ spot_angle = 34.0
 shadow_enabled = true
 script = ExtResource("3_flashlight")
 
-[node name="WeaponHand" type="Node3D" parent="CameraPivot/Camera3D"]
-position = Vector3(0.34, -0.34, -0.7)
-rotation = Vector3(-0.18, 0.08, 0.22)
+[node name="WeaponHolder" type="Node3D" parent="CameraPivot/Camera3D"]
+position = Vector3(0.35, -0.35, -0.65)
+rotation = Vector3(-0.261799, 0.436332, -0.174533)
 
-[node name="HammerVisual" type="Node3D" parent="CameraPivot/Camera3D/WeaponHand"]
+[node name="EquippedHammerVisual" type="Node3D" parent="CameraPivot/Camera3D/WeaponHolder"]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0, 0, 0)
 visible = false
 
-[node name="Handle" type="MeshInstance3D" parent="CameraPivot/Camera3D/WeaponHand/HammerVisual"]
+[node name="Handle" type="MeshInstance3D" parent="CameraPivot/Camera3D/WeaponHolder/EquippedHammerVisual"]
 position = Vector3(0, -0.18, 0)
 mesh = SubResource("BoxMesh_hammer_handle")
 surface_material_override/0 = SubResource("HammerHandleMaterial")
 
-[node name="Head" type="MeshInstance3D" parent="CameraPivot/Camera3D/WeaponHand/HammerVisual"]
+[node name="Head" type="MeshInstance3D" parent="CameraPivot/Camera3D/WeaponHolder/EquippedHammerVisual"]
 position = Vector3(0, 0.13, 0)
 mesh = SubResource("BoxMesh_hammer_head")
 surface_material_override/0 = SubResource("HammerHeadMaterial")

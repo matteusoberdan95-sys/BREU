@@ -22,14 +22,12 @@ Depois leia apenas os arquivos relevantes em `docs/agents/`.
 
 - Cena principal: `res://scenes/levels/demo_room/DemoRoom.tscn`.
 - Cenario importado: `res://assets/blender_exports/quarto_07/quarto_07_blockout.glb`.
-- Player FPS funcional com WASD, mouse look, sprint e lanterna.
-- HUD minimo com prompt de interacao e arma equipada.
-- Bilhete interativo com feedback no console.
-- Martelo coletavel, registrado no inventario simples e visivel na mao como placeholder.
-- Porta interativa em modo debug.
-- Corredor placeholder conectado depois da porta.
-- Trigger de fim de demo no final do corredor.
-- Sem combate e sem inimigo ativos nesta etapa.
+- Player FPS, lanterna, martelo na mao, bilhete e porta interativos.
+- HUD survival horror com painel, prompt `[E]` e mensagens temporarias.
+- Corredor placeholder (+Z) com colisoes, luz e primeiro susto.
+- Radio/interferencia e inimigo placeholder no corredor (sem combate).
+- Som de porta preparado (streams `.ogg` pendentes).
+- Historico de sprints: `docs/SPRINT_HISTORY.md`.
 
 ## Como Testar
 
@@ -64,14 +62,15 @@ Validacao headless:
 
 ## Regras de Continuidade
 
-Antes de encerrar uma sessao:
+Antes de encerrar uma sessao **ou fazer commit/push**:
 
+- atualize `docs/SPRINT_HISTORY.md` (obrigatorio);
 - atualize `docs/PROJECT_STATE.md`;
 - atualize `docs/HANDOFF.md`;
 - atualize `docs/gameplay/NEXT_SPRINT_TASKS.md` se prioridades mudarem;
 - rode `dotnet build BREU.sln` se C# mudou;
-- registre qualquer problema novo em `docs/HANDOFF.md`.
+- siga `.cursor/rules/pre-commit-docs.mdc`.
 
 ## Proximo Marco Recomendado
 
-Trocar o corredor placeholder por uma cena modular definitiva e criar uma porta final/transicao. Depois disso, iniciar a camada de feedback visual/sonoro antes de combate.
+Adicionar audio real (porta, radio, susto), UI do bilhete e corredor modular Blender com porta final/transicao. Depois substituir inimigo placeholder e adicionar perseguicao simples.

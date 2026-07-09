@@ -1,5 +1,3 @@
-using Godot;
-
 namespace BREU.Scripts.Player;
 
 public partial class FlashlightController : SpotLight3D
@@ -10,15 +8,18 @@ public partial class FlashlightController : SpotLight3D
     [Export] public float DrainPerSecond { get; set; } = 3.5f;
 
     private float _battery;
-    private bool _isOn = true;
+    private bool _isOn;
     private float _debugPrintTimer;
+
+    public float CurrentBattery => _battery;
 
     public override void _Ready()
     {
         _battery = MaxBattery;
-        Visible = true;
+        _isOn = false;
+        Visible = false;
         EmitSignal(SignalName.BatteryChanged, _battery, MaxBattery);
-        GD.Print($"Lanterna: {_battery:0}%");
+        GD.Print($"Lanterna: {_battery:0}/{MaxBattery:0}");
     }
 
     public override void _Process(double delta)
@@ -62,6 +63,7 @@ public partial class FlashlightController : SpotLight3D
 
         _isOn = !_isOn;
         Visible = _isOn;
+        EmitSignal(SignalName.BatteryChanged, _battery, MaxBattery);
         GD.Print(_isOn ? "Lanterna ligada." : "Lanterna desligada.");
     }
 }

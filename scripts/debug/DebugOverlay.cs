@@ -1,5 +1,3 @@
-using Godot;
-
 namespace BREU.Scripts.Debug;
 
 public partial class DebugOverlay : Node

@@ -4,111 +4,72 @@ Ultima atualizacao: 2026-07-09
 
 ## Como retomar
 
-Ao abrir uma nova sessao no Codex, Cursor IDE ou Cursor CLI, leia:
-
 1. `docs/START_HERE.md`
 2. `docs/PROJECT_STATE.md`
-3. `docs/gameplay/NEXT_SPRINT_TASKS.md`
-4. `docs/technical/TDD.md`
-5. O arquivo de agente em `docs/agents/` relacionado ao trabalho.
+3. `docs/SPRINT_HISTORY.md`
+4. `docs/gameplay/NEXT_SPRINT_TASKS.md`
+5. `docs/technical/TDD.md`
+
+## Ultimo commit pendente / recente
+
+Sprints 3–5 registradas em `docs/SPRINT_HISTORY.md`:
+
+- **Sprint 3:** corredor placeholder, martelo na mao, HUD lanterna.
+- **Sprint 4:** `GlobalUsings.cs` por camadas.
+- **Sprint 5:** atmosfera (porta som, HUD novo, susto, radio, inimigo placeholder).
 
 ## Estado atual
 
-O Quarto 07 esta jogavel como primeiro playtest da vertical slice:
+DemoRoom jogavel de ponta a ponta:
 
-- Player em primeira pessoa.
-- Movimento WASD, mouse look, sprint e lanterna.
-- HUD minimo com prompt de interacao.
-- Bilhete interativo.
-- Martelo coletavel.
-- Martelo placeholder aparece na mao depois da coleta.
-- Inventario simples registra martelo e durabilidade.
-- Porta interativa em modo debug.
-- Corredor placeholder conectado depois da porta.
-- Trigger de fim de demo no final do corredor.
-- Documentacao de continuidade atualizada para Codex e Cursor (`README.md`, `docs/START_HERE.md`, `AGENTS.md`, `.cursorrules` e `.cursor/rules/breu-project.mdc`).
+- Quarto 07 com interacoes completas.
+- Corredor +Z sem limbo.
+- Primeiro susto no meio do corredor (Z ~5.5).
+- Silhueta inimigo no fim (Z ~8.2), some apos ~1.75s.
+- Trigger de fim da demo no final.
+- Audio: nos prontos, streams nulos nao quebram o jogo.
 
-## Principais arquivos
+## Sistemas novos (Sprint 5)
 
-- Cena principal: `scenes/levels/demo_room/DemoRoom.tscn`
-- Player: `scenes/player/Player.tscn`
-- HUD: `scenes/ui/HUD.tscn`
-- Estado do projeto: `docs/PROJECT_STATE.md`
-- Guia de teste: `docs/testing/PLAYTEST_DEMO_ROOM.md`
-- Arquitetura: `docs/technical/TDD.md`
+| Sistema | Arquivo |
+|---------|---------|
+| Som da porta | `scripts/doors/DoorAudioController.cs` |
+| HUD survival horror | `scripts/ui/HUDController.cs`, `scenes/ui/HUD.tscn` |
+| Radio | `scripts/horror/RadioInterferenceController.cs` |
+| Susto corredor | `scripts/horror/CorridorScareTrigger.cs` |
+| Inimigo placeholder | `scripts/enemies/EnemyPlaceholder.cs` |
+| Sequencia demo | `scripts/levels/DemoRoomSequenceController.cs` |
 
-## Sistemas implementados
+## Como testar
 
-### Player
+1. Abrir `DemoRoom.tscn` → F6 → foco em **Entrada**.
+2. Coletar martelo / ler bilhete → mensagens HUD.
+3. Abrir porta → console `DoorAudio: som de abrir nao configurado.` (sem .ogg).
+4. Corredor +Z até Z ~5.5 → susto (luz, radio, silhueta).
+5. Seguir até Z ~8.7 → fim da demo.
 
-- `PlayerController.cs`: movimento, sprint, gravidade e Input Map basico.
-- `PlayerLook.cs`: mouse look, captura/liberacao de mouse.
-- `FlashlightController.cs`: lanterna ligada/desligada e bateria via debug/HUD.
-- `PlayerInteractor.cs`: RayCast3D da camera com alcance de 2.5m.
-- `PlayerEquipmentView.cs`: mostra o martelo placeholder na mao quando o inventario tem martelo.
+Detalhes: `docs/testing/PLAYTEST_DEMO_ROOM.md`
 
-### Interacao
-
-- `IInteractable.cs`: contrato `GetInteractionText()` e `Interact(PlayerController player)`.
-- `InteractableNote.cs`: bilhete com texto no console.
-- `HammerPickup.cs`: coleta martelo, atualiza inventario e tenta esconder visual importado.
-- `DoorInteractable.cs`: abre porta em modo debug, desativa colisao e tenta esconder `door_01`.
-
-### Inventario e HUD
-
-- `PlayerInventory.cs`: guarda `HasHammer`, `EquippedWeaponName` e `EquippedWeaponDurability`.
-- `HUDController.cs`: mostra prompt `[E] <acao>`, lanterna e arma equipada.
-
-### Level
-
-- `DemoRoom.tscn`: instancia GLB, player, HUD, colisoes, interativos, corredor placeholder e trigger de fim.
-- `assets/blender_exports/quarto_07/quarto_07_blockout.glb`: asset importado canonico do Quarto 07.
-
-## Validacao feita
+## Validacao
 
 ```powershell
 dotnet build BREU.sln
 ```
 
-Resultado:
-
-- Build com sucesso.
-- 0 erros.
-- 0 avisos.
-
-```powershell
-& 'C:\Users\mober\OneDrive\Desktop\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_mono_win64_console.exe' --headless --path . --quit
-```
-
-Resultado:
-
-- Projeto carregou sem erro.
-
-## Como testar manualmente
-
-1. Abrir `DemoRoom.tscn` no Godot.
-2. Rodar com F6.
-3. Clicar em **Entrada** para dar foco.
-4. Testar:
-   - WASD e mouse look;
-   - F para lanterna;
-   - prompt no HUD ao mirar em bilhete/martelo/porta;
-   - E para ler bilhete;
-   - E para coletar martelo;
-   - martelo aparecendo na mao;
-   - E para abrir porta;
-   - corredor placeholder e mensagem de fim.
+2026-07-09: 0 erros, 0 avisos. Godot headless OK.
 
 ## Bugs/limitacoes conhecidas
 
-- HUD e minimo.
-- Bilhete ainda nao tem tela dedicada de leitura.
-- Porta nao tem animacao/pivo/som real.
-- Martelo na mao e placeholder, sem animacao e sem combate.
-- Corredor e placeholder, sem encontro, audio, porta final real ou transicao.
-- Colisoes dos moveis/interativos podem precisar de ajuste fino visual no editor.
-- Combate e inimigo nao devem ser ativados sem tarefa explicita.
+- Sem arquivos `.ogg` ainda.
+- `PlayerStamina` nao instanciado no Player — label fixa no HUD.
+- Inimigo placeholder sem combate, dano ou navmesh.
+- Porta sem animacao/pivo real.
+- Bilhete sem UI dedicada.
 
-## Proximo passo recomendado
+## Proximo passo
 
-Trocar o corredor placeholder por uma cena modular definitiva e criar uma porta final/transicao. Depois criar UI de leitura do bilhete e feedback visual/sonoro de interacao.
+Adicionar audio real, UI do bilhete, corredor Blender e substituir inimigo placeholder.
+
+## Regra de continuidade
+
+Antes de **todo commit/push**, atualizar `docs/SPRINT_HISTORY.md` + `PROJECT_STATE.md` + `HANDOFF.md` + `NEXT_SPRINT_TASKS.md`. Ver `.cursor/rules/pre-commit-docs.mdc`.

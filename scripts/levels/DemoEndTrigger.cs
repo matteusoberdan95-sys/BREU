@@ -1,8 +1,8 @@
-namespace BREU.Scripts.Debug;
+namespace BREU.Scripts.Levels;
 
 public partial class DemoEndTrigger : Area3D
 {
-    [Export] public string Message { get; set; } = "Fim da demo placeholder. Corredor conectado, proxima etapa: transicao/porta final.";
+    [Export] public string Message { get; set; } = "Fim da demo atual: o corredor continua na proxima sprint.";
 
     private bool _triggered;
 

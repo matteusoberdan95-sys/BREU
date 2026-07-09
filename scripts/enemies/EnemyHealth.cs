@@ -1,5 +1,3 @@
-using Godot;
-
 namespace BREU.Scripts.Enemies;
 
 public partial class EnemyHealth : Node

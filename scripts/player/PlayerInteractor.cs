@@ -1,6 +1,3 @@
-using Godot;
-using BREU.Scripts.Interaction;
-
 namespace BREU.Scripts.Player;
 
 public partial class PlayerInteractor : Node
@@ -37,9 +34,22 @@ public partial class PlayerInteractor : Node
         {
             _lastPrompt = prompt;
             EmitSignal(SignalName.FocusChanged, prompt);
+
+            if (GetTree().GetFirstNodeInGroup("hud") is HUDController hud)
+            {
+                if (string.IsNullOrWhiteSpace(prompt))
+                {
+                    hud.HideInteractionPrompt();
+                }
+                else
+                {
+                    hud.ShowInteractionPrompt(prompt);
+                }
+            }
+
             if (!string.IsNullOrWhiteSpace(prompt))
             {
-                GD.Print($"Interação disponível: {prompt}");
+                GD.Print($"Interacao disponivel: {prompt}");
             }
         }
 

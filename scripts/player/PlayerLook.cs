@@ -1,5 +1,3 @@
-using Godot;
-
 namespace BREU.Scripts.Player;
 
 public partial class PlayerLook : Node3D

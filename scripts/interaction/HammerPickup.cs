@@ -1,7 +1,3 @@
-using Godot;
-using BREU.Scripts.Inventory;
-using BREU.Scripts.Player;
-
 namespace BREU.Scripts.Interaction;
 
 public partial class HammerPickup : Area3D, IInteractable
@@ -11,6 +7,7 @@ public partial class HammerPickup : Area3D, IInteractable
     [Export] public NodePath[] VisualNodesToHide { get; set; } = System.Array.Empty<NodePath>();
     [Export] public string[] FallbackVisualNodeNames { get; set; } = new[] { "hammer_handle", "hammer_head" };
     [Export] public NodePath CollisionShapePath { get; set; } = "CollisionShape3D";
+    [Export] public NodePath SequenceControllerPath { get; set; } = "../../DemoRoomSequenceController";
 
     private bool _collected;
     private CollisionShape3D? _collisionShape;
@@ -49,7 +46,28 @@ public partial class HammerPickup : Area3D, IInteractable
 
         Monitoring = false;
         Monitorable = false;
+
+        if (GetTree().GetFirstNodeInGroup("hud") is HUDController hud)
+        {
+            hud.ShowTemporaryMessage("Martelo Enferrujado coletado.");
+        }
+
+        NotifyHammerPicked();
         GD.Print($"Martelo Enferrujado coletado. Durabilidade: {Durability}/{Durability}.");
+    }
+
+    private void NotifyHammerPicked()
+    {
+        if (GetNodeOrNull(SequenceControllerPath) is DemoRoomSequenceController sequence)
+        {
+            sequence.OnHammerPicked();
+            return;
+        }
+
+        if (GetTree().GetFirstNodeInGroup("demo_sequence") is DemoRoomSequenceController fallback)
+        {
+            fallback.OnHammerPicked();
+        }
     }
 
     private bool HideConfiguredVisuals()

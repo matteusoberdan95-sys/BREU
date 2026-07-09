@@ -1,7 +1,3 @@
-using Godot;
-using BREU.Scripts.Enemies;
-using BREU.Scripts.Player;
-
 namespace BREU.Scripts.Weapons;
 
 public partial class WeaponController : Node3D

@@ -12,7 +12,8 @@ Leia primeiro:
 1. `docs/START_HERE.md`
 2. `docs/PROJECT_STATE.md`
 3. `docs/HANDOFF.md`
-4. `docs/gameplay/NEXT_SPRINT_TASKS.md`
+4. `docs/SPRINT_HISTORY.md`
+5. `docs/gameplay/NEXT_SPRINT_TASKS.md`
 5. `docs/technical/TDD.md`
 6. `docs/design/GDD.md`
 7. `docs/design/IMPLEMENTATION_PLAN.md`
@@ -23,9 +24,8 @@ Leia primeiro:
 - Nome publico: BREU.
 - Primeira demo: Quarto 07 - Pensao Santa Luzia.
 - Cena principal: `res://scenes/levels/demo_room/DemoRoom.tscn`.
-- Estado atual: player FPS, HUD minimo, bilhete, martelo equipado, porta debug e corredor placeholder.
-- Nao implementar combate/inimigo sem pedido explicito.
-- Scripts devem continuar modulares por responsabilidade.
-- Use placeholders simples ate os assets do Blender entrarem via `.glb`.
-- Antes de terminar uma tarefa, atualize `docs/PROJECT_STATE.md` e `docs/HANDOFF.md`.
+- Estado atual: quarto + corredor + atmosfera (susto, radio, inimigo placeholder).
+- Nao implementar combate completo sem pedido explicito.
+- Antes de commit/push: `docs/SPRINT_HISTORY.md` + `.cursor/rules/pre-commit-docs.mdc`.
+- Scripts modulares por responsabilidade; placeholders ate assets Blender via `.glb`.
 - Depois de alterar C#, rode `dotnet build BREU.sln`.

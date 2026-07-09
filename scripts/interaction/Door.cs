@@ -1,7 +1,3 @@
-using Godot;
-using BREU.Scripts.Inventory;
-using BREU.Scripts.Player;
-
 namespace BREU.Scripts.Interaction;
 
 public partial class Door : StaticBody3D, IInteractable

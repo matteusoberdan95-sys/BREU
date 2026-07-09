@@ -53,11 +53,15 @@ Para testar, andar contra cama, mesa, criado-mudo, cadeira, paredes e porta fech
 
 ## HUD
 
-O HUD minimo deve mostrar:
+O HUD usa painel escuro no canto inferior esquerdo (`StatusPanel`) com:
 
-- prompt `[E] <acao>` ao mirar em um interativo;
-- estado da lanterna;
-- arma atual.
+- stamina;
+- lanterna;
+- arma equipada.
+
+Prompt de interacao central: `[E] <acao>` em `InteractionPrompt`.
+
+Mensagens temporarias em `MessagePanel` (coleta, bilhete, susto, radio).
 
 Ao coletar o martelo, o HUD deve mostrar:
 
@@ -146,20 +150,190 @@ Porta aberta. Corredor placeholder liberado.
 
 No:
 
-`DemoRoom/Environment/CorridorPlaceholder`
+`DemoRoom/CorridorPlaceholder`
+
+O corredor comeca logo apos a porta aberta e segue para **+Z** (a `door_01` do GLB fica em Z positivo, ~3.24m).
+
+Estrutura:
+
+- `CorridorFloor`, `CorridorCeiling`, `CorridorLeftWall`, `CorridorRightWall`, `CorridorEndWall`
+- `CorridorCollisions` com chao, paredes, teto e parede final
+- `CorridorLight_01` com luz amarelada fraca
+- `CorridorDarkZone` preparado para escurecimento futuro
+- `CorridorEndTrigger` no fim do corredor
+
+Materiais em `res://materials/mat_corridor_*.tres` (mais escuros que o quarto).
 
 Teste:
 
-1. Abrir a porta.
-2. Andar para fora do quarto.
-3. Confirmar que ha chao, paredes laterais, teto e bloqueio final.
-4. Chegar perto do fim do corredor.
+1. Abrir a porta com `E`.
+2. Andar em direcao ao fundo do quarto (+Z).
+3. Confirmar chao, paredes, teto e parede final visiveis.
+4. Tentar atravessar paredes — o player deve ser bloqueado.
+5. Chegar perto do fim do corredor (`CorridorEndTrigger` em Z ~8.7).
+
+Console esperado no fim:
+
+```text
+Fim da demo atual: o corredor continua na proxima sprint.
+```
+
+Observacao: o corredor ainda e placeholder feito com `BoxMesh` no Godot. Sera substituido por asset modular do Blender.
+
+## Sprint — Corredor Placeholder
+
+### Abrir a porta
+
+1. Ir ate `DemoRoom/InteractionPoints/DoorInteractable`.
+2. Mirar na porta e apertar `E`.
+3. `DoorClosedCollision` desativa e `door_01` some.
+
+### Entrar no corredor
+
+1. Apos abrir a porta, andar para +Z.
+2. O corredor comeca em Z ~3.2 e tem 6m de comprimento.
+3. O player nao deve cair no limbo — ha colisao de chao em `CorridorCollisions/CorridorFloorCollision`.
+
+### CorridorEndTrigger
+
+- Caminho: `DemoRoom/CorridorPlaceholder/CorridorEndTrigger`
+- Posicao aproximada: `X 0, Y 1.0, Z 8.7`
+- Ao entrar na area, imprime fim da demo no console (sem pausar nem trocar cena).
+
+### Testar colisao do corredor
+
+- Andar contra paredes laterais e parede final.
+- Pular contra o teto opcional (`CorridorCeilingCollision`).
+
+### Testar martelo ajustado na mao
+
+1. Coletar o martelo.
+2. Confirmar escala menor no canto inferior direito (`WeaponHolder/EquippedHammerVisual`).
+3. O martelo nao deve cobrir o centro da tela.
+
+### Testar HUD da lanterna
+
+1. No inicio, HUD deve mostrar `Lanterna 100/100` com lanterna desligada.
+2. Apertar `F` para ligar — bateria comeca a drenar.
+3. Apertar `F` novamente — bateria para de drenar.
+4. Com bateria em 0, lanterna desliga e nao religa ate recarga futura.
+
+## Sprint — Atmosfera inicial e corredor
+
+### HUD novo
+
+Caminho: `DemoRoom/HUD`
+
+O HUD usa painel escuro semi-transparente no canto inferior esquerdo:
+
+- `StatusPanel/StaminaLabel`
+- `StatusPanel/FlashlightLabel`
+- `StatusPanel/WeaponLabel`
+
+Prompt de interacao central: `Root/InteractionPrompt`
+
+Mensagens temporarias: `Root/MessagePanel/MessageLabel`
+
+Teste:
+
+1. Mirar em bilhete/martelo/porta — prompt `[E] ...` no centro.
+2. Coletar martelo — mensagem `Martelo Enferrujado coletado.`
+3. Ler bilhete — mensagem `Bilhete encontrado.`
+
+### Som da porta
+
+Caminho: `DemoRoom/InteractionPoints/DoorInteractable/DoorAudio`
+
+Script: `res://scripts/doors/DoorAudioController.cs`
+
+Teste:
+
+1. Abrir a porta com `E`.
+2. Sem arquivos de audio configurados, o console deve mostrar:
+   `DoorAudio: som de abrir nao configurado.`
+3. Quando os `.ogg` forem adicionados, o som toca em 3D na porta.
+
+### Radio / interferencia
+
+Caminho: `DemoRoom/Horror/RadioInterference`
+
+Script: `res://scripts/horror/RadioInterferenceController.cs`
+
+Teste:
+
+1. O radio nao inicia sozinho (`StartsActive = false`).
+2. Ao passar pelo susto do corredor, o radio pulsa por ~3.5s.
+3. Sem audio real, o HUD mostra: `O radio chia em algum lugar...`
+4. Console esperado:
+   `Radio: interferencia iniciada.`
+
+### Primeiro susto no corredor
+
+Caminho: `DemoRoom/CorridorPlaceholder/ScareTriggers/CorridorScareTrigger`
+
+Posicao aproximada: `X 0, Y 1.0, Z 5.5` (meio do corredor, eixo +Z)
+
+Teste:
+
+1. Abrir a porta e entrar no corredor.
+2. Andar ate o meio do corredor (Z ~5.5).
+3. Confirmar:
+   - mensagem HUD `...` depois `Voce ouviu isso?`
+   - luz `CorridorLight_01` pisca por ~2s e termina em ~0.25
+   - radio/interferencia ativa
+   - silhueta aparece no fim do corredor
+   - apos ~1.75s a silhueta some (se `HideEnemyAfterScare = true`)
+4. O susto dispara apenas uma vez.
 
 Console esperado:
 
 ```text
-Fim da demo placeholder. Corredor conectado, proxima etapa: transicao/porta final.
+CorridorScare: primeiro susto disparado.
+EnemyPlaceholder: presenca detectada no corredor.
+DemoSequence: primeiro susto do corredor disparado.
 ```
+
+### EnemyPlaceholder
+
+Caminho: `DemoRoom/CorridorPlaceholder/EnemyPlaceholder`
+
+Cena: `res://scenes/enemies/EnemyPlaceholder.tscn`
+
+Posicao aproximada: `X 0, Y 0, Z 8.2`
+
+- Inicia invisivel e inativo.
+- Ativado pelo `CorridorScareTrigger`.
+- Silhueta escura (capsula + esfera), ~1.8m.
+- **Nao ataca, nao causa dano, sem IA avancada.**
+- Modelo final sera feito no Blender depois.
+
+### DemoRoomSequenceController
+
+Caminho: `DemoRoom/DemoRoomSequenceController`
+
+Estados rastreados (console):
+
+- `HasReadNote`
+- `HasPickedHammer`
+- `HasOpenedDoor`
+- `HasTriggeredCorridorScare`
+
+Ainda nao bloqueia progressao.
+
+### Assets futuros necessarios
+
+Colocar em `res://assets/audio/`:
+
+| Arquivo | Uso |
+|---------|-----|
+| `sfx/doors/door_open_old_wood.ogg` | Abrir porta |
+| `sfx/doors/door_close_old_wood.ogg` | Fechar porta |
+| `sfx/doors/door_locked_rattle.ogg` | Porta trancada |
+| `sfx/radio/radio_static_loop.ogg` | Loop de interferencia |
+| `sfx/radio/radio_whisper_01.ogg` | Sussurro do radio |
+| `sfx/horror/scare_stinger_01.ogg` | Stinger do susto |
+| `sfx/enemy/enemy_breath_01.ogg` | Respiracao (futuro) |
+| `sfx/enemy/enemy_step_01.ogg` | Passos (futuro) |
 
 ## Estado Esperado do Playtest
 
@@ -174,23 +348,29 @@ O jogador deve conseguir:
 - ler o bilhete;
 - coletar o martelo;
 - ver o martelo na mao;
-- abrir a porta;
+- abrir a porta (com feedback de audio quando configurado);
 - atravessar para o corredor placeholder;
+- passar pelo primeiro susto do corredor;
+- ver silhueta placeholder no escuro;
 - chegar ao fim temporario da demo.
 
 ## Problemas Conhecidos
 
-- HUD e minimo.
 - Bilhete ainda nao tem tela dedicada.
-- Porta nao tem animacao, pivo real ou som.
+- Porta nao tem animacao ou pivo real (som preparado, streams ainda vazios).
 - Martelo na mao e placeholder, sem animacao e sem combate.
-- Corredor e placeholder, sem encontro, audio, porta final real ou transicao.
+- Corredor placeholder modular no Godot (sera trocado por asset Blender).
+- Inimigo e silhueta placeholder — sem combate, sem dano, sem navmesh.
+- Arquivos de audio ainda nao adicionados (nos preparados com fallback seguro).
 - Colisoes podem precisar de ajuste fino no editor.
+- `PlayerStamina` ainda nao esta na cena do player (label fixa no HUD).
 
 ## Proximos Passos
 
+- Adicionar arquivos `.ogg` listados em Assets futuros.
 - Trocar corredor placeholder por cena modular definitiva.
 - Criar porta final/transicao.
 - Criar UI de leitura do bilhete.
-- Trocar martelo placeholder por asset final/animado.
-- Adicionar feedback sonoro/visual de interacao.
+- Modelar inimigo final no Blender e substituir `EnemyPlaceholder`.
+- IA simples de perseguicao (sem combate completo ainda).
+- Adicionar feedback sonoro de passos/respiracao do inimigo.

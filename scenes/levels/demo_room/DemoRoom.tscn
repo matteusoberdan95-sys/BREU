@@ -1,12 +1,21 @@
-[gd_scene load_steps=31 format=3 uid="uid://breu_demo_room"]
+[gd_scene load_steps=36 format=3 uid="uid://breu_demo_room"]
 
 [ext_resource type="PackedScene" path="res://assets/blender_exports/quarto_07/quarto_07_blockout.glb" id="1_quarto07"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://scripts/interaction/HammerPickup.cs" id="3_hammer_pickup"]
 [ext_resource type="Script" path="res://scripts/interaction/InteractableNote.cs" id="4_interactable_note"]
 [ext_resource type="Script" path="res://scripts/interaction/DoorInteractable.cs" id="5_door_interactable"]
-[ext_resource type="Script" path="res://scripts/debug/DemoEndTrigger.cs" id="6_demo_end_trigger"]
+[ext_resource type="Script" path="res://scripts/levels/DemoEndTrigger.cs" id="6_demo_end_trigger"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="7_hud"]
+[ext_resource type="Material" path="res://materials/mat_corridor_wall_dirty.tres" id="8_mat_wall"]
+[ext_resource type="Material" path="res://materials/mat_corridor_floor_dark.tres" id="9_mat_floor"]
+[ext_resource type="Material" path="res://materials/mat_corridor_ceiling_dark.tres" id="10_mat_ceiling"]
+[ext_resource type="Material" path="res://materials/mat_corridor_end_dark.tres" id="11_mat_end"]
+[ext_resource type="Script" path="res://scripts/doors/DoorAudioController.cs" id="12_door_audio"]
+[ext_resource type="Script" path="res://scripts/horror/RadioInterferenceController.cs" id="13_radio"]
+[ext_resource type="Script" path="res://scripts/horror/CorridorScareTrigger.cs" id="14_scare"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyPlaceholder.tscn" id="15_enemy"]
+[ext_resource type="Script" path="res://scripts/levels/DemoRoomSequenceController.cs" id="16_sequence"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(5.7, 0.1, 6.7)
@@ -47,101 +56,155 @@ size = Vector3(0.75, 0.45, 0.65)
 [sub_resource type="BoxShape3D" id="BoxShape3D_door_interaction"]
 size = Vector3(1.35, 2.1, 0.65)
 
-[sub_resource type="StandardMaterial3D" id="CorridorFloorMaterial"]
-albedo_color = Color(0.16, 0.14, 0.12, 1)
-roughness = 0.95
-
-[sub_resource type="StandardMaterial3D" id="CorridorWallMaterial"]
-albedo_color = Color(0.25, 0.24, 0.2, 1)
-roughness = 1.0
-
 [sub_resource type="BoxMesh" id="BoxMesh_corridor_floor"]
-size = Vector3(1.8, 0.1, 6)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_floor"]
-size = Vector3(1.8, 0.1, 6)
-
-[sub_resource type="BoxMesh" id="BoxMesh_corridor_wall"]
-size = Vector3(0.15, 2.4, 6)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_wall"]
-size = Vector3(0.15, 2.4, 6)
+size = Vector3(1.4, 0.1, 6.0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_corridor_ceiling"]
-size = Vector3(1.8, 0.1, 6)
+size = Vector3(1.4, 0.1, 6.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_corridor_side_wall"]
+size = Vector3(0.1, 2.6, 6.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_corridor_end_wall"]
+size = Vector3(1.4, 2.6, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_floor"]
+size = Vector3(1.4, 0.1, 6.0)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_corridor_ceiling"]
-size = Vector3(1.8, 0.1, 6)
+size = Vector3(1.4, 0.1, 6.0)
 
-[sub_resource type="BoxMesh" id="BoxMesh_corridor_end"]
-size = Vector3(1.8, 2.4, 0.15)
+[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_side_wall"]
+size = Vector3(0.1, 2.6, 6.0)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_end"]
-size = Vector3(1.8, 2.4, 0.15)
+[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_end_wall"]
+size = Vector3(1.4, 2.6, 0.1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_demo_end"]
-size = Vector3(1.5, 2.2, 0.5)
+[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_end_trigger"]
+size = Vector3(1.2, 2.0, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_scare"]
+size = Vector3(1.2, 2.0, 0.6)
 
 [node name="DemoRoom" type="Node3D"]
 editor_description = "Cena principal do Quarto 07 - Pensao Santa Luzia. Mantem o GLB importado separado dos pontos auxiliares de gameplay."
+
+[node name="DemoRoomSequenceController" type="Node" parent="." groups=["demo_sequence"]]
+script = ExtResource("16_sequence")
 
 [node name="Environment" type="Node3D" parent="."]
 editor_description = "Assets visuais importados do Blender. Nao colocar logica de gameplay dentro do GLB."
 
 [node name="quarto_07_blockout" parent="Environment" instance=ExtResource("1_quarto07")]
 
-[node name="CorridorPlaceholder" type="Node3D" parent="Environment"]
-editor_description = "Corredor placeholder apos a porta do Quarto 07. Nao contem inimigo nem combate nesta etapa."
+[node name="CorridorPlaceholder" type="Node3D" parent="."]
+editor_description = "Corredor placeholder apos a porta do Quarto 07. Segue para +Z porque door_01 no GLB fica em Z positivo. Sera substituido por asset do Blender."
 
-[node name="Floor" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
-position = Vector3(0, -0.05, 6.5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/Floor"]
+[node name="CorridorFloor" type="MeshInstance3D" parent="CorridorPlaceholder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 6.2)
 mesh = SubResource("BoxMesh_corridor_floor")
-surface_material_override/0 = SubResource("CorridorFloorMaterial")
+surface_material_override/0 = ExtResource("9_mat_floor")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/Floor"]
+[node name="CorridorCeiling" type="MeshInstance3D" parent="CorridorPlaceholder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 6.2)
+mesh = SubResource("BoxMesh_corridor_ceiling")
+surface_material_override/0 = ExtResource("10_mat_ceiling")
+
+[node name="CorridorLeftWall" type="MeshInstance3D" parent="CorridorPlaceholder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.3, 6.2)
+mesh = SubResource("BoxMesh_corridor_side_wall")
+surface_material_override/0 = ExtResource("8_mat_wall")
+
+[node name="CorridorRightWall" type="MeshInstance3D" parent="CorridorPlaceholder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.3, 6.2)
+mesh = SubResource("BoxMesh_corridor_side_wall")
+surface_material_override/0 = ExtResource("8_mat_wall")
+
+[node name="CorridorEndWall" type="MeshInstance3D" parent="CorridorPlaceholder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 9.25)
+mesh = SubResource("BoxMesh_corridor_end_wall")
+surface_material_override/0 = ExtResource("11_mat_end")
+
+[node name="CorridorCollisions" type="Node3D" parent="CorridorPlaceholder"]
+
+[node name="CorridorFloorCollision" type="StaticBody3D" parent="CorridorPlaceholder/CorridorCollisions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 6.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CorridorPlaceholder/CorridorCollisions/CorridorFloorCollision"]
 shape = SubResource("BoxShape3D_corridor_floor")
 
-[node name="LeftWall" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
-position = Vector3(-0.975, 1.2, 6.5)
+[node name="CorridorLeftWallCollision" type="StaticBody3D" parent="CorridorPlaceholder/CorridorCollisions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.3, 6.2)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/LeftWall"]
-mesh = SubResource("BoxMesh_corridor_wall")
-surface_material_override/0 = SubResource("CorridorWallMaterial")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CorridorPlaceholder/CorridorCollisions/CorridorLeftWallCollision"]
+shape = SubResource("BoxShape3D_corridor_side_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/LeftWall"]
-shape = SubResource("BoxShape3D_corridor_wall")
+[node name="CorridorRightWallCollision" type="StaticBody3D" parent="CorridorPlaceholder/CorridorCollisions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.3, 6.2)
 
-[node name="RightWall" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
-position = Vector3(0.975, 1.2, 6.5)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CorridorPlaceholder/CorridorCollisions/CorridorRightWallCollision"]
+shape = SubResource("BoxShape3D_corridor_side_wall")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/RightWall"]
-mesh = SubResource("BoxMesh_corridor_wall")
-surface_material_override/0 = SubResource("CorridorWallMaterial")
+[node name="CorridorEndWallCollision" type="StaticBody3D" parent="CorridorPlaceholder/CorridorCollisions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 9.25)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/RightWall"]
-shape = SubResource("BoxShape3D_corridor_wall")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CorridorPlaceholder/CorridorCollisions/CorridorEndWallCollision"]
+shape = SubResource("BoxShape3D_corridor_end_wall")
 
-[node name="Ceiling" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
-position = Vector3(0, 2.4, 6.5)
+[node name="CorridorCeilingCollision" type="StaticBody3D" parent="CorridorPlaceholder/CorridorCollisions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 6.2)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/Ceiling"]
-mesh = SubResource("BoxMesh_corridor_ceiling")
-surface_material_override/0 = SubResource("CorridorWallMaterial")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/Ceiling"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CorridorPlaceholder/CorridorCollisions/CorridorCeilingCollision"]
 shape = SubResource("BoxShape3D_corridor_ceiling")
 
-[node name="EndBlocker" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
-position = Vector3(0, 1.2, 9.55)
+[node name="CorridorLight_01" type="OmniLight3D" parent="CorridorPlaceholder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 5.0)
+light_color = Color(1, 0.72, 0.42, 1)
+light_energy = 0.5
+omni_range = 3.5
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/EndBlocker"]
-mesh = SubResource("BoxMesh_corridor_end")
-surface_material_override/0 = SubResource("CorridorWallMaterial")
+[node name="CorridorDarkZone" type="Node3D" parent="CorridorPlaceholder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 8.5)
+editor_description = "Marcador da regiao final mais escura do corredor. Sistema de escurecimento vira na proxima sprint."
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/EndBlocker"]
-shape = SubResource("BoxShape3D_corridor_end")
+[node name="CorridorEndTrigger" type="Area3D" parent="CorridorPlaceholder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 8.7)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("6_demo_end_trigger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CorridorPlaceholder/CorridorEndTrigger"]
+shape = SubResource("BoxShape3D_corridor_end_trigger")
+
+[node name="EnemyPlaceholder" parent="CorridorPlaceholder" instance=ExtResource("15_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.2)
+
+[node name="ScareTriggers" type="Node3D" parent="CorridorPlaceholder"]
+
+[node name="CorridorScareTrigger" type="Area3D" parent="CorridorPlaceholder/ScareTriggers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 5.5)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("14_scare")
+CorridorLightPath = NodePath("../../CorridorLight_01")
+RadioControllerPath = NodePath("../../../Horror/RadioInterference")
+PlaceholderEnemyPath = NodePath("../../EnemyPlaceholder")
+HudPath = NodePath("../../../HUD")
+SequenceControllerPath = NodePath("../../../DemoRoomSequenceController")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CorridorPlaceholder/ScareTriggers/CorridorScareTrigger"]
+shape = SubResource("BoxShape3D_corridor_scare")
+
+[node name="Horror" type="Node3D" parent="."]
+editor_description = "Sistemas de atmosfera e tensao da demo room."
+
+[node name="RadioInterference" type="Node3D" parent="Horror"]
+script = ExtResource("13_radio")
+
+[node name="RadioAudio" type="AudioStreamPlayer3D" parent="Horror/RadioInterference"]
+volume_db = -14.0
+max_distance = 18.0
+attenuation_model = 1
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector3(0, 1, 0)
@@ -286,6 +349,12 @@ CollisionShapesToDisable = Array[NodePath](["../../Collisions/DoorClosedCollisio
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionPoints/DoorInteractable"]
 shape = SubResource("BoxShape3D_door_interaction")
 
+[node name="DoorAudio" type="AudioStreamPlayer3D" parent="InteractionPoints/DoorInteractable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0.15)
+volume_db = -6.0
+max_distance = 12.0
+script = ExtResource("12_door_audio")
+
 [node name="Lighting" type="Node3D" parent="."]
 editor_description = "Luzes configuradas no Godot para substituir ou complementar a luz de preview do Blender."
 
@@ -303,15 +372,3 @@ editor_description = "Luz temporaria para leitura do playtest."
 position = Vector3(0, 2.3, 0)
 light_energy = 2.5
 omni_range = 8.0
-
-[node name="Debug" type="Node3D" parent="."]
-editor_description = "Nos temporarios para validar o fluxo da vertical slice."
-
-[node name="DemoEndTrigger" type="Area3D" parent="Debug"]
-unique_name_in_owner = true
-editor_description = "Trigger temporario no fim do corredor placeholder."
-position = Vector3(0, 1.1, 9.1)
-script = ExtResource("6_demo_end_trigger")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Debug/DemoEndTrigger"]
-shape = SubResource("BoxShape3D_demo_end")

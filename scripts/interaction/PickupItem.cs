@@ -1,8 +1,3 @@
-using Godot;
-using BREU.Scripts.Inventory;
-using BREU.Scripts.Player;
-using BREU.Scripts.Weapons;
-
 namespace BREU.Scripts.Interaction;
 
 public partial class PickupItem : StaticBody3D, IInteractable

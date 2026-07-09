@@ -1,7 +1,3 @@
-using Godot;
-using System.Collections.Generic;
-using BREU.Scripts.Weapons;
-
 namespace BREU.Scripts.Inventory;
 
 public partial class PlayerInventory : Node

@@ -1,16 +1,22 @@
-using Godot;
-using BREU.Scripts.Player;
-
 namespace BREU.Scripts.Interaction;
 
 public partial class DoorInteractable : Area3D, IInteractable
 {
     [Export] public string ClosedInteractionText { get; set; } = "Abrir porta";
     [Export] public string OpenInteractionText { get; set; } = "Porta aberta";
-    [Export] public NodePath[] CollisionShapesToDisable { get; set; } = System.Array.Empty<NodePath>();
+    [Export] public bool IsLocked { get; set; }
+    [Export] public NodePath DoorAudioPath { get; set; } = "DoorAudio";
+    [Export] public NodePath SequenceControllerPath { get; set; } = "../../DemoRoomSequenceController";
+    [Export] public NodePath[] CollisionShapesToDisable { get; set; } = Array.Empty<NodePath>();
     [Export] public string[] VisualNodeNamesToHide { get; set; } = new[] { "door_01" };
 
     private bool _isOpen;
+    private DoorAudioController? _doorAudio;
+
+    public override void _Ready()
+    {
+        _doorAudio = GetNodeOrNull<DoorAudioController>(DoorAudioPath);
+    }
 
     public string GetInteractionText()
     {
@@ -19,6 +25,13 @@ public partial class DoorInteractable : Area3D, IInteractable
 
     public void Interact(PlayerController player)
     {
+        if (IsLocked)
+        {
+            _doorAudio?.PlayLocked();
+            GD.Print("A porta esta trancada.");
+            return;
+        }
+
         if (_isOpen)
         {
             GD.Print("A porta ja esta aberta.");
@@ -28,7 +41,35 @@ public partial class DoorInteractable : Area3D, IInteractable
         _isOpen = true;
         DisableDoorCollisions();
         HideDoorVisuals();
+        _doorAudio?.PlayOpen();
+        NotifyDoorOpened();
         GD.Print("Porta aberta. Corredor placeholder liberado.");
+    }
+
+    public void CloseDoor()
+    {
+        if (!_isOpen)
+        {
+            return;
+        }
+
+        _isOpen = false;
+        _doorAudio?.PlayClose();
+        GD.Print("Porta fechada.");
+    }
+
+    private void NotifyDoorOpened()
+    {
+        if (GetNodeOrNull(SequenceControllerPath) is DemoRoomSequenceController sequence)
+        {
+            sequence.OnDoorOpened();
+            return;
+        }
+
+        if (GetTree().GetFirstNodeInGroup("demo_sequence") is DemoRoomSequenceController fallback)
+        {
+            fallback.OnDoorOpened();
+        }
     }
 
     private void DisableDoorCollisions()
