@@ -14,6 +14,7 @@
 - `A`: andar para a esquerda.
 - `D`: andar para a direita.
 - `Shift`: correr.
+- `Space`: pular.
 - `Mouse`: olhar ao redor.
 - `F`: ligar/desligar a lanterna.
 - `E`: interagir com objeto mirado.
@@ -66,6 +67,55 @@ Mensagens temporarias em `MessagePanel` (coleta, bilhete, susto, radio).
 Ao coletar o martelo, o HUD deve mostrar:
 
 `Arma: Martelo Enferrujado 10/10`
+
+## Movimento — passos e pulo
+
+No:
+
+`Player/FootstepAudio` + `PlayerController`
+
+Script: `res://scripts/player/PlayerFootstepAudio.cs`
+
+### Controles
+
+- `WASD` — andar (passos em intervalo ~0.55s).
+- `Shift` + movimento — correr (passos ~0.36s).
+- `Space` — pulo baixo (`JumpVelocity` 4.0); custa 12 de stamina se `PlayerStamina` estiver ativo.
+- Parado — sem passos.
+
+### Como testar passos andando
+
+1. F6 em `DemoRoom.tscn`, foco em **Entrada**.
+2. Andar pelo quarto com WASD.
+3. Confirmar passos de concreto (`footstep_concrete_01..04`) em ritmo lento.
+4. Parar — silencio (sem passos).
+
+### Como testar passos correndo
+
+1. Segurar `Shift` e WASD.
+2. Passos mais frequentes que ao andar.
+
+### Como testar pulo e pouso
+
+1. `Space` no chao — pulo curto + `jump_start.ogg`.
+2. Queda normal — `land_soft.ogg`.
+3. Queda de altura maior (antes de `HeavyLandVelocity` -7) — `land_heavy.ogg`.
+4. Sem double jump — segundo `Space` no ar nao pula de novo.
+
+### Volumes sugeridos
+
+| Som | VolumeDb sugerido |
+|-----|-------------------|
+| Passos | -12 (`FootstepVolumeDb` no `FootstepAudio`) |
+| Pulo | -10 a -8 |
+| Pouso leve | -10 |
+| Pouso pesado | -6 a -4 |
+
+Ajustar no inspector de `Player/FootstepAudio` se necessario.
+
+### Problema conhecido
+
+Ainda nao ha deteccao real de superficie (raycast/material). Todos os passos usam **concreto** por padrao; madeira (`footstep_wood_*.ogg`) fica preparada para sprint futura.
 
 ## Interacoes
 
@@ -414,12 +464,11 @@ O jogador deve conseguir:
 
 ## Problemas Conhecidos
 
-- Porta nao tem animacao ou pivo real (som preparado, streams ainda vazios).
+- Porta nao tem animacao ou pivo real.
 - Martelo na mao e placeholder, sem animacao e sem combate.
 - Corredor placeholder modular no Godot (sera trocado por asset Blender).
 - Inimigo placeholder — sem combate, sem dano, sem navmesh.
-- Arquivos `.ogg` ainda nao adicionados (sistema preparado com fallback seguro).
-- `PlayerStamina` ainda nao esta na cena do player (label fixa no HUD).
+- Passos usam concreto por padrao (sem deteccao de superficie).
 - Transicao de cena no fim do corredor ainda nao implementada.
 
 ## Proximos Passos

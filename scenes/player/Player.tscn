@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://breu_player"]
+[gd_scene load_steps=14 format=3 uid="uid://breu_player"]
 
 [ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_controller"]
 [ext_resource type="Script" path="res://scripts/player/PlayerLook.cs" id="2_look"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://scripts/player/PlayerInteractor.cs" id="4_interactor"]
 [ext_resource type="Script" path="res://scripts/inventory/PlayerInventory.cs" id="5_inventory"]
 [ext_resource type="Script" path="res://scripts/player/PlayerEquipmentView.cs" id="6_equipment_view"]
+[ext_resource type="Script" path="res://scripts/player/PlayerFootstepAudio.cs" id="7_footstep"]
+[ext_resource type="Script" path="res://scripts/player/PlayerStamina.cs" id="8_stamina"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.32
@@ -30,6 +32,12 @@ script = ExtResource("1_controller")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_player")
+
+[node name="FootstepAudio" type="AudioStreamPlayer3D" parent="."]
+volume_db = -12.0
+max_distance = 14.0
+unit_size = 8.0
+script = ExtResource("7_footstep")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 position = Vector3(0, 0.6, 0)
@@ -79,3 +87,6 @@ script = ExtResource("5_inventory")
 
 [node name="PlayerEquipmentView" type="Node" parent="."]
 script = ExtResource("6_equipment_view")
+
+[node name="PlayerStamina" type="Node" parent="."]
+script = ExtResource("8_stamina")

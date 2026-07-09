@@ -19,6 +19,15 @@ public static class AudioPaths
     public const string PlayerFlashlightClick = "res://assets/audio/sfx/player/flashlight_click.ogg";
     public const string PlayerPickupItem = "res://assets/audio/sfx/player/pickup_item.ogg";
     public const string PlayerHeartbeatLow = "res://assets/audio/sfx/player/heartbeat_low.ogg";
+    public const string PlayerJumpStart = "res://assets/audio/sfx/player/jump_start.ogg";
+    public const string PlayerLandSoft = "res://assets/audio/sfx/player/land_soft.ogg";
+    public const string PlayerLandHeavy = "res://assets/audio/sfx/player/land_heavy.ogg";
+
+    public static string PlayerFootstepConcrete(int index) =>
+        $"res://assets/audio/sfx/player/footstep_concrete_{index:D2}.ogg";
+
+    public static string PlayerFootstepWood(int index) =>
+        $"res://assets/audio/sfx/player/footstep_wood_{index:D2}.ogg";
 
     public const string EnemyBreath = "res://assets/audio/sfx/enemies/enemy_breath_01.ogg";
     public const string EnemyStep = "res://assets/audio/sfx/enemies/enemy_step_01.ogg";

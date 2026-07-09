@@ -5,47 +5,54 @@ public partial class PlayerController : CharacterBody3D
     [Export] public float WalkSpeed { get; set; } = 3.2f;
     [Export] public float SprintSpeed { get; set; } = 5.2f;
     [Export] public float Gravity { get; set; } = 18.0f;
+    [Export] public float JumpVelocity { get; set; } = 4.0f;
+    [Export] public float JumpStaminaCost { get; set; } = 12.0f;
+    [Export] public bool CanJump { get; set; } = true;
     [Export] public NodePath CameraPath { get; set; } = "CameraPivot/Camera3D";
+    [Export] public NodePath FootstepAudioPath { get; set; } = "FootstepAudio";
+    [Export] public NodePath StaminaPath { get; set; } = "PlayerStamina";
 
     public bool MovementEnabled { get; set; } = true;
+
+    private PlayerFootstepAudio? _footstepAudio;
+    private PlayerStamina? _stamina;
+    private bool _wasOnFloor = true;
 
     public override void _Ready()
     {
         EnsureInputMap();
         AddToGroup("player");
         GetNodeOrNull<Camera3D>(CameraPath)?.MakeCurrent();
+        _footstepAudio = GetNodeOrNull<PlayerFootstepAudio>(FootstepAudioPath);
+        _stamina = GetNodeOrNull<PlayerStamina>(StaminaPath);
+        _wasOnFloor = IsOnFloor();
     }
 
     public override void _PhysicsProcess(double delta)
     {
         if (!MovementEnabled)
         {
-            var blockedVelocity = Velocity;
-            blockedVelocity.X = 0.0f;
-            blockedVelocity.Z = 0.0f;
-            if (!IsOnFloor())
-            {
-                blockedVelocity.Y -= Gravity * (float)delta;
-            }
-            else if (blockedVelocity.Y < 0.0f)
-            {
-                blockedVelocity.Y = 0.0f;
-            }
-
-            Velocity = blockedVelocity;
-            MoveAndSlide();
+            ProcessBlockedMovement(delta);
             return;
         }
 
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
         var direction = (GlobalTransform.Basis.X * input.X + GlobalTransform.Basis.Z * input.Y).Normalized();
-        var speed = Input.IsActionPressed("sprint") ? SprintSpeed : WalkSpeed;
+        var isSprinting = Input.IsActionPressed("sprint") && input.LengthSquared() > 0.01f;
+        var speed = isSprinting ? SprintSpeed : WalkSpeed;
 
         var moveVelocity = Velocity;
         moveVelocity.X = direction.X * speed;
         moveVelocity.Z = direction.Z * speed;
 
-        if (!IsOnFloor())
+        var isOnFloorBeforeMove = IsOnFloor();
+
+        if (TryJump(ref moveVelocity, isOnFloorBeforeMove))
+        {
+            _footstepAudio?.PlayJump();
+        }
+
+        if (!isOnFloorBeforeMove)
         {
             moveVelocity.Y -= Gravity * (float)delta;
         }
@@ -54,8 +61,57 @@ public partial class PlayerController : CharacterBody3D
             moveVelocity.Y = 0.0f;
         }
 
+        var verticalBeforeMove = moveVelocity.Y;
         Velocity = moveVelocity;
         MoveAndSlide();
+
+        var isOnFloor = IsOnFloor();
+        if (isOnFloor && !_wasOnFloor)
+        {
+            _footstepAudio?.PlayLand(verticalBeforeMove);
+        }
+
+        var horizontalSpeed = new Vector2(Velocity.X, Velocity.Z).Length();
+        var isMoving = isOnFloor && horizontalSpeed >= (_footstepAudio?.MinMoveSpeedForSteps ?? 0.2f);
+        _footstepAudio?.UpdateMovementAudio(isMoving, isSprinting && isMoving, isOnFloor, delta);
+
+        _wasOnFloor = isOnFloor;
+    }
+
+    private void ProcessBlockedMovement(double delta)
+    {
+        var blockedVelocity = Velocity;
+        blockedVelocity.X = 0.0f;
+        blockedVelocity.Z = 0.0f;
+        if (!IsOnFloor())
+        {
+            blockedVelocity.Y -= Gravity * (float)delta;
+        }
+        else if (blockedVelocity.Y < 0.0f)
+        {
+            blockedVelocity.Y = 0.0f;
+        }
+
+        Velocity = blockedVelocity;
+        MoveAndSlide();
+        _wasOnFloor = IsOnFloor();
+    }
+
+    private bool TryJump(ref Vector3 velocity, bool isOnFloor)
+    {
+        if (!CanJump || !isOnFloor || !Input.IsActionJustPressed("jump"))
+        {
+            return false;
+        }
+
+        if (_stamina != null && !_stamina.HasStamina(JumpStaminaCost))
+        {
+            return false;
+        }
+
+        _stamina?.Consume(JumpStaminaCost);
+        velocity.Y = JumpVelocity;
+        return true;
     }
 
     private static void EnsureInputMap()
@@ -65,6 +121,7 @@ public partial class PlayerController : CharacterBody3D
         EnsureKeyAction("move_left", Key.A);
         EnsureKeyAction("move_right", Key.D);
         EnsureKeyAction("sprint", Key.Shift);
+        EnsureKeyAction("jump", Key.Space);
         EnsureKeyAction("flashlight_toggle", Key.F);
         EnsureKeyAction("interact", Key.E);
         EnsureKeyAction("pause", Key.Escape);

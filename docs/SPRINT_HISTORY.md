@@ -162,3 +162,16 @@ Polimento de atmosfera e leitura narrativa: UI do bilhete, sistema de audio opci
 - `AmbienceController` — quarto, vento e corredor (ao abrir porta).
 - Porta, radio, susto, lanterna, pickup e inimigo tocando audio real.
 - `AudioResourceLoader` com suporte a loop para ambiencia/radio.
+
+---
+
+## Sprint 7 — Passos, pulo e pouso
+
+**Data:** 2026-07-09 | **Status:** concluida
+
+### Entregas
+
+- Input `jump` = Space.
+- Pulo baixo (`JumpVelocity` 4.0) com custo de stamina e sem double jump.
+- `PlayerFootstepAudio` — passos walk/sprint, jump_start, land_soft/heavy.
+- `PlayerStamina` adicionado ao `Player.tscn` (HUD de stamina funcional ao pular).
