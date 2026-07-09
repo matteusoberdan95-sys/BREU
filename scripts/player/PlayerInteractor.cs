@@ -27,6 +27,11 @@ public partial class PlayerInteractor : Node
 
     public override void _Process(double delta)
     {
+        if (GetTree().GetFirstNodeInGroup("note_reader_active") != null)
+        {
+            return;
+        }
+
         _current = FindInteractable();
         var prompt = _current?.GetInteractionText() ?? "";
 

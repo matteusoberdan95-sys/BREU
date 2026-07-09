@@ -1,0 +1,101 @@
+[gd_scene load_steps=6 format=3 uid="uid://breu_note_reader"]
+
+[ext_resource type="Script" path="res://scripts/ui/NoteReaderUI.cs" id="1_note_reader"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper"]
+bg_color = Color(0.72, 0.66, 0.52, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.36, 0.28, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+content_margin_left = 20.0
+content_margin_top = 18.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 22
+font_color = Color(0.12, 0.1, 0.08, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_body"]
+font_size = 16
+font_color = Color(0.16, 0.13, 0.1, 1)
+line_spacing = 4.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_hint"]
+font_size = 13
+font_color = Color(0.28, 0.24, 0.2, 1)
+
+[node name="NoteReaderUI" type="CanvasLayer"]
+layer = 20
+process_mode = 4
+script = ExtResource("1_note_reader")
+
+[node name="Root" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BackgroundDim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.62)
+
+[node name="NotePanel" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -160.0
+offset_right = 280.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_paper")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/NotePanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="Root/NotePanel/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+text = "Bilhete do Quarto 07"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="BodyLabel" type="Label" parent="Root/NotePanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+mouse_filter = 2
+text = "Texto do bilhete."
+label_settings = SubResource("LabelSettings_body")
+autowrap_mode = 3
+
+[node name="CloseHintLabel" type="Label" parent="Root/NotePanel/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+text = "[E] Fechar    [Esc] Fechar"
+label_settings = SubResource("LabelSettings_hint")
+horizontal_alignment = 1

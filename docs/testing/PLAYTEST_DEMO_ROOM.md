@@ -222,7 +222,7 @@ Observacao: o corredor ainda e placeholder feito com `BoxMesh` no Godot. Sera su
 
 ### HUD novo
 
-Caminho: `DemoRoom/HUD`
+Caminho: `DemoRoom/UI/HUD`
 
 O HUD usa painel escuro semi-transparente no canto inferior esquerdo:
 
@@ -278,7 +278,7 @@ Teste:
 1. Abrir a porta e entrar no corredor.
 2. Andar ate o meio do corredor (Z ~5.5).
 3. Confirmar:
-   - mensagem HUD `...` depois `Voce ouviu isso?`
+   - mensagem HUD `Voce ouviu isso?`
    - luz `CorridorLight_01` pisca por ~2s e termina em ~0.25
    - radio/interferencia ativa
    - silhueta aparece no fim do corredor
@@ -335,6 +335,55 @@ Colocar em `res://assets/audio/`:
 | `sfx/enemy/enemy_breath_01.ogg` | Respiracao (futuro) |
 | `sfx/enemy/enemy_step_01.ogg` | Passos (futuro) |
 
+## Sprint — UI narrativa e audio base
+
+### Leitura do bilhete (UI dedicada)
+
+Caminho: `DemoRoom/UI/NoteReaderUI`
+
+Cena: `res://scenes/ui/NoteReaderUI.tscn`
+
+Teste:
+
+1. Mirar no bilhete e apertar `E`.
+2. Abre painel central estilo papel velho com fundo escurecido.
+3. Titulo: `Bilhete do Quarto 07`.
+4. Fechar com `E` ou `Esc` — movimento e mouse look voltam.
+5. Console ainda imprime o texto do bilhete.
+
+### AudioManager
+
+Caminho: `DemoRoom/UI/AudioManager`
+
+Documentacao: `docs/technical/AUDIO_SYSTEM.md`
+
+Lista de arquivos: `assets/audio/AUDIO_ASSETS_NEEDED.md`
+
+Teste sem `.ogg`:
+
+- Porta, martelo, lanterna e susto nao quebram o jogo.
+- Console: `AudioManager: stream nao configurado.` ou mensagens especificas da porta/radio.
+
+### Fim do corredor
+
+Caminho: `DemoRoom/CorridorPlaceholder/CorridorEndTrigger`
+
+Visual: `CorridorEndDoorPlaceholder` (porta escura no fim)
+
+Teste:
+
+1. Chegar ao fim (Z ~8.7).
+2. HUD: `A porta no fim do corredor esta trancada.`
+3. Console: `Fim da demo atual. Proxima sprint: porta final/transicao.`
+
+### Direcao de atmosfera
+
+Ver `docs/design/ATMOSPHERE_GUIDE.md`.
+
+### .ogg ainda necessarios
+
+Ver tabela completa em `assets/audio/AUDIO_ASSETS_NEEDED.md` (doors, radio, horror, player, enemies, ambience).
+
 ## Estado Esperado do Playtest
 
 O jogador deve conseguir:
@@ -345,32 +394,29 @@ O jogador deve conseguir:
 - correr com Shift;
 - ligar/desligar lanterna;
 - ver prompts no HUD;
-- ler o bilhete;
+- ler o bilhete na UI dedicada (`NoteReaderUI`);
 - coletar o martelo;
 - ver o martelo na mao;
 - abrir a porta (com feedback de audio quando configurado);
 - atravessar para o corredor placeholder;
 - passar pelo primeiro susto do corredor;
 - ver silhueta placeholder no escuro;
-- chegar ao fim temporario da demo.
+- chegar ao fim e ver mensagem de porta trancada.
 
 ## Problemas Conhecidos
 
-- Bilhete ainda nao tem tela dedicada.
 - Porta nao tem animacao ou pivo real (som preparado, streams ainda vazios).
 - Martelo na mao e placeholder, sem animacao e sem combate.
 - Corredor placeholder modular no Godot (sera trocado por asset Blender).
-- Inimigo e silhueta placeholder — sem combate, sem dano, sem navmesh.
-- Arquivos de audio ainda nao adicionados (nos preparados com fallback seguro).
-- Colisoes podem precisar de ajuste fino no editor.
+- Inimigo placeholder — sem combate, sem dano, sem navmesh.
+- Arquivos `.ogg` ainda nao adicionados (sistema preparado com fallback seguro).
 - `PlayerStamina` ainda nao esta na cena do player (label fixa no HUD).
+- Transicao de cena no fim do corredor ainda nao implementada.
 
 ## Proximos Passos
 
-- Adicionar arquivos `.ogg` listados em Assets futuros.
-- Trocar corredor placeholder por cena modular definitiva.
-- Criar porta final/transicao.
-- Criar UI de leitura do bilhete.
-- Modelar inimigo final no Blender e substituir `EnemyPlaceholder`.
+- Adicionar arquivos `.ogg` (ver `assets/audio/AUDIO_ASSETS_NEEDED.md`).
+- Porta final interativa / transicao de cena.
+- Ambience loops (quarto e corredor).
+- Modelar inimigo no Blender e substituir `EnemyPlaceholder`.
 - IA simples de perseguicao (sem combate completo ainda).
-- Adicionar feedback sonoro de passos/respiracao do inimigo.

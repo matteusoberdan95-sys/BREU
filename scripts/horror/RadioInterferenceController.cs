@@ -1,9 +1,7 @@
 namespace BREU.Scripts.Horror;
 
 /// <summary>
-/// Rádio/interferência atmosférica do Quarto 07.
-/// TODO: res://assets/audio/sfx/radio/radio_static_loop.ogg
-/// TODO: res://assets/audio/sfx/radio/radio_whisper_01.ogg
+/// Radio/interferencia atmosferica. Streams opcionais via AudioPaths.
 /// </summary>
 public partial class RadioInterferenceController : Node3D
 {
@@ -24,6 +22,9 @@ public partial class RadioInterferenceController : Node3D
             _radioAudio.VolumeDb = VolumeDb;
         }
 
+        StaticLoop ??= AudioResourceLoader.TryLoad(AudioPaths.RadioStatic);
+        WhisperSound ??= AudioResourceLoader.TryLoad(AudioPaths.RadioWhisper);
+
         if (StartsActive)
         {
             StartStatic();
@@ -35,12 +36,14 @@ public partial class RadioInterferenceController : Node3D
         if (_radioAudio == null)
         {
             GD.Print("Radio: player de audio nao configurado.");
+            NotifyHudIfNeeded();
             return;
         }
 
         if (StaticLoop == null)
         {
             GD.Print("Radio: interferencia iniciada.");
+            NotifyHudIfNeeded();
             return;
         }
 
@@ -62,6 +65,7 @@ public partial class RadioInterferenceController : Node3D
         if (WhisperSound == null || _radioAudio == null)
         {
             GD.Print("Radio: sussurro disparado.");
+            NotifyHudIfNeeded();
             return;
         }
 

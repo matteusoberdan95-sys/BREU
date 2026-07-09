@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://breu_demo_room"]
+[gd_scene load_steps=39 format=3 uid="uid://breu_demo_room"]
 
 [ext_resource type="PackedScene" path="res://assets/blender_exports/quarto_07/quarto_07_blockout.glb" id="1_quarto07"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
@@ -16,6 +16,8 @@
 [ext_resource type="Script" path="res://scripts/horror/CorridorScareTrigger.cs" id="14_scare"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/EnemyPlaceholder.tscn" id="15_enemy"]
 [ext_resource type="Script" path="res://scripts/levels/DemoRoomSequenceController.cs" id="16_sequence"]
+[ext_resource type="PackedScene" path="res://scenes/ui/NoteReaderUI.tscn" id="17_note_reader"]
+[ext_resource type="PackedScene" path="res://autoload/AudioManager.tscn" id="18_audio_manager"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(5.7, 0.1, 6.7)
@@ -85,6 +87,9 @@ size = Vector3(1.2, 2.0, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_corridor_scare"]
 size = Vector3(1.2, 2.0, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_end_door"]
+size = Vector3(1.2, 2.1, 0.12)
 
 [node name="DemoRoom" type="Node3D"]
 editor_description = "Cena principal do Quarto 07 - Pensao Santa Luzia. Mantem o GLB importado separado dos pontos auxiliares de gameplay."
@@ -189,7 +194,7 @@ script = ExtResource("14_scare")
 CorridorLightPath = NodePath("../../CorridorLight_01")
 RadioControllerPath = NodePath("../../../Horror/RadioInterference")
 PlaceholderEnemyPath = NodePath("../../EnemyPlaceholder")
-HudPath = NodePath("../../../HUD")
+HudPath = NodePath("../../../UI/HUD")
 SequenceControllerPath = NodePath("../../../DemoRoomSequenceController")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CorridorPlaceholder/ScareTriggers/CorridorScareTrigger"]
@@ -206,10 +211,21 @@ volume_db = -14.0
 max_distance = 18.0
 attenuation_model = 1
 
+[node name="CorridorEndDoorPlaceholder" type="MeshInstance3D" parent="CorridorPlaceholder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 9.12)
+mesh = SubResource("BoxMesh_end_door")
+surface_material_override/0 = ExtResource("11_mat_end")
+
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector3(0, 1, 0)
 
-[node name="HUD" parent="." instance=ExtResource("7_hud")]
+[node name="UI" type="Node" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("7_hud")]
+
+[node name="NoteReaderUI" parent="UI" instance=ExtResource("17_note_reader")]
+
+[node name="AudioManager" parent="UI" instance=ExtResource("18_audio_manager")]
 
 [node name="Collisions" type="Node3D" parent="."]
 editor_description = "Colisoes temporarias do Quarto 07. Godot usa Y como altura; X e largura e Z e profundidade."

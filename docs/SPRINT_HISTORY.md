@@ -124,8 +124,28 @@ Ver secao "Assets futuros necessarios" em `docs/testing/PLAYTEST_DEMO_ROOM.md`.
 
 ## Proxima sprint recomendada
 
-1. Adicionar arquivos `.ogg` de porta, radio e susto.
-2. UI dedicada de leitura do bilhete.
-3. Corredor modular definitivo (Blender) + porta final/transicao.
-4. Substituir `EnemyPlaceholder` por modelo Blender.
-5. IA simples de perseguicao (sem combate completo).
+1. Adicionar arquivos `.ogg` (ver `assets/audio/AUDIO_ASSETS_NEEDED.md`).
+2. Porta final / transicao de cena.
+3. Ambience loops (quarto e corredor).
+4. Inimigo Blender + perseguicao simples.
+
+---
+
+## Sprint 6 — UI narrativa e audio base
+
+**Data:** 2026-07-09 | **Status:** concluida
+
+### Objetivo
+
+Polimento de atmosfera e leitura narrativa: UI do bilhete, sistema de audio opcional, fim do corredor preparado para transicao.
+
+### Entregas
+
+- Pastas `assets/audio/` + `AUDIO_ASSETS_NEEDED.md`.
+- `NoteReaderUI.tscn` / `NoteReaderUI.cs` — leitura com E/Esc, bloqueio de movimento.
+- `AudioManager`, `AudioPaths`, `AudioResourceLoader` — streams null-safe.
+- Integracao audio: porta, radio, susto, martelo, lanterna.
+- `CorridorEndDoorPlaceholder` + `DemoEndTrigger` com mensagem HUD.
+- `docs/technical/AUDIO_SYSTEM.md`, `docs/design/ATMOSPHERE_GUIDE.md`.
+- Regra `conventional-commits.mdc` (FEAT, FIX, DOCS, etc.).
+- No `DemoRoom`: no `UI` com HUD, NoteReaderUI e AudioManager.

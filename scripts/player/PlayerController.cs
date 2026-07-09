@@ -7,6 +7,8 @@ public partial class PlayerController : CharacterBody3D
     [Export] public float Gravity { get; set; } = 18.0f;
     [Export] public NodePath CameraPath { get; set; } = "CameraPivot/Camera3D";
 
+    public bool MovementEnabled { get; set; } = true;
+
     public override void _Ready()
     {
         EnsureInputMap();
@@ -16,24 +18,43 @@ public partial class PlayerController : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (!MovementEnabled)
+        {
+            var blockedVelocity = Velocity;
+            blockedVelocity.X = 0.0f;
+            blockedVelocity.Z = 0.0f;
+            if (!IsOnFloor())
+            {
+                blockedVelocity.Y -= Gravity * (float)delta;
+            }
+            else if (blockedVelocity.Y < 0.0f)
+            {
+                blockedVelocity.Y = 0.0f;
+            }
+
+            Velocity = blockedVelocity;
+            MoveAndSlide();
+            return;
+        }
+
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
         var direction = (GlobalTransform.Basis.X * input.X + GlobalTransform.Basis.Z * input.Y).Normalized();
         var speed = Input.IsActionPressed("sprint") ? SprintSpeed : WalkSpeed;
 
-        var velocity = Velocity;
-        velocity.X = direction.X * speed;
-        velocity.Z = direction.Z * speed;
+        var moveVelocity = Velocity;
+        moveVelocity.X = direction.X * speed;
+        moveVelocity.Z = direction.Z * speed;
 
         if (!IsOnFloor())
         {
-            velocity.Y -= Gravity * (float)delta;
+            moveVelocity.Y -= Gravity * (float)delta;
         }
-        else if (velocity.Y < 0.0f)
+        else if (moveVelocity.Y < 0.0f)
         {
-            velocity.Y = 0.0f;
+            moveVelocity.Y = 0.0f;
         }
 
-        Velocity = velocity;
+        Velocity = moveVelocity;
         MoveAndSlide();
     }
 

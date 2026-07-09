@@ -23,6 +23,8 @@ Nunca faca `git commit` ou `git push` sem atualizar a documentacao do projeto.
 
 ## Mensagem de commit
 
+- Usar **Conventional Commits** obrigatoriamente: `FEAT:`, `FIX:`, `DOCS:`, `REFACTOR:`, etc.
+- Ver `.cursor/rules/conventional-commits.mdc`.
 - Resumir o **porque** da mudanca (sprint/objetivo), nao apenas listar arquivos.
 - Mencionar a sprint no corpo do commit quando aplicavel.
 

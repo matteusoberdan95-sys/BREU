@@ -52,6 +52,8 @@ public partial class HammerPickup : Area3D, IInteractable
             hud.ShowTemporaryMessage("Martelo Enferrujado coletado.");
         }
 
+        AudioManager.Find(this)?.Play2DSound(AudioResourceLoader.TryLoad(AudioPaths.PlayerPickupItem));
+
         NotifyHammerPicked();
         GD.Print($"Martelo Enferrujado coletado. Durabilidade: {Durability}/{Durability}.");
     }

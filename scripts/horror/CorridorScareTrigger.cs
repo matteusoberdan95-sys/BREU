@@ -9,7 +9,7 @@ public partial class CorridorScareTrigger : Area3D
     [Export] public NodePath CorridorLightPath { get; set; } = "../../CorridorLight_01";
     [Export] public NodePath RadioControllerPath { get; set; } = "../../../Horror/RadioInterference";
     [Export] public NodePath PlaceholderEnemyPath { get; set; } = "../../EnemyPlaceholder";
-    [Export] public NodePath HudPath { get; set; } = "../../../HUD";
+    [Export] public NodePath HudPath { get; set; } = "../../../UI/HUD";
     [Export] public NodePath SequenceControllerPath { get; set; } = "../../DemoRoomSequenceController";
     [Export] public AudioStream? ScareSound { get; set; }
     [Export] public float FlickerDuration { get; set; } = 2.0f;
@@ -40,8 +40,6 @@ public partial class CorridorScareTrigger : Area3D
         GD.Print("CorridorScare: primeiro susto disparado.");
 
         var hud = ResolveHud();
-        hud?.ShowTemporaryMessage("...");
-        await ToSignal(GetTree().CreateTimer(0.8), SceneTreeTimer.SignalName.Timeout);
         hud?.ShowTemporaryMessage("Voce ouviu isso?");
 
         RunFlickerCorridorLight();
@@ -113,9 +111,16 @@ public partial class CorridorScareTrigger : Area3D
 
     private void PlayScareSound()
     {
-        if (ScareSound == null)
+        var stream = ScareSound ?? AudioResourceLoader.TryLoad(AudioPaths.HorrorScareStinger);
+        if (stream == null)
         {
             GD.Print("CorridorScare: som de susto nao configurado.");
+            return;
+        }
+
+        if (AudioManager.Find(this) is { } manager)
+        {
+            manager.Play3DSound(stream, GlobalPosition);
             return;
         }
 
@@ -124,13 +129,12 @@ public partial class CorridorScareTrigger : Area3D
             _scarePlayer = new AudioStreamPlayer3D
             {
                 Name = "ScareAudioRuntime",
-                Stream = ScareSound,
                 VolumeDb = -8.0f
             };
             AddChild(_scarePlayer);
         }
 
-        _scarePlayer.Stream = ScareSound;
+        _scarePlayer.Stream = stream;
         _scarePlayer.Play();
     }
 

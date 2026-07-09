@@ -3,11 +3,18 @@ namespace BREU.Scripts.Interaction;
 public partial class InteractableNote : Area3D, IInteractable
 {
     [Export] public string InteractionText { get; set; } = "Ler bilhete";
+    [Export] public string NoteTitle { get; set; } = "Bilhete do Quarto 07";
     [Export(PropertyHint.MultilineText)] public string NoteText { get; set; } = "Quarto 07 ocupado. N\u00e3o abrir depois das 22h. Se a luz apagar, n\u00e3o responda \u00e0s batidas.";
+    [Export] public NodePath NoteReaderPath { get; set; } = "../../UI/NoteReaderUI";
     [Export] public NodePath SequenceControllerPath { get; set; } = "../../DemoRoomSequenceController";
 
     public string GetInteractionText()
     {
+        if (NoteReaderUI.Find(this) is { IsOpen: true })
+        {
+            return "";
+        }
+
         return InteractionText;
     }
 
@@ -16,9 +23,14 @@ public partial class InteractableNote : Area3D, IInteractable
         GD.Print("Bilhete encontrado:");
         GD.Print(NoteText);
 
-        if (GetTree().GetFirstNodeInGroup("hud") is HUDController hud)
+        var reader = GetNodeOrNull<NoteReaderUI>(NoteReaderPath) ?? NoteReaderUI.Find(this);
+        if (reader != null)
         {
-            hud.ShowTemporaryMessage("Bilhete encontrado.");
+            reader.ShowNote(NoteTitle, NoteText);
+        }
+        else
+        {
+            GD.Print("NoteReaderUI nao encontrado — usando fallback no console.");
         }
 
         NotifyNoteRead();

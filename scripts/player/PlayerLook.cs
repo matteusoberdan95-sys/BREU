@@ -19,6 +19,11 @@ public partial class PlayerLook : Node3D
 
     public override void _Input(InputEvent @event)
     {
+        if (GetTree().GetFirstNodeInGroup("note_reader_active") != null)
+        {
+            return;
+        }
+
         if (@event.IsActionPressed("pause"))
         {
             Input.MouseMode = Input.MouseModeEnum.Visible;

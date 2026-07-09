@@ -64,6 +64,7 @@ public partial class FlashlightController : SpotLight3D
         _isOn = !_isOn;
         Visible = _isOn;
         EmitSignal(SignalName.BatteryChanged, _battery, MaxBattery);
+        AudioManager.Find(this)?.PlayUiSound(AudioResourceLoader.TryLoad(AudioPaths.PlayerFlashlightClick));
         GD.Print(_isOn ? "Lanterna ligada." : "Lanterna desligada.");
     }
 }

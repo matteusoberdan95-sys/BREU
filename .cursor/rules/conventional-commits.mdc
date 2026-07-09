@@ -1,0 +1,48 @@
+---
+description: Commits devem usar prefixos convencionais (FEAT, FIX, etc.)
+alwaysApply: true
+---
+
+# BREU — Commits convencionais (obrigatório)
+
+Todo `git commit` deve usar **Conventional Commits** em português ou inglês:
+
+| Prefixo | Uso |
+|---------|-----|
+| `FEAT:` | Nova funcionalidade |
+| `FIX:` | Correção de bug |
+| `DOCS:` | Apenas documentação |
+| `STYLE:` | Formatação, sem mudança de lógica |
+| `REFACTOR:` | Refatoração sem mudar comportamento |
+| `TEST:` | Testes |
+| `CHORE:` | Build, deps, tooling |
+
+## Formato
+
+```
+PREFIXO: resumo curto no imperativo (máx. ~72 caracteres)
+
+Corpo opcional: contexto, sprint, arquivos principais.
+```
+
+## Exemplos
+
+```
+FEAT: adicionar UI de leitura do bilhete
+
+Sprint 6 — NoteReaderUI com bloqueio de movimento e AudioManager base.
+```
+
+```
+FIX: corrigir HUD da lanterna exibindo 0/100
+```
+
+```
+DOCS: registrar sprint 6 em SPRINT_HISTORY
+```
+
+## Antes do commit
+
+Seguir também `.cursor/rules/pre-commit-docs.mdc` (SPRINT_HISTORY, PROJECT_STATE, HANDOFF).
+
+Nunca fazer push sem prefixo convencional no título do commit.
