@@ -7,6 +7,7 @@ public partial class DoorInteractable : Area3D, IInteractable
     [Export] public bool IsLocked { get; set; }
     [Export] public NodePath DoorAudioPath { get; set; } = "DoorAudio";
     [Export] public NodePath SequenceControllerPath { get; set; } = "../../DemoRoomSequenceController";
+    [Export] public NodePath AmbienceControllerPath { get; set; } = "../../Horror/Ambience";
     [Export] public NodePath[] CollisionShapesToDisable { get; set; } = Array.Empty<NodePath>();
     [Export] public string[] VisualNodeNamesToHide { get; set; } = new[] { "door_01" };
 
@@ -42,6 +43,7 @@ public partial class DoorInteractable : Area3D, IInteractable
         DisableDoorCollisions();
         HideDoorVisuals();
         _doorAudio?.PlayOpen();
+        StartCorridorAmbience();
         NotifyDoorOpened();
         GD.Print("Porta aberta. Corredor placeholder liberado.");
     }
@@ -56,6 +58,20 @@ public partial class DoorInteractable : Area3D, IInteractable
         _isOpen = false;
         _doorAudio?.PlayClose();
         GD.Print("Porta fechada.");
+    }
+
+    private void StartCorridorAmbience()
+    {
+        if (GetNodeOrNull(AmbienceControllerPath) is AmbienceController ambience)
+        {
+            ambience.StartCorridorAmbience();
+            return;
+        }
+
+        if (GetTree().GetFirstNodeInGroup("ambience_controller") is AmbienceController fallback)
+        {
+            fallback.StartCorridorAmbience();
+        }
     }
 
     private void NotifyDoorOpened()

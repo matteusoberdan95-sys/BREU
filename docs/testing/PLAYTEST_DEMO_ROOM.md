@@ -382,7 +382,16 @@ Ver `docs/design/ATMOSPHERE_GUIDE.md`.
 
 ### .ogg ainda necessarios
 
-Ver tabela completa em `assets/audio/AUDIO_ASSETS_NEEDED.md` (doors, radio, horror, player, enemies, ambience).
+Todos os arquivos do pack v0.1 estao em `res://assets/audio/` (copiados de `breu_de_dentro_audio_pack_v01`).
+
+Teste de audio:
+
+1. Abrir porta — som de madeira (`door_open_old_wood.ogg`).
+2. Coletar martelo — `pickup_item.ogg`.
+3. Lanterna F — `flashlight_click.ogg`.
+4. Susto no corredor — stinger + radio static + sussurro.
+5. Inimigo placeholder — respiracao + rosnado ao ativar.
+6. Ambiencia — tom do quarto e vento ao iniciar; tom do corredor ao abrir a porta.
 
 ## Estado Esperado do Playtest
 

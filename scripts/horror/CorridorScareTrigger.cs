@@ -45,6 +45,7 @@ public partial class CorridorScareTrigger : Area3D
         RunFlickerCorridorLight();
         PulseRadio();
         PlayScareSound();
+        PlayCorridorHitSound();
         ActivateEnemy();
 
         if (GetNodeOrNull(SequenceControllerPath) is DemoRoomSequenceController sequence)
@@ -136,6 +137,17 @@ public partial class CorridorScareTrigger : Area3D
 
         _scarePlayer.Stream = stream;
         _scarePlayer.Play();
+    }
+
+    private void PlayCorridorHitSound()
+    {
+        var stream = AudioResourceLoader.TryLoad(AudioPaths.HorrorCorridorHit);
+        if (stream == null)
+        {
+            return;
+        }
+
+        AudioManager.Find(this)?.Play3DSound(stream, GlobalPosition);
     }
 
     private void ActivateEnemy()

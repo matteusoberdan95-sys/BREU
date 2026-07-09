@@ -149,3 +149,16 @@ Polimento de atmosfera e leitura narrativa: UI do bilhete, sistema de audio opci
 - `docs/technical/AUDIO_SYSTEM.md`, `docs/design/ATMOSPHERE_GUIDE.md`.
 - Regra `conventional-commits.mdc` (FEAT, FIX, DOCS, etc.).
 - No `DemoRoom`: no `UI` com HUD, NoteReaderUI e AudioManager.
+
+---
+
+## Sprint 6b — Audio pack conectado
+
+**Data:** 2026-07-09 | **Status:** concluida
+
+### Entregas
+
+- `.ogg` do `breu_de_dentro_audio_pack_v01` copiados para caminhos canonicos.
+- `AmbienceController` — quarto, vento e corredor (ao abrir porta).
+- Porta, radio, susto, lanterna, pickup e inimigo tocando audio real.
+- `AudioResourceLoader` com suporte a loop para ambiencia/radio.

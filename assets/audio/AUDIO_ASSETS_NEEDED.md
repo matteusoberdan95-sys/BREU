@@ -1,6 +1,10 @@
-# BREU — Assets de áudio necessários
+# BREU — Assets de áudio
 
-Coloque os arquivos `.ogg` nas pastas abaixo. O jogo funciona sem eles (fallback seguro com `Debug.Print`).
+Os arquivos `.ogg` do pack **breu_de_dentro_audio_pack_v01** foram copiados para os caminhos canônicos abaixo.
+
+Origem do pack: `res://assets/audio/breu_de_dentro_audio_pack_v01/`
+
+## Status: instalados (v0.1)
 
 ## `sfx/doors/`
 

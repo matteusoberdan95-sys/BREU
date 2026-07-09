@@ -2,7 +2,6 @@ namespace BREU.Scripts.Enemies;
 
 /// <summary>
 /// Inimigo silhueta placeholder — sem combate, sem IA avancada.
-/// Modelo final sera feito no Blender em sprint futura.
 /// </summary>
 public partial class EnemyPlaceholder : Node3D
 {
@@ -10,6 +9,7 @@ public partial class EnemyPlaceholder : Node3D
     [Export] public bool CanChase { get; set; }
     [Export] public float MoveSpeed { get; set; } = 1.2f;
     [Export] public NodePath PlayerPath { get; set; } = "../../Player";
+    [Export] public bool PlayAudioOnActivate { get; set; } = true;
 
     public override void _Ready()
     {
@@ -31,7 +31,6 @@ public partial class EnemyPlaceholder : Node3D
         }
 
         LookAtPlayer();
-        // TODO: movimento simples / navmesh na proxima sprint.
     }
 
     public void Activate()
@@ -39,6 +38,12 @@ public partial class EnemyPlaceholder : Node3D
         IsActive = true;
         Visible = true;
         LookAtPlayer();
+
+        if (PlayAudioOnActivate)
+        {
+            PlayPresenceAudio();
+        }
+
         GD.Print("EnemyPlaceholder: presenca detectada no corredor.");
     }
 
@@ -61,6 +66,25 @@ public partial class EnemyPlaceholder : Node3D
         var target = player.GlobalPosition;
         target.Y = GlobalPosition.Y;
         LookAt(target, Vector3.Up, true);
+    }
+
+    private void PlayPresenceAudio()
+    {
+        var manager = AudioManager.Find(this);
+        if (manager == null)
+        {
+            GD.Print("EnemyPlaceholder: AudioManager nao encontrado.");
+            return;
+        }
+
+        manager.Play3DSound(AudioResourceLoader.TryLoad(AudioPaths.EnemyBreath), GlobalPosition);
+
+        var growl = AudioResourceLoader.TryLoad(AudioPaths.EnemyGrowl);
+        if (growl != null)
+        {
+            GetTree().CreateTimer(0.35).Timeout += () =>
+                manager.Play3DSound(growl, GlobalPosition);
+        }
     }
 
     private Node3D? ResolvePlayer()

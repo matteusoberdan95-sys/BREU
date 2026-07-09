@@ -22,7 +22,7 @@ public partial class RadioInterferenceController : Node3D
             _radioAudio.VolumeDb = VolumeDb;
         }
 
-        StaticLoop ??= AudioResourceLoader.TryLoad(AudioPaths.RadioStatic);
+        StaticLoop ??= AudioResourceLoader.TryLoad(AudioPaths.RadioStatic, loop: true);
         WhisperSound ??= AudioResourceLoader.TryLoad(AudioPaths.RadioWhisper);
 
         if (StartsActive)
@@ -79,6 +79,11 @@ public partial class RadioInterferenceController : Node3D
     {
         StartStatic();
         NotifyHudIfNeeded();
+
+        if (StaticLoop != null)
+        {
+            PlayWhisper();
+        }
 
         if (duration <= 0.0f)
         {
