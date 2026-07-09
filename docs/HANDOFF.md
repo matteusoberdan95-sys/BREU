@@ -1,102 +1,114 @@
-# BREU - Handoff entre Codex, Cursor IDE e Cursor CLI
+# BREU - Handoff entre Codex e Cursor
 
-Ultima atualizacao: 2026-07-08
+Ultima atualizacao: 2026-07-09
 
-## Contexto para retomar
+## Como retomar
 
-Este projeto foi iniciado como fundacao da vertical slice de BREU. A intencao e permitir continuidade entre maquinas e ferramentas sem depender da memoria da conversa.
+Ao abrir uma nova sessao no Codex, Cursor IDE ou Cursor CLI, leia:
 
-Ao iniciar uma nova sessao, leia primeiro:
-
-1. `README.md`
+1. `docs/START_HERE.md`
 2. `docs/PROJECT_STATE.md`
 3. `docs/gameplay/NEXT_SPRINT_TASKS.md`
 4. `docs/technical/TDD.md`
-5. O arquivo de agente em `docs/agents` relacionado ao trabalho.
+5. O arquivo de agente em `docs/agents/` relacionado ao trabalho.
 
-## O que foi feito na ultima sessao
+## Estado atual
 
-- Criado projeto Godot 4.x .NET/C#.
-- Criada estrutura de pastas.
-- Criadas cenas placeholder:
-  - `Player.tscn`
-  - `DemoRoom.tscn`
-  - `Corridor.tscn`
-  - `Enemy_Hospede.tscn`
-  - `Door.tscn`
-  - `HUD.tscn`
-- Criados scripts iniciais:
-  - `PlayerController.cs`
-  - `PlayerLook.cs`
-  - `PlayerStamina.cs`
-  - `FlashlightController.cs`
-  - `PlayerInteractor.cs`
-  - `IInteractable.cs`
-  - `PickupItem.cs`
-  - `WeaponData.cs`
-  - `WeaponController.cs`
-  - `MeleeWeapon.cs`
-  - `UnarmedWeapon.cs`
-  - `Door.cs`
-  - `EnemyAI.cs`
-  - `EnemyHealth.cs`
-  - `HUDController.cs`
-- Criados resources de armas.
-- Criada documentacao inicial e docs de agentes.
-- Adicionadas instrucoes para Codex e Cursor:
-  - `AGENTS.md`
-  - `.cursorrules`
-  - `.cursor/rules/breu-project.mdc`
-- Integrado o blockout Blender do Quarto 07 em `DemoRoom.tscn` como asset importado.
-- Criado `docs/blender_pipeline/QUARTO_07_IMPORT.md`.
+O Quarto 07 esta jogavel como primeiro playtest da vertical slice:
 
-## Onde continuar
+- Player em primeira pessoa.
+- Movimento WASD, mouse look, sprint e lanterna.
+- HUD minimo com prompt de interacao.
+- Bilhete interativo.
+- Martelo coletavel.
+- Martelo placeholder aparece na mao depois da coleta.
+- Inventario simples registra martelo e durabilidade.
+- Porta interativa em modo debug.
+- Corredor placeholder conectado depois da porta.
+- Trigger de fim de demo no final do corredor.
+- Documentacao de continuidade atualizada para Codex e Cursor (`README.md`, `docs/START_HERE.md`, `AGENTS.md`, `.cursorrules` e `.cursor/rules/breu-project.mdc`).
 
-Prioridade imediata:
+## Principais arquivos
 
-1. Abrir no Godot 4.x .NET.
-2. Ver se o GLB `assets/blender_exports/quarto_07/quarto_07_blockout.glb` importa corretamente.
-3. Abrir `DemoRoom.tscn` e conferir a estrutura de importacao do Quarto 07.
-4. Ajustar pontos auxiliares se a escala/posicao do Blender mudar.
-5. Reinstanciar gameplay usando `PlayerStart`, `DoorPoint`, `HammerPickupPoint`, `NotePoint` e `RoomLightPoint`.
-6. Ajustar pivo/colisao da porta.
-7. Implementar vida do player e dano real do inimigo.
+- Cena principal: `scenes/levels/demo_room/DemoRoom.tscn`
+- Player: `scenes/player/Player.tscn`
+- HUD: `scenes/ui/HUD.tscn`
+- Estado do projeto: `docs/PROJECT_STATE.md`
+- Guia de teste: `docs/testing/PLAYTEST_DEMO_ROOM.md`
+- Arquitetura: `docs/technical/TDD.md`
 
-## Definicao de pronto da Sprint 1
+## Sistemas implementados
 
-- Player anda e olha ao redor.
-- Mouse e capturado corretamente.
-- Lanterna liga/desliga e bateria atualiza no HUD.
-- Stamina consome ao correr e atacar.
-- Prompt de interacao aparece.
-- Bilhete pode ser lido/interagido.
-- Martelo pode ser coletado/equipado.
-- Porta abre.
-- Corredor e acessivel.
-- `Enemy_Hospede` persegue e pode receber dano.
-- Martelo perde durabilidade e quebra.
-- Soco funciona apos quebra do martelo.
-- Build C# passa sem erro.
+### Player
 
-## Checklist antes de encerrar qualquer sessao
+- `PlayerController.cs`: movimento, sprint, gravidade e Input Map basico.
+- `PlayerLook.cs`: mouse look, captura/liberacao de mouse.
+- `FlashlightController.cs`: lanterna ligada/desligada e bateria via debug/HUD.
+- `PlayerInteractor.cs`: RayCast3D da camera com alcance de 2.5m.
+- `PlayerEquipmentView.cs`: mostra o martelo placeholder na mao quando o inventario tem martelo.
 
-- [ ] Rodar `dotnet build BREU.sln` se C# mudou.
-- [ ] Atualizar `docs/PROJECT_STATE.md`.
-- [ ] Atualizar este `docs/HANDOFF.md`.
-- [ ] Atualizar `docs/gameplay/NEXT_SPRINT_TASKS.md` se prioridades mudaram.
-- [ ] Registrar bugs conhecidos abaixo.
+### Interacao
 
-## Bugs conhecidos
+- `IInteractable.cs`: contrato `GetInteractionText()` e `Interact(PlayerController player)`.
+- `InteractableNote.cs`: bilhete com texto no console.
+- `HammerPickup.cs`: coleta martelo, atualiza inventario e tenta esconder visual importado.
+- `DoorInteractable.cs`: abre porta em modo debug, desativa colisao e tenta esconder `door_01`.
 
-- Validacao visual no Godot ainda nao foi feita nesta maquina via linha de comando.
-- O arquivo GLB estava inicialmente em `assets/blender_exports/quarto_07/quarto-07/quarto_07_blockout.glb`; foi criada copia canonica em `assets/blender_exports/quarto_07/quarto_07_blockout.glb`.
-- Ataque do inimigo ainda nao aplica dano real no player.
-- Porta ainda usa rotacao simples e precisa de revisao de pivo/colisao no editor.
-- UI de bilhete ainda e debug log, nao tela dedicada.
+### Inventario e HUD
 
-## Notas para outro computador
+- `PlayerInventory.cs`: guarda `HasHammer`, `EquippedWeaponName` e `EquippedWeaponDurability`.
+- `HUDController.cs`: mostra prompt `[E] <acao>`, lanterna e arma equipada.
 
-- Abrir a pasta inteira `BREU`, nao apenas `scenes`.
-- Usar Godot 4.x .NET.
-- Se o SDK do Godot reclamar da versao, verificar `BREU.csproj`.
-- Se a maquina nao tiver .NET 10, instalar ou ajustar de forma coordenada no TDD.
+### Level
+
+- `DemoRoom.tscn`: instancia GLB, player, HUD, colisoes, interativos, corredor placeholder e trigger de fim.
+- `assets/blender_exports/quarto_07/quarto_07_blockout.glb`: asset importado canonico do Quarto 07.
+
+## Validacao feita
+
+```powershell
+dotnet build BREU.sln
+```
+
+Resultado:
+
+- Build com sucesso.
+- 0 erros.
+- 0 avisos.
+
+```powershell
+& 'C:\Users\mober\OneDrive\Desktop\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_mono_win64_console.exe' --headless --path . --quit
+```
+
+Resultado:
+
+- Projeto carregou sem erro.
+
+## Como testar manualmente
+
+1. Abrir `DemoRoom.tscn` no Godot.
+2. Rodar com F6.
+3. Clicar em **Entrada** para dar foco.
+4. Testar:
+   - WASD e mouse look;
+   - F para lanterna;
+   - prompt no HUD ao mirar em bilhete/martelo/porta;
+   - E para ler bilhete;
+   - E para coletar martelo;
+   - martelo aparecendo na mao;
+   - E para abrir porta;
+   - corredor placeholder e mensagem de fim.
+
+## Bugs/limitacoes conhecidas
+
+- HUD e minimo.
+- Bilhete ainda nao tem tela dedicada de leitura.
+- Porta nao tem animacao/pivo/som real.
+- Martelo na mao e placeholder, sem animacao e sem combate.
+- Corredor e placeholder, sem encontro, audio, porta final real ou transicao.
+- Colisoes dos moveis/interativos podem precisar de ajuste fino visual no editor.
+- Combate e inimigo nao devem ser ativados sem tarefa explicita.
+
+## Proximo passo recomendado
+
+Trocar o corredor placeholder por uma cena modular definitiva e criar uma porta final/transicao. Depois criar UI de leitura do bilhete e feedback visual/sonoro de interacao.

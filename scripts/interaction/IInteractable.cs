@@ -4,6 +4,6 @@ namespace BREU.Scripts.Interaction;
 
 public interface IInteractable
 {
-    string Prompt { get; }
+    string GetInteractionText();
     void Interact(PlayerController player);
 }

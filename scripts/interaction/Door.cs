@@ -11,8 +11,6 @@ public partial class Door : StaticBody3D, IInteractable
     [Export] public float OpenAngleDegrees { get; set; } = 92.0f;
     [Export] public float OpenSpeed { get; set; } = 6.0f;
 
-    public string Prompt => IsLocked ? "Porta trancada" : (_isOpen ? "Fechar porta" : "Abrir porta");
-
     private bool _isOpen;
     private float _closedY;
     private float _targetY;
@@ -28,6 +26,11 @@ public partial class Door : StaticBody3D, IInteractable
         var rotation = Rotation;
         rotation.Y = Mathf.LerpAngle(rotation.Y, _targetY, OpenSpeed * (float)delta);
         Rotation = rotation;
+    }
+
+    public string GetInteractionText()
+    {
+        return IsLocked ? "Porta trancada" : (_isOpen ? "Fechar porta" : "Abrir porta");
     }
 
     public void Interact(PlayerController player)

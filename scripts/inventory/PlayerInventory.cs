@@ -11,6 +11,9 @@ public partial class PlayerInventory : Node
     public HashSet<string> Keys { get; } = new();
     public List<string> Documents { get; } = new();
     public WeaponData? EquippedWeapon { get; private set; }
+    public bool HasHammer { get; private set; }
+    public string EquippedWeaponName { get; private set; } = "";
+    public int EquippedWeaponDurability { get; private set; }
 
     public bool HasKey(string keyId) => string.IsNullOrWhiteSpace(keyId) || Keys.Contains(keyId);
 
@@ -37,6 +40,17 @@ public partial class PlayerInventory : Node
     public void SetEquippedWeapon(WeaponData? weapon)
     {
         EquippedWeapon = weapon;
+        EquippedWeaponName = weapon?.WeaponName ?? "";
+        EquippedWeaponDurability = weapon?.CurrentDurability ?? 0;
+        EmitSignal(SignalName.InventoryChanged);
+    }
+
+    public void PickupHammer(int durability)
+    {
+        HasHammer = true;
+        EquippedWeaponName = "Martelo Enferrujado";
+        EquippedWeaponDurability = durability;
+        GD.Print($"Inventário: Martelo Enferrujado equipado. Durabilidade: {durability}/{durability}.");
         EmitSignal(SignalName.InventoryChanged);
     }
 }

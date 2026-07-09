@@ -1,43 +1,77 @@
 # BREU
 
-Survival horror em primeira pessoa feito em Godot 4.x .NET/C#.
+Survival horror em primeira pessoa feito em Godot 4.7 Mono/C#.
 
-O primeiro objetivo e uma vertical slice pequena: o jogador acorda no Quarto 07 da Pensao Santa Luzia, pega um martelo enferrujado, le um bilhete, sai para um corredor curto e enfrenta o primeiro `Enemy_Hospede`.
+O objetivo atual e construir uma vertical slice pequena e jogavel: o jogador acorda no **Quarto 07 - Pensao Santa Luzia**, pega um martelo enferrujado, le um bilhete, abre a porta e sai para um corredor curto.
 
-## Leia primeiro em qualquer ferramenta
+## Comece Aqui
 
-Ao abrir este projeto no Codex, Cursor IDE ou Cursor CLI, leia estes arquivos nesta ordem:
+Ao abrir este projeto no Codex, Cursor IDE, Cursor CLI ou qualquer editor, leia:
 
-1. `docs/PROJECT_STATE.md`
-2. `docs/HANDOFF.md`
-3. `docs/gameplay/NEXT_SPRINT_TASKS.md`
-4. `docs/technical/TDD.md`
-5. `docs/design/GDD.md`
-6. `docs/design/IMPLEMENTATION_PLAN.md`
+1. `docs/START_HERE.md`
+2. `docs/PROJECT_STATE.md`
+3. `docs/HANDOFF.md`
+4. `docs/gameplay/NEXT_SPRINT_TASKS.md`
+5. `docs/technical/TDD.md`
+6. `docs/design/GDD.md`
+7. `docs/design/IMPLEMENTATION_PLAN.md`
 
-Depois leia apenas os docs de agentes relevantes ao trabalho atual em `docs/agents`.
+Depois leia apenas os arquivos relevantes em `docs/agents/`.
 
-## Estado atual
+## Estado Atual
 
-- Projeto Godot/.NET criado.
 - Cena principal: `res://scenes/levels/demo_room/DemoRoom.tscn`.
-- Build C# validado com `dotnet build BREU.sln`.
-- Ainda falta validar a importacao visual no editor Godot, porque o executavel `godot` nao estava no PATH na primeira sessao.
+- Cenario importado: `res://assets/blender_exports/quarto_07/quarto_07_blockout.glb`.
+- Player FPS funcional com WASD, mouse look, sprint e lanterna.
+- HUD minimo com prompt de interacao e arma equipada.
+- Bilhete interativo com feedback no console.
+- Martelo coletavel, registrado no inventario simples e visivel na mao como placeholder.
+- Porta interativa em modo debug.
+- Corredor placeholder conectado depois da porta.
+- Trigger de fim de demo no final do corredor.
+- Sem combate e sem inimigo ativos nesta etapa.
 
-## Comandos uteis
+## Como Testar
+
+1. Abrir a pasta `BREU` no Godot 4.7 Mono.
+2. Abrir `res://scenes/levels/demo_room/DemoRoom.tscn`.
+3. Rodar a cena com F6.
+4. Clicar na aba/janela **Entrada** para dar foco.
+5. Testar:
+   - WASD para andar;
+   - mouse para olhar;
+   - Shift para correr;
+   - F para lanterna;
+   - E para interagir com bilhete, martelo e porta.
+
+## Comandos Uteis
 
 ```powershell
 dotnet build BREU.sln
 ```
 
-Para jogar/testar, abrir esta pasta no Godot 4.x .NET e rodar `DemoRoom.tscn`.
+Godot local usado nesta maquina:
 
-## Regra de continuidade
+```text
+C:\Users\mober\OneDrive\Desktop\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_mono_win64_console.exe
+```
 
-Antes de encerrar qualquer sessao de trabalho, atualize:
+Validacao headless:
 
-- `docs/PROJECT_STATE.md`
-- `docs/HANDOFF.md`
-- `docs/gameplay/NEXT_SPRINT_TASKS.md`
+```powershell
+& 'C:\Users\mober\OneDrive\Desktop\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_mono_win64_console.exe' --headless --path . --quit
+```
 
-Assim o projeto pode continuar em outro computador, no Codex, Cursor IDE ou Cursor CLI sem perder contexto.
+## Regras de Continuidade
+
+Antes de encerrar uma sessao:
+
+- atualize `docs/PROJECT_STATE.md`;
+- atualize `docs/HANDOFF.md`;
+- atualize `docs/gameplay/NEXT_SPRINT_TASKS.md` se prioridades mudarem;
+- rode `dotnet build BREU.sln` se C# mudou;
+- registre qualquer problema novo em `docs/HANDOFF.md`.
+
+## Proximo Marco Recomendado
+
+Trocar o corredor placeholder por uma cena modular definitiva e criar uma porta final/transicao. Depois disso, iniciar a camada de feedback visual/sonoro antes de combate.

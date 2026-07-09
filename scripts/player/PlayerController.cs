@@ -1,5 +1,4 @@
 using Godot;
-using BREU.Scripts.Player;
 
 namespace BREU.Scripts.Player;
 
@@ -7,50 +6,25 @@ public partial class PlayerController : CharacterBody3D
 {
     [Export] public float WalkSpeed { get; set; } = 3.2f;
     [Export] public float SprintSpeed { get; set; } = 5.2f;
-    [Export] public float Acceleration { get; set; } = 12.0f;
     [Export] public float Gravity { get; set; } = 18.0f;
-    [Export] public NodePath StaminaPath { get; set; } = "PlayerStamina";
-    [Export] public float SprintStaminaCostPerSecond { get; set; } = 18.0f;
-
-    public PlayerStamina? Stamina { get; private set; }
+    [Export] public NodePath CameraPath { get; set; } = "CameraPivot/Camera3D";
 
     public override void _Ready()
     {
+        EnsureInputMap();
         AddToGroup("player");
-        Stamina = GetNodeOrNull<PlayerStamina>(StaminaPath);
-        Input.MouseMode = Input.MouseModeEnum.Captured;
-    }
-
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event.IsActionPressed("pause"))
-        {
-            Input.MouseMode = Input.MouseMode == Input.MouseModeEnum.Captured
-                ? Input.MouseModeEnum.Visible
-                : Input.MouseModeEnum.Captured;
-        }
+        GetNodeOrNull<Camera3D>(CameraPath)?.MakeCurrent();
     }
 
     public override void _PhysicsProcess(double delta)
     {
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-        var basis = GlobalTransform.Basis;
-        var direction = (basis.X * input.X + basis.Z * input.Y).Normalized();
-
-        var wantsSprint = Input.IsActionPressed("sprint") && input.LengthSquared() > 0.01f;
-        var canSprint = Stamina?.HasStamina(1.0f) ?? true;
-        var sprinting = wantsSprint && canSprint;
-        var targetSpeed = sprinting ? SprintSpeed : WalkSpeed;
-
-        if (sprinting && Stamina != null)
-        {
-            Stamina.Consume(SprintStaminaCostPerSecond * (float)delta);
-        }
+        var direction = (GlobalTransform.Basis.X * input.X + GlobalTransform.Basis.Z * input.Y).Normalized();
+        var speed = Input.IsActionPressed("sprint") ? SprintSpeed : WalkSpeed;
 
         var velocity = Velocity;
-        var targetVelocity = direction * targetSpeed;
-        velocity.X = Mathf.Lerp(velocity.X, targetVelocity.X, Acceleration * (float)delta);
-        velocity.Z = Mathf.Lerp(velocity.Z, targetVelocity.Z, Acceleration * (float)delta);
+        velocity.X = direction.X * speed;
+        velocity.Z = direction.Z * speed;
 
         if (!IsOnFloor())
         {
@@ -58,10 +32,68 @@ public partial class PlayerController : CharacterBody3D
         }
         else if (velocity.Y < 0.0f)
         {
-            velocity.Y = -0.1f;
+            velocity.Y = 0.0f;
         }
 
         Velocity = velocity;
         MoveAndSlide();
+    }
+
+    private static void EnsureInputMap()
+    {
+        EnsureKeyAction("move_forward", Key.W);
+        EnsureKeyAction("move_backward", Key.S);
+        EnsureKeyAction("move_left", Key.A);
+        EnsureKeyAction("move_right", Key.D);
+        EnsureKeyAction("sprint", Key.Shift);
+        EnsureKeyAction("flashlight_toggle", Key.F);
+        EnsureKeyAction("interact", Key.E);
+        EnsureKeyAction("pause", Key.Escape);
+        EnsureMouseButtonAction("attack_primary", MouseButton.Left);
+    }
+
+    private static void EnsureKeyAction(string actionName, Key key)
+    {
+        if (!InputMap.HasAction(actionName))
+        {
+            InputMap.AddAction(actionName);
+        }
+
+        foreach (var existingEvent in InputMap.ActionGetEvents(actionName))
+        {
+            if (existingEvent is InputEventKey existingKey &&
+                (existingKey.Keycode == key || existingKey.PhysicalKeycode == key))
+            {
+                return;
+            }
+        }
+
+        InputMap.ActionAddEvent(actionName, new InputEventKey
+        {
+            Keycode = key,
+            PhysicalKeycode = key
+        });
+    }
+
+    private static void EnsureMouseButtonAction(string actionName, MouseButton button)
+    {
+        if (!InputMap.HasAction(actionName))
+        {
+            InputMap.AddAction(actionName);
+        }
+
+        foreach (var existingEvent in InputMap.ActionGetEvents(actionName))
+        {
+            if (existingEvent is InputEventMouseButton existingButton &&
+                existingButton.ButtonIndex == button)
+            {
+                return;
+            }
+        }
+
+        InputMap.ActionAddEvent(actionName, new InputEventMouseButton
+        {
+            ButtonIndex = button
+        });
     }
 }

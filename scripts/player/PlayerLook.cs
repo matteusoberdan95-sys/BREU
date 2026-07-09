@@ -6,20 +6,33 @@ public partial class PlayerLook : Node3D
 {
     [Export] public NodePath BodyPath { get; set; } = "..";
     [Export] public float MouseSensitivity { get; set; } = 0.0022f;
-    [Export] public float MinPitchDegrees { get; set; } = -82.0f;
-    [Export] public float MaxPitchDegrees { get; set; } = 82.0f;
+    [Export] public float MinPitchDegrees { get; set; } = -85.0f;
+    [Export] public float MaxPitchDegrees { get; set; } = 85.0f;
 
-    private CharacterBody3D? _body;
+    private Node3D? _body;
     private float _pitch;
 
     public override void _Ready()
     {
-        _body = GetNodeOrNull<CharacterBody3D>(BodyPath);
+        _body = GetNodeOrNull<Node3D>(BodyPath);
         _pitch = Rotation.X;
+        Input.MouseMode = Input.MouseModeEnum.Captured;
     }
 
-    public override void _UnhandledInput(InputEvent @event)
+    public override void _Input(InputEvent @event)
     {
+        if (@event.IsActionPressed("pause"))
+        {
+            Input.MouseMode = Input.MouseModeEnum.Visible;
+            return;
+        }
+
+        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
+        {
+            Input.MouseMode = Input.MouseModeEnum.Captured;
+            return;
+        }
+
         if (@event is not InputEventMouseMotion motion || Input.MouseMode != Input.MouseModeEnum.Captured)
         {
             return;

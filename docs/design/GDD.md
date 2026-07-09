@@ -18,6 +18,8 @@ Nome do cenario: Quarto 07 - Pensao Santa Luzia.
 
 O jogador acorda em um quarto mofado, com cama de ferro, colchao imundo, ventilador quebrado, janela gradeada, crucifixo torto, sangue seco, marcas na parede, radio chiando, bilhete antigo e um martelo enferrujado perto da cama. A meta e sair do quarto, atravessar um corredor curto e sobreviver ao primeiro contato com `Enemy_Hospede`.
 
+Estado atual da demo jogavel: o jogador ja anda pelo Quarto 07, usa lanterna, le o bilhete, pega o martelo, abre a porta e entra em um corredor placeholder. O encontro com `Enemy_Hospede` ainda nao esta ativo.
+
 ## Loop da vertical slice
 
 1. Acordar no quarto.

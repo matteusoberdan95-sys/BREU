@@ -27,7 +27,6 @@ DemoRoom
     HammerPickupPoint
     NotePoint
   Lighting
-    RoomWorldEnvironment
     RoomLightPoint
   Debug
     DemoEndTrigger
@@ -40,7 +39,7 @@ DemoRoom
 - `HammerPickupPoint`: fica proximo de `hammer_handle` e `hammer_head`.
 - `NotePoint`: fica proximo de `note_01` na mesa.
 - `RoomLightPoint`: fica proximo de `lamp_bulb`/lampada pendurada.
-- `DemoEndTrigger`: trigger temporario de debug perto da saida/porta.
+- `DemoEndTrigger`: trigger temporario de debug no fim do corredor placeholder.
 
 ## Objetos que devem virar interativos depois
 
@@ -63,7 +62,8 @@ DemoRoom
 
    `res://assets/blender_exports/quarto_07/quarto_07_blockout.glb`
 
-6. Abrir `DemoRoom.tscn` no Godot e conferir se os pontos auxiliares ainda estao alinhados com porta, martelo, bilhete e lampada.
+6. Nao alterar o arquivo instanciado dentro da cena para adicionar gameplay. Se for preciso reposicionar interacoes, mover os marcadores auxiliares em `DemoRoom.tscn`.
+7. Abrir `DemoRoom.tscn` no Godot e conferir se os pontos auxiliares ainda estao alinhados com porta, martelo, bilhete e lampada.
 
 ## Camera e luz do Blender
 
@@ -71,14 +71,10 @@ A camera do Blender e apenas preview de modelagem. A camera real do jogo sera a 
 
 A luz do Blender pode ser usada como referencia visual, mas pode ser substituida por luz configurada no Godot. Nesta cena, `RoomLightPoint` ja existe como ponto de luz controlado pelo Godot.
 
-## Observacao sobre esta primeira importacao
+## Observacao sobre organizacao
 
-O arquivo foi encontrado inicialmente dentro de:
+O projeto deve manter apenas a pasta canonica:
 
-`res://assets/blender_exports/quarto_07/quarto-07/quarto_07_blockout.glb`
+`res://assets/blender_exports/quarto_07/`
 
-Para cumprir o caminho canonico do projeto, foi criada uma copia em:
-
-`res://assets/blender_exports/quarto_07/quarto_07_blockout.glb`
-
-Nas proximas exportacoes, prefira exportar direto para o caminho canonico.
+Exports antigos foram consolidados em `quarto_07`. Nas proximas exportacoes, prefira exportar direto para o caminho canonico.

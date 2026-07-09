@@ -8,20 +8,17 @@ public partial class FlashlightController : SpotLight3D
 
     [Export] public float MaxBattery { get; set; } = 100.0f;
     [Export] public float DrainPerSecond { get; set; } = 3.5f;
-    [Export] public float FlickerNoise { get; set; } = 0.08f;
 
-    public float CurrentBattery { get; private set; }
-    public bool IsOn { get; private set; } = true;
-
-    private float _baseEnergy;
-    private RandomNumberGenerator _rng = new();
+    private float _battery;
+    private bool _isOn = true;
+    private float _debugPrintTimer;
 
     public override void _Ready()
     {
-        CurrentBattery = MaxBattery;
-        _baseEnergy = LightEnergy;
-        Visible = IsOn;
-        EmitSignal(SignalName.BatteryChanged, CurrentBattery, MaxBattery);
+        _battery = MaxBattery;
+        Visible = true;
+        EmitSignal(SignalName.BatteryChanged, _battery, MaxBattery);
+        GD.Print($"Lanterna: {_battery:0}%");
     }
 
     public override void _Process(double delta)
@@ -31,38 +28,40 @@ public partial class FlashlightController : SpotLight3D
             Toggle();
         }
 
-        if (!IsOn)
+        if (!_isOn)
         {
             return;
         }
 
-        CurrentBattery = Mathf.Max(0.0f, CurrentBattery - DrainPerSecond * (float)delta);
-        if (CurrentBattery <= 0.0f)
+        _battery = Mathf.Max(0.0f, _battery - DrainPerSecond * (float)delta);
+        if (_battery <= 0.0f)
         {
-            IsOn = false;
+            _isOn = false;
             Visible = false;
+            EmitSignal(SignalName.BatteryChanged, _battery, MaxBattery);
+            GD.Print("Lanterna: 0% - bateria esgotada.");
+            return;
         }
 
-        LightEnergy = _baseEnergy + _rng.RandfRange(-FlickerNoise, FlickerNoise);
-        EmitSignal(SignalName.BatteryChanged, CurrentBattery, MaxBattery);
+        EmitSignal(SignalName.BatteryChanged, _battery, MaxBattery);
+        _debugPrintTimer += (float)delta;
+        if (_debugPrintTimer >= 1.0f)
+        {
+            _debugPrintTimer = 0.0f;
+            GD.Print($"Lanterna: {_battery:0}%");
+        }
     }
 
-    public void Toggle()
+    private void Toggle()
     {
-        if (CurrentBattery <= 0.0f)
+        if (_battery <= 0.0f)
         {
             GD.Print("Lanterna sem bateria.");
             return;
         }
 
-        IsOn = !IsOn;
-        Visible = IsOn;
-        GD.Print(IsOn ? "Lanterna ligada." : "Lanterna desligada.");
-    }
-
-    public void Recharge(float amount)
-    {
-        CurrentBattery = Mathf.Min(MaxBattery, CurrentBattery + amount);
-        EmitSignal(SignalName.BatteryChanged, CurrentBattery, MaxBattery);
+        _isOn = !_isOn;
+        Visible = _isOn;
+        GD.Print(_isOn ? "Lanterna ligada." : "Lanterna desligada.");
     }
 }

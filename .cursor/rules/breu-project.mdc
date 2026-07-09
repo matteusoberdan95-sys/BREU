@@ -9,19 +9,22 @@ alwaysApply: true
 
 Leia primeiro:
 
-1. `docs/PROJECT_STATE.md`
-2. `docs/HANDOFF.md`
-3. `docs/gameplay/NEXT_SPRINT_TASKS.md`
-4. `docs/technical/TDD.md`
-5. `docs/design/GDD.md`
-6. `docs/design/IMPLEMENTATION_PLAN.md`
+1. `docs/START_HERE.md`
+2. `docs/PROJECT_STATE.md`
+3. `docs/HANDOFF.md`
+4. `docs/gameplay/NEXT_SPRINT_TASKS.md`
+5. `docs/technical/TDD.md`
+6. `docs/design/GDD.md`
+7. `docs/design/IMPLEMENTATION_PLAN.md`
 
 ## Regras
 
-- Projeto em Godot 4.x .NET/C#.
+- Projeto em Godot 4.7 Mono/C#.
 - Nome publico: BREU.
 - Primeira demo: Quarto 07 - Pensao Santa Luzia.
 - Cena principal: `res://scenes/levels/demo_room/DemoRoom.tscn`.
+- Estado atual: player FPS, HUD minimo, bilhete, martelo equipado, porta debug e corredor placeholder.
+- Nao implementar combate/inimigo sem pedido explicito.
 - Scripts devem continuar modulares por responsabilidade.
 - Use placeholders simples ate os assets do Blender entrarem via `.glb`.
 - Antes de terminar uma tarefa, atualize `docs/PROJECT_STATE.md` e `docs/HANDOFF.md`.

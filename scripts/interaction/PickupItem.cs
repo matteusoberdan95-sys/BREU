@@ -14,7 +14,10 @@ public partial class PickupItem : StaticBody3D, IInteractable
     [Export(PropertyHint.MultilineText)] public string DocumentText { get; set; } = "";
     [Export] public WeaponData? WeaponToEquip { get; set; }
 
-    public string Prompt => PromptText;
+    public string GetInteractionText()
+    {
+        return PromptText;
+    }
 
     public void Interact(PlayerController player)
     {

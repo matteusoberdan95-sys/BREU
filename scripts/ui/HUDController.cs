@@ -1,4 +1,5 @@
 using Godot;
+using BREU.Scripts.Inventory;
 using BREU.Scripts.Player;
 using BREU.Scripts.Weapons;
 
@@ -22,6 +23,8 @@ public partial class HUDController : CanvasLayer
         _staminaLabel = GetNodeOrNull<Label>(StaminaLabelPath);
         _batteryLabel = GetNodeOrNull<Label>(BatteryLabelPath);
         _weaponLabel = GetNodeOrNull<Label>(WeaponLabelPath);
+        SetInteractionPrompt("");
+        SetWeapon("Mãos vazias", 0, 0);
         CallDeferred(nameof(BindToPlayer));
     }
 
@@ -41,13 +44,20 @@ public partial class HUDController : CanvasLayer
             PlayerStamina.SignalName.StaminaChanged,
             Callable.From<float, float>(SetStamina));
 
-        player.GetNodeOrNull<FlashlightController>("CameraPivot/Camera3D/Flashlight")?.Connect(
+        player.GetNodeOrNull<FlashlightController>("CameraPivot/Flashlight")?.Connect(
             FlashlightController.SignalName.BatteryChanged,
             Callable.From<float, float>(SetBattery));
 
         player.GetNodeOrNull<WeaponController>("CameraPivot/WeaponHand/WeaponController")?.Connect(
             WeaponController.SignalName.WeaponChanged,
             Callable.From<string, int, int>(SetWeapon));
+
+        var inventory = player.GetNodeOrNull<PlayerInventory>("PlayerInventory");
+        if (inventory != null)
+        {
+            inventory.InventoryChanged += () => SetInventoryWeapon(inventory);
+            SetInventoryWeapon(inventory);
+        }
     }
 
     private void SetInteractionPrompt(string prompt)
@@ -79,8 +89,20 @@ public partial class HUDController : CanvasLayer
         if (_weaponLabel != null)
         {
             _weaponLabel.Text = maxDurability <= 0
-                ? weaponName
-                : $"{weaponName} {durability}/{maxDurability}";
+                ? $"Arma: {weaponName}"
+                : $"Arma: {weaponName} {durability}/{maxDurability}";
         }
+    }
+
+    private void SetInventoryWeapon(PlayerInventory inventory)
+    {
+        if (_weaponLabel == null)
+        {
+            return;
+        }
+
+        _weaponLabel.Text = inventory.HasHammer
+            ? $"Arma: {inventory.EquippedWeaponName} {inventory.EquippedWeaponDurability}/10"
+            : "Arma: Mãos vazias";
     }
 }

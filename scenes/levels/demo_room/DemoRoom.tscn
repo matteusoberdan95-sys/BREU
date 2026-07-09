@@ -1,55 +1,317 @@
-[gd_scene load_steps=4 format=3 uid="uid://breu_demo_room"]
+[gd_scene load_steps=31 format=3 uid="uid://breu_demo_room"]
 
 [ext_resource type="PackedScene" path="res://assets/blender_exports/quarto_07/quarto_07_blockout.glb" id="1_quarto07"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/interaction/HammerPickup.cs" id="3_hammer_pickup"]
+[ext_resource type="Script" path="res://scripts/interaction/InteractableNote.cs" id="4_interactable_note"]
+[ext_resource type="Script" path="res://scripts/interaction/DoorInteractable.cs" id="5_door_interactable"]
+[ext_resource type="Script" path="res://scripts/debug/DemoEndTrigger.cs" id="6_demo_end_trigger"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="7_hud"]
 
-[sub_resource type="Environment" id="Environment_room07"]
-ambient_light_source = 1
-ambient_light_color = Color(0.18, 0.155, 0.12, 1)
-ambient_light_energy = 0.22
-tonemap_mode = 2
-glow_enabled = true
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(5.7, 0.1, 6.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_side"]
+size = Vector3(0.15, 2.8, 6.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_front_back"]
+size = Vector3(5.7, 2.8, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_door_wall_side"]
+size = Vector3(2.25, 2.8, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_door_wall_top"]
+size = Vector3(5.7, 0.7, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_door_closed"]
+size = Vector3(1.1, 2.1, 0.16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bed"]
+size = Vector3(1.15, 0.7, 2.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_table_main"]
+size = Vector3(0.95, 0.9, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_small_table"]
+size = Vector3(0.6, 0.8, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_chair"]
+size = Vector3(0.55, 1.1, 0.55)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hammer_interaction"]
+size = Vector3(0.7, 0.25, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_note_interaction"]
+size = Vector3(0.75, 0.45, 0.65)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_door_interaction"]
+size = Vector3(1.35, 2.1, 0.65)
+
+[sub_resource type="StandardMaterial3D" id="CorridorFloorMaterial"]
+albedo_color = Color(0.16, 0.14, 0.12, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="CorridorWallMaterial"]
+albedo_color = Color(0.25, 0.24, 0.2, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_corridor_floor"]
+size = Vector3(1.8, 0.1, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_floor"]
+size = Vector3(1.8, 0.1, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_corridor_wall"]
+size = Vector3(0.15, 2.4, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_wall"]
+size = Vector3(0.15, 2.4, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_corridor_ceiling"]
+size = Vector3(1.8, 0.1, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_ceiling"]
+size = Vector3(1.8, 0.1, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_corridor_end"]
+size = Vector3(1.8, 2.4, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_corridor_end"]
+size = Vector3(1.8, 2.4, 0.15)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_demo_end"]
 size = Vector3(1.5, 2.2, 0.5)
 
 [node name="DemoRoom" type="Node3D"]
+editor_description = "Cena principal do Quarto 07 - Pensao Santa Luzia. Mantem o GLB importado separado dos pontos auxiliares de gameplay."
 
 [node name="Environment" type="Node3D" parent="."]
+editor_description = "Assets visuais importados do Blender. Nao colocar logica de gameplay dentro do GLB."
 
 [node name="quarto_07_blockout" parent="Environment" instance=ExtResource("1_quarto07")]
 
+[node name="CorridorPlaceholder" type="Node3D" parent="Environment"]
+editor_description = "Corredor placeholder apos a porta do Quarto 07. Nao contem inimigo nem combate nesta etapa."
+
+[node name="Floor" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
+position = Vector3(0, -0.05, 6.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/Floor"]
+mesh = SubResource("BoxMesh_corridor_floor")
+surface_material_override/0 = SubResource("CorridorFloorMaterial")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/Floor"]
+shape = SubResource("BoxShape3D_corridor_floor")
+
+[node name="LeftWall" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
+position = Vector3(-0.975, 1.2, 6.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/LeftWall"]
+mesh = SubResource("BoxMesh_corridor_wall")
+surface_material_override/0 = SubResource("CorridorWallMaterial")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/LeftWall"]
+shape = SubResource("BoxShape3D_corridor_wall")
+
+[node name="RightWall" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
+position = Vector3(0.975, 1.2, 6.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/RightWall"]
+mesh = SubResource("BoxMesh_corridor_wall")
+surface_material_override/0 = SubResource("CorridorWallMaterial")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/RightWall"]
+shape = SubResource("BoxShape3D_corridor_wall")
+
+[node name="Ceiling" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
+position = Vector3(0, 2.4, 6.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/Ceiling"]
+mesh = SubResource("BoxMesh_corridor_ceiling")
+surface_material_override/0 = SubResource("CorridorWallMaterial")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/Ceiling"]
+shape = SubResource("BoxShape3D_corridor_ceiling")
+
+[node name="EndBlocker" type="StaticBody3D" parent="Environment/CorridorPlaceholder"]
+position = Vector3(0, 1.2, 9.55)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CorridorPlaceholder/EndBlocker"]
+mesh = SubResource("BoxMesh_corridor_end")
+surface_material_override/0 = SubResource("CorridorWallMaterial")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CorridorPlaceholder/EndBlocker"]
+shape = SubResource("BoxShape3D_corridor_end")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector3(0, 1, 0)
+
+[node name="HUD" parent="." instance=ExtResource("7_hud")]
+
+[node name="Collisions" type="Node3D" parent="."]
+editor_description = "Colisoes temporarias do Quarto 07. Godot usa Y como altura; X e largura e Z e profundidade."
+
+[node name="FloorCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/FloorCollision"]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="WallLeftCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(-2.85, 1.4, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/WallLeftCollision"]
+shape = SubResource("BoxShape3D_wall_side")
+
+[node name="WallRightCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(2.85, 1.4, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/WallRightCollision"]
+shape = SubResource("BoxShape3D_wall_side")
+
+[node name="WallBackLeftCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(-1.725, 1.4, 3.35)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/WallBackLeftCollision"]
+shape = SubResource("BoxShape3D_door_wall_side")
+
+[node name="WallBackRightCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(1.725, 1.4, 3.35)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/WallBackRightCollision"]
+shape = SubResource("BoxShape3D_door_wall_side")
+
+[node name="WallBackTopCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 2.45, 3.35)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/WallBackTopCollision"]
+shape = SubResource("BoxShape3D_door_wall_top")
+
+[node name="DoorClosedCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 1.05, 3.35)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/DoorClosedCollision"]
+shape = SubResource("BoxShape3D_door_closed")
+
+[node name="WallFrontCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 1.4, -3.35)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/WallFrontCollision"]
+shape = SubResource("BoxShape3D_wall_front_back")
+
+[node name="FurnitureCollisions" type="Node3D" parent="Collisions"]
+editor_description = "Colisoes auxiliares dos moveis principais. Ajustar no Godot conforme o blockout evoluir."
+
+[node name="BedCollision" type="StaticBody3D" parent="Collisions/FurnitureCollisions"]
+position = Vector3(-1.35, 0.35, -0.9)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/FurnitureCollisions/BedCollision"]
+shape = SubResource("BoxShape3D_bed")
+
+[node name="TableMainCollision" type="StaticBody3D" parent="Collisions/FurnitureCollisions"]
+position = Vector3(1.15, 0.45, -1.35)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/FurnitureCollisions/TableMainCollision"]
+shape = SubResource("BoxShape3D_table_main")
+
+[node name="SmallTableCollision" type="StaticBody3D" parent="Collisions/FurnitureCollisions"]
+position = Vector3(-0.55, 0.4, -1.85)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/FurnitureCollisions/SmallTableCollision"]
+shape = SubResource("BoxShape3D_small_table")
+
+[node name="ChairCollision" type="StaticBody3D" parent="Collisions/FurnitureCollisions"]
+position = Vector3(1.15, 0.55, -0.55)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/FurnitureCollisions/ChairCollision"]
+shape = SubResource("BoxShape3D_chair")
+
 [node name="SpawnPoints" type="Node3D" parent="."]
+editor_description = "Marcadores de entrada e respawn."
 
 [node name="PlayerStart" type="Marker3D" parent="SpawnPoints"]
-position = Vector3(0, 0.05, 2.35)
+unique_name_in_owner = true
+editor_description = "Spawn inicial do playtest no centro do quarto. O player instanciado tambem nasce em Vector3(0, 1, 0)."
+position = Vector3(0, 1, 0)
 
 [node name="InteractionPoints" type="Node3D" parent="."]
+editor_description = "Marcadores para alinhar props interativos sem alterar a estrutura importada do Blender."
 
 [node name="DoorPoint" type="Marker3D" parent="InteractionPoints"]
+unique_name_in_owner = true
+editor_description = "Ponto de gameplay proximo de door_01."
 position = Vector3(0, 1.025, 3.05)
 
 [node name="HammerPickupPoint" type="Marker3D" parent="InteractionPoints"]
-position = Vector3(-0.35, 0.12, 0.92)
+unique_name_in_owner = true
+editor_description = "Ponto de coleta proximo de hammer_handle e hammer_head."
+position = Vector3(-0.35, 0.12, 0.75)
 
 [node name="NotePoint" type="Marker3D" parent="InteractionPoints"]
+unique_name_in_owner = true
+editor_description = "Ponto de leitura proximo de note_01 na mesa."
 position = Vector3(1.15, 0.84, -1.35)
 
-[node name="Lighting" type="Node3D" parent="."]
+[node name="HammerPickup" type="Area3D" parent="InteractionPoints"]
+editor_description = "Area auxiliar de interacao do martelo importado do Blender."
+position = Vector3(-0.35, 0.22, 0.75)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("3_hammer_pickup")
 
-[node name="RoomWorldEnvironment" type="WorldEnvironment" parent="Lighting"]
-environment = SubResource("Environment_room07")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionPoints/HammerPickup"]
+shape = SubResource("BoxShape3D_hammer_interaction")
+
+[node name="VisualReference" type="Node3D" parent="InteractionPoints/HammerPickup"]
+editor_description = "Referencia auxiliar; o script tambem esconde hammer_handle e hammer_head pelo nome no GLB importado."
+
+[node name="NoteInteractable" type="Area3D" parent="InteractionPoints"]
+editor_description = "Area auxiliar ampla para ler o bilhete na mesa sem exigir mira pixel-perfect."
+position = Vector3(1.15, 0.95, -1.35)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("4_interactable_note")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionPoints/NoteInteractable"]
+shape = SubResource("BoxShape3D_note_interaction")
+
+[node name="DoorInteractable" type="Area3D" parent="InteractionPoints"]
+editor_description = "Area auxiliar de interacao da porta do Quarto 07."
+position = Vector3(0, 1.15, 3.02)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_door_interactable")
+CollisionShapesToDisable = Array[NodePath](["../../Collisions/DoorClosedCollision/CollisionShape3D"])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionPoints/DoorInteractable"]
+shape = SubResource("BoxShape3D_door_interaction")
+
+[node name="Lighting" type="Node3D" parent="."]
+editor_description = "Luzes configuradas no Godot para substituir ou complementar a luz de preview do Blender."
 
 [node name="RoomLightPoint" type="OmniLight3D" parent="Lighting"]
+unique_name_in_owner = true
+editor_description = "Luz principal proxima da lampada pendurada."
 position = Vector3(0, 2.05, 0)
 light_color = Color(1, 0.76, 0.48, 1)
 light_energy = 0.85
 omni_range = 4.6
 shadow_enabled = true
 
+[node name="DebugLight" type="OmniLight3D" parent="Lighting"]
+editor_description = "Luz temporaria para leitura do playtest."
+position = Vector3(0, 2.3, 0)
+light_energy = 2.5
+omni_range = 8.0
+
 [node name="Debug" type="Node3D" parent="."]
+editor_description = "Nos temporarios para validar o fluxo da vertical slice."
 
 [node name="DemoEndTrigger" type="Area3D" parent="Debug"]
-position = Vector3(0, 1.1, 3.65)
+unique_name_in_owner = true
+editor_description = "Trigger temporario no fim do corredor placeholder."
+position = Vector3(0, 1.1, 9.1)
+script = ExtResource("6_demo_end_trigger")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Debug/DemoEndTrigger"]
 shape = SubResource("BoxShape3D_demo_end")
