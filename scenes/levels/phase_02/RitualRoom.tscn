@@ -1,0 +1,96 @@
+[gd_scene load_steps=12 format=3 uid="uid://breu_ritual_room"]
+
+[ext_resource type="Script" path="res://scripts/levels/RitualRoomController.cs" id="1_controller"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/NoteReaderUI.tscn" id="4_note_reader"]
+[ext_resource type="PackedScene" path="res://autoload/AudioManager.tscn" id="5_audio_manager"]
+[ext_resource type="Material" path="res://materials/mat_corridor_floor_dark.tres" id="6_mat_floor"]
+[ext_resource type="Material" path="res://materials/mat_corridor_wall_dirty.tres" id="7_mat_wall"]
+[ext_resource type="Material" path="res://materials/mat_corridor_end_dark.tres" id="8_mat_ritual"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(6.0, 0.1, 6.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+size = Vector3(6.0, 2.8, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ritual_table"]
+size = Vector3(1.4, 0.8, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(6.0, 0.1, 6.0)
+
+[node name="RitualRoom" type="Node3D"]
+editor_description = "Placeholder da Fase 2 — Sala dos Santos Secos. Substituir por asset Blender na Sprint D."
+script = ExtResource("1_controller")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = ExtResource("6_mat_floor")
+
+[node name="WallBack" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -3.0)
+mesh = SubResource("BoxMesh_wall")
+surface_material_override/0 = ExtResource("7_mat_wall")
+
+[node name="WallLeft" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.0, 1.4, 0)
+mesh = SubResource("BoxMesh_wall")
+surface_material_override/0 = ExtResource("7_mat_wall")
+
+[node name="WallRight" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.0, 1.4, 0)
+mesh = SubResource("BoxMesh_wall")
+surface_material_override/0 = ExtResource("7_mat_wall")
+
+[node name="RitualTable" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, -1.2)
+mesh = SubResource("BoxMesh_ritual_table")
+surface_material_override/0 = ExtResource("8_mat_ritual")
+
+[node name="CandleLeft" type="OmniLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0.95, -1.2)
+light_color = Color(1, 0.72, 0.38, 1)
+light_energy = 0.65
+omni_range = 2.8
+
+[node name="CandleRight" type="OmniLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0.95, -1.2)
+light_color = Color(1, 0.72, 0.38, 1)
+light_energy = 0.65
+omni_range = 2.8
+
+[node name="Collisions" type="Node3D" parent="."]
+
+[node name="FloorCollision" type="StaticBody3D" parent="Collisions" groups=["surface_concrete"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/FloorCollision"]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="RoomLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+light_color = Color(1, 0.7, 0.42, 1)
+light_energy = 0.35
+omni_range = 5.5
+
+[node name="SpawnPoints" type="Node3D" parent="."]
+
+[node name="PlayerSpawn" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 1.5)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 1.5)
+
+[node name="UI" type="Node" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("3_hud")]
+
+[node name="NoteReaderUI" parent="UI" instance=ExtResource("4_note_reader")]
+
+[node name="AudioManager" parent="UI" instance=ExtResource("5_audio_manager")]

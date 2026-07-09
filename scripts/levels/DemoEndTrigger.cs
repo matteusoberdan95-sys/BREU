@@ -2,8 +2,9 @@ namespace BREU.Scripts.Levels;
 
 public partial class DemoEndTrigger : Area3D
 {
-    [Export] public string Message { get; set; } = "Fim da demo atual. Proxima sprint: porta final/transicao.";
-    [Export] public string HudMessage { get; set; } = "A porta no fim do corredor esta trancada.";
+    [Export] public string Message { get; set; } = "Fim do corredor alcancado.";
+    [Export] public string HudMessage { get; set; } = "";
+    [Export] public bool ShowHudOnEnter { get; set; }
 
     private bool _triggered;
 
@@ -21,6 +22,11 @@ public partial class DemoEndTrigger : Area3D
 
         _triggered = true;
         GD.Print(Message);
+
+        if (!ShowHudOnEnter || string.IsNullOrWhiteSpace(HudMessage))
+        {
+            return;
+        }
 
         if (GetTree().GetFirstNodeInGroup("hud") is HUDController hud)
         {

@@ -167,6 +167,8 @@ Polimento de atmosfera e leitura narrativa: UI do bilhete, sistema de audio opci
 
 ## Sprint 7 — Passos, pulo e pouso
 
+**Commit:** `b55fb18` — FEAT: passos, pulo e sons de movimento do player
+
 **Data:** 2026-07-09 | **Status:** concluida
 
 ### Entregas
@@ -174,4 +176,67 @@ Polimento de atmosfera e leitura narrativa: UI do bilhete, sistema de audio opci
 - Input `jump` = Space.
 - Pulo baixo (`JumpVelocity` 4.0) com custo de stamina e sem double jump.
 - `PlayerFootstepAudio` — passos walk/sprint, jump_start, land_soft/heavy.
-- `PlayerStamina` adicionado ao `Player.tscn` (HUD de stamina funcional ao pular).
+- `PlayerStamina` adicionado ao `Player.tscn`.
+
+---
+
+## Sprint 8 — Superficie dos passos, stamina e agachamento
+
+**Data:** 2026-07-09 | **Status:** concluida
+
+### Entregas
+
+- `SurfaceType`, `SurfaceTag`, `PlayerGroundSurfaceDetector` + `GroundRay` no player.
+- Passos concreto/madeira conforme chao; `WoodTestFloor` temporario no corredor.
+- Stamina: dreno no sprint (`DrainPerSecond`); HUD sincroniza valor ao conectar.
+- Agachamento (`Ctrl`): velocidade reduzida, camera/colisao mais baixas, sem sprint/pulo.
+- `GlobalUsings`: namespace `BREU.Scripts.World`.
+
+---
+
+## Sprint 9 — Documentacao de visao (Fases 1 e 2)
+
+**Data:** 2026-07-09 | **Status:** concluida
+
+### Entregas
+
+- `docs/design/GAME_VISION.md` — visao geral do jogo.
+- `docs/design/STORY_AND_LORE.md` — premissa, culto, O Breu, entidades.
+- `docs/design/PHASE_01_LEVEL_DESIGN.md` — trilha, fachada, Quarto 07, corredor.
+- `docs/design/PHASE_02_LEVEL_DESIGN.md` — Sala dos Santos Secos, O Hospede, quintal.
+- `docs/design/SCENARIO_ART_DIRECTION.md`, `ENEMY_DESIGN.md`, `GAMEPLAY_PILLARS.md`.
+- `docs/production/PHASE_01_02_SPRINT_PLAN.md` — sprints A–F de producao.
+
+---
+
+## Sprint 10 — Porta final e transicao Fase 2
+
+**Data:** 2026-07-09 | **Status:** concluida
+
+### Objetivo
+
+Consolidar fim da Fase 1: porta interativa no corredor, fade entre cenas, placeholder da Fase 2.
+
+### Entregas
+
+- `CorridorEndDoorInteractable` — trancada ate `HasTriggeredCorridorScare`; depois `[E] Entrar`.
+- `SceneTransitionController` (autoload) — fade out/in + `ChangeScene`.
+- `scenes/levels/phase_02/RitualRoom.tscn` + `RitualRoomController`.
+- Fluxo: Quarto 07 → corredor → susto → porta final → RitualRoom.
+- `DemoEndTrigger` sem HUD automatico (porta cuida da mensagem).
+
+### Arquivos principais
+
+- `scripts/interaction/CorridorEndDoorInteractable.cs`
+- `scripts/levels/SceneTransitionController.cs`
+- `autoload/SceneTransition.tscn`
+- `scenes/levels/phase_02/RitualRoom.tscn`
+- `scenes/levels/demo_room/DemoRoom.tscn`
+
+---
+
+## Proxima sprint recomendada
+
+1. Sprint B — trilha de entrada (`TrailIntro.tscn`).
+2. Sprint D — Sala dos Santos Secos no Blender (substituir RitualRoom placeholder).
+3. Sprint E — IA do inimigo placeholder (perseguicao, stun).

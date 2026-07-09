@@ -2,31 +2,43 @@
 
 Ultima atualizacao: 2026-07-09
 
-## Concluido (Sprint 6)
+Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 
-- [x] UI dedicada do bilhete (`NoteReaderUI`)
-- [x] Sistema de audio base (`AudioManager`, `AudioPaths`)
-- [x] Pastas e documentacao de audio
-- [x] Fim do corredor com mensagem e placeholder visual
-- [x] Regras de commit convencional
+## Concluido
 
-## Sprint 7 — Audio real e ambience (prioridade)
+- [x] Sprint A — porta final, interacao, fade, `RitualRoom` placeholder
+- [x] Passos por superficie (concreto / madeira)
+- [x] Stamina sprint + pulo no HUD
+- [x] Agachamento (`Ctrl`)
+- [x] Documentacao de visao Fases 1 e 2
+- [x] Audio pack v01, passos, pulo, bilhete, susto
 
-- [ ] Adicionar `.ogg` listados em `assets/audio/AUDIO_ASSETS_NEEDED.md`
-- [ ] Loops de ambience no quarto e corredor
-- [ ] Ajustar volumes no editor
+## Sprint B — Trilha de entrada (prioridade)
 
-## Sprint 8 — Transicao e corredor final
+- [ ] Blockout `TrailIntro.tscn` (trilha noturna antes do Quarto 07)
+- [ ] Vegetacao seca, cerca, cactos, luz da casa ao longe
+- [ ] Ambience + trigger de chegada a fachada
 
-- [ ] Porta final interativa no fim do corredor
-- [ ] Transicao de cena (proxima area)
-- [ ] Corredor modular Blender
+## Sprint C — Fachada da Pensao Santa Luzia
 
-## Sprint 9 — Inimigo (sem combate completo)
+- [ ] Exterior casa de barro no Blender
+- [ ] `HouseExterior.tscn` + transicao para Quarto 07
 
-- [ ] Modelo Blender substituindo placeholder
-- [ ] Perseguicao simples (`CanChase`)
+## Sprint D — Sala dos Santos Secos
+
+- [ ] Substituir `RitualRoom.tscn` placeholder por asset Blender
+- [ ] Mesa ritual, velas, ossos, cruzes, props regionais
+
+## Sprint E — Primeiro inimigo (placeholder)
+
+- [ ] `EnemyAI.cs` — perseguicao simples
+- [ ] Stun basico, audio de respiração/passos
+- [ ] Reacao a lanterna (futuro proximo)
+
+## Sprint F — O Hospede no Blender
+
+- [ ] Modelo apenas apos validar escala, susto e perseguicao no Godot
 
 ## Fora de escopo ate pedido
 
-- Combate completo, navmesh avancado, multiplos inimigos.
+- Combate completo com durabilidade de armas, navmesh avancado, multiplos inimigos.

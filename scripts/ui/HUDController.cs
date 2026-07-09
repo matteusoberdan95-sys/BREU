@@ -50,9 +50,14 @@ public partial class HUDController : CanvasLayer
             PlayerInteractor.SignalName.FocusChanged,
             Callable.From<string>(OnInteractionFocusChanged));
 
-        player.GetNodeOrNull<PlayerStamina>("PlayerStamina")?.Connect(
-            PlayerStamina.SignalName.StaminaChanged,
-            Callable.From<float, float>(SetStamina));
+        var stamina = player.GetNodeOrNull<PlayerStamina>("PlayerStamina");
+        if (stamina != null)
+        {
+            stamina.Connect(
+                PlayerStamina.SignalName.StaminaChanged,
+                Callable.From<float, float>(SetStamina));
+            SetStamina(stamina.Current, stamina.MaxStamina);
+        }
 
         var flashlight = player.GetNodeOrNull<FlashlightController>("CameraPivot/Flashlight");
         if (flashlight != null)

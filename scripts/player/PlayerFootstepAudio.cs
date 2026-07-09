@@ -1,10 +1,11 @@
 namespace BREU.Scripts.Player;
 
 /// <summary>
-/// Passos, pulo e pouso do player. Superficie: concreto por padrao (madeira reservada).
+/// Passos, pulo e pouso do player. Superficie detectada via PlayerGroundSurfaceDetector.
 /// </summary>
 public partial class PlayerFootstepAudio : AudioStreamPlayer3D
 {
+    [Export] public NodePath SurfaceDetectorPath { get; set; } = "../GroundSurfaceDetector";
     [Export] public AudioStream[] ConcreteFootsteps { get; set; } = Array.Empty<AudioStream>();
     [Export] public AudioStream[] WoodFootsteps { get; set; } = Array.Empty<AudioStream>();
     [Export] public AudioStream? JumpStartSound { get; set; }
@@ -12,11 +13,12 @@ public partial class PlayerFootstepAudio : AudioStreamPlayer3D
     [Export] public AudioStream? LandHeavySound { get; set; }
     [Export] public float WalkStepInterval { get; set; } = 0.55f;
     [Export] public float SprintStepInterval { get; set; } = 0.36f;
+    [Export] public float CrouchStepInterval { get; set; } = 0.78f;
     [Export] public float MinMoveSpeedForSteps { get; set; } = 0.2f;
     [Export] public float HeavyLandVelocity { get; set; } = -7.0f;
     [Export] public float FootstepVolumeDb { get; set; } = -12.0f;
-    [Export] public bool UseWoodFootsteps { get; set; }
 
+    private PlayerGroundSurfaceDetector? _surfaceDetector;
     private float _stepTimer;
     private readonly RandomNumberGenerator _rng = new();
 
@@ -24,10 +26,11 @@ public partial class PlayerFootstepAudio : AudioStreamPlayer3D
     {
         VolumeDb = FootstepVolumeDb;
         _rng.Randomize();
+        _surfaceDetector = GetNodeOrNull<PlayerGroundSurfaceDetector>(SurfaceDetectorPath);
         EnsureDefaultStreams();
     }
 
-    public void UpdateMovementAudio(bool isMoving, bool isSprinting, bool isOnFloor, double delta)
+    public void UpdateMovementAudio(bool isMoving, bool isSprinting, bool isCrouching, bool isOnFloor, double delta)
     {
         if (!isOnFloor || !isMoving)
         {
@@ -35,7 +38,7 @@ public partial class PlayerFootstepAudio : AudioStreamPlayer3D
             return;
         }
 
-        var interval = isSprinting ? SprintStepInterval : WalkStepInterval;
+        var interval = isSprinting ? SprintStepInterval : isCrouching ? CrouchStepInterval : WalkStepInterval;
         _stepTimer += (float)delta;
 
         if (_stepTimer < interval)
@@ -61,15 +64,28 @@ public partial class PlayerFootstepAudio : AudioStreamPlayer3D
 
     private void PlayFootstep()
     {
-        var pool = UseWoodFootsteps && WoodFootsteps.Length > 0 ? WoodFootsteps : ConcreteFootsteps;
+        var surface = _surfaceDetector?.CurrentSurface ?? SurfaceType.Concrete;
+        var pool = GetFootstepPool(surface);
         if (pool.Length == 0)
         {
-            GD.Print("FootstepAudio: nenhum passo configurado.");
             return;
         }
 
         var stream = pool[_rng.RandiRange(0, pool.Length - 1)];
         PlayOneShot(stream, "passo", randomizePitch: true);
+    }
+
+    private AudioStream[] GetFootstepPool(SurfaceType surface)
+    {
+        return surface switch
+        {
+            SurfaceType.Wood when WoodFootsteps.Length > 0 => WoodFootsteps,
+            SurfaceType.Wood => ConcreteFootsteps,
+            SurfaceType.Dirt => ConcreteFootsteps,
+            SurfaceType.Metal => ConcreteFootsteps,
+            SurfaceType.Unknown => ConcreteFootsteps,
+            _ => ConcreteFootsteps
+        };
     }
 
     private void PlayOneShot(AudioStream? stream, string label, bool randomizePitch = false)

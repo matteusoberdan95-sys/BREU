@@ -4,19 +4,34 @@ public partial class PlayerController : CharacterBody3D
 {
     [Export] public float WalkSpeed { get; set; } = 3.2f;
     [Export] public float SprintSpeed { get; set; } = 5.2f;
+    [Export] public float CrouchSpeed { get; set; } = 1.5f;
     [Export] public float Gravity { get; set; } = 18.0f;
     [Export] public float JumpVelocity { get; set; } = 4.0f;
     [Export] public float JumpStaminaCost { get; set; } = 12.0f;
+    [Export] public float SprintStaminaDrainPerSecond { get; set; } = 14.0f;
     [Export] public bool CanJump { get; set; } = true;
+    [Export] public float StandingCapsuleHeight { get; set; } = 1.8f;
+    [Export] public float CrouchingCapsuleHeight { get; set; } = 1.0f;
+    [Export] public float StandingCameraHeight { get; set; } = 0.6f;
+    [Export] public float CrouchingCameraHeight { get; set; } = 0.35f;
+    [Export] public float CrouchTransitionSpeed { get; set; } = 12.0f;
     [Export] public NodePath CameraPath { get; set; } = "CameraPivot/Camera3D";
+    [Export] public NodePath CameraPivotPath { get; set; } = "CameraPivot";
+    [Export] public NodePath CollisionShapePath { get; set; } = "CollisionShape3D";
     [Export] public NodePath FootstepAudioPath { get; set; } = "FootstepAudio";
     [Export] public NodePath StaminaPath { get; set; } = "PlayerStamina";
 
     public bool MovementEnabled { get; set; } = true;
+    public bool IsCrouching { get; private set; }
 
     private PlayerFootstepAudio? _footstepAudio;
     private PlayerStamina? _stamina;
+    private CollisionShape3D? _collisionShape;
+    private CapsuleShape3D? _capsuleShape;
+    private Node3D? _cameraPivot;
     private bool _wasOnFloor = true;
+    private float _crouchBlend;
+    private float _standingCollisionCenterY;
 
     public override void _Ready()
     {
@@ -25,7 +40,17 @@ public partial class PlayerController : CharacterBody3D
         GetNodeOrNull<Camera3D>(CameraPath)?.MakeCurrent();
         _footstepAudio = GetNodeOrNull<PlayerFootstepAudio>(FootstepAudioPath);
         _stamina = GetNodeOrNull<PlayerStamina>(StaminaPath);
+        _collisionShape = GetNodeOrNull<CollisionShape3D>(CollisionShapePath);
+        _cameraPivot = GetNodeOrNull<Node3D>(CameraPivotPath);
+        if (_collisionShape?.Shape is CapsuleShape3D capsule)
+        {
+            _capsuleShape = capsule;
+            StandingCapsuleHeight = capsule.Height;
+            _standingCollisionCenterY = _collisionShape.Position.Y;
+        }
+
         _wasOnFloor = IsOnFloor();
+        ApplyCrouchPose(_crouchBlend);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -38,8 +63,12 @@ public partial class PlayerController : CharacterBody3D
 
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
         var direction = (GlobalTransform.Basis.X * input.X + GlobalTransform.Basis.Z * input.Y).Normalized();
-        var isSprinting = Input.IsActionPressed("sprint") && input.LengthSquared() > 0.01f;
-        var speed = isSprinting ? SprintSpeed : WalkSpeed;
+        UpdateCrouchState(delta);
+
+        var wantsSprint = Input.IsActionPressed("sprint") && input.LengthSquared() > 0.01f && !IsCrouching;
+        var canSprint = wantsSprint && (_stamina == null || _stamina.Current > 0.0f);
+        var isSprinting = canSprint;
+        var speed = IsCrouching ? CrouchSpeed : isSprinting ? SprintSpeed : WalkSpeed;
 
         var moveVelocity = Velocity;
         moveVelocity.X = direction.X * speed;
@@ -71,9 +100,14 @@ public partial class PlayerController : CharacterBody3D
             _footstepAudio?.PlayLand(verticalBeforeMove);
         }
 
+        if (isSprinting && isOnFloor && input.LengthSquared() > 0.01f)
+        {
+            _stamina?.DrainPerSecond(SprintStaminaDrainPerSecond, delta);
+        }
+
         var horizontalSpeed = new Vector2(Velocity.X, Velocity.Z).Length();
         var isMoving = isOnFloor && horizontalSpeed >= (_footstepAudio?.MinMoveSpeedForSteps ?? 0.2f);
-        _footstepAudio?.UpdateMovementAudio(isMoving, isSprinting && isMoving, isOnFloor, delta);
+        _footstepAudio?.UpdateMovementAudio(isMoving, isSprinting && isMoving, IsCrouching && isMoving, isOnFloor, delta);
 
         _wasOnFloor = isOnFloor;
     }
@@ -97,9 +131,68 @@ public partial class PlayerController : CharacterBody3D
         _wasOnFloor = IsOnFloor();
     }
 
+    private void UpdateCrouchState(double delta)
+    {
+        var wantsCrouch = Input.IsActionPressed("crouch");
+        if (!wantsCrouch && IsCrouching && !CanStandUp())
+        {
+            wantsCrouch = true;
+        }
+
+        IsCrouching = wantsCrouch;
+
+        var targetBlend = IsCrouching ? 1.0f : 0.0f;
+        _crouchBlend = Mathf.MoveToward(_crouchBlend, targetBlend, CrouchTransitionSpeed * (float)delta);
+        ApplyCrouchPose(_crouchBlend);
+    }
+
+    private void ApplyCrouchPose(float blend)
+    {
+        var capsuleHeight = Mathf.Lerp(StandingCapsuleHeight, CrouchingCapsuleHeight, blend);
+        if (_capsuleShape != null)
+        {
+            _capsuleShape.Height = capsuleHeight;
+        }
+
+        if (_collisionShape != null)
+        {
+            var feetY = _standingCollisionCenterY - StandingCapsuleHeight * 0.5f;
+            _collisionShape.Position = new Vector3(0.0f, feetY + capsuleHeight * 0.5f, 0.0f);
+        }
+
+        if (_cameraPivot != null)
+        {
+            var cameraHeight = Mathf.Lerp(StandingCameraHeight, CrouchingCameraHeight, blend);
+            _cameraPivot.Position = new Vector3(0.0f, cameraHeight, 0.0f);
+        }
+    }
+
+    private bool CanStandUp()
+    {
+        if (_capsuleShape == null)
+        {
+            return true;
+        }
+
+        var extraHeight = StandingCapsuleHeight - CrouchingCapsuleHeight;
+        if (extraHeight <= 0.01f)
+        {
+            return true;
+        }
+
+        var feetY = GlobalPosition.Y + _standingCollisionCenterY - CrouchingCapsuleHeight * 0.5f;
+        var from = new Vector3(GlobalPosition.X, feetY + CrouchingCapsuleHeight, GlobalPosition.Z);
+        var to = from + Vector3.Up * extraHeight;
+        var query = PhysicsRayQueryParameters3D.Create(from, to);
+        query.CollisionMask = CollisionMask;
+        query.Exclude = [GetRid()];
+
+        return GetWorld3D().DirectSpaceState.IntersectRay(query).Count == 0;
+    }
+
     private bool TryJump(ref Vector3 velocity, bool isOnFloor)
     {
-        if (!CanJump || !isOnFloor || !Input.IsActionJustPressed("jump"))
+        if (!CanJump || !isOnFloor || IsCrouching || !Input.IsActionJustPressed("jump"))
         {
             return false;
         }
@@ -121,6 +214,7 @@ public partial class PlayerController : CharacterBody3D
         EnsureKeyAction("move_left", Key.A);
         EnsureKeyAction("move_right", Key.D);
         EnsureKeyAction("sprint", Key.Shift);
+        EnsureKeyAction("crouch", Key.Ctrl);
         EnsureKeyAction("jump", Key.Space);
         EnsureKeyAction("flashlight_toggle", Key.F);
         EnsureKeyAction("interact", Key.E);

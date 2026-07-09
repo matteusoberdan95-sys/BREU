@@ -49,4 +49,16 @@ public partial class PlayerStamina : Node
         EmitSignal(SignalName.StaminaChanged, Current, MaxStamina);
         return true;
     }
+
+    public void DrainPerSecond(float perSecond, double delta)
+    {
+        if (perSecond <= 0.0f || Current <= 0.0f)
+        {
+            return;
+        }
+
+        Current = Mathf.Max(0.0f, Current - perSecond * (float)delta);
+        _regenDelayRemaining = RegenDelaySeconds;
+        EmitSignal(SignalName.StaminaChanged, Current, MaxStamina);
+    }
 }

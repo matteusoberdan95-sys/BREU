@@ -6,10 +6,10 @@ Este arquivo e o ponto de entrada para Codex, Cursor IDE, Cursor CLI ou qualquer
 
 1. `docs/PROJECT_STATE.md`
 2. `docs/HANDOFF.md`
-3. `docs/gameplay/NEXT_SPRINT_TASKS.md`
-4. `docs/technical/TDD.md`
-5. `docs/design/GDD.md`
-6. `docs/design/IMPLEMENTATION_PLAN.md`
+3. `docs/design/GAME_VISION.md`
+4. `docs/gameplay/NEXT_SPRINT_TASKS.md`
+5. `docs/technical/TDD.md`
+6. `docs/design/GDD.md`
 
 Depois leia os docs de agentes em `docs/agents/` relacionados a tarefa atual.
 
@@ -26,26 +26,23 @@ Depois leia os docs de agentes em `docs/agents/` relacionados a tarefa atual.
 
 O jogador consegue:
 
-- andar em primeira pessoa;
-- olhar com mouse;
-- correr;
-- ligar/desligar lanterna;
-- ver prompts de interacao no HUD;
-- ler o bilhete;
-- coletar o martelo;
-- ver o martelo placeholder na mao;
-- abrir a porta;
-- sair para um corredor placeholder;
-- chegar a um trigger de fim de demo.
+- andar, correr (stamina), agachar (`Ctrl`) e pular (`Space`);
+- ouvir passos por superficie (concreto / madeira);
+- usar lanterna com HUD de bateria;
+- ler bilhete na `NoteReaderUI`;
+- coletar martelo e abrir porta do quarto;
+- percorrer corredor, disparar susto (Z ~5.5);
+- interagir com porta final: trancada ate susto, depois `Entrar` → fade → `RitualRoom.tscn`.
+
+Fluxo: **Quarto 07 → corredor → susto → porta final → Fase 2 placeholder**.
 
 Ainda nao existe:
 
-- combate ativo;
-- inimigo ativo na demo room;
-- UI final de leitura de bilhete;
-- animacao real de porta;
-- corredor final modular;
-- audio/ambiencia.
+- combate funcional completo;
+- IA de perseguicao;
+- trilha de entrada e fachada da casa;
+- Sala dos Santos Secos modelada (so placeholder);
+- inimigo Blender final.
 
 ## Validacao Minima
 

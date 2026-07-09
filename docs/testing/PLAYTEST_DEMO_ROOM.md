@@ -14,6 +14,7 @@
 - `A`: andar para a esquerda.
 - `D`: andar para a direita.
 - `Shift`: correr.
+- `Ctrl`: agachar (segurar).
 - `Space`: pular.
 - `Mouse`: olhar ao redor.
 - `F`: ligar/desligar a lanterna.
@@ -79,8 +80,9 @@ Script: `res://scripts/player/PlayerFootstepAudio.cs`
 ### Controles
 
 - `WASD` — andar (passos em intervalo ~0.55s).
-- `Shift` + movimento — correr (passos ~0.36s).
-- `Space` — pulo baixo (`JumpVelocity` 4.0); custa 12 de stamina se `PlayerStamina` estiver ativo.
+- `Shift` + movimento — correr (passos ~0.36s; drena stamina ~14/s).
+- `Ctrl` (segurar) — agachar: movimento lento (~1.5 m/s), camera e colisao mais baixas; sem sprint nem pulo.
+- `Space` — pulo baixo (`JumpVelocity` 4.0); custa 12 de stamina.
 - Parado — sem passos.
 
 ### Como testar passos andando
@@ -113,9 +115,45 @@ Script: `res://scripts/player/PlayerFootstepAudio.cs`
 
 Ajustar no inspector de `Player/FootstepAudio` se necessario.
 
-### Problema conhecido
+### Deteccao de superficie dos passos
 
-Ainda nao ha deteccao real de superficie (raycast/material). Todos os passos usam **concreto** por padrao; madeira (`footstep_wood_*.ogg`) fica preparada para sprint futura.
+O player usa `GroundRay` (`RayCast3D` para baixo, Y -1.4) via `PlayerGroundSurfaceDetector`.
+
+Chao marcado com `SurfaceTag` ou grupos `surface_*` define o som:
+
+| Superficie | Som |
+|------------|-----|
+| `SurfaceTag = Concrete` ou grupo `surface_concrete` | `footstep_concrete_01..04` |
+| `SurfaceTag = Wood` ou grupo `surface_wood` | `footstep_wood_01..04` |
+| Dirt / Metal / desconhecido | concreto (fallback) |
+
+Volumes marcados no `DemoRoom.tscn`:
+
+- `Collisions/FloorCollision` — Concrete + `surface_concrete`
+- `CorridorPlaceholder/CorridorCollisions/CorridorFloorCollision` — Concrete
+- `CorridorPlaceholder/WoodTestFloor` — Wood (area temporaria de teste)
+
+#### Como testar concreto
+
+1. F6 em `DemoRoom.tscn`.
+2. Andar pelo quarto com WASD.
+3. Confirmar passos de concreto (`footstep_concrete_01..04`).
+
+#### Como testar madeira
+
+1. Abrir a porta e entrar no corredor.
+2. Andar sobre o trecho marrom (`WoodTestFloor`, Z ~5.5).
+3. Confirmar passos de madeira (`footstep_wood_01..04`).
+4. Voltar ao restante do corredor — concreto novamente.
+
+Se a superficie nao for identificada, o jogo usa concreto como fallback.
+
+### Stamina no HUD
+
+- Correr (`Shift` + WASD) drena stamina continuamente.
+- Pular (`Space`) consome 12 de stamina.
+- A barra `Stamina X/100` no HUD deve atualizar em tempo real.
+- Sem stamina suficiente, sprint e pulo sao bloqueados ate regenerar.
 
 ## Interacoes
 
@@ -248,7 +286,14 @@ Observacao: o corredor ainda e placeholder feito com `BoxMesh` no Godot. Sera su
 
 - Caminho: `DemoRoom/CorridorPlaceholder/CorridorEndTrigger`
 - Posicao aproximada: `X 0, Y 1.0, Z 8.7`
-- Ao entrar na area, imprime fim da demo no console (sem pausar nem trocar cena).
+- Ao entrar na area, imprime no console (sem HUD automatico).
+
+### Porta final do corredor
+
+- Caminho: `DemoRoom/CorridorPlaceholder/CorridorEndDoorInteractable`
+- Visual: `CorridorEndDoorPlaceholder`
+- Antes do susto: prompt `[E] A porta esta trancada` + som de tranca.
+- Apos o susto (`CorridorScareTrigger`): prompt `[E] Entrar` + fade para `RitualRoom.tscn`.
 
 ### Testar colisao do corredor
 
@@ -416,15 +461,19 @@ Teste sem `.ogg`:
 
 ### Fim do corredor
 
-Caminho: `DemoRoom/CorridorPlaceholder/CorridorEndTrigger`
+Caminho: `DemoRoom/CorridorPlaceholder/CorridorEndDoorInteractable`
 
 Visual: `CorridorEndDoorPlaceholder` (porta escura no fim)
 
 Teste:
 
-1. Chegar ao fim (Z ~8.7).
-2. HUD: `A porta no fim do corredor esta trancada.`
-3. Console: `Fim da demo atual. Proxima sprint: porta final/transicao.`
+1. Chegar ao fim (Z ~8.7) **antes** do susto.
+2. Mirar na porta e pressionar `E`.
+3. HUD: `A porta esta trancada.` + som de tranca.
+4. Voltar, passar pelo `CorridorScareTrigger` (Z ~5.5).
+5. Retornar ao fim e interagir de novo.
+6. Prompt `[E] Entrar` → fade out → `RitualRoom.tscn` → fade in.
+7. Na Fase 2 placeholder: mensagem `Fase 2 — Sala dos Santos Secos (placeholder)`.
 
 ### Direcao de atmosfera
 
