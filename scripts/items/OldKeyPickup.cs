@@ -23,6 +23,7 @@ public partial class OldKeyPickup : Area3D, IInteractable
         }
 
         HasOldKey = true;
+        GetNodeOrNull<GameSession>("/root/GameSession")?.CollectOldKey();
         PlayPickupSound();
         ShowMessage("Chave Velha coletada.");
         GD.Print("Item coletado: Chave Velha");
@@ -39,8 +40,7 @@ public partial class OldKeyPickup : Area3D, IInteractable
         {
             shape.Disabled = true;
         }
-
-        // TODO: integrar com inventario persistente quando o sistema de chaves existir.
+        player.GetNodeOrNull<PlayerWeaponController>("PlayerWeaponController")?.RefreshWeaponFromSession();
     }
 
     private void PlayPickupSound()

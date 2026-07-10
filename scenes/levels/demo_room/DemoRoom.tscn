@@ -224,7 +224,10 @@ script = ExtResource("6_demo_end_trigger")
 shape = SubResource("BoxShape3D_corridor_end_trigger")
 
 [node name="EnemyPlaceholder" parent="CorridorPlaceholder" instance=ExtResource("15_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 8.2)
+CanChase = false
+GroundY = 0.05
+LockVerticalMovement = true
 
 [node name="ScareTriggers" type="Node3D" parent="CorridorPlaceholder"]
 

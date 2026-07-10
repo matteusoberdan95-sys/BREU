@@ -1,45 +1,118 @@
-[gd_scene load_steps=7 format=3 uid="uid://breu_enemy_placeholder"]
+[gd_scene load_steps=12 format=3 uid="uid://breu_enemy_placeholder"]
 
-[ext_resource type="Script" path="res://scripts/enemies/EnemyPlaceholder.cs" id="1_enemy"]
+[ext_resource type="Script" path="res://scripts/enemies/EnemyPlaceholderAI.cs" id="1_enemy_ai"]
 
 [sub_resource type="StandardMaterial3D" id="BodyMaterial"]
-albedo_color = Color(0.05, 0.05, 0.06, 1)
+albedo_color = Color(0.13, 0.13, 0.15, 1)
 roughness = 1.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
-radius = 0.28
-height = 1.35
+radius = 0.35
+height = 1.8
 
 [sub_resource type="SphereMesh" id="SphereMesh_head"]
-radius = 0.18
-height = 0.36
+radius = 0.2
+height = 0.4
 
 [sub_resource type="StandardMaterial3D" id="HeadMaterial"]
-albedo_color = Color(0.08, 0.08, 0.09, 1)
+albedo_color = Color(0.17, 0.17, 0.19, 1)
 roughness = 1.0
 
+[sub_resource type="StandardMaterial3D" id="EyeGlowMaterial"]
+albedo_color = Color(0.95, 0.66, 0.28, 1)
+emission_enabled = true
+emission = Color(0.95, 0.48, 0.16, 1)
+emission_energy_multiplier = 1.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_eye"]
+size = Vector3(0.055, 0.035, 0.025)
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
-radius = 0.28
-height = 1.35
+radius = 0.35
+height = 1.8
 
-[node name="EnemyPlaceholder" type="Node3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_detection"]
+radius = 7.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_attack"]
+radius = 1.35
+
+[node name="EnemyPlaceholder" type="CharacterBody3D"]
 visible = false
-script = ExtResource("1_enemy")
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_enemy_ai")
+MoveSpeed = 1.2
+ChaseSpeed = 1.8
+AttackRange = 1.35
+AttackCooldown = 1.8
+StunDuration = 1.1
+Damage = 12
+StartDormant = true
+GroundY = 0.05
+LockVerticalMovement = true
 
-[node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 0.9, 0)
 mesh = SubResource("CapsuleMesh_body")
 surface_material_override/0 = SubResource("BodyMaterial")
 
-[node name="Head" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, 0)
+[node name="HeadMesh" type="MeshInstance3D" parent="Visual"]
+position = Vector3(0, 1.75, 0)
 mesh = SubResource("SphereMesh_head")
 surface_material_override/0 = SubResource("HeadMaterial")
 
-[node name="Eyes" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, -0.12)
+[node name="Eyes" type="Node3D" parent="Visual"]
+position = Vector3(0, 1.75, -0.13)
+
+[node name="EyeLeft" type="MeshInstance3D" parent="Visual/Eyes"]
+position = Vector3(-0.07, 0.02, 0)
+mesh = SubResource("BoxMesh_eye")
+surface_material_override/0 = SubResource("EyeGlowMaterial")
+
+[node name="EyeRight" type="MeshInstance3D" parent="Visual/Eyes"]
+position = Vector3(0.07, 0.02, 0)
+mesh = SubResource("BoxMesh_eye")
+surface_material_override/0 = SubResource("EyeGlowMaterial")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+position = Vector3(0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_body")
 disabled = true
+
+[node name="Audio" type="Node3D" parent="."]
+
+[node name="BreathAudio" type="AudioStreamPlayer3D" parent="Audio"]
+volume_db = -10.0
+max_distance = 14.0
+attenuation_model = 1
+
+[node name="StepAudio" type="AudioStreamPlayer3D" parent="Audio"]
+volume_db = -8.0
+max_distance = 12.0
+attenuation_model = 1
+
+[node name="GrowlAudio" type="AudioStreamPlayer3D" parent="Audio"]
+volume_db = -6.0
+max_distance = 16.0
+attenuation_model = 1
+
+[node name="DetectionArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("SphereShape3D_detection")
+
+[node name="AttackArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackArea"]
+shape = SubResource("SphereShape3D_attack")

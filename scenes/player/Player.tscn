@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://breu_player"]
+[gd_scene load_steps=18 format=3 uid="uid://breu_player"]
 
 [ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_controller"]
 [ext_resource type="Script" path="res://scripts/player/PlayerLook.cs" id="2_look"]
@@ -9,6 +9,8 @@
 [ext_resource type="Script" path="res://scripts/player/PlayerFootstepAudio.cs" id="7_footstep"]
 [ext_resource type="Script" path="res://scripts/player/PlayerStamina.cs" id="8_stamina"]
 [ext_resource type="Script" path="res://scripts/player/PlayerGroundSurfaceDetector.cs" id="9_surface_detector"]
+[ext_resource type="Script" path="res://scripts/player/PlayerHealth.cs" id="10_health"]
+[ext_resource type="Script" path="res://scripts/player/PlayerWeaponController.cs" id="11_weapon_controller"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.32
@@ -96,8 +98,14 @@ script = ExtResource("4_interactor")
 [node name="PlayerInventory" type="Node" parent="."]
 script = ExtResource("5_inventory")
 
+[node name="PlayerWeaponController" type="Node" parent="."]
+script = ExtResource("11_weapon_controller")
+
 [node name="PlayerEquipmentView" type="Node" parent="."]
 script = ExtResource("6_equipment_view")
 
 [node name="PlayerStamina" type="Node" parent="."]
 script = ExtResource("8_stamina")
+
+[node name="PlayerHealth" type="Node" parent="."]
+script = ExtResource("10_health")

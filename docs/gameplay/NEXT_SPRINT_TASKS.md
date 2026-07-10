@@ -48,19 +48,26 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [x] Criar luzes de vela/altar/fill escuro.
 - [x] Criar bilhete ritual interativo.
 - [x] Criar Chave Velha coletavel simples.
+- [x] Persistir Chave Velha em `GameSession`.
 - [x] Criar trigger de susto ritualistico.
-- [x] Preparar `EnemyPlaceholder` para aparicao sem combate.
+- [x] Preparar `EnemyPlaceholder` para aparicao inicial.
 - [x] Criar porta de saida bloqueada.
 - [ ] Validar escala/orientacao da Sala dos Santos Secos no editor.
-- [ ] Integrar Chave Velha ao inventario real.
+- [x] Integrar estado simples da Chave Velha ao `GameSession`.
 - [ ] Criar objetivo para liberar porta de saida.
 
 ## Sprint E - Primeiro inimigo placeholder
 
-- [ ] `EnemyAI.cs` - perseguicao simples.
-- [ ] Stun basico.
-- [ ] Audio de respiracao/passos.
+- [x] `EnemyPlaceholderAI.cs` - perseguicao simples.
+- [x] Ataque simples com dano no player.
+- [x] `PlayerHealth.cs`.
+- [x] Stun basico preparado.
+- [x] Audio de respiracao/passos/growl.
+- [x] Spawn/capsula do placeholder estabilizados na Sala dos Santos Secos.
+- [x] Martelo Enferrujado persistente entre cenas via `GameSession`.
 - [ ] Reacao a lanterna em prototipo futuro.
+- [ ] Integrar stun/impacto ao martelo.
+- [ ] Criar feedback visual/HUD de vida.
 
 ## Sprint F - O Hospede no Blender
 

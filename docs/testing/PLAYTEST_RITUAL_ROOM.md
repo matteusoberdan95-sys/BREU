@@ -92,7 +92,25 @@ Interativo:
 4. Confirmar mensagem `Chave Velha coletada.`.
 5. Confirmar debug `Item coletado: Chave Velha`.
 
-A chave ainda nao entra em inventario completo. O script guarda apenas estado local (`HasOldKey`).
+A chave tambem marca `GameSession.HasOldKey`. Ela nao remove o martelo equipado.
+
+## Como validar martelo persistente
+
+Para testar a RitualRoom com arma:
+
+1. Rodar o fluxo completo desde `TrailIntro`.
+2. Entrar no Quarto 07.
+3. Pegar o `Martelo Enferrujado`.
+4. Confirmar no HUD:
+
+```text
+Arma: Martelo Enferrujado 10/10
+```
+
+5. Entrar na `RitualRoom` pela porta final do corredor.
+6. Confirmar que o HUD continua mostrando o martelo.
+7. Confirmar que o visual placeholder do martelo continua na mao.
+8. Pegar a `Chave Velha` e confirmar que o martelo continua equipado.
 
 ## Como testar o susto
 
@@ -108,8 +126,88 @@ Ao cruzar a area perto do centro/frente da sala:
 - `CandleLightMain` e `BackAltarLight` piscam por 2 segundos;
 - `EnemyPlaceholder` aparece no fundo/lateral da sala;
 - console imprime `RitualRoomScareTrigger ativado.`
+- o console nao deve ficar repetindo mensagens de recuperacao de piso.
 
-O inimigo nao persegue e nao causa dano nesta sprint.
+## EnemyPlaceholder
+
+Cena:
+
+`res://scenes/enemies/EnemyPlaceholder.tscn`
+
+Script:
+
+`res://scripts/enemies/EnemyPlaceholderAI.cs`
+
+Posicao na RitualRoom:
+
+```text
+X -0.85
+Y 0.05
+Z 2.45
+```
+
+Estado inicial:
+
+- `Visible = false`
+- `StartDormant = true`
+- `CanChase = true`
+- `LockVerticalMovement = true`, temporario para impedir que o placeholder afunde no piso.
+
+Ao cruzar `Triggers/RitualScareTrigger`:
+
+1. As luzes piscam.
+2. O radio chia.
+3. O inimigo aparece.
+4. O inimigo toca growl, olha para o player e entra em `Alert`.
+5. Depois entra em `Chasing` e caminha diretamente ate o player.
+6. Se chegar perto o suficiente, entra em `Attacking`.
+
+### Como testar perseguicao
+
+1. Disparar o susto.
+2. Recuar da mesa e observar o inimigo vindo em direcao ao player.
+3. Confirmar que ele nasce visivel, acima do piso e sem ficar preso no canto.
+4. Tentar usar mesa/colisoes para confirmar que o `CharacterBody3D` nao atravessa paredes.
+5. Escutar respiracao em loop e passos durante a perseguicao.
+
+### Como testar ataque do inimigo
+
+1. Deixar o inimigo chegar perto.
+2. Confirmar growl/ataque em intervalo.
+3. Confirmar console:
+
+```text
+Player tomou dano: 12
+```
+
+4. Confirmar mensagem HUD:
+
+```text
+Voce foi atingido.
+```
+
+Morte ainda nao tem tela propria. Se a vida chegar a zero, o console deve imprimir:
+
+```text
+Player morreu. TODO: implementar tela de morte.
+```
+
+### Como testar stun via metodo/debug
+
+Antes de testar combate real do player, pegue o martelo no Quarto 07 e confirme que `GameSession` manteve a arma na RitualRoom. O ataque do player com martelo ainda entra na proxima etapa.
+
+Para teste tecnico, chamar em debug o metodo do inimigo:
+
+```csharp
+ReceiveHit(10)
+```
+
+Resultado esperado:
+
+- console imprime `EnemyPlaceholder recebeu hit.`;
+- inimigo entra em `Stunned`;
+- para por alguns segundos;
+- volta para `Chasing`.
 
 ## Como testar a porta de saida bloqueada
 
@@ -130,7 +228,11 @@ A porta esta trancada. Alguma coisa precisa ser feita primeiro.
 ## Problemas conhecidos
 
 - Colisoes ainda sao caixas temporarias.
-- A chave usa estado local e ainda nao integra com inventario persistente.
-- O inimigo placeholder aparece, mas nao persegue nem ataca.
+- O inimigo ainda e placeholder simples: corpo/cabeca/capsula, sem modelo final do Blender.
+- A IA persegue diretamente, sem navmesh; pode ficar limitada por moveis ate criarmos pathfinding.
+- O movimento vertical do inimigo esta travado de proposito durante o prototipo.
+- A chave ja marca `GameSession`, mas ainda nao abre objetivo/porta.
+- O dano do player e simples; ainda nao ha tela de morte.
+- O stun esta preparado por metodo, mas ainda nao conectado ao martelo.
 - A porta de saida nao troca de cena.
 - A sala usa o GLB importado como visual; gameplay fica em nos auxiliares Godot.

@@ -125,7 +125,7 @@ A fachada visual da Pensao Santa Luzia foi integrada diretamente ao fim de `Trai
 - [x] Bilhete ritual interativo
 - [x] Chave Velha coletavel com estado local
 - [x] Trigger de susto ritualistico
-- [x] `EnemyPlaceholder` preparado para aparicao sem combate
+- [x] `EnemyPlaceholder` preparado inicialmente para aparicao
 - [x] Porta de saida bloqueada
 
 ### Proximos ajustes
@@ -133,11 +133,13 @@ A fachada visual da Pensao Santa Luzia foi integrada diretamente ao fim de `Trai
 - Integrar Chave Velha ao inventario real.
 - Criar objetivo para liberar porta de saida.
 - Refinar colisoes conforme escala do GLB.
-- Evoluir inimigo para presenca/perseguicao apenas apos validar o susto.
+- Evoluir inimigo para perseguicao/ataque simples na Sprint E.
 
 ---
 
 ## Sprint E - Primeiro Inimigo Placeholder
+
+**Status:** base jogavel criada.
 
 ### Objetivos
 
@@ -150,10 +152,19 @@ A fachada visual da Pensao Santa Luzia foi integrada diretamente ao fim de `Trai
 
 ### Godot
 
-- `EnemyPlaceholder.tscn`
-- `EnemyAI.cs`
-- `EnemyPerception.cs`
-- `EnemyAudio.cs`
+- [x] `EnemyPlaceholder.tscn` convertido para `CharacterBody3D`
+- [x] `EnemyPlaceholderAI.cs` com estados `Dormant`, `Idle`, `Alert`, `Chasing`, `Attacking`, `Stunned`
+- [x] Perseguicao direta simples ate o player
+- [x] Ataque com cooldown e dano simples
+- [x] `PlayerHealth.cs` com `TakeDamage` e `Heal`
+- [x] Audio basico de respiracao, passos e growl
+- [x] `ApplyStun` e `ReceiveHit` preparados para proxima sprint
+
+### Proximos ajustes
+
+- Integrar stun/impacto ao martelo.
+- Criar HUD de vida ou feedback visual de dano.
+- Ajustar perseguicao com NavigationAgent3D se a sala exigir.
 
 Nao usar Blender ainda.
 

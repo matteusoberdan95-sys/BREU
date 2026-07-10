@@ -55,9 +55,11 @@ Interativos ativos na demo:
 - `HammerPickup`: registra o martelo no inventario, esconde os visuais importados e ativa o placeholder na mao.
 - `DoorInteractable`: abre a passagem para o corredor placeholder.
 
-### Inventario
+### Sessao e inventario
 
-`PlayerInventory` guarda estado simples do martelo: `HasHammer`, `EquippedWeaponName`, `EquippedWeaponDurability` e `PickupHammer(int durability)`. Nao ha combate nem troca de arma nesta etapa.
+`GameSession` e um autoload em `res://scripts/system/GameSession.cs`. Ele guarda estado em memoria enquanto o jogo roda: `HasRustyHammer`, `HasOldKey`, `CurrentWeaponName`, `CurrentWeaponDurability` e `CurrentWeaponMaxDurability`. Nao salva em disco ainda.
+
+`PlayerInventory` continua existindo como estado local do Player instanciado na cena, mas agora e sincronizado com `GameSession` por `PlayerWeaponController`. Isso permite trocar de cena e manter o martelo equipado.
 
 ### HUD
 
@@ -65,7 +67,7 @@ Interativos ativos na demo:
 
 ### Equipamento visual
 
-`PlayerEquipmentView` mostra `WeaponHand/HammerVisual` quando `PlayerInventory.HasHammer` fica verdadeiro. O martelo na mao e placeholder editavel, sem animacao e sem combate.
+`PlayerEquipmentView` mostra o placeholder `CameraPivot/Camera3D/WeaponHolder/EquippedHammerVisual` quando `PlayerInventory.HasHammer` fica verdadeiro. `PlayerWeaponController` consulta `GameSession` no `_Ready()` do Player e reativa esse visual ao carregar cenas novas. O martelo na mao ainda nao tem animacao final.
 
 ### Ambiente
 
@@ -85,6 +87,8 @@ Interativos ativos na demo:
 
 `CheckpointManager` e autoload em `res://scenes/system/CheckpointManager.tscn`. Ele guarda apenas `LastSceneName` e `LastCheckpoint` em memoria; nao existe save em disco ainda.
 
+`GameSession` e autoload em `res://scripts/system/GameSession.cs`. Ele preserva arma atual e Chave Velha entre trocas de cena, mas nao persiste apos fechar o jogo.
+
 ### Triggers de level
 
 `HouseEntryTrigger` e um `Area3D` antigo da Trilha Noturna. Ele ficou preservado como fallback, mas esta desativado no fluxo principal.
@@ -95,7 +99,7 @@ Interativos ativos na demo:
 
 `BackToTrailTrigger` e um `Area3D` informativo usado na fachada. Ele mostra mensagem e imprime debug, mas ainda nao troca cena.
 
-`RitualRoomScareTrigger` e um `Area3D` de susto da Sala dos Santos Secos. Ele mostra mensagem, toca stinger quando disponivel, liga radio static por alguns segundos, pisca luzes e revela `EnemyPlaceholder` sem combate.
+`RitualRoomScareTrigger` e um `Area3D` de susto da Sala dos Santos Secos. Ele mostra mensagem, toca stinger quando disponivel, liga radio static por alguns segundos, pisca luzes e ativa `EnemyPlaceholderAI`.
 
 `RitualExitDoorTrigger` e a porta bloqueada da Sala dos Santos Secos. Mostra mensagem no HUD, imprime debug e ainda nao troca cena.
 
@@ -103,7 +107,7 @@ Interativos ativos na demo:
 
 `RitualNoteInteractable` abre `NoteReaderUI` com o bilhete da Sala dos Santos Secos e registra checkpoint `Ritual_Note_Read`.
 
-`OldKeyPickup` coleta a Chave Velha com estado local `HasOldKey`, som de pickup quando disponivel e mensagem no HUD. Inventario persistente fica para sprint futura.
+`OldKeyPickup` coleta a Chave Velha com estado local `HasOldKey`, chama `GameSession.CollectOldKey()`, toca som quando disponivel e mostra mensagem no HUD. Ele nao limpa nem troca a arma equipada.
 
 ## Sistemas preparados, mas fora da demo atual
 
@@ -117,7 +121,15 @@ Interativos ativos na demo:
 
 ### Inimigo
 
-`EnemyAI` e `EnemyHealth` existem como base futura. Inimigo nao deve ser ativado no Quarto 07 ate o usuario pedir combate/encontro.
+`EnemyPlaceholderAI` controla o inimigo placeholder usado na Sala dos Santos Secos. Ele herda de `CharacterBody3D`, possui estados `Dormant`, `Idle`, `Alert`, `Chasing`, `Attacking` e `Stunned`, persegue diretamente o player com `MoveAndSlide`, toca audio basico e aplica dano simples via `PlayerHealth`.
+
+O placeholder usa origem nos pes, capsula alinhada acima do piso e ajuste inicial unico de altura ao ativar. Durante o prototipo, `LockVerticalMovement` fica ligado para manter o inimigo no plano do piso e evitar que ele afunde enquanto ainda nao temos navmesh/colisoes finais. Nao ha recuperacao de piso rodando todo frame.
+
+`EnemyAI` e `EnemyHealth` continuam como base futura para inimigos mais completos.
+
+### PlayerHealth
+
+`PlayerHealth` e um no filho de `Player.tscn`. Ele guarda `MaxHealth`, `CurrentHealth`, `TakeDamage(int)` e `Heal(int)`. Por enquanto, dano imprime debug e mostra mensagem simples no HUD; morte ainda e TODO.
 
 ## Decisoes temporarias
 
@@ -127,7 +139,7 @@ Interativos ativos na demo:
 - Martelo, bilhete e porta usam `Area3D` auxiliar em `DemoRoom/InteractionPoints`.
 - A porta usa `DoorInteractable`; ao abrir, desativa `DoorClosedCollision` e tenta esconder `door_01`.
 - `DemoRoom/Environment/CorridorPlaceholder` fornece um corredor curto temporario depois da porta, com chao, paredes, teto, bloqueio final e `DemoEndTrigger`.
-- Combate e inimigo nao entram neste playtest inicial.
+- Combate completo ainda nao entra neste playtest; o inimigo da RitualRoom ja persegue e aplica dano simples.
 - HUD usa Labels simples, sem arte final.
 - `TrailIntro.tscn` ainda usa colisoes laterais retas.
 - `HouseExterior.tscn` usa colisoes temporarias em caixas, porta sem animacao visual, entrada por prompt `[E]` e retorno para trilha apenas informativo.

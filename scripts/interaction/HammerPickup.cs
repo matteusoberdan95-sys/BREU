@@ -30,7 +30,15 @@ public partial class HammerPickup : Area3D, IInteractable
         }
 
         _collected = true;
+
+        var session = GetNodeOrNull<GameSession>("/root/GameSession");
+        if (session != null)
+        {
+            session.EquipRustyHammer();
+        }
+
         player.GetNodeOrNull<PlayerInventory>("PlayerInventory")?.PickupHammer(Durability);
+        player.GetNodeOrNull<PlayerWeaponController>("PlayerWeaponController")?.RefreshWeaponFromSession();
 
         var hidConfiguredVisual = HideConfiguredVisuals();
         var hidFallbackVisual = hidConfiguredVisual || HideFallbackVisuals();

@@ -255,6 +255,52 @@ TrailIntro -> DemoRoom -> RitualRoom
 
 ## Proxima sprint recomendada
 
+## Sprint 16 - IA basica do EnemyPlaceholder
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- `EnemyPlaceholder.tscn` convertido para `CharacterBody3D`.
+- `EnemyPlaceholderAI.cs` com estados `Dormant`, `Idle`, `Alert`, `Chasing`, `Attacking`, `Stunned`.
+- Perseguicao direta simples com `MoveAndSlide`.
+- Ataque simples com cooldown e dano.
+- `PlayerHealth.cs` em `Player.tscn`.
+- Audio 3D de respiracao, passos e growl.
+- `RitualRoomScareTrigger` passa a chamar `ActivateEnemy()`.
+- `ApplyStun()` e `ReceiveHit()` preparados.
+- Ajustado playtest do inimigo: capsula/visual com origem nos pes, spawn da RitualRoom em `Vector3(-0.85, 0.05, 2.45)` e recuperacao de piso limitada ao ajuste inicial.
+
+### Validacao esperada
+
+```text
+RitualRoom -> RitualScareTrigger -> EnemyPlaceholder aparece -> persegue -> ataca
+```
+
+## Proxima sprint recomendada
+
+## Sprint 17 - Persistencia do martelo entre cenas
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- Criado `GameSession` como autoload em memoria.
+- `HammerPickup` equipa o Martelo Enferrujado no `GameSession`.
+- Criado `PlayerWeaponController` para reequilibrar Player/HUD/visual da arma ao carregar nova cena.
+- `PlayerInventory` passou a sincronizar nome, durabilidade e durabilidade maxima da arma persistente.
+- `OldKeyPickup` marca Chave Velha no `GameSession` sem limpar a arma equipada.
+- Documentado teste de persistencia do martelo entre Quarto 07 e RitualRoom.
+
+### Validacao esperada
+
+```text
+Quarto 07 -> pegar martelo -> RitualRoom -> HUD/visual ainda mostram Martelo Enferrujado 10/10
+```
+
+## Proxima sprint recomendada
+
 1. Testar manualmente a Sala dos Santos Secos isolada.
 2. Ajustar escala/colisoes conforme o GLB no editor.
-3. Integrar Chave Velha ao inventario real e criar objetivo para liberar a porta de saida.
+3. Criar objetivo com Chave Velha para liberar a porta de saida.
+4. Integrar ataque do martelo com stun/durabilidade.

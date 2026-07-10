@@ -24,6 +24,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Passos por superficie (`SurfaceTag` + grupos `surface_*`).
 - Lanterna com HUD de bateria.
 - HUD com stamina, lanterna, arma, prompts e mensagens temporarias.
+- Martelo persistente entre cenas via `GameSession`.
 
 ### Trilha Noturna
 
@@ -65,7 +66,9 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Luzes: `CandleLightMain`, `BackAltarLight` e `RoomDarkFill`.
 - Audio: `RitualRoomAmbience` com `room_tone_01.ogg` e `RadioStaticPoint` 3D.
 - Interativos: `RitualNotePoint`, `OldKeyPickupPoint` e `ExitDoorTrigger`.
+- Se o martelo foi coletado no Quarto 07, ele continua equipado ao entrar na sala.
 - Susto: `RitualScareTrigger` pisca luzes, toca stinger, liga radio static e revela `EnemyPlaceholder`.
+- Inimigo: `EnemyPlaceholderAI` ativa apos o susto, nasce em ponto visivel da sala, persegue diretamente o player, ataca perto e aplica dano simples.
 - Checkpoint: `RitualRoom_SantosSecos`.
 
 ### Sistemas
@@ -73,10 +76,13 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - `AudioManager` + pack v01 + `AmbienceController`.
 - `SceneTransition` (autoload) para fade in/out entre cenas.
 - `CheckpointManager` (autoload) registra checkpoints em memoria.
+- `GameSession` (autoload) preserva Martelo Enferrujado e Chave Velha durante a sessao.
 - `PlayerSpawnResolver` posiciona o player nos spawns de cada cena.
 - `DemoRoomSequenceController` para estados da sequencia do Quarto 07.
 - `EnterHouseTrigger` e usado na porta da Pensao integrada na trilha e na cena isolada da fachada.
 - `HouseEntryTrigger` permanece apenas como fallback antigo desativado na trilha.
+- `PlayerHealth` guarda vida simples do player.
+- `EnemyPlaceholderAI` controla a IA basica da Sala dos Santos Secos.
 
 ## Cenas principais
 
@@ -90,15 +96,16 @@ Historico: `docs/SPRINT_HISTORY.md`.
 ## Fora de escopo ainda
 
 - Combate funcional completo.
-- IA de perseguicao avancada.
+- IA de perseguicao avancada/pathfinding.
 - Porta visual/animada na fachada.
 - Inimigo Blender final.
 - Sala dos Santos Secos finalizada/polida.
-- Preservacao de estado/posicao entre cenas.
+- Preservacao de posicao entre cenas.
+- Save em disco para inventario/checkpoints.
 
 ## Verificacao
 
-- `dotnet build BREU.sln` - 0 erros (2026-07-09).
+- `dotnet build BREU.sln` - 0 erros (2026-07-10).
 - Godot editor headless importou `pensao_santa_luzia_exterior_blockout.glb` (2026-07-09).
 
 ## Proximo passo

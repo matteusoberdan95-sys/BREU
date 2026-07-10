@@ -81,15 +81,15 @@ public partial class RitualRoomScareTrigger : Area3D
 
     private void ActivateEnemy()
     {
-        if (GetNodeOrNull<EnemyPlaceholder>(EnemyPath) is not { } enemy)
+        if (GetNodeOrNull<EnemyPlaceholderAI>(EnemyPath) is not { } enemy)
         {
             GD.Print("RitualRoomScareTrigger: EnemyPlaceholder nao encontrado.");
             return;
         }
 
         enemy.Visible = true;
-        enemy.CanChase = false;
-        enemy.Activate();
+        enemy.CanChase = true;
+        enemy.ActivateEnemy();
         enemy.LookAtPlayer();
     }
 

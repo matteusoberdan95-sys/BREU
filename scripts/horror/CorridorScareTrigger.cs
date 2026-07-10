@@ -152,7 +152,7 @@ public partial class CorridorScareTrigger : Area3D
 
     private void ActivateEnemy()
     {
-        if (GetNodeOrNull(PlaceholderEnemyPath) is EnemyPlaceholder enemy)
+        if (GetNodeOrNull(PlaceholderEnemyPath) is EnemyPlaceholderAI enemy)
         {
             enemy.Activate();
             return;
@@ -163,7 +163,7 @@ public partial class CorridorScareTrigger : Area3D
 
     private void DeactivateEnemy()
     {
-        if (GetNodeOrNull(PlaceholderEnemyPath) is EnemyPlaceholder enemy)
+        if (GetNodeOrNull(PlaceholderEnemyPath) is EnemyPlaceholderAI enemy)
         {
             enemy.Deactivate();
         }

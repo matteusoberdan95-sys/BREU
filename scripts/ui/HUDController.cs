@@ -184,6 +184,6 @@ public partial class HUDController : CanvasLayer
         SetWeapon(
             inventory.HasHammer ? inventory.EquippedWeaponName : "Maos vazias",
             inventory.HasHammer ? inventory.EquippedWeaponDurability : 0,
-            inventory.HasHammer ? 10 : 0);
+            inventory.HasHammer ? inventory.EquippedWeaponMaxDurability : 0);
     }
 }

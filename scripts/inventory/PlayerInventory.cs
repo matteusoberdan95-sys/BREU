@@ -10,6 +10,7 @@ public partial class PlayerInventory : Node
     public bool HasHammer { get; private set; }
     public string EquippedWeaponName { get; private set; } = "";
     public int EquippedWeaponDurability { get; private set; }
+    public int EquippedWeaponMaxDurability { get; private set; }
 
     public bool HasKey(string keyId) => string.IsNullOrWhiteSpace(keyId) || Keys.Contains(keyId);
 
@@ -38,15 +39,39 @@ public partial class PlayerInventory : Node
         EquippedWeapon = weapon;
         EquippedWeaponName = weapon?.WeaponName ?? "";
         EquippedWeaponDurability = weapon?.CurrentDurability ?? 0;
+        EquippedWeaponMaxDurability = weapon?.MaxDurability ?? 0;
+        HasHammer = EquippedWeaponName == "Martelo Enferrujado";
         EmitSignal(SignalName.InventoryChanged);
     }
 
     public void PickupHammer(int durability)
     {
         HasHammer = true;
+        EquippedWeapon = null;
         EquippedWeaponName = "Martelo Enferrujado";
         EquippedWeaponDurability = durability;
-        GD.Print($"Inventário: Martelo Enferrujado equipado. Durabilidade: {durability}/{durability}.");
+        EquippedWeaponMaxDurability = durability;
+        GD.Print($"Inventario: Martelo Enferrujado equipado. Durabilidade: {durability}/{durability}.");
+        EmitSignal(SignalName.InventoryChanged);
+    }
+
+    public void ApplyWeaponFromSession(GameSession session)
+    {
+        HasHammer = session.HasRustyHammer;
+        EquippedWeapon = null;
+        EquippedWeaponName = session.CurrentWeaponName;
+        EquippedWeaponDurability = session.CurrentWeaponDurability;
+        EquippedWeaponMaxDurability = session.CurrentWeaponMaxDurability;
+        EmitSignal(SignalName.InventoryChanged);
+    }
+
+    public void ClearWeapon()
+    {
+        HasHammer = false;
+        EquippedWeapon = null;
+        EquippedWeaponName = "";
+        EquippedWeaponDurability = 0;
+        EquippedWeaponMaxDurability = 0;
         EmitSignal(SignalName.InventoryChanged);
     }
 }

@@ -12,6 +12,25 @@ Ultima atualizacao: 2026-07-09
 
 ## Ultimas entregas
 
+### Persistencia simples de sessao
+
+- Criado `GameSession` como autoload em `res://scripts/system/GameSession.cs`.
+- Martelo Enferrujado agora persiste entre `DemoRoom` e `RitualRoom`.
+- `PlayerWeaponController` sincroniza o Player novo com `GameSession` no `_Ready()`.
+- HUD e visual do martelo na mao sao restaurados ao trocar de cena.
+- `OldKeyPickup` marca `GameSession.HasOldKey` sem remover o martelo.
+
+### Sprint E - IA basica do EnemyPlaceholder
+
+- `EnemyPlaceholder.tscn` convertido para `CharacterBody3D`.
+- Criado `EnemyPlaceholderAI.cs` com estados Dormant/Idle/Alert/Chasing/Attacking/Stunned.
+- Criado `PlayerHealth.cs` em `Player.tscn`.
+- `RitualRoomScareTrigger` agora chama `ActivateEnemy()`.
+- Inimigo da RitualRoom persegue diretamente, toca respiracao/passos/growl e aplica dano simples.
+- Stun preparado via `ApplyStun()` e `ReceiveHit()`.
+- Ajuste de playtest: origem/capsula do `EnemyPlaceholder` alinhadas aos pes, spawn da RitualRoom movido para `Vector3(-0.85, 0.05, 2.45)` e spam de recuperacao de piso removido.
+- `LockVerticalMovement` fica ligado no placeholder para impedir afundamento no chao ate a IA ter navmesh/colisoes finais.
+
 ### Sprint D - Sala dos Santos Secos
 
 - Criada `scenes/levels/ritual_room/RitualRoom.tscn`.

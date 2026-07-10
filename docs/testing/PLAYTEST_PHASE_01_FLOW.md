@@ -57,10 +57,31 @@ Isso serve para debug e prepara o futuro sistema de save/checkpoint.
 8. No corredor, disparar o susto e usar a porta final.
 9. Confirmar fade para a Sala dos Santos Secos.
 
+## Persistencia do martelo entre cenas
+
+1. No Quarto 07, pegar o `Martelo Enferrujado`.
+2. Confirmar HUD:
+
+```text
+Arma: Martelo Enferrujado 10/10
+```
+
+3. Abrir a porta do quarto, atravessar o corredor e entrar na `RitualRoom`.
+4. Confirmar que o HUD ainda mostra:
+
+```text
+Arma: Martelo Enferrujado 10/10
+```
+
+5. Confirmar que o martelo placeholder continua visivel na mao.
+6. Pegar a `Chave Velha`.
+7. Confirmar que pegar a chave nao remove o martelo nem muda o HUD para maos vazias.
+
 ## Problemas conhecidos
 
 - `HouseExterior.tscn` continua existindo como cena de teste isolado/comparacao, mas saiu do fluxo principal.
 - A silhueta antiga da Pensao ficou desativada como fallback.
 - As colisoes da trilha e da fachada integrada ainda sao temporarias.
-- O checkpoint ainda nao restaura posicao nem estado do inventario.
-- A RitualRoom ainda tem inimigo sem dano/perseguicao e porta de saida bloqueada.
+- O checkpoint ainda nao restaura posicao do player.
+- O estado do martelo e da Chave Velha persiste apenas em memoria enquanto o jogo esta rodando.
+- A RitualRoom ainda tem porta de saida bloqueada.
