@@ -65,9 +65,21 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [x] Audio de respiracao/passos/growl.
 - [x] Spawn/capsula do placeholder estabilizados na Sala dos Santos Secos.
 - [x] Martelo Enferrujado persistente entre cenas via `GameSession`.
+- [x] Ataque basico com martelo por raycast.
+- [x] Stun/impacto do martelo no `EnemyPlaceholder`.
+- [x] Durabilidade do martelo e quebra em 0/10.
 - [ ] Reacao a lanterna em prototipo futuro.
-- [ ] Integrar stun/impacto ao martelo.
 - [ ] Criar feedback visual/HUD de vida.
+
+## Sprint F - Combate basico do martelo
+
+- [x] Input `attack` = botao esquerdo.
+- [x] `PlayerMeleeAttack.cs`.
+- [x] Raycast melee a partir da camera.
+- [x] Reduzir durabilidade apenas ao acertar.
+- [x] Quebrar martelo e voltar para maos vazias.
+- [ ] Integrar custo de stamina ao ataque.
+- [ ] Criar animacao/audio finais de swing e impacto.
 
 ## Sprint F - O Hospede no Blender
 
@@ -75,6 +87,6 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 
 ## Fora de escopo ate pedido
 
-- Combate completo com durabilidade de armas.
+- Combate completo com combos/animacoes finais.
 - Navmesh avancado.
 - Multiplos inimigos.

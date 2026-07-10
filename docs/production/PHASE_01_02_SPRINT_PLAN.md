@@ -170,7 +170,39 @@ Nao usar Blender ainda.
 
 ---
 
-## Sprint F - Inimigo Final no Blender
+## Sprint F - Combate basico com Martelo Enferrujado
+
+**Status:** base criada.
+
+### Objetivos
+
+- Ataque basico com martelo
+- Raycast de melee
+- Durabilidade da arma
+- Stun do inimigo
+- HUD atualizado apos cada hit/quebra
+
+### Godot
+
+- [x] `PlayerMeleeAttack.cs` no Player
+- [x] Input `attack` no botao esquerdo
+- [x] Raycast curto a partir da `Camera3D`
+- [x] Hit em `EnemyPlaceholderAI.ReceiveHit`
+- [x] Stun do inimigo via `ApplyStun`
+- [x] Reducao de durabilidade no `GameSession`
+- [x] HUD volta para `Maos vazias` quando o martelo quebra
+- [x] Feedback visual simples do martelo com tween
+
+### Proximos ajustes
+
+- Adicionar animacao final de ataque.
+- Adicionar sons dedicados `weapon_swing_01.ogg` e `weapon_hit_01.ogg`.
+- Integrar custo de stamina ao ataque.
+- Refinar alcance e timing apos playtest.
+
+---
+
+## Sprint G - Inimigo Final no Blender
 
 So iniciar apos validar:
 
@@ -179,6 +211,7 @@ So iniciar apos validar:
 - perseguicao;
 - timing do susto;
 - comportamento basico.
+- combate basico com martelo.
 
 ### Criar primeiro inimigo
 
@@ -205,7 +238,7 @@ O Hospede.
 ## Ordem recomendada
 
 ```text
-Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F
+Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G
 ```
 
 ## Documentos relacionados

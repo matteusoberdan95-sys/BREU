@@ -300,7 +300,35 @@ Quarto 07 -> pegar martelo -> RitualRoom -> HUD/visual ainda mostram Martelo Enf
 
 ## Proxima sprint recomendada
 
+## Sprint 18 - Combate basico com Martelo Enferrujado
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- Criado `PlayerMeleeAttack.cs`.
+- Adicionado input `attack` no botao esquerdo.
+- Ataque melee por raycast curto partindo da `Camera3D`.
+- Hit em `EnemyPlaceholderAI.ReceiveHit(HammerDamage)`.
+- Stun do inimigo usando `ApplyStun(StunDuration)`.
+- Durabilidade do martelo reduzida no `GameSession` apenas quando acerta.
+- HUD atualizado apos hit e quebra.
+- Martelo volta para `Maos vazias` quando a durabilidade chega a 0.
+- Feedback visual simples do martelo na mao via tween.
+- Audio de hit usa fallback `corridor_hit_01.ogg` quando audio dedicado nao existe.
+- Fix: raycast do martelo agora detecta bodies/areas, usa mask ampla, adiciona logs de debug e encontra `EnemyPlaceholderAI` mesmo quando o collider acertado e filho do inimigo.
+- Fix: ataque agora usa hit volume esferico quando o raycast fino erra, melhorando acerto corpo a corpo em inimigo proximo.
+- Fix: adicionada `EnemyHurtbox` ao `EnemyPlaceholder` e filtro de alvo para ignorar interactables/triggers no hit volume.
+
+### Validacao esperada
+
+```text
+RitualRoom -> mirar EnemyPlaceholder -> clique esquerdo -> stun -> durabilidade 9/10 -> quebra em 0/10
+```
+
+## Proxima sprint recomendada
+
 1. Testar manualmente a Sala dos Santos Secos isolada.
 2. Ajustar escala/colisoes conforme o GLB no editor.
 3. Criar objetivo com Chave Velha para liberar a porta de saida.
-4. Integrar ataque do martelo com stun/durabilidade.
+4. Integrar custo de stamina e feedback de vida/dano.

@@ -12,6 +12,19 @@ Ultima atualizacao: 2026-07-09
 
 ## Ultimas entregas
 
+### Sprint F - Combate basico do martelo
+
+- Criado `PlayerMeleeAttack.cs` no Player.
+- Input `attack` no botao esquerdo.
+- Ataque usa raycast curto da `Camera3D` como debug e hit volume esferico para contato corpo a corpo.
+- Ao acertar `EnemyPlaceholderAI`, chama `ReceiveHit(HammerDamage)` e aplica stun.
+- Durabilidade do martelo cai apenas quando acerta.
+- Quando chega a 0, `GameSession` limpa a arma e o HUD volta para `Maos vazias`.
+- Visual do martelo faz tween simples de golpe; audio de hit usa fallback se asset dedicado nao existir.
+- Fix de hit detection: raycast agora colide com bodies/areas, usa mask ampla, imprime logs de debug e procura `EnemyPlaceholderAI` no collider ou nos parents.
+- Fix adicional: se o raycast fino errar, o hit volume pode acertar inimigo proximo na frente do player.
+- Fix adicional: `EnemyPlaceholder` agora tem `EnemyHurtbox` no grupo `enemy_hurtbox`, e o martelo ignora bilhete/chave/triggers ao procurar alvo.
+
 ### Persistencia simples de sessao
 
 - Criado `GameSession` como autoload em `res://scripts/system/GameSession.cs`.

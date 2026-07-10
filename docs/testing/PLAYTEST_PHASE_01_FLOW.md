@@ -77,6 +77,25 @@ Arma: Martelo Enferrujado 10/10
 6. Pegar a `Chave Velha`.
 7. Confirmar que pegar a chave nao remove o martelo nem muda o HUD para maos vazias.
 
+## Combate basico na Sala dos Santos Secos
+
+1. Com o martelo equipado, disparar o susto da `RitualRoom`.
+2. Esperar o `EnemyPlaceholder` aparecer e perseguir o player.
+3. Mirar no inimigo e clicar com o botao esquerdo.
+4. Confirmar que o inimigo entra em stun.
+5. Confirmar que o HUD reduz a durabilidade:
+
+```text
+Arma: Martelo Enferrujado 9/10
+```
+
+6. Repetir ataques ate a durabilidade chegar a 0.
+7. Confirmar mensagem de quebra e HUD:
+
+```text
+Arma: Maos vazias
+```
+
 ## Problemas conhecidos
 
 - `HouseExterior.tscn` continua existindo como cena de teste isolado/comparacao, mas saiu do fluxo principal.
@@ -84,4 +103,5 @@ Arma: Martelo Enferrujado 10/10
 - As colisoes da trilha e da fachada integrada ainda sao temporarias.
 - O checkpoint ainda nao restaura posicao do player.
 - O estado do martelo e da Chave Velha persiste apenas em memoria enquanto o jogo esta rodando.
+- O combate do martelo e prototipo por raycast, sem animacao final.
 - A RitualRoom ainda tem porta de saida bloqueada.

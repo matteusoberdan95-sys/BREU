@@ -43,6 +43,8 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
     private AudioStreamPlayer3D? _stepAudio;
     private AudioStreamPlayer3D? _growlAudio;
     private CollisionShape3D? _collisionShape;
+    private Area3D? _hurtbox;
+    private CollisionShape3D? _hurtboxShape;
     private Node3D? _player;
     private float _attackTimer;
     private float _stepTimer;
@@ -54,10 +56,14 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
 
     public override void _Ready()
     {
+        AddToGroup("enemies");
+        GetNodeOrNull<Area3D>("EnemyHurtbox")?.AddToGroup("enemy_hurtbox");
         _breathAudio = GetNodeOrNull<AudioStreamPlayer3D>("Audio/BreathAudio");
         _stepAudio = GetNodeOrNull<AudioStreamPlayer3D>("Audio/StepAudio");
         _growlAudio = GetNodeOrNull<AudioStreamPlayer3D>("Audio/GrowlAudio");
         _collisionShape = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
+        _hurtbox = GetNodeOrNull<Area3D>("EnemyHurtbox");
+        _hurtboxShape = GetNodeOrNull<CollisionShape3D>("EnemyHurtbox/CollisionShape3D");
         _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
         _lastSafePosition = GlobalPosition;
 
@@ -179,7 +185,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
 
     public void ReceiveHit(int damage)
     {
-        GD.Print("EnemyPlaceholder recebeu hit.");
+        GD.Print($"EnemyPlaceholder recebeu hit: {damage}");
         ApplyStun(StunDuration);
     }
 
@@ -407,6 +413,17 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         if (_collisionShape != null)
         {
             _collisionShape.Disabled = !enabled;
+        }
+
+        if (_hurtbox != null)
+        {
+            _hurtbox.Monitoring = enabled;
+            _hurtbox.Monitorable = enabled;
+        }
+
+        if (_hurtboxShape != null)
+        {
+            _hurtboxShape.Disabled = !enabled;
         }
     }
 

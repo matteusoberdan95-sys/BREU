@@ -40,6 +40,7 @@ public partial class GameSession : Node
         CurrentWeaponDurability = Mathf.Max(0, CurrentWeaponDurability - amount);
         if (CurrentWeaponDurability <= 0)
         {
+            GD.Print("O Martelo Enferrujado quebrou.");
             ClearWeapon();
         }
     }

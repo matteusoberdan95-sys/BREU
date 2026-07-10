@@ -41,6 +41,8 @@ Ao encerrar trabalho tecnico, atualize esses mesmos arquivos se o estado do proj
 
 `PlayerController` controla deslocamento fisico com `CharacterBody3D`, usando WASD, sprint simples, gravidade e `MoveAndSlide`. `PlayerLook` controla yaw do corpo e pitch do `CameraPivot`, captura o mouse ao iniciar, libera com `pause`/Esc e recaptura com clique esquerdo. O player e adicionado ao grupo `player`.
 
+`PlayerMeleeAttack` controla o ataque basico do martelo. Ele escuta `attack`/`attack_primary`, usa raycast curto da `Camera3D` como debug e, se necessario, um hit volume esferico na frente da camera para contato corpo a corpo. O hit volume prioriza `EnemyHurtbox` no grupo `enemy_hurtbox`, ignorando interactables como bilhete/chave. Ao encontrar `EnemyPlaceholderAI`, chama `ReceiveHit(HammerDamage)`, reduz durabilidade via `GameSession.ReduceWeaponDurability()` e atualiza HUD/visual pelo `PlayerWeaponController`. No prototipo, o ataque usa mask ampla, colide com bodies/areas e `DebugMelee` fica ligado para validar o hit detection.
+
 ### Lanterna
 
 `FlashlightController` herda de `SpotLight3D`, inicia ligado, alterna com `flashlight_toggle`/F e drena bateria por segundo. Nesta etapa de playtest, o feedback de bateria usa `GD.Print`.
@@ -61,13 +63,15 @@ Interativos ativos na demo:
 
 `PlayerInventory` continua existindo como estado local do Player instanciado na cena, mas agora e sincronizado com `GameSession` por `PlayerWeaponController`. Isso permite trocar de cena e manter o martelo equipado.
 
+Quando a durabilidade do martelo chega a 0, `GameSession.ClearWeapon()` limpa a arma equipada. `HasRustyHammer` pode continuar verdadeiro como historico de coleta, mas `HasWeapon()` passa a retornar falso e o HUD volta para `Maos vazias`.
+
 ### HUD
 
 `HUDController` escuta `PlayerInteractor.FocusChanged` para mostrar prompt minimo `[E] <acao>` na tela. Tambem escuta `PlayerInventory.InventoryChanged` para mostrar o martelo equipado e sua durabilidade. O HUD ignora input de mouse para nao bloquear o mouse look.
 
 ### Equipamento visual
 
-`PlayerEquipmentView` mostra o placeholder `CameraPivot/Camera3D/WeaponHolder/EquippedHammerVisual` quando `PlayerInventory.HasHammer` fica verdadeiro. `PlayerWeaponController` consulta `GameSession` no `_Ready()` do Player e reativa esse visual ao carregar cenas novas. O martelo na mao ainda nao tem animacao final.
+`PlayerEquipmentView` mostra o placeholder `CameraPivot/Camera3D/WeaponHolder/EquippedHammerVisual` quando `PlayerInventory.HasHammer` fica verdadeiro. `PlayerWeaponController` consulta `GameSession` no `_Ready()` do Player e reativa esse visual ao carregar cenas novas. `PlayerMeleeAttack` aplica um tween curto nesse visual como feedback temporario de golpe.
 
 ### Ambiente
 
@@ -117,13 +121,15 @@ Interativos ativos na demo:
 
 ### Armas
 
-`WeaponData` e um Resource com dano, alcance, durabilidade, custo de stamina, cooldown e impacto. `WeaponController` existe como base, mas combate nao esta ativo na demo room atual.
+`WeaponData` e um Resource com dano, alcance, durabilidade, custo de stamina, cooldown e impacto. `WeaponController` existe como base futura. O combate ativo da vertical slice, por enquanto, e `PlayerMeleeAttack`, focado apenas no Martelo Enferrujado persistido em `GameSession`.
 
 ### Inimigo
 
 `EnemyPlaceholderAI` controla o inimigo placeholder usado na Sala dos Santos Secos. Ele herda de `CharacterBody3D`, possui estados `Dormant`, `Idle`, `Alert`, `Chasing`, `Attacking` e `Stunned`, persegue diretamente o player com `MoveAndSlide`, toca audio basico e aplica dano simples via `PlayerHealth`.
 
 O placeholder usa origem nos pes, capsula alinhada acima do piso e ajuste inicial unico de altura ao ativar. Durante o prototipo, `LockVerticalMovement` fica ligado para manter o inimigo no plano do piso e evitar que ele afunde enquanto ainda nao temos navmesh/colisoes finais. Nao ha recuperacao de piso rodando todo frame.
+
+`EnemyHurtbox` e uma `Area3D` filha do `EnemyPlaceholder`, no grupo `enemy_hurtbox`, usada pelo martelo para detectar acertos sem depender de raycast fino. Ela liga/desliga junto com o inimigo.
 
 `EnemyAI` e `EnemyHealth` continuam como base futura para inimigos mais completos.
 

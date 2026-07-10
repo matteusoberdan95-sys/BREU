@@ -152,6 +152,7 @@ Estado inicial:
 - `StartDormant = true`
 - `CanChase = true`
 - `LockVerticalMovement = true`, temporario para impedir que o placeholder afunde no piso.
+- `EnemyHurtbox` fica no grupo `enemy_hurtbox` e liga/desliga junto com o inimigo.
 
 Ao cruzar `Triggers/RitualScareTrigger`:
 
@@ -192,9 +193,98 @@ Morte ainda nao tem tela propria. Se a vida chegar a zero, o console deve imprim
 Player morreu. TODO: implementar tela de morte.
 ```
 
+## Combate basico com martelo
+
+Antes de testar combate, pegue o martelo no Quarto 07 e confirme que `GameSession` manteve a arma na RitualRoom.
+
+Fluxo:
+
+1. Rodar o jogo desde `TrailIntro`.
+2. Entrar no Quarto 07.
+3. Pegar o `Martelo Enferrujado`.
+4. Confirmar HUD `Arma: Martelo Enferrujado 10/10`.
+5. Ir para a `RitualRoom`.
+6. Disparar o susto para ativar o `EnemyPlaceholder`.
+7. Mirar no inimigo e clicar com o botao esquerdo do mouse.
+
+Resultado esperado ao acertar:
+
+- o martelo faz um movimento curto na mao;
+- se houver audio disponivel, toca som de impacto;
+- console imprime `EnemyPlaceholder recebeu hit: 10`;
+- inimigo entra em `Stunned` por cerca de 1.1s;
+- HUD muda para `Arma: Martelo Enferrujado 9/10`;
+- depois do stun, o inimigo volta a perseguir.
+
+Resultado esperado ao errar:
+
+- ataque faz feedback visual/swing;
+- durabilidade nao diminui por enquanto.
+
+## Correcao de hit detection do martelo
+
+O ataque usa duas etapas:
+
+1. raycast da `Camera3D` para frente, mantido como debug;
+2. hit volume em esfera na frente da camera, para nao depender de um raio fino;
+3. fallback por grupo `enemies`, caso a colisao fisica nao devolva a hurtbox.
+
+Valores atuais:
+
+```text
+AttackRange = 2.0
+AttackRadius = 0.75
+AttackForwardOffset = 1.0
+AttackAngleDot = 0.25
+```
+
+Nesta fase, o ataque nao restringe layer/mask: ele colide com bodies e areas e depois procura um `EnemyPlaceholderAI` no collider ou nos parents.
+
+Logs esperados ao clicar:
+
+```text
+MeleeAttack: swing
+MeleeAttack: ray origin ... end ...
+```
+
+Se acertar o inimigo:
+
+```text
+MeleeAttack: raycast errou, tentando hit volume
+MeleeAttack: hit volume encontrou enemy_hurtbox
+MeleeAttack: dot com alvo = ...
+MeleeAttack: EnemyPlaceholder acertado
+MeleeAttack: EnemyPlaceholderAI encontrado
+EnemyPlaceholder recebeu hit: 10
+```
+
+Se errar:
+
+```text
+MeleeAttack: errou.
+MeleeAttack: ataque errou.
+```
+
+Regras atuais:
+
+- o martelo deve balancar sempre que houver arma equipada;
+- a durabilidade so reduz se o raycast ou hit volume encontrar `EnemyPlaceholderAI`;
+- o inimigo esta no grupo `enemies`;
+- a hurtbox do inimigo esta no grupo `enemy_hurtbox`;
+- o root do inimigo e `CharacterBody3D` com `CollisionShape3D` capsule;
+- se o raycast fino falhar, o hit volume ainda pode acertar inimigo proximo na frente do player;
+- bilhete, chave e triggers sao ignorados porque nao resolvem para `EnemyPlaceholderAI`.
+
+Teste de quebra:
+
+1. Acertar o inimigo ate a durabilidade chegar a `0/10`.
+2. Confirmar mensagem `O Martelo Enferrujado quebrou.`.
+3. Confirmar HUD `Arma: Maos vazias`.
+4. Clicar novamente e confirmar mensagem `Voce esta de maos vazias.`.
+
 ### Como testar stun via metodo/debug
 
-Antes de testar combate real do player, pegue o martelo no Quarto 07 e confirme que `GameSession` manteve a arma na RitualRoom. O ataque do player com martelo ainda entra na proxima etapa.
+O teste manual com clique esquerdo ja chama `ReceiveHit(HammerDamage)`. Para teste tecnico isolado, ainda e possivel chamar diretamente:
 
 Para teste tecnico, chamar em debug o metodo do inimigo:
 
@@ -233,6 +323,10 @@ A porta esta trancada. Alguma coisa precisa ser feita primeiro.
 - O movimento vertical do inimigo esta travado de proposito durante o prototipo.
 - A chave ja marca `GameSession`, mas ainda nao abre objetivo/porta.
 - O dano do player e simples; ainda nao ha tela de morte.
-- O stun esta preparado por metodo, mas ainda nao conectado ao martelo.
+- O ataque do martelo usa raycast + hit volume e ainda nao tem animacao final.
+- O hit volume prioriza `enemy_hurtbox`; interactables nao gastam durabilidade.
+- A durabilidade so cai quando o golpe acerta.
+- `DebugAttackRay` esta ligado para ajudar a validar o hit detection; pode ser desligado depois do playtest.
+- O som de swing ainda depende de asset futuro; o hit usa fallback se o audio dedicado nao existir.
 - A porta de saida nao troca de cena.
 - A sala usa o GLB importado como visual; gameplay fica em nos auxiliares Godot.

@@ -25,6 +25,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Lanterna com HUD de bateria.
 - HUD com stamina, lanterna, arma, prompts e mensagens temporarias.
 - Martelo persistente entre cenas via `GameSession`.
+- Ataque basico com Martelo Enferrujado no botao esquerdo: raycast curto, stun no inimigo, durabilidade e quebra.
 
 ### Trilha Noturna
 
@@ -69,6 +70,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Se o martelo foi coletado no Quarto 07, ele continua equipado ao entrar na sala.
 - Susto: `RitualScareTrigger` pisca luzes, toca stinger, liga radio static e revela `EnemyPlaceholder`.
 - Inimigo: `EnemyPlaceholderAI` ativa apos o susto, nasce em ponto visivel da sala, persegue diretamente o player, ataca perto e aplica dano simples.
+- Combate: mirar no `EnemyPlaceholder` e clicar com o botao esquerdo acerta com o martelo, aplica stun e reduz durabilidade.
 - Checkpoint: `RitualRoom_SantosSecos`.
 
 ### Sistemas
@@ -95,7 +97,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 
 ## Fora de escopo ainda
 
-- Combate funcional completo.
+- Combate final com animacoes, stamina e balanceamento completo.
 - IA de perseguicao avancada/pathfinding.
 - Porta visual/animada na fachada.
 - Inimigo Blender final.
