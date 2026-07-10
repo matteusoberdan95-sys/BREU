@@ -87,6 +87,13 @@ public partial class PlayerMeleeAttack : Node
 
         if (TryHitEnemy(out var enemy, out var hitByVolume))
         {
+            if (!HasMeleeLineOfSight(enemy))
+            {
+                GD.Print("MeleeAttack: golpe bloqueado por obstáculo.");
+                MissAttack();
+                return;
+            }
+
             enemy.ReceiveHit(HammerDamage);
             session.ReduceWeaponDurability(DurabilityCostPerHit);
             PlayHitAudio();
@@ -356,6 +363,78 @@ public partial class PlayerMeleeAttack : Node
         }
 
         return null;
+    }
+
+    private void MissAttack()
+    {
+        _weaponController?.RefreshWeaponFromSession();
+    }
+
+    private bool HasMeleeLineOfSight(Node3D enemy)
+    {
+        if (_camera == null)
+        {
+            return true;
+        }
+
+        var origin = _camera.GlobalPosition;
+        var destination = enemy.GlobalPosition + Vector3.Up * 0.9f;
+        var space = _camera.GetWorld3D().DirectSpaceState;
+        var query = PhysicsRayQueryParameters3D.Create(origin, destination);
+        query.CollideWithBodies = true;
+        query.CollideWithAreas = true;
+        query.CollisionMask = uint.MaxValue;
+
+        var exclude = new Godot.Collections.Array<Rid>();
+        if (GetParent() is CollisionObject3D owner)
+        {
+            exclude.Add(owner.GetRid());
+        }
+
+        query.Exclude = exclude;
+
+        var result = space.IntersectRay(query);
+        if (result.Count == 0)
+        {
+            return true;
+        }
+
+        if (!result.TryGetValue("collider", out var colliderVariant))
+        {
+            return true;
+        }
+
+        if (colliderVariant.AsGodotObject() is not Node colliderNode)
+        {
+            return true;
+        }
+
+        if (IsEnemyCollider(colliderNode))
+        {
+            return true;
+        }
+
+        if (colliderNode.IsInGroup("melee_blocker"))
+        {
+            return false;
+        }
+
+        return false;
+    }
+
+    private static bool IsEnemyCollider(Node collider)
+    {
+        if (collider is EnemyPlaceholderAI)
+        {
+            return true;
+        }
+
+        if (collider.IsInGroup("enemy_hurtbox") || collider.IsInGroup("enemies"))
+        {
+            return true;
+        }
+
+        return FindEnemyFromCollider(collider) != null;
     }
 
     private void ConfigureAudio()

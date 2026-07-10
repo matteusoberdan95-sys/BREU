@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://breu_enemy_placeholder"]
+[gd_scene load_steps=15 format=3 uid="uid://breu_enemy_placeholder"]
 
 [ext_resource type="Script" path="res://scripts/enemies/EnemyPlaceholderAI.cs" id="1_enemy_ai"]
 [ext_resource type="Script" path="res://scripts/enemies/EnemyHurtbox.cs" id="2_hurtbox"]
@@ -44,15 +44,15 @@ radius = 1.35
 
 [node name="EnemyPlaceholder" type="CharacterBody3D" groups=["enemies"]]
 visible = false
-collision_layer = 4
+collision_layer = 8
 collision_mask = 1
 script = ExtResource("1_enemy_ai")
 MoveSpeed = 1.1
-ChaseSpeed = 1.65
+ChaseSpeed = 1.55
 AttackRange = 1.25
-AttackCooldown = 2.0
+AttackCooldown = 1.9
 StunDuration = 1.25
-Damage = 10
+Damage = 15
 AlertDuration = 1.2
 LoseSightGraceTime = 1.5
 StartDormant = true
@@ -88,6 +88,13 @@ surface_material_override/0 = SubResource("EyeGlowMaterial")
 position = Vector3(0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_body")
 disabled = true
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.45
+target_desired_distance = 1.25
+radius = 0.35
+height = 1.8
+avoidance_enabled = false
 
 [node name="EnemyHurtbox" type="Area3D" parent="." groups=["enemy_hurtbox"]]
 collision_layer = 4

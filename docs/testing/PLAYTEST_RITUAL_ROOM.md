@@ -187,8 +187,8 @@ Ao cruzar `Triggers/RitualScareTrigger`:
 3. Confirmar HUD e console:
 
 ```text
-Vida 90/100
-Player tomou dano: 10
+Vida 85/100
+Player tomou dano: 15
 EnemyPlaceholder atacou player.
 ```
 
@@ -359,9 +359,10 @@ Valores atuais documentados em `docs/design/RITUAL_ROOM_BALANCE.md`.
 
 | Parametro | Valor |
 |-----------|-------|
-| Damage | 10 |
-| AttackCooldown | 2.0s |
-| ChaseSpeed | 1.65 |
+| Damage | 15 |
+| AttackCooldown | 1.9s |
+| ChaseSpeed | 1.55 |
+| NavigationUpdateInterval | 0.2s |
 | AttackRange | 1.25 |
 | StunDuration | 1.25s |
 | AlertDuration | 1.2s |
@@ -397,11 +398,175 @@ Valores atuais documentados em `docs/design/RITUAL_ROOM_BALANCE.md`.
 2. Confirmar `VOCE MORREU`, subtitulo, fade in, stinger de morte (ou fallback).
 3. Clicar `Tentar novamente` -> `Checkpoint restaurado.` no console.
 
+## Correcao de colisoes e balance H.5
+
+### O que mudou
+
+- `RitualRoomEnvironmentSetup` esconde markers/decals do GLB (`marker_*`, sangue no chao) para nao bloquear o inimigo.
+- `TableCollision` realinhada com a mesa visual do GLB em `X 0, Y 0.45, Z -0.75` (size `2.0 x 0.7 x 1.05`).
+- Colisoes de mundo usam layer `World` (bit 1).
+- Triggers usam layer `Trigger` (bit 4); interactables usam `Interactable` (bit 2).
+- `EnemyPlaceholder` usa layer `Enemy` (bit 8) e mask `World` (bit 1).
+- IA ganhou desvio lateral simples anti-stuck (sem navmesh).
+- Dano do inimigo subiu para **15**; cooldown **1.9s**.
+- Sons integrados: `player_hurt_01.ogg` e `death_stinger_01.ogg`.
+
+### Como testar colisoes
+
+1. F5 ou F6 na RitualRoom.
+2. Disparar susto e perseguir em volta da mesa.
+3. Confirmar:
+   - inimigo **nao** fica preso no marker rosa do chao;
+   - inimigo **nao** atravessa a mesa;
+   - inimigo tenta contornar se ficar preso por ~0.5s.
+
+### Como testar dano atualizado
+
+1. Deixar inimigo acertar uma vez com vida cheia.
+2. Confirmar `Vida 85/100`.
+3. Confirmar `player_hurt_01.ogg`.
+4. Morrer e confirmar `death_stinger_01.ogg`.
+
+## Navegacao do EnemyPlaceholder
+
+A RitualRoom agora usa:
+
+- `Navigation/NavigationRegion3D` com bake automatico via `RitualRoomNavigationBake.cs`;
+- `NavigationAgent3D` no `EnemyPlaceholder.tscn`;
+- colisoes de `Collisions/` como fonte do bake (mesa, paredes, chao);
+- markers/tapetes/triggers **fora** do bake.
+
+Comportamento esperado:
+
+1. Inimigo contorna a mesa ao perseguir o player.
+2. Inimigo nao atravessa a mesa.
+3. Inimigo nao fica oscilando na lateral da mesa.
+4. Target do agent atualiza a cada **0.2s**, nao todo frame.
+5. Se navmesh/agent falhar, cai no fallback de perseguicao direta.
+
+Logs permitidos:
+
+```text
+RitualRoomNavigationBake: navmesh gerada a partir de Collisions.
+EnemyPlaceholder: usando NavigationAgent3D.
+EnemyPlaceholder: fallback para perseguicao direta.
+```
+
+Teste:
+
+1. F5 ate RitualRoom.
+2. Ativar susto.
+3. Andar em circulos ao redor da mesa.
+4. Confirmar que o inimigo contorna sem ficar preso oscilando.
+
+## Contorno manual da mesa
+
+### Por que foi criado
+
+Mesmo com `NavigationAgent3D` e bake de navmesh, o `EnemyPlaceholder` ainda ficava preso ou oscilando quando o player corria para o outro lado da mesa ritual. A navmesh sozinha nao garantiu contorno confiavel no prototipo.
+
+A solucao atual usa **waypoints manuais** ao redor da mesa via `TableAvoidanceHelper`, com prioridade sobre a perseguicao direta/navmesh quando a linha inimigo -> player cruza o retangulo da mesa no plano X/Z.
+
+### Nos na RitualRoom
+
+```text
+EnemyNavigationHelpers (TableAvoidanceHelper.cs)
+  TableAvoidanceZone (Marker3D, referencia em Z -0.75)
+  TableWaypointFrontLeft   (-1.75, 0, -1.95)
+  TableWaypointFrontRight  ( 1.75, 0, -1.95)
+  TableWaypointBackLeft    (-1.75, 0,  0.45)
+  TableWaypointBackRight   ( 1.75, 0,  0.45)
+```
+
+`EnemyPlaceholder` na sala aponta para `../../EnemyNavigationHelpers` com `UseTableAvoidance = true`.
+
+### Como testar
+
+1. F5 ou F6 na RitualRoom.
+2. Disparar o susto e ativar o inimigo.
+3. Ficar de um lado da mesa e esperar o inimigo vir.
+4. Correr para o outro lado da mesa.
+5. Confirmar:
+   - inimigo **nao** atravessa a mesa;
+   - inimigo **nao** fica dançando parado na lateral;
+   - inimigo escolhe um lado e segue um waypoint;
+   - ao contornar, volta a perseguir o player normalmente.
+6. Repetir dando voltas na mesa.
+7. Testar martelo, stun, morte e retry — combate e respawn devem continuar iguais.
+
+### Debug opcional
+
+No inspector do `EnemyPlaceholder`, ligar `DebugTableAvoidance = true` para ver no console:
+
+```text
+EnemyPlaceholder table: Mesa bloqueando caminho direto.
+EnemyPlaceholder table: Waypoint escolhido: ...
+EnemyPlaceholder table: Waypoint alcançado: ...
+EnemyPlaceholder table: Voltando a perseguir player.
+```
+
+Por padrao fica `false` para manter o console limpo.
+
+### Problema conhecido
+
+Esta ainda **nao** e a solucao final de navegacao. E um contorno manual suficiente para o prototipo da RitualRoom. Navmesh definitiva e pathfinding mais robusto ficam para sprint futura, se necessario.
+
+## Mesa como obstáculo real
+
+### Por que foi criado
+
+No playtest em video, dois problemas ficaram claros:
+
+1. O inimigo ficava preso na frente da mesa sem contornar.
+2. O martelo acertava o inimigo mesmo com a mesa entre player e alvo (hit volume ignorava obstaculos).
+
+### O que mudou
+
+- `Collisions/TableCollision` entrou nos grupos `enemy_path_blocker` e `melee_blocker`.
+- `EnemyPlaceholderAI` usa contorno lateral deterministico (`TableAvoidance`) quando a mesa esta entre inimigo e player.
+- `PlayerMeleeAttack` exige linha livre da camera ate o inimigo antes de aplicar hit/durabilidade.
+- O inimigo nao ataca o player atraves da mesa (`HasAttackLineOfSightToPlayer`).
+
+### Como testar (caso do video)
+
+1. F5/F6 na RitualRoom, ativar o susto.
+2. Correr para um lado da mesa e ficar atras dela.
+3. Confirmar:
+   - inimigo **nao** atravessa a mesa;
+   - inimigo **nao** fica parado eternamente;
+   - inimigo escolhe um lado e tenta contornar;
+   - inimigo volta a perseguir quando o caminho fica livre.
+4. Bater no inimigo **do outro lado da mesa**:
+   - martelo balanca;
+   - **nao** aplica hit;
+   - **nao** reduz durabilidade;
+   - console: `MeleeAttack: golpe bloqueado por obstáculo.`
+5. Ir para o **mesmo lado** do inimigo e bater:
+   - hit aplica normalmente;
+   - durabilidade diminui;
+   - stun funciona.
+
+### Problema conhecido
+
+Ainda nao e IA final. Navmesh/pathfinding definitivo fica para sprint futura se necessario. A solucao atual e suficiente para o prototipo.
+
+### Collision layers usadas
+
+| Layer | Bit |
+|-------|-----|
+| World | 1 |
+| Interactable | 2 |
+| Trigger | 4 |
+| Enemy | 8 |
+
 ## Problemas conhecidos
 
 - Colisoes ainda sao caixas temporarias.
 - O inimigo ainda e placeholder simples: corpo/cabeca/capsula, sem modelo final do Blender.
-- A IA persegue diretamente, sem navmesh; pode ficar limitada por moveis ate criarmos pathfinding.
+- IA usa `NavigationAgent3D` na RitualRoom com fallback direto; quando a mesa bloqueia o caminho, `TableAvoidance` assume com corredores laterais.
+- `TableCollision` esta nos grupos `enemy_path_blocker` e `melee_blocker`.
+- Martelo exige linha livre ate o inimigo; golpe atraves da mesa e bloqueado.
+- Inimigo nao ataca atraves da mesa.
 - O movimento vertical do inimigo esta travado de proposito durante o prototipo.
 - A chave ja marca `GameSession`, mas ainda nao abre objetivo/porta.
 - O ciclo de morte e respawn ja funciona, mas ainda e prototipo: recarrega a cena inteira do checkpoint.
@@ -410,7 +575,7 @@ Valores atuais documentados em `docs/design/RITUAL_ROOM_BALANCE.md`.
 - O hit volume prioriza `enemy_hurtbox`; interactables nao gastam durabilidade.
 - A durabilidade so cai quando o golpe acerta.
 - `DebugMelee` desligado por padrao; ligar no inspector para depurar hit detection.
-- `player_hurt_01.ogg` e `death_stinger_01.ogg` ainda nao existem; fallbacks usam `corridor_hit_01` e `scare_stinger_01`.
+- `player_hurt_01.ogg` e `death_stinger_01.ogg` integrados; fallbacks permanecem se arquivos faltarem.
 - O som de swing ainda depende de asset futuro; o hit usa fallback se o audio dedicado nao existir.
 - A porta de saida nao troca de cena.
 - A sala usa o GLB importado como visual; gameplay fica em nos auxiliares Godot.
