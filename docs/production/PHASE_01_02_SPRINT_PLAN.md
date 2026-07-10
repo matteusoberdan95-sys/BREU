@@ -269,7 +269,9 @@ Nao usar Blender ainda.
 
 ---
 
-## Sprint I - Inimigo Final no Blender
+## Sprint I - Hospede Seco blockout no Godot
+
+**Status:** blockout visual integrado.
 
 So iniciar apos validar:
 
@@ -281,6 +283,15 @@ So iniciar apos validar:
 - combate basico com martelo.
 - morte/retry/respawn.
 - polimento da RitualRoom.
+
+### Entregas Godot
+
+- [x] `enemy_hospede_seco_blockout.glb` importado em `assets/blender_exports/enemies/hospede_seco/`.
+- [x] `EnemyPlaceholder.tscn` instancia o modelo em `Visual/HospedeSecoModel`.
+- [x] Visual placeholder antigo (`BodyMesh`, `HeadMesh`, `Eyes`) fica oculto como fallback.
+- [x] IA mantida em `EnemyPlaceholderAI.cs`.
+- [x] Colisao principal, `EnemyHurtbox`, ataque, stun e dano continuam usando a estrutura existente.
+- [x] Sem rig e sem animacoes nesta sprint.
 
 ### Criar primeiro inimigo
 
@@ -301,6 +312,13 @@ O Hospede.
 - Attack
 - Hit reaction
 - Death/stun opcional
+
+### Proximos ajustes
+
+- Validar escala/orientacao do modelo no editor.
+- Criar rig simples.
+- Criar animacoes Idle, Walk/Chase, Attack e Hit reaction.
+- Trocar feedback de stun/tween por animacao quando houver rig.
 
 ---
 

@@ -129,6 +129,8 @@ O HUD tambem mostra `Vida current/max`, conectado ao sinal `PlayerHealth.HealthC
 
 `EnemyPlaceholderAI` controla o inimigo placeholder usado na Sala dos Santos Secos. Ele herda de `CharacterBody3D`, possui estados `Dormant`, `Idle`, `Alert`, `Chasing`, `Attacking` e `Stunned`, persegue diretamente o player com `MoveAndSlide`, toca audio basico e aplica dano simples via `PlayerHealth`.
 
+O visual atual do inimigo e o GLB `assets/blender_exports/enemies/hospede_seco/enemy_hospede_seco_blockout.glb`, instanciado em `EnemyPlaceholder.tscn` como `Visual/HospedeSecoModel`. O GLB e apenas visual: a fisica principal continua sendo a capsula do root e a deteccao de golpe continua em `EnemyHurtbox`. Os meshes antigos `BodyMesh`, `HeadMesh` e `Eyes` ficam ocultos como fallback.
+
 O placeholder usa origem nos pes, capsula alinhada acima do piso e ajuste inicial unico de altura ao ativar. Durante o prototipo, `LockVerticalMovement` fica ligado para manter o inimigo no plano do piso e evitar que ele afunde enquanto ainda nao temos navmesh/colisoes finais. Nao ha recuperacao de piso rodando todo frame.
 
 `EnemyHurtbox` e uma `Area3D` filha do `EnemyPlaceholder`, no grupo `enemy_hurtbox`, usada pelo martelo para detectar acertos sem depender de raycast fino. Ela liga/desliga junto com o inimigo.

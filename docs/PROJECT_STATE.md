@@ -72,6 +72,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Se o martelo foi coletado no Quarto 07, ele continua equipado ao entrar na sala.
 - Susto: `RitualScareTrigger` pisca luzes, toca stinger, liga radio static e revela `EnemyPlaceholder`.
 - Inimigo: `EnemyPlaceholderAI` ativa apos o susto, nasce em ponto visivel da sala, persegue diretamente o player, ataca perto e aplica dano simples.
+- Visual do inimigo: `EnemyPlaceholder.tscn` usa o blockout `enemy_hospede_seco_blockout.glb` como `Visual/HospedeSecoModel`; a capsula/cabeca antiga fica oculta como fallback.
 - Combate: mirar no `EnemyPlaceholder` e clicar com o botao esquerdo acerta com o martelo, aplica stun e reduz durabilidade.
 - Checkpoint: `RitualRoom_SantosSecos`, com retry recarregando a sala e restaurando snapshot do `GameSession`.
 
@@ -103,7 +104,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Combate final com animacoes, stamina e balanceamento completo.
 - IA de perseguicao avancada/pathfinding.
 - Porta visual/animada na fachada.
-- Inimigo Blender final.
+- Rig e animacoes finais do Hospede Seco.
 - Sala dos Santos Secos finalizada/polida.
 - Save em disco para inventario/checkpoints.
 - Tela de morte final com audio, animacao e arte definitiva.

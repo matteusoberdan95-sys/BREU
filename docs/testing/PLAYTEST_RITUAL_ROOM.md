@@ -163,6 +163,39 @@ Estado inicial:
 - `LockVerticalMovement = true`, temporario para impedir que o placeholder afunde no piso.
 - `EnemyHurtbox` fica no grupo `enemy_hurtbox` e liga/desliga junto com o inimigo.
 
+## Hospede Seco blockout
+
+Visual:
+
+```text
+res://assets/blender_exports/enemies/hospede_seco/enemy_hospede_seco_blockout.glb
+```
+
+O `EnemyPlaceholder` agora usa o blockout visual do Hospede Seco em:
+
+```text
+EnemyPlaceholder
+  Visual
+    HospedeSecoModel
+```
+
+Regras atuais:
+
+- o modelo substitui visualmente a capsula/cabeca placeholder;
+- `BodyMesh`, `HeadMesh` e `Eyes` antigos ficam ocultos como fallback;
+- a IA continua sendo `EnemyPlaceholderAI.cs`;
+- a colisao principal continua sendo `CollisionShape3D` com `CapsuleShape3D`;
+- o acerto do martelo continua usando `EnemyHurtbox`;
+- o GLB e apenas visual, sem colisao de gameplay;
+- ainda nao ha rig ou animacoes;
+- animacoes de idle/walk/attack/hit ficam para sprint futura.
+
+Ao abrir a sala, o console deve imprimir uma vez:
+
+```text
+Enemy visual: HospedeSecoModel carregado.
+```
+
 Ao cruzar `Triggers/RitualScareTrigger`:
 
 1. As luzes piscam.

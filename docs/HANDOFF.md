@@ -12,6 +12,15 @@ Ultima atualizacao: 2026-07-10
 
 ## Ultimas entregas
 
+### Sprint I - Hospede Seco blockout visual
+
+- Arquivo visual: `assets/blender_exports/enemies/hospede_seco/enemy_hospede_seco_blockout.glb`.
+- `EnemyPlaceholder.tscn` instancia o GLB em `Visual/HospedeSecoModel`.
+- `BodyMesh`, `HeadMesh` e `Eyes` antigos ficam ocultos como fallback.
+- A IA continua sendo `EnemyPlaceholderAI.cs`; nao houve refactor de comportamento.
+- Colisao, `EnemyHurtbox`, `DetectionArea`, `AttackArea` e audios continuam iguais.
+- Ainda nao ha rig ou animacoes.
+
 ### Sprint G - Morte, retry e respawn
 
 - `PlayerHealth.cs` agora controla vida, invulnerabilidade curta, morte e reset.

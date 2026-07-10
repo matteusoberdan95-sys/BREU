@@ -94,9 +94,13 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [ ] Balancear dano, vida e invulnerabilidade por playtest.
 - [ ] Criar save em disco futuramente.
 
-## Sprint H - O Hospede no Blender
+## Sprint I - Hospede Seco blockout
 
-- [ ] Modelo apenas apos validar escala, susto e perseguicao no Godot.
+- [x] Integrar `enemy_hospede_seco_blockout.glb` como visual do `EnemyPlaceholder`.
+- [x] Ocultar capsula/cabeca antigas sem remover fallback.
+- [x] Manter IA, colisao, hurtbox, ataque, stun e dano existentes.
+- [ ] Validar escala/orientacao manualmente no editor.
+- [ ] Criar rig e animacoes futuras.
 
 ## Fora de escopo ate pedido
 

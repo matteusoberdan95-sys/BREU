@@ -353,7 +353,28 @@ RitualRoom -> inimigo ataca -> Vida 0/100 -> VOCE MORREU -> Tentar novamente -> 
 
 ## Proxima sprint recomendada
 
-1. Testar manualmente morte/retry na Sala dos Santos Secos.
-2. Balancear dano, vida e invulnerabilidade.
-3. Criar objetivo com Chave Velha para liberar a porta de saida.
-4. Integrar custo de stamina ao ataque.
+## Sprint 20 - Hospede Seco blockout visual
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- `enemy_hospede_seco_blockout.glb` integrado em `EnemyPlaceholder.tscn`.
+- Novo no visual `Visual/HospedeSecoModel`.
+- `BodyMesh`, `HeadMesh` e `Eyes` antigos ocultos como fallback.
+- IA, colisao principal, `EnemyHurtbox`, ataque, stun, dano e audio mantidos.
+- `RitualRoom.tscn` continua instanciando `EnemyPlaceholder.tscn`.
+- Documentado playtest do Hospede Seco blockout.
+
+### Validacao esperada
+
+```text
+RitualRoom -> susto -> Hospede Seco aparece -> persegue -> ataca -> recebe martelada/stun
+```
+
+## Proxima sprint recomendada
+
+1. Validar escala/orientacao do Hospede Seco no editor.
+2. Testar manualmente morte/retry na Sala dos Santos Secos.
+3. Criar rig simples e animacoes de Idle/Walk/Attack/Hit.
+4. Criar objetivo com Chave Velha para liberar a porta de saida.

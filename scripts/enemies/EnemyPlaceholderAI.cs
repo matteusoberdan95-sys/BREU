@@ -113,6 +113,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
 
         ConfigureAudio();
         ConfigureNavigationAgent();
+        LogVisualModelState();
 
         if (StartDormant)
         {
@@ -946,6 +947,17 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
             _growlAudio.Stream = AudioResourceLoader.TryLoad(GrowlAudioPath);
             _growlAudio.VolumeDb = -7.0f;
         }
+    }
+
+    private void LogVisualModelState()
+    {
+        if (GetNodeOrNull<Node3D>("Visual/HospedeSecoModel") != null)
+        {
+            GD.Print("Enemy visual: HospedeSecoModel carregado.");
+            return;
+        }
+
+        GD.Print("Enemy visual: usando placeholder antigo por fallback.");
     }
 
     private void StartBreathing()
