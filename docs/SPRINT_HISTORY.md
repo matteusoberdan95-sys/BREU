@@ -2,7 +2,7 @@
 
 Registro cronologico das sprints e alteracoes relevantes do projeto.
 
-Ultima atualizacao: 2026-07-09
+Ultima atualizacao: 2026-07-10
 
 ## Sprint 0 - Fundacao da vertical slice
 
@@ -328,7 +328,32 @@ RitualRoom -> mirar EnemyPlaceholder -> clique esquerdo -> stun -> durabilidade 
 
 ## Proxima sprint recomendada
 
-1. Testar manualmente a Sala dos Santos Secos isolada.
-2. Ajustar escala/colisoes conforme o GLB no editor.
+## Sprint 19 - Morte, retry e respawn por checkpoint
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- `PlayerHealth.cs` finalizado para o loop atual com vida, invulnerabilidade curta, morte e reset.
+- HUD atualizado com `Vida 100/100`.
+- Criados `DamageOverlay.tscn` e `DamageOverlay.cs` para flash vermelho ao tomar dano.
+- Criados `DeathScreen.tscn` e `DeathScreen.cs` com `VOCE MORREU` e botao `Tentar novamente`.
+- `CheckpointManager` agora guarda cena, posicao/rotacao do player e snapshot simples do `GameSession`.
+- `GameSession` restaura snapshot de martelo, durabilidade e Chave Velha no retry.
+- `PlayerSpawnResolver` posiciona o player no checkpoint salvo quando a cena e recarregada.
+- Criados `CheckpointPoint.cs` e `RespawnResolver.cs` como base expansivel de checkpoint/respawn.
+- `EnemyPlaceholderAI` para perseguicao/ataque quando o player morre.
+- `TrailIntro`, `DemoRoom` e `RitualRoom` instanciam `DamageOverlay`, `DeathScreen` e `RespawnResolver`.
+
+### Validacao esperada
+
+```text
+RitualRoom -> inimigo ataca -> Vida 0/100 -> VOCE MORREU -> Tentar novamente -> checkpoint com Vida 100/100
+```
+
+## Proxima sprint recomendada
+
+1. Testar manualmente morte/retry na Sala dos Santos Secos.
+2. Balancear dano, vida e invulnerabilidade.
 3. Criar objetivo com Chave Velha para liberar a porta de saida.
-4. Integrar custo de stamina e feedback de vida/dano.
+4. Integrar custo de stamina ao ataque.

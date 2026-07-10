@@ -69,6 +69,8 @@ Quando a durabilidade do martelo chega a 0, `GameSession.ClearWeapon()` limpa a 
 
 `HUDController` escuta `PlayerInteractor.FocusChanged` para mostrar prompt minimo `[E] <acao>` na tela. Tambem escuta `PlayerInventory.InventoryChanged` para mostrar o martelo equipado e sua durabilidade. O HUD ignora input de mouse para nao bloquear o mouse look.
 
+O HUD tambem mostra `Vida current/max`, conectado ao sinal `PlayerHealth.HealthChanged`. `DamageOverlay` e uma camada simples de feedback vermelho ao tomar dano. `DeathScreen` mostra `VOCE MORREU` e o botao `Tentar novamente`, que chama `CheckpointManager.RespawnFromLastCheckpoint()`.
+
 ### Equipamento visual
 
 `PlayerEquipmentView` mostra o placeholder `CameraPivot/Camera3D/WeaponHolder/EquippedHammerVisual` quando `PlayerInventory.HasHammer` fica verdadeiro. `PlayerWeaponController` consulta `GameSession` no `_Ready()` do Player e reativa esse visual ao carregar cenas novas. `PlayerMeleeAttack` aplica um tween curto nesse visual como feedback temporario de golpe.
@@ -89,7 +91,7 @@ Quando a durabilidade do martelo chega a 0, `GameSession.ClearWeapon()` limpa a 
 
 `SceneTransition` e autoload em `res://scenes/system/SceneTransition.tscn`. Ele usa `SceneTransitionController` para `ChangeSceneWithFade(scenePath, message)`, tela preta e mensagem opcional.
 
-`CheckpointManager` e autoload em `res://scenes/system/CheckpointManager.tscn`. Ele guarda apenas `LastSceneName` e `LastCheckpoint` em memoria; nao existe save em disco ainda.
+`CheckpointManager` e autoload em `res://scenes/system/CheckpointManager.tscn`. Ele guarda `LastCheckpointId`, `LastScenePath`, posicao/rotacao do player e snapshot simples do `GameSession` em memoria; nao existe save em disco ainda. No retry, `RespawnFromLastCheckpoint()` restaura o snapshot, recarrega a cena do checkpoint com `SceneTransition` quando disponivel e deixa o `PlayerSpawnResolver` posicionar/resetar o player.
 
 `GameSession` e autoload em `res://scripts/system/GameSession.cs`. Ele preserva arma atual e Chave Velha entre trocas de cena, mas nao persiste apos fechar o jogo.
 
@@ -135,7 +137,7 @@ O placeholder usa origem nos pes, capsula alinhada acima do piso e ajuste inicia
 
 ### PlayerHealth
 
-`PlayerHealth` e um no filho de `Player.tscn`. Ele guarda `MaxHealth`, `CurrentHealth`, `TakeDamage(int)` e `Heal(int)`. Por enquanto, dano imprime debug e mostra mensagem simples no HUD; morte ainda e TODO.
+`PlayerHealth` e um no filho de `Player.tscn`. Ele guarda `MaxHealth`, `CurrentHealth`, `IsDead`, invulnerabilidade curta, `TakeDamage(int)`, `Heal(int)`, `Kill()` e `ResetHealth()`. Ao tomar dano, atualiza HUD, dispara `DamageOverlay` e mostra mensagem curta. Ao morrer, bloqueia movimento/interacao/ataque/lanterna/mouse look, mostra `DeathScreen`, libera o mouse e imprime `Player morreu.`.
 
 ## Decisoes temporarias
 

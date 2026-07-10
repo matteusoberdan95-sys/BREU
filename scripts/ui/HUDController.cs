@@ -3,6 +3,7 @@ namespace BREU.Scripts.Ui;
 public partial class HUDController : CanvasLayer
 {
     [Export] public NodePath InteractionPromptPath { get; set; } = "Root/InteractionPrompt";
+    [Export] public NodePath HealthLabelPath { get; set; } = "Root/StatusPanel/VBoxContainer/HealthLabel";
     [Export] public NodePath StaminaLabelPath { get; set; } = "Root/StatusPanel/VBoxContainer/StaminaLabel";
     [Export] public NodePath FlashlightLabelPath { get; set; } = "Root/StatusPanel/VBoxContainer/FlashlightLabel";
     [Export] public NodePath WeaponLabelPath { get; set; } = "Root/StatusPanel/VBoxContainer/WeaponLabel";
@@ -11,6 +12,7 @@ public partial class HUDController : CanvasLayer
     [Export] public NodePath MessageTimerPath { get; set; } = "MessageTimer";
 
     private Label? _interactionPrompt;
+    private Label? _healthLabel;
     private Label? _staminaLabel;
     private Label? _flashlightLabel;
     private Label? _weaponLabel;
@@ -21,6 +23,7 @@ public partial class HUDController : CanvasLayer
     public override void _Ready()
     {
         _interactionPrompt = GetNodeOrNull<Label>(InteractionPromptPath);
+        _healthLabel = GetNodeOrNull<Label>(HealthLabelPath);
         _staminaLabel = GetNodeOrNull<Label>(StaminaLabelPath);
         _flashlightLabel = GetNodeOrNull<Label>(FlashlightLabelPath);
         _weaponLabel = GetNodeOrNull<Label>(WeaponLabelPath);
@@ -34,6 +37,7 @@ public partial class HUDController : CanvasLayer
         }
 
         HideInteractionPrompt();
+        SetHealth(100, 100);
         SetWeapon("Maos vazias", 0, 0);
         CallDeferred(nameof(BindToPlayer));
     }
@@ -71,6 +75,15 @@ public partial class HUDController : CanvasLayer
         player.GetNodeOrNull<WeaponController>("CameraPivot/Camera3D/WeaponHolder/WeaponController")?.Connect(
             WeaponController.SignalName.WeaponChanged,
             Callable.From<string, int, int>(SetWeapon));
+
+        var health = player.GetNodeOrNull<PlayerHealth>("PlayerHealth");
+        if (health != null)
+        {
+            health.Connect(
+                PlayerHealth.SignalName.HealthChanged,
+                Callable.From<int, int>(SetHealth));
+            SetHealth(health.CurrentHealth, health.MaxHealth);
+        }
 
         var inventory = player.GetNodeOrNull<PlayerInventory>("PlayerInventory");
         if (inventory != null)
@@ -185,5 +198,13 @@ public partial class HUDController : CanvasLayer
             inventory.HasHammer ? inventory.EquippedWeaponName : "Maos vazias",
             inventory.HasHammer ? inventory.EquippedWeaponDurability : 0,
             inventory.HasHammer ? inventory.EquippedWeaponMaxDurability : 0);
+    }
+
+    public void SetHealth(int current, int max)
+    {
+        if (_healthLabel != null)
+        {
+            _healthLabel.Text = $"Vida {current}/{max}";
+        }
     }
 }

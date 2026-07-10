@@ -20,8 +20,22 @@ public partial class PlayerSpawnResolver : Node
     {
         var player = FindPlayer();
         var spawn = FindSpawn();
+        var currentScenePath = GetTree().CurrentScene?.SceneFilePath ?? "";
+        var shouldUseCheckpoint = CheckpointManager.Instance?.IsCheckpointScene(currentScenePath) == true;
 
-        if (player != null && spawn != null)
+        if (player != null && shouldUseCheckpoint && CheckpointManager.Instance != null)
+        {
+            player.GlobalPosition = CheckpointManager.Instance.LastPlayerPosition;
+            player.GlobalRotation = CheckpointManager.Instance.LastPlayerRotation;
+
+            if (player is CharacterBody3D body)
+            {
+                body.Velocity = Vector3.Zero;
+            }
+
+            ResetPlayerAfterSpawn(player);
+        }
+        else if (player != null && spawn != null)
         {
             player.GlobalPosition = spawn.GlobalPosition;
             player.GlobalRotation = spawn.GlobalRotation;
@@ -30,9 +44,19 @@ public partial class PlayerSpawnResolver : Node
             {
                 body.Velocity = Vector3.Zero;
             }
+
+            ResetPlayerAfterSpawn(player);
         }
 
-        CheckpointManager.Instance?.UpdateCheckpoint(CheckpointName);
+        if (player != null && spawn != null && !shouldUseCheckpoint && !string.IsNullOrWhiteSpace(CheckpointName))
+        {
+            CheckpointManager.Instance?.SetCheckpoint(
+                CheckpointName,
+                currentScenePath,
+                spawn.GlobalPosition,
+                spawn.GlobalRotation);
+        }
+
         ShowStartMessage();
     }
 
@@ -78,5 +102,16 @@ public partial class PlayerSpawnResolver : Node
         }
 
         GD.Print($"HUD mensagem: {StartMessage}");
+    }
+
+    private static void ResetPlayerAfterSpawn(Node3D player)
+    {
+        if (player is PlayerController controller)
+        {
+            controller.MovementEnabled = true;
+        }
+
+        player.GetNodeOrNull<PlayerHealth>("PlayerHealth")?.ResetHealth();
+        Input.MouseMode = Input.MouseModeEnum.Captured;
     }
 }

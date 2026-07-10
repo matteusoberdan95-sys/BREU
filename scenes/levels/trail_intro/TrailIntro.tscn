@@ -12,6 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://bciagalxynt5i" path="res://assets/blender_exports/house_exterior/pensao_santa_luzia_exterior_blockout.glb" id="10_house_exterior_blockout"]
 [ext_resource type="Script" uid="uid://delkxh6i4af1r" path="res://scripts/levels/EnterHouseTrigger.cs" id="11_enter_house"]
 [ext_resource type="Script" uid="uid://cyyqqhbpad7vn" path="res://scripts/doors/DoorAudioController.cs" id="12_door_audio"]
+[ext_resource type="PackedScene" path="res://scenes/ui/DamageOverlay.tscn" id="13_damage_overlay"]
+[ext_resource type="PackedScene" path="res://scenes/ui/DeathScreen.tscn" id="14_death_screen"]
+[ext_resource type="Script" path="res://scripts/system/RespawnResolver.cs" id="15_respawn_resolver"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_house_shadow_body"]
 size = Vector3(5.8, 2.2, 0.35)
@@ -106,6 +109,9 @@ editor_description = "Playtest da Trilha Noturna antes da chegada a Pensao Santa
 [node name="PlayerSpawnResolver" type="Node" parent="." unique_id=754113859]
 script = ExtResource("7_spawn_resolver")
 CheckpointName = "TrailIntro_Start"
+
+[node name="RespawnResolver" type="Node" parent="."]
+script = ExtResource("15_respawn_resolver")
 
 [node name="Environment" type="Node3D" parent="." unique_id=349555436]
 editor_description = "Assets visuais importados do Blender. Nao colocar logica de gameplay dentro do GLB."
@@ -371,6 +377,10 @@ autoplay = true
 [node name="UI" type="Node" parent="." unique_id=1530981218]
 
 [node name="HUD" parent="UI" unique_id=1239479085 instance=ExtResource("5_hud")]
+
+[node name="DamageOverlay" parent="UI" instance=ExtResource("13_damage_overlay")]
+
+[node name="DeathScreen" parent="UI" instance=ExtResource("14_death_screen")]
 
 [node name="Debug" type="Node3D" parent="." unique_id=706212451]
 editor_description = "Marcadores e notas de debug da Trilha Noturna."

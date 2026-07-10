@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://breu_ritual_room_santos_secos"]
+[gd_scene load_steps=32 format=3 uid="uid://breu_ritual_room_santos_secos"]
 
 [ext_resource type="PackedScene" path="res://assets/blender_exports/ritual_room/sala_santos_secos_blockout.glb" id="1_ritual_blockout"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
@@ -14,6 +14,9 @@
 [ext_resource type="Script" path="res://scripts/world/SurfaceTag.cs" id="12_surface_tag"]
 [ext_resource type="AudioStream" path="res://assets/audio/ambience/room_tone_01.ogg" id="13_room_tone"]
 [ext_resource type="AudioStream" path="res://assets/audio/sfx/radio/radio_static_loop.ogg" id="14_radio_static"]
+[ext_resource type="PackedScene" path="res://scenes/ui/DamageOverlay.tscn" id="15_damage_overlay"]
+[ext_resource type="PackedScene" path="res://scenes/ui/DeathScreen.tscn" id="16_death_screen"]
+[ext_resource type="Script" path="res://scripts/system/RespawnResolver.cs" id="17_respawn_resolver"]
 
 [sub_resource type="Environment" id="Environment_ritual_room"]
 background_mode = 1
@@ -68,6 +71,9 @@ script = ExtResource("7_spawn_resolver")
 CheckpointName = "RitualRoom_SantosSecos"
 StartMessage = "O ar aqui e quente demais."
 StartMessageDuration = 3.5
+
+[node name="RespawnResolver" type="Node" parent="."]
+script = ExtResource("17_respawn_resolver")
 
 [node name="Environment" type="Node3D" parent="."]
 editor_description = "Asset visual importado do Blender. Nao alterar o GLB para gameplay."
@@ -249,6 +255,10 @@ max_distance = 12.0
 [node name="NoteReaderUI" parent="UI" instance=ExtResource("4_note_reader")]
 
 [node name="AudioManager" parent="UI" instance=ExtResource("5_audio_manager")]
+
+[node name="DamageOverlay" parent="UI" instance=ExtResource("15_damage_overlay")]
+
+[node name="DeathScreen" parent="UI" instance=ExtResource("16_death_screen")]
 
 [node name="Debug" type="Node3D" parent="."]
 editor_description = "Marcadores e observacoes de debug da Sprint D."

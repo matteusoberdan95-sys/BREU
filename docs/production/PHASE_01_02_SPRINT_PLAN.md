@@ -202,7 +202,41 @@ Nao usar Blender ainda.
 
 ---
 
-## Sprint G - Inimigo Final no Blender
+## Sprint G - Morte, retry e respawn por checkpoint
+
+**Status:** base jogavel criada.
+
+### Objetivos
+
+- Finalizar `PlayerHealth` para o loop atual.
+- Mostrar vida no HUD.
+- Adicionar feedback visual de dano.
+- Criar tela de morte com retry.
+- Recarregar a cena do ultimo checkpoint.
+- Restaurar snapshot simples do `GameSession`.
+- Parar o inimigo quando o player morrer.
+
+### Godot
+
+- [x] `PlayerHealth.cs` com `TakeDamage`, `Heal`, `Kill` e `ResetHealth`.
+- [x] HUD mostra `Vida 100/100`.
+- [x] `DamageOverlay.tscn` com flash vermelho curto.
+- [x] `DeathScreen.tscn` com botao `Tentar novamente`.
+- [x] `CheckpointManager` guarda cena, posicao/rotacao e snapshot de arma/chave.
+- [x] `RespawnResolver.cs` garante input/vida resetados ao abrir cena.
+- [x] `EnemyPlaceholderAI` para de perseguir/atacar player morto.
+- [x] Cenas `TrailIntro`, `DemoRoom` e `RitualRoom` instanciam overlay/tela de morte.
+
+### Proximos ajustes
+
+- Criar save em disco futuramente.
+- Melhorar transicao visual/audio da morte.
+- Ajustar balanceamento de dano e vida apos playtest.
+- Criar checkpoints por Area3D quando a fase tiver ramificacoes.
+
+---
+
+## Sprint H - Inimigo Final no Blender
 
 So iniciar apos validar:
 
@@ -212,6 +246,7 @@ So iniciar apos validar:
 - timing do susto;
 - comportamento basico.
 - combate basico com martelo.
+- morte/retry/respawn.
 
 ### Criar primeiro inimigo
 
@@ -238,7 +273,7 @@ O Hospede.
 ## Ordem recomendada
 
 ```text
-Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G
+Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G -> Sprint H
 ```
 
 ## Documentos relacionados

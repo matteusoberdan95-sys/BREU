@@ -1,6 +1,6 @@
 # BREU - Handoff
 
-Ultima atualizacao: 2026-07-09
+Ultima atualizacao: 2026-07-10
 
 ## Retomar
 
@@ -11,6 +11,19 @@ Ultima atualizacao: 2026-07-09
 5. Para direcao macro, ler `docs/design/GAME_VISION.md` e `docs/production/PHASE_01_02_SPRINT_PLAN.md`.
 
 ## Ultimas entregas
+
+### Sprint G - Morte, retry e respawn
+
+- `PlayerHealth.cs` agora controla vida, invulnerabilidade curta, morte e reset.
+- HUD mostra `Vida current/max`.
+- `DamageOverlay` pisca vermelho ao tomar dano.
+- `DeathScreen` mostra `VOCE MORREU` e botao `Tentar novamente`.
+- `CheckpointManager` guarda checkpoint em memoria com cena, posicao/rotacao do player e snapshot do `GameSession`.
+- `RespawnFromLastCheckpoint()` restaura o snapshot e recarrega a cena via `SceneTransition` quando disponivel.
+- `PlayerSpawnResolver` reconhece retry e reposiciona o player no checkpoint salvo.
+- `RespawnResolver` garante vida/input resetados quando a cena abre.
+- `EnemyPlaceholderAI` para de perseguir/atacar quando o player esta morto.
+- `TrailIntro`, `DemoRoom` e `RitualRoom` instanciam `DamageOverlay`, `DeathScreen` e `RespawnResolver`.
 
 ### Sprint F - Combate basico do martelo
 
@@ -113,6 +126,7 @@ TrailIntro -> DemoRoom -> RitualRoom
 7. Abrir a porta do Quarto 07, atravessar o corredor e disparar o susto.
 8. Mirar na porta final e apertar `E`.
 9. Confirmar transicao para `RitualRoom.tscn`.
+10. Disparar o susto da RitualRoom, deixar o inimigo matar o player e testar `Tentar novamente`.
 
 Guias:
 
@@ -131,7 +145,7 @@ Observacao: o editor headless emite erros de cache/config em `AppData` nesta maq
 
 ## Proximo recomendado
 
-1. Testar manualmente `RitualRoom.tscn` isolada.
-2. Testar fluxo completo `TrailIntro -> DemoRoom -> RitualRoom`.
-3. Ajustar escala/colisoes da Sala dos Santos Secos conforme o GLB.
-4. Integrar Chave Velha ao inventario e criar objetivo para liberar a saida.
+1. Testar manualmente morte/retry na `RitualRoom.tscn`.
+2. Balancear dano, vida e invulnerabilidade.
+3. Criar objetivo com Chave Velha para liberar a saida.
+4. Integrar custo de stamina ao ataque.

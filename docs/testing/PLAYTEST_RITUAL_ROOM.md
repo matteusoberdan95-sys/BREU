@@ -175,9 +175,10 @@ Ao cruzar `Triggers/RitualScareTrigger`:
 
 1. Deixar o inimigo chegar perto.
 2. Confirmar growl/ataque em intervalo.
-3. Confirmar console:
+3. Confirmar HUD e console:
 
 ```text
+Vida 88/100
 Player tomou dano: 12
 ```
 
@@ -187,11 +188,43 @@ Player tomou dano: 12
 Voce foi atingido.
 ```
 
-Morte ainda nao tem tela propria. Se a vida chegar a zero, o console deve imprimir:
+Quando a vida chegar a zero, a tela de morte deve abrir:
 
 ```text
-Player morreu. TODO: implementar tela de morte.
+VOCE MORREU
+A casa ainda esta ouvindo.
+Tentar novamente
 ```
+
+O player deve parar de se mover, o mouse deve ficar livre para clicar no botao e o inimigo deve parar de perseguir/atacar.
+
+## Morte e respawn
+
+Fluxo:
+
+1. Entrar na `RitualRoom` com ou sem martelo.
+2. Disparar o `RitualScareTrigger`.
+3. Deixar o `EnemyPlaceholder` atacar ate a vida chegar a `0/100`.
+4. Confirmar flash vermelho leve a cada dano.
+5. Confirmar tela `VOCE MORREU`.
+6. Clicar `Tentar novamente`.
+
+Resultado esperado:
+
+- a cena do ultimo checkpoint recarrega;
+- o player volta para o checkpoint salvo;
+- a vida volta para `100/100`;
+- o HUD atualiza `Vida`, `Stamina`, `Lanterna` e `Arma`;
+- o inimigo e os triggers da sala voltam ao estado inicial por recarregamento da cena;
+- o controle e o mouse look voltam apos o respawn.
+
+Checkpoint usado na entrada da sala:
+
+```text
+RitualRoom_SantosSecos
+```
+
+O `CheckpointManager` tambem salva um snapshot simples do `GameSession`. Se o player entrou na RitualRoom com o Martelo Enferrujado `10/10`, morrer e tentar novamente restaura esse estado. Se entrou com `6/10`, volta com `6/10`. A Chave Velha coletada depois do checkpoint pode voltar a nao estar coletada ao recarregar a cena.
 
 ## Combate basico com martelo
 
@@ -322,7 +355,8 @@ A porta esta trancada. Alguma coisa precisa ser feita primeiro.
 - A IA persegue diretamente, sem navmesh; pode ficar limitada por moveis ate criarmos pathfinding.
 - O movimento vertical do inimigo esta travado de proposito durante o prototipo.
 - A chave ja marca `GameSession`, mas ainda nao abre objetivo/porta.
-- O dano do player e simples; ainda nao ha tela de morte.
+- O ciclo de morte e respawn ja funciona, mas ainda e prototipo: recarrega a cena inteira do checkpoint.
+- O checkpoint ainda fica apenas em memoria; nao existe save em disco.
 - O ataque do martelo usa raycast + hit volume e ainda nao tem animacao final.
 - O hit volume prioriza `enemy_hurtbox`; interactables nao gastam durabilidade.
 - A durabilidade so cai quando o golpe acerta.

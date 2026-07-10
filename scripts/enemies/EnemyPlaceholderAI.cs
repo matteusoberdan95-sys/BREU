@@ -106,6 +106,12 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         LookAtPlayer();
         TrackSafePosition();
 
+        if (IsPlayerDead())
+        {
+            StopBecausePlayerDied();
+            return;
+        }
+
         matchState(dt);
         KeepOnGroundPlane();
     }
@@ -344,6 +350,12 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
             return;
         }
 
+        if (IsPlayerDead())
+        {
+            StopBecausePlayerDied();
+            return;
+        }
+
         if (GlobalPosition.Y < GroundY - 0.35f || Mathf.Abs(_player.GlobalPosition.Y - GlobalPosition.Y) > 1.6f)
         {
             GD.Print("EnemyPlaceholder: ataque ignorado porque o inimigo saiu do piso valido.");
@@ -357,6 +369,18 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         }
 
         GD.Print($"EnemyPlaceholder ataque acertou, mas PlayerHealth nao foi encontrado. Dano: {Damage}");
+    }
+
+    private bool IsPlayerDead()
+    {
+        return _player?.GetNodeOrNull<PlayerHealth>("PlayerHealth")?.IsDead == true;
+    }
+
+    private void StopBecausePlayerDied()
+    {
+        State = PlaceholderEnemyState.Idle;
+        Velocity = Vector3.Zero;
+        StopBreathing();
     }
 
     private void PlayStepIfNeeded(float dt)

@@ -36,14 +36,14 @@ Validar se a primeira caminhada funciona como uma experiencia continua:
 
 ## Checkpoints em memoria
 
-O `CheckpointManager` ainda nao salva em disco. Ele apenas registra no console:
+O `CheckpointManager` ainda nao salva em disco. Ele registra o ultimo checkpoint, caminho da cena, posicao/rotacao do player e um snapshot simples do `GameSession`:
 
 - `TrailIntro_Start`
 - `DemoRoom_Quarto07`
 - `RitualRoom_SantosSecos`
 - `Ritual_Note_Read`
 
-Isso serve para debug e prepara o futuro sistema de save/checkpoint.
+Isso permite retry em memoria apos morte. Ao clicar `Tentar novamente`, a cena do ultimo checkpoint e recarregada e o player volta com vida cheia. O snapshot restaura arma atual, durabilidade, martelo coletado e Chave Velha conforme estavam quando o checkpoint foi registrado.
 
 ## Validacao rapida
 
@@ -96,12 +96,31 @@ Arma: Martelo Enferrujado 9/10
 Arma: Maos vazias
 ```
 
+## Morte, retry e respawn
+
+1. No fluxo completo, entrar na `RitualRoom`.
+2. Disparar o susto e deixar o `EnemyPlaceholder` atacar.
+3. Confirmar que o HUD mostra `Vida 100/100` e diminui a cada hit.
+4. Confirmar flash vermelho leve ao tomar dano.
+5. Quando a vida chegar a `0/100`, confirmar a tela:
+
+```text
+VOCE MORREU
+A casa ainda esta ouvindo.
+Tentar novamente
+```
+
+6. Confirmar que o player nao anda, nao ataca e nao alterna lanterna enquanto morto.
+7. Clicar `Tentar novamente`.
+8. Confirmar que volta ao ultimo checkpoint com `Vida 100/100`.
+9. Confirmar que o martelo volta com a durabilidade salva no checkpoint.
+
 ## Problemas conhecidos
 
 - `HouseExterior.tscn` continua existindo como cena de teste isolado/comparacao, mas saiu do fluxo principal.
 - A silhueta antiga da Pensao ficou desativada como fallback.
 - As colisoes da trilha e da fachada integrada ainda sao temporarias.
-- O checkpoint ainda nao restaura posicao do player.
+- Checkpoints e respawn ainda sao apenas em memoria.
 - O estado do martelo e da Chave Velha persiste apenas em memoria enquanto o jogo esta rodando.
 - O combate do martelo e prototipo por raycast, sem animacao final.
 - A RitualRoom ainda tem porta de saida bloqueada.

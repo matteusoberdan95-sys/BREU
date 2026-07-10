@@ -1,6 +1,6 @@
 # BREU - Estado do projeto
 
-Ultima atualizacao: 2026-07-09
+Ultima atualizacao: 2026-07-10
 
 ## Resumo rapido
 
@@ -24,8 +24,10 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Passos por superficie (`SurfaceTag` + grupos `surface_*`).
 - Lanterna com HUD de bateria.
 - HUD com stamina, lanterna, arma, prompts e mensagens temporarias.
+- HUD com vida, flash vermelho de dano e tela de morte.
 - Martelo persistente entre cenas via `GameSession`.
 - Ataque basico com Martelo Enferrujado no botao esquerdo: raycast curto, stun no inimigo, durabilidade e quebra.
+- Morte/retry: ao chegar a `0/100`, o player abre `DeathScreen` e pode voltar ao ultimo checkpoint.
 
 ### Trilha Noturna
 
@@ -71,20 +73,21 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Susto: `RitualScareTrigger` pisca luzes, toca stinger, liga radio static e revela `EnemyPlaceholder`.
 - Inimigo: `EnemyPlaceholderAI` ativa apos o susto, nasce em ponto visivel da sala, persegue diretamente o player, ataca perto e aplica dano simples.
 - Combate: mirar no `EnemyPlaceholder` e clicar com o botao esquerdo acerta com o martelo, aplica stun e reduz durabilidade.
-- Checkpoint: `RitualRoom_SantosSecos`.
+- Checkpoint: `RitualRoom_SantosSecos`, com retry recarregando a sala e restaurando snapshot do `GameSession`.
 
 ### Sistemas
 
 - `AudioManager` + pack v01 + `AmbienceController`.
 - `SceneTransition` (autoload) para fade in/out entre cenas.
-- `CheckpointManager` (autoload) registra checkpoints em memoria.
+- `CheckpointManager` (autoload) registra checkpoints em memoria, com cena, posicao/rotacao e snapshot simples de arma/chave.
 - `GameSession` (autoload) preserva Martelo Enferrujado e Chave Velha durante a sessao.
 - `PlayerSpawnResolver` posiciona o player nos spawns de cada cena.
+- `RespawnResolver`, `DamageOverlay` e `DeathScreen` fecham o ciclo basico de morte/retry.
 - `DemoRoomSequenceController` para estados da sequencia do Quarto 07.
 - `EnterHouseTrigger` e usado na porta da Pensao integrada na trilha e na cena isolada da fachada.
 - `HouseEntryTrigger` permanece apenas como fallback antigo desativado na trilha.
-- `PlayerHealth` guarda vida simples do player.
-- `EnemyPlaceholderAI` controla a IA basica da Sala dos Santos Secos.
+- `PlayerHealth` guarda vida, invulnerabilidade curta, morte e reset do player.
+- `EnemyPlaceholderAI` controla a IA basica da Sala dos Santos Secos e para de atacar player morto.
 
 ## Cenas principais
 
@@ -102,8 +105,8 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Porta visual/animada na fachada.
 - Inimigo Blender final.
 - Sala dos Santos Secos finalizada/polida.
-- Preservacao de posicao entre cenas.
 - Save em disco para inventario/checkpoints.
+- Tela de morte final com audio, animacao e arte definitiva.
 
 ## Verificacao
 
@@ -119,7 +122,7 @@ Validar manualmente com F6:
 3. mirar na porta e apertar `E`;
 4. confirmar `DemoRoom.tscn`.
 
-Depois, ajustar colisoes/escala da fachada e criar porta visual animada.
+Depois, testar morte/retry na RitualRoom e ajustar dano, vida e invulnerabilidade.
 
 ## Manutencao
 

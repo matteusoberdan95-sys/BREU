@@ -1,6 +1,6 @@
 # BREU - Proximas tarefas
 
-Ultima atualizacao: 2026-07-09
+Ultima atualizacao: 2026-07-10
 
 Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 
@@ -69,7 +69,7 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [x] Stun/impacto do martelo no `EnemyPlaceholder`.
 - [x] Durabilidade do martelo e quebra em 0/10.
 - [ ] Reacao a lanterna em prototipo futuro.
-- [ ] Criar feedback visual/HUD de vida.
+- [x] Criar feedback visual/HUD de vida.
 
 ## Sprint F - Combate basico do martelo
 
@@ -81,7 +81,20 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [ ] Integrar custo de stamina ao ataque.
 - [ ] Criar animacao/audio finais de swing e impacto.
 
-## Sprint F - O Hospede no Blender
+## Sprint G - Morte, retry e respawn
+
+- [x] Finalizar `PlayerHealth` com morte e reset.
+- [x] Mostrar `Vida` no HUD.
+- [x] Criar flash vermelho de dano.
+- [x] Criar tela `VOCE MORREU`.
+- [x] Botao `Tentar novamente`.
+- [x] Recarregar cena do ultimo checkpoint.
+- [x] Restaurar snapshot simples do `GameSession`.
+- [x] Parar inimigo quando player morre.
+- [ ] Balancear dano, vida e invulnerabilidade por playtest.
+- [ ] Criar save em disco futuramente.
+
+## Sprint H - O Hospede no Blender
 
 - [ ] Modelo apenas apos validar escala, susto e perseguicao no Godot.
 

@@ -57,4 +57,17 @@ public partial class GameSession : Node
         HasOldKey = true;
         GD.Print("GameSession: Chave Velha coletada.");
     }
+
+    public void RestoreSnapshot(
+        bool hasRustyHammer,
+        bool hasOldKey,
+        string weaponName,
+        int weaponDurability,
+        int weaponMaxDurability)
+    {
+        HasRustyHammer = hasRustyHammer;
+        HasOldKey = hasOldKey;
+        EquipWeapon(weaponName, weaponDurability, weaponMaxDurability);
+        GD.Print("GameSession: snapshot de checkpoint restaurado.");
+    }
 }

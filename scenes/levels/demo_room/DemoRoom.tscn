@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://breu_demo_room"]
+[gd_scene load_steps=50 format=3 uid="uid://breu_demo_room"]
 
 [ext_resource type="PackedScene" path="res://assets/blender_exports/quarto_07/quarto_07_blockout.glb" id="1_quarto07"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
@@ -22,6 +22,9 @@
 [ext_resource type="Script" path="res://scripts/world/SurfaceTag.cs" id="20_surface_tag"]
 [ext_resource type="Script" path="res://scripts/interaction/CorridorEndDoorInteractable.cs" id="21_corridor_end_door"]
 [ext_resource type="Script" path="res://scripts/player/PlayerSpawnResolver.cs" id="22_spawn_resolver"]
+[ext_resource type="PackedScene" path="res://scenes/ui/DamageOverlay.tscn" id="23_damage_overlay"]
+[ext_resource type="PackedScene" path="res://scenes/ui/DeathScreen.tscn" id="24_death_screen"]
+[ext_resource type="Script" path="res://scripts/system/RespawnResolver.cs" id="25_respawn_resolver"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(5.7, 0.1, 6.7)
@@ -117,6 +120,9 @@ PlayerSpawnPath = NodePath("SpawnPoints/PlayerStart")
 CheckpointName = "DemoRoom_Quarto07"
 StartMessage = "O quarto parece preparado para alguem."
 StartMessageDuration = 3.5
+
+[node name="RespawnResolver" type="Node" parent="."]
+script = ExtResource("25_respawn_resolver")
 
 [node name="DemoRoomSequenceController" type="Node" parent="." groups=["demo_sequence"]]
 script = ExtResource("16_sequence")
@@ -299,6 +305,10 @@ position = Vector3(0, 1, 0)
 [node name="NoteReaderUI" parent="UI" instance=ExtResource("17_note_reader")]
 
 [node name="AudioManager" parent="UI" instance=ExtResource("18_audio_manager")]
+
+[node name="DamageOverlay" parent="UI" instance=ExtResource("23_damage_overlay")]
+
+[node name="DeathScreen" parent="UI" instance=ExtResource("24_death_screen")]
 
 [node name="Collisions" type="Node3D" parent="."]
 editor_description = "Colisoes temporarias do Quarto 07. Godot usa Y como altura; X e largura e Z e profundidade."
