@@ -14,7 +14,7 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [x] Audio pack v01, passos, pulo, bilhete, susto.
 - [x] Sprint B base - `TrailIntro.tscn` com GLB, player, colisoes, luz, audio e trigger de chegada.
 - [x] Sprint C base - `HouseExterior.tscn` com GLB, player, colisoes, luz, audio e triggers.
-- [x] Sprint C.5 - costura jogavel do fluxo `TrailIntro -> HouseExterior -> DemoRoom`.
+- [x] Sprint C.5 - costura jogavel do fluxo `TrailIntro -> DemoRoom`.
 
 ## Sprint B - Trilha de entrada
 
@@ -22,30 +22,38 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [x] Instanciar `trail_intro_blockout.glb`.
 - [x] Player no inicio da trilha.
 - [x] Colisoes temporarias de chao e laterais.
-- [x] Ambience + trigger de chegada a fachada.
-- [x] Transicao para `HouseExterior.tscn`.
+- [x] Ambience + chegada ate a fachada integrada na trilha.
+- [x] Porta da Pensao na trilha transiciona direto para `DemoRoom.tscn`.
 - [ ] Ajustar colisoes conforme o GLB final.
 - [ ] Adicionar bloqueios mais organicos: vegetacao seca, cerca, cactos, pedras.
 
 ## Sprint C - Fachada da Pensao Santa Luzia
 
 - [x] Exterior blockout importado.
-- [x] `HouseExterior.tscn`.
-- [x] Porta de entrada como trigger para `DemoRoom.tscn`.
-- [x] Transicao `TrailIntro.tscn` -> `HouseExterior.tscn`.
-- [x] Transicao `HouseExterior.tscn` -> `DemoRoom.tscn`.
+- [x] `HouseExterior.tscn` mantida como cena isolada de teste.
+- [x] GLB visual da fachada integrado em `TrailIntro.tscn`.
+- [x] Porta de entrada na trilha leva para `DemoRoom.tscn`.
 - [x] Fade com mensagem entre cenas.
 - [x] Checkpoints em memoria por cena.
 - [x] Mensagens narrativas curtas na trilha, fachada e quarto.
 - [ ] Validar escala/orientacao manualmente no editor.
 - [ ] Ajustar colisoes da fachada.
 - [ ] Criar porta visual/animada.
-- [ ] Criar retorno real para a trilha, se fizer sentido.
+- [ ] Decidir se `HouseExterior.tscn` sera mantida apenas como teste ou reaproveitada futuramente.
 
 ## Sprint D - Sala dos Santos Secos
 
-- [ ] Substituir `RitualRoom.tscn` placeholder por asset Blender.
-- [ ] Mesa ritual, velas, ossos, cruzes, props regionais.
+- [x] Substituir `RitualRoom.tscn` placeholder por asset Blender em nova cena.
+- [x] Criar colisoes temporarias da sala, mesa e porta.
+- [x] Criar luzes de vela/altar/fill escuro.
+- [x] Criar bilhete ritual interativo.
+- [x] Criar Chave Velha coletavel simples.
+- [x] Criar trigger de susto ritualistico.
+- [x] Preparar `EnemyPlaceholder` para aparicao sem combate.
+- [x] Criar porta de saida bloqueada.
+- [ ] Validar escala/orientacao da Sala dos Santos Secos no editor.
+- [ ] Integrar Chave Velha ao inventario real.
+- [ ] Criar objetivo para liberar porta de saida.
 
 ## Sprint E - Primeiro inimigo placeholder
 

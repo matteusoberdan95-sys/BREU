@@ -71,9 +71,11 @@ Interativos ativos na demo:
 
 `DemoRoom.tscn` instancia o GLB importado em `Environment/quarto_07_blockout` e adiciona nos auxiliares para gameplay, colisoes, interacoes, luz, player e debug. O asset importado nao deve ser alterado para gameplay.
 
-`TrailIntro.tscn` instancia `trail_intro_blockout.glb` em `Environment/trail_intro_blockout` e adiciona player, HUD, colisoes temporarias, luzes, ambiencia e `HouseEntryTrigger`. A cena inicia o fluxo e transiciona para `HouseExterior.tscn`. A casa completa nao e instanciada na trilha; `DistantHouseSilhouette` usa meshes simples e `LightFlicker` para criar objetivo visual distante.
+`TrailIntro.tscn` instancia `trail_intro_blockout.glb` em `Environment/trail_intro_blockout` e tambem o GLB visual da fachada em `Environment/HouseExteriorAtTrailEnd`. A cena adiciona player, HUD, colisoes temporarias, luzes, ambiencia e a porta interativa `Interactables/EnterPensionDoor`. A trilha agora transiciona direto para `DemoRoom.tscn`. `DistantHouseSilhouette` e `HouseEntryTrigger` permanecem na cena como fallback antigo, mas desativados.
 
-`HouseExterior.tscn` instancia `pensao_santa_luzia_exterior_blockout.glb` em `Environment/pensao_santa_luzia_exterior_blockout`. A cena tem player, HUD, colisoes auxiliares, luz da lua, lampiao, ambiencia externa, `EnterHouseDoor` e `BackToTrailTrigger`.
+`HouseExterior.tscn` instancia `pensao_santa_luzia_exterior_blockout.glb` em `Environment/pensao_santa_luzia_exterior_blockout`. A cena tem player, HUD, colisoes auxiliares, luz da lua, lampiao, ambiencia externa, `EnterHouseDoor` e `BackToTrailTrigger`. Ela continua disponivel como cena isolada de teste/comparacao, mas nao faz mais parte obrigatoria do fluxo principal.
+
+`RitualRoom.tscn` instancia `sala_santos_secos_blockout.glb` em `Environment/sala_santos_secos_blockout`. A cena usa nos auxiliares para colisoes, luzes, interativos, susto, audio e inimigo placeholder. O GLB nao recebe logica de gameplay.
 
 `PlayerSpawnResolver` e usado nas cenas do fluxo principal para posicionar o player no marcador de spawn e registrar checkpoints em memoria.
 
@@ -85,13 +87,23 @@ Interativos ativos na demo:
 
 ### Triggers de level
 
-`HouseEntryTrigger` e um `Area3D` usado na Trilha Noturna. Ao detectar o player, imprime debug e troca para `HouseExterior.tscn` usando `SceneTransition.ChangeSceneWithFade` quando disponivel.
+`HouseEntryTrigger` e um `Area3D` antigo da Trilha Noturna. Ele ficou preservado como fallback, mas esta desativado no fluxo principal.
 
-`EnterHouseTrigger` e o script da porta interativa da fachada, usado no no `EnterHouseDoor`. O player precisa mirar na porta e apertar `E`; entao o script mostra mensagem no HUD, imprime debug e troca para `DemoRoom.tscn` usando `SceneTransition.ChangeSceneWithFade` quando disponivel.
+`EnterHouseTrigger` e o script da porta interativa da Pensao, usado em `TrailIntro/Interactables/EnterPensionDoor` e tambem no no `EnterHouseDoor` da cena isolada `HouseExterior`. O player precisa mirar na porta e apertar `E`; entao o script mostra mensagem no HUD, imprime debug e troca para `DemoRoom.tscn` usando `SceneTransition.ChangeSceneWithFade` quando disponivel.
 
 `OneShotMessageTrigger` e um `Area3D` narrativo simples para mensagens curtas de atmosfera que disparam uma unica vez.
 
 `BackToTrailTrigger` e um `Area3D` informativo usado na fachada. Ele mostra mensagem e imprime debug, mas ainda nao troca cena.
+
+`RitualRoomScareTrigger` e um `Area3D` de susto da Sala dos Santos Secos. Ele mostra mensagem, toca stinger quando disponivel, liga radio static por alguns segundos, pisca luzes e revela `EnemyPlaceholder` sem combate.
+
+`RitualExitDoorTrigger` e a porta bloqueada da Sala dos Santos Secos. Mostra mensagem no HUD, imprime debug e ainda nao troca cena.
+
+### Interativos da RitualRoom
+
+`RitualNoteInteractable` abre `NoteReaderUI` com o bilhete da Sala dos Santos Secos e registra checkpoint `Ritual_Note_Read`.
+
+`OldKeyPickup` coleta a Chave Velha com estado local `HasOldKey`, som de pickup quando disponivel e mensagem no HUD. Inventario persistente fica para sprint futura.
 
 ## Sistemas preparados, mas fora da demo atual
 

@@ -182,8 +182,6 @@ TrailIntro -> HouseExterior -> DemoRoom
 - `dotnet build BREU.sln` passou com 0 erros.
 - Godot editor headless importou o GLB da fachada.
 
-## Proxima sprint recomendada
-
 ## Sprint 13 - Costura da Fase 1
 
 **Data:** 2026-07-09 | **Status:** base criada
@@ -207,6 +205,56 @@ TrailIntro -> HouseExterior -> DemoRoom
 
 ## Proxima sprint recomendada
 
-1. Testar manualmente o Play principal iniciando em `TrailIntro.tscn`.
-2. Ajustar colisoes/escala da trilha e fachada.
-3. Criar porta visual/animada da Pensao.
+## Sprint 14 - Sala dos Santos Secos
+
+**Data:** 2026-07-09 | **Status:** base criada
+
+### Entregas
+
+- `scenes/levels/ritual_room/RitualRoom.tscn`.
+- `sala_santos_secos_blockout.glb` instanciado em `Environment`.
+- Player, HUD, NoteReaderUI, AudioManager e PlayerSpawnResolver reutilizados.
+- Colisoes temporarias da sala, mesa e porta de saida.
+- Luzes `CandleLightMain`, `BackAltarLight` e `RoomDarkFill`.
+- Ambiencia `room_tone_01.ogg` e `RadioStaticPoint`.
+- `RitualNoteInteractable` com checkpoint `Ritual_Note_Read`.
+- `OldKeyPickup` com estado local `HasOldKey`.
+- `RitualRoomScareTrigger` com stinger, radio static, flicker e aparicao do `EnemyPlaceholder`.
+- `RitualExitDoorTrigger` bloqueado.
+- Porta final do corredor atualizada para `RitualRoom.tscn` nova.
+- Guia `docs/testing/PLAYTEST_RITUAL_ROOM.md`.
+
+### Fluxo
+
+```text
+TrailIntro -> HouseExterior -> DemoRoom -> RitualRoom
+```
+
+## Proxima sprint recomendada
+
+## Sprint 15 - Fachada real integrada na TrailIntro
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- `TrailIntro.tscn` agora instancia o GLB visual da fachada em `Environment/HouseExteriorAtTrailEnd`.
+- `DistantHouseSilhouette` preservada, mas oculta.
+- `HouseEntryTrigger` preservado, mas desativado.
+- Criado `Interactables/EnterPensionDoor` na trilha, usando `EnterHouseTrigger`.
+- Porta da Pensao na trilha transiciona direto para `DemoRoom.tscn`.
+- Colisoes auxiliares da fachada integradas em `Collisions/HouseExteriorCollisions`.
+- `HouseFrontLanternLight` com `LightFlicker`.
+- `HouseExterior.tscn` mantida como cena isolada de teste/comparacao.
+
+### Fluxo
+
+```text
+TrailIntro -> DemoRoom -> RitualRoom
+```
+
+## Proxima sprint recomendada
+
+1. Testar manualmente a Sala dos Santos Secos isolada.
+2. Ajustar escala/colisoes conforme o GLB no editor.
+3. Integrar Chave Velha ao inventario real e criar objetivo para liberar a porta de saida.

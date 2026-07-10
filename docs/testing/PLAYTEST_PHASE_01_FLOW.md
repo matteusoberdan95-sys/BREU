@@ -9,7 +9,7 @@ A cena principal do projeto agora e:
 Ao apertar Play no Godot, o fluxo esperado e:
 
 ```text
-TrailIntro -> HouseExterior -> DemoRoom
+TrailIntro -> DemoRoom -> RitualRoom
 ```
 
 ## Objetivo do teste
@@ -17,27 +17,31 @@ TrailIntro -> HouseExterior -> DemoRoom
 Validar se a primeira caminhada funciona como uma experiencia continua:
 
 1. O player nasce no inicio da Trilha Noturna.
-2. A silhueta escura da Pensao aparece no fim da trilha.
-3. Ao chegar perto da luz/casa, ocorre fade para `HouseExterior.tscn`.
-4. Na fachada real, mirar na porta mostra o prompt de interacao.
-5. Apertar `E` troca com fade para `DemoRoom.tscn`.
+2. A fachada real da Pensao aparece no fim da trilha.
+3. O player caminha ate a varanda/porta da Pensao.
+4. Na porta da fachada, mirar mostra o prompt de interacao.
+5. Apertar `E` troca com fade direto para `DemoRoom.tscn`.
 6. No Quarto 07, a mensagem inicial aparece no HUD e o playtest continua.
+7. Abrir a porta do quarto, atravessar o corredor e interagir com a porta final.
+8. Confirmar fade para `RitualRoom.tscn`, a Sala dos Santos Secos.
 
 ## Mensagens esperadas
 
 - Trilha: `A luz nao deveria estar acesa.`
-- Chegada: `A Pensao Santa Luzia.`
-- Fachada: `Tem cheiro de vela queimada.`
-- Porta: `A porta range como se ja estivesse aberta por dentro.`
+- Porta da Pensao: `A porta range como se ja estivesse aberta por dentro.`
 - Quarto: `O quarto parece preparado para alguem.`
+- Porta final: `A madeira cede para um comodo quente e escuro.`
+- RitualRoom: `O ar aqui e quente demais.`
+- Susto ritual: `As velas tremem sem vento.`
 
 ## Checkpoints em memoria
 
 O `CheckpointManager` ainda nao salva em disco. Ele apenas registra no console:
 
 - `TrailIntro_Start`
-- `HouseExterior_Entrance`
 - `DemoRoom_Quarto07`
+- `RitualRoom_SantosSecos`
+- `Ritual_Note_Read`
 
 Isso serve para debug e prepara o futuro sistema de save/checkpoint.
 
@@ -47,12 +51,16 @@ Isso serve para debug e prepara o futuro sistema de save/checkpoint.
 2. Apertar Play.
 3. Clicar na aba/janela **Entrada** se o mouse nao capturar.
 4. Caminhar pela trilha usando `WASD`.
-5. Confirmar fade para a fachada.
+5. Confirmar que a fachada real da Pensao aparece no fim da trilha.
 6. Mirar na porta da fachada e apertar `E`.
-7. Confirmar fade para o Quarto 07.
+7. Confirmar fade direto para o Quarto 07.
+8. No corredor, disparar o susto e usar a porta final.
+9. Confirmar fade para a Sala dos Santos Secos.
 
 ## Problemas conhecidos
 
-- A silhueta da Pensao na trilha e propositalmente simples; a fachada detalhada existe apenas em `HouseExterior.tscn`.
-- As colisoes da trilha e fachada ainda sao temporarias.
+- `HouseExterior.tscn` continua existindo como cena de teste isolado/comparacao, mas saiu do fluxo principal.
+- A silhueta antiga da Pensao ficou desativada como fallback.
+- As colisoes da trilha e da fachada integrada ainda sao temporarias.
 - O checkpoint ainda nao restaura posicao nem estado do inventario.
+- A RitualRoom ainda tem inimigo sem dano/perseguicao e porta de saida bloqueada.

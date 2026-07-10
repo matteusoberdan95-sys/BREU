@@ -18,6 +18,7 @@ global using BREU.Scripts.Player;
 // BREU — Inventory
 // =============================================================================
 global using BREU.Scripts.Inventory;
+global using BREU.Scripts.Items;
 
 // =============================================================================
 // BREU — Weapons

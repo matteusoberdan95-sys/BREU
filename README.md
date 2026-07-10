@@ -2,7 +2,7 @@
 
 Survival horror brutal em primeira pessoa, feito em Godot 4.7 Mono/C# com assets criados no Blender.
 
-O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre os anos 70/80. O fluxo atual comeca na trilha noturna, passa pela fachada da Pensao, entra no Quarto 07, segue por um corredor escuro, susto, porta final e uma Fase 2 placeholder.
+O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre os anos 70/80. O fluxo atual comeca na trilha noturna, passa pela fachada da Pensao, entra no Quarto 07, segue por um corredor escuro, susto, porta final e chega a Sala dos Santos Secos.
 
 ## Comece aqui
 
@@ -18,12 +18,12 @@ O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre 
 | Area | Status |
 |------|--------|
 | Trilha Noturna | Jogavel, leva para fachada |
-| Fachada da Pensao | Blockout jogavel, leva para Quarto 07 |
+| Fachada da Pensao | Integrada visualmente no fim da trilha; cena isolada mantida |
 | Quarto 07 | Jogavel |
 | Player FPS | Andar, correr, agachar, pular, lanterna |
 | Audio | Pack v01 + passos por superficie + vento |
 | Fase 1 | Quarto -> corredor -> susto -> porta final |
-| Fase 2 | `RitualRoom.tscn` placeholder |
+| Fase 2 | Sala dos Santos Secos jogavel inicial |
 | Combate / IA | Placeholder apenas |
 
 A cena principal do projeto ja aponta para `TrailIntro.tscn`, entao o botao Play testa a entrada completa da vertical slice.
@@ -31,14 +31,14 @@ A cena principal do projeto ja aponta para `TrailIntro.tscn`, entao o botao Play
 ## Cenas principais
 
 - Trilha inicial: `res://scenes/levels/trail_intro/TrailIntro.tscn`
-- Fachada: `res://scenes/levels/house_exterior/HouseExterior.tscn`
+- Fachada isolada/teste: `res://scenes/levels/house_exterior/HouseExterior.tscn`
 - Fase 1 / Quarto 07: `res://scenes/levels/demo_room/DemoRoom.tscn`
-- Fase 2 placeholder: `res://scenes/levels/phase_02/RitualRoom.tscn`
+- Sala dos Santos Secos: `res://scenes/levels/ritual_room/RitualRoom.tscn`
 
 ## Fluxos atuais
 
 ```text
-TrailIntro -> HouseExterior -> DemoRoom
+TrailIntro -> DemoRoom
 ```
 
 ```text
@@ -68,6 +68,7 @@ Guias:
 - [`docs/testing/PLAYTEST_TRAIL_INTRO.md`](docs/testing/PLAYTEST_TRAIL_INTRO.md)
 - [`docs/testing/PLAYTEST_HOUSE_EXTERIOR.md`](docs/testing/PLAYTEST_HOUSE_EXTERIOR.md)
 - [`docs/testing/PLAYTEST_DEMO_ROOM.md`](docs/testing/PLAYTEST_DEMO_ROOM.md)
+- [`docs/testing/PLAYTEST_RITUAL_ROOM.md`](docs/testing/PLAYTEST_RITUAL_ROOM.md)
 
 ## Build
 

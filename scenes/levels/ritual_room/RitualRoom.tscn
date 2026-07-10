@@ -1,0 +1,253 @@
+[gd_scene load_steps=29 format=3 uid="uid://breu_ritual_room_santos_secos"]
+
+[ext_resource type="PackedScene" path="res://assets/blender_exports/ritual_room/sala_santos_secos_blockout.glb" id="1_ritual_blockout"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/NoteReaderUI.tscn" id="4_note_reader"]
+[ext_resource type="PackedScene" path="res://autoload/AudioManager.tscn" id="5_audio_manager"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyPlaceholder.tscn" id="6_enemy_placeholder"]
+[ext_resource type="Script" path="res://scripts/player/PlayerSpawnResolver.cs" id="7_spawn_resolver"]
+[ext_resource type="Script" path="res://scripts/interaction/RitualNoteInteractable.cs" id="8_ritual_note"]
+[ext_resource type="Script" path="res://scripts/items/OldKeyPickup.cs" id="9_old_key"]
+[ext_resource type="Script" path="res://scripts/horror/RitualRoomScareTrigger.cs" id="10_scare_trigger"]
+[ext_resource type="Script" path="res://scripts/levels/RitualExitDoorTrigger.cs" id="11_exit_door"]
+[ext_resource type="Script" path="res://scripts/world/SurfaceTag.cs" id="12_surface_tag"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/room_tone_01.ogg" id="13_room_tone"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/radio/radio_static_loop.ogg" id="14_radio_static"]
+
+[sub_resource type="Environment" id="Environment_ritual_room"]
+background_mode = 1
+background_color = Color(0.027451, 0.027451, 0.027451, 1)
+ambient_light_energy = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(7.2, 0.2, 8.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_side"]
+size = Vector3(0.2, 3, 8.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_back"]
+size = Vector3(7.2, 3, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_front_wall_side"]
+size = Vector3(2.8, 3, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_table"]
+size = Vector3(2.2, 0.9, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_exit_door_blocker"]
+size = Vector3(1.05, 2.1, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ritual_note"]
+size = Vector3(0.7, 0.6, 0.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_old_key"]
+size = Vector3(0.6, 0.5, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_scare_trigger"]
+size = Vector3(2.8, 2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_exit_door_trigger"]
+size = Vector3(1.2, 2, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="Material_old_key"]
+albedo_color = Color(0.62, 0.47, 0.2, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_old_key_body"]
+size = Vector3(0.32, 0.06, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_old_key_teeth"]
+size = Vector3(0.08, 0.08, 0.08)
+
+[node name="RitualRoom" type="Node3D"]
+editor_description = "Sala dos Santos Secos. GLB importado separado de gameplay, colisoes e interacoes auxiliares."
+
+[node name="PlayerSpawnResolver" type="Node" parent="."]
+script = ExtResource("7_spawn_resolver")
+CheckpointName = "RitualRoom_SantosSecos"
+StartMessage = "O ar aqui e quente demais."
+StartMessageDuration = 3.5
+
+[node name="Environment" type="Node3D" parent="."]
+editor_description = "Asset visual importado do Blender. Nao alterar o GLB para gameplay."
+
+[node name="sala_santos_secos_blockout" parent="Environment" instance=ExtResource("1_ritual_blockout")]
+
+[node name="PlayerSpawn" type="Marker3D" parent="."]
+editor_description = "Spawn vindo do corredor, olhando para o centro da sala."
+position = Vector3(0, 1, -3.15)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector3(0, 1, -3.15)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="CandleLightMain" type="OmniLight3D" parent="Lighting"]
+position = Vector3(0, 1.25, 0.75)
+light_color = Color(0.839216, 0.639216, 0.290196, 1)
+light_energy = 2.2
+shadow_enabled = true
+omni_range = 5.0
+
+[node name="BackAltarLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(-1.25, 1.55, 3.35)
+light_color = Color(0.713726, 0.470588, 0.180392, 1)
+light_energy = 1.1
+shadow_enabled = true
+omni_range = 3.0
+
+[node name="RoomDarkFill" type="OmniLight3D" parent="Lighting"]
+position = Vector3(0, 2.5, -1.5)
+light_color = Color(0.231373, 0.254902, 0.313725, 1)
+light_energy = 0.25
+omni_range = 7.0
+shadow_enabled = false
+
+[node name="Collisions" type="Node3D" parent="."]
+editor_description = "Colisoes temporarias em caixas para validar escala e circulacao."
+
+[node name="FloorCollision" type="StaticBody3D" parent="Collisions" groups=["surface_concrete"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/FloorCollision"]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="SurfaceTag" type="Node" parent="Collisions/FloorCollision"]
+script = ExtResource("12_surface_tag")
+
+[node name="CeilingCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 3.05, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/CeilingCollision"]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="WallLeftCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(-3.575, 1.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/WallLeftCollision"]
+shape = SubResource("BoxShape3D_wall_side")
+
+[node name="WallRightCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(3.575, 1.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/WallRightCollision"]
+shape = SubResource("BoxShape3D_wall_side")
+
+[node name="WallBackCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 1.5, 4.075)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/WallBackCollision"]
+shape = SubResource("BoxShape3D_wall_back")
+
+[node name="FrontWallLeftCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(-2.15, 1.5, -4.075)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/FrontWallLeftCollision"]
+shape = SubResource("BoxShape3D_front_wall_side")
+
+[node name="FrontWallRightCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(2.15, 1.5, -4.075)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/FrontWallRightCollision"]
+shape = SubResource("BoxShape3D_front_wall_side")
+
+[node name="TableCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 0.6, 0.75)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/TableCollision"]
+shape = SubResource("BoxShape3D_table")
+
+[node name="ExitDoorBlockerCollision" type="StaticBody3D" parent="Collisions"]
+position = Vector3(2.15, 1.05, 3.98)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/ExitDoorBlockerCollision"]
+shape = SubResource("BoxShape3D_exit_door_blocker")
+
+[node name="Triggers" type="Node3D" parent="."]
+
+[node name="RitualScareTrigger" type="Area3D" parent="Triggers"]
+position = Vector3(0, 1, -0.85)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("10_scare_trigger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/RitualScareTrigger"]
+shape = SubResource("BoxShape3D_scare_trigger")
+
+[node name="ExitDoorTrigger" type="Area3D" parent="Triggers"]
+position = Vector3(2.15, 1, 3.45)
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("11_exit_door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/ExitDoorTrigger"]
+shape = SubResource("BoxShape3D_exit_door_trigger")
+
+[node name="Interactables" type="Node3D" parent="."]
+
+[node name="RitualNotePoint" type="Area3D" parent="Interactables"]
+position = Vector3(-0.55, 0.9, 1.15)
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("8_ritual_note")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/RitualNotePoint"]
+shape = SubResource("BoxShape3D_ritual_note")
+
+[node name="OldKeyPickupPoint" type="Area3D" parent="Interactables"]
+position = Vector3(0.85, 0.9, 1.1)
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("9_old_key")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/OldKeyPickupPoint"]
+shape = SubResource("BoxShape3D_old_key")
+
+[node name="VisualReference" type="Node3D" parent="Interactables/OldKeyPickupPoint"]
+
+[node name="KeyBody" type="MeshInstance3D" parent="Interactables/OldKeyPickupPoint/VisualReference"]
+mesh = SubResource("BoxMesh_old_key_body")
+surface_material_override/0 = SubResource("Material_old_key")
+
+[node name="KeyTeeth" type="MeshInstance3D" parent="Interactables/OldKeyPickupPoint/VisualReference"]
+position = Vector3(0.16, 0, 0)
+mesh = SubResource("BoxMesh_old_key_teeth")
+surface_material_override/0 = SubResource("Material_old_key")
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="EnemyPlaceholder" parent="Enemies" instance=ExtResource("6_enemy_placeholder")]
+position = Vector3(-1.65, 0, 2.75)
+visible = false
+CanChase = false
+PlayAudioOnActivate = true
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="RitualRoomAmbience" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("13_room_tone")
+volume_db = -16.0
+autoplay = true
+
+[node name="RadioStaticPoint" type="AudioStreamPlayer3D" parent="Audio"]
+position = Vector3(1.95, 0.65, 3.55)
+stream = ExtResource("14_radio_static")
+volume_db = -18.0
+autoplay = false
+max_distance = 12.0
+
+[node name="UI" type="Node" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("3_hud")]
+
+[node name="NoteReaderUI" parent="UI" instance=ExtResource("4_note_reader")]
+
+[node name="AudioManager" parent="UI" instance=ExtResource("5_audio_manager")]
+
+[node name="Debug" type="Node3D" parent="."]
+editor_description = "Marcadores e observacoes de debug da Sprint D."
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ritual_room")

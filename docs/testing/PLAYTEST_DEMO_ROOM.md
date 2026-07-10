@@ -293,7 +293,7 @@ Observacao: o corredor ainda e placeholder feito com `BoxMesh` no Godot. Sera su
 - Caminho: `DemoRoom/CorridorPlaceholder/CorridorEndDoorInteractable`
 - Visual: `CorridorEndDoorPlaceholder`
 - Antes do susto: prompt `[E] A porta esta trancada` + som de tranca.
-- Apos o susto (`CorridorScareTrigger`): prompt `[E] Entrar` + fade para `RitualRoom.tscn`.
+- Apos o susto (`CorridorScareTrigger`): prompt `[E] Entrar` + fade para `res://scenes/levels/ritual_room/RitualRoom.tscn`.
 
 ### Testar colisao do corredor
 
@@ -472,8 +472,8 @@ Teste:
 3. HUD: `A porta esta trancada.` + som de tranca.
 4. Voltar, passar pelo `CorridorScareTrigger` (Z ~5.5).
 5. Retornar ao fim e interagir de novo.
-6. Prompt `[E] Entrar` → fade out → `RitualRoom.tscn` → fade in.
-7. Na Fase 2 placeholder: mensagem `Fase 2 — Sala dos Santos Secos (placeholder)`.
+6. Prompt `[E] Entrar` -> fade out -> `res://scenes/levels/ritual_room/RitualRoom.tscn` -> fade in.
+7. Na Sala dos Santos Secos: mensagem `O ar aqui e quente demais.`.
 
 ### Direcao de atmosfera
 

@@ -19,32 +19,34 @@ Depois leia os docs de agentes em `docs/agents/` relacionados a tarefa atual.
 - Projeto: BREU.
 - Engine: Godot 4.7 Mono.
 - Linguagem: C# / .NET 10.
-- Cena principal atual: `res://scenes/levels/demo_room/DemoRoom.tscn`.
-- Cenas de teste do inicio: `TrailIntro.tscn` e `HouseExterior.tscn`.
-- Cenario atual: Trilha Noturna, Fachada da Pensao, Quarto 07, corredor e `RitualRoom` placeholder.
+- Cena principal atual: `res://scenes/levels/trail_intro/TrailIntro.tscn`.
+- Cenas de teste do inicio: `TrailIntro.tscn` e `HouseExterior.tscn` isolada.
+- Cenario atual: Trilha Noturna, Fachada da Pensao, Quarto 07, corredor e Sala dos Santos Secos.
 - Asset da trilha: `res://assets/blender_exports/trail_intro/trail_intro_blockout.glb`.
 - Asset da fachada: `res://assets/blender_exports/house_exterior/pensao_santa_luzia_exterior_blockout.glb`.
 - Asset do Quarto 07: `res://assets/blender_exports/quarto_07/quarto_07_blockout.glb`.
+- Asset da Sala dos Santos Secos: `res://assets/blender_exports/ritual_room/sala_santos_secos_blockout.glb`.
 
 ## Estado jogavel atual
 
 O jogador consegue:
 
 - iniciar na Trilha Noturna;
-- chegar na fachada da Pensao Santa Luzia;
-- entrar no Quarto 07;
+- chegar na fachada real da Pensao Santa Luzia integrada ao fim da trilha;
+- entrar direto no Quarto 07 pela porta da Pensao;
 - andar, correr com stamina, agachar (`Ctrl`) e pular (`Space`);
 - ouvir passos por superficie;
 - usar lanterna com HUD de bateria;
 - ler bilhete na `NoteReaderUI`;
 - coletar martelo e abrir porta do quarto;
 - percorrer corredor, disparar susto e interagir com a porta final;
-- fazer fade para `RitualRoom.tscn`.
+- fazer fade para `RitualRoom.tscn`;
+- ler o bilhete ritual, pegar a Chave Velha e disparar o susto da Sala dos Santos Secos.
 
 Fluxo atual:
 
 ```text
-TrailIntro -> HouseExterior -> DemoRoom -> corredor -> RitualRoom
+TrailIntro -> DemoRoom -> corredor -> RitualRoom
 ```
 
 Ainda nao existe:
@@ -52,7 +54,7 @@ Ainda nao existe:
 - combate funcional completo;
 - IA de perseguicao avancada;
 - porta visual/animada na fachada;
-- Sala dos Santos Secos modelada;
+- Sala dos Santos Secos polida/final;
 - inimigo Blender final.
 
 ## Validacao minima

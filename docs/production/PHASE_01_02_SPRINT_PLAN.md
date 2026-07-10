@@ -43,8 +43,8 @@ Este documento organiza as sprints de producao para consolidar a Fase 1 e constr
 - Colisoes temporarias
 - Luz da casa ao longe
 - Sons noturnos
-- Trigger de chegada
-- Transicao `TrailIntro -> HouseExterior`
+- Fachada real integrada no fim da trilha
+- Porta da Pensao transiciona `TrailIntro -> DemoRoom`
 
 ### Proximos ajustes
 
@@ -57,7 +57,7 @@ Este documento organiza as sprints de producao para consolidar a Fase 1 e constr
 
 ## Sprint C - Fachada da Pensao Santa Luzia
 
-**Status:** blockout importado; fluxo `TrailIntro -> HouseExterior -> DemoRoom` jogavel e costurado.
+**Status:** blockout importado; preservado como cena isolada de teste/comparacao.
 
 ### Entregas
 
@@ -71,6 +71,12 @@ Este documento organiza as sprints de producao para consolidar a Fase 1 e constr
 - `EnterHouseTrigger` para `DemoRoom.tscn`
 - `BackToTrailTrigger` informativo
 
+### Decisao de fluxo
+
+A fachada visual da Pensao Santa Luzia foi integrada diretamente ao fim de `TrailIntro.tscn` como GLB visual em `Environment/HouseExteriorAtTrailEnd`. Isso melhora continuidade e imersao: o fluxo principal agora pula `HouseExterior.tscn` e vai direto da porta da trilha para o Quarto 07.
+
+`HouseExterior.tscn` nao foi removida. Ela continua disponivel como cena isolada para teste visual, comparacao e possivel separacao futura por performance.
+
 ### Sprint C.5 - Costura da Fase 1
 
 **Status:** concluida como base jogavel.
@@ -80,7 +86,7 @@ Este documento organiza as sprints de producao para consolidar a Fase 1 e constr
 - Cena principal do projeto apontando para `TrailIntro.tscn`.
 - `SceneTransition` com `ChangeSceneWithFade(scenePath, message)` e mensagens de fade.
 - `PlayerSpawnResolver` para alinhar player aos marcadores de spawn das cenas.
-- `CheckpointManager` em memoria para registrar `TrailIntro_Start`, `HouseExterior_Entrance` e `DemoRoom_Quarto07`.
+- `CheckpointManager` em memoria para registrar `TrailIntro_Start` e `DemoRoom_Quarto07`.
 - `OneShotMessageTrigger` para mensagens narrativas curtas.
 - `LightFlicker` aplicado na luz distante da silhueta da Pensao.
 - Guia `docs/testing/PLAYTEST_PHASE_01_FLOW.md`.
@@ -97,6 +103,8 @@ Este documento organiza as sprints de producao para consolidar a Fase 1 e constr
 
 ## Sprint D - Sala dos Santos Secos
 
+**Status:** base jogavel criada.
+
 ### Objetivos
 
 - Criar sala ritualistica
@@ -109,11 +117,23 @@ Este documento organiza as sprints de producao para consolidar a Fase 1 e constr
 
 ### Godot
 
-- Substituir `RitualRoom.tscn` placeholder por asset Blender
-- Luz de vela
-- Trigger narrativo
-- Inimigo placeholder
-- Colisoes
+- [x] `res://scenes/levels/ritual_room/RitualRoom.tscn`
+- [x] Asset `sala_santos_secos_blockout.glb` importado como ambiente
+- [x] Colisoes temporarias de sala, mesa e porta
+- [x] Luz de vela, altar e fill escuro
+- [x] Ambiencia `room_tone_01.ogg` e radio static 3D
+- [x] Bilhete ritual interativo
+- [x] Chave Velha coletavel com estado local
+- [x] Trigger de susto ritualistico
+- [x] `EnemyPlaceholder` preparado para aparicao sem combate
+- [x] Porta de saida bloqueada
+
+### Proximos ajustes
+
+- Integrar Chave Velha ao inventario real.
+- Criar objetivo para liberar porta de saida.
+- Refinar colisoes conforme escala do GLB.
+- Evoluir inimigo para presenca/perseguicao apenas apos validar o susto.
 
 ---
 

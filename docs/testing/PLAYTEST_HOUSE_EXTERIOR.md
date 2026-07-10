@@ -7,18 +7,22 @@
 3. Rodar a cena com F6.
 4. Clicar na janela/aba **Entrada** para dar foco ao mouse e teclado.
 
-## Como testar vindo da trilha
+## Status no fluxo principal
 
-1. Abrir `res://scenes/levels/trail_intro/TrailIntro.tscn`.
-2. Rodar com F6.
-3. Caminhar ate o fim da trilha, perto da casa.
-4. Entrar no `HouseEntryTrigger`.
-5. Confirmar a transicao para `HouseExterior.tscn`.
+`HouseExterior.tscn` continua disponivel para teste isolado e comparacao visual, mas nao faz mais parte obrigatoria do fluxo principal.
+
+A fachada visual real agora aparece diretamente em:
+
+`res://scenes/levels/trail_intro/TrailIntro.tscn`
+
+Na Main Scene, a porta da Pensao na trilha leva direto para:
+
+`res://scenes/levels/demo_room/DemoRoom.tscn`
 
 Fluxo esperado:
 
 ```text
-TrailIntro -> HouseExterior -> DemoRoom
+TrailIntro -> DemoRoom
 ```
 
 ## Onde o player comeca
@@ -35,9 +39,9 @@ Ele deve olhar para a fachada/porta, com alguns metros de terreno antes do alpen
 
 ## Testar entrada na casa
 
-Trigger:
+Interativo:
 
-`Triggers/EnterHouseTrigger`
+`Triggers/EnterHouseDoor`
 
 Posicao aproximada:
 

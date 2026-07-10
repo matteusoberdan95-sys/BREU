@@ -8,7 +8,8 @@ public partial class CorridorEndDoorInteractable : Area3D, IInteractable
     [Export] public string LockedInteractionText { get; set; } = "A porta esta trancada";
     [Export] public string EnterInteractionText { get; set; } = "Entrar";
     [Export] public string LockedHudMessage { get; set; } = "A porta esta trancada.";
-    [Export] public string NextScenePath { get; set; } = "res://scenes/levels/phase_02/RitualRoom.tscn";
+    [Export] public string NextScenePath { get; set; } = "res://scenes/levels/ritual_room/RitualRoom.tscn";
+    [Export] public string TransitionMessage { get; set; } = "A madeira cede para um comodo quente e escuro.";
     [Export] public bool RequireScareBeforeUnlock { get; set; } = true;
     [Export] public NodePath SequenceControllerPath { get; set; } = "../../DemoRoomSequenceController";
     [Export] public NodePath DoorAudioPath { get; set; } = "DoorAudio";
@@ -47,7 +48,7 @@ public partial class CorridorEndDoorInteractable : Area3D, IInteractable
 
         if (SceneTransitionController.Instance != null)
         {
-            SceneTransitionController.Instance.ChangeScene(NextScenePath);
+            SceneTransitionController.Instance.ChangeSceneWithFade(NextScenePath, TransitionMessage);
             return;
         }
 
