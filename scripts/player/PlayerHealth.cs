@@ -32,7 +32,6 @@ public partial class PlayerHealth : Node
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
         _invulnerabilityTimer = DamageInvulnerabilityTime;
         GD.Print($"Player tomou dano: {amount}. Vida: {CurrentHealth}/{MaxHealth}");
-        ShowHudMessage("Voce foi atingido.");
         FlashDamageOverlay();
         UpdateHud();
 
@@ -76,14 +75,6 @@ public partial class PlayerHealth : Node
         _invulnerabilityTimer = 0.0f;
         EnablePlayerInput();
         UpdateHud();
-    }
-
-    private void ShowHudMessage(string message)
-    {
-        if (GetTree().GetFirstNodeInGroup("hud") is HUDController hud)
-        {
-            hud.ShowTemporaryMessage(message, 2.5f);
-        }
     }
 
     private void UpdateHud()

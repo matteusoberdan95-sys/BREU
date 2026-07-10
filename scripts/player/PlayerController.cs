@@ -32,6 +32,8 @@ public partial class PlayerController : CharacterBody3D
     private bool _wasOnFloor = true;
     private float _crouchBlend;
     private float _standingCollisionCenterY;
+    private Vector3 _cameraPivotBasePosition;
+    private Tween? _cameraShakeTween;
 
     public override void _Ready()
     {
@@ -42,6 +44,7 @@ public partial class PlayerController : CharacterBody3D
         _stamina = GetNodeOrNull<PlayerStamina>(StaminaPath);
         _collisionShape = GetNodeOrNull<CollisionShape3D>(CollisionShapePath);
         _cameraPivot = GetNodeOrNull<Node3D>(CameraPivotPath);
+        _cameraPivotBasePosition = _cameraPivot?.Position ?? Vector3.Zero;
         if (_collisionShape?.Shape is CapsuleShape3D capsule)
         {
             _capsuleShape = capsule;
@@ -163,8 +166,32 @@ public partial class PlayerController : CharacterBody3D
         if (_cameraPivot != null)
         {
             var cameraHeight = Mathf.Lerp(StandingCameraHeight, CrouchingCameraHeight, blend);
-            _cameraPivot.Position = new Vector3(0.0f, cameraHeight, 0.0f);
+            _cameraPivotBasePosition = new Vector3(0.0f, cameraHeight, 0.0f);
+            if (_cameraShakeTween == null || !_cameraShakeTween.IsRunning())
+            {
+                _cameraPivot.Position = _cameraPivotBasePosition;
+            }
         }
+    }
+
+    public void ApplyCameraShake(float strength, float duration)
+    {
+        if (_cameraPivot == null || strength <= 0.0f || duration <= 0.0f)
+        {
+            return;
+        }
+
+        _cameraShakeTween?.Kill();
+        var random = new RandomNumberGenerator();
+        random.Randomize();
+        var offset = new Vector3(
+            random.RandfRange(-strength, strength),
+            random.RandfRange(-strength * 0.5f, strength * 0.5f),
+            0.0f);
+
+        _cameraPivot.Position = _cameraPivotBasePosition + offset;
+        _cameraShakeTween = CreateTween();
+        _cameraShakeTween.TweenProperty(_cameraPivot, "position", _cameraPivotBasePosition, duration);
     }
 
     private bool CanStandUp()

@@ -81,6 +81,7 @@ public partial class CheckpointManager : Node
     public void RespawnFromLastCheckpoint()
     {
         RestoreGameSessionSnapshot();
+        GD.Print("Checkpoint restaurado.");
 
         var scenePath = HasValidCheckpoint()
             ? LastScenePath

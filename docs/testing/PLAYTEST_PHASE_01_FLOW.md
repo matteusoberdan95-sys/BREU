@@ -96,6 +96,17 @@ Arma: Martelo Enferrujado 9/10
 Arma: Maos vazias
 ```
 
+## RitualRoom polida (Sprint H)
+
+A Sala dos Santos Secos agora possui:
+
+- susto com sequencia cinematografica (luzes 1.5s, radio 2-4s, stinger, pausa dramatica do inimigo);
+- combate com feedback de hit (stun 1.25s, escala/recuo visual);
+- feedback de dano no player (flash vermelho, tremor de camera, mensagem com cooldown);
+- death screen com fade in e stinger de morte (fallback para scare_stinger);
+- retry validado com log `Checkpoint restaurado.`;
+- balanceamento documentado em `docs/design/RITUAL_ROOM_BALANCE.md`.
+
 ## Morte, retry e respawn
 
 1. No fluxo completo, entrar na `RitualRoom`.

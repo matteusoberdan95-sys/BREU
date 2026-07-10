@@ -6,14 +6,14 @@ namespace BREU.Scripts.Player;
 public partial class PlayerMeleeAttack : Node
 {
     [Export] public float AttackRange { get; set; } = 2.0f;
-    [Export] public float AttackRadius { get; set; } = 0.75f;
+    [Export] public float AttackRadius { get; set; } = 0.8f;
     [Export] public float AttackForwardOffset { get; set; } = 1.0f;
     [Export] public float AttackAngleDot { get; set; } = 0.25f;
-    [Export] public float AttackCooldown { get; set; } = 0.75f;
+    [Export] public float AttackCooldown { get; set; } = 0.85f;
     [Export] public int HammerDamage { get; set; } = 10;
     [Export] public int DurabilityCostPerHit { get; set; } = 1;
-    [Export] public bool DebugMelee { get; set; } = true;
-    [Export] public bool DebugAttackRay { get; set; } = true;
+    [Export] public bool DebugMelee { get; set; } = false;
+    [Export] public bool DebugAttackRay { get; set; } = false;
     [Export] public NodePath CameraPath { get; set; } = "../CameraPivot/Camera3D";
     [Export] public NodePath WeaponControllerPath { get; set; } = "../PlayerWeaponController";
     [Export] public NodePath HammerVisualPath { get; set; } = "../CameraPivot/Camera3D/WeaponHolder/EquippedHammerVisual";

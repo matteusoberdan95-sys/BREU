@@ -10,8 +10,12 @@ public partial class RitualRoomScareTrigger : Area3D
     [Export] public NodePath EnemyPath { get; set; } = "../../Enemies/EnemyPlaceholder";
     [Export] public NodePath RadioStaticPath { get; set; } = "../../Audio/RadioStaticPoint";
     [Export] public string ScareSoundPath { get; set; } = "res://assets/audio/sfx/horror/scare_stinger_01.ogg";
+    [Export] public float FlickerDuration { get; set; } = 1.5f;
+    [Export] public float RadioMinDuration { get; set; } = 2.0f;
+    [Export] public float RadioMaxDuration { get; set; } = 4.0f;
 
     private bool _triggered;
+    private bool _scareAudioMissingLogged;
 
     public override void _Ready()
     {
@@ -32,22 +36,32 @@ public partial class RitualRoomScareTrigger : Area3D
     private async System.Threading.Tasks.Task TriggerScareAsync()
     {
         ShowHudMessage("As velas tremem sem vento.");
-        PlayScareSound();
+
+        await FlickerLights(FlickerDuration);
+
+        var radioDuration = new RandomNumberGenerator();
+        radioDuration.Randomize();
+        var radioTime = radioDuration.RandfRange(RadioMinDuration, RadioMaxDuration);
         StartRadioStatic();
-        ActivateEnemy();
+        PlayScareSound();
 
-        GD.Print("RitualRoomScareTrigger ativado.");
-
-        await FlickerLights(2.0f);
+        await ToSignal(GetTree().CreateTimer(radioTime), SceneTreeTimer.SignalName.Timeout);
         StopRadioStatic();
+
+        ActivateEnemy();
     }
 
     private async System.Threading.Tasks.Task FlickerLights(float duration)
     {
         var candle = GetNodeOrNull<OmniLight3D>(CandleLightMainPath);
         var altar = GetNodeOrNull<OmniLight3D>(BackAltarLightPath);
-        var candleBase = candle?.LightEnergy ?? 0.0f;
-        var altarBase = altar?.LightEnergy ?? 0.0f;
+        var candleFlicker = candle?.GetNodeOrNull<LightFlicker>("CandleFlicker");
+        var altarFlicker = altar?.GetNodeOrNull<LightFlicker>("AltarFlicker");
+        candleFlicker?.SetEnabled(false);
+        altarFlicker?.SetEnabled(false);
+
+        var candleBase = candle?.LightEnergy ?? 2.2f;
+        var altarBase = altar?.LightEnergy ?? 1.1f;
         var elapsed = 0.0f;
         var random = new RandomNumberGenerator();
         random.Randomize();
@@ -56,16 +70,16 @@ public partial class RitualRoomScareTrigger : Area3D
         {
             if (candle != null)
             {
-                candle.LightEnergy = random.RandfRange(0.25f, 2.7f);
+                candle.LightEnergy = random.RandfRange(1.2f, 2.8f);
             }
 
             if (altar != null)
             {
-                altar.LightEnergy = random.RandfRange(0.15f, 1.5f);
+                altar.LightEnergy = random.RandfRange(0.5f, 1.6f);
             }
 
-            await ToSignal(GetTree().CreateTimer(0.11f), SceneTreeTimer.SignalName.Timeout);
-            elapsed += 0.11f;
+            await ToSignal(GetTree().CreateTimer(0.09f), SceneTreeTimer.SignalName.Timeout);
+            elapsed += 0.09f;
         }
 
         if (candle != null)
@@ -77,6 +91,9 @@ public partial class RitualRoomScareTrigger : Area3D
         {
             altar.LightEnergy = altarBase;
         }
+
+        candleFlicker?.SetEnabled(true);
+        altarFlicker?.SetEnabled(true);
     }
 
     private void ActivateEnemy()
@@ -98,7 +115,12 @@ public partial class RitualRoomScareTrigger : Area3D
         var stream = AudioResourceLoader.TryLoad(ScareSoundPath);
         if (stream == null)
         {
-            GD.Print($"RitualRoomScareTrigger: audio nao encontrado: {ScareSoundPath}");
+            if (!_scareAudioMissingLogged)
+            {
+                _scareAudioMissingLogged = true;
+                GD.Print($"RitualRoomScareTrigger: audio nao encontrado: {ScareSoundPath}");
+            }
+
             return;
         }
 
@@ -135,9 +157,6 @@ public partial class RitualRoomScareTrigger : Area3D
         if (GetTree().GetFirstNodeInGroup("hud") is HUDController hud)
         {
             hud.ShowTemporaryMessage(message, 3.5f);
-            return;
         }
-
-        GD.Print($"HUD mensagem: {message}");
     }
 }

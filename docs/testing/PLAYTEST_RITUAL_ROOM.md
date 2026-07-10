@@ -118,15 +118,24 @@ Trigger:
 
 `Triggers/RitualScareTrigger`
 
-Ao cruzar a area perto do centro/frente da sala:
+Sequencia esperada ao cruzar a area perto do centro/frente da sala:
 
-- HUD mostra `As velas tremem sem vento.`
-- toca `scare_stinger_01.ogg`, se carregado;
-- `RadioStaticPoint` chia por alguns segundos;
-- `CandleLightMain` e `BackAltarLight` piscam por 2 segundos;
-- `EnemyPlaceholder` aparece no fundo/lateral da sala;
-- console imprime `RitualRoomScareTrigger ativado.`
-- o console nao deve ficar repetindo mensagens de recuperacao de piso.
+1. HUD mostra `As velas tremem sem vento.`
+2. `CandleLightMain` e `BackAltarLight` piscam por **1.5s** (flicker dramatico).
+3. `scare_stinger_01.ogg` toca, se carregado.
+4. `RadioStaticPoint` chia por **2 a 4s**.
+5. `EnemyPlaceholder` aparece no fundo/lateral da sala.
+6. Inimigo fica parado olhando por **AlertDuration (1.2s)**.
+7. Inimigo inicia perseguicao em velocidade moderada.
+
+Logs permitidos:
+
+```text
+EnemyPlaceholder ativado.
+EnemyPlaceholder iniciou perseguicao.
+```
+
+Nao deve haver spam de posicao, raycast ou recuperacao de piso.
 
 ## EnemyPlaceholder
 
@@ -174,15 +183,16 @@ Ao cruzar `Triggers/RitualScareTrigger`:
 ### Como testar ataque do inimigo
 
 1. Deixar o inimigo chegar perto.
-2. Confirmar growl/ataque em intervalo.
+2. Confirmar growl/ataque em intervalo de **2.0s**.
 3. Confirmar HUD e console:
 
 ```text
-Vida 88/100
-Player tomou dano: 12
+Vida 90/100
+Player tomou dano: 10
+EnemyPlaceholder atacou player.
 ```
 
-4. Confirmar mensagem HUD:
+4. Confirmar flash vermelho escuro, tremor leve de camera e mensagem HUD (com cooldown):
 
 ```text
 Voce foi atingido.
@@ -245,7 +255,8 @@ Resultado esperado ao acertar:
 - o martelo faz um movimento curto na mao;
 - se houver audio disponivel, toca som de impacto;
 - console imprime `EnemyPlaceholder recebeu hit: 10`;
-- inimigo entra em `Stunned` por cerca de 1.1s;
+- console imprime `EnemyPlaceholder stunned por 1.25s`;
+- inimigo entra em `Stunned` por **1.25s** com feedback visual (escala + recuo);
 - HUD muda para `Arma: Martelo Enferrujado 9/10`;
 - depois do stun, o inimigo volta a perseguir.
 
@@ -266,37 +277,23 @@ Valores atuais:
 
 ```text
 AttackRange = 2.0
-AttackRadius = 0.75
+AttackRadius = 0.8
 AttackForwardOffset = 1.0
 AttackAngleDot = 0.25
+AttackCooldown = 0.85
+DebugMelee = false
 ```
 
 Nesta fase, o ataque nao restringe layer/mask: ele colide com bodies e areas e depois procura um `EnemyPlaceholderAI` no collider ou nos parents.
 
-Logs esperados ao clicar:
+Logs esperados ao acertar (com `DebugMelee = false`, apenas logs do inimigo):
 
 ```text
-MeleeAttack: swing
-MeleeAttack: ray origin ... end ...
-```
-
-Se acertar o inimigo:
-
-```text
-MeleeAttack: raycast errou, tentando hit volume
-MeleeAttack: hit volume encontrou enemy_hurtbox
-MeleeAttack: dot com alvo = ...
-MeleeAttack: EnemyPlaceholder acertado
-MeleeAttack: EnemyPlaceholderAI encontrado
 EnemyPlaceholder recebeu hit: 10
+EnemyPlaceholder stunned por 1.25s
 ```
 
-Se errar:
-
-```text
-MeleeAttack: errou.
-MeleeAttack: ataque errou.
-```
+Com `DebugMelee = true` no inspector, logs extras de raycast/hit volume voltam a aparecer.
 
 Regras atuais:
 
@@ -339,14 +336,66 @@ Trigger/interativo:
 `Triggers/ExitDoorTrigger`
 
 1. Chegar perto da porta de saida.
-2. Confirmar mensagem:
+2. **Sem Chave Velha**, confirmar mensagem:
 
 ```text
-A porta esta trancada. Alguma coisa precisa ser feita primeiro.
+Esta trancada.
 ```
 
-3. Mirar e apertar `E` para confirmar o mesmo feedback.
-4. Confirmar debug `Ritual exit door bloqueada.`
+3. Pegar a `Chave Velha` e tentar de novo. Confirmar:
+
+```text
+A chave gira, mas alguma coisa segura a porta por dentro.
+```
+
+4. Mirar e apertar `E` para confirmar o mesmo feedback.
+5. Confirmar som de porta/tranca se o asset existir.
+
+## Polimento e balanceamento da RitualRoom
+
+Valores atuais documentados em `docs/design/RITUAL_ROOM_BALANCE.md`.
+
+### Inimigo (EnemyPlaceholderAI)
+
+| Parametro | Valor |
+|-----------|-------|
+| Damage | 10 |
+| AttackCooldown | 2.0s |
+| ChaseSpeed | 1.65 |
+| AttackRange | 1.25 |
+| StunDuration | 1.25s |
+| AlertDuration | 1.2s |
+
+### Martelo (PlayerMeleeAttack)
+
+| Parametro | Valor |
+|-----------|-------|
+| AttackCooldown | 0.85s |
+| AttackRange | 2.0 |
+| AttackRadius | 0.8 |
+| DurabilityCostPerHit | 1 (so ao acertar) |
+
+### Como testar susto
+
+1. F6 em `RitualRoom.tscn` ou fluxo completo.
+2. Cruzar `RitualScareTrigger`.
+3. Confirmar sequencia: mensagem -> luzes 1.5s -> radio 2-4s -> stinger -> inimigo -> pausa 1.2s -> perseguicao.
+
+### Como testar dano
+
+1. Deixar inimigo acertar.
+2. Confirmar `Vida` desce, flash vermelho (0.35s), tremor de camera, mensagem com cooldown.
+
+### Como testar stun
+
+1. Acertar inimigo com martelo.
+2. Confirmar stun 1.25s, feedback visual, durabilidade -1.
+
+### Como testar morte
+
+1. Deixar vida chegar a 0.
+2. Confirmar `VOCE MORREU`, subtitulo, fade in, stinger de morte (ou fallback).
+3. Clicar `Tentar novamente` -> `Checkpoint restaurado.` no console.
 
 ## Problemas conhecidos
 
@@ -360,7 +409,8 @@ A porta esta trancada. Alguma coisa precisa ser feita primeiro.
 - O ataque do martelo usa raycast + hit volume e ainda nao tem animacao final.
 - O hit volume prioriza `enemy_hurtbox`; interactables nao gastam durabilidade.
 - A durabilidade so cai quando o golpe acerta.
-- `DebugAttackRay` esta ligado para ajudar a validar o hit detection; pode ser desligado depois do playtest.
+- `DebugMelee` desligado por padrao; ligar no inspector para depurar hit detection.
+- `player_hurt_01.ogg` e `death_stinger_01.ogg` ainda nao existem; fallbacks usam `corridor_hit_01` e `scare_stinger_01`.
 - O som de swing ainda depende de asset futuro; o hit usa fallback se o audio dedicado nao existir.
 - A porta de saida nao troca de cena.
 - A sala usa o GLB importado como visual; gameplay fica em nos auxiliares Godot.

@@ -15,19 +15,20 @@ public enum PlaceholderEnemyState
 /// </summary>
 public partial class EnemyPlaceholderAI : CharacterBody3D
 {
-    [Export] public float MoveSpeed { get; set; } = 1.2f;
-    [Export] public float ChaseSpeed { get; set; } = 1.8f;
+    [Export] public float MoveSpeed { get; set; } = 1.1f;
+    [Export] public float ChaseSpeed { get; set; } = 1.65f;
     [Export] public float DetectionRange { get; set; } = 7.0f;
-    [Export] public float AttackRange { get; set; } = 1.35f;
-    [Export] public float AttackCooldown { get; set; } = 1.8f;
-    [Export] public float StunDuration { get; set; } = 1.1f;
-    [Export] public int Damage { get; set; } = 12;
+    [Export] public float AttackRange { get; set; } = 1.25f;
+    [Export] public float AttackCooldown { get; set; } = 2.0f;
+    [Export] public float StunDuration { get; set; } = 1.25f;
+    [Export] public int Damage { get; set; } = 10;
+    [Export] public float AlertDuration { get; set; } = 1.2f;
+    [Export] public float LoseSightGraceTime { get; set; } = 1.5f;
     [Export] public bool StartDormant { get; set; } = true;
     [Export] public bool CanChase { get; set; } = true;
     [Export] public bool PlayAudioOnActivate { get; set; } = true;
     [Export] public NodePath PlayerPath { get; set; } = "../../Player";
     [Export] public float StepInterval { get; set; } = 0.55f;
-    [Export] public float AlertDuration { get; set; } = 0.85f;
     [Export] public float GroundY { get; set; } = 0.05f;
     [Export] public float FallRecoveryY { get; set; } = -0.5f;
     [Export] public bool LockVerticalMovement { get; set; } = true;
@@ -45,14 +46,20 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
     private CollisionShape3D? _collisionShape;
     private Area3D? _hurtbox;
     private CollisionShape3D? _hurtboxShape;
+    private Node3D? _visual;
+    private Vector3 _visualBaseScale = Vector3.One;
     private Node3D? _player;
     private float _attackTimer;
     private float _stepTimer;
     private float _alertTimer;
     private float _stunTimer;
+    private float _loseSightTimer;
     private float _gravity;
     private Vector3 _lastSafePosition;
+    private Vector3 _visualBasePosition;
     private bool _floorRecoveryAttempted;
+    private bool _chaseStartedLogged;
+    private Tween? _hitFeedbackTween;
 
     public override void _Ready()
     {
@@ -64,8 +71,11 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         _collisionShape = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
         _hurtbox = GetNodeOrNull<Area3D>("EnemyHurtbox");
         _hurtboxShape = GetNodeOrNull<CollisionShape3D>("EnemyHurtbox/CollisionShape3D");
+        _visual = GetNodeOrNull<Node3D>("Visual");
+        _visualBaseScale = _visual?.Scale ?? Vector3.One;
         _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
         _lastSafePosition = GlobalPosition;
+        _visualBasePosition = _visual?.Position ?? Vector3.Zero;
 
         ConfigureAudio();
 
@@ -126,6 +136,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         IsActive = true;
         Visible = true;
         _floorRecoveryAttempted = false;
+        _chaseStartedLogged = false;
         TrySnapToFloorOnce();
         KeepOnGroundPlane();
         _lastSafePosition = GlobalPosition;
@@ -133,6 +144,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         SetCollisionEnabled(true);
         _player = ResolvePlayer();
         _alertTimer = AlertDuration;
+        _loseSightTimer = 0.0f;
         State = PlaceholderEnemyState.Alert;
         Velocity = Vector3.Zero;
         LookAtPlayer();
@@ -143,7 +155,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         }
 
         StartBreathing();
-        GD.Print("EnemyPlaceholder: presenca detectada.");
+        GD.Print("EnemyPlaceholder ativado.");
     }
 
     public void Deactivate()
@@ -155,7 +167,6 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         Velocity = Vector3.Zero;
         StopBreathing();
         SetCollisionEnabled(false);
-        GD.Print("EnemyPlaceholder: silhueta recuou para o escuro.");
     }
 
     public void LookAtPlayer()
@@ -186,13 +197,32 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         _stunTimer = Mathf.Max(0.1f, duration);
         Velocity = Vector3.Zero;
         _growlAudio?.Play();
-        GD.Print($"EnemyPlaceholder atordoado por {_stunTimer:0.00}s.");
+        GD.Print($"EnemyPlaceholder stunned por {_stunTimer:0.00}s");
     }
 
     public void ReceiveHit(int damage)
     {
         GD.Print($"EnemyPlaceholder recebeu hit: {damage}");
+        PlayHitFeedback();
         ApplyStun(StunDuration);
+    }
+
+    private void PlayHitFeedback()
+    {
+        if (_visual == null)
+        {
+            return;
+        }
+
+        _hitFeedbackTween?.Kill();
+        _visual.Position = _visualBasePosition;
+        _visual.Scale = _visualBaseScale;
+
+        _hitFeedbackTween = CreateTween();
+        _hitFeedbackTween.TweenProperty(_visual, "scale", _visualBaseScale * 1.06f, 0.05f);
+        _hitFeedbackTween.Parallel().TweenProperty(_visual, "position", _visualBasePosition + new Vector3(0.0f, 0.0f, 0.12f), 0.08f);
+        _hitFeedbackTween.TweenProperty(_visual, "scale", _visualBaseScale, 0.1f);
+        _hitFeedbackTween.Parallel().TweenProperty(_visual, "position", _visualBasePosition, 0.12f);
     }
 
     private void matchState(float dt)
@@ -238,6 +268,11 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         if (_alertTimer <= 0.0f)
         {
             State = CanChase ? PlaceholderEnemyState.Chasing : PlaceholderEnemyState.Idle;
+            if (State == PlaceholderEnemyState.Chasing && !_chaseStartedLogged)
+            {
+                _chaseStartedLogged = true;
+                GD.Print("EnemyPlaceholder iniciou perseguicao.");
+            }
         }
     }
 
@@ -251,6 +286,22 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         }
 
         var distance = DistanceToPlayer();
+        if (distance > DetectionRange)
+        {
+            _loseSightTimer += dt;
+            if (_loseSightTimer >= LoseSightGraceTime)
+            {
+                State = PlaceholderEnemyState.Idle;
+                _loseSightTimer = 0.0f;
+            }
+
+            Velocity = ApplyGravity(Vector3.Zero, dt);
+            MoveAndSlide();
+            return;
+        }
+
+        _loseSightTimer = 0.0f;
+
         if (distance <= AttackRange)
         {
             State = PlaceholderEnemyState.Attacking;
@@ -296,6 +347,11 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         if (_stunTimer <= 0.0f)
         {
             State = PlaceholderEnemyState.Chasing;
+            if (!_chaseStartedLogged)
+            {
+                _chaseStartedLogged = true;
+                GD.Print("EnemyPlaceholder iniciou perseguicao.");
+            }
         }
     }
 
@@ -358,17 +414,15 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
 
         if (GlobalPosition.Y < GroundY - 0.35f || Mathf.Abs(_player.GlobalPosition.Y - GlobalPosition.Y) > 1.6f)
         {
-            GD.Print("EnemyPlaceholder: ataque ignorado porque o inimigo saiu do piso valido.");
             return;
         }
 
         if (_player.GetNodeOrNull<PlayerHealth>("PlayerHealth") is { } health)
         {
             health.TakeDamage(Damage);
+            GD.Print("EnemyPlaceholder atacou player.");
             return;
         }
-
-        GD.Print($"EnemyPlaceholder ataque acertou, mas PlayerHealth nao foi encontrado. Dano: {Damage}");
     }
 
     private bool IsPlayerDead()
@@ -400,19 +454,19 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         if (_breathAudio != null)
         {
             _breathAudio.Stream = AudioResourceLoader.TryLoad(BreathAudioPath, true);
-            _breathAudio.VolumeDb = -10.0f;
+            _breathAudio.VolumeDb = -11.0f;
         }
 
         if (_stepAudio != null)
         {
             _stepAudio.Stream = AudioResourceLoader.TryLoad(StepAudioPath);
-            _stepAudio.VolumeDb = -8.0f;
+            _stepAudio.VolumeDb = -9.0f;
         }
 
         if (_growlAudio != null)
         {
             _growlAudio.Stream = AudioResourceLoader.TryLoad(GrowlAudioPath);
-            _growlAudio.VolumeDb = -6.0f;
+            _growlAudio.VolumeDb = -7.0f;
         }
     }
 
@@ -453,9 +507,9 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
 
     private void SetVisualVisible(bool visible)
     {
-        if (GetNodeOrNull<Node3D>("Visual") is { } visual)
+        if (_visual != null)
         {
-            visual.Visible = visible;
+            _visual.Visible = visible;
         }
     }
 
@@ -471,7 +525,6 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         if (GlobalPosition.Y < GroundY)
         {
             GlobalPosition = new Vector3(GlobalPosition.X, GroundY, GlobalPosition.Z);
-            GD.Print("EnemyPlaceholder: ajuste inicial de piso aplicado.");
         }
 
         Velocity = Vector3.Zero;

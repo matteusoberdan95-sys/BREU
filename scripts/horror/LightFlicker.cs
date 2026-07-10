@@ -9,6 +9,7 @@ public partial class LightFlicker : Node
     [Export] public float MinEnergy { get; set; } = 0.8f;
     [Export] public float MaxEnergy { get; set; } = 1.6f;
     [Export] public float FlickerSpeed { get; set; } = 0.12f;
+    [Export] public bool Irregularity { get; set; } = true;
     [Export] public bool StartsEnabled { get; set; } = true;
 
     private readonly RandomNumberGenerator _random = new();
@@ -22,6 +23,11 @@ public partial class LightFlicker : Node
             ? GetParentOrNull<Light3D>()
             : GetNodeOrNull<Light3D>(LightPath);
         SetProcess(StartsEnabled && _light != null);
+    }
+
+    public void SetEnabled(bool enabled)
+    {
+        SetProcess(enabled && _light != null);
     }
 
     public override void _Process(double delta)
@@ -38,6 +44,7 @@ public partial class LightFlicker : Node
         }
 
         _light.LightEnergy = _random.RandfRange(MinEnergy, MaxEnergy);
-        _timeUntilNextFlicker = FlickerSpeed * _random.RandfRange(0.65f, 1.65f);
+        var irregularMultiplier = Irregularity ? _random.RandfRange(0.65f, 1.65f) : 1.0f;
+        _timeUntilNextFlicker = FlickerSpeed * irregularMultiplier;
     }
 }

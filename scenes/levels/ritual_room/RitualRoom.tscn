@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://breu_ritual_room_santos_secos"]
+[gd_scene load_steps=33 format=3 uid="uid://breu_ritual_room_santos_secos"]
 
 [ext_resource type="PackedScene" path="res://assets/blender_exports/ritual_room/sala_santos_secos_blockout.glb" id="1_ritual_blockout"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/DamageOverlay.tscn" id="15_damage_overlay"]
 [ext_resource type="PackedScene" path="res://scenes/ui/DeathScreen.tscn" id="16_death_screen"]
 [ext_resource type="Script" path="res://scripts/system/RespawnResolver.cs" id="17_respawn_resolver"]
+[ext_resource type="Script" path="res://scripts/horror/LightFlicker.cs" id="18_light_flicker"]
 
 [sub_resource type="Environment" id="Environment_ritual_room"]
 background_mode = 1
@@ -98,12 +99,25 @@ light_energy = 2.2
 shadow_enabled = true
 omni_range = 5.0
 
+[node name="CandleFlicker" type="Node" parent="Lighting/CandleLightMain"]
+script = ExtResource("18_light_flicker")
+MinEnergy = 1.7
+MaxEnergy = 2.4
+FlickerSpeed = 0.1
+Irregularity = true
+
 [node name="BackAltarLight" type="OmniLight3D" parent="Lighting"]
 position = Vector3(-1.25, 1.55, 3.35)
 light_color = Color(0.713726, 0.470588, 0.180392, 1)
 light_energy = 1.1
 shadow_enabled = true
 omni_range = 3.0
+
+[node name="AltarFlicker" type="Node" parent="Lighting/BackAltarLight"]
+script = ExtResource("18_light_flicker")
+MinEnergy = 0.8
+MaxEnergy = 1.3
+FlickerSpeed = 0.16
 
 [node name="RoomDarkFill" type="OmniLight3D" parent="Lighting"]
 position = Vector3(0, 2.5, -1.5)

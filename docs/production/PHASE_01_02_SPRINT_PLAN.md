@@ -236,7 +236,40 @@ Nao usar Blender ainda.
 
 ---
 
-## Sprint H - Inimigo Final no Blender
+## Sprint H - Polimento de terror e balanceamento da RitualRoom
+
+**Status:** concluida (base jogavel).
+
+### Objetivos
+
+- Polimento de terror na Sala dos Santos Secos.
+- Balanceamento do `EnemyPlaceholder`.
+- Feedback de dano no player e hit no inimigo.
+- Flicker de luz controlado (`LightFlicker`).
+- Audio ambiente e de inimigo.
+- Death screen melhorada.
+- Console limpo (sem spam de debug).
+
+### Godot
+
+- [x] `EnemyPlaceholderAI` com exports de balanceamento revisados.
+- [x] `PlayerMeleeAttack` com cooldown 0.85s, radius 0.8, debug desligado.
+- [x] `DamageOverlay` com flash, som de dano e tremor de camera.
+- [x] `DeathScreen` com fade in e stinger de morte.
+- [x] `RitualRoomScareTrigger` com sequencia cinematografica.
+- [x] `LightFlicker` nas velas da sala.
+- [x] `RitualExitDoorTrigger` com mensagens diferenciadas por chave.
+- [x] `docs/design/RITUAL_ROOM_BALANCE.md` com valores atuais.
+
+### Proximos ajustes
+
+- Playtest manual do fluxo completo F5.
+- Ajustar valores apos feedback de jogadores.
+- Criar assets `player_hurt_01.ogg` e `death_stinger_01.ogg`.
+
+---
+
+## Sprint I - Inimigo Final no Blender
 
 So iniciar apos validar:
 
@@ -247,6 +280,7 @@ So iniciar apos validar:
 - comportamento basico.
 - combate basico com martelo.
 - morte/retry/respawn.
+- polimento da RitualRoom.
 
 ### Criar primeiro inimigo
 
@@ -273,7 +307,7 @@ O Hospede.
 ## Ordem recomendada
 
 ```text
-Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G -> Sprint H
+Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G -> Sprint H -> Sprint I
 ```
 
 ## Documentos relacionados
