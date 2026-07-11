@@ -11,11 +11,73 @@
 
 ## Status
 
-**Hotfix Sprint 10 aplicado (2026-07-11).** Validar com F6 antes de marcar sprint como aprovada.
+**Rebuild Sprint 10 aplicado (2026-07-11).** Segundo andar anterior removido e reconstruído. Validar com F6 antes de marcar sprint como aprovada.
 
 ---
 
-## Sprint 10 Hotfix — Second Floor Access Fix
+## Sprint 10 Rebuild — Clean Second Floor
+
+### Problemas do layout anterior
+
+1. Segundo andar desproporcional — laje pequena deslocada para oeste (x ≈ -4,1), não cobria o térreo.
+2. Paredes soltas e blocos no meio bloqueando saída da escada.
+3. Limbo visível ao olhar para cima a partir do térreo.
+4. Corredor superior desalinhado do eixo do corredor térreo.
+
+### Reconstrução aplicada
+
+- **Removido** layout anterior (corredor oeste, pisos fragmentados, rails com colisão, shell parcial).
+- **Floor_Second_Main** — laje segmentada **14,08 × 44,58 m** (mesmas dimensões do piso térreo), com vão só na escada.
+- **UpperLanding_Main** — patamar 3,5 × 3,5 m + pontes de encaixe rampa/corredor.
+- **UpperCorridor_Main** — corredor x = 0, largura 2,4 m, z = -20 a -7,5.
+- **Room201 / Room202** — espelham quarto 102 e cozinha do térreo.
+- **UpperBlockedDoor** — porta trancada no fim do corredor.
+- **Wall_Second_Front/Back/Left/Right** — caixa aberta proporcional ao casco do edifício.
+- Luzes superiores reposicionadas no eixo central.
+
+### Checklist final (F6)
+
+**Segundo andar**
+
+- [ ] Player sobe a escada
+- [ ] Player NÃO bate em parede no topo
+- [ ] Player acessa UpperLanding_Main
+- [ ] Player anda no Floor_Second_Main
+- [ ] Player anda no UpperCorridor_Main
+- [ ] Player entra no Room201
+- [ ] Player consegue virar câmera no Room201
+- [ ] Interação Room201 funciona
+- [ ] Player entra no Room202
+- [ ] Player consegue virar câmera no Room202
+- [ ] Interação Room202 funciona
+- [ ] Player chega na UpperBlockedDoor
+- [ ] Prompt da UpperBlockedDoor funciona
+- [ ] Player não atravessa UpperBlockedDoor
+- [ ] Player consegue voltar para a escada
+- [ ] Player desce para o térreo
+- [ ] Player não cai por fresta
+- [ ] Segundo andar parece proporcional ao térreo
+- [ ] Não há bloco no meio impedindo navegação
+- [ ] Não há limbo grande visível no segundo andar
+
+**Térreo / regressão**
+
+- [ ] Térreo continua navegável
+- [ ] Recepção continua funcionando
+- [ ] Corredor térreo continua funcionando
+- [ ] Quarto 102 continua funcionando
+- [ ] Cozinha continua funcionando
+- [ ] Depósito continua funcionando
+- [ ] Chave continua funcionando
+- [ ] Fusível continua funcionando
+- [ ] Bilhete continua funcionando
+- [ ] Prompt da cozinha não aparece através de parede
+- [ ] HUD continua funcionando
+- [ ] Movimento continua aprovado
+
+---
+
+## Sprint 10 Hotfix — Second Floor Access Fix (histórico)
 
 ### Problemas encontrados
 

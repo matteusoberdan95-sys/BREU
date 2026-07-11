@@ -92,19 +92,19 @@ light_energy = 0.85
 omni_range = 9.0
 
 [node name="UpperCorridorLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 4.8, -13)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.8, -13.5)
 light_color = Color(0.88, 0.86, 0.9, 1)
 light_energy = 0.58
 omni_range = 8.0
 
 [node name="Room201Light" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 4.6, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 4.6, -14)
 light_color = Color(0.9, 0.86, 0.78, 1)
 light_energy = 0.45
 omni_range = 5.0
 
 [node name="Room202Light" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 4.6, -17)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 4.6, -17)
 light_color = Color(0.9, 0.86, 0.78, 1)
 light_energy = 0.45
 omni_range = 5.0

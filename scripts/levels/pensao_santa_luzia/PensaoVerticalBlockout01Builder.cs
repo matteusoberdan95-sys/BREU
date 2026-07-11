@@ -4,20 +4,52 @@ using BREU.Scripts.Interaction;
 using BREU.Scripts.Levels;
 
 /// <summary>
-/// Sprint 10 — ground floor (inherited) + second floor blockout on PensaoVerticalBlockout01.
+/// Sprint 10 rebuild — ground floor (inherited) + clean proportional second floor blockout.
 /// </summary>
 public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Builder
 {
     private const float SecondFloorTopY = 2.8f;
     private const float SecondFloorVisualTopY = 2.82f;
-    private const float UpperCorridorWidth = 2.4f;
 
-    private const float StairFootX = -4.1f;
+    private const float SlabWidth = BuildingHalfWidth * 2f + FloorOverlap;
+    private const float SlabDepth = 44.5f + FloorOverlap;
+    private const float SlabCenterZ = -10.75f;
+
     private const float StairFootZ = -30.5f;
+    private const float StairOpenWidth = 6.0f;
+    private const float StairOpenDepth = 8.5f;
+    private const float StairOpenCenterZ = -27.4f;
+
+    private const float UpperCorridorWidth = CorridorWidth;
+    private const float UpperCorridorSouthZ = -7.5f;
+    private const float UpperCorridorNorthZ = -20.0f;
+
+    private const float Room201CenterZ = -14.0f;
+    private const float Room202CenterZ = -17.0f;
+    private const float RoomDepth = 4.0f + WallCornerOverlap;
+    private const float BlockedDoorZ = -7.5f;
+
+    private static float StairFootX =>
+        -((CorridorWallX + (BuildingHalfWidth - WallThickness * 0.5f)) * 0.5f);
+
     private static float RampTopZ => StairFootZ + StairRampAssembly.StairRun;
 
+    private static float StairOpenSouthZ => StairOpenCenterZ + StairOpenDepth * 0.5f;
+
+    private static float StairOpenNorthZ => StairOpenCenterZ - StairOpenDepth * 0.5f;
+
+    private static float StairOpenEastX => StairFootX + StairOpenWidth * 0.5f;
+
+    private static float BuildingInnerWestX => -BuildingHalfWidth + WallThickness * 0.5f;
+
+    private static float BuildingInnerEastX => BuildingHalfWidth - WallThickness * 0.5f;
+
+    private static float Room201CenterX => (BuildingInnerWestX + (-CorridorWallX)) * 0.5f;
+
+    private static float Room202CenterX => (CorridorWallX + BuildingInnerEastX) * 0.5f;
+
     private StandardMaterial3D _matSecondFloor = null!;
-    private StandardMaterial3D _matSecondRail = null!;
+    private StandardMaterial3D _matSecondCeiling = null!;
     private StandardMaterial3D _matFurniture = null!;
 
     private Node3D _secondFloor = null!;
@@ -36,7 +68,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     protected override void BuildExtensionContent()
     {
         _matSecondFloor = Mat(new Color(0.46f, 0.44f, 0.48f));
-        _matSecondRail = Mat(new Color(0.36f, 0.38f, 0.42f));
+        _matSecondCeiling = Mat(new Color(0.42f, 0.4f, 0.44f));
         _matFurniture = Mat(new Color(0.38f, 0.34f, 0.32f));
         BuildSecondFloor();
     }
@@ -52,229 +84,165 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private void BuildSecondFloor()
     {
-        const float landingDepth = 3.5f;
+        BuildFloorSecondMain();
+        BuildUpperLandingMain();
+        BuildUpperCorridorMain();
+        BuildRoom201();
+        BuildRoom202();
+        BuildUpperBlockedDoor();
+        BuildSecondFloorExteriorShell();
+    }
+
+    /// <summary>
+    /// Full proportional slab matching térreo footprint, with stairwell opening only.
+    /// </summary>
+    private void BuildFloorSecondMain()
+    {
+        const float southEdgeZ = -6.0f;
+        var southDepth = southEdgeZ - StairOpenSouthZ;
+        var southCenterZ = (southEdgeZ + StairOpenSouthZ) * 0.5f;
+
+        AddSecondFloorSlab(
+            "Floor_Second_Main_South",
+            new Vector3(0f, SecondFloorCenterY, southCenterZ),
+            new Vector3(SlabWidth, FloorThickness, southDepth + FloorOverlap));
+
+        var northEastWidth = SlabWidth * 0.5f - StairOpenEastX;
+        var northEastCenterX = StairOpenEastX + northEastWidth * 0.5f;
+
+        AddSecondFloorSlab(
+            "Floor_Second_Main_NorthEast",
+            new Vector3(northEastCenterX, SecondFloorCenterY, StairOpenCenterZ),
+            new Vector3(northEastWidth + FloorOverlap, FloorThickness, StairOpenDepth + FloorOverlap));
+
+        AddSecondFloorSlab(
+            "Floor_Second_Main_NorthCap",
+            new Vector3(0f, SecondFloorCenterY, BuildingBackZ + 1.2f),
+            new Vector3(SlabWidth, FloorThickness, 2.4f));
+    }
+
+    private void BuildUpperLandingMain()
+    {
         const float landingWidth = 3.5f;
-        const float landingCenterZ = -21.0f;
-        const float corridorEndZ = -7.5f;
-        const float room201CenterZ = -14.0f;
-        const float room202CenterZ = -17.0f;
-        const float roomDepth = 4.0f + WallCornerOverlap;
-        const float roomSpan = 3.8f + WallCornerOverlap;
-        const float buildingInnerWestX = -BuildingHalfWidth + WallThickness * 0.5f;
-        const float upperEastCapX = -1.0f;
-        const float room201CenterX = -6.15f;
-        const float room202CenterX = -1.55f;
-        const float blockedDoorZ = -7.5f;
+        const float landingDepth = 3.5f;
+        const float landingCenterZ = -22.0f;
 
-        var corridorStartZ = landingCenterZ + landingDepth * 0.5f - FloorOverlap;
-        var corridorLength = corridorEndZ - corridorStartZ;
-        var corridorCenterZ = corridorStartZ + corridorLength * 0.5f;
-
-        BuildUpperLandingMain(landingCenterZ, landingWidth, landingDepth);
-        BuildStairTopTransition();
-        BuildUpperCorridorMain(corridorCenterZ, corridorLength);
-        BuildUpperLandingRails(landingCenterZ, landingDepth);
-        BuildUpperCorridorWalls(corridorCenterZ, corridorLength, room201CenterZ, room202CenterZ);
-        BuildRoom201(room201CenterX, room201CenterZ, roomDepth, roomSpan, buildingInnerWestX);
-        BuildRoom202(room202CenterX, room202CenterZ, roomDepth, roomSpan, upperEastCapX);
-        BuildBlockedUpperDoor(blockedDoorZ);
-        BuildSecondFloorShell(corridorCenterZ, corridorLength, buildingInnerWestX, upperEastCapX);
-    }
-
-    private void BuildUpperLandingMain(float centerZ, float width, float depth)
-    {
-        AddCollisionFloor(
-            _secondFloor,
+        AddSecondFloorSlab(
             "UpperLanding_Main",
-            new Vector3(StairFootX, SecondFloorCenterY, centerZ),
-            new Vector3(width, FloorThickness, depth));
+            new Vector3(StairFootX, SecondFloorCenterY, landingCenterZ),
+            new Vector3(landingWidth, FloorThickness, landingDepth));
 
-        AddVisualFloorPlate(
-            _secondFloor,
-            "UpperLanding_Main_Visual",
-            new Vector3(StairFootX, 0f, centerZ),
-            new Vector2(width, depth),
-            SecondFloorVisualTopY,
-            _matSecondFloor);
+        AddSecondFloorSlab(
+            "UpperLanding_StairBridge",
+            new Vector3(StairFootX, SecondFloorCenterY, RampTopZ + 0.85f),
+            new Vector3(StairRampAssembly.StairWidth + 1.0f, FloorThickness, 2.2f));
+
+        AddSecondFloorSlab(
+            "UpperLanding_CorridorBridge",
+            new Vector3((StairFootX + 0f) * 0.5f, SecondFloorCenterY, -20.5f),
+            new Vector3(Mathf.Abs(StairFootX) + UpperCorridorWidth * 0.5f, FloorThickness, 2.0f));
     }
 
-    private void BuildStairTopTransition()
+    private void BuildUpperCorridorMain()
     {
-        AddCollisionFloor(
-            _secondFloor,
-            "Floor_Second_StairTransition",
-            new Vector3(StairFootX, SecondFloorCenterY, RampTopZ + 1.25f),
-            new Vector3(StairRampAssembly.StairWidth + 1.2f, FloorThickness, 3.2f));
+        var corridorLength = UpperCorridorSouthZ - UpperCorridorNorthZ;
+        var corridorCenterZ = (UpperCorridorSouthZ + UpperCorridorNorthZ) * 0.5f;
 
-        AddVisualFloorPlate(
-            _secondFloor,
-            "Floor_Second_StairTransition_Visual",
-            new Vector3(StairFootX, 0f, RampTopZ + 1.25f),
-            new Vector2(StairRampAssembly.StairWidth + 1.2f, 3.2f),
-            SecondFloorVisualTopY,
-            _matSecondFloor);
-    }
-
-    private void BuildUpperCorridorMain(float corridorCenterZ, float corridorLength)
-    {
-        AddCollisionFloor(
-            _secondFloor,
+        AddSecondFloorSlab(
             "UpperCorridor_Main",
-            new Vector3(StairFootX, SecondFloorCenterY, corridorCenterZ),
+            new Vector3(0f, SecondFloorCenterY, corridorCenterZ),
             new Vector3(UpperCorridorWidth + FloorWallLip * 2f, FloorThickness, corridorLength + FloorOverlap));
 
-        AddVisualFloorPlate(
-            _secondFloor,
-            "UpperCorridor_Main_Visual",
-            new Vector3(StairFootX, 0f, corridorCenterZ),
-            new Vector2(UpperCorridorWidth, corridorLength),
-            SecondFloorVisualTopY,
-            _matSecondFloor);
-
-        AddCollisionFloor(
-            _secondFloor,
-            "Floor_Second_Main",
-            new Vector3(StairFootX, SecondFloorCenterY, -14.5f),
-            new Vector3(10.5f, FloorThickness, 16.0f));
-
-        AddVisualFloorPlate(
-            _secondFloor,
-            "Floor_Second_Main_Visual",
-            new Vector3(StairFootX, 0f, -14.5f),
-            new Vector2(10.5f, 16.0f),
-            SecondFloorVisualTopY,
-            _matSecondFloor);
-    }
-
-    private void BuildUpperLandingRails(float landingCenterZ, float landingDepth)
-    {
-        const float railHeight = 1.1f;
-        const float railThickness = 0.18f;
-        const float upperWestWallX = -5.4f;
-        const float upperEastWallX = -2.8f;
-        var railDepth = landingDepth * 0.55f;
-        var railCenterZ = landingCenterZ - landingDepth * 0.15f;
-
-        AddWall(
-            _secondFloor,
-            "UpperLanding_Rail_Left",
-            new Vector3(upperWestWallX - railThickness * 0.5f, SecondFloorTopY + railHeight * 0.5f, railCenterZ),
-            new Vector3(railThickness, railHeight, railDepth),
-            _matSecondRail);
-
-        AddWall(
-            _secondFloor,
-            "UpperLanding_Rail_Right",
-            new Vector3(upperEastWallX + railThickness * 0.5f, SecondFloorTopY + railHeight * 0.5f, railCenterZ),
-            new Vector3(railThickness, railHeight, railDepth),
-            _matSecondRail);
-    }
-
-    private void BuildUpperCorridorWalls(
-        float corridorCenterZ,
-        float corridorLength,
-        float room201CenterZ,
-        float room202CenterZ)
-    {
-        const float upperWestWallX = -5.4f;
-        const float upperEastWallX = -2.8f;
-
         BuildWallWithDoorGap(
             _secondFloor,
-            "Wall_Second_Corridor_Left",
-            upperWestWallX,
+            "Wall_UpperCorridor_Left",
+            -CorridorWallX,
             corridorCenterZ,
             corridorLength,
-            room201CenterZ,
+            Room201CenterZ,
             DoorWidth,
             _matInteriorWall,
             SecondWallCenterY);
 
         BuildWallWithDoorGap(
             _secondFloor,
-            "Wall_Second_Corridor_Right",
-            upperEastWallX,
+            "Wall_UpperCorridor_Right",
+            CorridorWallX,
             corridorCenterZ,
             corridorLength,
-            room202CenterZ,
+            Room202CenterZ,
             DoorWidth,
             _matInteriorWall,
             SecondWallCenterY);
     }
 
-    private void BuildRoom201(
-        float roomCenterX,
-        float roomCenterZ,
-        float roomDepth,
-        float roomSpan,
-        float buildingInnerWestX)
+    private void BuildRoom201()
     {
+        var roomSpanX = (-CorridorWallX) - BuildingInnerWestX + WallCornerOverlap;
+
         AddWall(
             _secondFloor,
             "Wall_Room201_Left",
-            new Vector3(buildingInnerWestX, SecondWallCenterY, roomCenterZ),
-            new Vector3(WallThickness, WallHeight, roomDepth),
+            new Vector3(BuildingInnerWestX, SecondWallCenterY, Room201CenterZ),
+            new Vector3(WallThickness, WallHeight, RoomDepth),
             _matInteriorWall);
 
         AddWall(
             _secondFloor,
             "Wall_Room201_Back",
-            new Vector3(roomCenterX, SecondWallCenterY, roomCenterZ - roomDepth * 0.5f),
-            new Vector3(roomSpan, WallHeight, WallThickness),
+            new Vector3(Room201CenterX, SecondWallCenterY, Room201CenterZ - RoomDepth * 0.5f),
+            new Vector3(roomSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddWall(
             _secondFloor,
             "Wall_Room201_Front",
-            new Vector3(roomCenterX, SecondWallCenterY, roomCenterZ + roomDepth * 0.5f),
-            new Vector3(roomSpan, WallHeight, WallThickness),
+            new Vector3(Room201CenterX, SecondWallCenterY, Room201CenterZ + RoomDepth * 0.5f),
+            new Vector3(roomSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddFurniture(
             _secondFloor,
             "Furniture_Room201_Bed",
-            new Vector3(roomCenterX + 0.6f, SecondFloorTopY + 0.35f, roomCenterZ),
+            new Vector3(Room201CenterX + 0.5f, SecondFloorTopY + 0.35f, Room201CenterZ),
             new Vector3(2.0f, 0.7f, 1.8f),
             _matFurniture);
     }
 
-    private void BuildRoom202(
-        float roomCenterX,
-        float roomCenterZ,
-        float roomDepth,
-        float roomSpan,
-        float roomEastWallX)
+    private void BuildRoom202()
     {
+        var roomSpanX = BuildingInnerEastX - CorridorWallX + WallCornerOverlap;
+
         AddWall(
             _secondFloor,
             "Wall_Room202_Right",
-            new Vector3(roomEastWallX, SecondWallCenterY, roomCenterZ),
-            new Vector3(WallThickness, WallHeight, roomDepth),
+            new Vector3(BuildingInnerEastX, SecondWallCenterY, Room202CenterZ),
+            new Vector3(WallThickness, WallHeight, RoomDepth),
             _matInteriorWall);
 
         AddWall(
             _secondFloor,
             "Wall_Room202_Back",
-            new Vector3(roomCenterX, SecondWallCenterY, roomCenterZ - roomDepth * 0.5f),
-            new Vector3(roomSpan, WallHeight, WallThickness),
+            new Vector3(Room202CenterX, SecondWallCenterY, Room202CenterZ - RoomDepth * 0.5f),
+            new Vector3(roomSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddWall(
             _secondFloor,
             "Wall_Room202_Front",
-            new Vector3(roomCenterX, SecondWallCenterY, roomCenterZ + roomDepth * 0.5f),
-            new Vector3(roomSpan, WallHeight, WallThickness),
+            new Vector3(Room202CenterX, SecondWallCenterY, Room202CenterZ + RoomDepth * 0.5f),
+            new Vector3(roomSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddFurniture(
             _secondFloor,
             "Furniture_Room202_Cabinet",
-            new Vector3(roomCenterX + 0.8f, SecondFloorTopY + 0.75f, roomCenterZ - 0.6f),
+            new Vector3(Room202CenterX - 0.6f, SecondFloorTopY + 0.75f, Room202CenterZ - 0.5f),
             new Vector3(1.0f, 1.5f, 0.55f),
             _matFurniture);
     }
 
-    private void BuildBlockedUpperDoor(float blockedDoorZ)
+    private void BuildUpperBlockedDoor()
     {
         var frameWidth = (UpperCorridorWidth - DoorWidth) * 0.5f + WallCornerOverlap * 0.5f;
         var frameCenterX = DoorWidth * 0.5f + frameWidth * 0.5f;
@@ -282,14 +250,14 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         AddWall(
             _secondFloor,
             "Wall_UpperBlockedDoor_Frame_Left",
-            new Vector3(StairFootX - frameCenterX, SecondWallCenterY, blockedDoorZ),
+            new Vector3(-frameCenterX, SecondWallCenterY, BlockedDoorZ),
             new Vector3(frameWidth, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddWall(
             _secondFloor,
             "Wall_UpperBlockedDoor_Frame_Right",
-            new Vector3(StairFootX + frameCenterX, SecondWallCenterY, blockedDoorZ),
+            new Vector3(frameCenterX, SecondWallCenterY, BlockedDoorZ),
             new Vector3(frameWidth, WallHeight, WallThickness),
             _matInteriorWall);
 
@@ -299,57 +267,52 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         AddWall(
             _secondFloor,
             "Wall_UpperBlockedDoor_Header",
-            new Vector3(StairFootX, headerCenterY, blockedDoorZ),
+            new Vector3(0f, headerCenterY, BlockedDoorZ),
             new Vector3(UpperCorridorWidth + WallCornerOverlap, headerHeight, WallThickness),
             _matInteriorWall);
     }
 
-    private void BuildSecondFloorShell(
-        float corridorCenterZ,
-        float corridorLength,
-        float buildingInnerWestX,
-        float buildingInnerEastX)
+    private void BuildSecondFloorExteriorShell()
     {
-        const float northBackZ = -27.5f;
+        var shellDepth = BuildingFrontZ - BuildingBackZ + WallCornerOverlap;
+        var shellCenterZ = (BuildingFrontZ + BuildingBackZ) * 0.5f;
+        var shellSpanX = BuildingHalfWidth * 2f + WallThickness + WallCornerOverlap;
 
         AddWall(
             _secondFloor,
             "Wall_Second_Back",
-            new Vector3(StairFootX, SecondWallCenterY, northBackZ),
-            new Vector3(10.0f, WallHeight, WallThickness),
-            _matInteriorWall);
-
-        AddWall(
-            _secondFloor,
-            "Wall_Second_Front",
-            new Vector3(StairFootX, SecondWallCenterY, -6.2f),
-            new Vector3(10.0f, WallHeight, WallThickness),
-            _matInteriorWall);
-
-        AddWall(
-            _secondFloor,
-            "Wall_Second_West",
-            new Vector3(buildingInnerWestX, SecondWallCenterY, corridorCenterZ),
-            new Vector3(WallThickness, WallHeight, corridorLength + 8.0f),
+            new Vector3(0f, SecondWallCenterY, BuildingBackZ - WallThickness * 0.5f),
+            new Vector3(shellSpanX, WallHeight, WallThickness),
             _matExteriorWall);
 
         AddWall(
             _secondFloor,
-            "Wall_Second_East",
-            new Vector3(buildingInnerEastX, SecondWallCenterY, corridorCenterZ),
-            new Vector3(WallThickness, WallHeight, corridorLength + 8.0f),
+            "Wall_Second_Front",
+            new Vector3(0f, SecondWallCenterY, -5.8f),
+            new Vector3(shellSpanX, WallHeight, WallThickness),
+            _matExteriorWall);
+
+        AddWall(
+            _secondFloor,
+            "Wall_Second_Left",
+            new Vector3(-BuildingHalfWidth - WallThickness * 0.5f, SecondWallCenterY, shellCenterZ),
+            new Vector3(WallThickness, WallHeight, shellDepth),
+            _matExteriorWall);
+
+        AddWall(
+            _secondFloor,
+            "Wall_Second_Right",
+            new Vector3(BuildingHalfWidth + WallThickness * 0.5f, SecondWallCenterY, shellCenterZ),
+            new Vector3(WallThickness, WallHeight, shellDepth),
             _matExteriorWall);
     }
 
     private void BuildSecondFloorInteractions()
     {
-        const float room201CenterX = -6.15f;
-        const float room202CenterX = -1.55f;
-
         AddInteractableArea(
             _interactions,
             "Room201Inspect",
-            new Vector3(room201CenterX, SecondFloorTopY + 1.4f, -14.0f),
+            new Vector3(Room201CenterX, SecondFloorTopY + 1.4f, Room201CenterZ),
             new Vector3(1.0f, 1.2f, 1.0f),
             "Examinar quarto 201",
             "O quarto está vazio, mas a cama parece ter sido usada recentemente.",
@@ -358,7 +321,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         AddInteractableArea(
             _interactions,
             "Room202Inspect",
-            new Vector3(room202CenterX, SecondFloorTopY + 1.4f, -17.0f),
+            new Vector3(Room202CenterX, SecondFloorTopY + 1.4f, Room202CenterZ),
             new Vector3(1.0f, 1.2f, 1.0f),
             "Examinar quarto 202",
             "Há marcas de arrasto no chão.",
@@ -367,11 +330,25 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         AddInteractableBody(
             _interactions,
             "UpperBlockedDoor",
-            new Vector3(StairFootX, SecondFloorTopY + DoorHeight * 0.5f - WallEmbedBelowFloor, -7.5f),
+            new Vector3(0f, SecondFloorTopY + DoorHeight * 0.5f - WallEmbedBelowFloor, BlockedDoorZ),
             new Vector3(DoorWidth, DoorHeight, 0.14f),
             "Tentar abrir porta",
             "Está trancada por dentro.",
             "room_203_locked");
+    }
+
+    private void AddSecondFloorSlab(string name, Vector3 center, Vector3 size)
+    {
+        AddCollisionFloor(_secondFloor, name, center, size);
+        AddVisualFloorPlate(
+            _secondFloor,
+            $"{name}_Visual",
+            new Vector3(center.X, 0f, center.Z),
+            new Vector2(size.X, size.Z),
+            SecondFloorVisualTopY,
+            name.Contains("Main") || name.Contains("Landing") || name.Contains("Corridor")
+                ? _matSecondCeiling
+                : _matSecondFloor);
     }
 
     private void BuildWallWithDoorGap(

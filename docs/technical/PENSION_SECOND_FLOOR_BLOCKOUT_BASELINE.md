@@ -1,9 +1,9 @@
 # Baseline — Segundo andar blockout 01
 
-**Versão:** 1.1 (hotfix acesso)  
+**Versão:** 2.0 (rebuild limpo)  
 **Sprint:** 10  
 **Data:** 2026-07-11  
-**Status:** Hotfix aplicado — playtest F6 pendente  
+**Status:** Rebuild aplicado — playtest F6 pendente  
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Builder:** `PensaoVerticalBlockout01Builder.cs`
 
@@ -11,32 +11,62 @@
 
 ---
 
+## Regras de design
+
+1. **Segundo andar proporcional ao térreo** — laje principal com mesma largura/profundidade do piso térreo (`14,08 × 44,58 m`, centro z = -10,75).
+2. **Saída da escada nunca bloqueada** — nenhuma parede ou rail na frente da rampa (+Z).
+3. **Abertura só na escada** — vão de `6,0 × 8,5 m` @ (-4,1, -27,4) para a escada passar; resto coberto por laje visual.
+4. **Corredor superior no eixo do térreo** — x = 0, largura 2,4 m (igual corredor térreo).
+5. **Raycast respeita parede** — `PlayerInteractionRaycast` com oclusão world-only.
+
+---
+
 ## Layout
 
 ```
-Escada → UpperLanding_Main → UpperCorridor_Main → Room201 / Room202 → UpperBlockedDoor
+Escada (x≈-4,1) → UpperLanding_Main → UpperCorridor_Main (x=0) → Room201 / Room202 → UpperBlockedDoor
 ```
 
 | Área | Descrição |
 |------|-----------|
-| **UpperLanding_Main** | Patamar de chegada @ y = 2,8 m — mín. 3,5 × 3,5 m, saída livre para +Z |
-| **UpperCorridor_Main** | Corredor 2,4 m contínuo até porta bloqueada |
-| **Room201** | Oeste do corredor — cama placeholder |
-| **Room202** | Leste do corredor — armário placeholder |
-| **UpperBlockedDoor** | Porta trancada z ≈ -7,5 — não abre nesta sprint |
+| **Floor_Second_Main** | Laje segmentada proporcional ao térreo — cobertura visual sobre interior |
+| **UpperLanding_Main** | Patamar 3,5 × 3,5 m @ saída da rampa — livre para +Z |
+| **UpperCorridor_Main** | Corredor 2,4 m, x = 0, z = -20 a -7,5 |
+| **Room201** | Oeste (espelha quarto 102) — cama placeholder |
+| **Room202** | Leste (espelha cozinha) — armário placeholder |
+| **UpperBlockedDoor** | Porta trancada z = -7,5 — não abre nesta sprint |
 
 ---
 
-## Métricas
+## Métricas reais
 
 | Parâmetro | Valor |
 |-----------|-------|
-| Piso superior (top) | **2,8 m** (compatível com escada) |
+| Piso superior (top) | **2,8 m** |
+| Laje principal | **14,08 × 44,58 m** (igual térreo) |
+| Vão escada | **6,0 × 8,5 m** @ (-4,1, -27,4) |
 | Paredes | 3,0 m altura · 0,20 m espessura |
-| Corredor superior | **2,4 m** |
+| Corredor superior | **2,4 m** @ x = 0 |
+| Patamar | **3,5 × 3,5 m** mínimo |
 | Portas | **1,4 m** |
-| Quartos | ~3,8 × 4,0 m |
+| Quartos | ~5,6 × 4,0 m |
 | Overlap cantos | 0,08 m |
+
+---
+
+## Escada (integração)
+
+| Parâmetro | Valor |
+|-----------|-------|
+| Foot X | **-4,1** (alcova oeste) |
+| Foot Z | **-30,5** |
+| Topo rampa Z | **-24,7** |
+| Rise | **2,8 m** |
+| Padrão | `StairRampAssembly` — sem patamar temporário 09A |
+
+Encaixe superior:
+- `UpperLanding_StairBridge` conecta topo da rampa
+- `UpperLanding_Main` + `UpperLanding_CorridorBridge` ligam ao corredor x = 0
 
 ---
 
@@ -44,28 +74,21 @@ Escada → UpperLanding_Main → UpperCorridor_Main → Room201 / Room202 → Up
 
 ```
 PensionSecondFloor/
+  Floor_Second_Main_South
+  Floor_Second_Main_NorthEast
+  Floor_Second_Main_NorthCap
   UpperLanding_Main
-  Floor_Second_StairTransition
+  UpperLanding_StairBridge
+  UpperLanding_CorridorBridge
   UpperCorridor_Main
-  Floor_Second_Main
-  UpperLanding_Rail_Left / Right
-  Wall_Second_Corridor_*
+  Wall_UpperCorridor_Left / Right
   Wall_Room201_*
   Wall_Room202_*
   Wall_UpperBlockedDoor_*
-  Wall_Second_Back (z = -27,5 — atrás do patamar, não na rampa)
-  Wall_Second_East
+  Wall_Second_Front / Back / Left / Right
   Furniture_Room201_Bed
   Furniture_Room202_Cabinet
 ```
-
----
-
-## Raycast / interação (hotfix)
-
-- Areas de interação devem ser **pequenas** e colocadas no objeto.
-- `PlayerInteractionRaycast` faz raycast world-only para oclusão: se parede (layer 1) estiver mais próxima que o alvo, o prompt **não** aparece.
-- Cozinha (`KitchenInspect`): volume reduzido para evitar detecção através de paredes adjacentes.
 
 ---
 
@@ -73,19 +96,11 @@ PensionSecondFloor/
 
 | ID | Prompt | Local |
 |----|--------|-------|
-| `room_201` | Examinar quarto 201 | Quarto 201 |
-| `room_202` | Examinar quarto 202 | Quarto 202 |
-| `room_203_locked` | Tentar abrir porta | Porta bloqueada superior |
+| `room_201` | Examinar quarto 201 | Room201 @ (-4,1, -14) |
+| `room_202` | Examinar quarto 202 | Room202 @ (4,1, -17) |
+| `room_203_locked` | Tentar abrir porta | UpperBlockedDoor @ (0, -7,5) |
 
 Interações do térreo **preservadas** (5 pontos + puzzle).
-
----
-
-## Escada
-
-- Padrão `StairRampAssembly` — rampa invisível, sem patamar temporário
-- Piso superior conecta via `Floor_Second_StairTransition`
-- **Não alterar** PlayerController / PlayerCameraFeel
 
 ---
 
@@ -95,7 +110,6 @@ Interações do térreo **preservadas** (5 pontos + puzzle).
 - **Sem telhado**
 - **Sem inimigo / combate**
 - **Sem arte final / GLB**
-- Patamar temporário da 09A **substituído** por layout real nesta cena vertical
 
 ---
 

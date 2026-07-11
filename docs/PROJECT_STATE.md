@@ -16,7 +16,7 @@
 | Sprint 07 | **✅ Aprovada** — puzzle depósito |
 | Sprint 08 | **✅ Aprovada** — escada lab |
 | Sprint 09A / 09B | **✅ Aprovadas** — escada integrada + playtest |
-| Sprint 10 | **🔄 Em validação** — hotfix acesso 2º andar + raycast; playtest F6 pendente |
+| Sprint 10 | **🔄 Em validação** — segundo andar **reconstruído** (rebuild limpo); playtest F6 pendente |
 
 ---
 
@@ -35,11 +35,15 @@
 ## Sprint 10 — resumo (em validação)
 
 - Nova cena `PensaoVerticalBlockout01.tscn` — **não altera** `PensaoTerreoBlockout01.tscn`.
-- 2º andar: `UpperLanding_Main`, `UpperCorridor_Main`, quartos 201/202, `UpperBlockedDoor`.
-- **Hotfix 2026-07-11:** saída da escada liberada; raycast respeita oclusão por parede.
-- Segundo andar **só será aprovado** se saída da escada estiver livre e corredor superior navegável.
+- **Rebuild 2026-07-11:** segundo andar anterior removido; reconstruído limpo e proporcional ao térreo.
+- Laje `Floor_Second_Main` (14,08 × 44,58 m) cobre interior; vão só na escada.
+- Corredor superior no eixo x = 0; quartos 201/202; `UpperBlockedDoor`.
+- Raycast com oclusão por parede (hotfix anterior preservado).
+- Segundo andar **só será aprovado** após playtest F6 completo.
 - Escada conectada @ y = 2,8 m; puzzle térreo preservado.
 - Sem teto, sem inimigo, sem arte final.
+
+**Pendências:** playtest F6 manual — subir/descer escada, navegar corredor/quartos, regressão térreo.
 
 **Playtest:** `docs/testing/PENSAO_SECOND_FLOOR_BLOCKOUT_01_PLAYTEST.md`
 
