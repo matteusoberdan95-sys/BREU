@@ -78,6 +78,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private StandardMaterial3D _matCeilingFirst = null!;
     private StandardMaterial3D _matCeilingSecond = null!;
     private StandardMaterial3D _matRoof = null!;
+    private StandardMaterial3D _matDoorBalcony = null!;
+    private StandardMaterial3D _matDoorLocked = null!;
 
     private Node3D _secondFloor = null!;
     private Node3D _ceiling = null!;
@@ -104,6 +106,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matCeilingFirst = Mat(new Color(0.34f, 0.31f, 0.28f));
         _matCeilingSecond = Mat(new Color(0.38f, 0.36f, 0.4f));
         _matRoof = Mat(new Color(0.32f, 0.3f, 0.28f));
+        _matDoorBalcony = Mat(new Color(0.32f, 0.5f, 0.3f));
+        _matDoorLocked = Mat(new Color(0.2f, 0.16f, 0.14f));
         BuildSecondFloor();
         BuildCeilingBlockout();
         BuildUpperSouthRoomPlaceholder();
@@ -311,6 +315,58 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(0f, parapetCenterY, upperRoofCenterZ),
             new Vector3(shellSpanX, parapetHeight, upperRoofDepth),
             _matExteriorWall);
+
+        BuildTrailVisibleUpperBalcony(exterior);
+    }
+
+    /// <summary>Exterior readability from trail — upper balcony placeholder above main entry.</summary>
+    private void BuildTrailVisibleUpperBalcony(Node3D exterior)
+    {
+        var host = new Node3D { Name = "UpperBalcony_TrailReadability" };
+        exterior.AddChild(host);
+
+        const float balconyProtrude = 1.0f;
+        const float balconyWidth = 3.8f;
+        var frontFaceZ = BuildingFrontZ + WallThickness * 0.5f;
+        var balconyCenterZ = frontFaceZ + balconyProtrude * 0.5f;
+        var floorCenterY = SecondFloorTopY + 0.1f;
+        var railCenterY = SecondFloorTopY + 0.62f;
+
+        AddVisualCeilingPlate(
+            host,
+            "UpperBalcony_Trail_Floor",
+            new Vector3(0f, floorCenterY, balconyCenterZ),
+            new Vector3(balconyWidth, 0.16f, balconyProtrude),
+            _matSecondFloor);
+
+        AddVisualCeilingPlate(
+            host,
+            "UpperBalcony_Trail_Rail_Front",
+            new Vector3(0f, railCenterY, frontFaceZ + balconyProtrude + 0.06f),
+            new Vector3(balconyWidth + 0.14f, 0.95f, 0.12f),
+            _matSecondRail);
+
+        AddVisualCeilingPlate(
+            host,
+            "UpperBalcony_Trail_Rail_Left",
+            new Vector3(-balconyWidth * 0.5f - 0.05f, railCenterY, balconyCenterZ),
+            new Vector3(0.12f, 0.95f, balconyProtrude),
+            _matSecondRail);
+
+        AddVisualCeilingPlate(
+            host,
+            "UpperBalcony_Trail_Rail_Right",
+            new Vector3(balconyWidth * 0.5f + 0.05f, railCenterY, balconyCenterZ),
+            new Vector3(0.12f, 0.95f, balconyProtrude),
+            _matSecondRail);
+
+        var doorCenterY = FirstFloorWallTopY + (SecondFloorWallTopY - FirstFloorWallTopY) * 0.52f;
+        AddVisualCeilingPlate(
+            host,
+            "UpperBalcony_Trail_DoorPanel",
+            new Vector3(0f, doorCenterY, frontFaceZ + 0.08f),
+            new Vector3(DoorWidth, DoorHeight, 0.14f),
+            _matDoorBalcony);
     }
 
     private void BuildRoofBlockout()
@@ -706,11 +762,13 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "Há marcas de arrasto no chão.",
             "room_202");
 
-        AddInteractableBody(
+        AddLockedDoorPanelZWall(
             _secondFloor,
             "Door_UpperBalcony_Locked",
             new Vector3(0f, SecondFloorTopY + DoorHeight * 0.5f - WallEmbedBelowFloor, BlockedDoorZ),
-            new Vector3(DoorWidth, DoorHeight, 0.12f),
+            new Vector3(DoorWidth, DoorHeight, WallThickness),
+            _matDoorBalcony,
+            -0.28f,
             "Tentar abrir varanda",
             "A porta está emperrada. O vento passa pelas frestas do lado de fora.",
             "upper_balcony_locked");
@@ -807,13 +865,12 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(0.1f, railHeight, balconyDepth),
             _matSecondRail);
 
-        AddDoorFrameInZWallLocal(
+        AddVisualProp(
             balcony,
-            "Door_UpperBalcony_Frame",
-            0f,
-            BlockedDoorZ,
-            DoorWidth,
-            DoorHeight);
+            "UpperBalcony_BackWall",
+            new Vector3(0f, SecondWallCenterY - SecondFloorTopY, balconyFrontZ),
+            new Vector3(railSpanX, WallHeight * 0.55f, WallThickness),
+            _matInteriorWall);
     }
 
     private void AddSecondFloorSlab(string name, Vector3 center, Vector3 size)
@@ -872,5 +929,9 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     }
 
     private static StandardMaterial3D Mat(Color color) =>
-        new() { AlbedoColor = color };
+        new()
+        {
+            AlbedoColor = color,
+            Transparency = BaseMaterial3D.TransparencyEnum.Disabled
+        };
 }

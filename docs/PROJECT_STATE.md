@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 14 em validação; Sprint 14A executada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 14 em validação; Sprint 14B executada (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -26,7 +26,8 @@
 | Sprint 12A | **✅ Aprovada** — hotfix fechamento fachada/escada/porta verde |
 | Sprint 13 | **✅ Aprovada** — atmosfera base |
 | Sprint 14 | **🔄 Em validação** — portas/quartos/leitura narrativa (playtest F6 pendente) |
-| Sprint 14A | **🔄 Executada** — hotfix portas, depósito, varanda bloqueada (playtest F6 pendente) |
+| Sprint 14A | **⏸️ Substituída** — hotfix parcial (playtest falhou) |
+| Sprint 14B | **🔄 Executada** — sistema de portas blockout estável (playtest F6 pendente) |
 
 ---
 

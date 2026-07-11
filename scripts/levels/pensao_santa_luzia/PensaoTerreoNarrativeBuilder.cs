@@ -1,7 +1,8 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
-/// Sprint 14 / 14A — ground-floor narrative readability (doors, props, interactions).
+/// Sprint 14B — ground-floor narrative readability (door frames + props only).
+/// Open doors = frame only, no panel.
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder
 {
@@ -26,19 +27,10 @@ public partial class PensaoTerreoBlockout01Builder
         const float varandaEntryZ = 9.8f;
 
         AddDoorFrameInZWall(parent, "Door_MainEntrance_Frame", 0f, varandaEntryZ, 0f, MainEntryWidth, DoorHeight);
-        AddOpenDoorLeafZWall(parent, "Door_MainEntrance_Leaf", 0f, varandaEntryZ, MainEntryWidth, DoorHeight, 0.55f);
-
         AddDoorFrameInZWall(parent, "Door_ReceptionSouth_Frame", 0f, receptionSouthZ, 0f, DoorWidth, DoorHeight);
-        AddOpenDoorLeafZWall(parent, "Door_ReceptionSouth_Leaf", 0f, receptionSouthZ, DoorWidth, DoorHeight, 0.45f);
-
         AddDoorFrameInZWall(parent, "Door_ReceptionCorridor_Frame", 0f, corridorNorthZ, 0f, DoorWidth, DoorHeight);
-        AddOpenDoorLeafZWall(parent, "Door_ReceptionCorridor_Leaf", 0f, corridorNorthZ, DoorWidth, DoorHeight, -0.45f);
-
         AddDoorFrameInXWall(parent, "Door_Room102_Frame", -CorridorWallX, -15.5f, DoorWidth, DoorHeight);
-        AddOpenDoorLeafXWall(parent, "Door_Room102_Leaf", -CorridorWallX, -15.5f, DoorWidth, DoorHeight, -0.45f);
-
         AddDoorFrameInXWall(parent, "Door_Kitchen_Frame", CorridorWallX, -20.5f, DoorWidth, DoorHeight);
-        AddOpenDoorLeafXWall(parent, "Door_Kitchen_Leaf", CorridorWallX, -20.5f, DoorWidth, DoorHeight, 0.45f);
     }
 
     private void BuildReceptionNarrativeProps(Node3D parent)
@@ -175,15 +167,6 @@ public partial class PensaoTerreoBlockout01Builder
             -25.5f,
             DoorWidth,
             DoorHeight);
-
-        AddOpenDoorLeafXWall(
-            stair,
-            "Door_StairEntry_Leaf",
-            -CorridorWallX - WallThickness * 0.5f,
-            -25.5f,
-            DoorWidth,
-            DoorHeight,
-            -0.45f);
 
         AddVisualProp(
             stair,

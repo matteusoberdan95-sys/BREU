@@ -1,7 +1,7 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
-/// Sprint 14A — deposit door unlock: hide panel + disable collision only (no scale/animation).
+/// Sprint 14B — deposit door unlock: hide panel + disable collision only (no scale/animation).
 /// </summary>
 public partial class DepositDoorInteraction : Node, IInteractable
 {
@@ -13,19 +13,14 @@ public partial class DepositDoorInteraction : Node, IInteractable
     private PensaoPuzzleState? _state;
     private Node3D? _doorPanel;
     private CollisionShape3D? _doorCollision;
-    private StaticBody3D? _doorBlocking;
+    private Area3D? _interactArea;
 
     public void Initialize(PensaoPuzzleState state, Node3D doorRoot)
     {
         _state = state;
         _doorPanel = doorRoot.GetNodeOrNull<Node3D>("Door_Deposit_Panel");
-        _doorBlocking = doorRoot.GetNodeOrNull<StaticBody3D>("Door_Deposit_Blocking");
         _doorCollision = doorRoot.GetNodeOrNull<CollisionShape3D>("Door_Deposit_Blocking/Door_Deposit_Collision");
-
-        if (_doorBlocking != null && !_doorBlocking.IsInGroup("interactable"))
-        {
-            _doorBlocking.AddToGroup("interactable");
-        }
+        _interactArea = doorRoot.GetNodeOrNull<Area3D>("Door_Deposit_InteractArea");
     }
 
     public string GetPromptText()
@@ -68,6 +63,11 @@ public partial class DepositDoorInteraction : Node, IInteractable
         if (_doorCollision != null)
         {
             _doorCollision.Disabled = true;
+        }
+
+        if (_interactArea != null)
+        {
+            _interactArea.Monitorable = false;
         }
     }
 }

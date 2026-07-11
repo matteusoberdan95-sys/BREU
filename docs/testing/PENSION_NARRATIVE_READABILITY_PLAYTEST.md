@@ -123,3 +123,53 @@ Trilha → entrada → recepção → quarto 102 → chave → cozinha → depó
 - [ ] Puzzle chave → depósito → fusível
 - [ ] Escada / 2º andar
 - [ ] Prompts não atravessam parede
+
+---
+
+## Sprint 14B — Door system fix and balcony readability
+
+**Data:** 2026-07-11  
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v1.1
+
+### Removido (sistema quebrado 14/14A)
+
+- Todas as folhas `Door_*_Leaf` (painéis flutuantes no vão)
+- `AddOpenDoorLeafXWall` / `AddOpenDoorLeafZWall`
+- Portas trancadas via `AddInteractableBody` + `_matInteractable` (verde translúcido)
+- Molduras duplicadas no 2º andar (`AddSecondFloorDoorFrameIn*`)
+- Moldura duplicada `Door_UpperBalcony_Frame` no placeholder
+- Interação do depósito no `StaticBody3D` (agora em `Door_Deposit_InteractArea`)
+
+### Padrão estável 14B
+
+| Tipo | Implementação |
+|------|---------------|
+| A — aberta | Somente moldura, sem painel, sem colisão |
+| B — trancada | `AddLockedDoorPanelZWall` — painel opaco + colisão WorldLayer + Area3D |
+| C — depósito | Painel opaco + colisão; destravar = hide panel + disable collision |
+
+### Varanda
+
+- Interior: `UpperBalcony_Placeholder` (piso, guarda-corpos, parede fundo)
+- Trilha: `UpperBalcony_TrailReadability` (piso saliente, guarda-corpo, painel verde)
+
+### Checklist 14B
+
+**Entrada**
+- [ ] Sem porta grande bugada; só moldura; atravessável
+
+**Térreo**
+- [ ] 102 / cozinha — moldura, passagem livre
+- [ ] Depósito — painel opaco bloqueia; destranca sem tremer/esticar
+- [ ] Prompt depósito localizado na porta
+
+**2º andar**
+- [ ] 201 / 202 — moldura apenas
+- [ ] `Door_UpperBalcony_Locked` — verde opaco, bloqueia, prompt varanda
+
+**Varanda**
+- [ ] Vista da trilha comunica varanda bloqueada
+- [ ] Não parece buraco; sem acesso jogável
+
+**Regressão**
+- [ ] HUD / lanterna / F10 / F11 / fog / movimento / escada / puzzle intactos

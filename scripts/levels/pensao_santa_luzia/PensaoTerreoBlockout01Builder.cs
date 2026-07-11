@@ -123,7 +123,11 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
 
     private static StandardMaterial3D Mat(Color color)
     {
-        return new StandardMaterial3D { AlbedoColor = color };
+        return new StandardMaterial3D
+        {
+            AlbedoColor = color,
+            Transparency = BaseMaterial3D.TransparencyEnum.Disabled
+        };
     }
 
     /// <summary>Three overlapping collision slabs — no walkable gaps.</summary>
@@ -931,6 +935,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     private void BuildDepositDoorAssembly(Node3D parent, float doorWorldZ)
     {
         var doorCenterY = DoorHeight * 0.5f - WallEmbedBelowFloor;
+        var panelDepth = WallThickness;
         var root = new Node3D
         {
             Name = "Door_Deposit",
@@ -947,21 +952,31 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             DoorHeight);
 
         var panel = new Node3D { Name = "Door_Deposit_Panel" };
-        panel.AddChild(CreateBoxMesh(new Vector3(DoorWidth, DoorHeight, 0.12f), _matDoor));
+        panel.AddChild(CreateBoxMesh(new Vector3(DoorWidth, DoorHeight, panelDepth), _matDoor));
         root.AddChild(panel);
 
         var blocking = new StaticBody3D
         {
             Name = "Door_Deposit_Blocking",
-            CollisionLayer = WorldInteractableLayer,
+            CollisionLayer = WorldLayer,
             CollisionMask = 0
         };
-        var collision = CreateBoxCollision(new Vector3(DoorWidth, DoorHeight, 0.14f));
+        var collision = CreateBoxCollision(new Vector3(DoorWidth, DoorHeight, panelDepth));
         collision.Name = "Door_Deposit_Collision";
         blocking.AddChild(collision);
         root.AddChild(blocking);
 
-        blocking.AddToGroup("interactable");
+        var interactArea = new Area3D
+        {
+            Name = "Door_Deposit_InteractArea",
+            Position = new Vector3(0f, 0f, -panelDepth * 0.5f - 0.22f),
+            CollisionLayer = InteractableLayer,
+            CollisionMask = 0,
+            Monitoring = false,
+            Monitorable = true
+        };
+        interactArea.AddChild(CreateBoxCollision(new Vector3(DoorWidth * 0.85f, DoorHeight * 0.9f, 0.35f)));
+        root.AddChild(interactArea);
     }
 
     protected void AddDoorFrameInZWallLocal(
@@ -1038,38 +1053,46 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             _matDoorFrame);
     }
 
-    protected void AddOpenDoorLeafXWall(
+    /// <summary>Sprint 14B — locked door on Z-facing wall: opaque panel + world collision + local interact area.</summary>
+    protected void AddLockedDoorPanelZWall(
         Node3D parent,
         string name,
-        float wallX,
-        float doorCenterZ,
-        float doorWidth,
-        float doorHeight,
-        float openOffsetX)
+        Vector3 worldCenter,
+        Vector3 panelSize,
+        StandardMaterial3D panelMaterial,
+        float interactOffsetZ,
+        string prompt,
+        string message,
+        string id)
     {
-        AddVisualProp(
-            parent,
-            name,
-            new Vector3(wallX + openOffsetX, doorHeight * 0.5f, doorCenterZ),
-            new Vector3(0.08f, doorHeight * 0.96f, doorWidth * 0.42f),
-            _matDoor);
-    }
+        var root = new Node3D { Name = name, Position = worldCenter };
+        parent.AddChild(root);
 
-    protected void AddOpenDoorLeafZWall(
-        Node3D parent,
-        string name,
-        float doorCenterX,
-        float wallZ,
-        float doorWidth,
-        float doorHeight,
-        float openOffsetZ)
-    {
-        AddVisualProp(
-            parent,
-            name,
-            new Vector3(doorCenterX, doorHeight * 0.5f, wallZ + openOffsetZ),
-            new Vector3(doorWidth * 0.42f, doorHeight * 0.96f, 0.08f),
-            _matDoor);
+        var blocking = new StaticBody3D
+        {
+            Name = $"{name}_Blocking",
+            CollisionLayer = WorldLayer,
+            CollisionMask = 0
+        };
+        blocking.AddChild(CreateBoxCollision(panelSize));
+        blocking.AddChild(CreateBoxMesh(panelSize, panelMaterial));
+        root.AddChild(blocking);
+
+        var interactArea = new Area3D
+        {
+            Name = $"{name}_InteractArea",
+            Position = new Vector3(0f, 0f, interactOffsetZ),
+            CollisionLayer = InteractableLayer,
+            CollisionMask = 0,
+            Monitoring = false,
+            Monitorable = true
+        };
+        interactArea.AddChild(CreateBoxCollision(new Vector3(
+            panelSize.X * 0.85f,
+            panelSize.Y * 0.9f,
+            0.35f)));
+        interactArea.AddChild(CreateInteractable(prompt, message, id));
+        root.AddChild(interactArea);
     }
 
     protected void AddSolid(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material, uint layer)
