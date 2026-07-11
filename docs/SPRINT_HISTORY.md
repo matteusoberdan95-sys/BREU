@@ -35,7 +35,7 @@ Registro cronológico das sprints do reboot greenfield.
 
 **Data:** 2026-07-11  
 **Status:** ✅ Aprovada pelo usuário  
-**Commit baseline:** _(ver commit desta sessão)_  
+**Commit baseline:** `fd8d60e`  
 **Baseline:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
 
 **Entregas:**
