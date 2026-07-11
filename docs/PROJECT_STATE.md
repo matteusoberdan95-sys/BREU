@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 05 hotfix chão aplicado  
+**Fase:** REBOOT GREENFIELD — Sprint 05 hotfix visual aplicado  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -12,7 +12,16 @@
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
 | Sprint 02–04 | **✅ Aprovadas** — baselines congeladas |
-| Sprint 05 | **🔧 Hotfix chão** — aguardando playtest sem buracos |
+| Sprint 05 | **🔧 Hotfix visual** — gameplay OK, blockout limpo pendente playtest |
+
+---
+
+## Notas Sprint 05
+
+- **Gameplay:** térreo navegável, interações OK, colisão contínua mantida.
+- **Hotfix visual:** z-fighting removido, pisos visuais consolidados, soleiras de porta, paredes embutidas no piso.
+- **Aprovação Sprint 05:** pendente playtest visual + navegação.
+
 | Sprint 06 | **Próxima** — Playtest e correção térreo |
 
 ---
@@ -43,7 +52,7 @@ Player · HUD · Interação — ver docs `technical/*_BASELINE.md`
 
 ## Bugs conhecidos
 
-~~Vãos no chão entre cômodos~~ — **hotfix `d08184b+`**: pisos contínuos aplicados. Playtest manual obrigatório antes de aprovar Sprint 05.
+~~Vãos no chão~~ e ~~z-fighting visual~~ — hotfixes aplicados. Playtest manual para aprovar Sprint 05.
 
 ---
 

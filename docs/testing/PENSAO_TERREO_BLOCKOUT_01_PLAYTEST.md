@@ -1,19 +1,28 @@
 # Playtest — Pensão Térreo Blockout 01
 
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`  
-**Sprint:** 05 + hotfix chão  
+**Sprint:** 05 + hotfix visual blockout  
 **Data:** 2026-07-11
 
 ---
 
-## Sprint 05 Hotfix — Floor Gap Fix
+## Sprint 05 Hotfix — Visual Blockout Clean
+
+| Problema | Correção |
+|----------|----------|
+| Z-fighting piso externo | 1 laje exterior + trilha **elevada** (Y distintos) |
+| Pisos interiores coplanares | **1** `Floor_Interior_Main` em vez de 5 overlays |
+| Fresta piso/parede | Paredes embutidas 0,06 m no piso; soleiras nas portas |
+| Recortes em portas | `DoorThresholds` visuais |
+
+---
 
 | Problema | Correção |
 |----------|----------|
 | Vãos entre pisos fragmentados | 3 lajes contínuas de colisão com overlap 0,08 m |
 | Player caía ao pular (Space) | Topo de colisão alinhado em Y=0 em toda área |
-| Frestas trilha/varanda/recepção | `Exterior_MainGround` + `Porch_MainFloor` + `PensionGroundFloor_MainFloor` |
-| Pisos visuais separados | Overlays sem colisão (`*_VisualFloor`) |
+| Z-fighting / piso piscando | Pisos visuais consolidados, trilha elevada, sem coplanares |
+| Fresta piso/parede | Paredes embutidas + soleiras de porta |
 
 **Lajes de colisão:**
 - `Exterior_MainGround` — trilha + approach
@@ -41,7 +50,17 @@ Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Dep�
 
 ---
 
-## Checklist — Navegação sem buracos (hotfix)
+## Checklist — Visual blockout (hotfix)
+
+| Teste | OK |
+|-------|-----|
+| Piso externo não pisca (z-fighting) | ☐ |
+| Trilha legível sem duas cores brigando | ☐ |
+| Sem frestas grandes piso/parede | ☐ |
+| Portas/cômodos visualmente fechados | ☐ |
+| Gameplay/colision/interação intactos | ☐ |
+
+---
 
 | Teste | OK |
 |-------|-----|
@@ -106,3 +125,11 @@ Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Dep�
 **Térreo 100% navegável** — sem atravessar paredes, sem soft-lock.
 
 Sprint 06 só após aprovação deste checklist.
+
+---
+
+## Log
+
+| Data | Nota |
+|------|------|
+| 2026-07-11 | Hotfix visual de blockout aplicado — playtest visual pendente |
