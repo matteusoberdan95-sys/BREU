@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://pensaovertical10"]
+[gd_scene format=3 uid="uid://dyk808dnht8x6"]
 
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoVerticalBlockout01Controller.cs" id="1_controller"]
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoVerticalBlockout01Builder.cs" id="2_builder"]

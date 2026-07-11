@@ -234,7 +234,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 12 — Vertical slice da Pensão
+## Sprint 13 — Vertical slice da Pensão
 
 **Objetivo:** Experiência contínua sem inimigo.
 
@@ -244,7 +244,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 13 — Primeiro inimigo / encontro controlado
+## Sprint 14 — Primeiro inimigo / encontro controlado
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 
@@ -255,7 +255,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 14 — Combate base
+## Sprint 15 — Combate base
 
 **Objetivo:** Loop ataque → dano → feedback.
 
@@ -265,7 +265,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 15 — Arte modular inicial
+## Sprint 16 — Arte modular inicial
 
 **Objetivo:** Substituir blocos por módulos.
 
