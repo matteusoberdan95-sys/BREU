@@ -170,14 +170,36 @@ Registro cronológico das sprints do reboot greenfield.
 ## Sprint 10 — Segundo andar blockout 01
 
 **Data:** 2026-07-11  
-**Status:** 🔄 Implementada — playtest F6 pendente  
-**Playtest:** `PENSAO_SECOND_FLOOR_BLOCKOUT_01_PLAYTEST.md`
+**Status:** ✅ Aprovada  
+**Commit baseline:** `d97c3d9`  
+**Playtest:** `PENSAO_SECOND_FLOOR_BLOCKOUT_01_PLAYTEST.md`  
+**Baseline:** `PENSION_SECOND_FLOOR_BLOCKOUT_BASELINE.md`
 
 **Entregas:**
-- `PensaoVerticalBlockout01.tscn` + `PensaoVerticalBlockout01Builder`
-- 2º andar: corredor, quartos 201/202, porta bloqueada
-- `PensaoTerreoBlockout01.tscn` preservada
+- `PensaoVerticalBlockout01.tscn` + builder 2º andar
+- Corredor, quartos 201/202, caixa escada, guarda-corpos
+- Hotfixes rebuild + sealing + corridor unlock
 
-**Pendente:** aprovação usuário após playtest F6 rota completa.
+**Aprovação usuário:** blockout cinza navegável; térreo/puzzle/HUD preservados.
+
+---
+
+## Sprint 11 — Playtest fino 2º andar
+
+**Data:** 2026-07-11  
+**Status:** ✅ Aprovada  
+**Playtest:** `PENSAO_SECOND_FLOOR_FINE_PLAYTEST.md`
+
+**Entregas:**
+- Validação rota completa térreo ↔ 2º andar
+- Layout 2º andar congelado
+
+**Aprovação usuário:** escada, corredor, quartos, regressão OK.
+
+---
+
+## Próxima
+
+**Sprint 12 — Atmosfera inicial**
 
 ---

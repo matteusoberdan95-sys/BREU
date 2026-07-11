@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 10 aprovada  
+**Fase:** REBOOT GREENFIELD — Sprint 11 aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -21,6 +21,7 @@
 | Sprint 09A | **✅ Aprovada** — escada integrada |
 | Sprint 09B | **✅ Aprovada** — playtest escada |
 | Sprint 10 | **✅ Aprovada** — segundo andar blockout navegável |
+| Sprint 11 | **✅ Aprovada** — playtest fino 2º andar |
 
 ---
 
@@ -44,7 +45,18 @@
 - Térreo, puzzle depósito, HUD, PlayerController e camera feel **preservados**.
 - Sem teto, sem telhado, sem arte final, sem inimigo.
 
-**Playtest:** `docs/testing/PENSAO_SECOND_FLOOR_BLOCKOUT_01_PLAYTEST.md`
+**Playtest blockout:** `docs/testing/PENSAO_SECOND_FLOOR_BLOCKOUT_01_PLAYTEST.md`
+
+---
+
+## Sprint 11 — resumo (aprovada)
+
+- Playtest fino do segundo andar — rota completa ida/volta validada.
+- Escada, landing, corredor, quartos 201/202, porta bloqueada — OK.
+- Regressão térreo, puzzle depósito, HUD, movimento — OK.
+- Layout do 2º andar **congelado**; sem refatoração nesta fase.
+
+**Playtest:** `docs/testing/PENSAO_SECOND_FLOOR_FINE_PLAYTEST.md`
 
 ---
 
@@ -59,11 +71,23 @@
 | 07 Puzzle | `DEPOSIT_PUZZLE_BASELINE.md` |
 | 08–09A Escada | `STAIR_RAMP_BASELINE.md` |
 | 10 Segundo andar | `PENSION_SECOND_FLOOR_BLOCKOUT_BASELINE.md` |
+| 11 Playtest 2º andar | `PENSAO_SECOND_FLOOR_FINE_PLAYTEST.md` |
 
 ---
 
-## Próxima sprint recomendada
+## Próxima sprint — Sprint 12 (Atmosfera inicial)
 
-**Sprint 11 — Playtest fino do segundo andar**
+**Objetivo:** Noite legível + modo debug visual — sem alterar layout aprovado.
 
-Sem refazer layout do 2º andar. Sem arte final, GLB, inimigo ou combate nesta fase.
+**Entregas planejadas:**
+- Luzes omni/directional mínimas (térreo + 2º andar).
+- Fog leve + override playtest (`PlaytestDebugSettings`).
+- Contraste suficiente para QA ver layout blockout.
+
+**DoD:** Navegação legível com e fog debug ON/OFF; zero regressão puzzle/HUD/movimento.
+
+**Não fazer:** teto final; arte final; GLB; inimigo; refazer 2º andar.
+
+**Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 12
+
+**Cena alvo:** `PensaoVerticalBlockout01.tscn`

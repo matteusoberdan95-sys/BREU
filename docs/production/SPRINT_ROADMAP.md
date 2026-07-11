@@ -11,8 +11,8 @@
 ```
 S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
     → S05 Pensão térreo → S06 Playtest térreo → S07 Puzzle depósito
-    → S08 Escada isolada → S09A Escada na Pensão → S10 2º andar → S11 Teto
-    → S11 Atmosfera → S12 Vertical slice → S13 Inimigo → S14 Combate → S15 Arte modular
+    → S08 Escada isolada → S09A Escada na Pensão → S10 2º andar → S11 Playtest 2º andar
+    → S12 Atmosfera → S13 Teto → S14 Vertical slice → S15 Inimigo → S16 Combate → S17 Arte modular
 ```
 
 ---
@@ -209,7 +209,41 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 11 — Teto e câmera FPS
+## Sprint 11 — Playtest fino 2º andar
+
+**Status:** ✅ Concluída — aprovada 2026-07-11
+
+**Objetivo:** Validar rota completa térreo ↔ 2º andar após blockout Sprint 10.
+
+**Entregas:**
+- Playtest fino documentado e aprovado
+- Layout 2º andar congelado
+- `docs/testing/PENSAO_SECOND_FLOOR_FINE_PLAYTEST.md`
+
+**DoD:** ✅ Escada + corredor + quartos + regressão térreo/puzzle/HUD/movimento.
+
+**Não feito:** refatoração layout; teto; arte final.
+
+---
+
+## Sprint 12 — Atmosfera inicial
+
+**Status:** 🔄 Próxima
+
+**Objetivo:** Noite legível + modo debug visual.
+
+**Entregas:**
+- Luzes omni/directional mínimas (térreo + 2º andar).
+- Fog leve + override playtest.
+- Contraste suficiente para QA ver layout blockout.
+
+**DoD:** Navegação legível com e sem fog debug; zero regressão.
+
+**Cena alvo:** `PensaoVerticalBlockout01.tscn`
+
+---
+
+## Sprint 13 — Teto e câmera FPS
 
 **Objetivo:** Teto modular sem clipping.
 
@@ -221,20 +255,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 12 — Atmosfera inicial
-
-**Objetivo:** Noite legível + modo debug visual.
-
-**Entregas:**
-- Luzes omni/directional mínimas.
-- Fog leve + override playtest.
-- Contraste suficiente para QA ver layout.
-
-**DoD:** Navegação legível com e sem fog debug.
-
----
-
-## Sprint 13 — Vertical slice da Pensão
+## Sprint 14 — Vertical slice da Pensão
 
 **Objetivo:** Experiência contínua sem inimigo.
 
@@ -244,7 +265,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 14 — Primeiro inimigo / encontro controlado
+## Sprint 15 — Primeiro inimigo / encontro controlado
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 
@@ -255,7 +276,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 15 — Combate base
+## Sprint 16 — Combate base
 
 **Objetivo:** Loop ataque → dano → feedback.
 
