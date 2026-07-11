@@ -26,10 +26,22 @@
 [sub_resource type="Environment" id="Environment_ritual_room"]
 background_mode = 1
 background_color = Color(0.0196078, 0.0196078, 0.0196078, 1)
-ambient_light_energy = 0.055
+ambient_light_source = 1
+ambient_light_color = Color(0.0627451, 0.0470588, 0.0313725, 1)
+ambient_light_energy = 0.09
+tonemap_mode = 2
+tonemap_exposure = 0.98
+ssao_enabled = true
+ssao_radius = 0.7
+ssao_intensity = 0.9
+adjustment_enabled = true
+adjustment_brightness = 1.0
+adjustment_contrast = 1.08
+adjustment_saturation = 0.9
 glow_enabled = true
-glow_intensity = 0.08
-glow_strength = 0.3
+glow_intensity = 0.11
+glow_strength = 0.42
+glow_bloom = 0.09
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(7.2, 0.2, 8.2)
@@ -96,6 +108,7 @@ script = ExtResource("17_respawn_resolver")
 [node name="VisualProfileApplier" type="Node" parent="."]
 editor_description = "Opcional e seguro: nao aplica automaticamente. Usar apenas para ajustes manuais controlados por exports."
 script = ExtResource("22_visual_profile")
+ApplyOnReady = false
 WorldEnvironmentPath = NodePath("../WorldEnvironment")
 MainLightPath = NodePath("../Lighting/CandleLightMain")
 
@@ -120,37 +133,40 @@ rotation = Vector3(0, 3.14159, 0)
 [node name="Lighting" type="Node3D" parent="."]
 
 [node name="CandleLightMain" type="OmniLight3D" parent="Lighting"]
-position = Vector3(0, 1.25, 0.75)
+editor_description = "Foco quente da mesa ritual: principal leitura da sala."
+position = Vector3(0, 1.25, -0.75)
 light_color = Color(0.839216, 0.639216, 0.290196, 1)
-light_energy = 2.2
+light_energy = 3.2
 shadow_enabled = true
-omni_range = 5.0
+omni_range = 6.0
 
 [node name="CandleFlicker" type="Node" parent="Lighting/CandleLightMain"]
 script = ExtResource("18_light_flicker")
-MinEnergy = 1.7
-MaxEnergy = 2.4
+MinEnergy = 2.5
+MaxEnergy = 3.5
 FlickerSpeed = 0.1
 Irregularity = true
 
 [node name="BackAltarLight" type="OmniLight3D" parent="Lighting"]
+editor_description = "Luz quente secundaria no altar/fundo da sala."
 position = Vector3(-1.25, 1.55, 3.35)
 light_color = Color(0.713726, 0.470588, 0.180392, 1)
-light_energy = 1.1
+light_energy = 1.5
 shadow_enabled = true
-omni_range = 3.0
+omni_range = 4.5
 
 [node name="AltarFlicker" type="Node" parent="Lighting/BackAltarLight"]
 script = ExtResource("18_light_flicker")
-MinEnergy = 0.8
-MaxEnergy = 1.3
+MinEnergy = 1.1
+MaxEnergy = 1.7
 FlickerSpeed = 0.16
 
 [node name="RoomDarkFill" type="OmniLight3D" parent="Lighting"]
+editor_description = "Fill suave para teto/paredes; inimigo permanece parcialmente na sombra."
 position = Vector3(0, 2.5, -1.5)
-light_color = Color(0.231373, 0.254902, 0.313725, 1)
-light_energy = 0.22
-omni_range = 7.0
+light_color = Color(0.301961, 0.321569, 0.372549, 1)
+light_energy = 0.32
+omni_range = 7.5
 shadow_enabled = false
 
 [node name="Collisions" type="Node3D" parent="."]

@@ -222,6 +222,316 @@ Tentar novamente
 8. Confirmar que volta ao ultimo checkpoint com `Vida 100/100`.
 9. Confirmar que o martelo volta com a durabilidade salva no checkpoint.
 
+## Validacao visual K.1
+
+Sprint curta de aplicacao visual real nas cenas principais. Testar fluxo completo:
+
+```text
+TrailIntro -> DemoRoom -> RitualRoom
+```
+
+### Checklist
+
+- [ ] TrailIntro tem fog/neblina visivel a distancia?
+- [ ] MoonLight fria aparece nas cercas/pedras?
+- [ ] Pensao no fundo tem luz quente guia (`HouseFrontLanternLight`)?
+- [ ] Quarto 07 esta escuro mas jogavel?
+- [ ] Cantos do Quarto 07 ficaram mais escuros (DebugLight desligada)?
+- [ ] Bilhete/mesa tem destaque leve sem apagar a lanterna?
+- [ ] Sala dos Santos Secos tem foco quente na mesa ritual?
+- [ ] Inimigo fica parcialmente na sombra ate a lanterna revelar?
+- [ ] Lanterna continua util em DemoRoom e RitualRoom?
+- [ ] Combate, HUD, morte/checkpoint e troca de cena continuam ok?
+
+### Screenshots recomendados
+
+1. **TrailIntro** — olhando para a Pensao (neblina + contraste frio/quente).
+2. **DemoRoom** — enquadramento cama/mesa/janela (cantos escuros + luz local).
+3. **RitualRoom** — mesa/altar/inimigo (velas quentes + sombra no fundo).
+
+### Valores aplicados
+
+Ver `docs/visual/LIGHTING_GUIDE.md` secao **Sprint K.1 — Ajustes aplicados**.
+
+## Validacao visual K.2 — Rebalanceamento
+
+Motivo: K.1 escureceu demais. Rebalanceamento prioriza **legibilidade sem lanterna**.
+
+### Checklist
+
+- [ ] TrailIntro legivel caminhando sem lanterna?
+- [ ] Fog/neblina visivel a distancia (depth fog)?
+- [ ] MoonLight perceptivel em cercas/cactos?
+- [ ] Pensao com luz quente guia sem ofuscar?
+- [ ] Quarto 07 navegavel sem lanterna (cama, mesa, porta, janela)?
+- [ ] Lâmpada do teto ilumina o quarto de forma util?
+- [ ] RitualRoom mantem foco na mesa sem teto preto total?
+- [ ] Inimigo ainda surge parcialmente na sombra?
+- [ ] Lanterna continua util para detalhes em todas as salas?
+- [ ] Gameplay intacto (HUD, combate, checkpoint, troca de cena)?
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.2**.
+
+## Validacao visual K.3 — Iluminacao pratica e neblina
+
+Hotfix focado em **luz real** e **fog volumetrico**.
+
+### Checklist
+
+**TrailIntro**
+- [ ] Fog/neblina visivel olhando para a Pensao?
+- [ ] MoonLight perceptivel em silhuetas?
+- [ ] `HouseEntranceWarmLight` guia o jogador?
+- [ ] Caminho legivel sem preto chapado?
+
+**DemoRoom**
+- [ ] `RoomCeilingLight` ilumina cama/mesa/porta/piso?
+- [ ] Bulbo `lamp_bulb` parece aceso (emissivo)?
+- [ ] Quarto navegavel **sem lanterna**?
+- [ ] Lanterna ainda util para detalhes?
+
+**RitualRoom**
+- [ ] Mesa ritual em foco (`CandleLightMain`)?
+- [ ] Entorno legivel (teto/paredes nao viram massa preta)?
+- [ ] Inimigo ainda assustador na sombra?
+- [ ] Combate/morte/checkpoint ok?
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3**.
+
+## TrailIntro Fog Validation (K.3.1)
+
+Subsprint **apenas TrailIntro** — neblina definitiva.
+
+### Checklist
+
+- [ ] Fog **visível a olho nu** olhando para a Pensão?
+- [ ] Neblina aparece **sem imaginar** — não só “ativada no editor”?
+- [ ] Trilha parece **menos limpa** / mais ameaçadora?
+- [ ] Pensão continua **visível** como farol quente?
+- [ ] MoonLight **perceptível** em cercas/cactos?
+- [ ] Cactos/cercas ganham **profundidade**?
+- [ ] Caminho continua **jogável**?
+- [ ] Não virou **parede branca** de fog?
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.1**.
+
+## Validacao K.3.2 — Fog e Lanterna
+
+Subsprint **TrailIntro + lanterna + qualidade volumetrica** — refino da neblina e correcao de quadrados.
+
+### Checklist
+
+- [ ] Fog **visivel** sem lanterna?
+- [ ] Fog **natural** com lanterna ligada (nao parece leite branco)?
+- [ ] Quadrados/blocos da lanterna **sumiram ou diminuiram bastante**?
+- [ ] Pensao continua **visivel** como farol quente?
+- [ ] Caminho continua **jogavel**?
+- [ ] Fog **nao ficou branca demais**?
+- [ ] Performance continua **aceitavel** (FPS estavel ao correr com lanterna)?
+
+### Fluxo de teste obrigatorio
+
+1. F6/F5 — iniciar na TrailIntro **sem** lanterna; olhar para a Pensao.
+2. Andar ate metade da trilha; ligar lanterna (F); observar neblina no cone.
+3. Correr com lanterna ligada — verificar flicker/artefatos.
+4. Parar perto da Pensao — fog da profundidade sem esconder o objetivo.
+5. `TrailIntro -> Pensao -> DemoRoom -> RitualRoom` — transicoes e HUD ok.
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.2**.
+
+## Validacao K.3.3 — Neblina Hibrida
+
+Subsprint **TrailIntro** — fog hibrida (depth + particulas), reducao de artefatos em grade.
+
+### Checklist
+
+- [ ] Trilha com neblina **visivel** (sem parecer parede branca)?
+- [ ] Quadrados/grade **diminuiram bastante** (com e sem lanterna)?
+- [ ] Lanterna continua **util** para ler o caminho?
+- [ ] Pensao continua **visivel** como farol quente?
+- [ ] Caminho central continua **legivel/jogavel**?
+- [ ] Performance continua **aceitavel** (correr com lanterna)?
+
+### Fluxo de teste
+
+1. Parado no inicio — fog + particulas visiveis sem grade agressiva.
+2. Andar **sem** lanterna ate metade da trilha.
+3. Ligar lanterna (F) — observar se grade some ou fica sutil.
+4. Correr com lanterna — sem flicker/artefatos excessivos.
+5. Olhar para pensao e laterais (cercas/cactos em silhueta).
+6. Chegar perto da pensao — objetivo continua claro.
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.3**.
+
+## Validacao K.3.4 — Neblina Visivel Restaurada
+
+Hotfix **apenas TrailIntro** — restaurar neblina apos K.3.3 ter apagado a atmosfera.
+
+### Checklist
+
+- [ ] Neblina **visivel sem lanterna**?
+- [ ] Neblina **visivel com lanterna** (nao sumiu ao ligar F)?
+- [ ] Pensao continua **visivel** como farol quente?
+- [ ] Caminho central **jogavel/legivel**?
+- [ ] Quadrados **reduzidos ou aceitaveis** (nao dominam a tela)?
+- [ ] Trilha **nao voltou a ficar limpa**?
+
+### Fluxo de teste
+
+1. F6 — parado no spawn, olhar para a pensao (neblina perceptivel no fundo).
+2. Andar ate metade da trilha sem lanterna — profundidade/atmosfera presentes.
+3. Ligar lanterna — neblina continua visivel; quadrados nao dominam.
+4. Correr com lanterna — performance ok.
+5. Confirmar DemoRoom/RitualRoom inalterados.
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.4**.
+
+## Validacao K.3.5 — Sem Blocos na Neblina
+
+Sprint **TrailIntro** — remocao definitiva de quadrados/retangulos na neblina.
+
+### Checklist
+
+- [ ] **Sem quadrados grandes** na neblina (com e sem lanterna)?
+- [ ] Olhando para a **Pensao** — neblina suave, sem retangulos?
+- [ ] Fog ainda **visivel** (nao sumiu totalmente)?
+- [ ] Lanterna ligada — **sem artefatos** volumetricos?
+- [ ] Pensao continua **visivel** como farol?
+- [ ] Caminho central **jogavel/legivel**?
+- [ ] Correndo com lanterna — sem blocos piscando?
+
+### Fluxo de teste obrigatorio
+
+1. F6 — parado no spawn, olhar para Pensao (lanterna off).
+2. Ligar lanterna (F) — olhar para Pensao; **nenhum retangulo grande**.
+3. Andar ate metade da trilha; olhar laterais (cercas/cactos).
+4. Correr com lanterna ligada.
+5. Confirmar DemoRoom/RitualRoom inalterados.
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.5**.
+
+## Validacao K.3.6 — Fog Cards Cinematograficos
+
+Sprint **TrailIntro** — neblina via Fog Cards suaves, sem FogVolume/particles antigas.
+
+### Checklist
+
+- [ ] Fog **visivel** (cards + base environment)?
+- [ ] **Sem quadrados** grandes na neblina?
+- [ ] **Sem retangulos** grandes (olhar para Pensao)?
+- [ ] Lanterna ligada — **sem artefatos** volumetricos?
+- [ ] Pensao continua **visivel** como farol?
+- [ ] Caminho central **jogavel**?
+- [ ] Trilha mais **atmosferica** que limpa?
+
+### Fluxo de teste comparativo
+
+1. Inicio trilha — lanterna off/on.
+2. Meio trilha — lanterna off/on.
+3. Olhar para Pensao e laterais.
+4. Correr com lanterna ligada.
+5. Se card parecer quadrado: anotar qual (`FogCard_*`) e ajustar softness/alpha.
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.6**.
+
+## Validacao K.3.7 — Fog Cards PNG
+
+Sprint **TrailIntro** — neblina via Sprite3D + PNG soft.
+
+### Checklist
+
+- [ ] Fog cards **aparecem** olhando para a Pensao?
+- [ ] **Sem quadrados/retangulos** duros?
+- [ ] Lanterna ligada — **sem artefato** de grade?
+- [ ] Pensao continua **visivel**?
+- [ ] Caminho **jogavel**?
+- [ ] **Cena carrega** sem erro no Godot?
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.7**.
+
+## Validacao K.3.8 — Neblina Refinada
+
+### Checklist
+
+- [ ] Neblina **visivel** com e sem lanterna?
+- [ ] **Sem faixa/parede** ao andar pela trilha?
+- [ ] **Sem quadrados** duros?
+- [ ] **Leve movimento** perceptivel (organico)?
+- [ ] Pensao **visivel** no fundo?
+- [ ] Caminho **jogavel**?
+- [ ] Cena **carrega** sem erro?
+
+### Fluxo
+
+1. F6 — olhar pensao, andar lento ate metade.
+2. Correr com lanterna on/off.
+3. Perto da pensao — fachada legivel.
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.8**.
+
+## Validacao K.3.9 — Neblina Screen-Space
+
+### Checklist
+
+- [ ] Neblina **visivel** (overlay + base environment)?
+- [ ] **Sem linhas/faixas** ao andar?
+- [ ] **Sem quadrados**?
+- [ ] Neblina **animada** (movimento leve)?
+- [ ] **HUD legivel** (nao coberto)?
+- [ ] Pensao **visivel**?
+- [ ] Caminho **jogavel**?
+- [ ] Cena **carrega** sem erro?
+
+### Fluxo
+
+1. F6 — parado, andar lento, correr; lanterna on/off.
+2. Olhar pensao e laterais — sem planos atravessaveis.
+3. Confirmar HUD (bateria, mensagens) legivel.
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.9**.
+
+## Validacao K.3.10 — Diagnostico e Calibracao
+
+### Checklist
+
+- [ ] `debug_visible = true` comprovou overlay azul na tela?
+- [ ] `debug_visible = false` — neblina **visivel** em modo normal?
+- [ ] Neblina **animada** (drift leve)?
+- [ ] **Sem quadrados** / **sem linhas** no caminho?
+- [ ] **HUD legivel**?
+- [ ] Pensao **visivel**?
+- [ ] Caminho **jogavel**?
+- [ ] Cena **carrega** sem erro de shader?
+
+### Teste debug (obrigatorio uma vez)
+
+1. Inspector → `ScreenFogOverlay` → Material → `debug_visible = true` → F6.
+2. Tela deve ficar claramente azulada.
+3. Voltar `debug_visible = false` → F6 → neblina fria no horizonte.
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.10**.
+
+## Validacao K.3.11 — Depth-Based Fog
+
+### Checklist
+
+- [ ] `debug_depth = true` comprovou escala de cinza (perto escuro / longe claro)?
+- [ ] `debug_depth = false` — depth fog **visivel**?
+- [ ] Objetos **distantes** mais embaçados que **proximos**?
+- [ ] Pensao **atmosferica** mas ainda visivel?
+- [ ] Caminho perto do player **limpo**?
+- [ ] **Sem quadrados** / **sem faixas**?
+- [ ] **HUD legivel**?
+- [ ] Cena **carrega** sem erro?
+
+### Teste debug (obrigatorio uma vez)
+
+1. Inspector → `DepthFogPostProcess` → Material → `debug_depth = true` → F6.
+2. Chao perto = escuro; horizonte/pensao = claro.
+3. Voltar `debug_depth = false` → F6 → neblina por distancia.
+
+Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.11**.
+
 ## Problemas conhecidos
 
 - `HouseExterior.tscn` continua existindo como cena de teste isolado/comparacao, mas saiu do fluxo principal.

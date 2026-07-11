@@ -396,6 +396,234 @@ O Hospede.
 
 ---
 
+## Sprint K.1 — Aplicacao Visual Real nas Cenas
+
+**Status:** concluida (2026-07-10).
+
+### Objetivos
+
+- Tornar as mudancas visuais **perceptiveis** no playtest (fog, lua, contraste, drama).
+- Manter gameplay intacto (player, lanterna, HUD, inimigo, combate, checkpoint).
+- Nao refazer cenarios nem trocar modelos.
+
+### Entregas
+
+- [x] TrailIntro: noite cinematografica (fog, MoonLight, luz quente da Pensao, SSAO/contraste).
+- [x] DemoRoom: quarto mais opressivo (ambient baixo, DebugLight off, NoteSpotLight, RoomLightPoint mais quente).
+- [x] RitualRoom: drama ritualistico (CandleLightMain na mesa, fill reduzido, inimigo na sombra).
+- [x] Post-processamento leve (exposure, contrast, saturation, glow sutil, SSAO).
+- [x] `VisualProfileApplier` mantido desligado (`ApplyOnReady = false`).
+- [x] Documentacao em `LIGHTING_GUIDE.md` e `PLAYTEST_PHASE_01_FLOW.md`.
+
+### Validacao
+
+Playtest visual: `TrailIntro -> DemoRoom -> RitualRoom` + 3 screenshots (trilha, quarto, ritual).
+
+---
+
+## Sprint K.2 — Rebalanceamento de Iluminacao e Neblina
+
+**Status:** concluida (2026-07-10).
+
+### Motivo
+
+K.1 ficou escura demais. Fog exponencial quase invisivel. Quarto 07 e trilha perdiam legibilidade sem lanterna.
+
+### Entregas
+
+- [x] TrailIntro: ambient/exposure subidos, MoonLight reforcada, fog **depth mode**, luz da Pensao ampliada.
+- [x] DemoRoom: lâmpada do teto (`RoomLightPoint`) reforcada, ambient `0.11`, post-process menos agressivo.
+- [x] RitualRoom: ambient/fill subidos mantendo velas como foco e inimigo na sombra.
+- [x] Documentacao em `LIGHTING_GUIDE.md` e checklist K.2 em `PLAYTEST_PHASE_01_FLOW.md`.
+
+### Validacao
+
+Fluxo completo + confirmar navegacao **sem lanterna** nas tres salas principais.
+
+---
+
+## Sprint K.3 — Correção de Iluminação Prática e Neblina
+
+**Status:** concluida (2026-07-10).
+
+### Motivo
+
+K.2 ainda deixou fog invisível, lâmpada do quarto sem efeito prático e áreas pretas demais.
+
+### Entregas
+
+- [x] `DemoRoomLightingSetup.cs` — alinha `RoomCeilingLight` ao `lamp_bulb` + emissão no bulbo.
+- [x] `RoomCeilingLight` criada (energy 3.2, range 6.5); `RoomLightPoint` desativada.
+- [x] TrailIntro: fog depth + **volumetric fog**; `HouseEntranceWarmLight` reforçada.
+- [x] RitualRoom: velas/fill rebalanceados para legibilidade.
+- [x] `ApplyOnReady = false` explícito nos três `VisualProfileApplier`.
+- [x] Documentação K.3.
+
+### Validacao
+
+`TrailIntro -> DemoRoom -> RitualRoom` — quarto legível sem lanterna; fog perceptível na trilha.
+
+---
+
+## Sprint K.3.1 — Correção definitiva da neblina da TrailIntro
+
+**Status:** concluida (2026-07-10).
+
+### Motivo
+
+Fog ainda invisível no playtest após K.3. Trilha parecia limpa demais.
+
+### Entregas
+
+- [x] WorldEnvironment reforçado (fog density `0.075`, height fog, volumetric `0.072`).
+- [x] 3 `FogVolume` ao longo da trilha (`Near`, `Mid`, `Far`).
+- [x] `TrailMistParticles` (GPUParticles3D sutil).
+- [x] MoonLight `0.75`, `HouseEntranceWarmLight` `4.0`.
+- [x] Documentação K.3.1.
+
+### Validacao
+
+F6/F5 na TrailIntro — fog deve ser **claramente visível** ao olhar para a Pensão.
+
+---
+
+## Sprint K.3.2 — Refino Realista da Neblina e Correção dos Quadrados da Lanterna
+
+**Status:** concluida (2026-07-10).
+
+### Motivo
+
+Fog K.3.1 visivel, porem forte demais em alguns momentos; lanterna revelava **grade/quadrados** na neblina volumetrica.
+
+### Entregas
+
+- [x] Preset **Fog Medio** na TrailIntro (`density 0.055`, cor `#16222C`, depth `6–38`).
+- [x] Height fog reduzido (`0.06`); FogVolumes rebalanceados (Mid `0.12` -> `0.065`).
+- [x] Qualidade volumetrica global: `volume_size`/`volume_depth` `64` -> `96`, filtro ativo.
+- [x] Lanterna: energy `2.9`, `light_volumetric_fog_energy 0.45`, range/angle reduzidos levemente.
+- [x] Particulas menores e mais transparentes (`TrailMistParticles`).
+- [x] MoonLight `0.65`; HouseEntranceWarmLight `4.2` / range `13`.
+- [x] Presets Fog Leve/Medio/Forte documentados em `LIGHTING_GUIDE.md`.
+- [x] Documentacao K.3.2.
+
+### Validacao
+
+F6 na TrailIntro — fog natural com e sem lanterna; quadrados mitigados; Pensao visivel; fluxo completo ate RitualRoom.
+
+---
+
+## Sprint K.3.3 — Neblina Hibrida e Remocao dos Artefatos em Grade
+
+**Status:** concluida (2026-07-10).
+
+### Motivo
+
+K.3.2 melhorou a neblina, mas artefatos em **grade/quadrados** (froxel/volumetric) ainda perceptiveis com lanterna e sem ela.
+
+### Entregas
+
+- [x] Volumetric fog reduzida a base leve (`density 0.020`); depth fog como protagonista (`0.048`).
+- [x] FogVolumes desativados; neblina organica via **4 sistemas de particulas** (A/B/C + ground).
+- [x] Lanterna: volumetric energy `0.22`; luas/pensao com contribuicao volumetrica reduzida.
+- [x] Qualidade volumetrica: `volume_size`/`volume_depth` `128`.
+- [x] Documentacao K.3.3.
+
+### Validacao
+
+F6 — neblina hibrida visivel; grade muito reduzida; pensao e caminho legiveis.
+
+---
+
+## Sprint K.3.4 — Restaurar Neblina Visivel da TrailIntro
+
+**Status:** concluida (2026-07-10).
+
+### Motivo
+
+K.3.3 eliminou quadrados, mas a neblina **sumiu** — trilha ficou limpa demais.
+
+### Entregas
+
+- [x] Fog global restaurada (`density 0.055`, depth `5–34`, height `0.055`).
+- [x] Volumetric fog reforcada (`0.042`); FogVolumes reativados com density moderada.
+- [x] Particulas A/B/C/Ground com alpha maior; `distance_fade` removido.
+- [x] MoonLight `0.60`; HouseEntranceWarmLight `4.0` / range `12`.
+- [x] Documentacao K.3.4.
+
+### Validacao
+
+F6 — neblina claramente visivel; trilha atmosferica; pensao legivel.
+
+---
+
+## Sprint K.3.5 — Remocao Definitiva dos Blocos de Neblina
+
+**Status:** concluida (2026-07-10).
+
+### Motivo
+
+K.3.4 reativou FogVolumes e particulas — playtest mostrou **retangulos grandes** na neblina, especialmente olhando para a Pensao.
+
+### Entregas
+
+- [x] FogVolumes Near/Mid/Far **desativados** (visible + process disabled).
+- [x] TrailMistParticles A/B/C/Ground **desativados** (visible + emitting false).
+- [x] Volumetric fog **desligada**; neblina via depth + height fog only.
+- [x] Lanterna: `light_volumetric_fog_energy = 0.0` (energy normal mantida).
+- [x] Luces TrailIntro com volumetric contribution zerada.
+- [x] Documentacao K.3.5.
+
+### Validacao
+
+F6 — sem quadrados grandes; fog sutil visivel; lanterna util; pensao legivel.
+
+---
+
+## Sprint K.3.6 — Fog Cards Cinematograficos sem Blocos
+
+**Status:** concluida (2026-07-10).
+
+### Motivo
+
+Neblina instavel: FogVolumes/particles/volumetric geravam blocos; remover tudo apagava atmosfera.
+
+### Entregas
+
+- [x] `fog_card.gdshader` — alpha radial + noise, bordas invisiveis.
+- [x] `FogCard3D.tscn` + `FogCard3D.cs` — billboard Y, parametros exportados.
+- [x] 6 Fog Cards na TrailIntro (`FogCards/`).
+- [x] Environment fog apenas como base sutil; volumetric off.
+- [x] FogVolumes/particles antigas marcadas `DISABLED_DO_NOT_USE_BLOCKY_FOG`.
+- [x] Documentacao K.3.6.
+
+### Validacao
+
+F6 — neblina visivel via cards; zero retangulos grandes; pensao e caminho ok.
+
+---
+
+## Sprint K.3.7 — Fog Cards com Textura PNG Estavel
+
+**Status:** concluida (2026-07-10).
+
+### Motivo
+
+Ciclo K.3.x instavel. Solucao simples e estavel: Sprite3D + PNG com borda soft.
+
+### Entregas
+
+- [x] 4 Sprite3D (`FogCards/`) com `fog_soft_card_01–04.png`.
+- [x] Environment fog base sutil; volumetric off; legacy desativado.
+- [x] Instancias shader `FogCard3D.tscn` removidas da TrailIntro.
+- [x] Cena validada Godot headless.
+- [x] Documentacao K.3.7.
+
+### Validacao
+
+F6 — neblina PNG visivel; sem blocos; cena carrega.
+
+---
+
 ## Sprint Audio 01 - Direcao sonora e pack realista da Fase 1
 
 **Status:** planejada.
