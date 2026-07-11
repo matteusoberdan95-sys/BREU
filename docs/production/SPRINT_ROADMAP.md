@@ -100,6 +100,8 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 05 — Pensão térreo blockout 01
 
+**Status:** ✅ Concluída (2026-07-11)
+
 **Objetivo:** Térreo 100% navegável — caixa cinza.
 
 **Entregas:**

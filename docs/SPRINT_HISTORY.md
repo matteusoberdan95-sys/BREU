@@ -80,6 +80,21 @@ Registro cronológico das sprints do reboot greenfield.
 
 ---
 
+## Sprint 05 — Pensão térreo blockout 01
+
+**Data:** 2026-07-11  
+**Status:** ✅ Concluída  
+**Commit:** _(ver commit desta sessão)_  
+**Cena:** `PensaoTerreoBlockout01.tscn`
+
+**Entregas:**
+- Trilha, varanda, recepção, corredor, quarto 102, cozinha, depósito trancado
+- Blockout Godot nativo + builder
+- 5 interactables placeholder
+- Sem teto, escada, 2º andar, GLB
+
+---
+
 ## Próxima
 
-**Sprint 05 — Pensão térreo blockout 01**
+**Sprint 06 — Pensão térreo playtest e correção**
