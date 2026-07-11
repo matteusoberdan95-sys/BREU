@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://dp78qefd6qe61"]
+[gd_scene load_steps=64 format=3 uid="uid://dp78qefd6qe61"]
 
 [ext_resource type="PackedScene" uid="uid://bgqbd5mgtlogb" path="res://assets/blender_exports/trail_intro/trail_intro_blockout.glb" id="1_trail_blockout"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
@@ -24,6 +24,7 @@
 [ext_resource type="Shader" path="res://shaders/fx/screen_fog_overlay.gdshader" id="22_screen_fog_shader"]
 [ext_resource type="Shader" path="res://shaders/fx/depth_fog_postprocess.gdshader" id="23_depth_fog_shader"]
 [ext_resource type="Script" path="res://scripts/fx/DepthFogPostProcess.cs" id="24_depth_fog_script"]
+[ext_resource type="Script" path="res://scripts/visual/TrailIntroVisualPass.cs" id="25_trail_visual_pass"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_house_shadow_body"]
 size = Vector3(5.8, 2.2, 0.35)
@@ -276,10 +277,17 @@ ApplyOnReady = false
 WorldEnvironmentPath = NodePath("../WorldEnvironment")
 MainLightPath = NodePath("../Lighting/MoonLight")
 
+[node name="TrailIntroVisualPass" type="Node" parent="."]
+editor_description = "Sprint L — materiais, props e organizacao visual. Nao altera fog aprovada."
+script = ExtResource("25_trail_visual_pass")
+
 [node name="Environment" type="Node3D" parent="." unique_id=349555436]
 editor_description = "Assets visuais importados do Blender. Nao colocar logica de gameplay dentro do GLB."
 
 [node name="trail_intro_blockout" parent="Environment" unique_id=551328905 instance=ExtResource("1_trail_blockout")]
+
+[node name="Trail_VisualEnhancement" type="Node3D" parent="Environment"]
+editor_description = "Sprint L — props duplicados via TrailIntroVisualPass."
 
 [node name="HouseExteriorAtTrailEnd" type="Node3D" parent="Environment" unique_id=1571824172]
 editor_description = "Fachada real da Pensao no fim da trilha. Apenas o GLB visual e instanciado; HouseExterior.tscn continua como cena isolada."
@@ -340,10 +348,10 @@ omni_range = 8.0
 editor_description = "Farol quente da Pensao: guia o jogador no fim da trilha."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.85, -16.25)
 light_color = Color(0.839216, 0.639216, 0.290196, 1)
-light_energy = 4.0
+light_energy = 4.2
 light_volumetric_fog_energy = 0.0
 shadow_enabled = true
-omni_range = 12.0
+omni_range = 11.0
 
 [node name="LightFlicker" type="Node" parent="Lighting/HouseEntranceWarmLight" unique_id=1019054779]
 script = ExtResource("8_light_flicker")

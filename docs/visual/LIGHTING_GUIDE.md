@@ -1132,6 +1132,8 @@ FogVolumes, GPUParticles antigas, fog cards no caminho, volumetric fog forte.
 **Status:** aprovado em playtest (2026-07-11)  
 **Regra:** **nao alterar** depth fog, ceu ou densidade sem motivo forte. Polish visual geral fica para quando a fase estiver mais completa.
 
+**Sprint L (2026-07-11):** pass visual de materiais/props/fachada — **nao alterou fog**. Ver `TRAILINTRO_APPROVED_LOOK.md`.
+
 ### Arquivos
 
 | Item | Caminho |

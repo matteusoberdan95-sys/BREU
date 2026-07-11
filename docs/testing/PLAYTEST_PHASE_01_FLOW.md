@@ -530,7 +530,24 @@ Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.10**.
 2. Chao perto = escuro; horizonte/pensao = claro.
 3. Voltar `debug_depth = false` → F6 → neblina por distancia.
 
-Valores finais: `LIGHTING_GUIDE.md` secao **Sprint K.3.11**.
+- HUD legivel
+
+## Sprint L — Pass Visual Real (2026-07-11)
+
+**Escopo:** materiais, props, fachada. **Fog intocada.**
+
+Ver: `docs/visual/TRAILINTRO_APPROVED_LOOK.md`
+
+### Checklist F6
+
+- [ ] Neblina igual ao preset **TrailIntro Fog Approved**
+- [ ] Materiais visiveis (nao blockout chapado)
+- [ ] Fachada mais assustadora
+- [ ] Caminho jogavel
+- [ ] Props nao bloqueiam player
+- [ ] Entrada na Pensao funciona
+- [ ] HUD legivel
+- [ ] Sem erro no console
 
 ## Problemas conhecidos
 
