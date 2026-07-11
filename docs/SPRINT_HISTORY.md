@@ -101,14 +101,15 @@ Registro cronológico das sprints do reboot greenfield.
 
 **Data:** 2026-07-11  
 **Status:** ✅ Aprovada  
-**Cena:** `PensaoTerreoBlockout01.tscn`
+**Cena:** `PensaoTerreoBlockout01.tscn`  
+**Baseline:** v1.3
 
-**Correções:**
-- Placa reposicionada; hitboxes interação ampliadas
-- Balcões visual-only; luzes depósito/quarto/cozinha
-- Piso corredor legibilidade; ambiente playtest levemente mais claro
+**Entregas:**
+- Fine playtest: placa, iluminação, legibilidade, hitboxes
+- Hotfix: colisão móveis grandes; depósito selado
+- Rota principal, colisão, interações, HUD e movimento validados
 
-**Baseline térreo:** v1.1
+**Aprovação usuário:** térreo navegável; móveis com colisão; depósito fechado; exterior placeholder aceito.
 
 ---
 

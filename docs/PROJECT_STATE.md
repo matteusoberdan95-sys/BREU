@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 06 hotfix (colisão/depósito)  
+**Fase:** REBOOT GREENFIELD — Sprint 06 aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -15,7 +15,7 @@
 | Sprint 03 | **✅ Aprovada** — `HUD_DEBUG_BASELINE.md` |
 | Sprint 04 | **✅ Aprovada** — `INTERACTION_SYSTEM_BASELINE.md` |
 | Sprint 05 | **✅ Aprovada** — térreo blockout jogável |
-| Sprint 06 | **🔧 Hotfix** — colisão móveis + depósito selado; validação F6 pendente |
+| Sprint 06 | **✅ Aprovada** — fine playtest + colisão móveis + depósito |
 | Sprint 07 | **Próxima** — Puzzle simples do depósito |
 
 ---
@@ -24,24 +24,21 @@
 
 **F6:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`
 
-Térreo estável como base antes de puzzle, escada ou verticalidade.
+Térreo validado como base estável antes de puzzle, escada ou verticalidade.
 
-**Baseline:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` (v1.2)
+**Baseline:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` (v1.3)
 
 ---
 
-## Sprint 06 — hotfix colisão/depósito
+## Sprint 06 — resumo (aprovada)
 
-**Correções:**
-- Colisão em cama, balcão recepção, bancada cozinha (`FurnitureCollisions`)
-- Depósito: paredes alcove + moldura porta + fundo 14 m; `Door_Deposit_Blocked`
-- Props pequenos (livro) permanecem Area3D sem colisão física
+- Rota principal completa; colisão, interações e HUD validados.
+- Fine playtest: placa, iluminação, legibilidade corredor, hitboxes.
+- Hotfix: colisão móveis grandes; depósito selado visualmente.
+- Exterior/lote fechado aceito como placeholder temporário.
+- **Não alterado:** PlayerController, PlayerCameraFeel, HUD base, core interação.
 
-**Sprint 06 anterior (fine playtest):**
-- Placa reposicionada; áreas interactable ampliadas
-- Iluminação depósito/quarto/cozinha; piso corredor legível
-
-**Não alterado:** PlayerController, HUD, core interação.
+**Pendências futuras (não bloqueantes):** barranco, vegetação, arte, teto, escada, 2º andar.
 
 ---
 

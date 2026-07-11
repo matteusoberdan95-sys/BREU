@@ -1,8 +1,25 @@
 # Playtest — Pensão Térreo Blockout 01
 
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`  
-**Sprint:** 05 ✅ + 06 🔧 (hotfix colisão/depósito)  
-**Baseline:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` (v1.2)
+**Sprint:** 05 ✅ + **06 ✅ APROVADA** (2026-07-11)  
+**Baseline:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` (v1.3)
+
+---
+
+## Sprint 06 — Aprovação oficial
+
+| Critério | Status |
+|----------|--------|
+| Rota principal concluída | ✅ |
+| Colisão validada (pisos, paredes, móveis, depósito) | ✅ |
+| Interações validadas (5 pontos) | ✅ |
+| HUD validado | ✅ |
+| Movimentação preservada (Sprint 02) | ✅ |
+| Sem bugs bloqueantes no térreo | ✅ |
+
+**Rota:** PlayerSpawn → trilha → placa → varanda → recepção → livro → corredor → quarto 102 → cozinha → depósito → retorno → saída.
+
+**Observação:** exterior/lote fechado aceito como placeholder temporário.
 
 ---
 
@@ -165,9 +182,7 @@ Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Dep�
 
 ## Critério gate — ATINGIDO
 
-**Térreo 100% navegável** — fluxo completo aprovado. Sprint 05 fechada.
-
-**Próxima:** Sprint 06 — playtest e correção fina do térreo.
+**Térreo 100% navegável** — Sprint 05 e Sprint 06 aprovadas. Próxima: Sprint 07.
 
 ---
 
@@ -206,8 +221,8 @@ Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Dep�
 
 | Data | Nota |
 |------|------|
+| 2026-07-11 | **Sprint 06 aprovada** — fine playtest + hotfix colisão/depósito |
 | 2026-07-11 | Hotfix: colisão móveis + vedação depósito |
-| 2026-07-11 | Sprint 06 fine playtest — ajustes mínimos |
 | 2026-07-11 | **Sprint 05 aprovada** — térreo blockout jogável baseline congelada |
 | 2026-07-11 | Hotfix 2 visual sealing aplicado |
 | 2026-07-11 | Hotfix 1 visual de blockout aplicado |

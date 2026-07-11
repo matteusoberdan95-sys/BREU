@@ -123,10 +123,12 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 **Objetivo:** Validar térreo como base estável antes de puzzle/verticalidade.
 
 **Entregas:**
-- Fine playtest rota completa documentado
-- Correções mínimas: interação, balcões, iluminação, legibilidade corredor
-- Baseline térreo v1.1 atualizada
+- Fine playtest rota completa documentado e aprovado
+- Correções: interação, iluminação, legibilidade, colisão móveis, depósito selado
+- Baseline térreo v1.3 congelada
 - Player/HUD/interação intactos
+
+**DoD:** Rota principal, colisão, interações, HUD e movimento validados; exterior placeholder aceito.
 
 **Gate atingido:** térreo estável para Sprint 07 (puzzle depósito).
 
