@@ -1,79 +1,67 @@
 # Playtest — Player Movement Lab
 
 **Cena:** `res://scenes/test/PlayerMovementLab.tscn`  
-**Sprint:** 02.2  
-**Data:** 2026-07-11
+**Sprint:** 02 — **APROVADA**  
+**Data aprovação:** 2026-07-11  
+**Baseline:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
 
 ---
 
-## Sprint 02.2 hotfix — Camera feel suavizado + look back
+## Status
 
-**Data:** 2026-07-11
-
-### Problemas corrigidos
-
-| Problema | Causa | Fix |
-|----------|-------|-----|
-| Bob sprint metronômico | Frequências altas (11+) + sin lateral rápido | Valores reduzidos + bob por velocidade real |
-| Alt para sprint | `GetVector` zera W com Alt no Windows | `ReadMoveInput()` via actions individuais |
-| Look back inclina frente | Pitch sprint + inércia durante look back | Suprimir pitch forward quando look back ativo |
-| Look back não ativa | Dependia de `IsSprinting` que caía com Alt | Checar actions raw + velocidade horizontal |
-
-### Preset BREU Default (hotfix)
-
-| Parâmetro | Valor |
-|-----------|-------|
-| SprintBobVertical | 0.050 |
-| SprintBobHorizontal | 0.028 |
-| SprintStepCycleMultiplier | 1.65 |
-| WalkStepCycleMultiplier | 1.45 |
-| SprintMicroShake | **0** (desligado) |
-| LookBackAngle | 165° |
-| look_back | **Alt** + **X** (alternativo) |
-
-### Look back hotfix (Sprint 02.2b)
-
-**Causa:** `PlayerLookBack.ControllerPath` apontava para `HeadBase` (`../../..`) em vez do `Player` — `_controller` era null, look back nunca ativava.
-
-**Fix:**
-- `ControllerPath = "../../../.."` (Player)
-- Rotação Y com `LerpAngle` no `LookBackPivot`
-- `IsPhysicalKeyPressed(W)` quando Alt quebra `move_forward`
-- Alt + X no input map
-- `AllowLookBackWithoutSprintForDebug = true` (validar câmera com X parado)
+**PlayerMovementLab aprovado pelo usuário.**  
+Movimentação base congelada — não alterar sem nova sprint de player.
 
 ---
 
-### Hierarquia de câmera
+## Checklist aprovado — Movimento
 
-```
-HeadBase (altura crouch)
-  BodyMotionPivot  → PlayerCameraFeel (bob/sway/inércia/landing)
-    LeanPivot      → PlayerLean (Q/R)
-      LookBackPivot → PlayerLookBack (Alt)
-        PitchPivot  → PlayerLook (mouse pitch)
-          Camera3D + Flashlight
-```
+- [x] W frente correto
+- [x] S trás correto
+- [x] A/D laterais corretos
+- [x] Movimento segue yaw do player
+- [x] Sem tremor / preso no chão
 
-### Valores principais (Breu Default)
+## Checklist aprovado — Sprint
 
-| Parâmetro | Valor |
-|-----------|-------|
-| WalkBobVertical | 0.045 |
-| WalkBobFrequency | 7.5 |
-| SprintBobVertical | 0.095 |
-| SprintBobFrequency | 11.5 |
-| SprintShoulderSway | 0.070 |
-| SprintMicroShakeAmount | 0.010 |
-| CrouchBobVertical | 0.022 |
-| IdleBreathAmountY | 0.012 |
-| LookBackBobReduction | 15% |
+- [x] Shift corre
+- [x] Stamina consome e regenera
+- [x] Sprint para sem stamina
 
-Presets alternativos no Inspector: `Subtle` (RE7), `OutlastInspired`.
+## Checklist aprovado — Crouch
+
+- [x] C / Ctrl agacha
+- [x] Altura câmera e cápsula corretas
+- [x] Não atravessa teto baixo
+
+## Checklist aprovado — Lean
+
+- [x] Q lean esquerda
+- [x] R lean direita
+- [x] Volta suave ao soltar
+- [x] Funciona andando e correndo
+
+## Checklist aprovado — Look back
+
+- [x] Shift + W + Alt olha para trás
+- [x] Shift + W + X (alternativo)
+- [x] Player continua correndo para frente
+- [x] Velocidade não reduz
+- [x] Soltar Alt/X volta suave
+- [x] Mouse look intacto
+
+## Checklist aprovado — Camera feel
+
+- [x] Idle: respiração sutil
+- [x] Walk: balanço leve e fluido
+- [x] Sprint: peso corporal, sem metronômetro
+- [x] Crouch: bob menor
+- [x] Strafe: inclinação leve
+- [x] Sem enjoo / jitter
 
 ---
 
-## Controles
+## Controles (referência)
 
 | Tecla | Ação |
 |-------|------|
@@ -82,62 +70,24 @@ Presets alternativos no Inspector: `Subtle` (RE7), `OutlastInspired`.
 | Shift | Sprint |
 | C / Ctrl | Agachar |
 | Q / R | Lean |
-| Alt + Shift + W | Look back |
-| F9 | Reset |
+| Alt / X | Look back (sprint + W) |
+| F | Lanterna |
+| F9 | Reset spawn |
 | Esc | Liberar mouse |
 
 ---
 
-## Checklist — Movimento base
+## Histórico de correções (Sprint 02)
 
-- [x] W/S corrigido (GetVector — Sprint 02.1)
-- [ ] W frente / S trás / A/D (manual)
-- [ ] Sprint / crouch (manual)
-
-## Checklist — Camera feel (02.2)
-
-- [ ] Idle: respiração quase imperceptível
-- [ ] Walk: balanço corporal leve
-- [ ] Sprint: ombro/torso forte, corrida física
-- [ ] Crouch: bob menor e contido
-- [ ] Strafe: inclinação leve A/D
-- [ ] Parar de correr: recuperação suave
-- [ ] Sem enjoo / jitter
-
-## Checklist — Compatibilidade
-
-- [ ] Lean Q/R + bob simultâneos
-- [ ] Look back Alt + sprint bob (reduzido 15%)
-- [ ] Mouse look normal
-- [ ] Lanterna segue câmera
-- [ ] F9 reset / F6 roda cena
+| Fase | Problema | Resolução |
+|------|----------|-----------|
+| 02.0 | Spawn em túnel, W/S invertido | Lab mínimo, GetVector corrigido |
+| 02.1 | Lean, look back, bob inicial | Pivots modulares |
+| 02.2 | Bob exagerado, Alt quebra sprint | Bob por velocidade, input físico |
+| 02.2b | Look back não ativava | ControllerPath corrigido |
 
 ---
 
-## Geometria do lab
+## Próximo passo
 
-| Elemento | Uso |
-|----------|-----|
-| Chão 40×20 | Reta longa para sprint |
-| Parede Z=-9 | Colisão frontal |
-| Parede X=2.8 | Lean |
-| Rampa X=6 | Subida / landing leve |
-
----
-
-## Sprint 02 status
-
-**Em andamento** — aguarda aprovação do usuário após playtest F6.
-
-Sprint 03 bloqueada.
-
----
-
-## Histórico
-
-### Sprint 02.1
-- Fix GetVector W/S
-- Lean, look back, bob básico
-
-### Sprint 02.0
-- Fix spawn/tunnel, cena mínima
+Sprint 03 — HUD e Debug (sem mexer no player baseline).

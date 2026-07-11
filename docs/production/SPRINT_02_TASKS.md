@@ -1,42 +1,38 @@
 # Sprint 02 — Player Controller limpo
 
-**Status:** Concluída  
+**Status:** ✅ Aprovada  
 **Branch:** `reboot/breu-clean-start`  
-**Data:** 2026-07-11
+**Data aprovação:** 2026-07-11
 
 ---
 
 ## Objetivo
 
-First-person player limpo, responsivo, com sprint/stamina, agachar e lanterna base.
+First-person player limpo, responsivo, horror/exploração — **aprovado e congelado**.
 
 ---
 
-## Checklist
+## Checklist final
 
 - [x] `scenes/player/Player.tscn`
-- [x] `scripts/player/PlayerController.cs`
-- [x] `scripts/player/PlayerLook.cs`
-- [x] `scripts/player/PlayerStamina.cs`
-- [x] `scripts/player/PlayerCrouch.cs`
-- [x] `scripts/player/PlayerFlashlight.cs`
+- [x] Movimento WASD + mouse
+- [x] Sprint + stamina
+- [x] Crouch
+- [x] Lean Q/R
+- [x] Look back Alt/X
+- [x] Camera feel (BreuDefault)
 - [x] `scenes/test/PlayerMovementLab.tscn`
-- [x] Input map: move, sprint, crouch, flashlight, jump, ui_cancel
-- [x] `dotnet build` OK
-- [x] Godot headless OK
-- [x] Playtest doc criado
-- [x] Sem pensão, level real, HUD, combate, inimigos
+- [x] Baseline técnica documentada
+- [x] Aprovação do usuário
 
 ---
 
-## Cena de teste oficial
+## Baseline
 
-`res://scenes/test/PlayerMovementLab.tscn`
+`docs/technical/PLAYER_CONTROLLER_BASELINE.md`
 
 ---
 
 ## Próxima sprint
 
 **Sprint 03 — HUD e Debug**
-
-Ver `docs/production/SPRINT_ROADMAP.md`

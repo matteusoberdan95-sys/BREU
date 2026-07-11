@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 02.2 em andamento  
+**Fase:** REBOOT GREENFIELD — Sprint 02 aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -11,48 +11,60 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Sprint 02 | **Em andamento** (02.2 hotfix — camera feel) |
-| Sprint 03 | **Bloqueada** |
-| Cena de teste | `res://scenes/test/PlayerMovementLab.tscn` |
+| Sprint 02 | **✅ Aprovada pelo usuário** |
+| PlayerMovementLab | **✅ Aprovado** |
+| Movimentação base | **🔒 Congelada** — ver baseline |
+| Sprint 03 | **Próxima** — HUD e Debug |
 
 ---
 
-## Player — status
+## Player — baseline congelada
 
-| Componente | Status |
-|------------|--------|
-| `PlayerController` | ✅ Movimento, stamina, landing impact |
-| `PlayerCameraFeel` | ✅ Bob, sway, inertia, sprint shake |
-| `PlayerLean` | ✅ Q/R separado |
-| `PlayerLookBack` | ✅ Alt sprint look-back |
-| `PlayerLook` | ✅ Mouse yaw/pitch |
-| `PlayerCrouch` | ✅ Altura HeadBase |
+**Cena:** `res://scenes/player/Player.tscn`  
+**Teste oficial:** `res://scenes/test/PlayerMovementLab.tscn`  
+**Documentação:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
 
-**Preset câmera:** `BreuDefault` (hotfix — bob suavizado, micro-shake off)
+| Sistema | Status |
+|---------|--------|
+| WASD + mouse | ✅ Aprovado |
+| Sprint + stamina | ✅ Aprovado |
+| Crouch | ✅ Aprovado |
+| Lean Q/R | ✅ Aprovado |
+| Look back Alt/X | ✅ Aprovado |
+| Camera feel (BreuDefault) | ✅ Aprovado |
 
-### Hotfix 02.2
-- Bob por velocidade horizontal (step cycle)
-- Look back Alt/X sem quebrar sprint
-- Micro-shake desligado
-
----
-
-## Sprint 02.2 — entregas
-
-- Hierarquia pivots (BodyMotion → Lean → LookBack → Pitch → Camera)
-- `PlayerCameraFeel.cs` com 3 presets exportados
-- Removido `PlayerCameraEffects.cs` (substituído)
-- Lab: chão 40×20 para sprint longo
-- Landing bob preparado
-
-**Playtest manual:** pendente aprovação do usuário.
+**Regra:** Não alterar `PlayerController`, `PlayerCameraFeel`, look back, lean, sprint, crouch, stamina ou camera bob sem solicitação explícita ou nova sprint de player.
 
 ---
 
-## Próximo passo
+## Cena principal
 
-1. F6 em `PlayerMovementLab.tscn`
-2. Validar checklist Sprint 02.2
-3. Usuário aprova → Sprint 02 concluída → Sprint 03 (HUD)
+**F5:** `res://scenes/levels/BootstrapEmpty.tscn`  
+**F6 (playtest movimento):** `res://scenes/test/PlayerMovementLab.tscn`
 
-Ver: `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
+---
+
+## Próxima sprint
+
+**Sprint 03 — HUD e Debug**
+
+- HUD: vida, stamina, lanterna (display)
+- `PlaytestDebugSettings`: flags de debug
+- **Sem** alterar player baseline
+
+Ver: `docs/production/SPRINT_ROADMAP.md`
+
+---
+
+## Como retomar
+
+1. `docs/HANDOFF.md`
+2. `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
+3. Executar Sprint 03
+
+---
+
+## Relatórios
+
+- Sprint 02: `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
+- Histórico: `docs/SPRINT_HISTORY.md`

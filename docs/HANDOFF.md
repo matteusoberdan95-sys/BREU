@@ -1,7 +1,7 @@
 # BREU — Handoff
 
 **Última atualização:** 2026-07-11  
-**Status:** REBOOT GREENFIELD — Sprint 02 concluída  
+**Status:** REBOOT GREENFIELD — Sprint 02 aprovada  
 **Branch:** `reboot/breu-clean-start`
 
 ---
@@ -9,44 +9,19 @@
 ## Retomar em 60 segundos
 
 1. `docs/PROJECT_STATE.md`
-2. `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
+2. `docs/technical/PLAYER_CONTROLLER_BASELINE.md` — **baseline congelada**
 3. `docs/production/SPRINT_ROADMAP.md` — Sprint 03
-4. `docs/production/SPRINT_COMMIT_POLICY.md` — commit/push por sprint
+4. `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
 
 ---
 
-## Como testar movimento
+## Sprint 02 — fechada
 
-```bash
-cd BREU
-dotnet build
-```
+Movimentação FPS aprovada pelo usuário. **Não mexer no player** sem solicitação explícita.
 
-Godot 4.7 mono → abrir `scenes/test/PlayerMovementLab.tscn` → **F6**.
-
-| Tecla | Ação |
-|-------|------|
-| WASD | Mover |
-| Mouse | Olhar |
-| Shift | Sprint |
-| C / Ctrl | Agachar |
-| F | Lanterna |
-| Esc | Liberar mouse |
-
----
-
-## Estado do disco
-
-- Player FPS recriado (`scenes/player/Player.tscn`)
-- Lab de movimento (`scenes/test/PlayerMovementLab.tscn`)
-- Sem pensão, HUD, combate, inimigos
-- Política de commit automático por sprint documentada
-
----
-
-## Bugs conhecidos
-
-Nenhum bloqueante. Playtest manual F6 recomendado para validar feel.
+| Aprovado |
+|----------|
+| WASD, sprint, crouch, lean, look back, camera feel |
 
 ---
 
@@ -55,12 +30,18 @@ Nenhum bloqueante. Playtest manual F6 recomendado para validar feel.
 **Sprint 03 — HUD e Debug**
 
 - HUD: vida, stamina, lanterna (display)
-- `PlaytestDebugSettings`: lanterna infinita, fog reduzida
-- **Não** implementar pensão ainda
+- Flags de debug para playtest
+- **Não** alterar PlayerController / PlayerCameraFeel
+
+---
+
+## Como testar player (regressão)
+
+Godot 4.7 mono → `scenes/test/PlayerMovementLab.tscn` → **F6**
 
 ---
 
 ## Regra de produção
 
 > Primeiro jogável, depois bonito.  
-> Térreo → escada → 2º andar → teto → atmosfera → inimigo → Blender.
+> Player baseline congelada → HUD → interação → pensão.

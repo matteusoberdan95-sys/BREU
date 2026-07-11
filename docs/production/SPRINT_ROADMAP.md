@@ -52,18 +52,17 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 02 — Player Controller limpo
 
-**Status:** 🔄 Corrigida — aguarda playtest manual (2026-07-11)
+**Status:** ✅ Aprovada (2026-07-11)
 
 **Objetivo:** Movimentação FPS confiável.
 
 **Entregas:**
-- `scenes/player/Player.tscn` + scripts modulares.
-- WASD, mouse look, sprint + stamina, agachar, lanterna base.
-- Cena de teste: `scenes/test/PlayerMovementLab.tscn`.
+- `scenes/player/Player.tscn` + scripts modulares
+- Sprint + stamina, crouch, lean, look back, camera feel
+- `scenes/test/PlayerMovementLab.tscn`
+- Baseline: `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
 
-**Não fazer:** combate, inimigos, lanterna complexa, pensão.
-
-**DoD:** Lab navegável; `dotnet build` OK; checklist em `PLAYER_MOVEMENT_LAB_PLAYTEST.md`.
+**DoD:** Aprovado pelo usuário — baseline congelada.
 
 ---
 

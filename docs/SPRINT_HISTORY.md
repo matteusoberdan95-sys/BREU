@@ -34,15 +34,14 @@ Registro cronológico das sprints do reboot greenfield.
 ## Sprint 02 — Player Controller limpo
 
 **Data:** 2026-07-11  
-**Commit:** `54459bc`  
-**Objetivo:** Movimentação FPS confiável com stamina, agachar e lanterna base.
+**Status:** ✅ Aprovada pelo usuário  
+**Commit baseline:** _(ver commit desta sessão)_  
+**Baseline:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
 
 **Entregas:**
-- `scenes/player/Player.tscn`
-- Scripts: `PlayerController`, `PlayerLook`, `PlayerStamina`, `PlayerCrouch`, `PlayerFlashlight`
-- `scenes/test/PlayerMovementLab.tscn` + builder
-- `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
-- Política de commit/push por sprint
+- Player FPS completo (movimento, stamina, crouch, lean, look back, camera feel)
+- `PlayerMovementLab.tscn` aprovado
+- Hotfixes: spawn, W/S, bob, look back ControllerPath
 
 ---
 
