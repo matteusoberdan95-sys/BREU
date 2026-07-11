@@ -647,31 +647,26 @@ F6 — neblina PNG visivel; sem blocos; cena carrega.
 
 ---
 
-## Ordem recomendada
-
-```text
-- HUD legivel
+---
 
 ## Sprint L — Pass Visual Real da Trilha + Fachada da Pensao
 
 **Data:** 2026-07-11 | **Escopo:** materiais, props, composicao, luz quente da Pensao.
 
-**NAO MEXER nesta sprint:** `DepthFogPostProcess`, `depth_fog_postprocess.gdshader`, preset **TrailIntro Fog Approved**.
-
-Documentacao completa: `docs/visual/TRAILINTRO_APPROVED_LOOK.md`
-
-## Sprint L — Pass Visual Real da Trilha + Fachada da Pensao (producao)
-
-**Objetivo:** blockout → visual de terror jogavel.
+**NAO MEXER:** `DepthFogPostProcess`, preset **TrailIntro Fog Approved**.
 
 **Entregas:**
 - 12 materiais `materials/environment/trail/` e `house/`
-- `TrailIntroVisualPass.cs` — aplica materiais + props + grupos fachada
-- Luz quente Pensao refinada (nao player)
+- `TrailIntroVisualPass.cs`
+- Props duplicados + grupos fachada
+- `docs/visual/TRAILINTRO_APPROVED_LOOK.md`
 
-**Fog:** congelada. Polish visual geral depois da fase.
+---
 
-Sprint A -> Sprint B -> ...
+## Ordem recomendada
+
+```text
+Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G -> Sprint H -> Sprint I -> Sprint J -> Sprint K -> Sprint L -> Sprint Audio 01
 ```
 
 ## Documentos relacionados
