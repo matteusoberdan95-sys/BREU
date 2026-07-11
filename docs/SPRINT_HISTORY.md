@@ -34,7 +34,7 @@ Registro cronológico das sprints do reboot greenfield.
 ## Sprint 02 — Player Controller limpo
 
 **Data:** 2026-07-11  
-**Commit:** `d26bd7f`  
+**Commit:** `54459bc`  
 **Objetivo:** Movimentação FPS confiável com stamina, agachar e lanterna base.
 
 **Entregas:**
