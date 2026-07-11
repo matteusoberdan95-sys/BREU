@@ -357,6 +357,45 @@ O Hospede.
 
 ---
 
+## Sprint K - Direcao Visual e Pipeline Grafico
+
+**Status:** base concluida; ajustes finos dependem de playtest visual.
+
+### Objetivos
+
+- Documentar a direcao visual oficial do BREU.
+- Definir paleta, materiais, iluminacao e pos-processamento.
+- Criar presets visuais iniciais no Godot.
+- Aplicar um primeiro pass visual seguro em `TrailIntro`, `DemoRoom` e `RitualRoom`.
+- Criar guia de exportacao Blender -> Godot.
+- Criar biblioteca inicial de materiais.
+- Preparar o projeto para sair do blockout e entrar em visual polish.
+
+### Entregas
+
+- [x] `docs/visual/VISUAL_DIRECTION.md`
+- [x] `docs/visual/GRAPHICS_PIPELINE.md`
+- [x] `docs/visual/MATERIAL_LIBRARY.md`
+- [x] `docs/visual/LIGHTING_GUIDE.md`
+- [x] `docs/visual/POST_PROCESSING_GUIDE.md`
+- [x] `docs/visual/REUSABLE_ASSET_GUIDE.md`
+- [x] `docs/visual/BLENDER_TO_GODOT_EXPORT_GUIDE.md`
+- [x] `docs/visual/LEVEL_STREAMING_PLAN.md`
+- [x] `resources/visual_profiles/visual_profile_exterior_night.tres`
+- [x] `resources/visual_profiles/visual_profile_room07.tres`
+- [x] `resources/visual_profiles/visual_profile_ritual_room.tres`
+- [x] `scripts/visual/VisualProfileApplier.cs`
+- [x] `scenes/testing/VisualLookdevRoom.tscn`
+- [x] Primeiro pass visual moderado nas cenas principais.
+
+### Cuidados permanentes
+
+- Antes de alterar cenas, verificar estado do Git e recomendar commit/checkpoint se houver mudancas nao salvas.
+- Aplicar ajustes visuais com intensidade moderada, priorizando jogabilidade e visibilidade.
+- `VisualProfileApplier` e opcional, controlado por exports, com `ApplyOnReady` desligado por padrao.
+
+---
+
 ## Sprint Audio 01 - Direcao sonora e pack realista da Fase 1
 
 **Status:** planejada.
@@ -383,7 +422,7 @@ O Hospede.
 ## Ordem recomendada
 
 ```text
-Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G -> Sprint H -> Sprint I -> Sprint J -> Sprint Audio 01
+Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G -> Sprint H -> Sprint I -> Sprint J -> Sprint K -> Sprint Audio 01
 ```
 
 ## Documentos relacionados
@@ -393,6 +432,8 @@ Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G
 - `docs/design/PHASE_02_LEVEL_DESIGN.md`
 - `docs/design/ENEMY_DESIGN.md`
 - `docs/design/SCENARIO_ART_DIRECTION.md`
+- `docs/visual/VISUAL_DIRECTION.md`
+- `docs/visual/GRAPHICS_PIPELINE.md`
 - `docs/audio/AUDIO_DIRECTION.md`
 - `docs/audio/AUDIO_ASSET_REGISTRY.md`
 - `docs/SPRINT_HISTORY.md`

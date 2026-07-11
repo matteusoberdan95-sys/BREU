@@ -22,6 +22,7 @@ O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre 
 | Quarto 07 | Jogavel |
 | Player FPS | Andar, correr, agachar, pular, lanterna, lean e camera feel |
 | Audio | Pack v01 + direcao sonora oficial documentada |
+| Visual | Direcao visual + pipeline grafico + pass moderado inicial |
 | Fase 1 | Quarto -> corredor -> susto -> porta final |
 | Fase 2 | Sala dos Santos Secos jogavel inicial |
 | Combate / IA | Martelo com durabilidade, stun e Hospede Seco blockout |
@@ -90,6 +91,7 @@ C:\Users\mober\OneDrive\Desktop\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_m
 - Visao e lore: `docs/design/GAME_VISION.md`, `docs/design/STORY_AND_LORE.md`
 - Player feel: `docs/design/PLAYER_FEEL.md`
 - Level design: `docs/design/PHASE_01_LEVEL_DESIGN.md`, `docs/design/PHASE_02_LEVEL_DESIGN.md`
+- Visual: `docs/visual/VISUAL_DIRECTION.md`, `docs/visual/GRAPHICS_PIPELINE.md`
 - Audio: `docs/audio/AUDIO_DIRECTION.md`, `docs/audio/AUDIO_ASSET_REGISTRY.md`
 - Plano de producao: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - Historico: `docs/SPRINT_HISTORY.md`

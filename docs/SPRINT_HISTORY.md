@@ -493,10 +493,45 @@ Andar continua bom -> correr balanca menos -> breath_light -> stamina baixa brea
 Abrir docs/audio/AUDIO_DIRECTION.md -> entender identidade sonora -> abrir AUDIO_ASSET_REGISTRY.md -> ver status dos assets atuais
 ```
 
+## Sprint 26 - Direcao Visual e Pipeline Grafico
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Checkpoint
+
+- Antes de alterar cenas, foi criado o commit `147a284` com a mensagem `chore: checkpoint before visual direction sprint`.
+
+### Entregas
+
+- Criado `docs/visual/VISUAL_DIRECTION.md`.
+- Criado `docs/visual/GRAPHICS_PIPELINE.md`.
+- Criado `docs/visual/MATERIAL_LIBRARY.md`.
+- Criado `docs/visual/LIGHTING_GUIDE.md`.
+- Criado `docs/visual/POST_PROCESSING_GUIDE.md`.
+- Criado `docs/visual/REUSABLE_ASSET_GUIDE.md`.
+- Criado `docs/visual/BLENDER_TO_GODOT_EXPORT_GUIDE.md`.
+- Criado `docs/visual/LEVEL_STREAMING_PLAN.md`.
+- Criados presets em `resources/visual_profiles/`.
+- Criado `VisualProfileApplier.cs` como ferramenta opcional e controlada por exports.
+- Criada `scenes/testing/VisualLookdevRoom.tscn`.
+- `TrailIntro`, `DemoRoom` e `RitualRoom` receberam primeiro pass visual moderado.
+
+### Regras fixadas
+
+- Pass visual deve priorizar jogabilidade e visibilidade.
+- Se escurecer demais, reduzir contraste/ambient/fog antes de insistir no visual.
+- `VisualProfileApplier` nao aplica automaticamente e nao deve sobrescrever cenas sem habilitacao explicita.
+
+### Validacao esperada
+
+```text
+TrailIntro/DemoRoom/RitualRoom -> cenas visiveis e jogaveis -> VisualLookdevRoom abre -> build sem erros
+```
+
 ## Proxima sprint recomendada
 
-1. Fazer auditoria dos nomes atuais contra o padrao canonico de audio.
-2. Criar/editar pack realista v02 para ambience, player, portas, radio, interacoes, martelo e Hospede Seco.
-3. Balancear volumes no Godot seguindo `docs/audio/AUDIO_DIRECTION.md`.
-4. Playtestar conforto da corrida suavizada no fluxo completo.
+1. Playtestar visibilidade da Sprint K nas tres cenas principais.
+2. Ajustar ambient/fill/fog se alguma cena ficou escura demais.
+3. Fazer auditoria dos nomes atuais contra o padrao canonico de audio.
+4. Criar/editar pack realista v02 para ambience, player, portas, radio, interacoes, martelo e Hospede Seco.
 5. Validar escala/orientacao do Hospede Seco no editor.

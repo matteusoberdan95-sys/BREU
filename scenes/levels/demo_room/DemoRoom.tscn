@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://breu_demo_room"]
+[gd_scene load_steps=52 format=3 uid="uid://breu_demo_room"]
 
 [ext_resource type="PackedScene" path="res://assets/blender_exports/quarto_07/quarto_07_blockout.glb" id="1_quarto07"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
@@ -25,6 +25,15 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/DamageOverlay.tscn" id="23_damage_overlay"]
 [ext_resource type="PackedScene" path="res://scenes/ui/DeathScreen.tscn" id="24_death_screen"]
 [ext_resource type="Script" path="res://scripts/system/RespawnResolver.cs" id="25_respawn_resolver"]
+[ext_resource type="Script" path="res://scripts/visual/VisualProfileApplier.cs" id="26_visual_profile"]
+
+[sub_resource type="Environment" id="Environment_room07"]
+background_mode = 1
+background_color = Color(0.0196078, 0.0196078, 0.0196078, 1)
+ambient_light_energy = 0.075
+glow_enabled = true
+glow_intensity = 0.05
+glow_strength = 0.25
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(5.7, 0.1, 6.7)
@@ -123,6 +132,12 @@ StartMessageDuration = 3.5
 
 [node name="RespawnResolver" type="Node" parent="."]
 script = ExtResource("25_respawn_resolver")
+
+[node name="VisualProfileApplier" type="Node" parent="."]
+editor_description = "Opcional e seguro: nao aplica automaticamente. Usar apenas para ajustes manuais controlados por exports."
+script = ExtResource("26_visual_profile")
+WorldEnvironmentPath = NodePath("../WorldEnvironment")
+MainLightPath = NodePath("../Lighting/RoomLightPoint")
 
 [node name="DemoRoomSequenceController" type="Node" parent="." groups=["demo_sequence"]]
 script = ExtResource("16_sequence")
@@ -465,12 +480,16 @@ unique_name_in_owner = true
 editor_description = "Luz principal proxima da lampada pendurada."
 position = Vector3(0, 2.05, 0)
 light_color = Color(1, 0.76, 0.48, 1)
-light_energy = 0.85
+light_energy = 1.1
 omni_range = 4.6
 shadow_enabled = true
 
 [node name="DebugLight" type="OmniLight3D" parent="Lighting"]
 editor_description = "Luz temporaria para leitura do playtest."
 position = Vector3(0, 2.3, 0)
-light_energy = 2.5
-omni_range = 8.0
+light_color = Color(0.686275, 0.768627, 0.839216, 1)
+light_energy = 0.55
+omni_range = 6.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_room07")

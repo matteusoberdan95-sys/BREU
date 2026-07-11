@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/DamageOverlay.tscn" id="13_damage_overlay"]
 [ext_resource type="PackedScene" path="res://scenes/ui/DeathScreen.tscn" id="14_death_screen"]
 [ext_resource type="Script" path="res://scripts/system/RespawnResolver.cs" id="15_respawn_resolver"]
+[ext_resource type="Script" path="res://scripts/visual/VisualProfileApplier.cs" id="16_visual_profile"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_house_shadow_body"]
 size = Vector3(5.8, 2.2, 0.35)
@@ -100,8 +101,14 @@ size = Vector3(1.4, 2, 0.8)
 
 [sub_resource type="Environment" id="Environment_xjmjh"]
 background_mode = 1
-background_color = Color(0.078431375, 0.09411765, 0.12941177, 1)
-ambient_light_energy = 0.18
+background_color = Color(0.0627451, 0.0901961, 0.133333, 1)
+ambient_light_energy = 0.14
+fog_enabled = true
+fog_light_color = Color(0.0627451, 0.0901961, 0.133333, 1)
+fog_density = 0.012
+glow_enabled = true
+glow_intensity = 0.08
+glow_strength = 0.35
 
 [node name="TrailIntro" type="Node3D" unique_id=1223194314]
 editor_description = "Playtest da Trilha Noturna antes da chegada a Pensao Santa Luzia. O GLB importado fica separado dos nos auxiliares de gameplay."
@@ -112,6 +119,12 @@ CheckpointName = "TrailIntro_Start"
 
 [node name="RespawnResolver" type="Node" parent="."]
 script = ExtResource("15_respawn_resolver")
+
+[node name="VisualProfileApplier" type="Node" parent="."]
+editor_description = "Opcional e seguro: nao aplica automaticamente. Usar apenas para ajustes manuais controlados por exports."
+script = ExtResource("16_visual_profile")
+WorldEnvironmentPath = NodePath("../WorldEnvironment")
+MainLightPath = NodePath("../Lighting/MoonLight")
 
 [node name="Environment" type="Node3D" parent="." unique_id=349555436]
 editor_description = "Assets visuais importados do Blender. Nao colocar logica de gameplay dentro do GLB."
@@ -136,7 +149,7 @@ editor_description = "Iluminacao noturna temporaria para validar leitura da tril
 [node name="MoonLight" type="DirectionalLight3D" parent="Lighting" unique_id=1480677603]
 transform = Transform3D(0.81915206, -0.4055798, 0.4055798, 0, 0.70710677, 0.70710677, -0.57357645, -0.579228, 0.579228, 0, 0, 0)
 light_color = Color(0.6862745, 0.76862746, 0.8392157, 1)
-light_energy = 0.45
+light_energy = 0.4
 shadow_enabled = true
 
 [node name="DistantHouseLight" type="OmniLight3D" parent="Lighting" unique_id=357137046]
@@ -152,7 +165,7 @@ omni_range = 8.0
 editor_description = "Luz quente do lampiao da fachada real no fim da trilha."
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.85, -16.25)
 light_color = Color(0.843137, 0.603922, 0.294118, 1)
-light_energy = 2.0
+light_energy = 2.15
 shadow_enabled = true
 omni_range = 6.0
 

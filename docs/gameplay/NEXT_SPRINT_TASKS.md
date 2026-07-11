@@ -117,6 +117,22 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [ ] Playtest manual de conforto do body motion.
 - [ ] Ajustar valores de feel apos feedback.
 
+## Sprint K - Direcao Visual e Pipeline Grafico
+
+- [x] Criar direcao visual oficial.
+- [x] Criar pipeline grafico Blender -> Godot.
+- [x] Criar biblioteca inicial de materiais.
+- [x] Criar guia de iluminacao.
+- [x] Criar guia de pos-processamento.
+- [x] Criar guia de assets reutilizaveis.
+- [x] Criar plano futuro para areas conectadas sem loading aparente.
+- [x] Criar presets visuais iniciais.
+- [x] Criar `VisualProfileApplier` opcional e seguro.
+- [x] Criar `VisualLookdevRoom.tscn`.
+- [x] Aplicar primeiro pass visual moderado em `TrailIntro`, `DemoRoom` e `RitualRoom`.
+- [ ] Playtest manual de visibilidade nas tres cenas.
+- [ ] Ajustar ambient/fill/fog se alguma cena ficar escura demais.
+
 ## Fora de escopo ate pedido
 
 - Combate completo com combos/animacoes finais.

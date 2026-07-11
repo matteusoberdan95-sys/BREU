@@ -95,6 +95,10 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - `EnemyPlaceholderAI` controla a IA basica da Sala dos Santos Secos e para de atacar player morto.
 - Direcao sonora oficial: `docs/audio/AUDIO_DIRECTION.md`.
 - Registro de assets de audio: `docs/audio/AUDIO_ASSET_REGISTRY.md`.
+- Direcao visual oficial: `docs/visual/VISUAL_DIRECTION.md`.
+- Pipeline grafico oficial: `docs/visual/GRAPHICS_PIPELINE.md`.
+- `VisualProfileApplier` existe como ferramenta opcional; `ApplyOnReady` fica desligado por padrao para nao sobrescrever cenas automaticamente.
+- Presets visuais iniciais ficam em `resources/visual_profiles/`.
 
 ## Cenas principais
 
@@ -112,6 +116,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Porta visual/animada na fachada.
 - Rig e animacoes finais do Hospede Seco.
 - Sala dos Santos Secos finalizada/polida.
+- Texturas finais, decals complexos e materiais definitivos.
 - Save em disco para inventario/checkpoints.
 - Tela de morte final com audio, animacao e arte definitiva.
 
@@ -119,6 +124,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 
 - `dotnet build BREU.sln` - 0 erros (2026-07-10).
 - Godot headless abriu o projeto com `PlayerBodyMotion` e importou os audios de respiracao; avisos de limpeza no exit continuam aparecendo no headless (2026-07-10).
+- Sprint K: `dotnet build BREU.sln` - 0 erros (2026-07-10).
 
 ## Proximo passo
 
@@ -129,14 +135,16 @@ Validar manualmente com F6:
 3. mirar na porta e apertar `E`;
 4. confirmar `DemoRoom.tscn`.
 
-Depois, validar Sprint J:
+Depois, validar Sprint K e Sprint J:
 
-1. Andar/correr/agachar para sentir gait, headbob, ombro e step impact suavizado.
-2. Usar `Q`/`R` para lean sem quebrar `E` de interacao.
-3. Correr ate stamina baixa e confirmar `breath_heavy_01.ogg`.
-4. Zerar stamina e confirmar `player_tired_01.ogg` sem spam.
-5. Tomar dano na RitualRoom e confirmar camera shake curto.
-6. Confirmar que morte/retry bloqueia e restaura input/feel/audio.
+1. Confirmar que `TrailIntro`, `DemoRoom` e `RitualRoom` continuam visiveis e jogaveis.
+2. Confirmar que a lanterna ainda e util, mas nao obrigatoria para enxergar tudo.
+3. Andar/correr/agachar para sentir gait, headbob, ombro e step impact suavizado.
+4. Usar `Q`/`R` para lean sem quebrar `E` de interacao.
+5. Correr ate stamina baixa e confirmar `breath_heavy_01.ogg`.
+6. Zerar stamina e confirmar `player_tired_01.ogg` sem spam.
+7. Tomar dano na RitualRoom e confirmar camera shake curto.
+8. Confirmar que morte/retry bloqueia e restaura input/feel/audio.
 
 ## Manutencao
 

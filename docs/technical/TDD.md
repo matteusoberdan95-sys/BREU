@@ -95,6 +95,18 @@ O HUD tambem mostra `Vida current/max`, conectado ao sinal `PlayerHealth.HealthC
 
 `PlayerSpawnResolver` e usado nas cenas do fluxo principal para posicionar o player no marcador de spawn e registrar checkpoints em memoria.
 
+### Visual
+
+`VisualProfileApplier` fica em `scripts/visual/VisualProfileApplier.cs` e e uma ferramenta opcional para aplicar ajustes de `WorldEnvironment` e luz principal. Ele nao aplica nada por padrao (`ApplyOnReady = false`) e cada mudanca precisa ser habilitada por export. O objetivo e permitir passes visuais controlados sem sobrescrever automaticamente configuracoes manuais das cenas.
+
+Os presets iniciais ficam em `resources/visual_profiles/`:
+
+- `visual_profile_exterior_night.tres`
+- `visual_profile_room07.tres`
+- `visual_profile_ritual_room.tres`
+
+`VisualLookdevRoom.tscn` fica em `scenes/testing/` e serve para testar materiais, luzes e pos-processamento sem alterar fases jogaveis.
+
 ### Sistemas globais
 
 `SceneTransition` e autoload em `res://scenes/system/SceneTransition.tscn`. Ele usa `SceneTransitionController` para `ChangeSceneWithFade(scenePath, message)`, tela preta e mensagem opcional.

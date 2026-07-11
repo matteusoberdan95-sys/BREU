@@ -11,6 +11,7 @@ Este arquivo e o ponto de entrada para Codex, Cursor IDE, Cursor CLI ou qualquer
 5. `docs/gameplay/NEXT_SPRINT_TASKS.md`
 6. `docs/technical/TDD.md`
 7. `docs/design/GDD.md`
+8. `docs/visual/VISUAL_DIRECTION.md`
 
 Depois leia os docs de agentes em `docs/agents/` relacionados a tarefa atual.
 
@@ -26,6 +27,8 @@ Depois leia os docs de agentes em `docs/agents/` relacionados a tarefa atual.
 - Asset da fachada: `res://assets/blender_exports/house_exterior/pensao_santa_luzia_exterior_blockout.glb`.
 - Asset do Quarto 07: `res://assets/blender_exports/quarto_07/quarto_07_blockout.glb`.
 - Asset da Sala dos Santos Secos: `res://assets/blender_exports/ritual_room/sala_santos_secos_blockout.glb`.
+- Direcao visual: `res://docs/visual/VISUAL_DIRECTION.md`.
+- Pipeline grafico: `res://docs/visual/GRAPHICS_PIPELINE.md`.
 
 ## Estado jogavel atual
 

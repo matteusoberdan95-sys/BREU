@@ -12,6 +12,16 @@ Ultima atualizacao: 2026-07-10
 
 ## Ultimas entregas
 
+### Sprint K - Direcao Visual e Pipeline Grafico
+
+- Criados os guias oficiais em `docs/visual/`.
+- Criados presets iniciais em `resources/visual_profiles/`.
+- Criado `VisualProfileApplier.cs` como ferramenta opcional, com `ApplyOnReady = false` por padrao.
+- Criada a cena isolada `scenes/testing/VisualLookdevRoom.tscn`.
+- `TrailIntro`, `DemoRoom` e `RitualRoom` receberam primeiro pass visual moderado.
+- Regra da sprint: preservar jogabilidade e visibilidade; se escurecer demais, reduzir contraste/ambient/fog.
+- Checkpoint antes da sprint visual: `147a284` (`chore: checkpoint before visual direction sprint`).
+
 ### Sprint Audio Docs - Direcao sonora oficial
 
 - Criado `docs/audio/AUDIO_DIRECTION.md` como referencia oficial da identidade sonora.
@@ -189,13 +199,14 @@ Guias:
 
 - `dotnet build BREU.sln`: sucesso, 0 erros.
 - Godot editor headless importou o GLB da fachada.
+- Sprint K: `dotnet build BREU.sln`: sucesso, 0 erros.
 
 Observacao: o editor headless emite erros de cache/config em `AppData` nesta maquina, mas importa os recursos do projeto.
 
 ## Proximo recomendado
 
-1. Testar manualmente morte/retry na `RitualRoom.tscn`.
-2. Balancear dano, vida e invulnerabilidade.
-3. Playtestar corrida suavizada; se ainda ficar lateral demais, aplicar fallback leve documentado.
-4. Criar objetivo com Chave Velha para liberar a saida.
-5. Integrar custo de stamina ao ataque.
+1. Playtestar manualmente o visual de `TrailIntro`, `DemoRoom` e `RitualRoom`.
+2. Se alguma cena ficou escura demais, aumentar levemente ambient/fill antes de mexer em contraste/fog.
+3. Testar morte/retry na `RitualRoom.tscn`.
+4. Balancear dano, vida e invulnerabilidade.
+5. Criar objetivo com Chave Velha para liberar a saida.

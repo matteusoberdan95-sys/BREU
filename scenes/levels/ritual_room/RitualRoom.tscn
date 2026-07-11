@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://breu_ritual_room_santos_secos"]
+[gd_scene load_steps=38 format=3 uid="uid://breu_ritual_room_santos_secos"]
 
 [ext_resource type="PackedScene" path="res://assets/blender_exports/ritual_room/sala_santos_secos_blockout.glb" id="1_ritual_blockout"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
@@ -21,11 +21,15 @@
 [ext_resource type="Script" path="res://scripts/levels/RitualRoomEnvironmentSetup.cs" id="19_env_setup"]
 [ext_resource type="Script" path="res://scripts/levels/RitualRoomNavigationBake.cs" id="20_nav_bake"]
 [ext_resource type="Script" path="res://scripts/enemies/TableAvoidanceHelper.cs" id="21_table_avoidance"]
+[ext_resource type="Script" path="res://scripts/visual/VisualProfileApplier.cs" id="22_visual_profile"]
 
 [sub_resource type="Environment" id="Environment_ritual_room"]
 background_mode = 1
-background_color = Color(0.027451, 0.027451, 0.027451, 1)
-ambient_light_energy = 0.05
+background_color = Color(0.0196078, 0.0196078, 0.0196078, 1)
+ambient_light_energy = 0.055
+glow_enabled = true
+glow_intensity = 0.08
+glow_strength = 0.3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(7.2, 0.2, 8.2)
@@ -89,6 +93,12 @@ StartMessageDuration = 3.5
 [node name="RespawnResolver" type="Node" parent="."]
 script = ExtResource("17_respawn_resolver")
 
+[node name="VisualProfileApplier" type="Node" parent="."]
+editor_description = "Opcional e seguro: nao aplica automaticamente. Usar apenas para ajustes manuais controlados por exports."
+script = ExtResource("22_visual_profile")
+WorldEnvironmentPath = NodePath("../WorldEnvironment")
+MainLightPath = NodePath("../Lighting/CandleLightMain")
+
 [node name="Environment" type="Node3D" parent="."]
 editor_description = "Asset visual importado do Blender. Nao alterar o GLB para gameplay."
 
@@ -139,7 +149,7 @@ FlickerSpeed = 0.16
 [node name="RoomDarkFill" type="OmniLight3D" parent="Lighting"]
 position = Vector3(0, 2.5, -1.5)
 light_color = Color(0.231373, 0.254902, 0.313725, 1)
-light_energy = 0.25
+light_energy = 0.22
 omni_range = 7.0
 shadow_enabled = false
 
