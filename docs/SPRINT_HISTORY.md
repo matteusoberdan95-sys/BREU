@@ -115,4 +115,18 @@ Registro cronológico das sprints do reboot greenfield.
 
 ## Próxima
 
-**Sprint 07 — Puzzle simples do depósito**
+**Sprint 07 — Puzzle simples do depósito** (implementada — aguardando playtest)
+
+---
+
+## Sprint 07 — Puzzle depósito
+
+**Data:** 2026-07-11  
+**Status:** 🔧 Implementada  
+**Playtest:** `PENSAO_DEPOSIT_PUZZLE_PLAYTEST.md`
+
+**Entregas:**
+- Estado local PensaoPuzzleState
+- Chave quarto 102 → destrancar depósito → fusível velho + bilhete
+
+---

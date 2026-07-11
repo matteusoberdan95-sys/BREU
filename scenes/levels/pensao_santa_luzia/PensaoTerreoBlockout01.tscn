@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://pensaoterreo05"]
+[gd_scene load_steps=9 format=3 uid="uid://pensaoterreo05"]
 
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoTerreoBlockout01Controller.cs" id="1_controller"]
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoTerreoBlockout01Builder.cs" id="2_builder"]
-[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="3_player"]
-[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="4_hud"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoPuzzleState.cs" id="3_puzzle_state"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoTerreoPuzzleSetup.cs" id="4_puzzle_setup"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="5_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="6_hud"]
 
 [sub_resource type="Environment" id="Environment_pensao"]
 background_mode = 1
@@ -18,10 +20,16 @@ fog_density = 0.01
 [node name="PensaoTerreoBlockout01" type="Node3D"]
 script = ExtResource("1_controller")
 
+[node name="PuzzleState" type="Node" parent="."]
+script = ExtResource("3_puzzle_state")
+
 [node name="World" type="Node3D" parent="."]
 
 [node name="Builder" type="Node3D" parent="World"]
 script = ExtResource("2_builder")
+
+[node name="PuzzleSetup" type="Node" parent="World"]
+script = ExtResource("4_puzzle_setup")
 
 [node name="Exterior" type="Node3D" parent="."]
 
@@ -81,8 +89,8 @@ environment = SubResource("Environment_pensao")
 [node name="PlayerSpawn" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 45)
 
-[node name="Player" parent="." instance=ExtResource("3_player")]
+[node name="Player" parent="." instance=ExtResource("5_player")]
 
 [node name="UI" type="Node" parent="."]
 
-[node name="HUD" parent="UI" instance=ExtResource("4_hud")]
+[node name="HUD" parent="UI" instance=ExtResource("6_hud")]

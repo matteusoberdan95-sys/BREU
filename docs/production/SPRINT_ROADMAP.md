@@ -136,14 +136,19 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 07 — Puzzle simples do depósito
 
-**Objetivo:** Estado mínimo narrativo/gameplay.
+**Status:** 🔧 Implementada (2026-07-11) — playtest pendente
+
+**Objetivo:** Primeiro loop de gameplay — chave → depósito → fusível.
 
 **Entregas:**
-- Bilhete → fusível/chave → depósito trancado.
-- `HasFuse` / feedback HUD.
-- Porta depósito com colisão ligada/desligada.
+- `PensaoPuzzleState` (HasDepositKey, IsDepositUnlocked, HasOldFuse)
+- Porta depósito com colisão on/off
+- Chave quarto 102, fusível + bilhete no depósito
+- Interações stateful via `IInteractable`
 
-**DoD:** Puzzle completável em playtest; sem regressão de navegação.
+**DoD:** Fluxo quarto → chave → depósito → fusível; sem regressão.
+
+**Playtest:** `docs/testing/PENSAO_DEPOSIT_PUZZLE_PLAYTEST.md`
 
 ---
 

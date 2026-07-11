@@ -155,4 +155,15 @@ Area3D ou StaticBody3D (layer 2 ou 3)
 
 ## Próximo uso
 
-**Sprint 05:** interactables placeholder na Pensão térreo — novos nós, **mesmo** `Interactable.cs` + `PlayerInteractionRaycast`.
+**Sprint 05–06:** interactables placeholder na Pensão térreo — **mesmo** `Interactable.cs` + `PlayerInteractionRaycast`.
+
+**Sprint 07:** interações com **estado local da cena** (`PensaoPuzzleState`) — implementam `IInteractable` sem alterar o core:
+
+| Exemplo | Comportamento |
+|---------|---------------|
+| Depósito trancado | Prompt/mensagem mudam com `HasDepositKey` |
+| Depósito destrancado | Porta oculta + colisão off; prompt vazio |
+| Chave / fusível | Pickup one-shot; props pequenos em `Area3D` |
+| Bilhete | `Interactable` OneShot padrão |
+
+**Regra:** novos puzzles de level usam scripts `IInteractable` dedicados ou `Interactable` — **não** modificar `PlayerInteractionRaycast` sem sprint de interação.

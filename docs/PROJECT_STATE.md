@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 06 aprovada  
+**Fase:** REBOOT GREENFIELD — Sprint 07 implementada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -11,34 +11,33 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Sprint 02 | **✅ Aprovada** — `PLAYER_CONTROLLER_BASELINE.md` |
-| Sprint 03 | **✅ Aprovada** — `HUD_DEBUG_BASELINE.md` |
-| Sprint 04 | **✅ Aprovada** — `INTERACTION_SYSTEM_BASELINE.md` |
-| Sprint 05 | **✅ Aprovada** — térreo blockout jogável |
-| Sprint 06 | **✅ Aprovada** — fine playtest + colisão móveis + depósito |
-| Sprint 07 | **Próxima** — Puzzle simples do depósito |
+| Sprint 02–04 | **✅ Aprovadas** — player, HUD, interação |
+| Sprint 05–06 | **✅ Aprovadas** — térreo blockout + fine playtest |
+| Sprint 07 | **🔧 Implementada** — puzzle depósito; playtest F6 pendente |
+| Sprint 08 | **Próxima** — Escada isolada (após aprovação Sprint 07) |
 
 ---
 
-## Cena oficial — Pensão térreo
+## Cena oficial
 
 **F6:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`
 
-Térreo validado como base estável antes de puzzle, escada ou verticalidade.
-
-**Baseline:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` (v1.3)
-
 ---
 
-## Sprint 06 — resumo (aprovada)
+## Sprint 07 — puzzle do depósito
 
-- Rota principal completa; colisão, interações e HUD validados.
-- Fine playtest: placa, iluminação, legibilidade corredor, hitboxes.
-- Hotfix: colisão móveis grandes; depósito selado visualmente.
-- Exterior/lote fechado aceito como placeholder temporário.
-- **Não alterado:** PlayerController, PlayerCameraFeel, HUD base, core interação.
+**Loop:** depósito trancado → chave quarto 102 → destrancar → fusível (+ bilhete).
 
-**Pendências futuras (não bloqueantes):** barranco, vegetação, arte, teto, escada, 2º andar.
+**Estado local** (`PensaoPuzzleState`):
+- `HasDepositKey`
+- `IsDepositUnlocked`
+- `HasOldFuse`
+
+**Scripts:** `DepositDoorInteraction`, `PickupKeyInteraction`, `PickupFuseInteraction`, `PensaoTerreoPuzzleSetup`
+
+**Playtest:** `docs/testing/PENSAO_DEPOSIT_PUZZLE_PLAYTEST.md`
+
+**Não alterado:** PlayerController, PlayerCameraFeel, HUD base, core `Interactable`/`PlayerInteractionRaycast`.
 
 ---
 
@@ -53,17 +52,8 @@ Térreo validado como base estável antes de puzzle, escada ou verticalidade.
 
 ---
 
-## Cenas de teste
-
-| Cena | Uso |
-|------|-----|
-| `PensaoTerreoBlockout01.tscn` | Pensão térreo (oficial) |
-| `PlayerMovementLab.tscn` | Regressão movimento |
-| `InteractionLab.tscn` | Regressão interação |
-
----
-
 ## Relatórios
 
 - Térreo: `docs/testing/PENSAO_TERREO_BLOCKOUT_01_PLAYTEST.md`
+- Puzzle depósito: `docs/testing/PENSAO_DEPOSIT_PUZZLE_PLAYTEST.md`
 - Histórico: `docs/SPRINT_HISTORY.md`

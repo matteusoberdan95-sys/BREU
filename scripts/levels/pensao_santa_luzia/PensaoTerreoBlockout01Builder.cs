@@ -567,6 +567,14 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             storage,
             new Vector3(0, DoorHeight * 0.5f - WallEmbedBelowFloor, depositDoorZ),
             new Vector3(DoorWidth, DoorHeight, 0.14f));
+
+        AddVisualFloorPlate(
+            storage,
+            "Floor_Deposit_Interior",
+            new Vector3(0, 0, depositCenterZ),
+            new Vector2(CorridorWidth + 0.12f, depositDepth - 0.2f),
+            InteriorFloorTopY,
+            _matInteriorFloor);
     }
 
     private void BuildFurnitureCollisions()
@@ -766,10 +774,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         collision.Name = "Door_Deposit_Blocking_Collision";
         body.AddChild(collision);
         body.AddChild(CreateBoxMesh(size, _matDoor));
-        body.AddChild(CreateInteractable(
-            "Tentar abrir depósito",
-            "Está trancado.",
-            "storage_door"));
         parent.AddChild(body);
     }
 
