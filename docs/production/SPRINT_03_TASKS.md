@@ -1,7 +1,8 @@
 # Sprint 03 — HUD e Debug
 
-**Status:** ✅ Concluída (2026-07-11)  
-**Branch:** `reboot/breu-clean-start`
+**Status:** ✅ Aprovada pelo usuário (2026-07-11)  
+**Branch:** `reboot/breu-clean-start`  
+**Baseline:** `docs/technical/HUD_DEBUG_BASELINE.md`
 
 ---
 

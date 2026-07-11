@@ -1,7 +1,7 @@
 # BREU — Handoff
 
 **Última atualização:** 2026-07-11  
-**Status:** REBOOT GREENFIELD — Sprint 03 concluída  
+**Status:** REBOOT GREENFIELD — Sprint 03 aprovada  
 **Branch:** `reboot/breu-clean-start`
 
 ---
@@ -10,21 +10,22 @@
 
 1. `docs/PROJECT_STATE.md`
 2. `docs/technical/PLAYER_CONTROLLER_BASELINE.md` — player congelado
-3. `docs/technical/HUD_DEBUG_BASELINE.md` — HUD + debug
+3. `docs/technical/HUD_DEBUG_BASELINE.md` — HUD/debug congelado
 4. `docs/production/SPRINT_ROADMAP.md` — Sprint 04
 
 ---
 
-## Sprint 03 — fechada
+## Sprint 03 — fechada e aprovada
 
-| Entregue |
+| Aprovado |
 |----------|
 | HUD (vida, stamina, lanterna, mensagens) |
-| `PlaytestDebugSettings` (F10 lanterna inf., F11 fog) |
-| `PlayerHealth` + bateria na lanterna |
-| Lab com HUD + fog para teste |
+| Debug F10/F11 |
+| PlayerMovementLab limpo e testável |
+| Movimentação intacta |
+| HUD não atrapalha a tela |
 
-**Player baseline intacta** — Controller, CameraFeel, etc. não alterados.
+**Baselines congeladas:** player + HUD/debug.
 
 ---
 
@@ -33,7 +34,7 @@
 **Sprint 04 — Sistema de interação mínimo**
 
 - `IInteractable`, tecla E, raycast
-- Prompt no HUD
+- Prompt no HUD (extensão)
 - Cena teste com interactables
 
 ---
@@ -42,10 +43,10 @@
 
 Godot 4.7 mono → `scenes/test/PlayerMovementLab.tscn` → **F6**
 
-Checklist: `docs/testing/HUD_DEBUG_PLAYTEST.md`
+Checklists: `PLAYER_MOVEMENT_LAB_PLAYTEST.md`, `HUD_DEBUG_PLAYTEST.md`
 
 ---
 
 ## Regra de produção
 
-> Player baseline congelada → HUD ✅ → interação → pensão.
+> Player ✅ → HUD ✅ → **interação** → pensão.

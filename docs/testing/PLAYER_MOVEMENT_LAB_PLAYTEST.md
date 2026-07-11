@@ -1,16 +1,19 @@
 # Playtest — Player Movement Lab
 
 **Cena:** `res://scenes/test/PlayerMovementLab.tscn`  
-**Sprint:** 02 — **APROVADA**  
-**Data aprovação:** 2026-07-11  
-**Baseline:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
+**Sprint:** 02 + 03 — **APROVADAS**  
+**Data aprovação movimento:** 2026-07-11  
+**Data aprovação HUD:** 2026-07-11  
+**Baseline player:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`  
+**Baseline HUD:** `docs/technical/HUD_DEBUG_BASELINE.md`
 
 ---
 
 ## Status
 
 **PlayerMovementLab aprovado pelo usuário.**  
-Movimentação base congelada — não alterar sem nova sprint de player.
+Movimentação base congelada — não alterar sem nova sprint de player.  
+HUD e debug congelados — não alterar sem nova sprint de HUD/debug.
 
 ---
 
@@ -59,6 +62,21 @@ Movimentação base congelada — não alterar sem nova sprint de player.
 - [x] Strafe: inclinação leve
 - [x] Sem enjoo / jitter
 
+## Checklist aprovado — HUD (Sprint 03)
+
+- [x] HUD visível e responsivo
+- [x] Vida visível e correta
+- [x] Stamina visível e correta (barra + label)
+- [x] Lanterna visível e correta (bateria + estado)
+- [x] HUD não atrapalha a tela / centro livre
+
+## Checklist aprovado — Debug (Sprint 03)
+
+- [x] Painel debug F10/F11 visível
+- [x] F10 toggle lanterna infinita
+- [x] F11 toggle fog reduzida
+- [x] Mensagens temporárias funcionam
+
 ---
 
 ## Controles (referência)
@@ -73,6 +91,8 @@ Movimentação base congelada — não alterar sem nova sprint de player.
 | Alt / X | Look back (sprint + W) |
 | F | Lanterna |
 | F9 | Reset spawn |
+| F10 | Debug: lanterna infinita |
+| F11 | Debug: fog reduzida |
 | Esc | Liberar mouse |
 
 ---
@@ -90,4 +110,4 @@ Movimentação base congelada — não alterar sem nova sprint de player.
 
 ## Próximo passo
 
-Sprint 03 — HUD e Debug (sem mexer no player baseline).
+Sprint 04 — Sistema de interação mínimo (sem mexer no player nem no HUD baseline).

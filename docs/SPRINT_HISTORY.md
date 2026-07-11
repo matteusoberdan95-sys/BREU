@@ -48,8 +48,9 @@ Registro cronológico das sprints do reboot greenfield.
 ## Sprint 03 — HUD e Debug
 
 **Data:** 2026-07-11  
-**Status:** ✅ Concluída  
-**Commit:** `765c0fb`  
+**Status:** ✅ Aprovada pelo usuário  
+**Commit implementação:** `765c0fb`  
+**Commit baseline:** _(ver commit desta sessão)_  
 **Baseline:** `docs/technical/HUD_DEBUG_BASELINE.md`
 
 **Entregas:**
@@ -57,6 +58,7 @@ Registro cronológico das sprints do reboot greenfield.
 - Autoload `PlaytestDebugSettings` (F10/F11)
 - `PlayerHealth`, bateria em `PlayerFlashlight`
 - Lab integrado com fog + HUD
+- Aprovação usuário: HUD responsivo, debug visível, player intacto
 
 ---
 
