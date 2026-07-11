@@ -1,9 +1,9 @@
 # Baseline — Atmosfera base (Pensão Santa Luzia)
 
-**Versão:** 1.0  
+**Versão:** 1.1  
 **Sprint:** 13  
 **Data:** 2026-07-11  
-**Status:** Implementado — playtest F6 pendente  
+**Status:** ✅ **Aprovado** — atmosfera base blockout (não arte final)  
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
 ---
@@ -107,4 +107,8 @@ HUD: `Debug F10: lanterna … | F11: fog normal/off/debug`
 
 ## Regra congelada
 
-**Não refazer geometria** (térreo, 2º andar, escada, teto) ao ajustar atmosfera — apenas luz/environment.
+1. **Neblina:** continuar usando exclusivamente `WorldEnvironment` / `Environment` fog.
+2. **Proibido:** cubos, planos, sprites ou partículas quadradas para fog.
+3. **F11:** manter ciclo fog normal / off / debug para playtest.
+4. **Atmosfera aprovada como base** — não refazer sem nova sprint aprovada.
+5. **Não refazer geometria** (térreo, 2º andar, escada, teto) ao ajustar luz/fog futuro.

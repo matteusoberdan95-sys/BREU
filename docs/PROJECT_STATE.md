@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 13 implementada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 13 aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -24,7 +24,7 @@
 | Sprint 11 | **✅ Aprovada** — playtest fino 2º andar |
 | Sprint 12 | **✅ Aprovada** — teto/cobertura blockout |
 | Sprint 12A | **✅ Aprovada** — hotfix fechamento fachada/escada/porta verde |
-| Sprint 13 | **🔄 Implementada** — atmosfera base (playtest F6 pendente) |
+| Sprint 13 | **✅ Aprovada** — atmosfera base |
 
 ---
 
@@ -81,32 +81,34 @@
 
 ---
 
-## Sprint 13 — resumo (implementada)
+## Sprint 13 — resumo (aprovada)
 
-Atmosfera inicial de terror na Pensão — **sem alterar geometria aprovada**.
+Atmosfera inicial de terror na Pensão — **aprovada como base blockout**, não arte final.
 
-- **Environment:** `Pension_WorldEnvironment` — noite fria, ambient baixo, fog suave (density 0.026).
-- **Neblina:** exclusivamente via `Environment` fog — **sem cubos/planos/partículas**.
-- **Luzes:** MoonLight + entrada âmbar + áreas térreo/2º andar graduadas (2º mais escuro).
-- **Debug F11:** ciclo fog normal → off → debug forte.
-- **Preservado:** térreo, escada, 2º andar, teto, puzzle, HUD, player, interação.
+- **Environment:** `Pension_WorldEnvironment` — noite fria, fog suave via `Environment` (density 0.026).
+- **Neblina:** exclusivamente WorldEnvironment — **sem cubos/planos/partículas quadradas**.
+- **Iluminação:** mais assustadora; lanterna com importância real; corredores com profundidade.
+- **Interior:** mais sombrio, navegação preservada.
+- **Debug:** F10/F11 preservados (fog normal / off / debug).
+- **Regressão:** HUD, player, interação, puzzle, escada, 2º andar — OK.
 
 **Baseline:** `docs/technical/PENSION_ATMOSPHERE_BASELINE.md`  
 **Playtest:** `docs/testing/PENSION_ATMOSPHERE_BASE_PLAYTEST.md`
 
 ---
 
-## Próxima sprint — Sprint 14 (Teto modular e câmera FPS)
+## Próxima sprint — Sprint 14 (Portas, quartos e leitura narrativa)
 
-**Objetivo:** Refinar teto blockout — peças encaixadas sem clipping.
+**Objetivo:** Refinar leitura espacial e narrativa dos cômodos — portas, quartos e pistas — sem arte final.
 
 **Entregas planejadas:**
-- Peças de teto encaixadas; altura validada (≥ 2,4 m acima da cabeça).
-- Teste escada + corredor superior.
+- Portas e quartos com leitura mais clara (blockout).
+- Interações/textos narrativos leves onde aplicável.
+- Reforço da circulação e identidade dos espaços.
 
-**DoD:** Zero frames com câmera dentro de geometria de teto.
+**DoD:** Jogador entende onde está e o que cada cômodo sugere; zero regressão gameplay/aprovados.
 
-**Não fazer:** refazer atmosfera; arte final; inimigo.
+**Não fazer:** refazer atmosfera; refazer estrutura; arte final; inimigo; combate.
 
 **Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 14
 

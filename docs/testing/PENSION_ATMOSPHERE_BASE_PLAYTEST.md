@@ -3,55 +3,34 @@
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Sprint:** 13 — Atmosfera base da Pensão  
 **Data:** 2026-07-11  
+**Status:** ✅ **Aprovada**  
 **Baseline:** `docs/technical/PENSION_ATMOSPHERE_BASELINE.md`
 
 ---
 
-## Status
+## Checklist aprovado (2026-07-11)
 
-Implementado — validar F6 antes de aprovar.
+- [x] Luz exterior — entrada com foco; trilha legível
+- [x] Luz do térreo — recepção/corredor/quartos/depósito graduados
+- [x] Luz do segundo andar — mais sombrio e ameaçador
+- [x] Lanterna — importância real no escuro
+- [x] Neblina suave — profundidade nos corredores
+- [x] Sem quadrados na neblina
+- [x] Sem cubos/planos/meshes visíveis de fog
+- [x] HUD/debug preservados (F10/F11)
+- [x] Puzzle do depósito preservado
+- [x] Escada preservada e navegável
+- [x] Segundo andar preservado e navegável
+- [x] Player movement aprovado intacto
+- [x] Interações preservadas
+
+**Aprovação usuário:** atmosfera base aceita; cena ainda em blockout, sem arte final.
 
 ---
 
-## Rota de teste
+## Rota validada
 
 Trilha → entrada → recepção → quarto 102 → chave → cozinha → depósito → fusível → escada → 2º andar → quartos 201/202 → porta bloqueada → retorno térreo
-
----
-
-## Checklist técnico
-
-- [ ] Player nasce corretamente
-- [ ] Movimento / sprint / crouch / lean / look back
-- [ ] HUD funciona
-- [ ] Lanterna funciona
-- [ ] F10 — lanterna infinita ON/OFF
-- [ ] F11 — fog normal → off → debug (ciclo)
-- [ ] Interações OK
-- [ ] Puzzle depósito OK
-- [ ] Escada OK
-- [ ] 2º andar navegável
-- [ ] Sem queda do mapa / atravessar parede
-
----
-
-## Checklist visual
-
-- [ ] Entrada mais assustadora / foco de luz
-- [ ] Interior com contraste melhor
-- [ ] Corredores com profundidade
-- [ ] Neblina suave na distância
-- [ ] **Sem quadrados/cubos/planos de fog**
-- [ ] Lanterna ilumina bem no escuro
-- [ ] Escada legível
-- [ ] 2º andar mais ameaçador que térreo
-
----
-
-## Checklist performance
-
-- [ ] FPS aceitável
-- [ ] Sem lag perceptível na trilha/corredores
 
 ---
 
@@ -76,5 +55,5 @@ Trilha → entrada → recepção → quarto 102 → chave → cozinha → depó
 
 ## Regressão
 
-- [ ] Layout blockout intacto
-- [ ] Teto/escada/puzzle/HUD/movimento preservados
+- [x] Layout blockout intacto
+- [x] Teto/escada/puzzle/HUD/movimento preservados

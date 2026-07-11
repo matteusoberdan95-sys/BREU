@@ -12,7 +12,7 @@
 S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
     → S05 Pensão térreo → S06 Playtest térreo → S07 Puzzle depósito
     → S08 Escada isolada → S09A Escada na Pensão → S10 2º andar → S11 Playtest 2º andar
-    → S12 Teto blockout → S13 Atmosfera → S14 Teto modular → S15 Vertical slice → S16 Inimigo → S17 Combate → S18 Arte modular
+    → S12 Teto blockout → S13 Atmosfera → S14 Portas/narrativa → S15 Vertical slice → S16 Inimigo → S17 Combate → S18 Arte modular
 ```
 
 ---
@@ -263,7 +263,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 13 — Atmosfera base da Pensão
 
-**Status:** ✅ Implementada — playtest F6 pendente (2026-07-11)
+**Status:** ✅ Concluída — aprovada 2026-07-11
 
 **Objetivo:** Atmosfera inicial de terror sem alterar estrutura aprovada.
 
@@ -271,26 +271,30 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 - `Pension_WorldEnvironment` — fog suave via Environment (anti-quadrados)
 - Iluminação exterior/interior/2º andar graduada
 - F11: ciclo fog normal / off / debug
-- `docs/technical/PENSION_ATMOSPHERE_BASELINE.md`
-- `docs/testing/PENSION_ATMOSPHERE_BASE_PLAYTEST.md`
+- Baseline + playtest docs
 
-**DoD:** Mais atmosférica; neblina sem artefatos; navegação/puzzle/HUD intactos.
+**DoD:** ✅ Mais atmosférica; neblina sem artefatos; navegação/puzzle/HUD intactos.
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 ---
 
-## Sprint 14 — Teto modular e câmera FPS
+## Sprint 14 — Portas, quartos e leitura narrativa
 
 **Status:** 🔄 Próxima
 
-**Objetivo:** Refinar teto blockout — peças encaixadas sem clipping.
+**Objetivo:** Refinar leitura espacial e narrativa dos cômodos — blockout + pistas leves.
 
 **Entregas:**
-- Peças de teto encaixadas; altura validada (≥ 2,4 m acima da cabeça).
-- Teste escada + corredor superior.
+- Portas e quartos com identidade mais clara.
+- Textos/interações narrativas leves onde aplicável.
+- Circulação e leitura dos espaços reforçadas.
 
-**DoD:** Zero frames com câmera dentro de geometria de teto.
+**DoD:** Jogador entende cômodos e rotas; zero regressão dos sistemas aprovados.
+
+**Não fazer:** refazer atmosfera; arte final; inimigo; combate.
+
+**Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 ---
 

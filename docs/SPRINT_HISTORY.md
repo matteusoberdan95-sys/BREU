@@ -229,8 +229,8 @@ Registro cronológico das sprints do reboot greenfield.
 
 ## Sprint 13 — Atmosfera base da Pensão
 
-**Status:** 🔄 Implementada — playtest F6 pendente  
-**Data:** 2026-07-11
+**Status:** ✅ Aprovada  
+**Playtest:** `PENSION_ATMOSPHERE_BASE_PLAYTEST.md`
 
 **Entregas:**
 - Environment fog suave (sem cubos/mesh de neblina)
@@ -238,10 +238,12 @@ Registro cronológico das sprints do reboot greenfield.
 - F11 ciclo fog normal/off/debug
 - Baseline + playtest docs
 
+**Aprovação usuário:** atmosfera assustadora; lanterna relevante; neblina suave sem quadrados; regressão OK.
+
 ---
 
 ## Próxima
 
-**Sprint 14 — Teto modular e câmera FPS**
+**Sprint 14 — Portas, quartos e leitura narrativa**
 
 ---
