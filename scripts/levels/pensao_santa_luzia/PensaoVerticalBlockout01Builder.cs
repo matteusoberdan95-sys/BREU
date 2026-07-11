@@ -1,6 +1,7 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 using BREU.Scripts.Interaction;
+using BREU.Scripts.Levels;
 
 /// <summary>
 /// Sprint 10 — ground floor (inherited) + second floor blockout on PensaoVerticalBlockout01.
@@ -10,9 +11,10 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private const float SecondFloorTopY = 2.8f;
     private const float SecondFloorVisualTopY = 2.82f;
     private const float UpperCorridorWidth = 2.4f;
-    private const float UpperCorridorHalfWidth = UpperCorridorWidth * 0.5f;
 
     private const float StairFootX = -4.1f;
+    private const float StairFootZ = -30.5f;
+    private static float RampTopZ => StairFootZ + StairRampAssembly.StairRun;
 
     private StandardMaterial3D _matSecondFloor = null!;
     private StandardMaterial3D _matSecondRail = null!;
@@ -50,9 +52,10 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private void BuildSecondFloor()
     {
-        const float landingCenterZ = -21.5f;
-        const float corridorCenterZ = -13.0f;
-        const float corridorLength = 13.5f;
+        const float landingDepth = 3.5f;
+        const float landingWidth = 3.5f;
+        const float landingCenterZ = -21.0f;
+        const float corridorEndZ = -7.5f;
         const float room201CenterZ = -14.0f;
         const float room202CenterZ = -17.0f;
         const float roomDepth = 4.0f + WallCornerOverlap;
@@ -63,59 +66,107 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         const float room202CenterX = -1.55f;
         const float blockedDoorZ = -7.5f;
 
+        var corridorStartZ = landingCenterZ + landingDepth * 0.5f - FloorOverlap;
+        var corridorLength = corridorEndZ - corridorStartZ;
+        var corridorCenterZ = corridorStartZ + corridorLength * 0.5f;
+
+        BuildUpperLandingMain(landingCenterZ, landingWidth, landingDepth);
+        BuildStairTopTransition();
+        BuildUpperCorridorMain(corridorCenterZ, corridorLength);
+        BuildUpperLandingRails(landingCenterZ, landingDepth);
+        BuildUpperCorridorWalls(corridorCenterZ, corridorLength, room201CenterZ, room202CenterZ);
+        BuildRoom201(room201CenterX, room201CenterZ, roomDepth, roomSpan, buildingInnerWestX);
+        BuildRoom202(room202CenterX, room202CenterZ, roomDepth, roomSpan, upperEastCapX);
+        BuildBlockedUpperDoor(blockedDoorZ);
+        BuildSecondFloorShell(corridorCenterZ, corridorLength, buildingInnerWestX, upperEastCapX);
+    }
+
+    private void BuildUpperLandingMain(float centerZ, float width, float depth)
+    {
         AddCollisionFloor(
             _secondFloor,
-            "Floor_Second_Main",
-            new Vector3(StairFootX, SecondFloorCenterY, -15.0f),
-            new Vector3(10.5f, FloorThickness, 19.5f));
+            "UpperLanding_Main",
+            new Vector3(StairFootX, SecondFloorCenterY, centerZ),
+            new Vector3(width, FloorThickness, depth));
 
         AddVisualFloorPlate(
             _secondFloor,
-            "Floor_Second_Main_Visual",
-            new Vector3(StairFootX, 0f, -15.0f),
-            new Vector2(10.5f, 19.5f),
+            "UpperLanding_Main_Visual",
+            new Vector3(StairFootX, 0f, centerZ),
+            new Vector2(width, depth),
+            SecondFloorVisualTopY,
+            _matSecondFloor);
+    }
+
+    private void BuildStairTopTransition()
+    {
+        AddCollisionFloor(
+            _secondFloor,
+            "Floor_Second_StairTransition",
+            new Vector3(StairFootX, SecondFloorCenterY, RampTopZ + 1.25f),
+            new Vector3(StairRampAssembly.StairWidth + 1.2f, FloorThickness, 3.2f));
+
+        AddVisualFloorPlate(
+            _secondFloor,
+            "Floor_Second_StairTransition_Visual",
+            new Vector3(StairFootX, 0f, RampTopZ + 1.25f),
+            new Vector2(StairRampAssembly.StairWidth + 1.2f, 3.2f),
+            SecondFloorVisualTopY,
+            _matSecondFloor);
+    }
+
+    private void BuildUpperCorridorMain(float corridorCenterZ, float corridorLength)
+    {
+        AddCollisionFloor(
+            _secondFloor,
+            "UpperCorridor_Main",
+            new Vector3(StairFootX, SecondFloorCenterY, corridorCenterZ),
+            new Vector3(UpperCorridorWidth + FloorWallLip * 2f, FloorThickness, corridorLength + FloorOverlap));
+
+        AddVisualFloorPlate(
+            _secondFloor,
+            "UpperCorridor_Main_Visual",
+            new Vector3(StairFootX, 0f, corridorCenterZ),
+            new Vector2(UpperCorridorWidth, corridorLength),
             SecondFloorVisualTopY,
             _matSecondFloor);
 
         AddCollisionFloor(
             _secondFloor,
-            "Floor_Second_StairTransition",
-            new Vector3(StairFootX, SecondFloorCenterY, -24.6f),
-            new Vector3(StairRampAssembly.StairWidth + 0.6f, FloorThickness, 2.4f));
+            "Floor_Second_Main",
+            new Vector3(StairFootX, SecondFloorCenterY, -14.5f),
+            new Vector3(10.5f, FloorThickness, 16.0f));
 
-        BuildUpperLandingRails(landingCenterZ);
-        BuildUpperCorridorWalls(corridorCenterZ, corridorLength, room201CenterZ, room202CenterZ);
-        BuildRoom201(room201CenterX, room201CenterZ, roomDepth, roomSpan, buildingInnerWestX);
-        BuildRoom202(room202CenterX, room202CenterZ, roomDepth, roomSpan, upperEastCapX);
-        BuildBlockedUpperDoor(blockedDoorZ);
-        BuildSecondFloorShell(corridorCenterZ, corridorLength, buildingInnerWestX);
+        AddVisualFloorPlate(
+            _secondFloor,
+            "Floor_Second_Main_Visual",
+            new Vector3(StairFootX, 0f, -14.5f),
+            new Vector2(10.5f, 16.0f),
+            SecondFloorVisualTopY,
+            _matSecondFloor);
     }
 
-    private void BuildUpperLandingRails(float landingCenterZ)
+    private void BuildUpperLandingRails(float landingCenterZ, float landingDepth)
     {
         const float railHeight = 1.1f;
         const float railThickness = 0.18f;
-        const float landingDepth = 5.0f;
-
-        AddWall(
-            _secondFloor,
-            "UpperLanding_Rail_Back",
-            new Vector3(StairFootX, SecondFloorTopY + railHeight * 0.5f, -25.1f),
-            new Vector3(UpperCorridorWidth + 0.8f, railHeight, railThickness),
-            _matSecondRail);
+        const float upperWestWallX = -5.4f;
+        const float upperEastWallX = -2.8f;
+        var railDepth = landingDepth * 0.55f;
+        var railCenterZ = landingCenterZ - landingDepth * 0.15f;
 
         AddWall(
             _secondFloor,
             "UpperLanding_Rail_Left",
-            new Vector3(-6.5f, SecondFloorTopY + railHeight * 0.5f, landingCenterZ),
-            new Vector3(railThickness, railHeight, landingDepth),
+            new Vector3(upperWestWallX - railThickness * 0.5f, SecondFloorTopY + railHeight * 0.5f, railCenterZ),
+            new Vector3(railThickness, railHeight, railDepth),
             _matSecondRail);
 
         AddWall(
             _secondFloor,
             "UpperLanding_Rail_Right",
-            new Vector3(-1.7f, SecondFloorTopY + railHeight * 0.5f, landingCenterZ - 0.6f),
-            new Vector3(railThickness, railHeight, landingDepth - 1.0f),
+            new Vector3(upperEastWallX + railThickness * 0.5f, SecondFloorTopY + railHeight * 0.5f, railCenterZ),
+            new Vector3(railThickness, railHeight, railDepth),
             _matSecondRail);
     }
 
@@ -182,7 +233,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         AddFurniture(
             _secondFloor,
             "Furniture_Room201_Bed",
-            new Vector3(roomCenterX, SecondFloorTopY + 0.35f, roomCenterZ),
+            new Vector3(roomCenterX + 0.6f, SecondFloorTopY + 0.35f, roomCenterZ),
             new Vector3(2.0f, 0.7f, 1.8f),
             _matFurniture);
     }
@@ -218,7 +269,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         AddFurniture(
             _secondFloor,
             "Furniture_Room202_Cabinet",
-            new Vector3(roomCenterX + 0.8f, SecondFloorTopY + 0.75f, roomCenterZ),
+            new Vector3(roomCenterX + 0.8f, SecondFloorTopY + 0.75f, roomCenterZ - 0.6f),
             new Vector3(1.0f, 1.5f, 0.55f),
             _matFurniture);
     }
@@ -253,12 +304,18 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             _matInteriorWall);
     }
 
-    private void BuildSecondFloorShell(float corridorCenterZ, float corridorLength, float buildingInnerWestX)
+    private void BuildSecondFloorShell(
+        float corridorCenterZ,
+        float corridorLength,
+        float buildingInnerWestX,
+        float buildingInnerEastX)
     {
+        const float northBackZ = -27.5f;
+
         AddWall(
             _secondFloor,
             "Wall_Second_Back",
-            new Vector3(StairFootX, SecondWallCenterY, -25.0f),
+            new Vector3(StairFootX, SecondWallCenterY, northBackZ),
             new Vector3(10.0f, WallHeight, WallThickness),
             _matInteriorWall);
 
@@ -273,7 +330,14 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             _secondFloor,
             "Wall_Second_West",
             new Vector3(buildingInnerWestX, SecondWallCenterY, corridorCenterZ),
-            new Vector3(WallThickness, WallHeight, corridorLength + 6.0f),
+            new Vector3(WallThickness, WallHeight, corridorLength + 8.0f),
+            _matExteriorWall);
+
+        AddWall(
+            _secondFloor,
+            "Wall_Second_East",
+            new Vector3(buildingInnerEastX, SecondWallCenterY, corridorCenterZ),
+            new Vector3(WallThickness, WallHeight, corridorLength + 8.0f),
             _matExteriorWall);
     }
 
@@ -286,7 +350,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             _interactions,
             "Room201Inspect",
             new Vector3(room201CenterX, SecondFloorTopY + 1.4f, -14.0f),
-            new Vector3(1.6f, 1.4f, 1.6f),
+            new Vector3(1.0f, 1.2f, 1.0f),
             "Examinar quarto 201",
             "O quarto está vazio, mas a cama parece ter sido usada recentemente.",
             "room_201");
@@ -295,7 +359,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             _interactions,
             "Room202Inspect",
             new Vector3(room202CenterX, SecondFloorTopY + 1.4f, -17.0f),
-            new Vector3(1.6f, 1.4f, 1.6f),
+            new Vector3(1.0f, 1.2f, 1.0f),
             "Examinar quarto 202",
             "Há marcas de arrasto no chão.",
             "room_202");

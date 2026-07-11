@@ -52,7 +52,7 @@ public partial class PlayerInteractionRaycast : Node
         ApplyRaycastSettings();
         _raycast.ForceRaycastUpdate();
 
-        UpdateFocus(FindInteractable(_raycast.GetCollider() as Node));
+        UpdateFocus(FindFocusedInteractable());
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -94,6 +94,69 @@ public partial class PlayerInteractionRaycast : Node
         _raycast.CollideWithAreas = true;
         _raycast.CollideWithBodies = true;
         _raycast.CollisionMask = RaycastCollisionMask;
+    }
+
+    private IInteractable? FindFocusedInteractable()
+    {
+        if (_raycast == null)
+        {
+            return null;
+        }
+
+        var collider = _raycast.GetCollider() as Node;
+        var interactable = FindInteractable(collider);
+        if (interactable == null)
+        {
+            return null;
+        }
+
+        if (IsOccludedByWorldGeometry(collider as Node3D))
+        {
+            return null;
+        }
+
+        return interactable;
+    }
+
+    private bool IsOccludedByWorldGeometry(Node3D? targetCollider)
+    {
+        if (_raycast == null || targetCollider == null)
+        {
+            return false;
+        }
+
+        var camera = _raycast.GetParent() as Camera3D;
+        if (camera == null)
+        {
+            return false;
+        }
+
+        var targetPosition = targetCollider.GlobalPosition;
+        var origin = camera.GlobalPosition;
+        var toTarget = targetPosition - origin;
+        var distance = toTarget.Length();
+        if (distance <= 0.01f)
+        {
+            return false;
+        }
+
+        var direction = toTarget / distance;
+        var world = _raycast.GetWorld3D().DirectSpaceState;
+        var query = PhysicsRayQueryParameters3D.Create(origin, origin + direction * (distance + 0.05f));
+        query.CollisionMask = WorldCollisionLayer;
+        query.CollideWithAreas = false;
+        query.CollideWithBodies = true;
+        query.HitBackFaces = false;
+
+        var result = world.IntersectRay(query);
+        if (result.Count == 0)
+        {
+            return false;
+        }
+
+        var hitPosition = (Vector3)result["position"];
+        var hitDistance = origin.DistanceTo(hitPosition);
+        return hitDistance < distance - 0.15f;
     }
 
     private void UpdateFocus(IInteractable? interactable)

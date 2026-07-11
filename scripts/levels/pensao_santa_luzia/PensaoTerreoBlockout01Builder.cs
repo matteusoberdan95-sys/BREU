@@ -761,7 +761,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         AddBoundaryWall(_exterior, "BoundaryWest", new Vector3(-22, 1.5f, 28), new Vector3(WallThickness, 3, 52));
     }
 
-    private void BuildInteractions()
+    protected virtual void BuildInteractions()
     {
         AddInteractableBody(
             _interactions,
@@ -794,7 +794,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             _interactions,
             "KitchenInspect",
             new Vector3(3.4f, 1.4f, -20.5f),
-            new Vector3(1.5f, 1.4f, 1.5f),
+            new Vector3(0.9f, 1.0f, 0.9f),
             "Examinar cozinha",
             "A cozinha está fria demais para uma pensão habitada.",
             "kitchen");
