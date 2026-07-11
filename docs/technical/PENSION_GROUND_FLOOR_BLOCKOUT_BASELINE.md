@@ -1,9 +1,9 @@
 # BREU — Pensão Térreo Blockout (Baseline)
 
-**Versão:** 1.4  
+**Versão:** 1.5  
 **Data:** 2026-07-11  
-**Sprint:** 05–06 aprovada · **09A** escada integrada (playtest pendente)  
-**Status:** OFICIAL — escada no térreo; patamar superior temporário
+**Sprint:** 05–06 aprovada · **09A** escada integrada — **aprovada**  
+**Status:** OFICIAL — térreo + escada integrada; patamar superior placeholder
 
 ---
 
@@ -68,15 +68,16 @@ Nós oficiais:
 Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Depósito → Escada (álcove oeste) → Patamar superior temporário
 ```
 
-**Sprint 09A — escada integrada:**
+**Sprint 09A — escada integrada (aprovada 2026-07-11):**
 - `StairWell` no álcove oeste (entrada corredor z ≈ -25,5)
-- Padrão `StairRampAssembly` — rampa invisível + 14 degraus visuais
-- `UpperLanding_Temporary` @ y = 2,8 m (5 × 5 m, barreiras)
-- **Sem** segundo andar completo · **sem** teto
-- Puzzle depósito preservado (chave / fusível / bilhete)
-- `Wall_StairFuture_Blocker` removido — substituído por stairwell + paredes parciais de fundo do depósito
+- Padrão `StairRampAssembly` — rampa invisível + 14 degraus visuais sem colisão
+- `UpperLanding_Temporary` @ y = 2,8 m — **placeholder** (não é 2º andar)
+- **Térreo preservado** — trilha, recepção, corredor, quartos, cozinha intactos
+- **Puzzle preservado** — chave, depósito, fusível, bilhete funcionais
+- Player / HUD / interação **não alterados** nos scripts aprovados
+- **Sem** teto · **sem** segundo andar completo · **sem** arte final
 
-**Playtest escada:** `docs/testing/PENSAO_STAIR_INTEGRATION_PLAYTEST.md`
+**Playtest escada:** `docs/testing/PENSAO_STAIR_INTEGRATION_PLAYTEST.md` — **aprovado**
 
 **Colisão:** `Exterior_MainGround`, `Porch_MainFloor`, `PensionGroundFloor_MainFloor`
 

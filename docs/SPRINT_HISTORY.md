@@ -154,14 +154,15 @@ Registro cronológico das sprints do reboot greenfield.
 ## Sprint 09A — Integrar escada no térreo
 
 **Data:** 2026-07-11  
-**Status:** 🔄 Implementada — playtest F6 pendente  
+**Status:** ✅ Aprovada  
+**Commit implementação:** `c10dd3c`  
 **Playtest:** `PENSAO_STAIR_INTEGRATION_PLAYTEST.md`
 
 **Entregas:**
 - Escada no álcove oeste via `StairRampAssembly`
 - Patamar superior temporário; barreiras no topo
-- Removido `Wall_StairFuture_Blocker`; puzzle depósito preservado
+- Puzzle depósito e térreo preservados
 
-**Pendente:** aprovação usuário após playtest F6 na Pensão.
+**Aprovação usuário:** subida/descida suaves na Pensão; rampa invisível OK; regressão puzzle/HUD/movimento OK.
 
 ---

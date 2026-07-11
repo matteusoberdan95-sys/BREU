@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 09A implementada  
+**Fase:** REBOOT GREENFIELD — Sprint 09A aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -18,31 +18,33 @@
 | Sprint 06 | **✅ Aprovada** — fine playtest térreo |
 | Sprint 07 | **✅ Aprovada** — puzzle chave → depósito → fusível |
 | Sprint 08 | **✅ Aprovada** — escada isolada (`StairMovementLab`) |
-| Sprint 09A | **🔄 Implementada** — escada integrada no térreo; playtest F6 pendente |
+| Sprint 09A | **✅ Aprovada** — escada integrada no térreo da Pensão |
+| Sprint 09 | **Próxima** — segundo andar blockout |
 
 ---
 
 ## Cena oficial
 
-**F6 (Pensão):** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`
+**F6:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`
 
-**F6 (Escada lab):** `res://scenes/test/StairMovementLab.tscn`
+**Lab escada (referência):** `res://scenes/test/StairMovementLab.tscn`
 
-**Escada:** integrada no álcove oeste — rampa invisível + patamar superior temporário. **Segundo andar completo ainda não criado.**
+**Escada:** integrada no álcove oeste — rampa invisível + patamar superior temporário.
 
-**Baseline escada:** `docs/technical/STAIR_RAMP_BASELINE.md` v1.1
+**Segundo andar completo:** pendente. **Teto:** pendente. **Arte final:** pendente.
 
-**Baseline térreo:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` v1.4
+**Baseline escada:** `docs/technical/STAIR_RAMP_BASELINE.md` v1.2
+
+**Baseline térreo:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` v1.5
 
 ---
 
-## Sprint 09A — resumo (implementada)
+## Sprint 09A — resumo (aprovada)
 
-- Escada no corredor oeste (entrada z ≈ -25,5) usando `StairRampAssembly`.
-- Métricas idênticas ao lab aprovado (2,8 m × 5,8 m × 2,2 m, 14 degraus).
-- `UpperLanding_Temporary` com barreiras — sem gameplay de 2º andar.
-- Player / HUD / interação / puzzle **não alterados** nos scripts aprovados.
-- Hotfix: `depositDepth` corrigido (valor positivo).
+- Escada no corredor oeste (entrada z ≈ -25,5) via `StairRampAssembly`.
+- `UpperLanding_Temporary` @ y = 2,8 m — placeholder, não é 2º andar.
+- Subida/descida suaves aprovadas; puzzle depósito e térreo preservados.
+- Player, HUD, camera feel e interação intactos.
 
 **Playtest:** `docs/testing/PENSAO_STAIR_INTEGRATION_PLAYTEST.md`
 
@@ -57,7 +59,7 @@
 | 04 Interação | `INTERACTION_SYSTEM_BASELINE.md` |
 | 05–06 Térreo | `PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` |
 | 07 Puzzle | `DEPOSIT_PUZZLE_BASELINE.md` |
-| 08 Escada | `STAIR_RAMP_BASELINE.md` |
+| 08–09A Escada | `STAIR_RAMP_BASELINE.md` |
 
 ---
 
@@ -73,6 +75,8 @@
 
 ## Próxima sprint recomendada
 
-**Sprint 09 — Segundo andar blockout** (após aprovar playtest F6 da Sprint 09A).
+**Sprint 09 — Segundo andar blockout**
 
-Sem teto, sem inimigo, sem arte final.
+Substituir patamar superior temporário por layout navegável (corredor superior, quartos placeholder). Sem teto, sem inimigo, sem arte final, sem GLB/Blender.
+
+*(Playtest da escada integrada concluído na aprovação 09A — Sprint 09B não necessária.)*

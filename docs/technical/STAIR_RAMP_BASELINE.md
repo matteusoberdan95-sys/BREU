@@ -1,10 +1,10 @@
 # Baseline — Escada com rampa invisível
 
-**Versão:** 1.1  
+**Versão:** 1.2  
 **Sprint:** 08 (lab) + 09A (integração Pensão)  
 **Data aprovação lab:** 2026-07-11  
-**Status lab:** ✅ Aprovada — baseline congelada  
-**Status integração Pensão:** 🔄 Implementada — playtest F6 pendente  
+**Data aprovação integração:** 2026-07-11  
+**Status:** ✅ **Aprovada** — lab + Pensão — baseline congelada  
 **Cena lab:** `res://scenes/test/StairMovementLab.tscn`  
 **Cena Pensão:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`
 
@@ -20,7 +20,7 @@
 
 O player **nunca** colide com degraus individuais. Toda subida/descida usa a rampa.
 
-**Regra permanente:** ao integrar na Pensão, **manter o mesmo padrão** — degraus visuais decorativos + rampa invisível para navegação.
+**Regra permanente:** manter o mesmo padrão em qualquer escada futura — degraus decorativos + rampa invisível.
 
 ---
 
@@ -42,43 +42,24 @@ Constantes em `StairRampAssembly.cs` (compartilhado lab + Pensão).
 
 ---
 
-## Integração na Pensão (Sprint 09A)
+## Integração na Pensão (Sprint 09A — aprovada)
 
 | Item | Valor |
 |------|-------|
 | Local | **Álcove oeste** do depósito / corredor |
-| Entrada | Porta no corredor oeste em **z ≈ -25,5** (`Wall_Corridor_Left` gap) |
+| Entrada | Porta no corredor oeste em **z ≈ -25,5** |
 | Foot origin | **x ≈ -4,1**, **z ≈ -30,5** |
 | Direção rampa | **+Z** (do fundo em direção ao corredor) |
 | Patamar superior | `UpperLanding_Temporary` — **5 × 5 m** @ **y = 2,8 m** |
 | Bloqueios topo | `UpperLanding_Blocker_Left/Right/Back` |
 | Assembly | `StairRampAssembly.Build()` via `BuildStairIntegration()` |
-| Removido | `Wall_StairFuture_Blocker`, `Wall_Deposit_AlcoveWest`, `Wall_Deposit_AlcoveSouthCapWest` |
 | Luz | `StairWellLight` (OmniLight3D) |
 
-**Segundo andar completo:** não criado — patamar é temporário.
+**Plataforma superior:** temporária — placeholder até Sprint de segundo andar.
 
-**Playtest integração:** `docs/testing/PENSAO_STAIR_INTEGRATION_PLAYTEST.md`
+**Segundo andar completo:** sprint futura — **não** expandir patamar sem sprint dedicada.
 
-```
-StairMovementLab
-  World (StairMovementLabBuilder)
-    LowerFloor
-      LowerFloor_Main          — colisão piso inferior
-      LowerFloor_StairApproach — transição suave → rampa
-    Collisions
-      Stair_InvisibleRamp_Collision
-    VisualSteps
-      Stair_Step_01 … Stair_Step_14
-    UpperFloor
-      UpperFloor_Main
-      UpperFloor_Rail_Left / Right / BackWall
-    StairTest
-      Stair_Guide_Left / Right (laterais baixas)
-  PlayerSpawn
-  Player
-  HUD
-```
+**Playtest:** `docs/testing/PENSAO_STAIR_INTEGRATION_PLAYTEST.md` — **aprovado 2026-07-11**
 
 ---
 
@@ -87,8 +68,7 @@ StairMovementLab
 - Nó: `Stair_InvisibleRamp_Collision` (`StaticBody3D`)
 - Shape: `BoxShape3D` rotacionado no eixo X
 - Sem mesh visível
-- Overlap nos patamares via `FloorOverlap` (0,12 m) e patch `LowerFloor_StairApproach`
-- Piso superior estende-se até `z ≈ 5,68` para encostar no topo da rampa
+- Overlap nos patamares via `FloorOverlap` (0,12 m) e patch `Stair_Approach_Floor`
 
 ---
 
@@ -99,7 +79,43 @@ StairMovementLab
 3. Transição piso → rampa → piso superior **sem degrau vertical** nem buraco.
 4. Guarda-corpo com colisão no patamar superior antes de abrir vão.
 5. **Não** alterar `PlayerController` nem `PlayerCameraFeel` para “consertar” escada.
+6. Substituir `UpperLanding_Temporary` por layout real em sprint de 2º andar.
 
 ---
 
 ## Nós principais (lab)
+
+```
+StairMovementLab
+  World (StairMovementLabBuilder → StairRampAssembly)
+    Stair_InvisibleRamp_Collision
+    Stair_Step_01 … Stair_Step_14
+    UpperLanding_Temporary (+ blockers)
+```
+
+## Nós principais (Pensão)
+
+```
+PensionGroundFloor/StairWell
+  StairAssembly (foot @ x≈-4.1, z≈-30.5)
+    Stair_InvisibleRamp_Collision
+    Stair_Step_01 … Stair_Step_14
+    UpperLanding_Temporary (+ blockers)
+```
+
+---
+
+## Baselines congeladas (não alterar sem nova sprint)
+
+- `PLAYER_CONTROLLER_BASELINE.md`
+- `HUD_DEBUG_BASELINE.md`
+- `INTERACTION_SYSTEM_BASELINE.md`
+- `PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md`
+- **Este documento**
+
+---
+
+## Playtests
+
+- Lab: `docs/testing/STAIR_MOVEMENT_LAB_PLAYTEST.md` — aprovado 2026-07-11
+- Pensão: `docs/testing/PENSAO_STAIR_INTEGRATION_PLAYTEST.md` — aprovado 2026-07-11
