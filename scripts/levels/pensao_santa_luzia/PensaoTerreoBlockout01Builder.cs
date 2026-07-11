@@ -2,7 +2,7 @@ namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
 /// Builds ground-floor blockout geometry under World/Exterior, PensionGroundFloor and Interactions.
-/// Sprint 05 blockout + Sprint 06 fine playtest tuning (geometry/lighting only).
+/// Sprint 05 blockout + Sprint 06 tuning + hotfix furniture/deposit sealing.
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder : Node3D
 {
@@ -71,6 +71,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         BuildRoom102();
         BuildKitchen();
         BuildStorage();
+        BuildFurnitureCollisions();
         BuildDoorThresholds();
         BuildExteriorBoundaries();
         BuildInteractions();
@@ -367,8 +368,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(ReceptionHalfWidth - southSegmentWidth * 0.5f, WallCenterY, receptionSouthZ),
             new Vector3(southSegmentWidth, WallHeight, WallThickness),
             _matInteriorWall);
-
-        AddVisualOnly(reception, "ReceptionCounter", new Vector3(3.4f, 0.55f, -3.5f), new Vector3(2.4f, 1.1f, 0.6f), _matCounter);
     }
 
     private void BuildCorridor()
@@ -451,7 +450,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(roomSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
-        AddVisualOnly(room, "Room102Bed", new Vector3(-5.5f, 0.35f, roomCenterZ), new Vector3(2.0f, 0.7f, 1.8f), _matBed);
     }
 
     private void BuildKitchen()
@@ -486,35 +484,116 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(kitchenSpanCenterX, WallCenterY, -18.45f),
             new Vector3(kitchenSpanX, WallHeight, WallThickness),
             _matInteriorWall);
-
-        AddVisualOnly(kitchen, "KitchenCounter", new Vector3(3.4f, 0.55f, -19.7f), new Vector3(1.8f, 1.1f, 0.6f), _matCounter);
     }
 
     private void BuildStorage()
     {
-        var storage = new Node3D { Name = "StorageWalls" };
+        var storage = new Node3D { Name = "DepositArea" };
         _interior.AddChild(storage);
+
+        const float depositDoorZ = -26.5f;
+        const float depositBackZ = -31.5f;
+        const float depositDepth = depositBackZ - depositDoorZ + WallThickness + WallCornerOverlap;
+        const float depositCenterZ = (depositDoorZ + depositBackZ) * 0.5f;
+        const float buildingInnerX = BuildingHalfWidth - WallThickness * 0.5f;
+        const float backSpanX = BuildingHalfWidth * 2 + WallThickness + WallCornerOverlap;
 
         AddWall(
             storage,
             "Wall_Deposit_Back",
-            new Vector3(0, WallCenterY, -31.5f),
-            new Vector3(CorridorWidth + WallCornerOverlap, WallHeight, WallThickness),
+            new Vector3(0, WallCenterY, depositBackZ),
+            new Vector3(backSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddWall(
             storage,
             "Wall_Deposit_Left",
-            new Vector3(-CorridorWallX, WallCenterY, -29.5f),
-            new Vector3(WallThickness, WallHeight, 4.0f + WallCornerOverlap),
+            new Vector3(-CorridorWallX, WallCenterY, depositCenterZ),
+            new Vector3(WallThickness, WallHeight, depositDepth),
             _matInteriorWall);
 
         AddWall(
             storage,
             "Wall_Deposit_Right",
-            new Vector3(CorridorWallX, WallCenterY, -29.5f),
-            new Vector3(WallThickness, WallHeight, 4.0f + WallCornerOverlap),
+            new Vector3(CorridorWallX, WallCenterY, depositCenterZ),
+            new Vector3(WallThickness, WallHeight, depositDepth),
             _matInteriorWall);
+
+        var alcoveSpanX = buildingInnerX - CorridorWallX + WallCornerOverlap;
+        var alcoveCenterX = (CorridorWallX + buildingInnerX) * 0.5f;
+
+        AddWall(
+            storage,
+            "Wall_Deposit_AlcoveWest",
+            new Vector3(-alcoveCenterX, WallCenterY, depositCenterZ),
+            new Vector3(alcoveSpanX, WallHeight, depositDepth),
+            _matInteriorWall);
+
+        AddWall(
+            storage,
+            "Wall_Deposit_AlcoveEast",
+            new Vector3(alcoveCenterX, WallCenterY, depositCenterZ),
+            new Vector3(alcoveSpanX, WallHeight, depositDepth),
+            _matInteriorWall);
+
+        var frameWidth = (CorridorWidth - DoorWidth) * 0.5f + WallCornerOverlap * 0.5f;
+        var frameCenterX = DoorWidth * 0.5f + frameWidth * 0.5f;
+
+        AddWall(
+            storage,
+            "Wall_Deposit_DoorFrame_Left",
+            new Vector3(-frameCenterX, WallCenterY, depositDoorZ),
+            new Vector3(frameWidth, WallHeight, WallThickness),
+            _matInteriorWall);
+
+        AddWall(
+            storage,
+            "Wall_Deposit_DoorFrame_Right",
+            new Vector3(frameCenterX, WallCenterY, depositDoorZ),
+            new Vector3(frameWidth, WallHeight, WallThickness),
+            _matInteriorWall);
+
+        var headerHeight = WallHeight - DoorHeight;
+        var headerCenterY = DoorHeight + headerHeight * 0.5f - WallEmbedBelowFloor;
+
+        AddWall(
+            storage,
+            "Wall_Deposit_DoorHeader",
+            new Vector3(0, headerCenterY, depositDoorZ),
+            new Vector3(CorridorWidth + WallCornerOverlap, headerHeight, WallThickness),
+            _matInteriorWall);
+
+        AddBlockedDepositDoor(
+            storage,
+            new Vector3(0, DoorHeight * 0.5f - WallEmbedBelowFloor, depositDoorZ),
+            new Vector3(DoorWidth, DoorHeight, 0.14f));
+    }
+
+    private void BuildFurnitureCollisions()
+    {
+        var furniture = new Node3D { Name = "FurnitureCollisions" };
+        _interior.AddChild(furniture);
+
+        AddFurniture(
+            furniture,
+            "Furniture_Room102_Bed_Collision",
+            new Vector3(-5.5f, 0.35f, -15.5f),
+            new Vector3(2.0f, 0.7f, 1.8f),
+            _matBed);
+
+        AddFurniture(
+            furniture,
+            "Furniture_Reception_Counter_Collision",
+            new Vector3(3.4f, 0.55f, -3.5f),
+            new Vector3(2.4f, 1.1f, 0.6f),
+            _matCounter);
+
+        AddFurniture(
+            furniture,
+            "Furniture_Kitchen_Counter_Collision",
+            new Vector3(3.4f, 0.55f, -19.7f),
+            new Vector3(1.8f, 1.1f, 0.6f),
+            _matCounter);
     }
 
     private void BuildDoorThresholds()
@@ -602,15 +681,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             "Examinar cozinha",
             "A cozinha está fria demais para uma pensão habitada.",
             "kitchen");
-
-        AddInteractableBody(
-            _interactions,
-            "StorageDoorInteract",
-            new Vector3(0, 1.15f, -26.5f),
-            new Vector3(DoorWidth, DoorHeight, 0.12f),
-            "Tentar abrir depósito",
-            "Está trancado.",
-            "storage_door");
     }
 
     private void BuildWallWithDoorGap(
@@ -675,6 +745,32 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     private void AddBoundaryWall(Node3D parent, string name, Vector3 center, Vector3 size)
     {
         AddSolid(parent, name, center, size, _matExteriorWall, WorldLayer);
+    }
+
+    private void AddFurniture(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
+    {
+        AddSolid(parent, name, center, size, material, WorldLayer);
+    }
+
+    private void AddBlockedDepositDoor(Node3D parent, Vector3 center, Vector3 size)
+    {
+        var body = new StaticBody3D
+        {
+            Name = "Door_Deposit_Blocked",
+            Position = center,
+            CollisionLayer = WorldInteractableLayer,
+            CollisionMask = 0
+        };
+
+        var collision = CreateBoxCollision(size);
+        collision.Name = "Door_Deposit_Blocking_Collision";
+        body.AddChild(collision);
+        body.AddChild(CreateBoxMesh(size, _matDoor));
+        body.AddChild(CreateInteractable(
+            "Tentar abrir depósito",
+            "Está trancado.",
+            "storage_door"));
+        parent.AddChild(body);
     }
 
     private void AddSolid(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material, uint layer)
