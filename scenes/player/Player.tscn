@@ -41,15 +41,13 @@ script = ExtResource("7_lean")
 [node name="LookBackPivot" type="Node3D" parent="HeadBase/BodyMotionPivot/LeanPivot"]
 script = ExtResource("8_lookback")
 
-[node name="PitchPivot" type="Node3D" parent="HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot"]
-script = ExtResource("2_look")
-
-[node name="Camera3D" type="Camera3D" parent="HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot/PitchPivot"]
+[node name="Camera3D" type="Camera3D" parent="HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot"]
 current = true
 fov = 75.0
 near = 0.05
+script = ExtResource("2_look")
 
-[node name="Flashlight" type="SpotLight3D" parent="HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot/PitchPivot/Camera3D"]
+[node name="Flashlight" type="SpotLight3D" parent="HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot/Camera3D"]
 light_energy = 0.0
 shadow_enabled = false
 script = ExtResource("5_flashlight")

@@ -6,9 +6,37 @@
 
 ---
 
-## Sprint 02.2 — Horror Body Camera Feel
+## Sprint 02.2 hotfix — Camera feel suavizado + look back
 
-**Preset ativo:** `BreuDefault` (Preset C)
+**Data:** 2026-07-11
+
+### Problemas corrigidos
+
+| Problema | Causa | Fix |
+|----------|-------|-----|
+| Bob sprint metronômico | Frequências altas (11+) + sin lateral rápido | Valores reduzidos + bob por velocidade real |
+| Alt para sprint | `GetVector` zera W com Alt no Windows | `ReadMoveInput()` via actions individuais |
+| Look back inclina frente | Pitch sprint + inércia durante look back | Suprimir pitch forward quando look back ativo |
+| Look back não ativa | Dependia de `IsSprinting` que caía com Alt | Checar actions raw + velocidade horizontal |
+
+### Preset BREU Default (hotfix)
+
+| Parâmetro | Valor |
+|-----------|-------|
+| SprintBobVertical | 0.050 |
+| SprintBobHorizontal | 0.028 |
+| SprintStepCycleMultiplier | 1.65 |
+| WalkStepCycleMultiplier | 1.45 |
+| SprintMicroShake | **0** (desligado) |
+| LookBackAngle | 165° |
+| look_back | **Alt** + **X** (alternativo) |
+
+### Look back
+
+- **Shift + W + Alt** (ou X) — corpo continua, câmera gira no `LookBackPivot`
+- Sprint não interrompe com Alt pressionado
+
+---
 
 ### Hierarquia de câmera
 

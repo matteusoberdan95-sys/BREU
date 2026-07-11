@@ -5,7 +5,7 @@ namespace BREU.Scripts.Player;
 /// </summary>
 public partial class PlayerLook : Node3D
 {
-    [Export] public NodePath BodyPath { get; set; } = new NodePath("../../../../../");
+    [Export] public NodePath BodyPath { get; set; } = new NodePath("../../../../..");
     [Export] public float MouseSensitivity { get; set; } = 0.12f;
     [Export] public float MinPitchDegrees { get; set; } = -85.0f;
     [Export] public float MaxPitchDegrees { get; set; } = 85.0f;

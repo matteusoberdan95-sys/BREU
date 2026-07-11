@@ -60,16 +60,16 @@ public partial class PlayerController : CharacterBody3D
             return;
         }
 
-        // Godot GetVector: (neg_x, pos_x, neg_y, pos_y) — forward must be positive_y.
-        var input = Input.GetVector("move_left", "move_right", "move_backward", "move_forward");
+        var input = ReadMoveInput();
         MoveInput = input;
 
         var direction = GetHorizontalMoveDirection(input);
         var isCrouching = IsCrouching;
-        var wantsSprint = Input.IsActionPressed("sprint") && input.LengthSquared() > 0.01f && !isCrouching;
+        var hasMoveIntent = HasMoveIntent(input);
+        var wantsSprint = Input.IsActionPressed("sprint") && hasMoveIntent && !isCrouching;
         var canSprint = wantsSprint && (_stamina == null || _stamina.Current > 0.0f);
         IsSprinting = canSprint;
-        IsMovingForward = input.Y > 0.15f;
+        IsMovingForward = input.Y > 0.15f || Input.IsActionPressed("move_forward");
 
         var speed = isCrouching ? CrouchSpeed : IsSprinting ? SprintSpeed : WalkSpeed;
 
@@ -115,10 +115,29 @@ public partial class PlayerController : CharacterBody3D
         _lastVerticalVelocity = Velocity.Y;
         _wasOnFloor = IsOnFloor();
 
-        if (IsSprinting && IsOnFloor() && input.LengthSquared() > 0.01f)
+        if (IsSprinting && IsOnFloor() && hasMoveIntent)
         {
             _stamina?.DrainPerSecond(SprintStaminaDrainPerSecond, delta);
         }
+    }
+
+    /// <summary>
+    /// Reads movement from individual actions so Alt/modifiers do not zero out GetVector.
+    /// </summary>
+    private static Vector2 ReadMoveInput()
+    {
+        return new Vector2(
+            Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"),
+            Input.GetActionStrength("move_forward") - Input.GetActionStrength("move_backward"));
+    }
+
+    private static bool HasMoveIntent(Vector2 input)
+    {
+        return input.LengthSquared() > 0.01f
+            || Input.IsActionPressed("move_forward")
+            || Input.IsActionPressed("move_backward")
+            || Input.IsActionPressed("move_left")
+            || Input.IsActionPressed("move_right");
     }
 
     private Vector3 GetHorizontalMoveDirection(Vector2 input)

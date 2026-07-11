@@ -1,8 +1,7 @@
 namespace BREU.Scripts.Player;
 
 /// <summary>
-/// Horror body camera feel — bob, sway, inertia, sprint shake and landing response.
-/// Applies only to BodyMotionPivot local transform. Does not move CharacterBody3D.
+/// Horror body camera feel — velocity-based bob, sway and inertia on BodyMotionPivot only.
 /// </summary>
 public partial class PlayerCameraFeel : Node3D
 {
@@ -17,64 +16,57 @@ public partial class PlayerCameraFeel : Node3D
     [Export] public NodePath ControllerPath { get; set; } = new NodePath("../..");
     [Export] public NodePath LookBackPath { get; set; } = new NodePath("LeanPivot/LookBackPivot");
 
-    // --- Idle breath ---
-    [Export] public float IdleBreathAmountY { get; set; } = 0.012f;
-    [Export] public float IdleBreathAmountX { get; set; } = 0.006f;
-    [Export] public float IdleBreathFrequency { get; set; } = 1.1f;
+    [Export] public float IdleBreathAmountY { get; set; } = 0.006f;
+    [Export] public float IdleBreathAmountX { get; set; } = 0.003f;
+    [Export] public float IdleBreathFrequency { get; set; } = 0.85f;
 
-    // --- Walk bob ---
-    [Export] public float WalkBobVertical { get; set; } = 0.045f;
-    [Export] public float WalkBobHorizontal { get; set; } = 0.030f;
-    [Export] public float WalkBobRollDegrees { get; set; } = 1.2f;
-    [Export] public float WalkBobFrequency { get; set; } = 7.5f;
+    [Export] public float WalkBobVertical { get; set; } = 0.030f;
+    [Export] public float WalkBobHorizontal { get; set; } = 0.018f;
+    [Export] public float WalkBobRollDegrees { get; set; } = 0.65f;
 
-    // --- Sprint bob ---
-    [Export] public float SprintBobVertical { get; set; } = 0.095f;
-    [Export] public float SprintBobHorizontal { get; set; } = 0.075f;
-    [Export] public float SprintBobRollDegrees { get; set; } = 3.2f;
-    [Export] public float SprintBobPitchDegrees { get; set; } = 1.8f;
-    [Export] public float SprintBobFrequency { get; set; } = 11.5f;
+    [Export] public float SprintBobVertical { get; set; } = 0.050f;
+    [Export] public float SprintBobHorizontal { get; set; } = 0.028f;
+    [Export] public float SprintBobRollDegrees { get; set; } = 1.15f;
+    [Export] public float SprintBobPitchDegrees { get; set; } = 0.75f;
 
-    // --- Crouch bob ---
-    [Export] public float CrouchBobVertical { get; set; } = 0.022f;
-    [Export] public float CrouchBobHorizontal { get; set; } = 0.018f;
-    [Export] public float CrouchBobRollDegrees { get; set; } = 0.8f;
-    [Export] public float CrouchBobFrequency { get; set; } = 5.2f;
+    [Export] public float CrouchBobVertical { get; set; } = 0.015f;
+    [Export] public float CrouchBobHorizontal { get; set; } = 0.010f;
+    [Export] public float CrouchBobRollDegrees { get; set; } = 0.35f;
 
-    // --- Shoulder / torso ---
-    [Export] public float WalkShoulderSway { get; set; } = 0.025f;
-    [Export] public float SprintShoulderSway { get; set; } = 0.070f;
-    [Export] public float WalkTorsoRollDegrees { get; set; } = 1.0f;
-    [Export] public float SprintTorsoRollDegrees { get; set; } = 3.0f;
-    [Export] public float SprintForwardPitchDegrees { get; set; } = 2.0f;
+    [Export] public float WalkStepCycleMultiplier { get; set; } = 1.45f;
+    [Export] public float SprintStepCycleMultiplier { get; set; } = 1.65f;
+    [Export] public float CrouchStepCycleMultiplier { get; set; } = 1.10f;
 
-    // --- Inertia ---
-    [Export] public float AccelerationPitchDegrees { get; set; } = 1.2f;
-    [Export] public float StopRecoveryPitchDegrees { get; set; } = -0.8f;
-    [Export] public float StrafeTiltDegrees { get; set; } = 2.0f;
-    [Export] public float SprintStrafeTiltDegrees { get; set; } = 3.5f;
-    [Export] public float InertiaSmooth { get; set; } = 8.0f;
+    [Export] public float WalkShoulderSway { get; set; } = 0.018f;
+    [Export] public float SprintShoulderSway { get; set; } = 0.032f;
+    [Export] public float WalkTorsoRollDegrees { get; set; } = 0.5f;
+    [Export] public float SprintTorsoRollDegrees { get; set; } = 0.85f;
+    [Export] public float SprintForwardPitchDegrees { get; set; } = 0.5f;
 
-    // --- Sprint horror ---
-    [Export] public float SprintMicroShakeAmount { get; set; } = 0.010f;
-    [Export] public float SprintMicroShakeFrequency { get; set; } = 23.0f;
-    [Export] public float SprintPanicMultiplier { get; set; } = 1.0f;
+    [Export] public float AccelerationPitchDegrees { get; set; } = 0.8f;
+    [Export] public float StopRecoveryPitchDegrees { get; set; } = -0.5f;
+    [Export] public float StrafeTiltDegrees { get; set; } = 1.2f;
+    [Export] public float SprintStrafeTiltDegrees { get; set; } = 1.8f;
+    [Export] public float InertiaSmooth { get; set; } = 7.5f;
+    [Export] public float CameraReturnSmooth { get; set; } = 9.0f;
 
-    // --- Landing ---
+    [Export] public float SprintMicroShakeAmount { get; set; } = 0.0f;
+    [Export] public float SprintMicroShakeFrequency { get; set; } = 0.0f;
+
     [Export] public float LandingBobAmount { get; set; } = 0.06f;
     [Export] public float LandingRecoverySpeed { get; set; } = 10.0f;
-
     [Export] public float LookBackBobReduction { get; set; } = 0.15f;
-    [Export] public float EffectBlendSpeed { get; set; } = 12.0f;
 
     private PlayerController? _controller;
     private PlayerLookBack? _lookBack;
     private float _gaitPhase;
     private float _idlePhase;
-    private float _shakePhase;
     private float _inertiaPitch;
     private float _landingKick;
     private float _previousSpeed;
+    private Vector3 _currentOffset;
+    private float _currentPitch;
+    private float _currentRoll;
 
     public override void _Ready()
     {
@@ -92,7 +84,6 @@ public partial class PlayerCameraFeel : Node3D
 
         var dt = (float)delta;
         var speed = _controller.HorizontalSpeed;
-        var speedNorm = Mathf.Clamp(speed / _controller.WalkSpeed, 0.0f, 2.2f);
         var isMoving = _controller.IsMovingHorizontally;
         var isSprinting = _controller.IsSprinting;
         var isCrouching = _controller.IsCrouching;
@@ -100,12 +91,12 @@ public partial class PlayerCameraFeel : Node3D
         var strafe = _controller.MoveInput.X;
         var forward = _controller.MoveInput.Y;
         var lookBackBlend = _lookBack?.LookBackBlend ?? 0.0f;
+        var lookBackActive = lookBackBlend > 0.05f;
 
-        UpdateInertia(dt, speed, isMoving, forward);
+        UpdateInertia(dt, speed, isMoving, forward, lookBackActive);
         UpdateLanding(dt);
 
         var bobScale = 1.0f - lookBackBlend * LookBackBobReduction;
-        var panic = isSprinting ? SprintPanicMultiplier : 1.0f;
 
         Vector3 targetOffset;
         float targetPitch;
@@ -120,38 +111,43 @@ public partial class PlayerCameraFeel : Node3D
                 0.0f);
             targetPitch = _inertiaPitch;
             targetRoll = 0.0f;
-            _gaitPhase = Mathf.Lerp(_gaitPhase, 0.0f, dt * EffectBlendSpeed);
+            _gaitPhase = Mathf.Lerp(_gaitPhase, 0.0f, dt * CameraReturnSmooth);
         }
         else if (isCrouching)
         {
-            AdvanceGait(dt, CrouchBobFrequency, speedNorm);
-            targetOffset = ComputeBob(CrouchBobVertical, CrouchBobHorizontal, WalkShoulderSway * 0.5f, bobScale);
-            targetPitch = _inertiaPitch;
-            targetRoll = Mathf.Sin(_gaitPhase) * Mathf.DegToRad(CrouchBobRollDegrees);
+            AdvanceGait(dt, speed, CrouchStepCycleMultiplier);
+            ComputeBobTargets(
+                CrouchBobVertical, CrouchBobHorizontal, CrouchBobRollDegrees,
+                WalkShoulderSway * 0.4f, WalkTorsoRollDegrees * 0.5f, bobScale,
+                out targetOffset, out targetPitch, out targetRoll);
+            targetPitch += _inertiaPitch;
         }
         else if (isSprinting)
         {
-            AdvanceGait(dt, SprintBobFrequency, speedNorm);
-            _shakePhase += dt * SprintMicroShakeFrequency;
-            var microShake = new Vector3(
-                (Mathf.Sin(_shakePhase * 1.7f) + Mathf.Sin(_shakePhase * 2.3f)) * 0.5f * SprintMicroShakeAmount,
-                (Mathf.Sin(_shakePhase * 2.1f) + Mathf.Cos(_shakePhase * 1.9f)) * 0.5f * SprintMicroShakeAmount,
-                0.0f) * panic;
+            AdvanceGait(dt, speed, SprintStepCycleMultiplier);
+            ComputeBobTargets(
+                SprintBobVertical, SprintBobHorizontal, SprintBobRollDegrees,
+                SprintShoulderSway, SprintTorsoRollDegrees, bobScale,
+                out targetOffset, out targetPitch, out targetRoll);
 
-            targetOffset = (ComputeBob(
-                SprintBobVertical,
-                SprintBobHorizontal,
-                SprintShoulderSway,
-                bobScale * panic) + microShake);
-            targetPitch = _inertiaPitch + Mathf.DegToRad(SprintBobPitchDegrees + SprintForwardPitchDegrees) * panic;
-            targetRoll = Mathf.Sin(_gaitPhase) * Mathf.DegToRad(SprintBobRollDegrees + SprintTorsoRollDegrees) * panic;
+            if (!lookBackActive)
+            {
+                targetPitch += _inertiaPitch
+                    + Mathf.DegToRad(SprintBobPitchDegrees + SprintForwardPitchDegrees);
+            }
+            else
+            {
+                targetPitch += _inertiaPitch * 0.25f;
+            }
         }
         else
         {
-            AdvanceGait(dt, WalkBobFrequency, speedNorm);
-            targetOffset = ComputeBob(WalkBobVertical, WalkBobHorizontal, WalkShoulderSway, bobScale);
-            targetPitch = _inertiaPitch;
-            targetRoll = Mathf.Sin(_gaitPhase) * Mathf.DegToRad(WalkBobRollDegrees + WalkTorsoRollDegrees);
+            AdvanceGait(dt, speed, WalkStepCycleMultiplier);
+            ComputeBobTargets(
+                WalkBobVertical, WalkBobHorizontal, WalkBobRollDegrees,
+                WalkShoulderSway, WalkTorsoRollDegrees, bobScale,
+                out targetOffset, out targetPitch, out targetRoll);
+            targetPitch += _inertiaPitch;
         }
 
         var strafeTilt = -strafe * Mathf.DegToRad(isSprinting ? SprintStrafeTiltDegrees : StrafeTiltDegrees);
@@ -162,32 +158,60 @@ public partial class PlayerCameraFeel : Node3D
             targetOffset.Y -= _landingKick;
         }
 
-        var smooth = dt * EffectBlendSpeed;
-        Position = Position.Lerp(targetOffset, smooth);
-        var currentPitch = Rotation.X;
-        var blendedPitch = Mathf.LerpAngle(currentPitch, targetPitch, smooth);
-        Rotation = new Vector3(blendedPitch, 0.0f, Mathf.LerpAngle(Rotation.Z, targetRoll, smooth));
+        var smooth = dt * (isMoving ? CameraReturnSmooth : CameraReturnSmooth * 0.85f);
+        _currentOffset = _currentOffset.Lerp(targetOffset, smooth);
+        _currentPitch = Mathf.LerpAngle(_currentPitch, targetPitch, smooth);
+        _currentRoll = Mathf.LerpAngle(_currentRoll, targetRoll, smooth);
+
+        Position = _currentOffset;
+        Rotation = new Vector3(_currentPitch, 0.0f, _currentRoll);
 
         _previousSpeed = speed;
     }
 
-    private void AdvanceGait(float dt, float frequency, float speedNorm)
+    private void AdvanceGait(float dt, float horizontalSpeed, float stepMultiplier)
     {
-        _gaitPhase += dt * frequency * Mathf.Max(0.4f, speedNorm);
+        if (horizontalSpeed < 0.05f)
+        {
+            return;
+        }
+
+        _gaitPhase += dt * horizontalSpeed * stepMultiplier;
     }
 
-    private Vector3 ComputeBob(float vertical, float horizontal, float shoulder, float scale)
+    private void ComputeBobTargets(
+        float vertical,
+        float horizontal,
+        float rollDegrees,
+        float shoulder,
+        float torsoRollDegrees,
+        float scale,
+        out Vector3 offset,
+        out float pitch,
+        out float roll)
     {
-        var sin = Mathf.Sin(_gaitPhase);
-        var cos = Mathf.Cos(_gaitPhase * 0.5f);
-        return new Vector3(
-            cos * horizontal * scale + sin * shoulder * scale * 0.6f,
-            sin * vertical * scale,
-            0.0f);
+        // Footfall-style vertical (smooth rise/fall) + slower lateral sway (not metronome).
+        var stepSin = Mathf.Sin(_gaitPhase);
+        var lateralPhase = _gaitPhase * 0.5f;
+        var lateralSin = Mathf.Sin(lateralPhase);
+
+        var verticalBob = Mathf.Max(0.0f, stepSin) * vertical * scale;
+        var horizontalBob = lateralSin * horizontal * scale * 0.65f;
+        var shoulderBob = lateralSin * shoulder * scale * 0.5f;
+
+        offset = new Vector3(horizontalBob + shoulderBob, verticalBob, 0.0f);
+        pitch = 0.0f;
+        roll = lateralSin * Mathf.DegToRad(rollDegrees + torsoRollDegrees) * scale;
     }
 
-    private void UpdateInertia(float dt, float speed, bool isMoving, float forwardInput)
+    private void UpdateInertia(float dt, float speed, bool isMoving, float forwardInput, bool lookBackActive)
     {
+        if (lookBackActive)
+        {
+            _inertiaPitch = Mathf.LerpAngle(_inertiaPitch, 0.0f, dt * InertiaSmooth);
+            return;
+        }
+
         var speedDelta = speed - _previousSpeed;
         var targetPitch = 0.0f;
 
@@ -201,7 +225,7 @@ public partial class PlayerCameraFeel : Node3D
         }
         else if (isMoving && forwardInput < -0.1f)
         {
-            targetPitch = Mathf.DegToRad(AccelerationPitchDegrees * 0.35f);
+            targetPitch = Mathf.DegToRad(AccelerationPitchDegrees * 0.3f);
         }
 
         _inertiaPitch = Mathf.LerpAngle(_inertiaPitch, targetPitch, dt * InertiaSmooth);
@@ -220,40 +244,37 @@ public partial class PlayerCameraFeel : Node3D
 
     private void ApplyPreset(FeelPreset feelPreset)
     {
-        switch (feelPreset)
+        if (feelPreset != FeelPreset.BreuDefault)
         {
-            case FeelPreset.Subtle:
-                // Preset A — Resident Evil 7: heavy, controlled.
-                IdleBreathAmountY = 0.008f;
-                IdleBreathAmountX = 0.004f;
-                WalkBobVertical = 0.032f;
-                WalkBobHorizontal = 0.018f;
-                WalkBobRollDegrees = 0.8f;
-                SprintBobVertical = 0.055f;
-                SprintBobHorizontal = 0.040f;
-                SprintBobRollDegrees = 1.8f;
-                SprintShoulderSway = 0.040f;
-                SprintMicroShakeAmount = 0.004f;
-                SprintForwardPitchDegrees = 1.2f;
-                break;
-
-            case FeelPreset.OutlastInspired:
-                // Preset B — Outlast: nervous sprint, strong shoulders.
-                IdleBreathAmountY = 0.014f;
-                WalkBobVertical = 0.040f;
-                SprintBobVertical = 0.110f;
-                SprintBobHorizontal = 0.090f;
-                SprintBobRollDegrees = 4.0f;
-                SprintShoulderSway = 0.085f;
-                SprintTorsoRollDegrees = 3.8f;
-                SprintForwardPitchDegrees = 2.8f;
-                SprintMicroShakeAmount = 0.014f;
-                SprintPanicMultiplier = 1.15f;
-                break;
-
-            case FeelPreset.BreuDefault:
-                // Preset C — BREU default: weighted walk, desperate sprint, playable.
-                break;
+            // Non-default presets keep legacy tuning for future comparison.
+            return;
         }
+
+        // Preset C — BREU Default (Sprint 02.2 hotfix): controlled horror, human gait.
+        IdleBreathAmountY = 0.006f;
+        IdleBreathAmountX = 0.003f;
+        IdleBreathFrequency = 0.85f;
+        WalkBobVertical = 0.030f;
+        WalkBobHorizontal = 0.018f;
+        WalkBobRollDegrees = 0.65f;
+        SprintBobVertical = 0.050f;
+        SprintBobHorizontal = 0.028f;
+        SprintBobRollDegrees = 1.15f;
+        SprintBobPitchDegrees = 0.75f;
+        CrouchBobVertical = 0.015f;
+        CrouchBobHorizontal = 0.010f;
+        CrouchBobRollDegrees = 0.35f;
+        WalkStepCycleMultiplier = 1.45f;
+        SprintStepCycleMultiplier = 1.65f;
+        CrouchStepCycleMultiplier = 1.10f;
+        WalkShoulderSway = 0.018f;
+        SprintShoulderSway = 0.032f;
+        SprintForwardPitchDegrees = 0.5f;
+        StrafeTiltDegrees = 1.2f;
+        SprintStrafeTiltDegrees = 1.8f;
+        InertiaSmooth = 7.5f;
+        CameraReturnSmooth = 9.0f;
+        SprintMicroShakeAmount = 0.0f;
+        SprintMicroShakeFrequency = 0.0f;
     }
 }

@@ -11,7 +11,7 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Sprint 02 | **Em andamento** (02.2 — horror camera feel) |
+| Sprint 02 | **Em andamento** (02.2 hotfix — camera feel) |
 | Sprint 03 | **Bloqueada** |
 | Cena de teste | `res://scenes/test/PlayerMovementLab.tscn` |
 
@@ -28,7 +28,12 @@
 | `PlayerLook` | ✅ Mouse yaw/pitch |
 | `PlayerCrouch` | ✅ Altura HeadBase |
 
-**Preset câmera:** `BreuDefault`
+**Preset câmera:** `BreuDefault` (hotfix — bob suavizado, micro-shake off)
+
+### Hotfix 02.2
+- Bob por velocidade horizontal (step cycle)
+- Look back Alt/X sem quebrar sprint
+- Micro-shake desligado
 
 ---
 
