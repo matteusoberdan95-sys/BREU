@@ -34,7 +34,16 @@ public partial class FlashlightController : SpotLight3D
             return;
         }
 
-        _battery = Mathf.Max(0.0f, _battery - DrainPerSecond * (float)delta);
+        if (BREU.Scripts.Debug.PlaytestDebugSettings.InfiniteFlashlightBattery)
+        {
+            return;
+        }
+
+        var drain = BREU.Scripts.Debug.PlaytestDebugSettings.FlashlightDrainPerSecond > 0f
+            ? BREU.Scripts.Debug.PlaytestDebugSettings.FlashlightDrainPerSecond
+            : DrainPerSecond;
+
+        _battery = Mathf.Max(0.0f, _battery - drain * (float)delta);
         if (_battery <= 0.0f)
         {
             _isOn = false;

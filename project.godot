@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="BREU"
-run/main_scene="res://scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn"
+run/main_scene="res://scenes/levels/pensao_santa_luzia/PensaoSantaLuziaBlockoutClean.tscn"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
