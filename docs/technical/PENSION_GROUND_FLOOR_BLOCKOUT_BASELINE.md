@@ -1,9 +1,9 @@
 # BREU — Pensão Térreo Blockout (Baseline)
 
-**Versão:** 1.3  
+**Versão:** 1.4  
 **Data:** 2026-07-11  
-**Sprint:** 05–06 — **aprovada e congelada**  
-**Status:** OFICIAL — não alterar planta térrea sem nova sprint
+**Sprint:** 05–06 aprovada · **09A** escada integrada (playtest pendente)  
+**Status:** OFICIAL — escada no térreo; patamar superior temporário
 
 ---
 
@@ -65,8 +65,18 @@ Nós oficiais:
 ## Layout (congelado)
 
 ```
-Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Depósito trancado
+Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Depósito → Escada (álcove oeste) → Patamar superior temporário
 ```
+
+**Sprint 09A — escada integrada:**
+- `StairWell` no álcove oeste (entrada corredor z ≈ -25,5)
+- Padrão `StairRampAssembly` — rampa invisível + 14 degraus visuais
+- `UpperLanding_Temporary` @ y = 2,8 m (5 × 5 m, barreiras)
+- **Sem** segundo andar completo · **sem** teto
+- Puzzle depósito preservado (chave / fusível / bilhete)
+- `Wall_StairFuture_Blocker` removido — substituído por stairwell + paredes parciais de fundo do depósito
+
+**Playtest escada:** `docs/testing/PENSAO_STAIR_INTEGRATION_PLAYTEST.md`
 
 **Colisão:** `Exterior_MainGround`, `Porch_MainFloor`, `PensionGroundFloor_MainFloor`
 
@@ -89,8 +99,8 @@ O lote/trilha externo é **blockout temporário** aprovado na Sprint 06. Não é
 | Atmosfera avançada | 11 |
 | Arte modular | 15 |
 | Teto | 10 |
-| Escada | 08 |
-| Segundo andar | 09 |
+| Escada integrada | **09A** |
+| Segundo andar completo | 09 |
 | Puzzle depósito (chave/fusível) | **07** |
 
 **Regra:** barranco, arte, teto, escada e 2º andar **não entram** sem sprint dedicada.

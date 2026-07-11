@@ -174,19 +174,18 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 09A — Integrar escada no térreo da Pensão
 
-**Status:** Próxima
+**Status:** 🔄 Implementada — playtest F6 pendente
 
 **Objetivo:** Colocar escada aprovada no layout do térreo, mantendo padrão rampa invisível.
 
 **Entregas:**
-- Escada no `PensaoTerreoBlockout01.tscn` (ou extensão dedicada)
-- Mesmas métricas/padrão de `STAIR_RAMP_BASELINE.md`
-- Remover/substituir `Wall_StairFuture_Blocker` conforme layout
-- Playtest subida/descida no contexto da pensão
+- `StairWell` + `StairRampAssembly` em `PensaoTerreoBlockout01Builder`
+- Entrada corredor oeste z ≈ -25,5; patamar `UpperLanding_Temporary`
+- Luz `StairWellLight`; baseline v1.4 térreo + v1.1 escada
 
-**DoD:** Player sobe/desce na pensão sem regressão de movimento, HUD ou puzzle.
+**DoD:** Subir/desce na Pensão + regressão puzzle/HUD/movimento — **validar F6**.
 
-**Não fazer:** segundo andar; teto; arte final; GLB/Blender.
+**Não feito:** segundo andar completo; teto; arte final.
 
 ---
 

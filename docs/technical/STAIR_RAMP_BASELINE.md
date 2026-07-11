@@ -1,10 +1,12 @@
 # Baseline — Escada com rampa invisível
 
-**Versão:** 1.0  
-**Sprint:** 08  
-**Data aprovação:** 2026-07-11  
-**Status:** ✅ **Aprovada** — baseline congelada  
-**Cena de teste:** `res://scenes/test/StairMovementLab.tscn`
+**Versão:** 1.1  
+**Sprint:** 08 (lab) + 09A (integração Pensão)  
+**Data aprovação lab:** 2026-07-11  
+**Status lab:** ✅ Aprovada — baseline congelada  
+**Status integração Pensão:** 🔄 Implementada — playtest F6 pendente  
+**Cena lab:** `res://scenes/test/StairMovementLab.tscn`  
+**Cena Pensão:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`
 
 ---
 
@@ -36,11 +38,27 @@ O player **nunca** colide com degraus individuais. Toda subida/descida usa a ram
 | Espessura rampa (colisão) | **0,22 m** |
 | Comprimento inclinado da rampa | **~6,44 m** |
 
-Constantes expostas em `StairMovementLabBuilder.cs`.
+Constantes em `StairRampAssembly.cs` (compartilhado lab + Pensão).
 
 ---
 
-## Nós principais
+## Integração na Pensão (Sprint 09A)
+
+| Item | Valor |
+|------|-------|
+| Local | **Álcove oeste** do depósito / corredor |
+| Entrada | Porta no corredor oeste em **z ≈ -25,5** (`Wall_Corridor_Left` gap) |
+| Foot origin | **x ≈ -4,1**, **z ≈ -30,5** |
+| Direção rampa | **+Z** (do fundo em direção ao corredor) |
+| Patamar superior | `UpperLanding_Temporary` — **5 × 5 m** @ **y = 2,8 m** |
+| Bloqueios topo | `UpperLanding_Blocker_Left/Right/Back` |
+| Assembly | `StairRampAssembly.Build()` via `BuildStairIntegration()` |
+| Removido | `Wall_StairFuture_Blocker`, `Wall_Deposit_AlcoveWest`, `Wall_Deposit_AlcoveSouthCapWest` |
+| Luz | `StairWellLight` (OmniLight3D) |
+
+**Segundo andar completo:** não criado — patamar é temporário.
+
+**Playtest integração:** `docs/testing/PENSAO_STAIR_INTEGRATION_PLAYTEST.md`
 
 ```
 StairMovementLab
@@ -74,27 +92,14 @@ StairMovementLab
 
 ---
 
-## Regras para integração na Pensão (Sprint 09A+)
+## Regras para segundo andar (Sprint futura)
 
-1. **Não** colidir degraus visuais — copiar padrão rampa + treads decorativos.
+1. **Não** colidir degraus visuais — manter padrão rampa + treads decorativos.
 2. Manter largura ≥ **2,0 m** e inclinação ≤ **~27°** salvo playtest contrário.
 3. Transição piso → rampa → piso superior **sem degrau vertical** nem buraco.
 4. Guarda-corpo com colisão no patamar superior antes de abrir vão.
 5. **Não** alterar `PlayerController` nem `PlayerCameraFeel` para “consertar” escada.
-6. Integração na Pensão exige sprint dedicada (**09A**) — não alterar baseline do térreo aprovado sem revisão.
 
 ---
 
-## Baselines congeladas (não alterar sem nova sprint)
-
-- `PLAYER_CONTROLLER_BASELINE.md`
-- `HUD_DEBUG_BASELINE.md`
-- `INTERACTION_SYSTEM_BASELINE.md`
-- `PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md`
-- **Este documento** — padrão escada/rampa
-
----
-
-## Playtest
-
-`docs/testing/STAIR_MOVEMENT_LAB_PLAYTEST.md` — **aprovado 2026-07-11**
+## Nós principais (lab)

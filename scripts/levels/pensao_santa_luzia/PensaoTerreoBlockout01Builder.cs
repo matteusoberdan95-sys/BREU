@@ -2,7 +2,7 @@ namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
 /// Builds ground-floor blockout geometry under World/Exterior, PensionGroundFloor and Interactions.
-/// Sprint 05 blockout + Sprint 06 tuning + hotfix furniture/deposit sealing.
+/// Sprint 05 blockout + Sprint 06 tuning + Sprint 09A stair integration.
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder : Node3D
 {
@@ -52,6 +52,10 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     private StandardMaterial3D _matDoor = null!;
     private StandardMaterial3D _matInteractable = null!;
     private StandardMaterial3D _matBed = null!;
+    private StandardMaterial3D _matStairStep = null!;
+    private StandardMaterial3D _matStairStringer = null!;
+    private StandardMaterial3D _matStairUpper = null!;
+    private StandardMaterial3D _matStairRail = null!;
 
     private Node3D _exterior = null!;
     private Node3D _interior = null!;
@@ -71,6 +75,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         BuildRoom102();
         BuildKitchen();
         BuildStorage();
+        BuildStairIntegration();
         BuildFurnitureCollisions();
         BuildDoorThresholds();
         BuildExteriorBoundaries();
@@ -97,6 +102,10 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         _matDoor = Mat(new Color(0.22f, 0.16f, 0.12f));
         _matInteractable = Mat(new Color(0.55f, 0.62f, 0.48f));
         _matBed = Mat(new Color(0.35f, 0.32f, 0.38f));
+        _matStairStep = Mat(new Color(0.58f, 0.46f, 0.34f));
+        _matStairStringer = Mat(new Color(0.34f, 0.32f, 0.36f));
+        _matStairUpper = Mat(new Color(0.52f, 0.54f, 0.58f));
+        _matStairRail = Mat(new Color(0.38f, 0.4f, 0.44f));
     }
 
     private static StandardMaterial3D Mat(Color color)
@@ -378,13 +387,14 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         const float centerZ = -17.5f;
         const float length = 18.0f;
 
-        BuildWallWithDoorGap(
+        BuildWallWithTwoDoorGaps(
             corridor,
             "Wall_Corridor_Left",
             -CorridorWallX,
             centerZ,
             length,
             -15.5f,
+            -25.5f,
             DoorWidth,
             _matInteriorWall);
 
@@ -493,16 +503,24 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
 
         const float depositDoorZ = -26.5f;
         const float depositBackZ = BuildingBackZ - WallThickness * 0.5f;
-        const float depositDepth = depositBackZ - depositDoorZ + WallThickness + WallCornerOverlap;
+        const float depositDepth = depositDoorZ - depositBackZ + WallThickness + WallCornerOverlap;
         const float depositCenterZ = (depositDoorZ + depositBackZ) * 0.5f;
         const float buildingInnerX = BuildingHalfWidth - WallThickness * 0.5f;
-        const float backSpanX = BuildingHalfWidth * 2 + WallThickness + WallCornerOverlap;
+        var alcoveSpanX = buildingInnerX - CorridorWallX + WallCornerOverlap;
+        var alcoveCenterX = (CorridorWallX + buildingInnerX) * 0.5f;
 
         AddWall(
             storage,
-            "Wall_StairFuture_Blocker",
+            "Wall_Deposit_Back_Main",
             new Vector3(0, WallCenterY, depositBackZ),
-            new Vector3(backSpanX, WallHeight, WallThickness),
+            new Vector3(CorridorWidth + WallCornerOverlap, WallHeight, WallThickness),
+            _matInteriorWall);
+
+        AddWall(
+            storage,
+            "Wall_Deposit_AlcoveEast_Back",
+            new Vector3(alcoveCenterX, WallCenterY, depositBackZ),
+            new Vector3(alcoveSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddWall(
@@ -519,28 +537,13 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(WallThickness, WallHeight, depositDepth),
             _matInteriorWall);
 
-        var alcoveSpanX = buildingInnerX - CorridorWallX + WallCornerOverlap;
-        var alcoveCenterX = (CorridorWallX + buildingInnerX) * 0.5f;
-
-        AddWall(
-            storage,
-            "Wall_Deposit_AlcoveWest",
-            new Vector3(-alcoveCenterX, WallCenterY, depositCenterZ),
-            new Vector3(alcoveSpanX, WallHeight, depositDepth),
-            _matInteriorWall);
+        // West alcove converted to stairwell — no Wall_Deposit_AlcoveWest / SouthCapWest.
 
         AddWall(
             storage,
             "Wall_Deposit_AlcoveEast",
             new Vector3(alcoveCenterX, WallCenterY, depositCenterZ),
             new Vector3(alcoveSpanX, WallHeight, depositDepth),
-            _matInteriorWall);
-
-        AddWall(
-            storage,
-            "Wall_Deposit_AlcoveSouthCapWest",
-            new Vector3(-alcoveCenterX, WallCenterY, depositDoorZ),
-            new Vector3(alcoveSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddWall(
@@ -658,6 +661,82 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             _matDoor);
     }
 
+    private void BuildStairIntegration()
+    {
+        const float alcoveCenterX = (CorridorWallX + (BuildingHalfWidth - WallThickness * 0.5f)) * 0.5f;
+        const float stairFootX = -alcoveCenterX;
+        const float stairFootZ = -30.5f;
+        const float wellWidth = 5.6f;
+        const float wellDepth = 7.8f;
+        const float wellCenterZ = -27.4f;
+
+        var stairWell = new Node3D { Name = "StairWell" };
+        _interior.AddChild(stairWell);
+
+        AddCollisionFloor(
+            stairWell,
+            "StairWell_Floor",
+            new Vector3(stairFootX, FloorCenterY, wellCenterZ),
+            new Vector3(wellWidth, FloorThickness, wellDepth));
+
+        AddVisualFloorPlate(
+            stairWell,
+            "StairWell_FloorVisual",
+            new Vector3(stairFootX, 0f, wellCenterZ),
+            new Vector2(wellWidth, wellDepth),
+            InteriorFloorTopY + 0.018f,
+            _matCorridorFloor);
+
+        var buildingInnerWestX = -BuildingHalfWidth + WallThickness * 0.5f;
+
+        AddWall(
+            stairWell,
+            "StairWell_Wall_West",
+            new Vector3(buildingInnerWestX, WallCenterY, wellCenterZ),
+            new Vector3(WallThickness, WallHeight, wellDepth + WallCornerOverlap),
+            _matInteriorWall);
+
+        var footOrigin = new Node3D
+        {
+            Name = "StairAssembly",
+            Position = new Vector3(stairFootX, 0f, stairFootZ)
+        };
+        stairWell.AddChild(footOrigin);
+
+        var lowerFloor = new Node3D { Name = "StairLowerFloor" };
+        var collisions = new Node3D { Name = "StairCollisions" };
+        var visualSteps = new Node3D { Name = "StairVisualSteps" };
+        var upperLanding = new Node3D { Name = "StairUpperLanding" };
+        var sideGuides = new Node3D { Name = "StairSideGuides" };
+        footOrigin.AddChild(lowerFloor);
+        footOrigin.AddChild(collisions);
+        footOrigin.AddChild(visualSteps);
+        footOrigin.AddChild(upperLanding);
+        footOrigin.AddChild(sideGuides);
+
+        StairRampAssembly.Build(
+            lowerFloor,
+            collisions,
+            visualSteps,
+            upperLanding,
+            sideGuides,
+            _matStairStep,
+            _matStairStringer,
+            _matStairUpper,
+            _matStairRail,
+            upperLandingWidth: 5f,
+            upperLandingDepth: 5f,
+            collisionLayer: WorldLayer);
+
+        AddVisualFloorPlate(
+            stairWell,
+            "StairWell_EntryThreshold",
+            new Vector3(-CorridorWallX - 0.55f, 0f, -25.5f),
+            new Vector2(DoorWidth + 0.16f, 0.32f),
+            InteriorFloorTopY + ThresholdLiftY,
+            _matInteriorWall);
+    }
+
     private void BuildExteriorBoundaries()
     {
         AddBoundaryWall(_exterior, "BoundaryTrailEnd", new Vector3(0, 1.5f, 52), new Vector3(44, 3, WallThickness));
@@ -703,6 +782,61 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             "Examinar cozinha",
             "A cozinha está fria demais para uma pensão habitada.",
             "kitchen");
+    }
+
+    private void BuildWallWithTwoDoorGaps(
+        Node3D parent,
+        string baseName,
+        float wallX,
+        float centerZ,
+        float totalLength,
+        float door1CenterZ,
+        float door2CenterZ,
+        float doorWidth,
+        StandardMaterial3D material)
+    {
+        var halfLength = totalLength * 0.5f;
+        var southEnd = centerZ + halfLength;
+        var northEnd = centerZ - halfLength;
+        var doorHalf = doorWidth * 0.5f;
+
+        var door1South = door1CenterZ + doorHalf;
+        var door1North = door1CenterZ - doorHalf;
+        var door2South = door2CenterZ + doorHalf;
+        var door2North = door2CenterZ - doorHalf;
+
+        var southSegmentLength = southEnd - door1South;
+        if (southSegmentLength > 0.05f)
+        {
+            AddWall(
+                parent,
+                $"{baseName}South",
+                new Vector3(wallX, WallCenterY, door1South + southSegmentLength * 0.5f),
+                new Vector3(WallThickness, WallHeight, southSegmentLength + WallCornerOverlap),
+                material);
+        }
+
+        var middleSegmentLength = door1North - door2South;
+        if (middleSegmentLength > 0.05f)
+        {
+            AddWall(
+                parent,
+                $"{baseName}Middle",
+                new Vector3(wallX, WallCenterY, door2South + middleSegmentLength * 0.5f),
+                new Vector3(WallThickness, WallHeight, middleSegmentLength + WallCornerOverlap),
+                material);
+        }
+
+        var northSegmentLength = door2North - northEnd;
+        if (northSegmentLength > 0.05f)
+        {
+            AddWall(
+                parent,
+                $"{baseName}North",
+                new Vector3(wallX, WallCenterY, door2North - northSegmentLength * 0.5f),
+                new Vector3(WallThickness, WallHeight, northSegmentLength + WallCornerOverlap),
+                material);
+        }
     }
 
     private void BuildWallWithDoorGap(
