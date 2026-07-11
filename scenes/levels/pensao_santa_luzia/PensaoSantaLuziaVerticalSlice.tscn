@@ -111,7 +111,7 @@ fog_height_density = 0.012
 fog_sky_affect = 0.32
 
 [node name="PensaoSantaLuziaVerticalSlice" type="Node3D"]
-editor_description = "Cena oficial M.3.1. GLB limpo e independente; sem dependencia das tentativas antigas."
+editor_description = "Cena oficial M.3.1 — unica base da fase inicial. GLB limpo, colisoes manuais, sem legado."
 
 [node name="Visual" type="Node3D" parent="."]
 [node name="PensaoVerticalSliceModel" parent="Visual" instance=ExtResource("1_world")]
@@ -130,6 +130,7 @@ script = ExtResource("7_respawn")
 position = Vector3(0, 1.65, 22.5)
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector3(0, 1.65, 22.5)
+rotation_degrees = Vector3(0, 0, 0)
 
 [node name="StaticGameplayCollisions" type="Node3D" parent="."]
 editor_description = "Somente colisoes grandes de gameplay; GLB e props pequenos sao visuais."

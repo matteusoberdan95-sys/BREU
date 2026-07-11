@@ -1,7 +1,7 @@
 namespace BREU.Scripts.Fx;
 
 /// <summary>
-/// Fullscreen depth fog quad preso a camera da TrailIntro.
+/// Fullscreen depth fog quad preso a camera do player.
 /// Usa vertex em clip-space no shader; reparent para Camera3D em runtime.
 /// </summary>
 public partial class DepthFogPostProcess : MeshInstance3D

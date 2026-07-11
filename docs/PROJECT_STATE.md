@@ -4,21 +4,15 @@ Ultima atualizacao: 2026-07-11
 
 ## Resumo rapido
 
-Sprint M.3.1 consolidou a nova Pensao Santa Luzia como base oficial independente. A cena usa diretamente o novo GLB, colisoes manuais e Player/HUD existentes. A cena integrada antiga, GLB antigo e scripts-remendo foram arquivados em `_archive/old_pensao_attempts/`. O projeto continua iniciando em `TrailIntro.tscn`; a vertical slice oficial abre isoladamente por F6.
+Sprint M.3.1 executou **limpeza agressiva**: cenas antigas de trilha/pensao foram **deletadas de vez** (sem `_archive`). A unica base oficial da fase inicial e a Vertical Slice.
 
-A expansao M.3 adicionou `PensaoSantaLuziaVerticalSlice.tscn` como cena derivada segura. A primeira tentativa de sobrepor um segundo andar ao interior importado foi rejeitada no playtest por escada sobre o deposito, bloqueios e frestas. A cena agora oculta 65 partes da edificacao antiga e constroi uma mansao blockout unica de 14 x 20 m, fechada, com dois andares, escada separada, nove interacoes, puzzle do fusivel e marcador do inimigo futuro. Build, execucao headless, puzzle e rotas horizontais passaram; a subida da rampa ainda precisa de F6.
+- **Cena principal:** `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn`
+- **Blender:** `assets/blender/trail_intro_pensao_vertical_slice_v01.blend`
+- **GLB:** `assets/models/levels/pensao_santa_luzia/pensao_santa_luzia_vertical_slice_v01.glb`
+- **Salas de teste mantidas:** `DemoRoom.tscn`, `RitualRoom.tscn`
+- **Deletados:** TrailIntro, HouseExterior, PensaoSantaLuziaIntegratedTest, Corridor, phase_02 duplicata, `_archive/`, GLBs antigos, fog cards, scripts temporarios
 
-Sprint M.3 reverteu a correcao visual ruim da M.2 em `PensaoSantaLuziaIntegratedTest.tscn`. A cena voltou a usar o GLB visual anterior, sem taludes gerados, e manteve somente colisoes manuais simples em `StaticGameplayCollisions`. Fog cards e o texto 3D da oferta ficam ocultos no Godot; a oferta usa um unico `Label3D`. TrailIntro, DemoRoom, RitualRoom e cenas antigas permanecem inalteradas.
-
-O fluxo inicial jogavel agora e:
-
-```text
-    TrailIntro -> DemoRoom -> corredor -> RitualRoom
-```
-
-A Trilha Noturna agora contem a fachada real da Pensao Santa Luzia no fim do caminho. A porta da Pensao leva direto para o Quarto 07. O Quarto 07 segue com bilhete, martelo, porta, corredor, susto, porta final e transicao para a Sala dos Santos Secos (`RitualRoom`).
-
-A cena principal do projeto (`run/main_scene`) aponta para `TrailIntro.tscn`, para testar a entrada completa desde o inicio.
+Detalhes da limpeza: `docs/production/CLEANUP_OLD_SCENES.md`.
 
 Historico: `docs/SPRINT_HISTORY.md`.
 

@@ -2,9 +2,31 @@
 
 Este documento organiza as sprints de producao para consolidar a Fase 1 e construir a Fase 2.
 
-## Sprint M.3.1 - Consolidacao da Pensao Santa Luzia Vertical Slice
+## Sprint M.3.1 — Reset de cenas antigas e consolidacao da Vertical Slice
 
-**Status:** consolidacao tecnica concluida; playtest manual da rampa pendente.
+**Status:** limpeza agressiva concluida; playtest manual da rampa pendente.
+
+### Entregas
+
+- **Deletados de vez** (sem `_archive`): TrailIntro, HouseExterior, PensaoSantaLuziaIntegratedTest, Corridor, phase_02/RitualRoom duplicata, `_archive/old_pensao_attempts/`, GLBs antigos de trilha/fachada, scripts de fog cards, TrailIntroVisualPass, triggers antigos de transicao.
+- **Cena oficial:** `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn`.
+- **Blender oficial:** `assets/blender/trail_intro_pensao_vertical_slice_v01.blend` (reconstruido do GLB valido; 8 guides removidos).
+- **GLB oficial:** `assets/models/levels/pensao_santa_luzia/pensao_santa_luzia_vertical_slice_v01.glb`.
+- **Cena principal:** `project.godot` aponta para a Vertical Slice.
+- **Colisoes:** exterior, caminho, varanda, dois pisos, paredes, balcao, deposito, rampa, guarda-corpo e bounds — todas manuais em `StaticGameplayCollisions`.
+- **Sistemas preservados:** Player/HUD, stamina, lanterna, combate, inimigos, DemoRoom, RitualRoom, depth fog aprovado.
+- **Documentacao:** `docs/production/CLEANUP_OLD_SCENES.md`.
+
+### Pendencias
+
+- [ ] Validar rampa/segundo andar em F6 com Player real.
+- [ ] Reconectar costura para DemoRoom/RitualRoom quando necessario.
+
+---
+
+## Sprint M.3.1 - Consolidacao da Pensao Santa Luzia Vertical Slice (historico tecnico)
+
+**Status:** substituido pelo reset acima.
 
 - Cena oficial: `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn`.
 - Blender oficial: `assets/blender/trail_intro_pensao_vertical_slice_v01.blend`.
@@ -13,8 +35,6 @@ Este documento organiza as sprints de producao para consolidar a Fase 1 e constr
 - Oito guides removidos; nenhuma camera/luz importada; nenhuma colisao automatica geral.
 - Colisoes: exterior, caminho, varanda, dois pisos, paredes, balcao, deposito, rampa, guarda-corpo e bounds.
 - Segundo andar e quarto do gerente presentes; duas partitions sem abertura foram ocultadas na instancia para navegacao.
-- Legado arquivado em `_archive/old_pensao_attempts/` com README e `.gdignore`.
-- Mantidos: TrailIntro, HouseExterior, DemoRoom, RitualRoom, Player/HUD, combate, inimigos e fog aprovado.
 - Pendente: subir a rampa com o Player real em F6 e ajustar inclinacao/altura se necessario.
 
 ---
