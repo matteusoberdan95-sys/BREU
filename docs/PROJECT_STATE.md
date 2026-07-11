@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 04 hotfix aplicado  
+**Fase:** REBOOT GREENFIELD — Sprint 04 aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -13,51 +13,53 @@
 | Branch | `reboot/breu-clean-start` |
 | Sprint 02 | **✅ Aprovada** — player congelado |
 | Sprint 03 | **✅ Aprovada** — HUD/debug congelado |
-| Sprint 04 | **🔧 Hotfix** — aguardando playtest InteractionLab |
-| Sprint 05 | **Bloqueada** até Sprint 04 aprovada |
+| Sprint 04 | **✅ Aprovada pelo usuário** — interação congelada |
+| InteractionLab | **✅ Aprovado** |
+| Sprint 05 | **Próxima** — Pensão térreo blockout 01 |
 
 ---
 
 ## Player — baseline congelada
 
 **Documentação:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`  
-**Teste movimento:** `scenes/test/PlayerMovementLab.tscn`
+**Teste:** `scenes/test/PlayerMovementLab.tscn`
 
-Movimentação, camera feel, sprint/crouch/stamina/lean/look back — **congelados**.
+**Regra:** Não alterar `PlayerController`, `PlayerCameraFeel`, lean, look back, sprint/crouch/stamina ou camera bob sem solicitação explícita.
 
 ---
 
 ## HUD — baseline congelada
 
-**Documentação:** `docs/technical/HUD_DEBUG_BASELINE.md`  
-**Extensão Sprint 04:** prompt `[E]` — ver interação abaixo.
+**Documentação:** `docs/technical/HUD_DEBUG_BASELINE.md`
+
+**Regra:** Não alterar HUD base, debug F10/F11 ou layout aprovado sem solicitação explícita. Prompt `[E]` faz parte da extensão aprovada.
 
 ---
 
-## Interação (Sprint 04)
+## Interação — baseline congelada
 
-**Cena teste:** `res://scenes/test/InteractionLab.tscn`  
-**Documentação:** `docs/technical/INTERACTION_SYSTEM_BASELINE.md`
+**Documentação:** `docs/technical/INTERACTION_SYSTEM_BASELINE.md`  
+**Teste:** `scenes/test/InteractionLab.tscn`
 
 | Sistema | Status |
 |---------|--------|
-| Raycast câmera 2.5 m | ✅ |
-| IInteractable + Interactable | ✅ |
-| Prompt HUD | ✅ |
-| Mensagem 3 s | ✅ |
-| 3 objetos teste | ✅ |
-| Debug mira (console) | ✅ |
+| Prompt `[E]` ao mirar | ✅ Aprovado |
+| E → mensagem 3 s | ✅ Aprovado |
+| TestSign / TestBook / TestLockedDoor | ✅ Aprovados |
+| Colisões básicas do lab | ✅ Aprovadas |
+| HUD + movimentação intactos | ✅ Aprovados |
+
+**Regra:** Não alterar `IInteractable`, `Interactable`, `PlayerInteractionRaycast` ou pipeline de interação sem solicitação explícita ou sprint dedicada.
 
 ---
 
 ## Cenas de teste
 
-| F6 sugerido | Cena |
-|-------------|------|
-| Movimento + HUD | `PlayerMovementLab.tscn` |
-| Interação | `InteractionLab.tscn` |
-
-**F5:** `BootstrapEmpty.tscn`
+| Cena | Uso |
+|------|-----|
+| `PlayerMovementLab.tscn` | Regressão movimento + HUD |
+| `InteractionLab.tscn` | Regressão interação |
+| `BootstrapEmpty.tscn` | F5 bootstrap |
 
 ---
 
@@ -65,8 +67,8 @@ Movimentação, camera feel, sprint/crouch/stamina/lean/look back — **congelad
 
 **Sprint 05 — Pensão térreo blockout 01**
 
-- Trilha, varanda, recepção, corredor, quarto 102, cozinha, depósito
-- Blockout cinza — **sem** teto, escada ou 2º andar
+- Trilha, varanda, recepção, corredor, quarto 102, cozinha, depósito trancado
+- Blockout cinza — sem teto, escada ou 2º andar
 - Reutilizar sistema de interação para placeholders
 
 Ver: `docs/production/SPRINT_ROADMAP.md`

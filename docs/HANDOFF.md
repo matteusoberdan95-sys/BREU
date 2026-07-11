@@ -1,7 +1,7 @@
 # BREU — Handoff
 
 **Última atualização:** 2026-07-11  
-**Status:** REBOOT GREENFIELD — Sprint 04 concluída  
+**Status:** REBOOT GREENFIELD — Sprint 04 aprovada  
 **Branch:** `reboot/breu-clean-start`
 
 ---
@@ -14,14 +14,22 @@
 
 ---
 
-## Sprint 04 — fechada
+## Baselines congeladas
 
-| Entregue |
-|----------|
-| `IInteractable`, `Interactable`, `PlayerInteractionRaycast` |
-| Prompt `[E]` no HUD |
-| `InteractionLab.tscn` (3 objetos) |
-| Player/HUD baseline preservados |
+| Sprint | Doc |
+|--------|-----|
+| 02 Player | `PLAYER_CONTROLLER_BASELINE.md` |
+| 03 HUD | `HUD_DEBUG_BASELINE.md` |
+| 04 Interação | `INTERACTION_SYSTEM_BASELINE.md` |
+
+---
+
+## Sprint 04 — fechada e aprovada
+
+- InteractionLab OK
+- Prompt `[E]` + mensagens OK
+- Colisões básicas OK
+- Player/HUD intactos
 
 ---
 
@@ -29,16 +37,16 @@
 
 **Sprint 05 — Pensão térreo blockout 01**
 
-Blockout cinza navegável — **sem** GLB, Blender, inimigo ou combate.
+Blockout cinza navegável — sem GLB/Blender, teto, escada ou 2º andar.
 
 ---
 
-## Como testar
+## Testes de regressão
 
 | Cena | Foco |
 |------|------|
-| `InteractionLab.tscn` | Interação E + prompt |
-| `PlayerMovementLab.tscn` | Regressão movimento |
+| `PlayerMovementLab.tscn` | Movimento |
+| `InteractionLab.tscn` | Interação |
 
 ---
 

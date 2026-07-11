@@ -1,24 +1,48 @@
 # BREU — Sistema de Interação (Baseline)
 
-**Versão:** 1.1  
+**Versão:** 1.0  
 **Data:** 2026-07-11  
-**Sprint:** 04 — sistema mínimo + hotfix colisão/raycast
+**Sprint:** 04 — aprovada e congelada  
+**Status:** OFICIAL — não alterar sem nova sprint de interação
+
+---
+
+## Regra de congelamento
+
+> **Não modificar** `IInteractable`, `Interactable`, `PlayerInteractionRaycast`, pipeline de raycast/prompt/mensagem ou `InteractionLab.tscn` **sem solicitação explícita do usuário** ou sprint dedicada de interação.
+
+Baselines paralelas congeladas:
+- Player: `PLAYER_CONTROLLER_BASELINE.md`
+- HUD: `HUD_DEBUG_BASELINE.md`
+
+Sprint 05+ (Pensão, puzzles) **criam novos interactables** consumindo este sistema — não reescrevem o core.
 
 ---
 
 ## Visão geral
 
-Interação em primeira pessoa via **raycast da câmera** + tecla **E**.
-
-O sistema **não altera** movimentação, camera feel ou stamina. Apenas lê a mira e atualiza HUD.
+Interação FPS via **raycast da câmera** + tecla **E**.
 
 ```
-Camera InteractionRaycast → collider (World e/ou Interactable)
-    → FindInteractable (parent/children/grupo)
-        → Interactable (IInteractable)
-            → HUD prompt [E] ...
-            → E → ShowMessage (3 s)
+Camera InteractionRaycast (mask 3)
+    → collider com CollisionShape3D
+    → FindInteractable (árvore + grupo "interactable")
+        → Interactable (PromptText, InteractionMessage)
+            → HUD ShowInteractionPrompt / ShowMessage(3s)
 ```
+
+**PlayerInteractionRaycast** — nó filho de `Player.tscn`; **não** altera movimentação.
+
+| Export | Default |
+|--------|---------|
+| `InteractionDistance` | 3.0 m |
+| `RaycastPath` | relativo ao **Player** → `HeadBase/.../Camera3D/InteractionRaycast` |
+| `DebugMode` | log ao mudar alvo / ao pressionar E |
+
+RayCast3D:
+- `target_position = (0, 0, -3)`
+- `collision_mask = 3` (World + Interactable)
+- `CollideWithAreas = true`, `CollideWithBodies = true`, `Enabled = true`
 
 ---
 
@@ -26,127 +50,109 @@ Camera InteractionRaycast → collider (World e/ou Interactable)
 
 | Layer | Valor | Uso |
 |-------|-------|-----|
-| **World** | 1 | Chão, paredes, porta/mesa/sign físicos |
-| **Interactable** | 2 | Áreas de interação (ex.: livro) |
-| **World + Interactable** | 3 | Objeto físico **e** interativo (placa, porta) |
+| World | 1 | Chão, paredes, objetos físicos |
+| Interactable | 2 | Áreas só de interação |
+| World + Interactable | 3 | Físico + interativo (placa, porta) |
 
-| Ator | Layer | Mask |
-|------|-------|------|
-| Player | 16 (Player) | **1** (World) |
-| InteractionRaycast | — | **3** (World + Interactable) |
-
-Player **não** colide com layer 2 pura — livro usa `Area3D` layer 2.
+| Ator | Mask |
+|------|------|
+| Player | 1 (World) |
+| InteractionRaycast | 3 |
 
 ---
 
-## Arquivos
+## Como criar objeto interativo futuro
+
+Checklist obrigatório:
+
+1. **CollisionShape3D** no collider detectável pelo raycast (nunca só mesh)
+2. Entrar no grupo **`interactable`** (automático via `Interactable._Ready` no host)
+3. Filho `Node` com script **`Interactable.cs`**
+4. Configurar no Inspector:
+   - **`PromptText`** — ex.: `Ler placa` (HUD adiciona `[E]`)
+   - **`InteractionMessage`** — texto exibido 3 s ao pressionar E
+   - **`InteractionId`** — opcional, para puzzles/estado de level
+   - **`OneShot`** — opcional, desativa após primeiro uso
+5. Escolher layer conforme necessidade física:
+
+| Caso | Estrutura | Layer |
+|------|-----------|-------|
+| Porta / placa (bloqueia + interage) | `StaticBody3D` + shape + `Interactable` | **3** |
+| Livro / item pequeno (só interage) | `Area3D` + shape + `Interactable` | **2** |
+| Parede / chão (só física) | `StaticBody3D` + shape | **1** |
+
+### Exemplo — placa de emprego (Sprint 05+)
+
+```
+StaticBody3D: JobOfferSign
+  collision_layer = 3
+  collision_mask = 0
+  CollisionShape3D
+  MeshInstance3D
+  Interactable
+    PromptText = "Ler placa"
+    InteractionMessage = "OFERTA DE TRABALHO - MINERAÇÃO - PENSÃO SANTA LUZIA."
+    InteractionId = "job_offer_sign"
+```
+
+### Exemplo — bilhete / fusível (Sprint 07+)
+
+```
+Area3D ou StaticBody3D (layer 2 ou 3)
+  CollisionShape3D
+  Interactable
+    PromptText = "Pegar bilhete"
+    InteractionMessage = "..."
+    InteractionId = "fuse_note"
+    OneShot = true
+```
+
+---
+
+## Arquivos do sistema
 
 | Arquivo | Papel |
 |---------|-------|
 | `scripts/interactions/IInteractable.cs` | Interface |
-| `scripts/interactions/Interactable.cs` | Componente Inspector |
-| `scripts/interactions/PlayerInteractionRaycast.cs` | Raycast + E |
-| `scenes/test/InteractionLab.tscn` | Lab oficial |
+| `scripts/interactions/Interactable.cs` | Componente |
+| `scripts/interactions/PlayerInteractionRaycast.cs` | Raycast + input E |
+| `scenes/test/InteractionLab.tscn` | Lab oficial aprovado |
 
 ---
 
-## Estrutura correta de objeto interativo
-
-### Físico + interativo (porta, placa)
-
-```
-StaticBody3D: TestLockedDoor
-  collision_layer = 3
-  collision_mask = 0
-  CollisionShape3D          ← obrigatório
-  MeshInstance3D
-  Interactable (Node)       ← script aqui ou detectável na árvore
-```
-
-### Só interação (livro pequeno)
-
-```
-Node3D: TestBook
-  MeshInstance3D
-  Area3D: InteractionArea
-    collision_layer = 2
-    CollisionShape3D
-    Interactable (Node)
-```
-
-### Mundo sem interação (parede, mesa)
-
-```
-StaticBody3D
-  collision_layer = 1
-  CollisionShape3D
-  MeshInstance3D
-```
-
-**Regras:**
-- Todo interactable precisa `CollisionShape3D` no collider detectável
-- Host entra no grupo `"interactable"`
-- `Interactable.cs` como filho do collider ou do root
-
----
-
-## PlayerInteractionRaycast.cs
-
-Nó filho de `Player` — **RaycastPath é relativo ao Player**, não ao script.
-
-| Export | Default |
-|--------|---------|
-| `InteractionDistance` | `3.0` m |
-| `DebugMode` | log ao mudar alvo + ao pressionar E |
-
-**RayCast3D** (`Camera3D/InteractionRaycast`):
-- `target_position = (0, 0, -3)`
-- `collision_mask = 3`
-- `CollideWithAreas = true`
-- `CollideWithBodies = true`
-- `Enabled = true`
-
-### FindInteractable
-
-Ao acertar collider, busca `IInteractable`:
-1. No próprio nó
-2. Em filhos
-3. Subindo pais (até 8 níveis)
-4. Em nós do grupo `"interactable"` com filho `Interactable`
-
----
-
-## HUD (extensão Sprint 04)
+## HUD (extensão aprovada)
 
 | Método | Uso |
 |--------|-----|
-| `ShowInteractionPrompt(text)` | `[E] {text}` — evita duplicar `[E]` |
+| `ShowInteractionPrompt(text)` | Exibe `[E] {text}` |
 | `HideInteractionPrompt()` | Esconde prompt |
-| `ShowMessage(text, 3f)` | Painel inferior — **oculto** sem mensagem |
+| `ShowMessage(text, 3f)` | Mensagem temporária inferior |
 
 ---
 
-## Hotfix Sprint 04 (2026-07-11)
+## Cena de teste aprovada
 
-| Bug | Fix |
-|-----|-----|
-| Raycast null | Path resolvido via `GetParent()` (Player) |
-| Sem prompt/mensagem | Raycast funcional + HUD panel visibility |
-| Atravessar paredes | Paredes layer 1; objetos físicos layer 3 |
-| Caixa HUD vazia | `MessagePanel.visible = false` por default |
+`res://scenes/test/InteractionLab.tscn`
 
----
-
-## Regras
-
-- **Não** modificar `PlayerController`, `PlayerCameraFeel`, movimento congelado.
-- **Não** reescrever HUD base — só prompt/mensagem.
-- Interação **não** deve alterar player movement.
+| Objeto | Prompt | Mensagem |
+|--------|--------|----------|
+| TestSign | Ler placa | OFERTA DE TRABALHO - MINERAÇÃO - PENSÃO SANTA LUZIA. |
+| TestBook | Examinar livro | Seu nome já está no registro. |
+| TestLockedDoor | Tentar abrir porta | Está trancada. |
 
 ---
 
-## Cena de teste
+## Aprovação do usuário (2026-07-11)
 
-`res://scenes/test/InteractionLab.tscn` — chão, 4 paredes, 3 interactables.
+- [x] InteractionLab funcionando
+- [x] Prompt `[E]` ao mirar
+- [x] E mostra mensagem correta
+- [x] Placa, livro, porta trancada OK
+- [x] HUD e movimentação intactos
+- [x] Colisões básicas do lab OK
 
-**Sprint 04 aprovada somente após playtest desta cena.**
+---
+
+## Próximo uso
+
+**Sprint 05:** interactables placeholder na Pensão térreo — novos nós, **mesmo** `Interactable.cs` + `PlayerInteractionRaycast`.

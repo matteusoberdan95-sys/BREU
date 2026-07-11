@@ -1,6 +1,6 @@
 # Sprint 04 — Sistema de Interação Mínimo
 
-**Status:** ✅ Concluída (2026-07-11)  
+**Status:** ✅ Aprovada pelo usuário (2026-07-11)  
 **Branch:** `reboot/breu-clean-start`  
 **Baseline:** `docs/technical/INTERACTION_SYSTEM_BASELINE.md`
 

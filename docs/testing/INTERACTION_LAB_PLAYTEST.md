@@ -1,98 +1,77 @@
 # Playtest — Interaction Lab
 
 **Cena:** `res://scenes/test/InteractionLab.tscn`  
-**Sprint:** 04 + hotfix  
-**Data:** 2026-07-11
+**Sprint:** 04 — **APROVADA**  
+**Data aprovação:** 2026-07-11  
+**Baseline:** `docs/technical/INTERACTION_SYSTEM_BASELINE.md`
 
 ---
 
-## Histórico de falha / correção
+## Status
 
-### Falha inicial (Sprint 04 v1)
-
-| Problema | Causa |
-|----------|-------|
-| Prompt `[E]` não aparecia | `PlayerInteractionRaycast` resolvia `RaycastPath` relativo ao nó errado — raycast null |
-| E não mostrava mensagem | Mesma causa + painel de mensagem sempre visível/vazio |
-| Player atravessava objetos | Objetos só na layer 2; sem paredes; player mask = World (1) não colidia |
-| Caixa HUD vazia | `MessagePanel` visível sem texto |
-
-### Hotfix aplicado
-
-- Raycast resolvido a partir do **Player** (pai de `PlayerInteractionRaycast`)
-- Raycast `collision_mask = 3` (World + Interactable)
-- Chão/paredes/porta/mesa/sign: layers corretas (1 ou 3)
-- Livro: `Area3D` layer 2 para interação sem bloquear
-- HUD: `MessagePanel` oculto até haver mensagem; `HideInteractionPrompt()` adicionado
-- Lab: 4 paredes com colisão World
+**InteractionLab aprovado pelo usuário.**  
+Sistema de interação congelado — não alterar sem nova sprint de interação ou solicitação explícita.
 
 ---
 
-## Checklist — Movimentação preservada
+## Histórico de correção (hotfix)
 
-| Teste | Esperado | OK |
-|-------|----------|-----|
-| W/S/A/D | Direções corretas | ☐ |
-| Sprint (Shift) | Funciona | ☐ |
-| Crouch (C/Ctrl) | Funciona | ☐ |
-| Lean Q/R | Funciona | ☐ |
-| Look back Alt/X | Funciona | ☐ |
-| Camera feel | Sem regressão | ☐ |
+| Problema inicial | Correção |
+|------------------|----------|
+| Prompt não aparecia | Raycast resolvido a partir do Player |
+| E sem mensagem | Raycast + HUD MessagePanel visibility |
+| Player atravessava objetos | Layers 1/3 + paredes no lab |
+| Caixa HUD vazia | MessagePanel oculto por default |
 
----
-
-## Checklist — Colisão
-
-| Teste | Esperado | OK |
-|-------|----------|-----|
-| Chão | Player não cai | ☐ |
-| Paredes (N/S/E/W) | Player não atravessa | ☐ |
-| TestLockedDoor | Bloqueia passagem | ☐ |
-| TestBookTable | Bloqueia passagem | ☐ |
-| TestBook (pequeno) | Não trava player | ☐ |
+**Commit hotfix:** `e11147f`
 
 ---
 
-## Checklist — Interação
+## Checklist aprovado — Movimentação preservada
 
-| Teste | Esperado | OK |
-|-------|----------|-----|
-| Mirar TestSign | `[E] Ler placa` | ☐ |
-| E na placa | Mensagem OFERTA DE TRABALHO... | ☐ |
-| Mirar TestBook | `[E] Examinar livro` | ☐ |
-| E no livro | Mensagem registro | ☐ |
-| Mirar TestLockedDoor | `[E] Tentar abrir porta` | ☐ |
-| E na porta | Está trancada. | ☐ |
-| Sair da mira | Prompt some | ☐ |
-| E sem mira | Nada quebra | ☐ |
-| Sem caixa vazia | Painéis só com texto | ☐ |
-| Mensagem | Some após ~3 s | ☐ |
+- [x] W/S/A/D corretos
+- [x] Sprint funciona
+- [x] Crouch funciona
+- [x] Lean Q/R funciona
+- [x] Look back funciona
+- [x] Camera feel sem regressão
 
 ---
 
-## Checklist — HUD
+## Checklist aprovado — Colisões básicas
 
-| Teste | Esperado | OK |
-|-------|----------|-----|
-| Vida / Stamina / Lanterna | Visíveis | ☐ |
-| F10 / F11 | Funcionam | ☐ |
-| Prompt | Legível (centro) | ☐ |
-| Mensagem | Legível (inferior) | ☐ |
-
----
-
-## Debug console
-
-```
-Interaction target: TestSign | prompt: Ler placa
-Interacted with: TestSign
-No interactable target.
-```
+- [x] Chão bloqueia player
+- [x] Paredes bloqueiam player
+- [x] TestLockedDoor bloqueia passagem
+- [x] TestBookTable bloqueia passagem
+- [x] TestBook não trava player
 
 ---
 
-## Baseline
+## Checklist aprovado — Interação
 
-`docs/technical/INTERACTION_SYSTEM_BASELINE.md`
+- [x] Prompts aparecem ao mirar objetos
+- [x] `[E] Ler placa` — TestSign
+- [x] `[E] Examinar livro` — TestBook
+- [x] `[E] Tentar abrir porta` — TestLockedDoor
+- [x] E interage e mostra mensagem correta
+- [x] Placa, livro e porta trancada funcionam
+- [x] Sair da mira esconde prompt
+- [x] E sem mira não quebra
+- [x] Mensagem some após ~3 s
+- [x] Sem caixa vazia no HUD
 
-**Sprint 04 só aprovada após este checklist passar.**
+---
+
+## Checklist aprovado — HUD
+
+- [x] Vida / Stamina / Lanterna visíveis
+- [x] Debug F10/F11 funciona
+- [x] Prompt legível
+- [x] Mensagem legível
+
+---
+
+## Próximo passo
+
+Sprint 05 — Pensão térreo blockout 01 (reutilizar interactables para placeholders).
