@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 02.1 em andamento  
+**Fase:** REBOOT GREENFIELD — Sprint 02.2 em andamento  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -11,41 +11,43 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Sprint 02 | **Em andamento** (02.1 — feel + direção) |
+| Sprint 02 | **Em andamento** (02.2 — horror camera feel) |
 | Sprint 03 | **Bloqueada** |
 | Cena de teste | `res://scenes/test/PlayerMovementLab.tscn` |
 
 ---
 
-## Sprint 02.1 — entregas
+## Player — status
 
-| Item | Status |
-|------|--------|
-| W/S corrigido (GetVector) | ✅ |
-| Lean Q/R estilo Outlast | ✅ implementado |
-| Look back Alt (sprint+W) | ✅ implementado |
-| Head bob / sway | ✅ `PlayerCameraEffects.cs` |
-| Reset F9 | ✅ |
-| Playtest manual completo | ⏳ pendente |
+| Componente | Status |
+|------------|--------|
+| `PlayerController` | ✅ Movimento, stamina, landing impact |
+| `PlayerCameraFeel` | ✅ Bob, sway, inertia, sprint shake |
+| `PlayerLean` | ✅ Q/R separado |
+| `PlayerLookBack` | ✅ Alt sprint look-back |
+| `PlayerLook` | ✅ Mouse yaw/pitch |
+| `PlayerCrouch` | ✅ Altura HeadBase |
+
+**Preset câmera:** `BreuDefault`
 
 ---
 
-## Player — scripts
+## Sprint 02.2 — entregas
 
-| Script | Função |
-|--------|--------|
-| `PlayerController.cs` | Movimento, stamina, yaw-based direction |
-| `PlayerLook.cs` | Mouse, lean, look-back |
-| `PlayerCameraEffects.cs` | Head bob, strafe tilt |
-| `PlayerCrouch.cs` | Agachar |
-| `PlayerStamina.cs` | Stamina sprint |
+- Hierarquia pivots (BodyMotion → Lean → LookBack → Pitch → Camera)
+- `PlayerCameraFeel.cs` com 3 presets exportados
+- Removido `PlayerCameraEffects.cs` (substituído)
+- Lab: chão 40×20 para sprint longo
+- Landing bob preparado
+
+**Playtest manual:** pendente aprovação do usuário.
 
 ---
 
 ## Próximo passo
 
-1. F6 em `PlayerMovementLab.tscn` — validar checklist completo
-2. Marcar Sprint 02 concluída se todos passarem
-3. Então Sprint 03 (HUD)
+1. F6 em `PlayerMovementLab.tscn`
+2. Validar checklist Sprint 02.2
+3. Usuário aprova → Sprint 02 concluída → Sprint 03 (HUD)
 
 Ver: `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`

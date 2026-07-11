@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://breuplayer02"]
+[gd_scene load_steps=10 format=3 uid="uid://breuplayer02"]
 
 [ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_controller"]
 [ext_resource type="Script" path="res://scripts/player/PlayerLook.cs" id="2_look"]
 [ext_resource type="Script" path="res://scripts/player/PlayerStamina.cs" id="3_stamina"]
 [ext_resource type="Script" path="res://scripts/player/PlayerCrouch.cs" id="4_crouch"]
 [ext_resource type="Script" path="res://scripts/player/PlayerFlashlight.cs" id="5_flashlight"]
-[ext_resource type="Script" path="res://scripts/player/PlayerCameraEffects.cs" id="6_effects"]
+[ext_resource type="Script" path="res://scripts/player/PlayerCameraFeel.cs" id="6_feel"]
+[ext_resource type="Script" path="res://scripts/player/PlayerLean.cs" id="7_lean"]
+[ext_resource type="Script" path="res://scripts/player/PlayerLookBack.cs" id="8_lookback"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.35
@@ -27,19 +29,27 @@ script = ExtResource("3_stamina")
 [node name="PlayerCrouch" type="Node" parent="."]
 script = ExtResource("4_crouch")
 
-[node name="Head" type="Node3D" parent="."]
+[node name="HeadBase" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
 
-[node name="LookOffset" type="Node3D" parent="Head"]
+[node name="BodyMotionPivot" type="Node3D" parent="HeadBase"]
+script = ExtResource("6_feel")
+
+[node name="LeanPivot" type="Node3D" parent="HeadBase/BodyMotionPivot"]
+script = ExtResource("7_lean")
+
+[node name="LookBackPivot" type="Node3D" parent="HeadBase/BodyMotionPivot/LeanPivot"]
+script = ExtResource("8_lookback")
+
+[node name="PitchPivot" type="Node3D" parent="HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot"]
 script = ExtResource("2_look")
 
-[node name="Camera3D" type="Camera3D" parent="Head/LookOffset"]
+[node name="Camera3D" type="Camera3D" parent="HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot/PitchPivot"]
 current = true
 fov = 75.0
 near = 0.05
-script = ExtResource("6_effects")
 
-[node name="Flashlight" type="SpotLight3D" parent="Head/LookOffset/Camera3D"]
+[node name="Flashlight" type="SpotLight3D" parent="HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot/PitchPivot/Camera3D"]
 light_energy = 0.0
 shadow_enabled = false
 script = ExtResource("5_flashlight")

@@ -28,9 +28,13 @@ public partial class PlayerController : CharacterBody3D
     public bool IsMovingForward { get; private set; }
     public bool IsCrouching => _crouch?.IsCrouching ?? false;
     public float HorizontalSpeed { get; private set; }
+    public bool IsOnGround { get; private set; }
 
     private PlayerStamina? _stamina;
     private PlayerCrouch? _crouch;
+    private bool _wasOnFloor;
+    private float _lastVerticalVelocity;
+    private float _pendingLandingImpact;
 
     public override void _Ready()
     {
@@ -40,6 +44,7 @@ public partial class PlayerController : CharacterBody3D
         FloorSnapLength = 0.1f;
         FloorMaxAngle = Mathf.DegToRad(46.0f);
         SafeMargin = 0.08f;
+        _wasOnFloor = IsOnFloor();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -70,6 +75,7 @@ public partial class PlayerController : CharacterBody3D
 
         var velocity = Velocity;
         var onFloor = IsOnFloor();
+        IsOnGround = onFloor;
         var targetHorizontal = new Vector2(direction.X * speed, direction.Z * speed);
         var currentHorizontal = new Vector2(velocity.X, velocity.Z);
         var rate = targetHorizontal.LengthSquared() > 0.001f ? Acceleration : Deceleration;
@@ -100,6 +106,14 @@ public partial class PlayerController : CharacterBody3D
 
         Velocity = velocity;
         MoveAndSlide();
+
+        if (onFloor && !_wasOnFloor && _lastVerticalVelocity < -1.0f)
+        {
+            _pendingLandingImpact = Mathf.Clamp(Mathf.Abs(_lastVerticalVelocity) / 6.0f, 0.05f, 1.0f);
+        }
+
+        _lastVerticalVelocity = Velocity.Y;
+        _wasOnFloor = IsOnFloor();
 
         if (IsSprinting && IsOnFloor() && input.LengthSquared() > 0.01f)
         {
@@ -169,5 +183,13 @@ public partial class PlayerController : CharacterBody3D
         _stamina?.Consume(JumpStaminaCost);
         velocity.Y = JumpVelocity;
         return true;
+    }
+
+    /// <summary>Consumed once by PlayerCameraFeel for landing bob.</summary>
+    public float ConsumeLandingImpact()
+    {
+        var impact = _pendingLandingImpact;
+        _pendingLandingImpact = 0.0f;
+        return impact;
     }
 }

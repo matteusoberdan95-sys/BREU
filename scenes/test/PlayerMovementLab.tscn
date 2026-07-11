@@ -7,10 +7,10 @@
 albedo_color = Color(0.5, 0.5, 0.54, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
-size = Vector2(20, 20)
+size = Vector2(40, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
-size = Vector3(20, 0.2, 20)
+size = Vector3(40, 0.2, 20)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
 albedo_color = Color(0.42, 0.42, 0.46, 1)
@@ -55,7 +55,7 @@ light_energy = 1.1
 shadow_enabled = true
 
 [node name="WallCollision" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -9)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WallCollision"]
 shape = SubResource("BoxShape3D_wall")

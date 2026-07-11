@@ -12,7 +12,7 @@ public partial class PlayerCrouch : Node
     [Export] public float TransitionSpeed { get; set; } = 10.0f;
 
     [Export] public NodePath BodyPath { get; set; } = "..";
-    [Export] public NodePath HeadPath { get; set; } = "../Head";
+    [Export] public NodePath HeadPath { get; set; } = "../HeadBase";
     [Export] public NodePath CollisionShapePath { get; set; } = "../CollisionShape3D";
 
     public bool IsCrouching { get; private set; }
