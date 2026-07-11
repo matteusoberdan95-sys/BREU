@@ -16,7 +16,7 @@
 | Sprint 07 | **✅ Aprovada** — puzzle depósito |
 | Sprint 08 | **✅ Aprovada** — escada lab |
 | Sprint 09A / 09B | **✅ Aprovadas** — escada integrada + playtest |
-| Sprint 10 | **🔄 Em validação** — segundo andar acessível; vedação + guarda-corpos aplicados; playtest F6 pendente |
+| Sprint 10 | **🔄 Em validação** — hotfix 3 (corredor + caixa escada); playtest F6 pendente |
 
 ---
 
@@ -39,12 +39,12 @@
 - Laje `Floor_Second_Main` (14,08 × 44,58 m) cobre interior; vão só na escada.
 - Corredor superior no eixo x = 0; quartos 201/202; `UpperBlockedDoor`.
 - Raycast com oclusão por parede (hotfix anterior preservado).
-- **Hotfix 2 2026-07-11:** laje contínua reforçada; guarda-corpos no vão da escada; paredes superiores vedadas.
-- Segundo andar **só será aprovado** após playtest F6 completo (incl. teste de queda no vão).
+- **Hotfix 3 2026-07-11:** removido bloqueio do corredor (`CorridorNorthCap`); caixa de escada; landing unificado.
+- Segundo andar **só será aprovado** após playtest F6 completo (corredor desbloqueado + caixa escada).
 - Escada conectada @ y = 2,8 m; puzzle térreo preservado.
 - Sem teto, sem inimigo, sem arte final.
 
-**Pendências:** playtest F6 manual — guarda-corpos, queda no vão, laje contínua, regressão térreo.
+**Pendências:** playtest F6 — corredor superior livre, caixa escada, circulação landing→corredor→quartos.
 
 **Playtest:** `docs/testing/PENSAO_SECOND_FLOOR_BLOCKOUT_01_PLAYTEST.md`
 

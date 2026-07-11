@@ -11,7 +11,55 @@
 
 ## Status
 
-**Hotfix 2 Sprint 10 aplicado (2026-07-11).** Vedação do segundo andar + guarda-corpos da escada. Validar com F6 antes de marcar sprint como aprovada.
+**Hotfix 3 Sprint 10 aplicado (2026-07-11).** Corredor desbloqueado + caixa de escada + vedação. Validar com F6 antes de marcar sprint como aprovada.
+
+---
+
+## Sprint 10 Hotfix 3 — Corridor Unlock + Stair Box + Wall Sealing
+
+### Bloqueios / problemas encontrados
+
+1. **`Wall_Second_CorridorNorthCap`** atravessava x = 0 e bloqueava entrada no corredor superior (vão da porta centrado em x = -4,1, corredor em x = 0).
+2. **`UpperLanding_CorridorBridge`** separado gerava leitura confusa no topo da escada.
+3. Caixa de escada incompleta — visão crua do térreo pelas laterais do poço.
+4. Guarda-corpos baixos sem paredes laterais altas no poço.
+
+### Correções aplicadas
+
+- **Removido** `Wall_Second_CorridorNorthCap` (bloqueio principal do corredor).
+- **Landing unificado:** `UpperLanding_Main` (5,4 × 3,2 m) conecta escada → corredor x = 0; corredor norte estendido até z = -19,5.
+- **Caixa de escada:** `StairBox_Wall_West/East/North` (3,0 m) + `StairBox_Wall_EastWing` fechando ala leste.
+- **Guarda-corpos** apenas na borda sul do vão (`Stairwell_Rail_*`); saída livre ~3,2 m.
+- Vão da escada reduzido para 5,8 × 8,2 m (mais controlado).
+
+### Checklist final (F6)
+
+**Térreo**
+
+- [ ] Entrar na pensão
+- [ ] Andar no corredor
+- [ ] Quarto 102 + interação
+- [ ] Chave → depósito → fusível
+- [ ] HUD e movimento intactos
+
+**Escada**
+
+- [ ] Subir sem travar
+- [ ] Não bater em teto
+- [ ] Não cair por lateral
+
+**Segundo andar**
+
+- [ ] Sair da escada sem bater em parede
+- [ ] Landing superior acessível
+- [ ] Corredor superior acessível (sem bloqueio central)
+- [ ] Quartos 201/202 acessíveis + interações
+- [ ] Porta bloqueada superior funciona
+- [ ] Paredes sem gretas graves
+- [ ] Vão da escada protegido (caixa + guarda-corpo)
+- [ ] Sem limbo exposto forte
+- [ ] Player não atravessa paredes / não fica preso
+- [ ] Descer escada OK
 
 ---
 
