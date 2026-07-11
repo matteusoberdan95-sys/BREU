@@ -1,6 +1,6 @@
-[gd_scene load_steps=35 format=3]
+[gd_scene load_steps=36 format=3 uid="uid://breu_pensao_vertical_slice_m32"]
 
-[ext_resource type="PackedScene" path="res://assets/models/levels/pensao_santa_luzia/pensao_santa_luzia_vertical_slice_v01.glb" id="1_world"]
+[ext_resource type="PackedScene" path="res://assets/models/levels/pensao_santa_luzia/pensao_santa_luzia_vertical_slice_v01.glb" id="1_glb"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/DamageOverlay.tscn" id="4_damage"]
@@ -111,193 +111,222 @@ fog_height_density = 0.012
 fog_sky_affect = 0.32
 
 [node name="PensaoSantaLuziaVerticalSlice" type="Node3D"]
-editor_description = "Cena oficial M.3.1 — unica base da fase inicial. GLB limpo, colisoes manuais, sem legado."
-
-[node name="Visual" type="Node3D" parent="."]
-[node name="PensaoVerticalSliceModel" parent="Visual" instance=ExtResource("1_world")]
-editable_children = true
-[node name="manager_room_front_partition" parent="Visual/PensaoVerticalSliceModel"]
-visible = false
-[node name="bathroom_front_partition" parent="Visual/PensaoVerticalSliceModel"]
-visible = false
+editor_description = "M.3.2 hard reset — cena nova do zero. GLB oficial com bevel aplicado; sem legado."
 
 [node name="PlayerSpawnResolver" type="Node" parent="."]
 script = ExtResource("6_spawn")
 CheckpointName = "PensaoVerticalSlice_Start"
 [node name="RespawnResolver" type="Node" parent="."]
 script = ExtResource("7_respawn")
+
+[node name="Visual" type="Node3D" parent="."]
+[node name="WorldModel" parent="Visual" instance=ExtResource("1_glb")]
+
+[node name="SignLabels" type="Node3D" parent="Visual"]
+[node name="PensaoSign" type="Label3D" parent="Visual/SignLabels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55, -3.2)
+text = "PENSAO SANTA LUZIA"
+font_size = 42
+outline_size = 6
+modulate = Color(0.82, 0.72, 0.45, 1)
+[node name="JobOfferSign" type="Label3D" parent="Visual/SignLabels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1.55, 18.1)
+text = "OFERTA DE TRABALHO
+MINERACAO
+PENSAO SANTA LUZIA"
+font_size = 28
+outline_size = 4
+modulate = Color(0.78, 0.7, 0.5, 1)
+[node name="ReceptionSign" type="Label3D" parent="Visual/SignLabels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1, 2.15, -7.0)
+text = "RECEPCAO"
+font_size = 34
+outline_size = 5
+modulate = Color(0.75, 0.55, 0.3, 1)
+[node name="DepositSign" type="Label3D" parent="Visual/SignLabels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 2.05, -18.0)
+text = "DEPOSITO"
+font_size = 30
+outline_size = 4
+modulate = Color(0.7, 0.5, 0.28, 1)
+[node name="Room102Sign" type="Label3D" parent="Visual/SignLabels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.15, 2.0, -12.45)
+text = "102"
+font_size = 36
+outline_size = 5
+modulate = Color(0.72, 0.58, 0.32, 1)
+
 [node name="PlayerSpawn" type="Marker3D" parent="."]
-position = Vector3(0, 1.65, 22.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 22.5)
 [node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector3(0, 1.65, 22.5)
-rotation_degrees = Vector3(0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 22.5)
 
 [node name="StaticGameplayCollisions" type="Node3D" parent="."]
-editor_description = "Somente colisoes grandes de gameplay; GLB e props pequenos sao visuais."
+editor_description = "Colisoes manuais grandes. GLB e props pequenos sao apenas visuais."
 
 [node name="ExteriorGroundCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorGroundCollision"]
-position = Vector3(0, -0.08, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, 2)
 shape = SubResource("Ground")
 [node name="CentralPathCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/CentralPathCollision"]
-position = Vector3(0, 0.04, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 8)
 shape = SubResource("Path")
 [node name="PorchCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/PorchCollision"]
-position = Vector3(0, 0.21, -2.65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21, -2.65)
 shape = SubResource("Porch")
 [node name="InteriorFloor01Collision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorFloor01Collision"]
-position = Vector3(0, 0.17, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17, -14)
 shape = SubResource("Floor1")
 [node name="InteriorFloor02MainCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorFloor02MainCollision"]
-position = Vector3(-2.35, 3.32, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.35, 3.32, -14)
 shape = SubResource("Floor2Main")
 [node name="InteriorFloor02FrontCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorFloor02FrontCollision"]
-position = Vector3(5.25, 3.32, -5.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 3.32, -5.2)
 shape = SubResource("Floor2Front")
 [node name="InteriorFloor02BackCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorFloor02BackCollision"]
-position = Vector3(5.25, 3.32, -16.9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 3.32, -16.9)
 shape = SubResource("Floor2Back")
 
 [node name="ExteriorWallCollisions" type="Node3D" parent="StaticGameplayCollisions"]
 [node name="FrontLeft" type="StaticBody3D" parent="StaticGameplayCollisions/ExteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorWallCollisions/FrontLeft"]
-position = Vector3(-4.025, 1.6, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.025, 1.6, -4)
 shape = SubResource("FrontWall")
 [node name="FrontRight" type="StaticBody3D" parent="StaticGameplayCollisions/ExteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorWallCollisions/FrontRight"]
-position = Vector3(4.025, 1.6, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.025, 1.6, -4)
 shape = SubResource("FrontWall")
 [node name="Left" type="StaticBody3D" parent="StaticGameplayCollisions/ExteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorWallCollisions/Left"]
-position = Vector3(-7, 1.6, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.6, -14)
 shape = SubResource("SideWall")
 [node name="Right" type="StaticBody3D" parent="StaticGameplayCollisions/ExteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorWallCollisions/Right"]
-position = Vector3(7, 1.6, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.6, -14)
 shape = SubResource("SideWall")
 [node name="Back" type="StaticBody3D" parent="StaticGameplayCollisions/ExteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorWallCollisions/Back"]
-position = Vector3(0, 1.6, -24)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -24)
 shape = SubResource("BackWall")
 [node name="UpperFront" type="StaticBody3D" parent="StaticGameplayCollisions/ExteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorWallCollisions/UpperFront"]
-position = Vector3(0, 4.65, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.65, -4)
 shape = SubResource("BackWall")
 [node name="UpperLeft" type="StaticBody3D" parent="StaticGameplayCollisions/ExteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorWallCollisions/UpperLeft"]
-position = Vector3(-7, 4.65, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4.65, -14)
 shape = SubResource("SideWall")
 [node name="UpperRight" type="StaticBody3D" parent="StaticGameplayCollisions/ExteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorWallCollisions/UpperRight"]
-position = Vector3(7, 4.65, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.65, -14)
 shape = SubResource("SideWall")
 [node name="UpperBack" type="StaticBody3D" parent="StaticGameplayCollisions/ExteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ExteriorWallCollisions/UpperBack"]
-position = Vector3(0, 4.65, -24)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.65, -24)
 shape = SubResource("BackWall")
 
 [node name="InteriorWallCollisions" type="Node3D" parent="StaticGameplayCollisions"]
 [node name="LeftA" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/LeftA"]
-position = Vector3(-1.25, 1.48, -10.9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 1.48, -10.9)
 shape = SubResource("CorridorShort")
 [node name="LeftB" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/LeftB"]
-position = Vector3(-1.25, 1.48, -14.9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 1.48, -14.9)
 shape = SubResource("CorridorMedium")
 [node name="LeftC" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/LeftC"]
-position = Vector3(-1.25, 1.48, -20.95)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 1.48, -20.95)
 shape = SubResource("CorridorLong")
 [node name="RightA" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/RightA"]
-position = Vector3(1.25, 1.48, -11.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.48, -11.05)
 shape = SubResource("CorridorShort")
 [node name="RightB" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/RightB"]
-position = Vector3(1.25, 1.48, -15.35)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.48, -15.35)
 shape = SubResource("CorridorMedium")
 [node name="RightC" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/RightC"]
-position = Vector3(1.25, 1.48, -21.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.48, -21.25)
 shape = SubResource("CorridorLong")
 [node name="Room102Back" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/Room102Back"]
-position = Vector3(-4.12, 1.48, -15.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.12, 1.48, -15.8)
 shape = SubResource("RoomWall")
 [node name="KitchenBack" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/KitchenBack"]
-position = Vector3(4.12, 1.48, -16.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.12, 1.48, -16.8)
 shape = SubResource("RoomWall")
 [node name="DepositBack" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/DepositBack"]
-position = Vector3(4.12, 1.48, -21.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.12, 1.48, -21.4)
 shape = SubResource("RoomWall")
 [node name="UpperLeftA" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/UpperLeftA"]
-position = Vector3(-1.25, 4.47, -8.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 4.47, -8.5)
 shape = SubResource("UpperCorridor")
 [node name="UpperLeftB" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/UpperLeftB"]
-position = Vector3(-1.25, 4.47, -18.65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 4.47, -18.65)
 shape = SubResource("UpperCorridorLong")
 [node name="UpperRightA" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/UpperRightA"]
-position = Vector3(1.25, 4.47, -8.6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 4.47, -8.6)
 shape = SubResource("UpperCorridor")
 [node name="UpperRightB" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/UpperRightB"]
-position = Vector3(1.25, 4.47, -18.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 4.47, -18.75)
 shape = SubResource("UpperCorridorLong")
 [node name="LockedRoomPartition" type="StaticBody3D" parent="StaticGameplayCollisions/InteriorWallCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/InteriorWallCollisions/LockedRoomPartition"]
-position = Vector3(4.12, 4.47, -22.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.12, 4.47, -22.2)
 shape = SubResource("UpperRoomWall")
 
 [node name="ReceptionCounterCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/ReceptionCounterCollision"]
-position = Vector3(-5.1, 0.64, -7.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1, 0.64, -7.2)
 shape = SubResource("Counter")
 [node name="DepositDoorCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/DepositDoorCollision"]
-position = Vector3(1.46, 1.125, -18.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.46, 1.125, -18.05)
 shape = SubResource("DepositDoor")
 [node name="StairAccessBlocker" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/StairAccessBlocker"]
-position = Vector3(5.1, 1.2, -6.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.1, 1.2, -6.2)
 shape = SubResource("StairBlocker")
 [node name="StairRampCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/StairRampCollision"]
-position = Vector3(5.1, 1.65, -9.63)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.1, 1.65, -9.63)
 rotation = Vector3(-0.447, 0, 0)
 shape = SubResource("StairRamp")
 [node name="Floor2GuardCollision" type="StaticBody3D" parent="StaticGameplayCollisions"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/Floor2GuardCollision"]
-position = Vector3(3.25, 3.9, -10.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.25, 3.9, -10.8)
 shape = SubResource("Guard")
 
 [node name="WorldBoundsCollision" type="Node3D" parent="StaticGameplayCollisions"]
 [node name="Left" type="StaticBody3D" parent="StaticGameplayCollisions/WorldBoundsCollision"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/WorldBoundsCollision/Left"]
-position = Vector3(-15, 3, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 3, 2)
 shape = SubResource("BoundsLong")
 [node name="Right" type="StaticBody3D" parent="StaticGameplayCollisions/WorldBoundsCollision"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/WorldBoundsCollision/Right"]
-position = Vector3(15, 3, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3, 2)
 shape = SubResource("BoundsLong")
 [node name="Start" type="StaticBody3D" parent="StaticGameplayCollisions/WorldBoundsCollision"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/WorldBoundsCollision/Start"]
-position = Vector3(0, 3, 31)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 31)
 shape = SubResource("BoundsWide")
 [node name="Rear" type="StaticBody3D" parent="StaticGameplayCollisions/WorldBoundsCollision"]
 [node name="Shape" type="CollisionShape3D" parent="StaticGameplayCollisions/WorldBoundsCollision/Rear"]
-position = Vector3(0, 3, -27)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -27)
 shape = SubResource("BoundsWide")
 
 [node name="VerticalSliceController" type="Node" parent="."]
@@ -305,11 +334,12 @@ script = ExtResource("9_controller")
 DepositBlockerPath = NodePath("../StaticGameplayCollisions/DepositDoorCollision/Shape")
 UpstairsBlockerPath = NodePath("../StaticGameplayCollisions/StairAccessBlocker/Shape")
 FuseVisualPath = NodePath("../Interactions/FusePickup/FuseVisual")
+DepositVisualPath = NodePath("../Visual/WorldModel/deposit_door_dark")
 UpperFloorLightPath = NodePath("../Lighting/UpperFloorLight")
 
 [node name="Interactions" type="Node3D" parent="."]
 [node name="JobOffer" type="Area3D" parent="Interactions"]
-position = Vector3(2.2, 1.3, 18)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1.3, 18)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("8_message")
@@ -318,7 +348,7 @@ Message = "OFERTA DE TRABALHO - MINERACAO - PENSAO SANTA LUZIA."
 [node name="Shape" type="CollisionShape3D" parent="Interactions/JobOffer"]
 shape = SubResource("Interaction")
 [node name="GuestRegister" type="Area3D" parent="Interactions"]
-position = Vector3(-4.8, 1, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 1, -7)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("10_interactable")
@@ -328,7 +358,7 @@ InteractionText = "Examinar livro de hospedes"
 [node name="Shape" type="CollisionShape3D" parent="Interactions/GuestRegister"]
 shape = SubResource("Interaction")
 [node name="Room102" type="Area3D" parent="Interactions"]
-position = Vector3(-3, 1, -12.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -12.5)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("10_interactable")
@@ -338,7 +368,7 @@ InteractionText = "Examinar Quarto 102"
 [node name="Shape" type="CollisionShape3D" parent="Interactions/Room102"]
 shape = SubResource("Interaction")
 [node name="Room102Note" type="Area3D" parent="Interactions"]
-position = Vector3(-4.2, 1, -13.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 1, -13.8)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("10_interactable")
@@ -348,7 +378,7 @@ InteractionText = "Ler bilhete"
 [node name="Shape" type="CollisionShape3D" parent="Interactions/Room102Note"]
 shape = SubResource("Interaction")
 [node name="FusePickup" type="Area3D" parent="Interactions"]
-position = Vector3(4.2, 1, -13)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 1, -13)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("10_interactable")
@@ -360,7 +390,7 @@ shape = SubResource("Interaction")
 [node name="FuseVisual" type="MeshInstance3D" parent="Interactions/FusePickup"]
 mesh = SubResource("FuseMesh")
 [node name="Deposit" type="Area3D" parent="Interactions"]
-position = Vector3(1.6, 1, -18)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 1, -18)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("10_interactable")
@@ -370,7 +400,7 @@ InteractionText = "Tentar abrir deposito"
 [node name="Shape" type="CollisionShape3D" parent="Interactions/Deposit"]
 shape = SubResource("Interaction")
 [node name="ManagerClue" type="Area3D" parent="Interactions"]
-position = Vector3(-5, 4.25, -22.7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4.25, -22.7)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("10_interactable")
@@ -382,33 +412,33 @@ shape = SubResource("Interaction")
 
 [node name="Lighting" type="Node3D" parent="."]
 [node name="MoonLight" type="DirectionalLight3D" parent="Lighting"]
-rotation_degrees = Vector3(-45, -35, 0)
+transform = Transform3D(0.819152, -0.40558, 0.40558, 0, 0.707107, 0.707107, -0.573576, -0.579228, 0.579228, 0, 0, 0)
 light_color = Color(0.686275, 0.768627, 0.839216, 1)
 light_energy = 0.62
 shadow_enabled = true
 [node name="EntranceWarmLight" type="OmniLight3D" parent="Lighting"]
-position = Vector3(0, 2.6, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -3)
 light_color = Color(0.84, 0.58, 0.25, 1)
 light_energy = 1.2
 omni_range = 8.0
 shadow_enabled = true
 [node name="ReceptionLight" type="OmniLight3D" parent="Lighting"]
-position = Vector3(-4.5, 2.4, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2.4, -7)
 light_color = Color(0.8, 0.52, 0.22, 1)
 light_energy = 0.65
 omni_range = 6.0
 [node name="CorridorLight" type="OmniLight3D" parent="Lighting"]
-position = Vector3(0, 2.45, -15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45, -15)
 light_color = Color(0.62, 0.43, 0.25, 1)
 light_energy = 0.32
 omni_range = 7.0
 [node name="UpperFloorLight" type="OmniLight3D" parent="Lighting"]
-position = Vector3(0, 5.2, -16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, -16)
 light_color = Color(0.55, 0.42, 0.3, 1)
 light_energy = 0.12
 omni_range = 9.0
 [node name="ManagerLight" type="OmniLight3D" parent="Lighting"]
-position = Vector3(-5, 5.1, -22)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5.1, -22)
 light_color = Color(0.68, 0.42, 0.2, 1)
 light_energy = 0.38
 omni_range = 5.0
@@ -424,14 +454,6 @@ script = ExtResource("12_fog_script")
 CameraPath = NodePath("../../../Player/CameraPivot/Camera3D")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Atmosphere"]
 environment = SubResource("OfficialEnvironment")
-
-[node name="DebugMarkers" type="Node3D" parent="."]
-[node name="FrontDoor" type="Marker3D" parent="DebugMarkers"]
-position = Vector3(0, 1, -3.35)
-[node name="StairRampCenter" type="Marker3D" parent="DebugMarkers"]
-position = Vector3(5.1, 1.65, -9.8)
-[node name="FutureEnemySpawn" type="Marker3D" parent="DebugMarkers"]
-position = Vector3(0, 1, -20)
 
 [node name="UI" type="Node" parent="."]
 [node name="HUD" parent="UI" instance=ExtResource("3_hud")]

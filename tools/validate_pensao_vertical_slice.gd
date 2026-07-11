@@ -12,7 +12,7 @@ func _run() -> void:
 	root.add_child(scene)
 	await physics_frame
 	var required := [
-		"Visual/PensaoVerticalSliceModel", "Player", "UI/HUD", "PlayerSpawn",
+		"Visual/WorldModel", "Player", "UI/HUD", "PlayerSpawn",
 		"StaticGameplayCollisions/ExteriorGroundCollision",
 		"StaticGameplayCollisions/InteriorFloor01Collision",
 		"StaticGameplayCollisions/InteriorFloor02MainCollision",
@@ -20,7 +20,7 @@ func _run() -> void:
 		"StaticGameplayCollisions/Floor2GuardCollision",
 		"StaticGameplayCollisions/ExteriorWallCollisions/Back",
 		"Interactions/Room102", "Interactions/FusePickup", "Interactions/Deposit",
-		"Interactions/ManagerClue", "DebugMarkers/FutureEnemySpawn",
+		"Interactions/ManagerClue", "Visual/SignLabels/PensaoSign",
 	]
 	for path in required:
 		if scene.get_node_or_null(path) == null:
@@ -29,7 +29,7 @@ func _run() -> void:
 	if scene.has_node("Base") or scene.has_node("MansionBlockout") or scene.has_node("VisualFilter"):
 		_fail("Dependencia de tentativa antiga ainda presente", 3)
 		return
-	var model := scene.get_node("Visual/PensaoVerticalSliceModel")
+	var model := scene.get_node("Visual/WorldModel")
 	for node in model.find_children("*", "", true, false):
 		if node.name.to_lower().begins_with("guide_"):
 			_fail("Guide exportado como visual: " + node.name, 4)
@@ -46,7 +46,7 @@ func _run() -> void:
 	if not deposit_shape.disabled or not stair_shape.disabled:
 		_fail("Blockers continuam ativos apos puzzle", 6)
 		return
-	var deposit_visual := scene.get_node("Visual/PensaoVerticalSliceModel/deposit_door_locked") as Node3D
+	var deposit_visual := scene.get_node("Visual/WorldModel/deposit_door_dark") as Node3D
 	if deposit_visual.visible:
 		_fail("Porta visual do deposito continua fechada apos puzzle", 7)
 		return
@@ -68,7 +68,7 @@ func _run() -> void:
 		if player.test_move(Transform3D(Basis.IDENTITY, start), finish - start):
 			_fail("Rota bloqueada: " + str(segment[2]), 8)
 			return
-	print("PENSAO_M31_OK nodes=", required.size(), " puzzle=true routes=true legacy=false")
+	print("PENSAO_M32_OK nodes=", required.size(), " puzzle=true routes=true legacy=false bevel_export=true")
 	scene.queue_free()
 	quit(0)
 

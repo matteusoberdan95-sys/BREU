@@ -6,7 +6,7 @@ public partial class PensaoVerticalSliceController : Node
     [Export] public NodePath DepositBlockerPath { get; set; } = "../Base/StaticGameplayCollisions/DepositDoorCollision/Shape";
     [Export] public NodePath UpstairsBlockerPath { get; set; } = "../Base/StaticGameplayCollisions/SecondFloorTemporaryBlocker/Shape";
     [Export] public NodePath FuseVisualPath { get; set; } = "../VerticalSliceInteractions/FusePickup/FuseVisual";
-    [Export] public NodePath DepositVisualPath { get; set; } = "../Visual/PensaoVerticalSliceModel/deposit_door_locked";
+    [Export] public NodePath DepositVisualPath { get; set; } = "../Visual/WorldModel/deposit_door_dark";
     [Export] public NodePath UpperFloorLightPath { get; set; } = "../VerticalSliceLighting/UpperCorridorLight";
 
     public bool HasFuse { get; private set; }

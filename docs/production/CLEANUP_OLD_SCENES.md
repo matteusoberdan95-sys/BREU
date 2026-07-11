@@ -1,3 +1,35 @@
+# Limpeza M.3.2 — Hard Reset da Vertical Slice
+
+**Data:** 2026-07-11  
+**Branch:** `cleanup/hard-reset-level-scenes-m32`
+
+## Problema resolvido
+
+- Cenas antigas deletadas de vez (sem `_archive`)
+- GLB reexportado com **BEVEL + WEIGHTED_NORMAL aplicados** (corrige cantos quadrados no Godot)
+- Cena Godot recriada do zero com Label3D para placas
+- Cache de import antigo limpo
+
+## Cena oficial
+
+| Tipo | Caminho |
+|------|---------|
+| Blender | `assets/blender/trail_intro_pensao_vertical_slice_v01.blend` |
+| GLB | `assets/models/levels/pensao_santa_luzia/pensao_santa_luzia_vertical_slice_v01.glb` |
+| Godot | `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn` |
+| Exportador | `tools/blender/export_vertical_slice_official.py` |
+
+## Nota critica sobre o .blend externo
+
+O arquivo `quarto-07/trail_intro_pensao_vertical_slice_v01.blend` recebido continha apenas Cube/Camera/Light (cena padrao, 96 KB).
+O script de exportacao detectou isso e **reconstruiu** o blend oficial a partir de `quarto-07/trail_intro_pensao_integrada_v01.blend`,
+filtrando somente collections validas (sem M01/HeightFix, Fog, Guides, Lights, Cameras).
+O blend reconstruido foi salvo em `assets/blender/trail_intro_pensao_vertical_slice_v01.blend` (663 KB).
+
+**Acao necessaria do usuario:** salvar o trabalho real no Blender como `trail_intro_pensao_vertical_slice_v01.blend` em quarto-07.
+
+---
+
 # Limpeza de cenas antigas — Sprint M.3.1
 
 **Data:** 2026-07-11  
