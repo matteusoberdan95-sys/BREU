@@ -19,11 +19,11 @@ public partial class PensaoTerreoPuzzleSetup : Node
         var state = GetNodeOrNull<PensaoPuzzleState>("../../PuzzleState");
         var interactions = GetNodeOrNull<Node3D>("../../Interactions");
         var depositArea = GetNodeOrNull<Node3D>("../../PensionGroundFloor/DepositArea");
-        var door = depositArea?.GetNodeOrNull<StaticBody3D>("Door_Deposit_Blocked");
+        var door = depositArea?.GetNodeOrNull<Node3D>("Door_Deposit");
 
         if (state == null || interactions == null || door == null)
         {
-            GD.PushError("[Puzzle] Missing PuzzleState, Interactions or Door_Deposit_Blocked.");
+            GD.PushError("[Puzzle] Missing PuzzleState, Interactions or Door_Deposit.");
             return;
         }
 
@@ -36,19 +36,27 @@ public partial class PensaoTerreoPuzzleSetup : Node
         CreateDepositNote(puzzleItems);
     }
 
-    private static void SetupDepositDoor(PensaoPuzzleState state, StaticBody3D door)
+    private static void SetupDepositDoor(PensaoPuzzleState state, Node3D doorRoot)
     {
-        foreach (var child in door.GetChildren())
+        var blocking = doorRoot.GetNodeOrNull<StaticBody3D>("Door_Deposit_Blocking");
+        if (blocking != null)
         {
-            if (child is Interactable legacy)
+            foreach (var child in blocking.GetChildren())
             {
-                legacy.QueueFree();
+                if (child is Interactable legacy)
+                {
+                    legacy.QueueFree();
+                }
             }
         }
 
+        var interactionHost = blocking ?? doorRoot;
+        var existing = interactionHost.GetNodeOrNull<DepositDoorInteraction>("DepositDoorInteraction");
+        existing?.QueueFree();
+
         var interaction = new DepositDoorInteraction { Name = "DepositDoorInteraction" };
-        door.AddChild(interaction);
-        interaction.Initialize(state, door);
+        interactionHost.AddChild(interaction);
+        interaction.Initialize(state, doorRoot);
     }
 
     private static void CreateKeyPickup(PensaoPuzzleState state, Node3D parent)

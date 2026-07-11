@@ -242,8 +242,20 @@ Registro cronológico das sprints do reboot greenfield.
 
 ---
 
+## Sprint 14 — Portas, quartos e leitura narrativa
+
+**Status:** 🔄 Implementada — playtest F6 pendente  
+**Data:** 2026-07-11
+
+**Entregas:**
+- Molduras/portas blockout + props narrativos
+- Interações de texto em cômodos principais
+- Puzzle e atmosfera preservados
+
+---
+
 ## Próxima
 
-**Sprint 14 — Portas, quartos e leitura narrativa**
+**Sprint 15 — Vertical slice da Pensão**
 
 ---

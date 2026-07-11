@@ -77,3 +77,49 @@ Trilha → entrada → recepção → quarto 102 → chave → cozinha → depó
 
 - [ ] Atmosfera Sprint 13 preservada
 - [ ] Estrutura S05–12A preservada
+
+---
+
+## Sprint 14A — Door readability and deposit door fix
+
+**Data:** 2026-07-11  
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md`
+
+### Correções
+
+- **Depósito:** `Door_Deposit` reestruturado (Frame / Panel / Collision / Interact). Destravar = painel some + colisão desativa — sem scale/animação.
+- **Molduras térreo:** entrada, quarto 102, cozinha, depósito — leitura Tipo A/B/C.
+- **2º andar:** quartos 201/202 com moldura + folha aberta.
+- **Porta verde → varanda:** `Door_UpperBalcony_Locked` — prompt *Tentar abrir varanda*; trancada.
+- **Varanda placeholder:** `UpperBalcony_Placeholder` + guarda-corpos; piso fechado; sem acesso jogável.
+
+### Portas/molduras (14A)
+
+| Nó | Tipo |
+|----|------|
+| `Door_MainEntrance_Frame` | A — aberta |
+| `Door_Room102_Frame` | A — aberta |
+| `Door_Kitchen_Frame` | A — aberta |
+| `Door_Deposit_*` | C — destravável |
+| `Door_Room201_Frame` / `Door_Room202_Frame` | A — aberta |
+| `Door_UpperBalcony_Locked` | B — varanda trancada |
+
+### Checklist 14A
+
+**Portas**
+- [ ] Entrada / 102 / cozinha — moldura clara
+- [ ] Depósito — porta clara; **não** estica/treme/canto da parede
+- [ ] Depósito destranca com chave; passagem livre depois
+- [ ] 201 / 202 — moldura clara
+- [ ] Porta verde — prompt varanda; não abre; não atravessável
+
+**Varanda**
+- [ ] Frontal superior = varanda placeholder (piso + guarda-corpo)
+- [ ] Não parece buraco; player não acessa
+
+**Regressão**
+- [ ] Movimento / HUD / lanterna / F10 / F11
+- [ ] Fog intacto
+- [ ] Puzzle chave → depósito → fusível
+- [ ] Escada / 2º andar
+- [ ] Prompts não atravessam parede

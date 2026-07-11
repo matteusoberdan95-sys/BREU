@@ -1,13 +1,10 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
-/// Sprint 14 — ground-floor narrative readability (doors, props, interactions).
+/// Sprint 14 / 14A — ground-floor narrative readability (doors, props, interactions).
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder
 {
-    private const float DoorFrameThickness = 0.1f;
-    private const float DoorFrameDepth = 0.14f;
-
     private void BuildNarrativeReadability()
     {
         var narrative = new Node3D { Name = "NarrativeReadability" };
@@ -29,11 +26,19 @@ public partial class PensaoTerreoBlockout01Builder
         const float varandaEntryZ = 9.8f;
 
         AddDoorFrameInZWall(parent, "Door_MainEntrance_Frame", 0f, varandaEntryZ, 0f, MainEntryWidth, DoorHeight);
+        AddOpenDoorLeafZWall(parent, "Door_MainEntrance_Leaf", 0f, varandaEntryZ, MainEntryWidth, DoorHeight, 0.55f);
+
         AddDoorFrameInZWall(parent, "Door_ReceptionSouth_Frame", 0f, receptionSouthZ, 0f, DoorWidth, DoorHeight);
+        AddOpenDoorLeafZWall(parent, "Door_ReceptionSouth_Leaf", 0f, receptionSouthZ, DoorWidth, DoorHeight, 0.45f);
+
         AddDoorFrameInZWall(parent, "Door_ReceptionCorridor_Frame", 0f, corridorNorthZ, 0f, DoorWidth, DoorHeight);
+        AddOpenDoorLeafZWall(parent, "Door_ReceptionCorridor_Leaf", 0f, corridorNorthZ, DoorWidth, DoorHeight, -0.45f);
+
         AddDoorFrameInXWall(parent, "Door_Room102_Frame", -CorridorWallX, -15.5f, DoorWidth, DoorHeight);
+        AddOpenDoorLeafXWall(parent, "Door_Room102_Leaf", -CorridorWallX, -15.5f, DoorWidth, DoorHeight, -0.45f);
+
         AddDoorFrameInXWall(parent, "Door_Kitchen_Frame", CorridorWallX, -20.5f, DoorWidth, DoorHeight);
-        AddDoorFrameInZWall(parent, "Door_Deposit_Frame", 0f, -26.5f, 0f, DoorWidth, DoorHeight);
+        AddOpenDoorLeafXWall(parent, "Door_Kitchen_Leaf", CorridorWallX, -20.5f, DoorWidth, DoorHeight, 0.45f);
     }
 
     private void BuildReceptionNarrativeProps(Node3D parent)
@@ -171,6 +176,15 @@ public partial class PensaoTerreoBlockout01Builder
             DoorWidth,
             DoorHeight);
 
+        AddOpenDoorLeafXWall(
+            stair,
+            "Door_StairEntry_Leaf",
+            -CorridorWallX - WallThickness * 0.5f,
+            -25.5f,
+            DoorWidth,
+            DoorHeight,
+            -0.45f);
+
         AddVisualProp(
             stair,
             "Stair_Handrail_Visual",
@@ -254,31 +268,7 @@ public partial class PensaoTerreoBlockout01Builder
         float doorWidth,
         float doorHeight)
     {
-        var half = doorWidth * 0.5f;
-        var frameCenterY = doorHeight * 0.5f;
-        var lintelHeight = WallHeight - doorHeight;
-        var lintelCenterY = doorHeight + lintelHeight * 0.5f;
-
-        AddVisualProp(
-            parent,
-            $"{name}_Left",
-            new Vector3(centerX - half - DoorFrameThickness * 0.5f, frameCenterY, wallZ),
-            new Vector3(DoorFrameThickness, doorHeight, DoorFrameDepth),
-            _matDoorFrame);
-
-        AddVisualProp(
-            parent,
-            $"{name}_Right",
-            new Vector3(centerX + half + DoorFrameThickness * 0.5f, frameCenterY, wallZ),
-            new Vector3(DoorFrameThickness, doorHeight, DoorFrameDepth),
-            _matDoorFrame);
-
-        AddVisualProp(
-            parent,
-            $"{name}_Lintel",
-            new Vector3(centerX, lintelCenterY, wallZ),
-            new Vector3(doorWidth + DoorFrameThickness * 2f, lintelHeight, DoorFrameDepth),
-            _matDoorFrame);
+        AddDoorFrameInZWallLocal(parent, name, centerX, wallZ, doorWidth, doorHeight);
     }
 
     protected void AddDoorFrameInXWall(
@@ -289,30 +279,6 @@ public partial class PensaoTerreoBlockout01Builder
         float doorWidth,
         float doorHeight)
     {
-        var half = doorWidth * 0.5f;
-        var frameCenterY = doorHeight * 0.5f;
-        var lintelHeight = WallHeight - doorHeight;
-        var lintelCenterY = doorHeight + lintelHeight * 0.5f;
-
-        AddVisualProp(
-            parent,
-            $"{name}_South",
-            new Vector3(wallX, frameCenterY, doorCenterZ + half + DoorFrameThickness * 0.5f),
-            new Vector3(DoorFrameDepth, doorHeight, DoorFrameThickness),
-            _matDoorFrame);
-
-        AddVisualProp(
-            parent,
-            $"{name}_North",
-            new Vector3(wallX, frameCenterY, doorCenterZ - half - DoorFrameThickness * 0.5f),
-            new Vector3(DoorFrameDepth, doorHeight, DoorFrameThickness),
-            _matDoorFrame);
-
-        AddVisualProp(
-            parent,
-            $"{name}_Lintel",
-            new Vector3(wallX, lintelCenterY, doorCenterZ),
-            new Vector3(DoorFrameDepth, lintelHeight, doorWidth + DoorFrameThickness * 2f),
-            _matDoorFrame);
+        AddDoorFrameInXWallLocal(parent, name, wallX, doorCenterZ, doorWidth, doorHeight);
     }
 }

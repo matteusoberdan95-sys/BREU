@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 14 implementada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 14 em validação; Sprint 14A executada (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -25,7 +25,8 @@
 | Sprint 12 | **✅ Aprovada** — teto/cobertura blockout |
 | Sprint 12A | **✅ Aprovada** — hotfix fechamento fachada/escada/porta verde |
 | Sprint 13 | **✅ Aprovada** — atmosfera base |
-| Sprint 14 | **🔄 Implementada** — portas/quartos/leitura narrativa (playtest F6 pendente) |
+| Sprint 14 | **🔄 Em validação** — portas/quartos/leitura narrativa (playtest F6 pendente) |
+| Sprint 14A | **🔄 Executada** — hotfix portas, depósito, varanda bloqueada (playtest F6 pendente) |
 
 ---
 
@@ -80,10 +81,11 @@
 | 12A Hotfix fechamento | `PENSION_CEILING_HOTFIX_12A.md` |
 | 13 Atmosfera base | `PENSION_ATMOSPHERE_BASELINE.md` |
 | 14 Leitura narrativa | `PENSION_ROOM_READABILITY_BASELINE.md` |
+| 14A Portas blockout | `PENSION_DOOR_BLOCKOUT_BASELINE.md` |
 
 ---
 
-## Sprint 14 — resumo (implementada)
+## Sprint 14 — resumo (em validação)
 
 Blockout narrativo — portas/molduras, props simples e interações de texto.
 
@@ -97,19 +99,34 @@ Blockout narrativo — portas/molduras, props simples e interações de texto.
 
 ---
 
+## Sprint 14A — resumo (executada)
+
+Hotfix de leitura de portas sem alterar atmosfera, movimento ou layout principal.
+
+- **Depósito:** porta reestruturada; destravar oculta painel e desativa colisão (sem animação/scale).
+- **Molduras** claras em entrada, 102, cozinha, 201, 202.
+- **Porta verde** renomeada/redefinida como `Door_UpperBalcony_Locked` (varanda bloqueada).
+- **Varanda placeholder** frontal com piso e guarda-corpos.
+
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md`  
+**Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14A
+
+---
+
 ## Próxima sprint — Sprint 15 (Vertical slice da Pensão)
 
-**Objetivo:** Refinar leitura espacial e narrativa dos cômodos — portas, quartos e pistas — sem arte final.
+**Objetivo:** Experiência contínua trilha → pensão → puzzle → escada → 2º andar — sem inimigo.
 
 **Entregas planejadas:**
-- Portas e quartos com leitura mais clara (blockout).
-- Interações/textos narrativos leves onde aplicável.
-- Reforço da circulação e identidade dos espaços.
+- Playtest rota completa 15–20 min
+- Correções de soft-lock se encontrados
 
-**DoD:** Jogador entende onde está e o que cada cômodo sugere; zero regressão gameplay/aprovados.
+**DoD:** Fluxo completo jogável; zero regressão dos sistemas aprovados.
 
-**Não fazer:** refazer atmosfera; refazer estrutura; arte final; inimigo; combate.
+**Não fazer:** inimigo; combate; arte final.
 
-**Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 14
+**Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 15
+
+**Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`

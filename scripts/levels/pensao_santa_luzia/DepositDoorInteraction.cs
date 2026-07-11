@@ -1,30 +1,30 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
-using BREU.Scripts.Interaction;
-
 /// <summary>
-/// Stateful deposit door — locked until key is used (Sprint 07).
+/// Sprint 14A — deposit door unlock: hide panel + disable collision only (no scale/animation).
 /// </summary>
 public partial class DepositDoorInteraction : Node, IInteractable
 {
     private const string LockedPrompt = "Tentar abrir depósito";
-    private const string LockedMessage = "Está trancado. Preciso encontrar uma chave.";
+    private const string LockedMessage = "Está trancado. Preciso encontrar a chave.";
     private const string UnlockPrompt = "Usar chave velha";
-    private const string UnlockMessage = "A porta do depósito destrancou.";
+    private const string UnlockMessage = "A chave gira com dificuldade. A porta destranca.";
 
     private PensaoPuzzleState? _state;
-    private StaticBody3D? _doorBody;
+    private Node3D? _doorPanel;
     private CollisionShape3D? _doorCollision;
+    private StaticBody3D? _doorBlocking;
 
-    public void Initialize(PensaoPuzzleState state, StaticBody3D doorBody)
+    public void Initialize(PensaoPuzzleState state, Node3D doorRoot)
     {
         _state = state;
-        _doorBody = doorBody;
-        _doorCollision = doorBody.GetNodeOrNull<CollisionShape3D>("Door_Deposit_Blocking_Collision");
+        _doorPanel = doorRoot.GetNodeOrNull<Node3D>("Door_Deposit_Panel");
+        _doorBlocking = doorRoot.GetNodeOrNull<StaticBody3D>("Door_Deposit_Blocking");
+        _doorCollision = doorRoot.GetNodeOrNull<CollisionShape3D>("Door_Deposit_Blocking/Door_Deposit_Collision");
 
-        if (!doorBody.IsInGroup("interactable"))
+        if (_doorBlocking != null && !_doorBlocking.IsInGroup("interactable"))
         {
-            doorBody.AddToGroup("interactable");
+            _doorBlocking.AddToGroup("interactable");
         }
     }
 
@@ -54,15 +54,15 @@ public partial class DepositDoorInteraction : Node, IInteractable
         }
 
         _state.UnlockDeposit();
-        DisableDoorBlocking();
+        OpenDoor();
         hud?.ShowMessage(UnlockMessage, 3.0f);
     }
 
-    private void DisableDoorBlocking()
+    private void OpenDoor()
     {
-        if (_doorBody != null)
+        if (_doorPanel != null)
         {
-            _doorBody.Visible = false;
+            _doorPanel.Visible = false;
         }
 
         if (_doorCollision != null)

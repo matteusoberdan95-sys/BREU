@@ -107,6 +107,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         BuildSecondFloor();
         BuildCeilingBlockout();
         BuildUpperSouthRoomPlaceholder();
+        BuildUpperBalconyPlaceholder();
         BuildSecondFloorNarrativeReadability();
     }
 
@@ -706,13 +707,13 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "room_202");
 
         AddInteractableBody(
-            _interactions,
-            "UpperBlockedDoor",
+            _secondFloor,
+            "Door_UpperBalcony_Locked",
             new Vector3(0f, SecondFloorTopY + DoorHeight * 0.5f - WallEmbedBelowFloor, BlockedDoorZ),
-            new Vector3(DoorWidth, DoorHeight, 0.14f),
-            "Tentar abrir porta",
-            "Está trancada por dentro.",
-            "room_203_locked");
+            new Vector3(DoorWidth, DoorHeight, 0.12f),
+            "Tentar abrir varanda",
+            "A porta está emperrada. O vento passa pelas frestas do lado de fora.",
+            "upper_balcony_locked");
     }
 
     private void BuildSecondFloorNarrativeInteractions()
@@ -762,6 +763,57 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(0f, SecondFloorCeilingUndersideY, roomCenterZ),
             new Vector3(UpperCorridorWidth + WallCornerOverlap, CeilingThickness, roomDepth),
             _matCeilingSecond);
+    }
+
+    private void BuildUpperBalconyPlaceholder()
+    {
+        const float balconyFrontZ = UpperFrontZ + WallThickness * 0.5f;
+        var balconyDepth = balconyFrontZ - BlockedDoorZ + WallCornerOverlap;
+        var balconyCenterZ = (balconyFrontZ + BlockedDoorZ) * 0.5f;
+
+        var balcony = new Node3D { Name = "UpperBalcony_Placeholder" };
+        _secondFloor.AddChild(balcony);
+
+        AddVisualFloorPlate(
+            balcony,
+            "UpperBalcony_Floor",
+            new Vector3(0f, 0f, balconyCenterZ),
+            new Vector2(UpperCorridorWidth + FloorWallLip * 2f, balconyDepth),
+            SecondFloorVisualTopY,
+            _matSecondFloor);
+
+        const float railHeight = 1.0f;
+        var railCenterY = SecondFloorTopY + railHeight * 0.5f;
+        var railSpanX = UpperCorridorWidth + WallCornerOverlap;
+
+        AddVisualProp(
+            balcony,
+            "UpperBalcony_Rail_Front",
+            new Vector3(0f, railCenterY, balconyFrontZ - 0.12f),
+            new Vector3(railSpanX, railHeight, 0.1f),
+            _matSecondRail);
+
+        AddVisualProp(
+            balcony,
+            "UpperBalcony_Rail_Left",
+            new Vector3(-CorridorWallX - 0.06f, railCenterY, balconyCenterZ),
+            new Vector3(0.1f, railHeight, balconyDepth),
+            _matSecondRail);
+
+        AddVisualProp(
+            balcony,
+            "UpperBalcony_Rail_Right",
+            new Vector3(CorridorWallX + 0.06f, railCenterY, balconyCenterZ),
+            new Vector3(0.1f, railHeight, balconyDepth),
+            _matSecondRail);
+
+        AddDoorFrameInZWallLocal(
+            balcony,
+            "Door_UpperBalcony_Frame",
+            0f,
+            BlockedDoorZ,
+            DoorWidth,
+            DoorHeight);
     }
 
     private void AddSecondFloorSlab(string name, Vector3 center, Vector3 size)

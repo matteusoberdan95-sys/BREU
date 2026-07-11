@@ -1,7 +1,7 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
-/// Sprint 14 — second-floor narrative readability (doors, props, marks).
+/// Sprint 14 / 14A — second-floor narrative readability (doors, props, marks).
 /// </summary>
 public partial class PensaoVerticalBlockout01Builder
 {
@@ -11,15 +11,10 @@ public partial class PensaoVerticalBlockout01Builder
         _secondFloor.AddChild(narrative);
 
         AddSecondFloorDoorFrameInXWall(narrative, "Door_Room201_Frame", -CorridorWallX, Room201CenterZ, DoorWidth, DoorHeight);
-        AddSecondFloorDoorFrameInXWall(narrative, "Door_Room202_Frame", CorridorWallX, Room202CenterZ, DoorWidth, DoorHeight);
-        AddSecondFloorDoorFrameInZWall(narrative, "Door_UpperBlocked_Frame", 0f, BlockedDoorZ, 0f, DoorWidth, DoorHeight);
+        AddOpenDoorLeafXWall(narrative, "Door_Room201_Leaf", -CorridorWallX, Room201CenterZ, DoorWidth, DoorHeight, -0.45f);
 
-        AddVisualProp(
-            narrative,
-            "Door_UpperBlocked_Locked",
-            new Vector3(0f, SecondFloorTopY + DoorHeight * 0.5f - WallEmbedBelowFloor, BlockedDoorZ),
-            new Vector3(DoorWidth, DoorHeight, 0.12f),
-            _matDoor);
+        AddSecondFloorDoorFrameInXWall(narrative, "Door_Room202_Frame", CorridorWallX, Room202CenterZ, DoorWidth, DoorHeight);
+        AddOpenDoorLeafXWall(narrative, "Door_Room202_Leaf", CorridorWallX, Room202CenterZ, DoorWidth, DoorHeight, 0.45f);
 
         BuildRoom201NarrativeProps(narrative);
         BuildRoom202NarrativeProps(narrative);
@@ -85,8 +80,8 @@ public partial class PensaoVerticalBlockout01Builder
         float doorWidth,
         float doorHeight)
     {
-        const float frameTh = 0.1f;
-        const float frameDepth = 0.14f;
+        const float frameTh = 0.14f;
+        const float frameDepth = 0.2f;
         var half = doorWidth * 0.5f;
         var frameCenterY = SecondFloorTopY + doorHeight * 0.5f - WallEmbedBelowFloor;
         var lintelHeight = WallHeight - doorHeight;
@@ -105,8 +100,8 @@ public partial class PensaoVerticalBlockout01Builder
         float doorWidth,
         float doorHeight)
     {
-        const float frameTh = 0.1f;
-        const float frameDepth = 0.14f;
+        const float frameTh = 0.14f;
+        const float frameDepth = 0.2f;
         var half = doorWidth * 0.5f;
         var frameCenterY = SecondFloorTopY + doorHeight * 0.5f - WallEmbedBelowFloor;
         var lintelHeight = WallHeight - doorHeight;

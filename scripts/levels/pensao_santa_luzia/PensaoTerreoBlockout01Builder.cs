@@ -593,10 +593,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(CorridorWidth + WallCornerOverlap, headerHeight, WallThickness),
             _matInteriorWall);
 
-        AddBlockedDepositDoor(
-            storage,
-            new Vector3(0, DoorHeight * 0.5f - WallEmbedBelowFloor, depositDoorZ),
-            new Vector3(DoorWidth, DoorHeight, 0.14f));
+        BuildDepositDoorAssembly(storage, depositDoorZ);
 
         AddVisualFloorPlate(
             storage,
@@ -931,21 +928,148 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         AddSolid(parent, name, center, size, material, WorldLayer);
     }
 
-    private void AddBlockedDepositDoor(Node3D parent, Vector3 center, Vector3 size)
+    private void BuildDepositDoorAssembly(Node3D parent, float doorWorldZ)
     {
-        var body = new StaticBody3D
+        var doorCenterY = DoorHeight * 0.5f - WallEmbedBelowFloor;
+        var root = new Node3D
         {
-            Name = "Door_Deposit_Blocked",
-            Position = center,
+            Name = "Door_Deposit",
+            Position = new Vector3(0f, doorCenterY, doorWorldZ)
+        };
+        parent.AddChild(root);
+
+        AddDoorFrameInZWallLocal(
+            root,
+            "Door_Deposit_Frame",
+            0f,
+            0f,
+            DoorWidth,
+            DoorHeight);
+
+        var panel = new Node3D { Name = "Door_Deposit_Panel" };
+        panel.AddChild(CreateBoxMesh(new Vector3(DoorWidth, DoorHeight, 0.12f), _matDoor));
+        root.AddChild(panel);
+
+        var blocking = new StaticBody3D
+        {
+            Name = "Door_Deposit_Blocking",
             CollisionLayer = WorldInteractableLayer,
             CollisionMask = 0
         };
+        var collision = CreateBoxCollision(new Vector3(DoorWidth, DoorHeight, 0.14f));
+        collision.Name = "Door_Deposit_Collision";
+        blocking.AddChild(collision);
+        root.AddChild(blocking);
 
-        var collision = CreateBoxCollision(size);
-        collision.Name = "Door_Deposit_Blocking_Collision";
-        body.AddChild(collision);
-        body.AddChild(CreateBoxMesh(size, _matDoor));
-        parent.AddChild(body);
+        blocking.AddToGroup("interactable");
+    }
+
+    protected void AddDoorFrameInZWallLocal(
+        Node3D parent,
+        string name,
+        float centerX,
+        float centerZ,
+        float doorWidth,
+        float doorHeight)
+    {
+        const float frameTh = 0.14f;
+        const float frameDepth = 0.2f;
+        var half = doorWidth * 0.5f;
+        var frameCenterY = doorHeight * 0.5f;
+        var lintelHeight = WallHeight - doorHeight;
+        var lintelCenterY = doorHeight + lintelHeight * 0.5f;
+
+        AddVisualProp(
+            parent,
+            $"{name}_Left",
+            new Vector3(centerX - half - frameTh * 0.5f, frameCenterY, centerZ),
+            new Vector3(frameTh, doorHeight, frameDepth),
+            _matDoorFrame);
+
+        AddVisualProp(
+            parent,
+            $"{name}_Right",
+            new Vector3(centerX + half + frameTh * 0.5f, frameCenterY, centerZ),
+            new Vector3(frameTh, doorHeight, frameDepth),
+            _matDoorFrame);
+
+        AddVisualProp(
+            parent,
+            $"{name}_Lintel",
+            new Vector3(centerX, lintelCenterY, centerZ),
+            new Vector3(doorWidth + frameTh * 2f, lintelHeight, frameDepth),
+            _matDoorFrame);
+    }
+
+    protected void AddDoorFrameInXWallLocal(
+        Node3D parent,
+        string name,
+        float centerX,
+        float centerZ,
+        float doorWidth,
+        float doorHeight)
+    {
+        const float frameTh = 0.14f;
+        const float frameDepth = 0.2f;
+        var half = doorWidth * 0.5f;
+        var frameCenterY = doorHeight * 0.5f;
+        var lintelHeight = WallHeight - doorHeight;
+        var lintelCenterY = doorHeight + lintelHeight * 0.5f;
+
+        AddVisualProp(
+            parent,
+            $"{name}_South",
+            new Vector3(centerX, frameCenterY, centerZ + half + frameTh * 0.5f),
+            new Vector3(frameDepth, doorHeight, frameTh),
+            _matDoorFrame);
+
+        AddVisualProp(
+            parent,
+            $"{name}_North",
+            new Vector3(centerX, frameCenterY, centerZ - half - frameTh * 0.5f),
+            new Vector3(frameDepth, doorHeight, frameTh),
+            _matDoorFrame);
+
+        AddVisualProp(
+            parent,
+            $"{name}_Lintel",
+            new Vector3(centerX, lintelCenterY, centerZ),
+            new Vector3(frameDepth, lintelHeight, doorWidth + frameTh * 2f),
+            _matDoorFrame);
+    }
+
+    protected void AddOpenDoorLeafXWall(
+        Node3D parent,
+        string name,
+        float wallX,
+        float doorCenterZ,
+        float doorWidth,
+        float doorHeight,
+        float openOffsetX)
+    {
+        AddVisualProp(
+            parent,
+            name,
+            new Vector3(wallX + openOffsetX, doorHeight * 0.5f, doorCenterZ),
+            new Vector3(0.08f, doorHeight * 0.96f, doorWidth * 0.42f),
+            _matDoor);
+    }
+
+    protected void AddOpenDoorLeafZWall(
+        Node3D parent,
+        string name,
+        float doorCenterX,
+        float wallZ,
+        float doorWidth,
+        float doorHeight,
+        float openOffsetZ)
+    {
+        AddVisualProp(
+            parent,
+            name,
+            new Vector3(doorCenterX, doorHeight * 0.5f, wallZ + openOffsetZ),
+            new Vector3(doorWidth * 0.42f, doorHeight * 0.96f, 0.08f),
+            _matDoor);
     }
 
     protected void AddSolid(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material, uint layer)
