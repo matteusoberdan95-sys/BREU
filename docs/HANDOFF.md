@@ -1,55 +1,43 @@
 # BREU — Handoff
 
 **Última atualização:** 2026-07-11  
-**Status:** REBOOT GREENFIELD — Sprint 04 aprovada  
+**Status:** REBOOT GREENFIELD — Sprint 05 concluída  
 **Branch:** `reboot/breu-clean-start`
 
 ---
 
-## Retomar em 60 segundos
+## Retomar
 
 1. `docs/PROJECT_STATE.md`
-2. `docs/technical/INTERACTION_SYSTEM_BASELINE.md`
-3. `docs/production/SPRINT_ROADMAP.md` — Sprint 05
+2. `docs/testing/PENSAO_TERREO_BLOCKOUT_01_PLAYTEST.md`
+3. Sprint 06 — correções pós-playtest
 
 ---
 
-## Baselines congeladas
+## Sprint 05 — entregue
 
-| Sprint | Doc |
-|--------|-----|
-| 02 Player | `PLAYER_CONTROLLER_BASELINE.md` |
-| 03 HUD | `HUD_DEBUG_BASELINE.md` |
-| 04 Interação | `INTERACTION_SYSTEM_BASELINE.md` |
+**Cena:** `PensaoTerreoBlockout01.tscn`
+
+Fluxo: trilha → varanda → recepção → corredor → quarto 102 / cozinha → depósito trancado.
+
+Builder: `PensaoTerreoBlockout01Builder.cs` (geometria sob Exterior / PensionGroundFloor / Interactions).
 
 ---
 
-## Sprint 04 — fechada e aprovada
+## Testar
 
-- InteractionLab OK
-- Prompt `[E]` + mensagens OK
-- Colisões básicas OK
-- Player/HUD intactos
+Godot → `PensaoTerreoBlockout01.tscn` → **F6**
+
+Spawn na trilha (z=45), olhar para -Z, caminhar até depósito.
 
 ---
 
 ## Próxima ação
 
-**Sprint 05 — Pensão térreo blockout 01**
-
-Blockout cinza navegável — sem GLB/Blender, teto, escada ou 2º andar.
+**Sprint 06** — playtest QA, vídeo, correções de colisão/escala.
 
 ---
 
-## Testes de regressão
+## Regra
 
-| Cena | Foco |
-|------|------|
-| `PlayerMovementLab.tscn` | Movimento |
-| `InteractionLab.tscn` | Interação |
-
----
-
-## Regra de produção
-
-> Player ✅ → HUD ✅ → Interação ✅ → **Pensão térreo**.
+Baselines player/HUD/interação **não alterar** sem pedido explícito.

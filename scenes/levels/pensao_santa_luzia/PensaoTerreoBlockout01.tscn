@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://pensaoterreo05"]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoTerreoBlockout01Controller.cs" id="1_controller"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoTerreoBlockout01Builder.cs" id="2_builder"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="4_hud"]
+
+[sub_resource type="Environment" id="Environment_pensao"]
+background_mode = 1
+background_color = Color(0.1, 0.11, 0.14, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.32, 0.3, 0.34, 1)
+ambient_light_energy = 0.5
+fog_enabled = true
+fog_light_color = Color(0.5, 0.48, 0.52, 1)
+fog_density = 0.012
+
+[node name="PensaoTerreoBlockout01" type="Node3D"]
+script = ExtResource("1_controller")
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Builder" type="Node3D" parent="World"]
+script = ExtResource("2_builder")
+
+[node name="Exterior" type="Node3D" parent="."]
+
+[node name="PensionGroundFloor" type="Node3D" parent="."]
+
+[node name="Collisions" type="Node3D" parent="."]
+
+[node name="Interactions" type="Node3D" parent="."]
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 14, 0)
+light_color = Color(0.72, 0.78, 0.92, 1)
+light_energy = 0.45
+shadow_enabled = true
+
+[node name="EntranceLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 7)
+light_color = Color(1, 0.82, 0.62, 1)
+light_energy = 1.1
+omni_range = 10.0
+
+[node name="ReceptionLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -3.5)
+light_color = Color(0.95, 0.88, 0.72, 1)
+light_energy = 0.75
+omni_range = 8.0
+
+[node name="CorridorLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -17.5)
+light_color = Color(0.85, 0.85, 0.9, 1)
+light_energy = 0.55
+omni_range = 9.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pensao")
+
+[node name="PlayerSpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 45)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+
+[node name="UI" type="Node" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("4_hud")]

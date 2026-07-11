@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 04 aprovada  
+**Fase:** REBOOT GREENFIELD — Sprint 05 concluída  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -11,45 +11,47 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Sprint 02 | **✅ Aprovada** — player congelado |
-| Sprint 03 | **✅ Aprovada** — HUD/debug congelado |
-| Sprint 04 | **✅ Aprovada pelo usuário** — interação congelada |
-| InteractionLab | **✅ Aprovado** |
-| Sprint 05 | **Próxima** — Pensão térreo blockout 01 |
+| Sprint 02–04 | **✅ Aprovadas** — baselines congeladas |
+| Sprint 05 | **✅ Concluída** — térreo blockout 01 |
+| Sprint 06 | **Próxima** — Playtest e correção térreo |
 
 ---
 
-## Player — baseline congelada
+## Cena oficial — Pensão térreo
 
-**Documentação:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`  
-**Teste:** `scenes/test/PlayerMovementLab.tscn`
+**F6 (playtest pensão):** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`
 
-**Regra:** Não alterar `PlayerController`, `PlayerCameraFeel`, lean, look back, sprint/crouch/stamina ou camera bob sem solicitação explícita.
+| Área | Status |
+|------|--------|
+| Trilha + exterior | ✅ Blockout |
+| Varanda + entrada | ✅ Aberta |
+| Recepção + balcão | ✅ Navegável |
+| Corredor 2.4m | ✅ |
+| Quarto 102 | ✅ |
+| Cozinha | ✅ |
+| Depósito trancado | ✅ Porta bloqueia |
+
+**5 interactables:** placa, livro, quarto, cozinha, depósito.
 
 ---
 
-## HUD — baseline congelada
+## Baselines congeladas
 
-**Documentação:** `docs/technical/HUD_DEBUG_BASELINE.md`
-
-**Regra:** Não alterar HUD base, debug F10/F11 ou layout aprovado sem solicitação explícita. Prompt `[E]` faz parte da extensão aprovada.
+Player · HUD · Interação — ver docs `technical/*_BASELINE.md`
 
 ---
 
-## Interação — baseline congelada
+## Bugs conhecidos
 
-**Documentação:** `docs/technical/INTERACTION_SYSTEM_BASELINE.md`  
-**Teste:** `scenes/test/InteractionLab.tscn`
+Nenhum bloqueante documentado no build. **Playtest manual obrigatório** (Sprint 06).
 
-| Sistema | Status |
-|---------|--------|
-| Prompt `[E]` ao mirar | ✅ Aprovado |
-| E → mensagem 3 s | ✅ Aprovado |
-| TestSign / TestBook / TestLockedDoor | ✅ Aprovados |
-| Colisões básicas do lab | ✅ Aprovadas |
-| HUD + movimentação intactos | ✅ Aprovados |
+---
 
-**Regra:** Não alterar `IInteractable`, `Interactable`, `PlayerInteractionRaycast` ou pipeline de interação sem solicitação explícita ou sprint dedicada.
+## Próxima sprint
+
+**Sprint 06 — Pensão térreo playtest e correção**
+
+Gate: térreo perfeito antes de escada/2º andar.
 
 ---
 
@@ -57,35 +59,13 @@
 
 | Cena | Uso |
 |------|-----|
-| `PlayerMovementLab.tscn` | Regressão movimento + HUD |
+| `PensaoTerreoBlockout01.tscn` | Pensão térreo |
+| `PlayerMovementLab.tscn` | Regressão movimento |
 | `InteractionLab.tscn` | Regressão interação |
-| `BootstrapEmpty.tscn` | F5 bootstrap |
-
----
-
-## Próxima sprint
-
-**Sprint 05 — Pensão térreo blockout 01**
-
-- Trilha, varanda, recepção, corredor, quarto 102, cozinha, depósito trancado
-- Blockout cinza — sem teto, escada ou 2º andar
-- Reutilizar sistema de interação para placeholders
-
-Ver: `docs/production/SPRINT_ROADMAP.md`
-
----
-
-## Como retomar
-
-1. `docs/HANDOFF.md`
-2. `docs/technical/INTERACTION_SYSTEM_BASELINE.md`
-3. Executar Sprint 05
 
 ---
 
 ## Relatórios
 
-- Movimento: `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
-- HUD: `docs/testing/HUD_DEBUG_PLAYTEST.md`
-- Interação: `docs/testing/INTERACTION_LAB_PLAYTEST.md`
+- Térreo: `docs/testing/PENSAO_TERREO_BLOCKOUT_01_PLAYTEST.md`
 - Histórico: `docs/SPRINT_HISTORY.md`
