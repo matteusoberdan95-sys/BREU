@@ -100,17 +100,19 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 05 — Pensão térreo blockout 01
 
-**Status:** ✅ Concluída (2026-07-11)
+**Status:** ✅ Aprovada (2026-07-11)
 
 **Objetivo:** Térreo 100% navegável — caixa cinza.
 
 **Entregas:**
-- Trilha, varanda, recepção, corredor 2,2 m, quarto 102, cozinha, depósito trancado.
-- Saída futura para escada (vazio, sem rampa).
-- Colisões manuais; **sem teto, sem escada, sem 2º andar**.
+- Trilha, varanda, recepção, corredor 2,4 m, quarto 102, cozinha, depósito trancado.
+- Colisões manuais; blockout visual fechado (hotfixes 1+2).
+- **Sem teto, sem escada, sem 2º andar, sem GLB/Blender**.
 - Interações placeholder (5 pontos).
+- Baseline: `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md`
+- Cena oficial: `PensaoTerreoBlockout01.tscn`
 
-**DoD:** Fluxo completo trilha → depósito sem queda e sem teto na câmera.
+**DoD:** Fluxo trilha → depósito aprovado; HUD e interação intactos; exterior simples aceito.
 
 ---
 

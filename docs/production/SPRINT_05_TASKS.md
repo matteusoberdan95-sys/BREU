@@ -1,6 +1,6 @@
 # Sprint 05 — Pensão Térreo Blockout 01
 
-**Status:** ✅ Concluída (2026-07-11)  
+**Status:** ✅ Aprovada (2026-07-11)  
 **Branch:** `reboot/breu-clean-start`  
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`
 
@@ -31,7 +31,7 @@ Primeira cena real jogável — **somente térreo**, blockout Godot nativo, 100%
 
 - [x] Fluxo completo navegável (design)
 - [x] Interações wired via `Interactable.cs`
-- [ ] Aprovação usuário playtest — pendente
+- [x] Aprovação usuário playtest — 2026-07-11
 
 ---
 

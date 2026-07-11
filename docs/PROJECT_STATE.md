@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 05 hotfix 2 (visual sealing) aplicado  
+**Fase:** REBOOT GREENFIELD — Sprint 05 aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -11,18 +11,11 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Sprint 02–04 | **✅ Aprovadas** — baselines congeladas |
-| Sprint 05 | **🔧 Hotfix 2 sealing** — gameplay OK, fechamento visual pendente playtest |
-| Sprint 06 | **Bloqueada** — gate: térreo visualmente fechado |
-
----
-
-## Notas Sprint 05
-
-- **Gameplay:** térreo navegável, interações OK, colisão contínua mantida (3 lajes inalteradas).
-- **Hotfix 1:** z-fighting removido, pisos visuais consolidados, soleiras de porta.
-- **Hotfix 2:** shell externo, paredes internas fechadas, piso principal 0,20 m, bermas na trilha.
-- **Aprovação Sprint 05:** pendente playtest visual + navegação.
+| Sprint 02 | **✅ Aprovada** — `PLAYER_CONTROLLER_BASELINE.md` |
+| Sprint 03 | **✅ Aprovada** — `HUD_DEBUG_BASELINE.md` |
+| Sprint 04 | **✅ Aprovada** — `INTERACTION_SYSTEM_BASELINE.md` |
+| Sprint 05 | **✅ Aprovada** — térreo blockout jogável |
+| Sprint 06 | **Próxima** — Playtest e correção fina do térreo |
 
 ---
 
@@ -32,35 +25,44 @@
 
 | Área | Status |
 |------|--------|
-| Trilha + exterior | ✅ Blockout |
-| Varanda + entrada | ✅ Aberta |
+| Trilha + exterior | ✅ Blockout (lote simples aceito) |
+| Varanda + entrada | ✅ Navegável |
 | Recepção + balcão | ✅ Navegável |
 | Corredor 2.4m | ✅ |
 | Quarto 102 | ✅ |
 | Cozinha | ✅ |
-| Depósito trancado | ✅ Porta bloqueia |
+| Depósito trancado | ✅ Porta bloqueia + interação |
 
 **5 interactables:** placa, livro, quarto, cozinha, depósito.
+
+**Baseline congelada:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md`
 
 ---
 
 ## Baselines congeladas
 
-Player · HUD · Interação — ver docs `technical/*_BASELINE.md`
+| Sprint | Documento |
+|--------|-----------|
+| 02 Player | `PLAYER_CONTROLLER_BASELINE.md` |
+| 03 HUD | `HUD_DEBUG_BASELINE.md` |
+| 04 Interação | `INTERACTION_SYSTEM_BASELINE.md` |
+| 05 Térreo | `PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` |
 
 ---
 
-## Bugs conhecidos
+## Notas Sprint 05 (aprovada)
 
-~~Vãos no chão~~, ~~z-fighting~~ e ~~limbo visível por frestas laterais~~ — hotfixes 1+2 aplicados. Playtest manual para aprovar Sprint 05.
+- Caixa cinza jogável: trilha → depósito sem queda em navegação normal.
+- Hotfixes 1+2: colisão contínua, z-fighting removido, shell visual fechado.
+- Exterior permanece blockout temporário (sem barranco/vegetação/arte).
+- **Não alterar** térreo sem Sprint 06 ou pedido explícito.
 
 ---
 
-## Próxima sprint
+## Pendências reais (Sprint 06+)
 
-**Sprint 06 — Pensão térreo playtest e correção**
-
-Gate: térreo perfeito antes de escada/2º andar.
+- Correção fina de playtest (escala, cantos, exterior).
+- Barrancos, terreno externo, atmosfera, arte, teto, escada, 2º andar — sprints futuras.
 
 ---
 
@@ -68,7 +70,7 @@ Gate: térreo perfeito antes de escada/2º andar.
 
 | Cena | Uso |
 |------|-----|
-| `PensaoTerreoBlockout01.tscn` | Pensão térreo |
+| `PensaoTerreoBlockout01.tscn` | Pensão térreo (oficial) |
 | `PlayerMovementLab.tscn` | Regressão movimento |
 | `InteractionLab.tscn` | Regressão interação |
 

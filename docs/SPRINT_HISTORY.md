@@ -83,18 +83,20 @@ Registro cronológico das sprints do reboot greenfield.
 ## Sprint 05 — Pensão térreo blockout 01
 
 **Data:** 2026-07-11  
-**Status:** ✅ Concluída  
-**Commit:** _(ver commit desta sessão)_  
+**Status:** ✅ Aprovada  
+**Baseline:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md`  
 **Cena:** `PensaoTerreoBlockout01.tscn`
 
 **Entregas:**
 - Trilha, varanda, recepção, corredor, quarto 102, cozinha, depósito trancado
-- Blockout Godot nativo + builder
+- Blockout Godot nativo + builder; hotfixes colisão + visual sealing
 - 5 interactables placeholder
 - Sem teto, escada, 2º andar, GLB
+
+**Aprovação usuário:** caixa cinza jogável; HUD e interação intactos; exterior simples aceito.
 
 ---
 
 ## Próxima
 
-**Sprint 06 — Pensão térreo playtest e correção**
+**Sprint 06 — Playtest e correção fina do térreo**

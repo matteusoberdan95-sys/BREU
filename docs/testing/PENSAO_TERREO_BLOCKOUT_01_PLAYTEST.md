@@ -1,68 +1,31 @@
 # Playtest — Pensão Térreo Blockout 01
 
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`  
-**Sprint:** 05 + hotfix 2 visual sealing  
-**Data:** 2026-07-11
+**Sprint:** 05 — **✅ APROVADA** (2026-07-11)  
+**Baseline:** `docs/technical/PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md`
 
 ---
 
-## Sprint 05 Hotfix 2 — Visual Sealing Pass
+## Resultado — Aprovado pelo usuário
 
-### Problemas encontrados
+| Área | Status |
+|------|--------|
+| Navegação exterior (trilha → pensão) | ✅ |
+| Entrada / varanda | ✅ |
+| Recepção | ✅ |
+| Corredor | ✅ |
+| Quarto 102 | ✅ |
+| Cozinha | ✅ |
+| Depósito (bloqueio + interação) | ✅ |
+| Interações (5 pontos) | ✅ |
+| HUD / debug | ✅ |
+| Ausência de quedas / limbo grandes | ✅ |
 
-| Problema | Descrição |
-|----------|-----------|
-| Limbo visível | Frestas laterais entre piso e parede; cômodos abertos para o vazio |
-| Paredes soltas | Quarto 102 e cozinha com laterais curtas; corredor com alcoves abertos |
-| Entrada/varanda | Laterais da varanda sem fechamento; gap varanda→recepção |
-| Exterior/trilha | Bordas expostas ao olhar para os lados da trilha |
-| Piso fino | Lajes visuais 0,03 m — leitura frágil e frestas aparentes |
-
-### Correções aplicadas
-
-| Área | Correção |
-|------|----------|
-| Pisos | `Floor_PensionGround_Main_Visual` (0,20 m) cobre planta inteira; `Floor_Exterior_Main_Visual` expandido; trilha elevada |
-| Shell externo | `Wall_Exterior_Back/Left/Right/Front_Left/Front_Right` — caixa 14×44 m |
-| Varanda | Laterais + fundo + cantos + segmentos frontais |
-| Recepção | Paredes laterais estendidas; norte/sul com vão 1,4 m |
-| Corredor | Junções recepção (`Wall_Corridor_JunctionWest/East`) |
-| Quarto 102 | Paredes até shell externo e corredor |
-| Cozinha | Paredes até shell externo e corredor |
-| Depósito | Renomeado/fechado (`Wall_Deposit_*`) |
-| Trilha | Bermas laterais (`TrailBermWest/East`) |
-| Portas | Soleiras elevadas (+0,012 m) sem coplanar com piso |
-
-**Colisão:** 3 lajes originais inalteradas. Paredes novas têm colisão (bloqueiam player).
+**Observação:** exterior permanece lote simples — aceito como blockout temporário.
 
 ---
 
-## Sprint 05 Hotfix 1 — Visual Blockout Clean
-
-| Problema | Correção |
-|----------|----------|
-| Z-fighting piso externo | 1 laje exterior + trilha **elevada** (Y distintos) |
-| Pisos interiores coplanares | **1** `Floor_Interior_Main` em vez de 5 overlays |
-| Fresta piso/parede | Paredes embutidas 0,06 m no piso; soleiras nas portas |
-| Recortes em portas | `DoorThresholds` visuais |
-
----
-
-| Problema | Correção |
-|----------|----------|
-| Vãos entre pisos fragmentados | 3 lajes contínuas de colisão com overlap 0,08 m |
-| Player caía ao pular (Space) | Topo de colisão alinhado em Y=0 em toda área |
-| Z-fighting / piso piscando | Pisos visuais consolidados, trilha elevada, sem coplanares |
-| Fresta piso/parede | Paredes embutidas + soleiras de porta |
-
-**Lajes de colisão:**
-- `Exterior_MainGround` — trilha + approach
-- `Porch_MainFloor` — varanda + entrada
-- `PensionGroundFloor_MainFloor` — recepção → depósito (inclui quarto/cozinha)
-
----
-
-## Fluxo esperado
+## Fluxo validado
 
 Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Depósito trancado
 
@@ -72,12 +35,12 @@ Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Dep�
 
 | Teste | OK |
 |-------|-----|
-| W/S/A/D corretos | ☐ |
-| Sprint | ☐ |
-| Crouch | ☐ |
-| Lean Q/R | ☐ |
-| Look back | ☐ |
-| Camera feel | ☐ |
+| W/S/A/D corretos | ✅ |
+| Sprint | ✅ |
+| Crouch | ✅ |
+| Lean Q/R | ✅ |
+| Look back | ✅ |
+| Camera feel | ✅ |
 
 ---
 
@@ -85,47 +48,32 @@ Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Dep�
 
 | Teste | OK |
 |-------|-----|
-| Chão externo não mostra limbo nas laterais imediatas | ☐ |
-| Entrada da pensão sem fresta grande | ☐ |
-| Piso interno cobre recepção / corredor / quarto / cozinha / depósito | ☐ |
-| Sem frestas grandes entre piso e parede | ☐ |
-| Paredes internas parecem fechadas | ☐ |
-| Cômodos não mostram vazio/limbo pelas laterais | ☐ |
-| Corredor sem buraco lateral | ☐ |
-| Não existe z-fighting visível | ☐ |
-| Gameplay / colisão / interação intactos | ☐ |
+| Chão externo não mostra limbo nas laterais imediatas | ✅ |
+| Entrada da pensão sem fresta grande | ✅ |
+| Piso interno cobre recepção / corredor / quarto / cozinha / depósito | ✅ |
+| Sem frestas grandes entre piso e parede | ✅ |
+| Paredes internas parecem fechadas | ✅ |
+| Cômodos não mostram vazio/limbo pelas laterais | ✅ |
+| Corredor sem buraco lateral | ✅ |
+| Não existe z-fighting visível | ✅ |
+| Gameplay / colisão / interação intactos | ✅ |
 
 ---
 
-## Checklist — Visual blockout (hotfix 1)
+## Checklist — Navegação / colisão
 
 | Teste | OK |
 |-------|-----|
-| Piso externo não pisca (z-fighting) | ☐ |
-| Trilha legível sem duas cores brigando | ☐ |
-| Sem frestas grandes piso/parede | ☐ |
-| Portas/cômodos visualmente fechados | ☐ |
-| Gameplay/colision/interação intactos | ☐ |
-
----
-
-| Teste | OK |
-|-------|-----|
-| Trilha → varanda sem queda | ☐ |
-| Varanda → recepção sem queda | ☐ |
-| Recepção / corredor / quarto / cozinha / depósito sem queda | ☐ |
-| Pular (Space) nas transições — não cai | ☐ |
-| Sem frestas grandes no chão | ☐ |
-
----
-
-| Teste | OK |
-|-------|-----|
-| Player nasce na trilha (z≈45) | ☐ |
-| Anda até varanda | ☐ |
-| Não cai do mapa | ☐ |
-| Limites invisíveis OK | ☐ |
-| Placa — prompt + E | ☐ |
+| Trilha → varanda sem queda | ✅ |
+| Varanda → recepção sem queda | ✅ |
+| Recepção / corredor / quarto / cozinha / depósito sem queda | ✅ |
+| Pular (Space) nas transições — não cai | ✅ |
+| Sem frestas grandes no chão | ✅ |
+| Player nasce na trilha (z≈45) | ✅ |
+| Anda até varanda | ✅ |
+| Não cai do mapa | ✅ |
+| Limites invisíveis OK | ✅ |
+| Placa — prompt + E | ✅ |
 
 ---
 
@@ -133,11 +81,11 @@ Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Dep�
 
 | Teste | OK |
 |-------|-----|
-| Varanda acessível | ☐ |
-| Porta principal livre | ☐ |
-| Recepção circulável | ☐ |
-| Balcão não bloqueia centro | ☐ |
-| Livro — prompt + E | ☐ |
+| Varanda acessível | ✅ |
+| Porta principal livre | ✅ |
+| Recepção circulável | ✅ |
+| Balcão não bloqueia centro | ✅ |
+| Livro — prompt + E | ✅ |
 
 ---
 
@@ -145,13 +93,13 @@ Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Dep�
 
 | Teste | OK |
 |-------|-----|
-| Corredor ≥2.2m confortável | ☐ |
-| Quarto 102 — entrar + virar câmera | ☐ |
-| Quarto 102 — interação | ☐ |
-| Cozinha — entrar + virar câmera | ☐ |
-| Cozinha — interação | ☐ |
-| Depósito — porta bloqueia | ☐ |
-| Depósito — prompt + E | ☐ |
+| Corredor ≥2.2m confortável | ✅ |
+| Quarto 102 — entrar + virar câmera | ✅ |
+| Quarto 102 — interação | ✅ |
+| Cozinha — entrar + virar câmera | ✅ |
+| Cozinha — interação | ✅ |
+| Depósito — porta bloqueia | ✅ |
+| Depósito — prompt + E | ✅ |
 
 ---
 
@@ -159,19 +107,50 @@ Trilha → Varanda → Recepção → Corredor → Quarto 102 / Cozinha → Dep�
 
 | Teste | OK |
 |-------|-----|
-| Vida / Stamina / Lanterna | ☐ |
-| Prompt interação | ☐ |
-| Mensagens | ☐ |
-| F10 / F11 | ☐ |
-| Sem caixa vazia | ☐ |
+| Vida / Stamina / Lanterna | ✅ |
+| Prompt interação | ✅ |
+| Mensagens | ✅ |
+| F10 / F11 | ✅ |
+| Sem caixa vazia | ✅ |
 
 ---
 
-## Critério gate
+## Critério gate — ATINGIDO
 
-**Térreo 100% navegável** — sem atravessar paredes, sem soft-lock.
+**Térreo 100% navegável** — fluxo completo aprovado. Sprint 05 fechada.
 
-Sprint 06 só após aprovação deste checklist.
+**Próxima:** Sprint 06 — playtest e correção fina do térreo.
+
+---
+
+## Histórico de hotfixes
+
+### Hotfix 2 — Visual Sealing Pass
+
+| Problema | Correção |
+|----------|----------|
+| Limbo visível | Shell externo + paredes internas fechadas |
+| Paredes soltas | Quarto/cozinha/corredor estendidos |
+| Entrada/varanda | Laterais + fundo + cantos |
+| Exterior/trilha | Base expandida + bermas |
+| Piso fino | Lajes visuais 0,20 m |
+
+### Hotfix 1 — Visual Blockout Clean
+
+| Problema | Correção |
+|----------|----------|
+| Z-fighting | Pisos com Y distintos; trilha elevada |
+| Pisos coplanares | `Floor_PensionGround_Main_Visual` único |
+| Fresta piso/parede | Paredes embutidas + soleiras |
+
+### Hotfix chão — Colisão contínua
+
+| Problema | Correção |
+|----------|----------|
+| Vãos entre pisos | 3 lajes contínuas com overlap 0,08 m |
+| Player caía ao pular | Topo colisão Y=0 em toda área |
+
+**Lajes de colisão:** `Exterior_MainGround`, `Porch_MainFloor`, `PensionGroundFloor_MainFloor`
 
 ---
 
@@ -179,4 +158,6 @@ Sprint 06 só após aprovação deste checklist.
 
 | Data | Nota |
 |------|------|
-| 2026-07-11 | Hotfix visual de blockout aplicado — playtest visual pendente |
+| 2026-07-11 | **Sprint 05 aprovada** — térreo blockout jogável baseline congelada |
+| 2026-07-11 | Hotfix 2 visual sealing aplicado |
+| 2026-07-11 | Hotfix 1 visual de blockout aplicado |
