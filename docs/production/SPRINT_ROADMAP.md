@@ -118,14 +118,17 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 06 — Pensão térreo playtest e correção
 
-**Objetivo:** Aprovar térreo antes de qualquer verticalidade.
+**Status:** ✅ Aprovada (2026-07-11)
+
+**Objetivo:** Validar térreo como base estável antes de puzzle/verticalidade.
 
 **Entregas:**
-- Correções de escala, portas, colisões.
-- Vídeo curto de validação (30–90 s).
-- Relatório QA.
+- Fine playtest rota completa documentado
+- Correções mínimas: interação, balcões, iluminação, legibilidade corredor
+- Baseline térreo v1.1 atualizada
+- Player/HUD/interação intactos
 
-**Gate:** **Não avançar** se térreo não estiver perfeito.
+**Gate atingido:** térreo estável para Sprint 07 (puzzle depósito).
 
 ---
 

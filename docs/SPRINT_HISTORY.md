@@ -97,6 +97,21 @@ Registro cronológico das sprints do reboot greenfield.
 
 ---
 
+## Sprint 06 — Fine playtest térreo
+
+**Data:** 2026-07-11  
+**Status:** ✅ Aprovada  
+**Cena:** `PensaoTerreoBlockout01.tscn`
+
+**Correções:**
+- Placa reposicionada; hitboxes interação ampliadas
+- Balcões visual-only; luzes depósito/quarto/cozinha
+- Piso corredor legibilidade; ambiente playtest levemente mais claro
+
+**Baseline térreo:** v1.1
+
+---
+
 ## Próxima
 
-**Sprint 06 — Playtest e correção fina do térreo**
+**Sprint 07 — Puzzle simples do depósito**

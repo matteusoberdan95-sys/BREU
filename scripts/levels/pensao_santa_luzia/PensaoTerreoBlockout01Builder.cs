@@ -2,7 +2,7 @@ namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
 /// Builds ground-floor blockout geometry under World/Exterior, PensionGroundFloor and Interactions.
-/// Sprint 05 — continuous collision + sealed visual blockout (no gaps, no z-fighting).
+/// Sprint 05 blockout + Sprint 06 fine playtest tuning (geometry/lighting only).
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder : Node3D
 {
@@ -45,6 +45,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     private StandardMaterial3D _matTrail = null!;
     private StandardMaterial3D _matVaranda = null!;
     private StandardMaterial3D _matInteriorFloor = null!;
+    private StandardMaterial3D _matCorridorFloor = null!;
     private StandardMaterial3D _matExteriorWall = null!;
     private StandardMaterial3D _matInteriorWall = null!;
     private StandardMaterial3D _matCounter = null!;
@@ -88,6 +89,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         _matTrail = Mat(new Color(0.42f, 0.32f, 0.22f));
         _matVaranda = Mat(new Color(0.45f, 0.35f, 0.25f));
         _matInteriorFloor = Mat(new Color(0.28f, 0.22f, 0.16f));
+        _matCorridorFloor = Mat(new Color(0.24f, 0.19f, 0.14f));
         _matExteriorWall = Mat(new Color(0.72f, 0.7f, 0.66f));
         _matInteriorWall = Mat(new Color(0.78f, 0.74f, 0.68f));
         _matCounter = Mat(new Color(0.4f, 0.3f, 0.22f));
@@ -165,6 +167,14 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector2(12.4f, 7.2f),
             PorchFloorTopY,
             _matVaranda);
+
+        AddVisualFloorPlate(
+            interiorFloors,
+            "Floor_Corridor_Readability",
+            new Vector3(0, 0, -17.5f),
+            new Vector2(CorridorWidth + 0.24f, 18.4f),
+            InteriorFloorTopY + 0.015f,
+            _matCorridorFloor);
     }
 
     /// <summary>Low side berms so the trail does not expose empty space immediately.</summary>
@@ -358,7 +368,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(southSegmentWidth, WallHeight, WallThickness),
             _matInteriorWall);
 
-        AddWall(reception, "ReceptionCounter", new Vector3(3.4f, 0.55f, -3.5f), new Vector3(2.4f, 1.1f, 0.6f), _matCounter);
+        AddVisualOnly(reception, "ReceptionCounter", new Vector3(3.4f, 0.55f, -3.5f), new Vector3(2.4f, 1.1f, 0.6f), _matCounter);
     }
 
     private void BuildCorridor()
@@ -477,7 +487,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(kitchenSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
-        AddWall(kitchen, "KitchenCounter", new Vector3(3.4f, 0.55f, -19.7f), new Vector3(1.8f, 1.1f, 0.6f), _matCounter);
+        AddVisualOnly(kitchen, "KitchenCounter", new Vector3(3.4f, 0.55f, -19.7f), new Vector3(1.8f, 1.1f, 0.6f), _matCounter);
     }
 
     private void BuildStorage()
@@ -560,7 +570,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         AddInteractableBody(
             _interactions,
             "JobOfferSign",
-            new Vector3(2.8f, 1.2f, 32),
+            new Vector3(1.15f, 1.25f, 37.5f),
             new Vector3(1.4f, 1.0f, 0.08f),
             "Ler placa",
             "OFERTA DE TRABALHO - MINERAÇÃO - PENSÃO SANTA LUZIA.",
@@ -570,7 +580,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             _interactions,
             "ReceptionBook",
             new Vector3(3.4f, 1.05f, -4.5f),
-            new Vector3(0.5f, 0.12f, 0.35f),
+            new Vector3(0.75f, 0.35f, 0.55f),
             "Examinar livro",
             "Seu nome já está no registro.",
             "reception_book");
@@ -578,8 +588,8 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         AddInteractableArea(
             _interactions,
             "Room102Inspect",
-            new Vector3(-4.2f, 1.4f, -15.5f),
-            new Vector3(1.2f, 1.2f, 1.2f),
+            new Vector3(-3.4f, 1.4f, -15.5f),
+            new Vector3(1.5f, 1.4f, 1.5f),
             "Examinar quarto",
             "Parece que este quarto foi preparado para mim.",
             "room_102");
@@ -587,8 +597,8 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         AddInteractableArea(
             _interactions,
             "KitchenInspect",
-            new Vector3(4.2f, 1.4f, -20.5f),
-            new Vector3(1.2f, 1.2f, 1.2f),
+            new Vector3(3.4f, 1.4f, -20.5f),
+            new Vector3(1.5f, 1.4f, 1.5f),
             "Examinar cozinha",
             "A cozinha está fria demais para uma pensão habitada.",
             "kitchen");
