@@ -176,7 +176,7 @@ Entregas:
 | Item | Valor |
 |------|-------|
 | Data | 2026-07-11 |
-| Commit | _(preenchido após `git commit`)_ |
+| Commit | `78f4edd` — docs: establish BREU greenfield reboot baseline |
 | Branch | `reboot/breu-clean-start` |
 | Cena oficial | Nenhuma |
 | QA F6 | N/A (sem projeto Godot) |
