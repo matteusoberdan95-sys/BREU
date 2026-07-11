@@ -3,6 +3,7 @@
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Sprint:** 12A  
 **Data:** 2026-07-11  
+**Status:** ✅ **Aprovada** — blockout funcional  
 **Baseline:** `docs/technical/PENSION_CEILING_BLOCKOUT_BASELINE.md`
 
 ---
@@ -46,26 +47,23 @@
 
 ---
 
-## Regressão (validar F6)
+## Checklist aprovado (2026-07-11)
 
-### Fluxo
-- [ ] Trilha → entrada → térreo → quartos → depósito → puzzle
-- [ ] Porta verde (UpperBlockedDoor) interação intacta
-- [ ] Escada subida/descida
-- [ ] 2º andar corredor + quartos 201/202
+- [x] Fachada fechada — volume superior coerente, sem placa flutuante
+- [x] Teto/cobertura aceitos como blockout provisório
+- [x] Caixa da escada melhor fechada — sem limbo crítico visível
+- [x] Navegação preservada — térreo, escada, 2º andar
+- [x] HUD preservado
+- [x] Interação preservada
+- [x] Puzzle do depósito preservado
+- [x] Lanterna e movimentação preservadas
 
-### Visual
-- [ ] Fachada lê bloco fechado (não placa flutuante)
-- [ ] Sem limbo na escada
-- [ ] Área sul da porta verde fechada
-
-### Técnico
-- [ ] Player / câmera / HUD / interação / puzzle — OK
+**Aprovação usuário:** Pensão não parece mais aberta por cima; blockout funcional aceito.
 
 ---
 
-## Pendências restantes (blockout)
+## Pendências restantes (fora de escopo — sprint futura)
 
-- Telhado final (duas águas, beiral) — sprint futura de arte.
+- Telhado final (duas águas, beiral) — sprint de arte.
 - Ajuste fino anti z-fighting nos encontros teto/parede.
 - Teto modular com clipping zero (Sprint 14 roadmap).

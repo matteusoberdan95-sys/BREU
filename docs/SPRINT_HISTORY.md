@@ -200,21 +200,35 @@ Registro cronológico das sprints do reboot greenfield.
 
 ## Sprint 12 — Teto e fechamento superior
 
-**Status:** 🔄 Implementada — playtest F6 pendente  
+**Status:** ✅ Aprovada (via 12A)  
 **Data:** 2026-07-11
 
 **Entregas:**
 - Teto/forro blockout térreo + 2º andar + poço escada
-- Cobertura externa `Roof_Blockout_Main` / `Roof_Blockout_Ridge`
-- Luzes mínimas para playtest com teto fechado
+- Cobertura externa blockout
 - Baseline + playtest docs
 
-**Checkpoint:** `1dc7430` — before pension ceiling blockout
+**Commits:** `2590766`, `58c4a3b`
+
+---
+
+## Sprint 12A — Hotfix fechamento teto/casca/frestas
+
+**Status:** ✅ Aprovada  
+**Playtest:** `PENSION_CEILING_HOTFIX_12A.md`
+
+**Entregas:**
+- Fachada/volume superior fechado (telhado dois níveis + `Shell_FacadeUpper_*`)
+- Caixa da escada selada (`Ceiling_StairBox_Main` + selagens)
+- Cômodo placeholder porta verde
+- Regressão térreo/escada/puzzle/HUD/movimento — OK
+
+**Aprovação usuário:** blockout funcional aceito; não é arte final.
 
 ---
 
 ## Próxima
 
-**Sprint 13 — Atmosfera inicial**
+**Sprint 13 — Atmosfera base da Pensão**
 
 ---

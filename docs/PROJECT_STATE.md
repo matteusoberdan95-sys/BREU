@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 12A hotfix implementado (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 12A aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -22,8 +22,8 @@
 | Sprint 09B | **✅ Aprovada** — playtest escada |
 | Sprint 10 | **✅ Aprovada** — segundo andar blockout navegável |
 | Sprint 11 | **✅ Aprovada** — playtest fino 2º andar |
-| Sprint 12 | **🔄 Implementada** — teto/cobertura blockout |
-| Sprint 12A | **🔄 Implementada** — hotfix fechamento fachada/escada/porta verde (playtest F6 pendente) |
+| Sprint 12 | **✅ Aprovada** — teto/cobertura blockout |
+| Sprint 12A | **✅ Aprovada** — hotfix fechamento fachada/escada/porta verde |
 
 ---
 
@@ -79,19 +79,23 @@
 
 ---
 
-## Sprint 12A — resumo (hotfix implementado)
+## Sprint 12 / 12A — resumo (aprovadas)
 
-Correções pós-playtest visual da Sprint 12:
+Fechamento superior blockout da Pensão Santa Luzia — **aprovado como placeholder funcional**.
 
-- **Fachada:** telhado em dois níveis (`Roof_Blockout_Main` + `Roof_Blockout_LowerFront`); massa superior `Shell_FacadeUpper_*`; removido cume flutuante.
-- **Escada:** teto interno `Ceiling_StairBox_Main` + selagens laterais; poço fechado sem bloquear patamar.
-- **Porta verde:** cômodo placeholder sul (`Wall_UpperSouthRoom_*`, `Ceiling_UpperSouthRoom`).
+- **Teto/cobertura:** térreo, 2º andar, poço da escada e cobertura externa em dois níveis.
+- **Casca externa:** `Shell_FacadeUpper_*`, `Roof_Blockout_Main`, `Roof_Blockout_LowerFront` — fachada lê bloco fechado.
+- **Escada:** caixa melhor fechada (`Ceiling_StairBox_Main` + selagens); navegação preservada.
+- **Porta verde:** cômodo placeholder sul fechado (`Wall_UpperSouthRoom_*`).
+- **Regressão:** térreo, puzzle depósito, HUD, lanterna, interação e movimentação — OK.
+- **Não é arte final** — telhado/texturas finais ficam para sprint futura.
 
-**Playtest:** `docs/testing/PENSION_CEILING_HOTFIX_12A.md`
+**Baseline:** `docs/technical/PENSION_CEILING_BLOCKOUT_BASELINE.md`  
+**Playtest hotfix:** `docs/testing/PENSION_CEILING_HOTFIX_12A.md`
 
 ---
 
-## Próxima sprint — Sprint 13 (Atmosfera inicial)
+## Próxima sprint — Sprint 13 (Atmosfera base da Pensão)
 
 **Objetivo:** Noite legível + modo debug visual — sem alterar layout aprovado.
 

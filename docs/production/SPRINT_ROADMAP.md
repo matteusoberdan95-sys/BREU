@@ -228,26 +228,40 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 12 — Teto e fechamento superior
 
-**Status:** ✅ Implementada — playtest F6 pendente (2026-07-11)
+**Status:** ✅ Concluída — aprovada via hotfix 12A (2026-07-11)
 
 **Objetivo:** Fechar visualmente a Pensão por cima sem arte final.
 
 **Entregas:**
-- `Ceiling_FirstFloor_Main` — varanda/frente (sem laje do 2º andar acima).
-- `Ceiling_SecondFloor_Main` + segmentos (corredor, quartos, north cap).
-- `Ceiling_StairBox_WestCap` — fechamento parcial do poço da escada.
-- `Roof_Blockout_Main` + `Roof_Blockout_Ridge` — cobertura externa simples.
-- Luzes mínimas para playtest com teto fechado.
-- `docs/technical/PENSION_CEILING_BLOCKOUT_BASELINE.md`
-- `docs/testing/PENSION_CEILING_BLOCKOUT_PLAYTEST.md`
+- Teto/forro blockout térreo + 2º andar + poço escada
+- Cobertura externa em dois níveis (`Roof_Blockout_Main` + `Roof_Blockout_LowerFront`)
+- Casca externa `Shell_FacadeUpper_*`
+- Luzes mínimas para playtest com teto fechado
+- Baseline + playtest docs
 
-**DoD:** Interior fechado por cima; escada/navegação/puzzle intactos; sem limbo grande ao olhar para cima.
+**DoD:** ✅ Interior fechado por cima; escada/navegação/puzzle intactos; sem limbo crítico.
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 ---
 
-## Sprint 13 — Atmosfera inicial
+## Sprint 12A — Hotfix fechamento teto/casca/frestas
+
+**Status:** ✅ Concluída — aprovada 2026-07-11
+
+**Objetivo:** Corrigir fachada flutuante, frestas da escada e área aberta da porta verde.
+
+**Entregas:**
+- Telhado em dois níveis + massa superior de fachada
+- `Ceiling_StairBox_Main` + selagens laterais
+- Cômodo placeholder sul (`Wall_UpperSouthRoom_*`)
+- `docs/testing/PENSION_CEILING_HOTFIX_12A.md`
+
+**DoD:** ✅ Fachada fechada; escada navegável; regressão OK.
+
+---
+
+## Sprint 13 — Atmosfera base da Pensão
 
 **Status:** 🔄 Próxima
 
