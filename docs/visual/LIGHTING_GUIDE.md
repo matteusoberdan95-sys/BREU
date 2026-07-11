@@ -1126,40 +1126,62 @@ FogVolumes, GPUParticles antigas, fog cards no caminho, volumetric fog forte.
 | Ceu lavado | `sky_fog 0.015` → `0.0` |
 | Filtro demais | `fog_strength 0.70`, `fog_density 0.075`, `fog_start 3.5` |
 
-## Preset aprovado da TrailIntro (CONGELADO)
+## TrailIntro Fog Approved (CONGELADO — NAO MEXER)
 
-**Status:** aprovado em playtest | **Regra:** nao alterar depth fog sem motivo forte.
+**Nome oficial:** `TrailIntro Fog Approved`  
+**Status:** aprovado em playtest (2026-07-11)  
+**Regra:** **nao alterar** depth fog, ceu ou densidade sem motivo forte. Polish visual geral fica para quando a fase estiver mais completa.
 
-### Depth Fog — valores congelados
+### Arquivos
 
-| Parametro | Valor | Mexer? |
-|-----------|-------|--------|
-| `fog_color` | `#384D5B` | **NAO** |
-| `fog_start` | `2.5` | **NAO** |
-| `fog_density` | `0.095` | **NAO** |
-| `fog_strength` | `0.88` | **NAO** |
-| `fog_power` | `0.72` | **NAO** |
-| `horizon_y / width` | `0.50` / `0.42` | **NAO** |
-| `noise_scale / strength` | `4.0` / `0.08` | **NAO** |
-| `drift_speed` | `0.018` | **NAO** |
-| `sky_fog` | **`0.0`** (max `0.005` se necessario) | so ceu |
+| Item | Caminho |
+|------|---------|
+| Shader | `shaders/fx/depth_fog_postprocess.gdshader` |
+| Material | `TrailIntro` → `ShaderMaterial_depth_fog` |
+| Post-process | `Visual/PostProcess/DepthFogPostProcess` |
+| ScreenFogOverlay | **desativado** (`visible = false`) |
 
-### Ceu escuro (separado da neblina do caminho)
+### Depth Fog — valores aprovados (NAO MEXER)
 
 | Parametro | Valor |
 |-----------|-------|
-| `sky_fog` | **`0.0`** — ceu infinito nao recebe `fog_color` |
-| Background color | `#02060A` |
+| `fog_color` | `#384D5B` |
+| `fog_start` | `2.5` |
+| `fog_density` | `0.095` |
+| `fog_strength` | `0.88` |
+| `fog_power` | `0.72` |
+| `horizon_y / width` | `0.50` / `0.42` |
+| `noise_scale / strength` | `4.0` / `0.08` |
+| `drift_speed` | `0.018` |
+
+### Ceu escuro — separado da neblina do caminho
+
+| Parametro | Valor |
+|-----------|-------|
+| Deteccao | `is_sky = raw_depth <= 0.0005 \|\| raw_depth >= 0.9995` |
+| `sky_dark_color` | `#010307` |
+| `sky_override_strength` | `1.0` |
+| `debug_sky` | `false` (usar `true` so para diagnostico — ceu magenta) |
+
+**Nota:** no Godot 4.7 Forward+, o ceu usa `raw_depth` proximo de **0.0** (nao 1.0).
+
+### WorldEnvironment TrailIntro
+
+| Parametro | Valor |
+|-----------|-------|
+| Background | `#02060A` |
 | Ambient color | `#071019` |
 | Ambient energy | `0.18` |
+| Volumetric fog | **off** |
 
 ### Sistemas proibidos
 
-FogVolumes, particles antigas, fog cards no caminho, volumetric fog forte, ScreenFogOverlay (desativado).
+FogVolumes, particles antigas, fog cards no caminho, volumetric fog forte, ScreenFogOverlay ativo.
 
-### Criterio de aceite (referencia)
+### Criterio de aceite (referencia congelada)
 
 - Neblina do caminho igual ao print aprovado
 - Ceu escuro, clima de terror
 - Pensao visivel e misteriosa
 - Sem quadrados, faixas ou impacto no gameplay
+- HUD legivel

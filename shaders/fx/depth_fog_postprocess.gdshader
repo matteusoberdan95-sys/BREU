@@ -5,17 +5,19 @@ uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_l
 uniform sampler2D depth_texture : hint_depth_texture, repeat_disable, filter_nearest;
 
 uniform bool debug_depth = false;
+uniform bool debug_sky = false;
 uniform vec4 fog_color : source_color = vec4(0.219608, 0.301961, 0.356863, 1.0);
 uniform float fog_start : hint_range(0.0, 20.0, 0.1) = 2.5;
 uniform float fog_density : hint_range(0.0, 0.5, 0.001) = 0.095;
 uniform float fog_strength : hint_range(0.0, 1.0, 0.01) = 0.88;
 uniform float fog_power : hint_range(0.1, 4.0, 0.01) = 0.72;
-uniform float sky_fog : hint_range(0.0, 0.2, 0.001) = 0.0;
 uniform float horizon_y : hint_range(0.0, 1.0, 0.01) = 0.50;
 uniform float horizon_width : hint_range(0.05, 1.0, 0.01) = 0.42;
 uniform float noise_scale : hint_range(0.1, 16.0, 0.1) = 4.0;
 uniform float noise_strength : hint_range(0.0, 1.0, 0.01) = 0.08;
 uniform float drift_speed : hint_range(0.0, 0.1, 0.001) = 0.018;
+uniform vec3 sky_dark_color : source_color = vec3(0.003922, 0.011765, 0.027451);
+uniform float sky_override_strength : hint_range(0.0, 1.0, 0.01) = 1.0;
 
 float hash(vec2 p) {
 	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -58,11 +60,13 @@ void fragment() {
 	vec2 uv = SCREEN_UV;
 	vec3 scene_color = texture(screen_texture, uv).rgb;
 	float raw_depth = texture(depth_texture, uv).r;
+	bool is_sky = raw_depth <= 0.0005 || raw_depth >= 0.9995;
 	vec3 output_color = scene_color;
 
-	if (raw_depth >= 0.9999) {
-		// Ceu/fundo infinito: sem lavagem de fog_color — clima escuro separado da trilha.
-		output_color = mix(scene_color, fog_color.rgb, sky_fog);
+	if (debug_sky && is_sky) {
+		output_color = vec3(1.0, 0.0, 1.0);
+	} else if (is_sky) {
+		output_color = mix(scene_color, sky_dark_color, sky_override_strength);
 	} else {
 		vec3 ndc = vec3(uv * 2.0 - 1.0, raw_depth);
 		vec4 view = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);

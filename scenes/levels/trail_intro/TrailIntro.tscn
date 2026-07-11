@@ -207,17 +207,19 @@ shader_parameter/top_fade = 0.08
 render_priority = 127
 shader = ExtResource("23_depth_fog_shader")
 shader_parameter/debug_depth = false
+shader_parameter/debug_sky = false
 shader_parameter/fog_color = Color(0.219608, 0.301961, 0.356863, 1)
 shader_parameter/fog_start = 2.5
 shader_parameter/fog_density = 0.095
 shader_parameter/fog_strength = 0.88
 shader_parameter/fog_power = 0.72
-shader_parameter/sky_fog = 0.0
 shader_parameter/horizon_y = 0.50
 shader_parameter/horizon_width = 0.42
 shader_parameter/noise_scale = 4.0
 shader_parameter/noise_strength = 0.08
 shader_parameter/drift_speed = 0.018
+shader_parameter/sky_dark_color = Vector3(0.00392157, 0.0117647, 0.027451)
+shader_parameter/sky_override_strength = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_depth_fog"]
 extra_cull_margin = 16384.0
