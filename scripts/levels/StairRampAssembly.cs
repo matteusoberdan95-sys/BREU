@@ -28,12 +28,25 @@ public static class StairRampAssembly
         StandardMaterial3D matRail,
         float upperLandingWidth = 5f,
         float upperLandingDepth = 5f,
-        uint collisionLayer = 1)
+        uint collisionLayer = 1,
+        bool buildUpperLanding = true,
+        bool buildUpperBlockers = true)
     {
         BuildApproachPatch(root, collisionLayer);
         BuildInvisibleRamp(collisionsParent, collisionLayer);
         BuildVisualSteps(visualStepsParent, matStep, matStringer);
-        BuildUpperLanding(upperLandingParent, matUpperFloor, matRail, upperLandingWidth, upperLandingDepth, collisionLayer);
+        if (buildUpperLanding)
+        {
+            BuildUpperLanding(
+                upperLandingParent,
+                matUpperFloor,
+                matRail,
+                upperLandingWidth,
+                upperLandingDepth,
+                collisionLayer,
+                buildUpperBlockers);
+        }
+
         BuildSideGuides(sideGuidesParent, matRail, collisionLayer);
     }
 
@@ -114,7 +127,8 @@ public static class StairRampAssembly
         StandardMaterial3D matRail,
         float landingWidth,
         float landingDepth,
-        uint collisionLayer)
+        uint collisionLayer,
+        bool buildBlockers)
     {
         var upperTopY = StairRise;
         var centerZ = StairRun + landingDepth * 0.5f - FloorOverlap;
@@ -133,6 +147,11 @@ public static class StairRampAssembly
             new Vector2(landingWidth, landingDepth),
             upperTopY,
             matUpperFloor);
+
+        if (!buildBlockers)
+        {
+            return;
+        }
 
         const float railHeight = 1.1f;
         const float railThickness = 0.18f;

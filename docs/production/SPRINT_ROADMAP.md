@@ -11,7 +11,7 @@
 ```
 S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
     → S05 Pensão térreo → S06 Playtest térreo → S07 Puzzle depósito
-    → S08 Escada isolada → S09A Escada na Pensão → S09 2º andar → S10 Teto
+    → S08 Escada isolada → S09A Escada na Pensão → S10 2º andar → S11 Teto
     → S11 Atmosfera → S12 Vertical slice → S13 Inimigo → S14 Combate → S15 Arte modular
 ```
 
@@ -191,21 +191,25 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 09 — Segundo andar blockout
+## Sprint 10 — Segundo andar blockout 01
 
-**Objetivo:** Layout superior navegável.
+**Status:** 🔄 Implementada — playtest F6 pendente
+
+**Objetivo:** Layout superior navegável conectado à escada aprovada.
 
 **Entregas:**
-- Corredor superior, gerente, banheiro, quarto trancado.
-- Colisão simples (`Floor02_MainWalkableCollision`).
-- Guarda-corpo no vão da escada.
-- **Sem teto.**
+- `PensaoVerticalBlockout01.tscn` (cópia vertical — térreo baseline preservado)
+- Corredor superior, quartos 201/202, porta bloqueada 203
+- `Floor_Second_Main`, guarda-corpos, 3 interações
+- Baseline: `PENSION_SECOND_FLOOR_BLOCKOUT_BASELINE.md`
 
-**DoD:** Térreo + escada + 2º andar ida e volta.
+**DoD:** Térreo + escada + 2º andar ida e volta — **validar F6**.
+
+**Não feito:** teto; telhado; inimigo; arte final.
 
 ---
 
-## Sprint 10 — Teto e câmera FPS
+## Sprint 11 — Teto e câmera FPS
 
 **Objetivo:** Teto modular sem clipping.
 

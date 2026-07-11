@@ -6,60 +6,60 @@ namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder : Node3D
 {
-    private const uint WorldLayer = 1;
-    private const uint InteractableLayer = 2;
-    private const uint WorldInteractableLayer = WorldLayer | InteractableLayer;
+    protected const uint WorldLayer = 1;
+    protected const uint InteractableLayer = 2;
+    protected const uint WorldInteractableLayer = WorldLayer | InteractableLayer;
 
-    private const float WallHeight = 3.0f;
-    private const float WallThickness = 0.2f;
-    private const float DoorWidth = 1.4f;
-    private const float DoorHeight = 2.3f;
-    private const float CorridorWidth = 2.4f;
+    protected const float WallHeight = 3.0f;
+    protected const float WallThickness = 0.2f;
+    protected const float DoorWidth = 1.4f;
+    protected const float DoorHeight = 2.3f;
+    protected const float CorridorWidth = 2.4f;
 
-    private const float FloorThickness = 0.25f;
+    protected const float FloorThickness = 0.25f;
     private const float FloorTopY = 0.0f;
     private const float FloorCenterY = FloorTopY - FloorThickness * 0.5f;
-    private const float FloorOverlap = 0.08f;
-    private const float FloorWallLip = 0.08f;
-    private const float WallCornerOverlap = 0.08f;
+    protected const float FloorOverlap = 0.08f;
+    protected const float FloorWallLip = 0.08f;
+    protected const float WallCornerOverlap = 0.08f;
 
-    private const float VisualFloorThickness = 0.2f;
+    protected const float VisualFloorThickness = 0.2f;
     private const float ExteriorFloorTopY = 0.01f;
     private const float TrailFloorTopY = 0.06f;
-    private const float InteriorFloorTopY = 0.02f;
+    protected const float InteriorFloorTopY = 0.02f;
     private const float PorchFloorTopY = 0.03f;
     private const float ThresholdLiftY = 0.012f;
 
-    private const float WallEmbedBelowFloor = 0.05f;
-    private static float WallCenterY => WallHeight * 0.5f - WallEmbedBelowFloor;
+    protected const float WallEmbedBelowFloor = 0.05f;
+    protected static float WallCenterY => WallHeight * 0.5f - WallEmbedBelowFloor;
 
-    private const float BuildingHalfWidth = 7.0f;
+    protected const float BuildingHalfWidth = 7.0f;
     private const float ReceptionHalfWidth = 5.1f;
     private const float CorridorHalfWidth = CorridorWidth * 0.5f;
-    private const float CorridorWallX = CorridorHalfWidth + WallThickness * 0.5f;
-    private const float BuildingFrontZ = 11.6f;
-    private const float BuildingBackZ = -32.6f;
+    protected const float CorridorWallX = CorridorHalfWidth + WallThickness * 0.5f;
+    protected const float BuildingFrontZ = 11.6f;
+    protected const float BuildingBackZ = -32.6f;
     private const float MainEntryWidth = 5.2f;
 
     private StandardMaterial3D _matExteriorGround = null!;
     private StandardMaterial3D _matTrail = null!;
     private StandardMaterial3D _matVaranda = null!;
-    private StandardMaterial3D _matInteriorFloor = null!;
-    private StandardMaterial3D _matCorridorFloor = null!;
-    private StandardMaterial3D _matExteriorWall = null!;
-    private StandardMaterial3D _matInteriorWall = null!;
-    private StandardMaterial3D _matCounter = null!;
-    private StandardMaterial3D _matDoor = null!;
-    private StandardMaterial3D _matInteractable = null!;
-    private StandardMaterial3D _matBed = null!;
+    protected StandardMaterial3D _matInteriorFloor = null!;
+    protected StandardMaterial3D _matCorridorFloor = null!;
+    protected StandardMaterial3D _matExteriorWall = null!;
+    protected StandardMaterial3D _matInteriorWall = null!;
+    protected StandardMaterial3D _matCounter = null!;
+    protected StandardMaterial3D _matDoor = null!;
+    protected StandardMaterial3D _matInteractable = null!;
+    protected StandardMaterial3D _matBed = null!;
     private StandardMaterial3D _matStairStep = null!;
     private StandardMaterial3D _matStairStringer = null!;
     private StandardMaterial3D _matStairUpper = null!;
     private StandardMaterial3D _matStairRail = null!;
 
     private Node3D _exterior = null!;
-    private Node3D _interior = null!;
-    private Node3D _interactions = null!;
+    protected Node3D _interior = null!;
+    protected Node3D _interactions = null!;
 
     public override void _Ready()
     {
@@ -76,10 +76,16 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         BuildKitchen();
         BuildStorage();
         BuildStairIntegration();
+        BuildExtensionContent();
         BuildFurnitureCollisions();
         BuildDoorThresholds();
         BuildExteriorBoundaries();
         BuildInteractions();
+        BuildExtensionInteractions();
+    }
+
+    protected virtual void BuildExtensionInteractions()
+    {
     }
 
     private void ResolveNodes()
@@ -661,7 +667,15 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             _matDoor);
     }
 
-    private void BuildStairIntegration()
+    protected virtual void BuildExtensionContent()
+    {
+    }
+
+    protected virtual bool IncludeStairUpperLanding => true;
+
+    protected virtual bool IncludeStairUpperBlockers => true;
+
+    protected virtual void BuildStairIntegration()
     {
         const float alcoveCenterX = (CorridorWallX + (BuildingHalfWidth - WallThickness * 0.5f)) * 0.5f;
         const float stairFootX = -alcoveCenterX;
@@ -726,7 +740,9 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             _matStairRail,
             upperLandingWidth: 5f,
             upperLandingDepth: 5f,
-            collisionLayer: WorldLayer);
+            collisionLayer: WorldLayer,
+            buildUpperLanding: IncludeStairUpperLanding,
+            buildUpperBlockers: IncludeStairUpperBlockers);
 
         AddVisualFloorPlate(
             stairWell,
@@ -839,7 +855,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         }
     }
 
-    private void BuildWallWithDoorGap(
+    protected void BuildWallWithDoorGap(
         Node3D parent,
         string baseName,
         float wallX,
@@ -879,7 +895,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         }
     }
 
-    private void AddCollisionFloor(Node3D parent, string name, Vector3 center, Vector3 size)
+    protected void AddCollisionFloor(Node3D parent, string name, Vector3 center, Vector3 size)
     {
         var body = new StaticBody3D
         {
@@ -893,7 +909,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         parent.AddChild(body);
     }
 
-    private void AddWall(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
+    protected void AddWall(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
     {
         AddSolid(parent, name, center, size, material, WorldLayer);
     }
@@ -903,7 +919,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         AddSolid(parent, name, center, size, _matExteriorWall, WorldLayer);
     }
 
-    private void AddFurniture(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
+    protected void AddFurniture(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
     {
         AddSolid(parent, name, center, size, material, WorldLayer);
     }
@@ -925,7 +941,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         parent.AddChild(body);
     }
 
-    private void AddSolid(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material, uint layer)
+    protected void AddSolid(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material, uint layer)
     {
         var body = new StaticBody3D
         {
@@ -947,7 +963,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         parent.AddChild(visual);
     }
 
-    private void AddVisualFloorPlate(
+    protected void AddVisualFloorPlate(
         Node3D parent,
         string name,
         Vector3 centerXZ,
@@ -960,7 +976,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         AddVisualOnly(parent, name, center, new Vector3(sizeXZ.X, thickness, sizeXZ.Y), material);
     }
 
-    private void AddInteractableBody(
+    protected void AddInteractableBody(
         Node3D parent,
         string name,
         Vector3 center,
@@ -983,7 +999,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         parent.AddChild(body);
     }
 
-    private void AddInteractableArea(
+    protected void AddInteractableArea(
         Node3D parent,
         string name,
         Vector3 center,

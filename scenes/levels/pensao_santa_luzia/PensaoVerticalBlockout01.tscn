@@ -1,0 +1,122 @@
+[gd_scene load_steps=9 format=3 uid="uid://pensaovertical10"]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoVerticalBlockout01Controller.cs" id="1_controller"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoVerticalBlockout01Builder.cs" id="2_builder"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoPuzzleState.cs" id="3_puzzle_state"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoTerreoPuzzleSetup.cs" id="4_puzzle_setup"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="5_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="6_hud"]
+
+[sub_resource type="Environment" id="Environment_pensao"]
+background_mode = 1
+background_color = Color(0.1, 0.11, 0.14, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.32, 0.3, 0.34, 1)
+ambient_light_energy = 0.58
+fog_enabled = true
+fog_light_color = Color(0.5, 0.48, 0.52, 1)
+fog_density = 0.01
+
+[node name="PensaoVerticalBlockout01" type="Node3D"]
+script = ExtResource("1_controller")
+
+[node name="PuzzleState" type="Node" parent="."]
+script = ExtResource("3_puzzle_state")
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Builder" type="Node3D" parent="World"]
+script = ExtResource("2_builder")
+
+[node name="PuzzleSetup" type="Node" parent="World"]
+script = ExtResource("4_puzzle_setup")
+
+[node name="Exterior" type="Node3D" parent="."]
+
+[node name="PensionGroundFloor" type="Node3D" parent="."]
+
+[node name="PensionSecondFloor" type="Node3D" parent="."]
+
+[node name="Collisions" type="Node3D" parent="."]
+
+[node name="Interactions" type="Node3D" parent="."]
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 14, 0)
+light_color = Color(0.72, 0.78, 0.92, 1)
+light_energy = 0.52
+shadow_enabled = true
+
+[node name="EntranceLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 7)
+light_color = Color(1, 0.82, 0.62, 1)
+light_energy = 1.1
+omni_range = 10.0
+
+[node name="ReceptionLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -3.5)
+light_color = Color(0.95, 0.88, 0.72, 1)
+light_energy = 0.75
+omni_range = 8.0
+
+[node name="CorridorLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -17.5)
+light_color = Color(0.85, 0.85, 0.9, 1)
+light_energy = 0.65
+omni_range = 9.0
+
+[node name="DepositLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -27)
+light_color = Color(0.88, 0.86, 0.92, 1)
+light_energy = 0.62
+omni_range = 7.0
+
+[node name="Room102Light" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 2.4, -15.5)
+light_color = Color(0.92, 0.88, 0.78, 1)
+light_energy = 0.48
+omni_range = 5.5
+
+[node name="KitchenLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 2.4, -20.5)
+light_color = Color(0.92, 0.88, 0.78, 1)
+light_energy = 0.48
+omni_range = 5.5
+
+[node name="StairWellLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 2.8, -27)
+light_color = Color(0.9, 0.88, 0.82, 1)
+light_energy = 0.85
+omni_range = 9.0
+
+[node name="UpperCorridorLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 4.8, -13)
+light_color = Color(0.88, 0.86, 0.9, 1)
+light_energy = 0.58
+omni_range = 8.0
+
+[node name="Room201Light" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 4.6, -14)
+light_color = Color(0.9, 0.86, 0.78, 1)
+light_energy = 0.45
+omni_range = 5.0
+
+[node name="Room202Light" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 4.6, -17)
+light_color = Color(0.9, 0.86, 0.78, 1)
+light_energy = 0.45
+omni_range = 5.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pensao")
+
+[node name="PlayerSpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 45)
+
+[node name="Player" parent="." instance=ExtResource("5_player")]
+
+[node name="UI" type="Node" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("6_hud")]

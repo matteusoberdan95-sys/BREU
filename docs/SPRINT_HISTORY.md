@@ -166,3 +166,18 @@ Registro cronológico das sprints do reboot greenfield.
 **Aprovação usuário:** subida/descida suaves na Pensão; rampa invisível OK; regressão puzzle/HUD/movimento OK.
 
 ---
+
+## Sprint 10 — Segundo andar blockout 01
+
+**Data:** 2026-07-11  
+**Status:** 🔄 Implementada — playtest F6 pendente  
+**Playtest:** `PENSAO_SECOND_FLOOR_BLOCKOUT_01_PLAYTEST.md`
+
+**Entregas:**
+- `PensaoVerticalBlockout01.tscn` + `PensaoVerticalBlockout01Builder`
+- 2º andar: corredor, quartos 201/202, porta bloqueada
+- `PensaoTerreoBlockout01.tscn` preservada
+
+**Pendente:** aprovação usuário após playtest F6 rota completa.
+
+---
