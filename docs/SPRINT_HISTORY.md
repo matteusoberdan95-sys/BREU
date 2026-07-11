@@ -50,7 +50,7 @@ Registro cronológico das sprints do reboot greenfield.
 **Data:** 2026-07-11  
 **Status:** ✅ Aprovada pelo usuário  
 **Commit implementação:** `765c0fb`  
-**Commit baseline:** _(ver commit desta sessão)_  
+**Commit baseline:** `05a35d5`  
 **Baseline:** `docs/technical/HUD_DEBUG_BASELINE.md`
 
 **Entregas:**
