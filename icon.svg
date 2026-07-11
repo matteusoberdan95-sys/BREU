@@ -1,0 +1,6 @@
+<svg height="128" width="128" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" fill="#0b0b0b"/>
+  <circle cx="64" cy="64" r="42" fill="#d9b86c" opacity="0.18"/>
+  <path d="M30 92 L64 18 L98 92 Z" fill="none" stroke="#d9b86c" stroke-width="6"/>
+  <text x="64" y="78" font-family="Arial, sans-serif" font-size="22" text-anchor="middle" fill="#d9b86c">BREU</text>
+</svg>
