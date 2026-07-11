@@ -11,7 +11,73 @@
 
 ## Status
 
-**Hotfix 3 Sprint 10 aplicado (2026-07-11).** Corredor desbloqueado + caixa de escada + vedação. Validar com F6 antes de marcar sprint como aprovada.
+**✅ Sprint 10 APROVADA (2026-07-11)** — blockout funcional do segundo andar validado pelo usuário.
+
+**Cena validada:** `PensaoVerticalBlockout01.tscn`
+
+---
+
+## Checklist aprovado — Sprint 10
+
+### Escada
+
+- [x] Player sobe a escada
+- [x] Player não trava no meio
+- [x] Player não bate em teto
+- [x] Player não cai por lateral
+- [x] Player desce a escada sem quicar
+
+### Landing superior
+
+- [x] Saída da escada livre (sem parede na cara)
+- [x] `UpperLanding_Main` acessível
+- [x] Transição clara escada → corredor
+
+### Guarda-corpo / caixa de escada
+
+- [x] Vão da escada protegido (`StairBox_Wall_*` + `Stairwell_Rail_*`)
+- [x] Player não cai pelo vão
+- [x] Visão lateral do poço controlada (blockout aceito)
+
+### Corredor superior
+
+- [x] Corredor superior acessível após sair da escada
+- [x] Sem bloqueio central / placas atravessadas
+- [x] Largura jogável (2,4 m)
+- [x] Player alcança porta bloqueada superior
+
+### Quartos superiores
+
+- [x] Room201 acessível + interação funciona
+- [x] Room202 acessível + interação funciona
+- [x] Porta bloqueada superior funciona (prompt + colisão)
+
+### Retorno ao térreo
+
+- [x] Player volta à escada
+- [x] Player desce ao térreo
+- [x] Fluxo ida e volta completo
+
+### Regressão do térreo
+
+- [x] Trilha → pensão → corredor → quarto 102
+- [x] Cozinha, recepção, depósito navegáveis
+- [x] Chave e fusível funcionam
+- [x] Interações do térreo intactas
+
+### Regressão do puzzle
+
+- [x] Puzzle do depósito destranca
+- [x] Fluxo chave → depósito → fusível preservado
+
+### HUD
+
+- [x] HUD intacto (stamina, vida, lanterna, prompts)
+
+### Player movement
+
+- [x] PlayerController aprovado
+- [x] Camera feel aprovado (sprint, crouch, lean, look back)
 
 ---
 

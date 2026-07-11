@@ -193,19 +193,19 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 10 — Segundo andar blockout 01
 
-**Status:** 🔄 Implementada — playtest F6 pendente
+**Status:** ✅ Concluída — aprovada 2026-07-11
 
 **Objetivo:** Layout superior navegável conectado à escada aprovada.
 
 **Entregas:**
 - `PensaoVerticalBlockout01.tscn` (cópia vertical — térreo baseline preservado)
 - Corredor superior, quartos 201/202, porta bloqueada 203
-- `Floor_Second_Main`, guarda-corpos, 3 interações
+- `Floor_Second_Main`, caixa de escada, guarda-corpos, 3 interações
 - Baseline: `PENSION_SECOND_FLOOR_BLOCKOUT_BASELINE.md`
 
-**DoD:** Térreo + escada + 2º andar ida e volta — **validar F6**.
+**DoD:** ✅ Térreo + escada + 2º andar ida e volta — validado F6.
 
-**Não feito:** teto; telhado; inimigo; arte final.
+**Não feito (proposital):** teto; telhado; inimigo; arte final.
 
 ---
 

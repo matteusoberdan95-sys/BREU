@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 10 implementada  
+**Fase:** REBOOT GREENFIELD — Sprint 10 aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -11,20 +11,24 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Sprint 02–04 | **✅ Aprovadas** — player, HUD, interação |
-| Sprint 05–06 | **✅ Aprovadas** — térreo blockout |
+| Sprint 02 | **✅ Aprovada** — player controller |
+| Sprint 03 | **✅ Aprovada** — HUD |
+| Sprint 04 | **✅ Aprovada** — interação |
+| Sprint 05 | **✅ Aprovada** — térreo blockout |
+| Sprint 06 | **✅ Aprovada** — térreo tuning |
 | Sprint 07 | **✅ Aprovada** — puzzle depósito |
 | Sprint 08 | **✅ Aprovada** — escada lab |
-| Sprint 09A / 09B | **✅ Aprovadas** — escada integrada + playtest |
-| Sprint 10 | **🔄 Em validação** — hotfix 3 (corredor + caixa escada); playtest F6 pendente |
+| Sprint 09A | **✅ Aprovada** — escada integrada |
+| Sprint 09B | **✅ Aprovada** — playtest escada |
+| Sprint 10 | **✅ Aprovada** — segundo andar blockout navegável |
 
 ---
 
-## Cenas
+## Cena atual (F6)
 
-**F6 térreo (baseline preservada):** `PensaoTerreoBlockout01.tscn`
+**Vertical (térreo + 2º andar):** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
-**F6 vertical (térreo + 2º andar):** `PensaoVerticalBlockout01.tscn`
+**Térreo baseline preservada:** `PensaoTerreoBlockout01.tscn`
 
 **Lab escada:** `StairMovementLab.tscn`
 
@@ -32,19 +36,13 @@
 
 ---
 
-## Sprint 10 — resumo (em validação)
+## Sprint 10 — resumo (aprovada)
 
-- Nova cena `PensaoVerticalBlockout01.tscn` — **não altera** `PensaoTerreoBlockout01.tscn`.
-- **Rebuild 2026-07-11:** segundo andar anterior removido; reconstruído limpo e proporcional ao térreo.
-- Laje `Floor_Second_Main` (14,08 × 44,58 m) cobre interior; vão só na escada.
-- Corredor superior no eixo x = 0; quartos 201/202; `UpperBlockedDoor`.
-- Raycast com oclusão por parede (hotfix anterior preservado).
-- **Hotfix 3 2026-07-11:** removido bloqueio do corredor (`CorridorNorthCap`); caixa de escada; landing unificado.
-- Segundo andar **só será aprovado** após playtest F6 completo (corredor desbloqueado + caixa escada).
-- Escada conectada @ y = 2,8 m; puzzle térreo preservado.
-- Sem teto, sem inimigo, sem arte final.
-
-**Pendências:** playtest F6 — corredor superior livre, caixa escada, circulação landing→corredor→quartos.
+- Segundo andar aprovado como **blockout cinza navegável** — visualmente cru, funcionalmente validado.
+- Player sobe escada, acessa piso superior, navega corredor + quartos 201/202 + porta bloqueada.
+- Vão da escada com caixa (`StairBox_Wall_*`) + guarda-corpos (`Stairwell_Rail_*`).
+- Térreo, puzzle depósito, HUD, PlayerController e camera feel **preservados**.
+- Sem teto, sem telhado, sem arte final, sem inimigo.
 
 **Playtest:** `docs/testing/PENSAO_SECOND_FLOOR_BLOCKOUT_01_PLAYTEST.md`
 
@@ -60,11 +58,12 @@
 | 05–06 Térreo | `PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md` |
 | 07 Puzzle | `DEPOSIT_PUZZLE_BASELINE.md` |
 | 08–09A Escada | `STAIR_RAMP_BASELINE.md` |
+| 10 Segundo andar | `PENSION_SECOND_FLOOR_BLOCKOUT_BASELINE.md` |
 
 ---
 
 ## Próxima sprint recomendada
 
-**Sprint 11 — Teto e câmera FPS** (após aprovar playtest F6 da Sprint 10).
+**Sprint 11 — Playtest fino do segundo andar**
 
-Sem inimigo, sem arte final, sem GLB.
+Sem refazer layout do 2º andar. Sem arte final, GLB, inimigo ou combate nesta fase.
