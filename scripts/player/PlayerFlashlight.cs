@@ -1,24 +1,47 @@
 namespace BREU.Scripts.Player;
 
 /// <summary>
-/// Base flashlight: SpotLight3D toggle. Battery system deferred to Sprint 03+.
-/// Disabled by default in movement lab — scene uses DirectionalLight3D only.
+/// Flashlight with battery drain. Infinite battery when PlaytestDebugSettings allows.
 /// </summary>
 public partial class PlayerFlashlight : SpotLight3D
 {
-    [Export] public bool DebugInfiniteLantern { get; set; } = true;
+    [Signal] public delegate void BatteryChangedEventHandler(float current, float maximum);
+    [Signal] public delegate void LanternToggledEventHandler(bool isOn);
+
     [Export] public bool StartsEnabled { get; set; } = false;
+    [Export] public float MaxBattery { get; set; } = 100.0f;
+    [Export] public float DrainPerSecond { get; set; } = 0.167f;
 
     public bool IsOn { get; private set; }
+    public float CurrentBattery { get; private set; }
 
     public override void _Ready()
     {
-        IsOn = StartsEnabled;
-        Visible = IsOn;
-        LightEnergy = IsOn ? 1.35f : 0.0f;
-        SpotAngle = 28.0f;
-        SpotAngleAttenuation = 1.2f;
-        ShadowEnabled = false;
+        CurrentBattery = MaxBattery;
+        IsOn = StartsEnabled && CurrentBattery > 0.0f;
+        ApplyLightState();
+        EmitSignal(SignalName.BatteryChanged, CurrentBattery, MaxBattery);
+        EmitSignal(SignalName.LanternToggled, IsOn);
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!IsOn || CurrentBattery <= 0.0f || IsInfiniteBattery())
+        {
+            return;
+        }
+
+        var previous = CurrentBattery;
+        CurrentBattery = Mathf.Max(0.0f, CurrentBattery - DrainPerSecond * (float)delta);
+        if (!Mathf.IsEqualApprox(previous, CurrentBattery))
+        {
+            EmitSignal(SignalName.BatteryChanged, CurrentBattery, MaxBattery);
+        }
+
+        if (CurrentBattery <= 0.0f)
+        {
+            ForceOff("Bateria esgotada.");
+        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -33,8 +56,59 @@ public partial class PlayerFlashlight : SpotLight3D
 
     public void Toggle()
     {
-        IsOn = !IsOn;
+        if (IsOn)
+        {
+            IsOn = false;
+            ApplyLightState();
+            EmitSignal(SignalName.LanternToggled, IsOn);
+            return;
+        }
+
+        if (CurrentBattery <= 0.0f && !IsInfiniteBattery())
+        {
+            ForceOff("Lanterna sem carga.");
+            return;
+        }
+
+        IsOn = true;
+        ApplyLightState();
+        EmitSignal(SignalName.LanternToggled, IsOn);
+    }
+
+    public void Recharge(float amount)
+    {
+        if (amount <= 0.0f)
+        {
+            return;
+        }
+
+        CurrentBattery = Mathf.Min(MaxBattery, CurrentBattery + amount);
+        EmitSignal(SignalName.BatteryChanged, CurrentBattery, MaxBattery);
+    }
+
+    private void ForceOff(string? hudMessage = null)
+    {
+        IsOn = false;
+        ApplyLightState();
+        EmitSignal(SignalName.LanternToggled, IsOn);
+
+        if (!string.IsNullOrEmpty(hudMessage))
+        {
+            HUDController.FindActive(GetTree())?.ShowMessage(hudMessage, 2.5f);
+        }
+    }
+
+    private void ApplyLightState()
+    {
         Visible = IsOn;
         LightEnergy = IsOn ? 1.35f : 0.0f;
+        SpotAngle = 28.0f;
+        SpotAngleAttenuation = 1.2f;
+        ShadowEnabled = false;
+    }
+
+    private bool IsInfiniteBattery()
+    {
+        return PlaytestDebugSettings.Instance?.InfiniteLanternBattery ?? true;
     }
 }

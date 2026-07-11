@@ -45,6 +45,20 @@ Registro cronológico das sprints do reboot greenfield.
 
 ---
 
+## Sprint 03 — HUD e Debug
+
+**Data:** 2026-07-11  
+**Status:** ✅ Concluída  
+**Baseline:** `docs/technical/HUD_DEBUG_BASELINE.md`
+
+**Entregas:**
+- `HUD.tscn` + `HUDController` (vida, stamina, lanterna, mensagens)
+- Autoload `PlaytestDebugSettings` (F10/F11)
+- `PlayerHealth`, bateria em `PlayerFlashlight`
+- Lab integrado com fog + HUD
+
+---
+
 ## Próxima
 
-**Sprint 03 — HUD e Debug**
+**Sprint 04 — Sistema de interação mínimo**

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://breuplayer02"]
+[gd_scene load_steps=11 format=3 uid="uid://breuplayer02"]
 
 [ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_controller"]
 [ext_resource type="Script" path="res://scripts/player/PlayerLook.cs" id="2_look"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/player/PlayerCameraFeel.cs" id="6_feel"]
 [ext_resource type="Script" path="res://scripts/player/PlayerLean.cs" id="7_lean"]
 [ext_resource type="Script" path="res://scripts/player/PlayerLookBack.cs" id="8_lookback"]
+[ext_resource type="Script" path="res://scripts/player/PlayerHealth.cs" id="9_health"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.35
@@ -28,6 +29,9 @@ script = ExtResource("3_stamina")
 
 [node name="PlayerCrouch" type="Node" parent="."]
 script = ExtResource("4_crouch")
+
+[node name="PlayerHealth" type="Node" parent="."]
+script = ExtResource("9_health")
 
 [node name="HeadBase" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)

@@ -1,0 +1,121 @@
+[gd_scene load_steps=3 format=3 uid="uid://breuhud03"]
+
+[ext_resource type="Script" path="res://scripts/ui/HUDController.cs" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.05, 0.05, 0.07, 0.72)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.28, 0.32, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StatusPanel" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -148.0
+offset_right = 260.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="Root/StatusPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="VBox" type="VBoxContainer" parent="Root/StatusPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HealthLabel" type="Label" parent="Root/StatusPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.9, 0.88, 1)
+theme_override_font_sizes/font_size = 15
+text = "Vida 100/100"
+
+[node name="StaminaBar" type="ProgressBar" parent="Root/StatusPanel/Margin/VBox"]
+custom_minimum_size = Vector2(210, 14)
+layout_mode = 2
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="StaminaLabel" type="Label" parent="Root/StatusPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.82, 0.88, 1)
+theme_override_font_sizes/font_size = 13
+text = "Stamina 100/100"
+
+[node name="LanternLabel" type="Label" parent="Root/StatusPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.84, 0.72, 1)
+theme_override_font_sizes/font_size = 13
+text = "Lanterna 100/100 — Desligada"
+
+[node name="MessagePanel" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -280.0
+offset_top = -96.0
+offset_right = 280.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MessageLabel" type="Label" parent="Root/MessagePanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.93, 0.88, 1)
+theme_override_font_sizes/font_size = 16
+text = "Mensagem temporaria"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="DebugPanel" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -420.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 52.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="DebugLabel" type="Label" parent="Root/DebugPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.78, 0.86, 1)
+theme_override_font_sizes/font_size = 12
+text = "Debug F10: lanterna inf ON | F11: fog normal"
+horizontal_alignment = 2

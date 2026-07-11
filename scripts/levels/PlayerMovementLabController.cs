@@ -1,7 +1,7 @@
 namespace BREU.Scripts.Levels;
 
 /// <summary>
-/// Sprint 02 movement lab — spawn, reset (F9) and startup debug.
+/// Sprint 02 movement lab — spawn, reset (F9), HUD welcome message.
 /// </summary>
 public partial class PlayerMovementLabController : Node3D
 {
@@ -16,6 +16,7 @@ public partial class PlayerMovementLabController : Node3D
         _player = GetNodeOrNull<CharacterBody3D>(PlayerPath);
         _spawn = GetNodeOrNull<Marker3D>(SpawnPath);
         ResetPlayerToSpawn();
+        CallDeferred(nameof(ShowStartupHudMessage));
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -23,6 +24,7 @@ public partial class PlayerMovementLabController : Node3D
         if (@event.IsActionPressed("debug_reset_player"))
         {
             ResetPlayerToSpawn();
+            ShowHudMessage("Posicao resetada (F9).");
         }
     }
 
@@ -36,5 +38,15 @@ public partial class PlayerMovementLabController : Node3D
         _player.GlobalPosition = _spawn.GlobalPosition;
         _player.GlobalRotation = _spawn.GlobalRotation;
         _player.Velocity = Vector3.Zero;
+    }
+
+    private void ShowStartupHudMessage()
+    {
+        ShowHudMessage("PlayerMovementLab — HUD ativo. F: lanterna | Shift: sprint | F10/F11: debug");
+    }
+
+    private void ShowHudMessage(string text)
+    {
+        HUDController.FindActive(GetTree())?.ShowMessage(text);
     }
 }

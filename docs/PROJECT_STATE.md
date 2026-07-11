@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 02 aprovada  
+**Fase:** REBOOT GREENFIELD — Sprint 03 concluída  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -11,10 +11,9 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Sprint 02 | **✅ Aprovada pelo usuário** |
-| PlayerMovementLab | **✅ Aprovado** |
-| Movimentação base | **🔒 Congelada** — ver baseline |
-| Sprint 03 | **Próxima** — HUD e Debug |
+| Sprint 02 | **✅ Aprovada** — player congelado |
+| Sprint 03 | **✅ Concluída** — HUD e Debug |
+| Sprint 04 | **Próxima** — Interação mínima |
 
 ---
 
@@ -33,24 +32,40 @@
 | Look back Alt/X | ✅ Aprovado |
 | Camera feel (BreuDefault) | ✅ Aprovado |
 
-**Regra:** Não alterar `PlayerController`, `PlayerCameraFeel`, look back, lean, sprint, crouch, stamina ou camera bob sem solicitação explícita ou nova sprint de player.
+**Regra:** Não alterar `PlayerController`, `PlayerCameraFeel`, look back, lean, sprint, crouch, stamina ou camera bob sem solicitação explícita.
+
+---
+
+## HUD e Debug (Sprint 03)
+
+**HUD:** `res://scenes/ui/HUD.tscn`  
+**Debug:** autoload `PlaytestDebugSettings`  
+**Documentação:** `docs/technical/HUD_DEBUG_BASELINE.md`
+
+| Sistema | Status |
+|---------|--------|
+| Vida | ✅ Display |
+| Stamina | ✅ Barra + label |
+| Lanterna | ✅ Bateria + estado |
+| Mensagens temporárias | ✅ |
+| Debug F10/F11 | ✅ Lanterna inf. / fog |
 
 ---
 
 ## Cena principal
 
 **F5:** `res://scenes/levels/BootstrapEmpty.tscn`  
-**F6 (playtest movimento):** `res://scenes/test/PlayerMovementLab.tscn`
+**F6 (playtest movimento + HUD):** `res://scenes/test/PlayerMovementLab.tscn`
 
 ---
 
 ## Próxima sprint
 
-**Sprint 03 — HUD e Debug**
+**Sprint 04 — Sistema de interação mínimo**
 
-- HUD: vida, stamina, lanterna (display)
-- `PlaytestDebugSettings`: flags de debug
-- **Sem** alterar player baseline
+- `IInteractable`, raycast, tecla E
+- Prompt no HUD
+- Cena teste com 2–3 interactables
 
 Ver: `docs/production/SPRINT_ROADMAP.md`
 
@@ -59,12 +74,13 @@ Ver: `docs/production/SPRINT_ROADMAP.md`
 ## Como retomar
 
 1. `docs/HANDOFF.md`
-2. `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
-3. Executar Sprint 03
+2. `docs/technical/HUD_DEBUG_BASELINE.md`
+3. Executar Sprint 04
 
 ---
 
 ## Relatórios
 
 - Sprint 02: `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
+- Sprint 03: `docs/testing/HUD_DEBUG_PLAYTEST.md`
 - Histórico: `docs/SPRINT_HISTORY.md`
