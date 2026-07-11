@@ -15,10 +15,13 @@
 - `D`: andar para a direita.
 - `Shift`: correr.
 - `Ctrl`: agachar (segurar).
+- `C`: agachar (alternativa temporaria/segurar).
 - `Space`: pular.
 - `Mouse`: olhar ao redor.
 - `F`: ligar/desligar a lanterna.
 - `E`: interagir com objeto mirado.
+- `Q`: lean para esquerda.
+- `R`: lean para direita.
 - `Esc`: liberar o mouse.
 - `Clique esquerdo`: capturar o mouse novamente.
 
@@ -154,6 +157,29 @@ Se a superficie nao for identificada, o jogo usa concreto como fallback.
 - Pular (`Space`) consome 12 de stamina.
 - A barra `Stamina X/100` no HUD deve atualizar em tempo real.
 - Sem stamina suficiente, sprint e pulo sao bloqueados ate regenerar.
+
+### Player Feel Sprint J
+
+O `Player/PlayerBodyMotion` adiciona:
+
+- gait/ciclo de passos procedural;
+- headbob vertical e horizontal ao andar;
+- headbob, roll e ombro mais fortes ao correr;
+- headbob menor ao agachar;
+- sway visual da lanterna e do martelo no `WeaponHolder`;
+- inercia leve ao acelerar/parar;
+- micro impacto visual dos passos;
+- lean visual com `Q`/`R`;
+- camera shake curto ao tomar dano em cenas com inimigo;
+- respiracao por audio quando os `.ogg` existirem.
+
+Audios de respiracao ainda pendentes:
+
+- `assets/audio/sfx/player/breath_light_01.ogg`
+- `assets/audio/sfx/player/breath_heavy_01.ogg`
+- `assets/audio/sfx/player/player_tired_01.ogg`
+
+Sem esses arquivos, o jogo imprime um aviso uma vez e continua normal.
 
 ## Interacoes
 

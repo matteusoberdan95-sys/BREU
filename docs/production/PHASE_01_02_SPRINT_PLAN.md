@@ -271,7 +271,7 @@ Nao usar Blender ainda.
 
 ## Sprint I - Hospede Seco blockout no Godot
 
-**Status:** blockout visual integrado.
+**Status:** blockout visual e animacoes placeholder integrados.
 
 So iniciar apos validar:
 
@@ -291,7 +291,9 @@ So iniciar apos validar:
 - [x] Visual placeholder antigo (`BodyMesh`, `HeadMesh`, `Eyes`) fica oculto como fallback.
 - [x] IA mantida em `EnemyPlaceholderAI.cs`.
 - [x] Colisao principal, `EnemyHurtbox`, ataque, stun e dano continuam usando a estrutura existente.
-- [x] Sem rig e sem animacoes nesta sprint.
+- [x] `EnemyAnimationController.cs` criado para animacoes visuais placeholder.
+- [x] Animacoes basicas: idle, walk/chase, attack, hit, stunned e death placeholder.
+- [x] Sem rig/bones nesta sprint.
 
 ### Criar primeiro inimigo
 
@@ -322,10 +324,66 @@ O Hospede.
 
 ---
 
+## Sprint J - Player Feel cinematografico
+
+**Status:** base jogavel integrada.
+
+### Objetivos
+
+- Tirar a sensacao de camera flutuando.
+- Aproximar movimento/camera de horror em primeira pessoa cinematografico.
+- Registrar oficialmente o estilo de BREU DE DENTRO.
+
+### Entregas Godot
+
+- [x] `PlayerCameraFeel.cs` criado para headbob, camera shake, lean e sway da lanterna.
+- [x] `PlayerBodyMotion.cs` criado como versao ativa do body motion procedural.
+- [x] Gait, headbob vertical/horizontal, shoulder sway, inercia e step impact visual.
+- [x] `WeaponHolder` e `Flashlight` com sway de mao por estado.
+- [x] `BreathAudio` adicionado ao `Player.tscn`.
+- [x] Audios de respiracao integrados: `breath_light`, `breath_heavy` e `player_tired`.
+- [x] Corrida suavizada para reduzir balanco lateral/roll excessivo.
+- [x] `PlayerHealth.TakeDamage()` chama camera shake do `PlayerBodyMotion`.
+- [x] Inputs `lean_left = Q` e `lean_right = R`.
+- [x] Movimento recebeu aceleracao/desaceleracao simples para mais peso.
+- [x] Crouch existente preservado e integrado ao headbob menor.
+- [x] Documentacao oficial do estilo registrada em `GAME_VISION.md`.
+
+### Proximos ajustes
+
+- Playtestar intensidade da corrida suavizada; fallback leve documentado em `PLAYER_FEEL.md`.
+- Adicionar custo de stamina ao ataque.
+- Criar animacoes finais de arma/camera quando houver maos rigadas.
+
+---
+
+## Sprint Audio 01 - Direcao sonora e pack realista da Fase 1
+
+**Status:** planejada.
+
+### Objetivos
+
+- Revisar todos os sons existentes.
+- Gerar/editar ambience loops.
+- Criar sons do player.
+- Criar sons do Hospede Seco.
+- Criar sons de portas/interacoes.
+- Criar radio/interferencia.
+- Balancear volumes no Godot.
+
+### Entregas esperadas
+
+- `docs/audio/AUDIO_DIRECTION.md` como direcao sonora oficial.
+- `docs/audio/AUDIO_ASSET_REGISTRY.md` atualizado com status real.
+- Pack realista v02 com nomes canonicos.
+- Teste de mix no fluxo `TrailIntro -> DemoRoom -> RitualRoom`.
+
+---
+
 ## Ordem recomendada
 
 ```text
-Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G -> Sprint H -> Sprint I
+Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G -> Sprint H -> Sprint I -> Sprint J -> Sprint Audio 01
 ```
 
 ## Documentos relacionados
@@ -335,5 +393,7 @@ Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G
 - `docs/design/PHASE_02_LEVEL_DESIGN.md`
 - `docs/design/ENEMY_DESIGN.md`
 - `docs/design/SCENARIO_ART_DIRECTION.md`
+- `docs/audio/AUDIO_DIRECTION.md`
+- `docs/audio/AUDIO_ASSET_REGISTRY.md`
 - `docs/SPRINT_HISTORY.md`
 - `docs/gameplay/NEXT_SPRINT_TASKS.md`

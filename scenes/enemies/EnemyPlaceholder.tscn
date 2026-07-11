@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://breu_enemy_placeholder"]
+[gd_scene load_steps=17 format=3 uid="uid://breu_enemy_placeholder"]
 
 [ext_resource type="Script" path="res://scripts/enemies/EnemyPlaceholderAI.cs" id="1_enemy_ai"]
 [ext_resource type="Script" path="res://scripts/enemies/EnemyHurtbox.cs" id="2_hurtbox"]
 [ext_resource type="PackedScene" path="res://assets/blender_exports/enemies/hospede_seco/enemy_hospede_seco_blockout.glb" id="3_hospede_seco"]
+[ext_resource type="Script" path="res://scripts/enemies/EnemyAnimationController.cs" id="4_animation_controller"]
 
 [sub_resource type="StandardMaterial3D" id="BodyMaterial"]
 albedo_color = Color(0.13, 0.13, 0.15, 1)
@@ -59,6 +60,11 @@ LoseSightGraceTime = 1.5
 StartDormant = true
 GroundY = 0.05
 LockVerticalMovement = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="EnemyAnimationController" type="Node" parent="."]
+script = ExtResource("4_animation_controller")
 
 [node name="Visual" type="Node3D" parent="."]
 

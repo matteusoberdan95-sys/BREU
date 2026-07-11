@@ -374,7 +374,129 @@ RitualRoom -> susto -> Hospede Seco aparece -> persegue -> ataca -> recebe marte
 
 ## Proxima sprint recomendada
 
-1. Validar escala/orientacao do Hospede Seco no editor.
-2. Testar manualmente morte/retry na Sala dos Santos Secos.
-3. Criar rig simples e animacoes de Idle/Walk/Attack/Hit.
-4. Criar objetivo com Chave Velha para liberar a porta de saida.
+## Sprint 21 - Animacoes placeholder do Hospede Seco
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- Criado `EnemyAnimationController.cs`.
+- Adicionado `AnimationPlayer` em `EnemyPlaceholder.tscn` como base futura.
+- Animacoes placeholder visuais por transform/tween: `enemy_idle`, `enemy_walk`, `enemy_attack`, `enemy_hit`, `enemy_stunned_idle` e `enemy_death_placeholder`.
+- `EnemyPlaceholderAI.cs` integrado ao controller sem refazer IA.
+- Ataque, hit/stun, perseguicao, dano e hurtbox mantidos.
+- Documentado playtest das animacoes do Hospede Seco.
+
+### Validacao esperada
+
+```text
+RitualRoom -> susto -> Hospede Seco respira -> persegue balancando -> ataca com tranco -> recua/stun ao levar martelada
+```
+
+## Proxima sprint recomendada
+
+## Sprint 22 - Player Feel cinematografico
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- Criado `PlayerCameraFeel.cs` para headbob, camera shake, lean visual e sway da lanterna.
+- `Player.tscn` recebeu `BreathAudio` e no `PlayerCameraFeel`.
+- `PlayerHealth.TakeDamage()` chama `PlayDamageShake()` alem do `DamageOverlay`.
+- Inputs adicionados: `lean_left = Q`, `lean_right = R`.
+- `PlayerController` recebeu aceleracao/desaceleracao simples para movimento com mais peso.
+- Crouch existente preservado e integrado ao headbob menor.
+- `GAME_VISION.md` recebeu a definicao oficial do estilo e referencias.
+- Criado `docs/design/PLAYER_FEEL.md`.
+
+### Validacao esperada
+
+```text
+TrailIntro -> andar/correr/agachar/lean -> DemoRoom -> martelo -> RitualRoom -> dano com shake -> morte/retry
+```
+
+## Proxima sprint recomendada
+
+## Sprint 23 - Body Motion procedural
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- Criado `PlayerBodyMotion.cs` como sistema ativo de movimento corporal procedural.
+- `Player.tscn` trocou o no `PlayerCameraFeel` por `PlayerBodyMotion`.
+- `PlayerHealth.TakeDamage()` chama `PlayerBodyMotion.PlayDamageShake()` com fallback legado para `PlayerCameraFeel`.
+- Implementado `_gaitPhase` com frequencias de andar, correr e agachar.
+- Headbob dividido em vertical, horizontal, roll e pitch de corrida.
+- Shoulder sway na corrida com roll lateral e deslocamento de ombro.
+- Inercia visual ao acelerar/parar e atraso no `WeaponHolder`.
+- Step impact visual sincronizado ao ciclo de passos, sem duplicar audio.
+- Respiracao visual por stamina baixa/parado e fallback para audios futuros.
+- Sway de mao aplicado em `WeaponHolder` e `Flashlight`, preservando tween do martelo em `EquippedHammerVisual`.
+- Flags de debug por camada: body motion, headbob, shoulder sway, weapon sway, breathing motion e step impact.
+
+### Validacao esperada
+
+```text
+TrailIntro -> andar/correr/agachar -> sentir gait/ombro/inercia -> DemoRoom -> martelo -> RitualRoom -> dano/morte/retry
+```
+
+## Proxima sprint recomendada
+
+## Sprint 24 - Corrida suavizada e respiracao do player
+
+**Data:** 2026-07-10 | **Status:** base criada
+
+### Entregas
+
+- Corrida do `PlayerBodyMotion` ajustada para menos lateralidade e roll.
+- Valores finais aplicados:
+  - `RunStepFrequency = 9.2`
+  - `RunBobVertical = 0.055`
+  - `RunBobHorizontal = 0.020`
+  - `RunRollAmount = 1.65`
+  - `RunPitchAmount = 0.85`
+  - `ShoulderSwayRunAmount = 0.030`
+  - `ShoulderRollRunAmount = 1.25`
+  - `WeaponRunSwayAmount = 0.045`
+  - `RunStepImpact = 0.018`
+  - `Smoothing = 12.0`
+- Fallback leve documentado para playtest futuro: `RunBobHorizontal 0.014`, `RunRollAmount 1.2`, `ShoulderRollRunAmount 0.9`.
+- Adicionados/importados:
+  - `assets/audio/sfx/player/breath_light_01.ogg`
+  - `assets/audio/sfx/player/breath_heavy_01.ogg`
+  - `assets/audio/sfx/player/player_tired_01.ogg`
+- `PlayerBodyMotion` agora usa `breath_light` em corrida normal, `breath_heavy` com stamina baixa e `player_tired` como one-shot com cooldown.
+
+### Validacao esperada
+
+```text
+Andar continua bom -> correr balanca menos -> breath_light -> stamina baixa breath_heavy -> stamina zero player_tired sem spam
+```
+
+## Sprint 25 - Documentacao oficial de audio
+
+**Data:** 2026-07-10 | **Status:** documentacao criada
+
+### Entregas
+
+- Criado `docs/audio/AUDIO_DIRECTION.md` como direcao sonora oficial do projeto.
+- Criado `docs/audio/AUDIO_ASSET_REGISTRY.md` para registrar arquivos, categorias, status e observacoes.
+- `PHASE_01_02_SPRINT_PLAN.md` recebeu a futura `Sprint Audio 01`.
+- `README.md`, `PROJECT_STATE.md` e `HANDOFF.md` apontam para a nova documentacao de audio.
+- Nenhum script, cena ou arquivo de audio foi alterado nesta sprint.
+
+### Validacao esperada
+
+```text
+Abrir docs/audio/AUDIO_DIRECTION.md -> entender identidade sonora -> abrir AUDIO_ASSET_REGISTRY.md -> ver status dos assets atuais
+```
+
+## Proxima sprint recomendada
+
+1. Fazer auditoria dos nomes atuais contra o padrao canonico de audio.
+2. Criar/editar pack realista v02 para ambience, player, portas, radio, interacoes, martelo e Hospede Seco.
+3. Balancear volumes no Godot seguindo `docs/audio/AUDIO_DIRECTION.md`.
+4. Playtestar conforto da corrida suavizada no fluxo completo.
+5. Validar escala/orientacao do Hospede Seco no editor.

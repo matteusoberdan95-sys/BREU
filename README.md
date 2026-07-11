@@ -20,11 +20,11 @@ O jogador explora a Pensao Santa Luzia no interior do Nordeste brasileiro entre 
 | Trilha Noturna | Jogavel, leva para fachada |
 | Fachada da Pensao | Integrada visualmente no fim da trilha; cena isolada mantida |
 | Quarto 07 | Jogavel |
-| Player FPS | Andar, correr, agachar, pular, lanterna |
-| Audio | Pack v01 + passos por superficie + vento |
+| Player FPS | Andar, correr, agachar, pular, lanterna, lean e camera feel |
+| Audio | Pack v01 + direcao sonora oficial documentada |
 | Fase 1 | Quarto -> corredor -> susto -> porta final |
 | Fase 2 | Sala dos Santos Secos jogavel inicial |
-| Combate / IA | Placeholder apenas |
+| Combate / IA | Martelo com durabilidade, stun e Hospede Seco blockout |
 
 A cena principal do projeto ja aponta para `TrailIntro.tscn`, entao o botao Play testa a entrada completa da vertical slice.
 
@@ -38,7 +38,7 @@ A cena principal do projeto ja aponta para `TrailIntro.tscn`, entao o botao Play
 ## Fluxos atuais
 
 ```text
-TrailIntro -> DemoRoom
+TrailIntro -> DemoRoom -> RitualRoom
 ```
 
 ```text
@@ -57,10 +57,13 @@ Controles:
 - `WASD`: mover
 - `Shift`: correr
 - `Ctrl`: agachar
+- `C`: agachar (alternativa)
 - `Space`: pular
 - `Mouse`: olhar
 - `F`: lanterna
 - `E`: interagir
+- `Q`: lean para esquerda
+- `R`: lean para direita
 
 Guias:
 
@@ -85,7 +88,9 @@ C:\Users\mober\OneDrive\Desktop\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_m
 ## Documentacao de design
 
 - Visao e lore: `docs/design/GAME_VISION.md`, `docs/design/STORY_AND_LORE.md`
+- Player feel: `docs/design/PLAYER_FEEL.md`
 - Level design: `docs/design/PHASE_01_LEVEL_DESIGN.md`, `docs/design/PHASE_02_LEVEL_DESIGN.md`
+- Audio: `docs/audio/AUDIO_DIRECTION.md`, `docs/audio/AUDIO_ASSET_REGISTRY.md`
 - Plano de producao: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - Historico: `docs/SPRINT_HISTORY.md`
 

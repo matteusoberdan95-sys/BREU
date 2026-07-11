@@ -33,6 +33,7 @@ public partial class PlayerHealth : Node
         _invulnerabilityTimer = DamageInvulnerabilityTime;
         GD.Print($"Player tomou dano: {amount}. Vida: {CurrentHealth}/{MaxHealth}");
         FlashDamageOverlay();
+        PlayDamageCameraShake();
         UpdateHud();
 
         if (CurrentHealth <= 0)
@@ -95,6 +96,17 @@ public partial class PlayerHealth : Node
         }
     }
 
+    private void PlayDamageCameraShake()
+    {
+        if (GetParent()?.GetNodeOrNull<PlayerBodyMotion>("PlayerBodyMotion") is { } bodyMotion)
+        {
+            bodyMotion.PlayDamageShake();
+            return;
+        }
+
+        GetParent()?.GetNodeOrNull<PlayerCameraFeel>("PlayerCameraFeel")?.PlayDamageShake();
+    }
+
     private void ShowDeathScreen()
     {
         if (GetTree().GetFirstNodeInGroup("death_screen") is DeathScreen deathScreen)
@@ -113,6 +125,8 @@ public partial class PlayerHealth : Node
 
         SetNodeProcess("PlayerInteractor", false);
         SetNodeProcess("PlayerMeleeAttack", false);
+        SetNodeProcess("PlayerBodyMotion", false);
+        SetNodeProcess("PlayerCameraFeel", false);
         SetNodeProcess("CameraPivot", false);
         SetNodeProcess("CameraPivot/Flashlight", false);
         Input.MouseMode = Input.MouseModeEnum.Visible;
@@ -127,6 +141,8 @@ public partial class PlayerHealth : Node
 
         SetNodeProcess("PlayerInteractor", true);
         SetNodeProcess("PlayerMeleeAttack", true);
+        SetNodeProcess("PlayerBodyMotion", true);
+        SetNodeProcess("PlayerCameraFeel", true);
         SetNodeProcess("CameraPivot", true);
         SetNodeProcess("CameraPivot/Flashlight", true);
     }

@@ -12,6 +12,44 @@ Ultima atualizacao: 2026-07-10
 
 ## Ultimas entregas
 
+### Sprint Audio Docs - Direcao sonora oficial
+
+- Criado `docs/audio/AUDIO_DIRECTION.md` como referencia oficial da identidade sonora.
+- Criado `docs/audio/AUDIO_ASSET_REGISTRY.md` para registrar arquivos, status e proximas necessidades.
+- A direcao sonora atual prioriza som seco, intimo, sujo e opressivo, com corpo/respiracao, silencio, ambiente nordestino macabro, radio/interferencia e inimigos humanos perturbados.
+- Sprint futura planejada: `Sprint Audio 01 - Direcao sonora e pack realista da Fase 1`.
+- Nenhum script, cena ou arquivo de audio foi alterado nesta etapa.
+
+### Sprint J.5 - Body Motion procedural
+
+- `PlayerBodyMotion.cs` e o sistema ativo no `Player.tscn`.
+- `PlayerCameraFeel.cs` ficou como script legado/compatibilidade, mas nao esta instanciado no Player.
+- Camera agora tem gait procedural, headbob vertical/horizontal, run roll, ombro, inercia e step impact visual.
+- Lean visual: `Q` para esquerda, `R` para direita. `E` continua exclusivo para interacao.
+- Lanterna e martelo recebem sway de mao via `Flashlight` e `WeaponHolder`, sem alterar bateria/toggle ou hit detection.
+- `PlayerHealth.TakeDamage()` chama shake curto de camera via `PlayerBodyMotion.PlayDamageShake()`.
+- `BreathAudio` foi adicionado ao Player; os audios de respiracao ainda sao futuros e o sistema apenas avisa uma vez se estiverem ausentes.
+- `PlayerController` recebeu aceleracao/desaceleracao simples para mais peso no movimento.
+- Documentos atualizados: `PLAYER_FEEL.md`, playtests e plano de sprint.
+
+### Sprint J.6 - Corrida suavizada e respiracao
+
+- Corrida do `PlayerBodyMotion` foi reduzida para evitar balanco lateral/roll excessivo.
+- Valores ativos: `RunStepFrequency 9.2`, `RunBobVertical 0.055`, `RunBobHorizontal 0.020`, `RunRollAmount 1.65`, `RunPitchAmount 0.85`, `ShoulderSwayRunAmount 0.030`, `ShoulderRollRunAmount 1.25`, `WeaponRunSwayAmount 0.045`, `RunStepImpact 0.018`, `Smoothing 12.0`.
+- Arquivos adicionados/importados:
+  - `assets/audio/sfx/player/breath_light_01.ogg`
+  - `assets/audio/sfx/player/breath_heavy_01.ogg`
+  - `assets/audio/sfx/player/player_tired_01.ogg`
+- `breath_light` toca em corrida com stamina acima de 35%.
+- `breath_heavy` toca em stamina baixa.
+- `player_tired` toca como one-shot ao zerar stamina/tentar correr sem stamina, com cooldown de 3s.
+- Fallback de ajuste fino documentado: `RunBobHorizontal 0.014`, `RunRollAmount 1.2`, `ShoulderRollRunAmount 0.9`.
+
+### Sprint J - Player Feel cinematografico
+
+- Primeira versao de `PlayerCameraFeel.cs` criada com headbob, lean, sway e damage shake.
+- Definicao oficial do estilo registrada em `GAME_VISION.md`.
+
 ### Sprint I - Hospede Seco blockout visual
 
 - Arquivo visual: `assets/blender_exports/enemies/hospede_seco/enemy_hospede_seco_blockout.glb`.
@@ -19,7 +57,8 @@ Ultima atualizacao: 2026-07-10
 - `BodyMesh`, `HeadMesh` e `Eyes` antigos ficam ocultos como fallback.
 - A IA continua sendo `EnemyPlaceholderAI.cs`; nao houve refactor de comportamento.
 - Colisao, `EnemyHurtbox`, `DetectionArea`, `AttackArea` e audios continuam iguais.
-- Ainda nao ha rig ou animacoes.
+- `EnemyAnimationController.cs` adiciona animacoes placeholder por transform/tween: idle, walk, attack, hit, stunned e death placeholder.
+- Ainda nao ha rig/bones nem animacoes finais do Blender.
 
 ### Sprint G - Morte, retry e respawn
 
@@ -136,6 +175,7 @@ TrailIntro -> DemoRoom -> RitualRoom
 8. Mirar na porta final e apertar `E`.
 9. Confirmar transicao para `RitualRoom.tscn`.
 10. Disparar o susto da RitualRoom, deixar o inimigo matar o player e testar `Tentar novamente`.
+11. Confirmar Sprint J.5: gait/headbob, ombro correndo, lean `Q`/`R`, sway da lanterna/martelo, shake de dano e retry restaurando controle.
 
 Guias:
 
@@ -156,5 +196,6 @@ Observacao: o editor headless emite erros de cache/config em `AppData` nesta maq
 
 1. Testar manualmente morte/retry na `RitualRoom.tscn`.
 2. Balancear dano, vida e invulnerabilidade.
-3. Criar objetivo com Chave Velha para liberar a saida.
-4. Integrar custo de stamina ao ataque.
+3. Playtestar corrida suavizada; se ainda ficar lateral demais, aplicar fallback leve documentado.
+4. Criar objetivo com Chave Velha para liberar a saida.
+5. Integrar custo de stamina ao ataque.

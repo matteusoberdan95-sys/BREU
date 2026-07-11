@@ -188,13 +188,48 @@ Regras atuais:
 - o acerto do martelo continua usando `EnemyHurtbox`;
 - o GLB e apenas visual, sem colisao de gameplay;
 - ainda nao ha rig ou animacoes;
-- animacoes de idle/walk/attack/hit ficam para sprint futura.
+- rig, bones e animacoes finais ficam para sprint futura.
 
 Ao abrir a sala, o console deve imprimir uma vez:
 
 ```text
 Enemy visual: HospedeSecoModel carregado.
 ```
+
+## Animacoes do Hospede Seco
+
+As animacoes atuais sao placeholders visuais controladas por:
+
+```text
+res://scripts/enemies/EnemyAnimationController.cs
+```
+
+O inimigo tambem possui um `AnimationPlayer` na cena para futura migracao para animacoes reais no editor, mas nesta sprint o movimento visual e feito por oscilacao/tween no no `Visual`.
+
+Animacoes/comportamentos atuais:
+
+- `enemy_idle`: respiracao leve, subindo/descendo o `Visual`;
+- `enemy_walk`: oscilacao lateral e vertical durante perseguicao;
+- `enemy_attack`: tranco curto para frente ao atacar;
+- `enemy_hit`: recuo curto ao receber martelada;
+- `enemy_stunned_idle`: tremor lateral enquanto esta em stun;
+- `enemy_death_placeholder`: queda lateral preparada, ainda nao usada no gameplay.
+
+Limitacoes:
+
+- o modelo ainda nao tem rig/bones;
+- bracos e pernas ainda nao animam individualmente;
+- as animacoes sao placeholders de transform do `Visual`;
+- o dano do ataque continua usando o timing atual da IA, nao um evento de keyframe.
+
+Teste rapido:
+
+1. Disparar o susto da RitualRoom.
+2. Observar idle/alert com respiracao leve.
+3. Recuar e confirmar o balanço durante chase.
+4. Deixar atacar e confirmar o tranco.
+5. Acertar com martelo e confirmar recuo + stun/tremor.
+6. Confirmar que hurtbox, dano, durabilidade e morte/retry continuam funcionando.
 
 Ao cruzar `Triggers/RitualScareTrigger`:
 
@@ -419,6 +454,38 @@ Valores atuais documentados em `docs/design/RITUAL_ROOM_BALANCE.md`.
 
 1. Deixar inimigo acertar.
 2. Confirmar `Vida` desce, flash vermelho (0.35s), tremor de camera, mensagem com cooldown.
+
+### Dano com Player Feel Sprint J
+
+1. Ativar o Hospede Seco.
+2. Deixar o inimigo acertar o player uma vez.
+3. Confirmar:
+   - HUD de vida atualiza;
+   - `DamageOverlay` pisca vermelho;
+   - `PlayerBodyMotion.PlayDamageShake()` aplica shake curto;
+   - mouse look continua funcionando depois do impacto.
+
+### Combate com camera feel
+
+1. Pegar o martelo no Quarto 07.
+2. Entrar na RitualRoom.
+3. Correr/andar durante a perseguicao e observar headbob.
+4. Atacar com clique esquerdo.
+5. Confirmar que o swing do martelo, hit detection, stun e durabilidade continuam funcionando.
+
+### Perseguicao com headbob
+
+1. Disparar o susto.
+2. Fugir andando e correndo ao redor da mesa.
+3. Confirmar que headbob nao atrapalha mira/interacao.
+4. Confirmar que stamina baixa deixa a camera mais tensa, mas ainda legivel.
+
+### Morte/retry com Player Feel
+
+1. Deixar a vida chegar a zero.
+2. Confirmar que movimento, ataque, lanterna, lean e camera feel param junto com a tela de morte.
+3. Clicar `Tentar novamente`.
+4. Confirmar que a cena recarrega e o player volta a andar/olhar normalmente.
 
 ### Como testar stun
 

@@ -62,6 +62,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
     private Area3D? _hurtbox;
     private CollisionShape3D? _hurtboxShape;
     private Node3D? _visual;
+    private EnemyAnimationController? _animationController;
     private Vector3 _visualBaseScale = Vector3.One;
     private Node3D? _player;
     private float _attackTimer;
@@ -106,6 +107,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         _hurtbox = GetNodeOrNull<Area3D>("EnemyHurtbox");
         _hurtboxShape = GetNodeOrNull<CollisionShape3D>("EnemyHurtbox/CollisionShape3D");
         _visual = GetNodeOrNull<Node3D>("Visual");
+        _animationController = GetNodeOrNull<EnemyAnimationController>("EnemyAnimationController");
         _visualBaseScale = _visual?.Scale ?? Vector3.One;
         _gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
         _lastSafePosition = GlobalPosition;
@@ -125,6 +127,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
             IsActive = true;
             Visible = true;
             SetCollisionEnabled(true);
+            _animationController?.PlayIdle();
         }
     }
 
@@ -195,6 +198,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         Velocity = Vector3.Zero;
         LookAtPlayer();
         SyncNavigationTarget(true);
+        _animationController?.PlayIdle();
 
         if (PlayAudioOnActivate)
         {
@@ -214,6 +218,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         Velocity = Vector3.Zero;
         StopBreathing();
         SetCollisionEnabled(false);
+        _animationController?.Stop();
     }
 
     public void LookAtPlayer()
@@ -250,7 +255,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
     public void ReceiveHit(int damage)
     {
         GD.Print($"EnemyPlaceholder recebeu hit: {damage}");
-        PlayHitFeedback();
+        _animationController?.PlayHit();
         ApplyStun(StunDuration);
     }
 
@@ -668,6 +673,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
 
     private void ProcessIdle(float dt)
     {
+        _animationController?.PlayIdle();
         Velocity = ApplyGravity(Vector3.Zero, dt);
         MoveAndSlide();
 
@@ -680,6 +686,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
 
     private void ProcessAlert(float dt)
     {
+        _animationController?.PlayIdle();
         Velocity = ApplyGravity(Vector3.Zero, dt);
         MoveAndSlide();
         _alertTimer -= dt;
@@ -692,11 +699,17 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
                 _chaseStartedLogged = true;
                 GD.Print("EnemyPlaceholder iniciou perseguicao.");
             }
+
+            if (State == PlaceholderEnemyState.Chasing)
+            {
+                _animationController?.PlayWalk();
+            }
         }
     }
 
     private void ProcessChasing(float dt)
     {
+        _animationController?.PlayWalk();
         if (!CanChase)
         {
             Velocity = ApplyGravity(Vector3.Zero, dt);
@@ -726,6 +739,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         if (distance <= AttackRange && HasAttackLineOfSightToPlayer())
         {
             State = PlaceholderEnemyState.Attacking;
+            _animationController?.PlayAttack();
             Velocity = ApplyGravity(Vector3.Zero, dt);
             MoveAndSlide();
             return;
@@ -794,6 +808,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         if (DistanceToPlayer() > AttackRange * 1.25f)
         {
             State = PlaceholderEnemyState.Chasing;
+            _animationController?.PlayWalk();
             return;
         }
 
@@ -805,16 +820,19 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         if (!HasAttackLineOfSightToPlayer())
         {
             State = PlaceholderEnemyState.Chasing;
+            _animationController?.PlayWalk();
             return;
         }
 
         _attackTimer = AttackCooldown;
+        _animationController?.PlayAttack();
         _growlAudio?.Play();
         TryDamagePlayer();
     }
 
     private void ProcessStunned(float dt)
     {
+        _animationController?.PlayStunned();
         Velocity = ApplyGravity(Vector3.Zero, dt);
         MoveAndSlide();
         _stunTimer -= dt;
@@ -822,6 +840,7 @@ public partial class EnemyPlaceholderAI : CharacterBody3D
         if (_stunTimer <= 0.0f)
         {
             State = PlaceholderEnemyState.Chasing;
+            _animationController?.PlayWalk();
             if (!_chaseStartedLogged)
             {
                 _chaseStartedLogged = true;

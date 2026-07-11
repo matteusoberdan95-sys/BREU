@@ -9,6 +9,9 @@ public partial class PlayerController : CharacterBody3D
     [Export] public float JumpVelocity { get; set; } = 4.0f;
     [Export] public float JumpStaminaCost { get; set; } = 12.0f;
     [Export] public float SprintStaminaDrainPerSecond { get; set; } = 14.0f;
+    [Export] public float Acceleration { get; set; } = 12.0f;
+    [Export] public float Deceleration { get; set; } = 14.0f;
+    [Export] public float AirControl { get; set; } = 0.4f;
     [Export] public bool CanJump { get; set; } = true;
     [Export] public float StandingCapsuleHeight { get; set; } = 1.8f;
     [Export] public float CrouchingCapsuleHeight { get; set; } = 1.0f;
@@ -74,10 +77,18 @@ public partial class PlayerController : CharacterBody3D
         var speed = IsCrouching ? CrouchSpeed : isSprinting ? SprintSpeed : WalkSpeed;
 
         var moveVelocity = Velocity;
-        moveVelocity.X = direction.X * speed;
-        moveVelocity.Z = direction.Z * speed;
-
         var isOnFloorBeforeMove = IsOnFloor();
+        var targetHorizontal = new Vector2(direction.X * speed, direction.Z * speed);
+        var currentHorizontal = new Vector2(moveVelocity.X, moveVelocity.Z);
+        var movementRate = targetHorizontal.LengthSquared() > 0.001f ? Acceleration : Deceleration;
+        if (!isOnFloorBeforeMove)
+        {
+            movementRate *= AirControl;
+        }
+
+        currentHorizontal = currentHorizontal.MoveToward(targetHorizontal, movementRate * (float)delta);
+        moveVelocity.X = currentHorizontal.X;
+        moveVelocity.Z = currentHorizontal.Y;
 
         if (TryJump(ref moveVelocity, isOnFloorBeforeMove))
         {
@@ -242,9 +253,12 @@ public partial class PlayerController : CharacterBody3D
         EnsureKeyAction("move_right", Key.D);
         EnsureKeyAction("sprint", Key.Shift);
         EnsureKeyAction("crouch", Key.Ctrl);
+        EnsureKeyAction("crouch", Key.C);
         EnsureKeyAction("jump", Key.Space);
         EnsureKeyAction("flashlight_toggle", Key.F);
         EnsureKeyAction("interact", Key.E);
+        EnsureKeyAction("lean_left", Key.Q);
+        EnsureKeyAction("lean_right", Key.R);
         EnsureKeyAction("pause", Key.Escape);
         EnsureMouseButtonAction("attack_primary", MouseButton.Left);
     }

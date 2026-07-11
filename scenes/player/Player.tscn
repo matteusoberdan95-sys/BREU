@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://breu_player"]
+[gd_scene load_steps=20 format=3 uid="uid://breu_player"]
 
 [ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_controller"]
 [ext_resource type="Script" path="res://scripts/player/PlayerLook.cs" id="2_look"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/player/PlayerHealth.cs" id="10_health"]
 [ext_resource type="Script" path="res://scripts/player/PlayerWeaponController.cs" id="11_weapon_controller"]
 [ext_resource type="Script" path="res://scripts/player/PlayerMeleeAttack.cs" id="12_melee_attack"]
+[ext_resource type="Script" path="res://scripts/player/PlayerBodyMotion.cs" id="13_body_motion"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.32
@@ -50,6 +51,9 @@ max_distance = 10.0
 [node name="MeleeHitAudio" type="AudioStreamPlayer3D" parent="."]
 volume_db = -7.0
 max_distance = 10.0
+
+[node name="BreathAudio" type="AudioStreamPlayer" parent="."]
+volume_db = -14.0
 
 [node name="GroundRay" type="RayCast3D" parent="."]
 enabled = true
@@ -112,6 +116,9 @@ script = ExtResource("11_weapon_controller")
 
 [node name="PlayerMeleeAttack" type="Node" parent="."]
 script = ExtResource("12_melee_attack")
+
+[node name="PlayerBodyMotion" type="Node" parent="."]
+script = ExtResource("13_body_motion")
 
 [node name="PlayerEquipmentView" type="Node" parent="."]
 script = ExtResource("6_equipment_view")

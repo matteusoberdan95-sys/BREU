@@ -96,6 +96,102 @@ Arma: Martelo Enferrujado 9/10
 Arma: Maos vazias
 ```
 
+## Player Feel Sprint J
+
+Controles novos/confirmados:
+
+- `Q`: lean para esquerda.
+- `R`: lean para direita.
+- `Ctrl` ou `C`: agachar.
+- `E`: continua sendo interacao.
+
+Teste:
+
+1. Iniciar pela `TrailIntro.tscn`.
+2. Andar normalmente e confirmar headbob leve.
+3. Segurar `Shift` e confirmar headbob mais forte, stamina drenando e sensacao de urgencia.
+4. Gastar stamina ate abaixo de 35 e confirmar feedback de cansaco no console se os audios ainda nao existirem.
+5. Segurar `Ctrl`/`C` e confirmar camera mais baixa, velocidade reduzida e headbob menor.
+6. Segurar `Q` e `R` para confirmar lean sutil sem mover colisao fisica.
+7. Alternar lanterna com `F` e andar/correr para confirmar sway leve.
+8. Entrar na Pensao, pegar martelo e seguir ate a RitualRoom.
+9. Tomar dano do Hospede Seco e confirmar flash vermelho + camera shake curto.
+10. Morrer e confirmar que input/feel ficam bloqueados ate o retry.
+
+Problemas conhecidos:
+
+- Os audios `breath_light_01.ogg`, `breath_heavy_01.ogg` e `player_tired_01.ogg` ainda nao existem; o jogo registra aviso unico e segue sem audio de respiracao.
+- Lean e apenas visual; ainda nao move a colisao nem detecta parede lateral.
+- Valores de headbob ainda precisam de playtest para conforto.
+
+## Movimento corporal procedural
+
+Sistema ativo:
+
+```text
+Player/PlayerBodyMotion
+```
+
+Como testar:
+
+1. F5 ou F6 em `TrailIntro.tscn`.
+2. Parado: camera quase estavel, com respiracao muito leve.
+3. Andando: camera sobe/desce e vai levemente para os lados.
+4. Correndo: ombro e roll ficam mais fortes, com impacto visual dos passos.
+5. Parar depois de correr: camera/mao fazem pequena compensacao de inercia e estabilizam.
+6. Stamina baixa: respiracao visual e tremor de mao ficam mais perceptiveis, sem bloquear controle.
+7. Agachado: camera baixa, sway/headbob menores e passo mais lento.
+8. `Q`/`R`: lean continua funcionando sem usar `E`.
+9. Lanterna/martelo: `WeaponHolder` e `Flashlight` balancam com a mao, sem quebrar ataque.
+10. Tomar dano na RitualRoom: `PlayerBodyMotion.PlayDamageShake()` aplica shake curto.
+11. Morrer e tentar novamente: body motion para na morte e volta apos retry.
+
+Valores iniciais principais:
+
+| Estado | Vertical | Horizontal | Roll |
+|--------|----------|------------|------|
+| Andar | 0.032 | 0.016 | 1.1 |
+| Correr | 0.070 | 0.036 | 3.0 |
+| Agachar | 0.014 | 0.008 | 0.5 |
+
+Problemas conhecidos:
+
+- O sistema e procedural e ainda precisa de ajuste fino por playtest.
+- O step impact e apenas visual; audio de passos continua em `PlayerFootstepAudio`.
+- Lean ainda nao move colisao fisica.
+- Audios de respiracao seguem pendentes.
+
+## Ajuste de corrida e respiracao
+
+Valores de corrida que devem estar no `Player/PlayerBodyMotion`:
+
+- `RunStepFrequency = 9.2`
+- `RunBobVertical = 0.055`
+- `RunBobHorizontal = 0.020`
+- `RunRollAmount = 1.65`
+- `RunPitchAmount = 0.85`
+- `ShoulderSwayRunAmount = 0.030`
+- `ShoulderRollRunAmount = 1.25`
+- `WeaponRunSwayAmount = 0.045`
+- `RunStepImpact = 0.018`
+- `Smoothing = 12.0`
+
+Teste:
+
+1. Andar normalmente e confirmar que a caminhada continua igual/boa.
+2. Correr com stamina cheia e confirmar que a camera balanca menos para os lados.
+3. Confirmar que `breath_light_01.ogg` toca em corrida normal.
+4. Correr ate stamina abaixo de 35 e confirmar que `breath_heavy_01.ogg` entra.
+5. Correr ate stamina chegar a zero e confirmar que `player_tired_01.ogg` toca uma vez, sem spam.
+6. Parar depois de correr e confirmar que respiracao reduz/para e a camera estabiliza.
+7. Entrar na RitualRoom e confirmar combate, dano, morte e retry sem regressao.
+
+Fallback se a corrida ainda estiver exagerada:
+
+- `RunBobHorizontal = 0.014`
+- `RunRollAmount = 1.2`
+- `ShoulderRollRunAmount = 0.9`
+
 ## RitualRoom polida (Sprint H)
 
 A Sala dos Santos Secos agora possui:

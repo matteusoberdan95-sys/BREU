@@ -99,8 +99,23 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - [x] Integrar `enemy_hospede_seco_blockout.glb` como visual do `EnemyPlaceholder`.
 - [x] Ocultar capsula/cabeca antigas sem remover fallback.
 - [x] Manter IA, colisao, hurtbox, ataque, stun e dano existentes.
+- [x] Criar animacoes placeholder idle/walk/attack/hit/stunned/death por `EnemyAnimationController`.
 - [ ] Validar escala/orientacao manualmente no editor.
 - [ ] Criar rig e animacoes futuras.
+
+## Sprint J - Player Feel cinematografico
+
+- [x] `PlayerCameraFeel.cs` com headbob, camera shake, sway da lanterna e lean.
+- [x] `PlayerBodyMotion.cs` substitui o feel ativo com gait procedural, shoulder sway, inercia, step impact e sway de mao.
+- [x] Corrida suavizada para reduzir balanco lateral/roll excessivo.
+- [x] Inputs `lean_left = Q` e `lean_right = R`.
+- [x] `BreathAudio` no Player com `breath_light`, `breath_heavy` e `player_tired`.
+- [x] `PlayerHealth` integrado ao shake de dano do body motion.
+- [x] Movimento com aceleracao/desaceleracao simples.
+- [x] `docs/design/GAME_VISION.md` com definicao oficial do estilo.
+- [x] `docs/design/PLAYER_FEEL.md`.
+- [ ] Playtest manual de conforto do body motion.
+- [ ] Ajustar valores de feel apos feedback.
 
 ## Fora de escopo ate pedido
 

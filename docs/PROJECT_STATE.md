@@ -20,7 +20,8 @@ Historico: `docs/SPRINT_HISTORY.md`.
 
 ### Player
 
-- Movimento FPS: andar, correr com stamina, agachar (`Ctrl`) e pular (`Space`).
+- Movimento FPS: andar, correr com stamina, agachar (`Ctrl`/`C`) e pular (`Space`).
+- Player feel cinematografico: `PlayerBodyMotion` com gait procedural, corrida suavizada, headbob, ombro/roll, inercia, step impact visual, respiracao visual/audio, lean (`Q`/`R`), sway da lanterna/martelo e camera shake curto ao tomar dano.
 - Passos por superficie (`SurfaceTag` + grupos `surface_*`).
 - Lanterna com HUD de bateria.
 - HUD com stamina, lanterna, arma, prompts e mensagens temporarias.
@@ -73,6 +74,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - Susto: `RitualScareTrigger` pisca luzes, toca stinger, liga radio static e revela `EnemyPlaceholder`.
 - Inimigo: `EnemyPlaceholderAI` ativa apos o susto, nasce em ponto visivel da sala, persegue diretamente o player, ataca perto e aplica dano simples.
 - Visual do inimigo: `EnemyPlaceholder.tscn` usa o blockout `enemy_hospede_seco_blockout.glb` como `Visual/HospedeSecoModel`; a capsula/cabeca antiga fica oculta como fallback.
+- Animacoes do inimigo: `EnemyAnimationController` aplica idle, walk/chase, attack, hit, stunned e death placeholder por transform/tween no `Visual`.
 - Combate: mirar no `EnemyPlaceholder` e clicar com o botao esquerdo acerta com o martelo, aplica stun e reduz durabilidade.
 - Checkpoint: `RitualRoom_SantosSecos`, com retry recarregando a sala e restaurando snapshot do `GameSession`.
 
@@ -88,7 +90,11 @@ Historico: `docs/SPRINT_HISTORY.md`.
 - `EnterHouseTrigger` e usado na porta da Pensao integrada na trilha e na cena isolada da fachada.
 - `HouseEntryTrigger` permanece apenas como fallback antigo desativado na trilha.
 - `PlayerHealth` guarda vida, invulnerabilidade curta, morte e reset do player.
+- `PlayerBodyMotion` aplica camera corporal procedural sem interferir no mouse look: gait/headbob, shoulder sway, inercia, step impact visual, lean, shake de dano, sway do `WeaponHolder`/lanterna e respiracao ligada a stamina.
+- Respiração do player: `breath_light_01.ogg` em corrida normal, `breath_heavy_01.ogg` com stamina abaixo de 35%, `player_tired_01.ogg` como one-shot de exaustao com cooldown.
 - `EnemyPlaceholderAI` controla a IA basica da Sala dos Santos Secos e para de atacar player morto.
+- Direcao sonora oficial: `docs/audio/AUDIO_DIRECTION.md`.
+- Registro de assets de audio: `docs/audio/AUDIO_ASSET_REGISTRY.md`.
 
 ## Cenas principais
 
@@ -112,7 +118,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 ## Verificacao
 
 - `dotnet build BREU.sln` - 0 erros (2026-07-10).
-- Godot editor headless importou `pensao_santa_luzia_exterior_blockout.glb` (2026-07-09).
+- Godot headless abriu o projeto com `PlayerBodyMotion` e importou os audios de respiracao; avisos de limpeza no exit continuam aparecendo no headless (2026-07-10).
 
 ## Proximo passo
 
@@ -123,7 +129,14 @@ Validar manualmente com F6:
 3. mirar na porta e apertar `E`;
 4. confirmar `DemoRoom.tscn`.
 
-Depois, testar morte/retry na RitualRoom e ajustar dano, vida e invulnerabilidade.
+Depois, validar Sprint J:
+
+1. Andar/correr/agachar para sentir gait, headbob, ombro e step impact suavizado.
+2. Usar `Q`/`R` para lean sem quebrar `E` de interacao.
+3. Correr ate stamina baixa e confirmar `breath_heavy_01.ogg`.
+4. Zerar stamina e confirmar `player_tired_01.ogg` sem spam.
+5. Tomar dano na RitualRoom e confirmar camera shake curto.
+6. Confirmar que morte/retry bloqueia e restaura input/feel/audio.
 
 ## Manutencao
 

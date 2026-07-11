@@ -43,6 +43,14 @@ Ao encerrar trabalho tecnico, atualize esses mesmos arquivos se o estado do proj
 
 `PlayerMeleeAttack` controla o ataque basico do martelo. Ele escuta `attack`/`attack_primary`, usa raycast curto da `Camera3D` como debug e, se necessario, um hit volume esferico na frente da camera para contato corpo a corpo. O hit volume prioriza `EnemyHurtbox` no grupo `enemy_hurtbox`, ignorando interactables como bilhete/chave. Ao encontrar `EnemyPlaceholderAI`, chama `ReceiveHit(HammerDamage)`, reduz durabilidade via `GameSession.ReduceWeaponDurability()` e atualiza HUD/visual pelo `PlayerWeaponController`. No prototipo, o ataque usa mask ampla, colide com bodies/areas e `DebugMelee` fica ligado para validar o hit detection.
 
+`PlayerBodyMotion` e o no filho do Player dedicado a sensacao visual/corporal procedural. Ele aplica gait/headbob em `CameraPivot/Camera3D`, shoulder sway/run roll, inercia de aceleracao/parada, step impact visual, respiracao visual, lean com `Q`/`R`, sway em `CameraPivot/Flashlight` e sway no `CameraPivot/Camera3D/WeaponHolder`. O script nao altera mouse look principal, porque `PlayerLook` continua rotacionando o `CameraPivot`. O lean ainda e apenas visual e nao move a colisao fisica do `CharacterBody3D`.
+
+`PlayerCameraFeel` existe como script legado da primeira iteracao da Sprint J, mas o Player ativo usa `PlayerBodyMotion`. Se algum prototipo antigo ainda instanciar `PlayerCameraFeel`, ele continua compilando.
+
+Respiração do player tambem fica em `PlayerBodyMotion`. O no `BreathAudio` toca loops internos do personagem: `breath_light_01.ogg` quando corre com stamina normal e `breath_heavy_01.ogg` com stamina abaixo de 35%. O som `player_tired_01.ogg` e tocado em um `AudioStreamPlayer` auxiliar criado em runtime (`TiredBreathAudio`) como one-shot com cooldown de 3s quando stamina chega a zero ou o jogador tenta correr sem stamina.
+
+`PlayerController` recebeu aceleracao/desaceleracao simples (`Acceleration`, `Deceleration`, `AirControl`) para reduzir a sensacao seca de movimento instantaneo. O agachamento existente foi preservado com ajuste de capsula e altura do `CameraPivot`.
+
 ### Lanterna
 
 `FlashlightController` herda de `SpotLight3D`, inicia ligado, alterna com `flashlight_toggle`/F e drena bateria por segundo. Nesta etapa de playtest, o feedback de bateria usa `GD.Print`.
@@ -131,6 +139,8 @@ O HUD tambem mostra `Vida current/max`, conectado ao sinal `PlayerHealth.HealthC
 
 O visual atual do inimigo e o GLB `assets/blender_exports/enemies/hospede_seco/enemy_hospede_seco_blockout.glb`, instanciado em `EnemyPlaceholder.tscn` como `Visual/HospedeSecoModel`. O GLB e apenas visual: a fisica principal continua sendo a capsula do root e a deteccao de golpe continua em `EnemyHurtbox`. Os meshes antigos `BodyMesh`, `HeadMesh` e `Eyes` ficam ocultos como fallback.
 
+`EnemyAnimationController` controla animacoes placeholder do Hospede Seco sem rig/bones. Ele expoe `PlayIdle`, `PlayWalk`, `PlayAttack`, `PlayHit`, `PlayStunned` e `PlayDeath`, usando oscilacao/tween no no `Visual`. `AnimationPlayer` fica presente em `EnemyPlaceholder.tscn` como base futura para animacoes reais no editor.
+
 O placeholder usa origem nos pes, capsula alinhada acima do piso e ajuste inicial unico de altura ao ativar. Durante o prototipo, `LockVerticalMovement` fica ligado para manter o inimigo no plano do piso e evitar que ele afunde enquanto ainda nao temos navmesh/colisoes finais. Nao ha recuperacao de piso rodando todo frame.
 
 `EnemyHurtbox` e uma `Area3D` filha do `EnemyPlaceholder`, no grupo `enemy_hurtbox`, usada pelo martelo para detectar acertos sem depender de raycast fino. Ela liga/desliga junto com o inimigo.
@@ -140,6 +150,8 @@ O placeholder usa origem nos pes, capsula alinhada acima do piso e ajuste inicia
 ### PlayerHealth
 
 `PlayerHealth` e um no filho de `Player.tscn`. Ele guarda `MaxHealth`, `CurrentHealth`, `IsDead`, invulnerabilidade curta, `TakeDamage(int)`, `Heal(int)`, `Kill()` e `ResetHealth()`. Ao tomar dano, atualiza HUD, dispara `DamageOverlay` e mostra mensagem curta. Ao morrer, bloqueia movimento/interacao/ataque/lanterna/mouse look, mostra `DeathScreen`, libera o mouse e imprime `Player morreu.`.
+
+Na Sprint J/J.5, `PlayerHealth.TakeDamage()` chama `PlayerBodyMotion.PlayDamageShake()` e cai para `PlayerCameraFeel.PlayDamageShake()` apenas como fallback legado. Ao morrer, `PlayerBodyMotion` e desativado junto com interacao, ataque, look e lanterna; no reset, volta a processar.
 
 ## Decisoes temporarias
 
