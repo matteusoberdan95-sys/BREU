@@ -100,17 +100,18 @@ Blockout narrativo — portas/molduras, props simples e interações de texto.
 
 ---
 
-## Sprint 14A — resumo (executada)
+## Sprint 14B — resumo (executada)
 
-Hotfix de leitura de portas sem alterar atmosfera, movimento ou layout principal.
+Substituição do sistema de portas quebrado (14/14A) por padrão blockout estável.
 
-- **Depósito:** porta reestruturada; destravar oculta painel e desativa colisão (sem animação/scale).
-- **Molduras** claras em entrada, 102, cozinha, 201, 202.
-- **Porta verde** renomeada/redefinida como `Door_UpperBalcony_Locked` (varanda bloqueada).
-- **Varanda placeholder** frontal com piso e guarda-corpos.
+- **Removidas** folhas `Door_*_Leaf`, portas interactable verdes, duplicatas de moldura.
+- **Porta aberta** = somente moldura (entrada, 102, cozinha, 201, 202).
+- **Porta trancada** = painel opaco + colisão WorldLayer + Area3D local.
+- **Depósito** = painel some + colisão desativa (sem animação); interação em `Door_Deposit_InteractArea`.
+- **Varanda** = `Door_UpperBalcony_Locked` + placeholder interior + leitura na trilha.
 
-**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md`  
-**Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14A
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v1.1  
+**Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14B
 
 ---
 
