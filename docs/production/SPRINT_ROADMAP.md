@@ -94,20 +94,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 **DoD:** E mostra texto; HUD exibe prompt; player intacto.
 
----
-
-## Sprint 04 — Sistema de interação mínimo (roadmap original)
-
-**Objetivo:** Loop investigativo básico.
-
-**Entregas:**
-- `IInteractable`, `Area3D`, tecla E, raycast.
-- Mensagem placeholder.
-- Cena teste com 2–3 interactables.
-
 **Não fazer:** inventário complexo.
-
-**DoD:** E mostra texto; HUD exibe prompt.
 
 ---
 

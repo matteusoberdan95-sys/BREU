@@ -62,6 +62,21 @@ Registro cronológico das sprints do reboot greenfield.
 
 ---
 
+## Sprint 04 — Sistema de interação mínimo
+
+**Data:** 2026-07-11  
+**Status:** ✅ Concluída  
+**Commit:** `c1263c2`  
+**Baseline:** `docs/technical/INTERACTION_SYSTEM_BASELINE.md`
+
+**Entregas:**
+- `IInteractable`, `Interactable`, `PlayerInteractionRaycast`
+- Extensão HUD: prompt `[E]`
+- `InteractionLab.tscn` — TestSign, TestBook, TestLockedDoor
+- Player movement/HUD baseline preservados
+
+---
+
 ## Próxima
 
-**Sprint 04 — Sistema de interação mínimo**
+**Sprint 05 — Pensão térreo blockout 01**
