@@ -5,12 +5,17 @@ namespace BREU.Scripts.Interaction;
 /// </summary>
 public partial class PlayerInteractionRaycast : Node
 {
+    public const uint WorldCollisionLayer = 1;
+    public const uint InteractableCollisionLayer = 2;
+    public const uint RaycastCollisionMask = WorldCollisionLayer | InteractableCollisionLayer;
+
     [Export] public NodePath RaycastPath { get; set; } =
         new("HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot/Camera3D/InteractionRaycast");
 
-    [Export] public float InteractionDistance { get; set; } = 2.5f;
+    [Export] public float InteractionDistance { get; set; } = 3.0f;
     [Export] public bool DebugMode { get; set; }
 
+    private Node? _player;
     private RayCast3D? _raycast;
     private IInteractable? _focusedInteractable;
     private Node? _debugTarget;
@@ -19,18 +24,22 @@ public partial class PlayerInteractionRaycast : Node
 
     public override void _Ready()
     {
-        _raycast = GetNodeOrNull<RayCast3D>(RaycastPath);
-        if (_raycast == null)
+        _player = GetParent();
+
+        if (_player == null)
         {
-            GD.PushError("[Interaction] InteractionRaycast node not found.");
+            GD.PushError("[Interaction] PlayerInteractionRaycast must be a child of Player.");
             return;
         }
 
-        _raycast.TargetPosition = new Vector3(0.0f, 0.0f, -InteractionDistance);
-        _raycast.Enabled = true;
-        _raycast.HitFromInside = false;
-        _raycast.CollideWithAreas = true;
-        _raycast.CollideWithBodies = true;
+        _raycast = _player.GetNodeOrNull<RayCast3D>(RaycastPath);
+        if (_raycast == null)
+        {
+            GD.PushError($"[Interaction] RayCast3D not found at '{RaycastPath}' from Player.");
+            return;
+        }
+
+        ApplyRaycastSettings();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -40,7 +49,7 @@ public partial class PlayerInteractionRaycast : Node
             return;
         }
 
-        _raycast.TargetPosition = new Vector3(0.0f, 0.0f, -InteractionDistance);
+        ApplyRaycastSettings();
         _raycast.ForceRaycastUpdate();
 
         UpdateFocus(FindInteractable(_raycast.GetCollider() as Node));
@@ -53,7 +62,38 @@ public partial class PlayerInteractionRaycast : Node
             return;
         }
 
-        _focusedInteractable?.Interact(GetParent());
+        if (_focusedInteractable == null)
+        {
+            if (DebugMode)
+            {
+                GD.Print("No interactable target.");
+            }
+
+            return;
+        }
+
+        var targetName = ResolveDebugTargetName(_raycast?.GetCollider() as Node);
+        if (DebugMode)
+        {
+            GD.Print($"Interacted with: {targetName}");
+        }
+
+        _focusedInteractable.Interact(_player!);
+    }
+
+    private void ApplyRaycastSettings()
+    {
+        if (_raycast == null)
+        {
+            return;
+        }
+
+        _raycast.TargetPosition = new Vector3(0.0f, 0.0f, -InteractionDistance);
+        _raycast.Enabled = true;
+        _raycast.HitFromInside = false;
+        _raycast.CollideWithAreas = true;
+        _raycast.CollideWithBodies = true;
+        _raycast.CollisionMask = RaycastCollisionMask;
     }
 
     private void UpdateFocus(IInteractable? interactable)
@@ -68,31 +108,38 @@ public partial class PlayerInteractionRaycast : Node
 
         if (_focusedInteractable == null)
         {
-            hud?.ClearInteractionPrompt();
-            LogDebugTarget(null);
+            hud?.HideInteractionPrompt();
+            LogDebugTarget(null, null);
             return;
         }
 
         var prompt = _focusedInteractable.GetPromptText();
         if (string.IsNullOrWhiteSpace(prompt))
         {
-            hud?.ClearInteractionPrompt();
-            LogDebugTarget(null);
+            hud?.HideInteractionPrompt();
+            LogDebugTarget(null, null);
             return;
         }
 
         hud?.ShowInteractionPrompt(prompt);
-        LogDebugTarget(FindInteractableNode(_raycast?.GetCollider() as Node));
+        LogDebugTarget(FindInteractableNode(_raycast?.GetCollider() as Node), prompt);
     }
 
-    private static IInteractable? FindInteractable(Node? collider)
+    public static IInteractable? FindInteractable(Node? collider)
     {
         var current = collider;
-        while (current != null)
+        var depth = 0;
+
+        while (current != null && depth < 8)
         {
             if (current is IInteractable onSelf)
             {
                 return onSelf;
+            }
+
+            if (TryGetInteractableFromGroupMember(current, out var fromGroup))
+            {
+                return fromGroup;
             }
 
             foreach (var child in current.GetChildren())
@@ -101,39 +148,63 @@ public partial class PlayerInteractionRaycast : Node
                 {
                     return onChild;
                 }
-            }
 
-            current = current.GetParent();
-        }
-
-        return null;
-    }
-
-    private static Node? FindInteractableNode(Node? collider)
-    {
-        var current = collider;
-        while (current != null)
-        {
-            if (current is IInteractable)
-            {
-                return current;
-            }
-
-            foreach (var child in current.GetChildren())
-            {
-                if (child is IInteractable)
+                if (TryGetInteractableFromGroupMember(child, out fromGroup))
                 {
-                    return child;
+                    return fromGroup;
                 }
             }
 
             current = current.GetParent();
+            depth++;
         }
 
         return null;
     }
 
-    private void LogDebugTarget(Node? target)
+    private static bool TryGetInteractableFromGroupMember(Node node, out IInteractable? interactable)
+    {
+        interactable = null;
+        if (!node.IsInGroup("interactable"))
+        {
+            return false;
+        }
+
+        foreach (var child in node.GetChildren())
+        {
+            if (child is IInteractable found)
+            {
+                interactable = found;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static Node? FindInteractableNode(Node? collider)
+    {
+        var interactable = FindInteractable(collider);
+        return interactable as Node;
+    }
+
+    private static string ResolveDebugTargetName(Node? collider)
+    {
+        var node = FindInteractableNode(collider);
+        if (node == null)
+        {
+            return "unknown";
+        }
+
+        if (node.GetParent() != null && node.GetParent()!.Name != "Player")
+        {
+            return node.GetParent()!.Name;
+        }
+
+        return node.Name;
+    }
+
+    private void LogDebugTarget(Node? target, string? prompt)
     {
         if (!DebugMode)
         {
@@ -152,6 +223,7 @@ public partial class PlayerInteractionRaycast : Node
             return;
         }
 
-        GD.Print($"Looking at interactable: {target.Name}");
+        var name = ResolveDebugTargetName(_raycast?.GetCollider() as Node);
+        GD.Print($"Interaction target: {name} | prompt: {prompt}");
     }
 }

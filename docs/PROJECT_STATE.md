@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 04 concluída  
+**Fase:** REBOOT GREENFIELD — Sprint 04 hotfix aplicado  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -13,8 +13,8 @@
 | Branch | `reboot/breu-clean-start` |
 | Sprint 02 | **✅ Aprovada** — player congelado |
 | Sprint 03 | **✅ Aprovada** — HUD/debug congelado |
-| Sprint 04 | **✅ Concluída** — interação mínima |
-| Sprint 05 | **Próxima** — Pensão térreo blockout 01 |
+| Sprint 04 | **🔧 Hotfix** — aguardando playtest InteractionLab |
+| Sprint 05 | **Bloqueada** até Sprint 04 aprovada |
 
 ---
 

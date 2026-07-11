@@ -1,8 +1,8 @@
 # BREU — Sistema de Interação (Baseline)
 
-**Versão:** 1.0  
+**Versão:** 1.1  
 **Data:** 2026-07-11  
-**Sprint:** 04 — sistema mínimo
+**Sprint:** 04 — sistema mínimo + hotfix colisão/raycast
 
 ---
 
@@ -13,11 +13,29 @@ Interação em primeira pessoa via **raycast da câmera** + tecla **E**.
 O sistema **não altera** movimentação, camera feel ou stamina. Apenas lê a mira e atualiza HUD.
 
 ```
-Camera InteractionRaycast → collider (layer Interactable)
-    → Interactable (IInteractable)
-        → HUD prompt [E] ...
-        → E pressionado → ShowMessage (3 s)
+Camera InteractionRaycast → collider (World e/ou Interactable)
+    → FindInteractable (parent/children/grupo)
+        → Interactable (IInteractable)
+            → HUD prompt [E] ...
+            → E → ShowMessage (3 s)
 ```
+
+---
+
+## Collision layers
+
+| Layer | Valor | Uso |
+|-------|-------|-----|
+| **World** | 1 | Chão, paredes, porta/mesa/sign físicos |
+| **Interactable** | 2 | Áreas de interação (ex.: livro) |
+| **World + Interactable** | 3 | Objeto físico **e** interativo (placa, porta) |
+
+| Ator | Layer | Mask |
+|------|-------|------|
+| Player | 16 (Player) | **1** (World) |
+| InteractionRaycast | — | **3** (World + Interactable) |
+
+Player **não** colide com layer 2 pura — livro usa `Area3D` layer 2.
 
 ---
 
@@ -25,110 +43,110 @@ Camera InteractionRaycast → collider (layer Interactable)
 
 | Arquivo | Papel |
 |---------|-------|
-| `scripts/interactions/IInteractable.cs` | Interface (`GetPromptText`, `Interact`) |
-| `scripts/interactions/Interactable.cs` | Componente configurável no Inspector |
-| `scripts/interactions/PlayerInteractionRaycast.cs` | Raycast + input E no Player |
-| `scenes/test/InteractionLab.tscn` | Cena de teste oficial |
+| `scripts/interactions/IInteractable.cs` | Interface |
+| `scripts/interactions/Interactable.cs` | Componente Inspector |
+| `scripts/interactions/PlayerInteractionRaycast.cs` | Raycast + E |
+| `scenes/test/InteractionLab.tscn` | Lab oficial |
 
 ---
 
-## IInteractable
+## Estrutura correta de objeto interativo
 
-```csharp
-string GetPromptText();
-void Interact(Node interactor);
+### Físico + interativo (porta, placa)
+
+```
+StaticBody3D: TestLockedDoor
+  collision_layer = 3
+  collision_mask = 0
+  CollisionShape3D          ← obrigatório
+  MeshInstance3D
+  Interactable (Node)       ← script aqui ou detectável na árvore
 ```
 
----
+### Só interação (livro pequeno)
 
-## Interactable.cs
+```
+Node3D: TestBook
+  MeshInstance3D
+  Area3D: InteractionArea
+    collision_layer = 2
+    CollisionShape3D
+    Interactable (Node)
+```
 
-Filho de um corpo com colisão (`StaticBody3D` recomendado).
+### Mundo sem interação (parede, mesa)
 
-| Export | Descrição |
-|--------|-----------|
-| `PromptText` | Texto após `[E]` (ex.: `Ler placa`) |
-| `InteractionMessage` | Mensagem HUD ao interagir |
-| `OneShot` | Se true, desativa após primeiro uso |
-| `InteractionId` | ID opcional para puzzles futuros |
-| `HasBeenUsed` | Estado runtime (read-only) |
+```
+StaticBody3D
+  collision_layer = 1
+  CollisionShape3D
+  MeshInstance3D
+```
 
-O host pai entra no grupo `"interactable"` em `_Ready`.
-
-**Colisão recomendada:**
-- `collision_layer = 2` (Interactable)
-- `collision_mask = 0` — **não bloqueia o player** (player mask = World apenas)
+**Regras:**
+- Todo interactable precisa `CollisionShape3D` no collider detectável
+- Host entra no grupo `"interactable"`
+- `Interactable.cs` como filho do collider ou do root
 
 ---
 
 ## PlayerInteractionRaycast.cs
 
-Nó filho de `Player.tscn` (não modifica `PlayerController`).
+Nó filho de `Player` — **RaycastPath é relativo ao Player**, não ao script.
 
 | Export | Default |
 |--------|---------|
-| `InteractionDistance` | `2.5` m |
-| `DebugMode` | `false` — log no console só ao **mudar** alvo |
+| `InteractionDistance` | `3.0` m |
+| `DebugMode` | log ao mudar alvo + ao pressionar E |
 
-**RayCast3D** em `Camera3D/InteractionRaycast`:
-- `target_position = (0, 0, -2.5)`
-- `collision_mask = 2` (Interactable)
+**RayCast3D** (`Camera3D/InteractionRaycast`):
+- `target_position = (0, 0, -3)`
+- `collision_mask = 3`
+- `CollideWithAreas = true`
+- `CollideWithBodies = true`
+- `Enabled = true`
 
-Fluxo:
-1. `_PhysicsProcess` — atualiza mira
-2. Encontrou interactable → `HUD.ShowInteractionPrompt`
-3. Perdeu mira → `HUD.ClearInteractionPrompt`
-4. `interact` (E) → `IInteractable.Interact(player)`
+### FindInteractable
 
-Debug log: `Looking at interactable: TestSign`
+Ao acertar collider, busca `IInteractable`:
+1. No próprio nó
+2. Em filhos
+3. Subindo pais (até 8 níveis)
+4. Em nós do grupo `"interactable"` com filho `Interactable`
 
 ---
 
 ## HUD (extensão Sprint 04)
 
-Baseline Sprint 03 preservado + **InteractionPromptPanel** (centro da tela).
-
 | Método | Uso |
 |--------|-----|
-| `ShowInteractionPrompt(text)` | `[E] {text}` |
-| `ClearInteractionPrompt()` | Esconde prompt |
-| `ShowMessage(text, 3f)` | Toast inferior (já existia) |
+| `ShowInteractionPrompt(text)` | `[E] {text}` — evita duplicar `[E]` |
+| `HideInteractionPrompt()` | Esconde prompt |
+| `ShowMessage(text, 3f)` | Painel inferior — **oculto** sem mensagem |
 
 ---
 
-## Como criar novo objeto interativo
+## Hotfix Sprint 04 (2026-07-11)
 
-1. Criar `StaticBody3D` (ou `Area3D`) com `CollisionShape3D` + mesh placeholder.
-2. `collision_layer = 2`, `collision_mask = 0`.
-3. Adicionar filho `Node` com script `Interactable.cs`.
-4. Configurar `PromptText` e `InteractionMessage` no Inspector.
-5. Opcional: `InteractionId` para estado de level futuro.
-
-**Não** colocar lógica de movimento no interactable.
-
----
-
-## Cena de teste
-
-`res://scenes/test/InteractionLab.tscn`
-
-| Objeto | Prompt | Mensagem |
-|--------|--------|----------|
-| TestSign | Ler placa | OFERTA DE TRABALHO - MINERAÇÃO - PENSÃO SANTA LUZIA. |
-| TestBook | Examinar livro | Seu nome já está no registro. |
-| TestLockedDoor | Tentar abrir porta | Está trancada. |
+| Bug | Fix |
+|-----|-----|
+| Raycast null | Path resolvido via `GetParent()` (Player) |
+| Sem prompt/mensagem | Raycast funcional + HUD panel visibility |
+| Atravessar paredes | Paredes layer 1; objetos físicos layer 3 |
+| Caixa HUD vazia | `MessagePanel.visible = false` por default |
 
 ---
 
 ## Regras
 
-- **Não** modificar `PlayerController`, `PlayerCameraFeel`, lean, look back, sprint/crouch/stamina.
-- **Não** reescrever HUD base — apenas prompt/mensagem.
-- Interação futura (portas, bilhete, fusível) **reutiliza** este pipeline.
+- **Não** modificar `PlayerController`, `PlayerCameraFeel`, movimento congelado.
+- **Não** reescrever HUD base — só prompt/mensagem.
+- Interação **não** deve alterar player movement.
 
 ---
 
-## Próximo uso (Sprint 05+)
+## Cena de teste
 
-- Placa de emprego, livro de recepção, porta trancada na Pensão
-- Puzzle depósito (Sprint 07) via `InteractionId` + level controller
+`res://scenes/test/InteractionLab.tscn` — chão, 4 paredes, 3 interactables.
+
+**Sprint 04 aprovada somente após playtest desta cena.**

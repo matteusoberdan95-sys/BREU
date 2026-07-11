@@ -15,6 +15,11 @@ public partial class Interactable : Node, IInteractable
     public override void _Ready()
     {
         RegisterInteractableGroup(GetParent());
+
+        if (GetParent() is Area3D area && area.GetParent() != null)
+        {
+            RegisterInteractableGroup(area.GetParent());
+        }
     }
 
     public string GetPromptText()

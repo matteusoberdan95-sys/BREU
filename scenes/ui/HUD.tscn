@@ -114,6 +114,7 @@ offset_right = 280.0
 offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
+visible = false
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
 [node name="MessageLabel" type="Label" parent="Root/MessagePanel"]
@@ -123,6 +124,7 @@ theme_override_font_sizes/font_size = 16
 text = "Mensagem temporaria"
 horizontal_alignment = 1
 autowrap_mode = 2
+visible = false
 
 [node name="DebugPanel" type="PanelContainer" parent="Root"]
 layout_mode = 1

@@ -10,6 +10,7 @@ public partial class HUDController : CanvasLayer
     [Export] public NodePath StaminaLabelPath { get; set; } = new("Root/StatusPanel/Margin/VBox/StaminaLabel");
     [Export] public NodePath LanternLabelPath { get; set; } = new("Root/StatusPanel/Margin/VBox/LanternLabel");
     [Export] public NodePath MessageLabelPath { get; set; } = new("Root/MessagePanel/MessageLabel");
+    [Export] public NodePath MessagePanelPath { get; set; } = new("Root/MessagePanel");
     [Export] public NodePath InteractionPromptLabelPath { get; set; } = new("Root/InteractionPromptPanel/InteractionPromptLabel");
     [Export] public NodePath DebugLabelPath { get; set; } = new("Root/DebugPanel/DebugLabel");
 
@@ -20,6 +21,7 @@ public partial class HUDController : CanvasLayer
     private Label? _staminaLabel;
     private Label? _lanternLabel;
     private Label? _messageLabel;
+    private PanelContainer? _messagePanel;
     private Label? _interactionPromptLabel;
     private Label? _debugLabel;
 
@@ -40,11 +42,18 @@ public partial class HUDController : CanvasLayer
         _staminaLabel = GetNodeOrNull<Label>(StaminaLabelPath);
         _lanternLabel = GetNodeOrNull<Label>(LanternLabelPath);
         _messageLabel = GetNodeOrNull<Label>(MessageLabelPath);
+        _messagePanel = GetNodeOrNull<PanelContainer>(MessagePanelPath);
         _interactionPromptLabel = GetNodeOrNull<Label>(InteractionPromptLabelPath);
         _debugLabel = GetNodeOrNull<Label>(DebugLabelPath);
 
+        if (_messagePanel != null)
+        {
+            _messagePanel.Visible = false;
+        }
+
         if (_messageLabel != null)
         {
+            _messageLabel.Text = string.Empty;
             _messageLabel.Visible = false;
         }
 
@@ -68,8 +77,12 @@ public partial class HUDController : CanvasLayer
         _messageTimer -= (float)delta;
         if (_messageTimer <= 0.0f)
         {
-            _messageLabel.Visible = false;
             _messageLabel.Text = string.Empty;
+            _messageLabel.Visible = false;
+            if (_messagePanel != null)
+            {
+                _messagePanel.Visible = false;
+            }
         }
     }
 
@@ -87,6 +100,11 @@ public partial class HUDController : CanvasLayer
 
         _messageLabel.Text = text;
         _messageLabel.Visible = true;
+        if (_messagePanel != null)
+        {
+            _messagePanel.Visible = true;
+        }
+
         _messageTimer = duration > 0.0f ? duration : DefaultMessageSeconds;
     }
 
@@ -94,16 +112,22 @@ public partial class HUDController : CanvasLayer
     {
         if (_interactionPromptLabel == null || string.IsNullOrWhiteSpace(promptText))
         {
-            ClearInteractionPrompt();
+            HideInteractionPrompt();
             return;
         }
 
-        _interactionPromptLabel.Text = $"[E] {promptText}";
+        var trimmed = promptText.Trim();
+        _interactionPromptLabel.Text = trimmed.StartsWith("[E]", StringComparison.OrdinalIgnoreCase)
+            ? trimmed
+            : $"[E] {trimmed}";
+
         if (_interactionPromptLabel.GetParent() is PanelContainer panel)
         {
             panel.Visible = true;
         }
     }
+
+    public void HideInteractionPrompt() => ClearInteractionPrompt();
 
     public void ClearInteractionPrompt()
     {
