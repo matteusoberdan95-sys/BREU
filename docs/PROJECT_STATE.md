@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 03 aprovada  
+**Fase:** REBOOT GREENFIELD — Sprint 04 concluída  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -12,66 +12,62 @@
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
 | Sprint 02 | **✅ Aprovada** — player congelado |
-| Sprint 03 | **✅ Aprovada pelo usuário** — HUD/debug congelado |
-| PlayerMovementLab | **✅ Aprovado** |
-| Sprint 04 | **Próxima** — Interação mínima |
+| Sprint 03 | **✅ Aprovada** — HUD/debug congelado |
+| Sprint 04 | **✅ Concluída** — interação mínima |
+| Sprint 05 | **Próxima** — Pensão térreo blockout 01 |
 
 ---
 
 ## Player — baseline congelada
 
-**Cena:** `res://scenes/player/Player.tscn`  
-**Teste oficial:** `res://scenes/test/PlayerMovementLab.tscn`  
-**Documentação:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
+**Documentação:** `docs/technical/PLAYER_CONTROLLER_BASELINE.md`  
+**Teste movimento:** `scenes/test/PlayerMovementLab.tscn`
 
-| Sistema | Status |
-|---------|--------|
-| WASD + mouse | ✅ Aprovado |
-| Sprint + stamina | ✅ Aprovado |
-| Crouch | ✅ Aprovado |
-| Lean Q/R | ✅ Aprovado |
-| Look back Alt/X | ✅ Aprovado |
-| Camera feel (BreuDefault) | ✅ Aprovado |
-| Movimentação geral | ✅ Aprovada |
-
-**Regra:** Não alterar `PlayerController`, `PlayerCameraFeel`, look back, lean, sprint, crouch, stamina ou camera bob sem solicitação explícita ou nova sprint de player.
+Movimentação, camera feel, sprint/crouch/stamina/lean/look back — **congelados**.
 
 ---
 
-## HUD e Debug — baseline congelada
+## HUD — baseline congelada
 
-**HUD:** `res://scenes/ui/HUD.tscn`  
-**Debug:** autoload `PlaytestDebugSettings`  
-**Documentação:** `docs/technical/HUD_DEBUG_BASELINE.md`
-
-| Sistema | Status |
-|---------|--------|
-| HUD visível e responsivo | ✅ Aprovado |
-| Vida | ✅ Aprovado |
-| Stamina | ✅ Aprovado |
-| Lanterna | ✅ Aprovado |
-| Debug F10/F11 | ✅ Aprovado |
-| Mensagens temporárias | ✅ Aprovado |
-| Não atrapalha a tela | ✅ Aprovado |
-
-**Regra:** Não alterar HUD base, `PlaytestDebugSettings`, display de stamina/lanterna debug ou layout aprovado sem solicitação explícita ou sprint dedicada de HUD/debug.
+**Documentação:** `docs/technical/HUD_DEBUG_BASELINE.md`  
+**Extensão Sprint 04:** prompt `[E]` — ver interação abaixo.
 
 ---
 
-## Cena principal
+## Interação (Sprint 04)
 
-**F5:** `res://scenes/levels/BootstrapEmpty.tscn`  
-**F6 (playtest movimento + HUD):** `res://scenes/test/PlayerMovementLab.tscn`
+**Cena teste:** `res://scenes/test/InteractionLab.tscn`  
+**Documentação:** `docs/technical/INTERACTION_SYSTEM_BASELINE.md`
+
+| Sistema | Status |
+|---------|--------|
+| Raycast câmera 2.5 m | ✅ |
+| IInteractable + Interactable | ✅ |
+| Prompt HUD | ✅ |
+| Mensagem 3 s | ✅ |
+| 3 objetos teste | ✅ |
+| Debug mira (console) | ✅ |
+
+---
+
+## Cenas de teste
+
+| F6 sugerido | Cena |
+|-------------|------|
+| Movimento + HUD | `PlayerMovementLab.tscn` |
+| Interação | `InteractionLab.tscn` |
+
+**F5:** `BootstrapEmpty.tscn`
 
 ---
 
 ## Próxima sprint
 
-**Sprint 04 — Sistema de interação mínimo**
+**Sprint 05 — Pensão térreo blockout 01**
 
-- `IInteractable`, raycast, tecla E
-- Prompt no HUD (extensão — sem reescrever baseline)
-- Cena teste com 2–3 interactables
+- Trilha, varanda, recepção, corredor, quarto 102, cozinha, depósito
+- Blockout cinza — **sem** teto, escada ou 2º andar
+- Reutilizar sistema de interação para placeholders
 
 Ver: `docs/production/SPRINT_ROADMAP.md`
 
@@ -80,14 +76,14 @@ Ver: `docs/production/SPRINT_ROADMAP.md`
 ## Como retomar
 
 1. `docs/HANDOFF.md`
-2. `docs/technical/PLAYER_CONTROLLER_BASELINE.md`
-3. `docs/technical/HUD_DEBUG_BASELINE.md`
-4. Executar Sprint 04
+2. `docs/technical/INTERACTION_SYSTEM_BASELINE.md`
+3. Executar Sprint 05
 
 ---
 
 ## Relatórios
 
-- Sprint 02 + lab: `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
-- Sprint 03 HUD: `docs/testing/HUD_DEBUG_PLAYTEST.md`
+- Movimento: `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
+- HUD: `docs/testing/HUD_DEBUG_PLAYTEST.md`
+- Interação: `docs/testing/INTERACTION_LAB_PLAYTEST.md`
 - Histórico: `docs/SPRINT_HISTORY.md`

@@ -16,3 +16,4 @@ global using BREU.Scripts.Player;
 global using BREU.Scripts.Levels;
 global using BREU.Scripts.Debug;
 global using BREU.Scripts.Ui;
+global using BREU.Scripts.Interaction;

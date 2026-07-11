@@ -83,6 +83,21 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 04 — Sistema de interação mínimo
 
+**Status:** ✅ Concluída (2026-07-11)
+
+**Objetivo:** Loop investigativo básico — E + prompt + mensagem.
+
+**Entregas:**
+- `IInteractable`, `Interactable`, `PlayerInteractionRaycast`
+- Prompt no HUD aprovado
+- `InteractionLab.tscn` (3 objetos teste)
+
+**DoD:** E mostra texto; HUD exibe prompt; player intacto.
+
+---
+
+## Sprint 04 — Sistema de interação mínimo (roadmap original)
+
 **Objetivo:** Loop investigativo básico.
 
 **Entregas:**

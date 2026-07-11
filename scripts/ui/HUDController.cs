@@ -10,6 +10,7 @@ public partial class HUDController : CanvasLayer
     [Export] public NodePath StaminaLabelPath { get; set; } = new("Root/StatusPanel/Margin/VBox/StaminaLabel");
     [Export] public NodePath LanternLabelPath { get; set; } = new("Root/StatusPanel/Margin/VBox/LanternLabel");
     [Export] public NodePath MessageLabelPath { get; set; } = new("Root/MessagePanel/MessageLabel");
+    [Export] public NodePath InteractionPromptLabelPath { get; set; } = new("Root/InteractionPromptPanel/InteractionPromptLabel");
     [Export] public NodePath DebugLabelPath { get; set; } = new("Root/DebugPanel/DebugLabel");
 
     [Export] public float DefaultMessageSeconds { get; set; } = 3.5f;
@@ -19,6 +20,7 @@ public partial class HUDController : CanvasLayer
     private Label? _staminaLabel;
     private Label? _lanternLabel;
     private Label? _messageLabel;
+    private Label? _interactionPromptLabel;
     private Label? _debugLabel;
 
     private PlayerHealth? _health;
@@ -38,11 +40,17 @@ public partial class HUDController : CanvasLayer
         _staminaLabel = GetNodeOrNull<Label>(StaminaLabelPath);
         _lanternLabel = GetNodeOrNull<Label>(LanternLabelPath);
         _messageLabel = GetNodeOrNull<Label>(MessageLabelPath);
+        _interactionPromptLabel = GetNodeOrNull<Label>(InteractionPromptLabelPath);
         _debugLabel = GetNodeOrNull<Label>(DebugLabelPath);
 
         if (_messageLabel != null)
         {
             _messageLabel.Visible = false;
+        }
+
+        if (_interactionPromptLabel != null && _interactionPromptLabel.GetParent() is PanelContainer promptPanel)
+        {
+            promptPanel.Visible = false;
         }
 
         CallDeferred(nameof(BindPlayer));
@@ -80,6 +88,35 @@ public partial class HUDController : CanvasLayer
         _messageLabel.Text = text;
         _messageLabel.Visible = true;
         _messageTimer = duration > 0.0f ? duration : DefaultMessageSeconds;
+    }
+
+    public void ShowInteractionPrompt(string promptText)
+    {
+        if (_interactionPromptLabel == null || string.IsNullOrWhiteSpace(promptText))
+        {
+            ClearInteractionPrompt();
+            return;
+        }
+
+        _interactionPromptLabel.Text = $"[E] {promptText}";
+        if (_interactionPromptLabel.GetParent() is PanelContainer panel)
+        {
+            panel.Visible = true;
+        }
+    }
+
+    public void ClearInteractionPrompt()
+    {
+        if (_interactionPromptLabel == null)
+        {
+            return;
+        }
+
+        _interactionPromptLabel.Text = string.Empty;
+        if (_interactionPromptLabel.GetParent() is PanelContainer panel)
+        {
+            panel.Visible = false;
+        }
     }
 
     private void BindPlayer()
