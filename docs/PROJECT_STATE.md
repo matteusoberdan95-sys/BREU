@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 05 hotfix visual aplicado  
+**Fase:** REBOOT GREENFIELD — Sprint 05 hotfix 2 (visual sealing) aplicado  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -12,17 +12,17 @@
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
 | Sprint 02–04 | **✅ Aprovadas** — baselines congeladas |
-| Sprint 05 | **🔧 Hotfix visual** — gameplay OK, blockout limpo pendente playtest |
+| Sprint 05 | **🔧 Hotfix 2 sealing** — gameplay OK, fechamento visual pendente playtest |
+| Sprint 06 | **Bloqueada** — gate: térreo visualmente fechado |
 
 ---
 
 ## Notas Sprint 05
 
-- **Gameplay:** térreo navegável, interações OK, colisão contínua mantida.
-- **Hotfix visual:** z-fighting removido, pisos visuais consolidados, soleiras de porta, paredes embutidas no piso.
+- **Gameplay:** térreo navegável, interações OK, colisão contínua mantida (3 lajes inalteradas).
+- **Hotfix 1:** z-fighting removido, pisos visuais consolidados, soleiras de porta.
+- **Hotfix 2:** shell externo, paredes internas fechadas, piso principal 0,20 m, bermas na trilha.
 - **Aprovação Sprint 05:** pendente playtest visual + navegação.
-
-| Sprint 06 | **Próxima** — Playtest e correção térreo |
 
 ---
 
@@ -52,7 +52,7 @@ Player · HUD · Interação — ver docs `technical/*_BASELINE.md`
 
 ## Bugs conhecidos
 
-~~Vãos no chão~~ e ~~z-fighting visual~~ — hotfixes aplicados. Playtest manual para aprovar Sprint 05.
+~~Vãos no chão~~, ~~z-fighting~~ e ~~limbo visível por frestas laterais~~ — hotfixes 1+2 aplicados. Playtest manual para aprovar Sprint 05.
 
 ---
 
