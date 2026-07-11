@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://stairmovementlab08"]
+
+[ext_resource type="Script" path="res://scripts/levels/StairMovementLabController.cs" id="1_controller"]
+[ext_resource type="Script" path="res://scripts/levels/StairMovementLabBuilder.cs" id="2_builder"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="4_hud"]
+
+[sub_resource type="Environment" id="Environment_stair_lab"]
+background_mode = 1
+background_color = Color(0.12, 0.13, 0.16, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.35, 0.34, 0.38, 1)
+ambient_light_energy = 0.55
+fog_enabled = false
+
+[node name="StairMovementLab" type="Node3D"]
+script = ExtResource("1_controller")
+
+[node name="World" type="Node3D" parent="."]
+script = ExtResource("2_builder")
+
+[node name="LowerFloor" type="Node3D" parent="World"]
+
+[node name="StairTest" type="Node3D" parent="World"]
+
+[node name="UpperFloor" type="Node3D" parent="World"]
+
+[node name="Collisions" type="Node3D" parent="World"]
+
+[node name="VisualSteps" type="Node3D" parent="World"]
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 10, 2)
+light_energy = 1.15
+shadow_enabled = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 3)
+light_energy = 0.35
+omni_range = 14.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Lighting"]
+environment = SubResource("Environment_stair_lab")
+
+[node name="PlayerSpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+
+[node name="UI" type="Node" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("4_hud")]

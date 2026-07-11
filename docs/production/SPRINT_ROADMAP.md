@@ -154,14 +154,18 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 08 — Escada isolada de teste
 
+**Status:** 🔄 Implementada — playtest F6 pendente  
 **Objetivo:** Subida confiável isolada do resto.
 
 **Entregas:**
-- Cena ou zona isolada `scenes/test/StairSandbox.tscn`.
-- Rampa **somente colisão invisível**.
-- Sem teto; sem 2º andar complexo.
+- `scenes/test/StairMovementLab.tscn`
+- Rampa **somente colisão invisível** (`Stair_InvisibleRamp_Collision`)
+- 14 degraus visuais sem colisão
+- Baseline: `docs/technical/STAIR_RAMP_BASELINE.md`
 
-**DoD:** Subir/desce 10x sem clipping de câmera.
+**DoD:** Subir/desce 10x sem clipping de câmera — **validar em F6**.
+
+**Não feito:** integração na Pensão; teto; 2º andar real.
 
 ---
 

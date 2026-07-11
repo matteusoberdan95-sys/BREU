@@ -133,3 +133,19 @@ Registro cronológico das sprints do reboot greenfield.
 **Aprovação usuário:** fluxo completo validado; HUD/player/interação intactos.
 
 ---
+
+## Sprint 08 — Escada isolada de teste
+
+**Data:** 2026-07-11  
+**Status:** 🔄 Implementada — playtest F6 pendente  
+**Baseline:** `STAIR_RAMP_BASELINE.md`  
+**Playtest:** `STAIR_MOVEMENT_LAB_PLAYTEST.md`
+
+**Entregas:**
+- `StairMovementLab.tscn` — rampa invisível + 14 degraus visuais + patamar superior
+- `StairMovementLabBuilder.cs`, `StairMovementLabController.cs`
+- Escada **não** integrada na Pensão
+
+**Pendente:** aprovação usuário após subida/descida suaves em F6.
+
+---

@@ -42,7 +42,7 @@ BREU/
 │   │   └── CheckpointManager.tscn
 │   └── test/
 │       ├── PlayerSandbox.tscn
-│       └── StairSandbox.tscn
+│       └── StairMovementLab.tscn
 │
 ├── scripts/
 │   ├── player/
@@ -91,7 +91,7 @@ BREU/
 | Script builder | `{Local}{Fase}Builder.cs` | `PensaoTerreoBuilder.cs` |
 | Colisão estática | `{Zona}Collision` | `InteriorFloorCollision` |
 | Interactable | `{Objeto}Interactable` ou Area na cena | `DepositInteractable` |
-| Test sandbox | `{Feature}Sandbox.tscn` | `StairSandbox.tscn` |
+| Test lab | `{Feature}MovementLab.tscn` | `StairMovementLab.tscn` |
 | Branch | `reboot/s{NN}-{slug}` | `reboot/s05-pensao-terreo` |
 
 ---
