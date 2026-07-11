@@ -492,7 +492,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         _interior.AddChild(storage);
 
         const float depositDoorZ = -26.5f;
-        const float depositBackZ = -31.5f;
+        const float depositBackZ = BuildingBackZ - WallThickness * 0.5f;
         const float depositDepth = depositBackZ - depositDoorZ + WallThickness + WallCornerOverlap;
         const float depositCenterZ = (depositDoorZ + depositBackZ) * 0.5f;
         const float buildingInnerX = BuildingHalfWidth - WallThickness * 0.5f;
@@ -500,7 +500,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
 
         AddWall(
             storage,
-            "Wall_Deposit_Back",
+            "Wall_StairFuture_Blocker",
             new Vector3(0, WallCenterY, depositBackZ),
             new Vector3(backSpanX, WallHeight, WallThickness),
             _matInteriorWall);
@@ -534,6 +534,20 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             "Wall_Deposit_AlcoveEast",
             new Vector3(alcoveCenterX, WallCenterY, depositCenterZ),
             new Vector3(alcoveSpanX, WallHeight, depositDepth),
+            _matInteriorWall);
+
+        AddWall(
+            storage,
+            "Wall_Deposit_AlcoveSouthCapWest",
+            new Vector3(-alcoveCenterX, WallCenterY, depositDoorZ),
+            new Vector3(alcoveSpanX, WallHeight, WallThickness),
+            _matInteriorWall);
+
+        AddWall(
+            storage,
+            "Wall_Deposit_AlcoveSouthCapEast",
+            new Vector3(alcoveCenterX, WallCenterY, depositDoorZ),
+            new Vector3(alcoveSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
         var frameWidth = (CorridorWidth - DoorWidth) * 0.5f + WallCornerOverlap * 0.5f;

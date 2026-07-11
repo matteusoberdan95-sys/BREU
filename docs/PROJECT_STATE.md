@@ -13,7 +13,7 @@
 | Branch | `reboot/breu-clean-start` |
 | Sprint 02–04 | **✅ Aprovadas** — player, HUD, interação |
 | Sprint 05–06 | **✅ Aprovadas** — térreo blockout + fine playtest |
-| Sprint 07 | **🔧 Implementada** — puzzle depósito; playtest F6 pendente |
+| Sprint 07 | **🔧 Hotfix** — puzzle OK; parede área futura bloqueada; validação F6 pendente |
 | Sprint 08 | **Próxima** — Escada isolada (após aprovação Sprint 07) |
 
 ---
@@ -37,7 +37,9 @@
 
 **Playtest:** `docs/testing/PENSAO_DEPOSIT_PUZZLE_PLAYTEST.md`
 
-**Não alterado:** PlayerController, PlayerCameraFeel, HUD base, core `Interactable`/`PlayerInteractionRaycast`.
+**Hotfix (2026-07-11):** `Wall_StairFuture_Blocker` + tampas alcove — área futura escada inacessível.
+
+**Não alterado:** PlayerController, PlayerCameraFeel, HUD base, core `Interactable`/`PlayerInteractionRaycast`, lógica puzzle.
 
 ---
 

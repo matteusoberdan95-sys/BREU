@@ -1,8 +1,19 @@
 # Playtest — Puzzle do Depósito (Sprint 07)
 
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`  
-**Sprint:** 07 — Puzzle simples do depósito  
+**Sprint:** 07 — puzzle depósito + hotfix parede  
 **Data:** 2026-07-11
+
+---
+
+## Sprint 07 Hotfix — Parede atravessável (área futura)
+
+| Item | Detalhe |
+|------|---------|
+| **Bug** | Player atravessava parede perto do bilhete/depósito e entrava em área futura (escada/cômodo) |
+| **Causa** | Vão entre fundo do depósito (z=-31,5) e shell externo; alcoves laterais abertos na entrada |
+| **Correção** | `Wall_StairFuture_Blocker` alinhado ao shell (z=-32,7); tampas `Wall_Deposit_AlcoveSouthCapWest/East` |
+| **Status puzzle** | Fluxo chave → depósito → fusível **preservado** |
 
 ---
 
@@ -60,6 +71,7 @@
 | Não cai do mapa | ☐ |
 | Não preso na porta (aberta ou fechada) | ☐ |
 | Sai do depósito após entrar | ☐ |
+| Não atravessa área futura atrás/lateral do depósito | ☐ |
 
 ---
 
