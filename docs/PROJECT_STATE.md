@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 08 implementada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 08 aprovada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -17,7 +17,8 @@
 | Sprint 05 | **✅ Aprovada** — térreo blockout jogável |
 | Sprint 06 | **✅ Aprovada** — fine playtest térreo |
 | Sprint 07 | **✅ Aprovada** — puzzle chave → depósito → fusível |
-| Sprint 08 | **🔄 Implementada** — escada isolada (`StairMovementLab`); playtest F6 pendente |
+| Sprint 08 | **✅ Aprovada** — escada isolada (`StairMovementLab`) |
+| Sprint 09A | **Próxima** — integrar escada no térreo da Pensão |
 
 ---
 
@@ -27,22 +28,25 @@
 
 **F6 (Escada lab):** `res://scenes/test/StairMovementLab.tscn`
 
-**Baseline escada:** `docs/technical/STAIR_RAMP_BASELINE.md`
-
 **Puzzle aprovado:** chave velha (quarto 102) → depósito destrancado → fusível velho (+ bilhete).
+
+**Escada validada:** cena isolada — rampa invisível + degraus visuais sem colisão. **Ainda não integrada na Pensão.**
+
+**Baseline escada:** `docs/technical/STAIR_RAMP_BASELINE.md`
 
 **Baseline puzzle:** `docs/technical/DEPOSIT_PUZZLE_BASELINE.md`
 
 ---
 
-## Sprint 07 — resumo (aprovada)
+## Sprint 08 — resumo (aprovada)
 
-- Fluxo: trilha → pensão → quarto 102 → chave → depósito → fusível.
-- Estado local: `HasDepositKey`, `IsDepositUnlocked`, `HasOldFuse`.
-- Hotfix parede: `Wall_StairFuture_Blocker` — área futura inacessível.
-- **Não alterado:** PlayerController, HUD base, core interação.
+- `StairMovementLab.tscn` — subida/descida suaves aprovadas pelo usuário.
+- Rampa invisível (`Stair_InvisibleRamp_Collision`) como colisão principal.
+- 14 degraus visuais sem colisão física.
+- Player, HUD e debug intactos.
+- **Não alterado:** `PlayerController`, `PlayerCameraFeel`, HUD base, interação, `PensaoTerreoBlockout01.tscn`.
 
-**Playtest:** `docs/testing/PENSAO_DEPOSIT_PUZZLE_PLAYTEST.md`
+**Playtest:** `docs/testing/STAIR_MOVEMENT_LAB_PLAYTEST.md`
 
 ---
 
@@ -70,6 +74,6 @@
 
 ## Próxima sprint recomendada
 
-**Sprint 09 — Segundo andar blockout** (após aprovar playtest F6 da Sprint 08).
+**Sprint 09A — Integrar escada no térreo da Pensão**
 
-Escada **ainda não integrada** na Pensão.
+Usar o mesmo padrão aprovado (rampa invisível + degraus visuais). Sem segundo andar, sem teto, sem arte final.

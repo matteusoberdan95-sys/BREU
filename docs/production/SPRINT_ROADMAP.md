@@ -11,7 +11,7 @@
 ```
 S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
     → S05 Pensão térreo → S06 Playtest térreo → S07 Puzzle depósito
-    → S08 Escada isolada → S09 2º andar → S10 Teto
+    → S08 Escada isolada → S09A Escada na Pensão → S09 2º andar → S10 Teto
     → S11 Atmosfera → S12 Vertical slice → S13 Inimigo → S14 Combate → S15 Arte modular
 ```
 
@@ -154,7 +154,8 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 08 — Escada isolada de teste
 
-**Status:** 🔄 Implementada — playtest F6 pendente  
+**Status:** ✅ Aprovada (2026-07-11)
+
 **Objetivo:** Subida confiável isolada do resto.
 
 **Entregas:**
@@ -163,9 +164,29 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 - 14 degraus visuais sem colisão
 - Baseline: `docs/technical/STAIR_RAMP_BASELINE.md`
 
-**DoD:** Subir/desce 10x sem clipping de câmera — **validar em F6**.
+**DoD:** Subir/desce suaves aprovados pelo usuário; player/HUD intactos.
 
-**Não feito:** integração na Pensão; teto; 2º andar real.
+**Gate atingido:** modelo técnico de escada validado; pronto para integração na Pensão.
+
+**Não feito (proposital):** integração na Pensão; teto; 2º andar real.
+
+---
+
+## Sprint 09A — Integrar escada no térreo da Pensão
+
+**Status:** Próxima
+
+**Objetivo:** Colocar escada aprovada no layout do térreo, mantendo padrão rampa invisível.
+
+**Entregas:**
+- Escada no `PensaoTerreoBlockout01.tscn` (ou extensão dedicada)
+- Mesmas métricas/padrão de `STAIR_RAMP_BASELINE.md`
+- Remover/substituir `Wall_StairFuture_Blocker` conforme layout
+- Playtest subida/descida no contexto da pensão
+
+**DoD:** Player sobe/desce na pensão sem regressão de movimento, HUD ou puzzle.
+
+**Não fazer:** segundo andar; teto; arte final; GLB/Blender.
 
 ---
 

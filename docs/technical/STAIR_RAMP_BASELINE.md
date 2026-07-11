@@ -2,13 +2,13 @@
 
 **Versão:** 1.0  
 **Sprint:** 08  
-**Data:** 2026-07-11  
-**Status:** Implementado — aguardando playtest F6  
+**Data aprovação:** 2026-07-11  
+**Status:** ✅ **Aprovada** — baseline congelada  
 **Cena de teste:** `res://scenes/test/StairMovementLab.tscn`
 
 ---
 
-## Princípio
+## Princípio aprovado
 
 | Camada | Função |
 |--------|--------|
@@ -18,9 +18,11 @@
 
 O player **nunca** colide com degraus individuais. Toda subida/descida usa a rampa.
 
+**Regra permanente:** ao integrar na Pensão, **manter o mesmo padrão** — degraus visuais decorativos + rampa invisível para navegação.
+
 ---
 
-## Métricas aprovadas (Sprint 08)
+## Métricas aprovadas
 
 | Parâmetro | Valor |
 |-----------|-------|
@@ -72,26 +74,27 @@ StairMovementLab
 
 ---
 
-## Regras para integração futura (Pensão — Sprint posterior)
+## Regras para integração na Pensão (Sprint 09A+)
 
 1. **Não** colidir degraus visuais — copiar padrão rampa + treads decorativos.
 2. Manter largura ≥ **2,0 m** e inclinação ≤ **~27°** salvo playtest contrário.
 3. Transição piso → rampa → piso superior **sem degrau vertical** nem buraco.
 4. Guarda-corpo com colisão no patamar superior antes de abrir vão.
 5. **Não** alterar `PlayerController` nem `PlayerCameraFeel` para “consertar” escada.
-6. Integração na Pensão exige sprint dedicada — **não** misturar com blockout do térreo aprovado.
+6. Integração na Pensão exige sprint dedicada (**09A**) — não alterar baseline do térreo aprovado sem revisão.
 
 ---
 
-## Baselines congeladas (não alterar nesta sprint)
+## Baselines congeladas (não alterar sem nova sprint)
 
 - `PLAYER_CONTROLLER_BASELINE.md`
 - `HUD_DEBUG_BASELINE.md`
 - `INTERACTION_SYSTEM_BASELINE.md`
 - `PENSION_GROUND_FLOOR_BLOCKOUT_BASELINE.md`
+- **Este documento** — padrão escada/rampa
 
 ---
 
 ## Playtest
 
-`docs/testing/STAIR_MOVEMENT_LAB_PLAYTEST.md`
+`docs/testing/STAIR_MOVEMENT_LAB_PLAYTEST.md` — **aprovado 2026-07-11**
