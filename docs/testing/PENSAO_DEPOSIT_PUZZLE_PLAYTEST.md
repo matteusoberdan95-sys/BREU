@@ -1,19 +1,27 @@
 # Playtest — Puzzle do Depósito (Sprint 07)
 
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoTerreoBlockout01.tscn`  
-**Sprint:** 07 — puzzle depósito + hotfix parede  
-**Data:** 2026-07-11
+**Sprint:** 07 — **✅ APROVADA** (2026-07-11)  
+**Baseline:** `docs/technical/DEPOSIT_PUZZLE_BASELINE.md`
 
 ---
 
-## Sprint 07 Hotfix — Parede atravessável (área futura)
+## Resultado — Aprovado pelo usuário
 
-| Item | Detalhe |
-|------|---------|
-| **Bug** | Player atravessava parede perto do bilhete/depósito e entrava em área futura (escada/cômodo) |
-| **Causa** | Vão entre fundo do depósito (z=-31,5) e shell externo; alcoves laterais abertos na entrada |
-| **Correção** | `Wall_StairFuture_Blocker` alinhado ao shell (z=-32,7); tampas `Wall_Deposit_AlcoveSouthCapWest/East` |
-| **Status puzzle** | Fluxo chave → depósito → fusível **preservado** |
+| Critério | Status |
+|----------|--------|
+| Depósito trancado (início) | ✅ |
+| Mensagem sem chave | ✅ |
+| Chave no quarto 102 | ✅ |
+| Coleta da chave | ✅ |
+| Destravamento do depósito | ✅ |
+| Entrada no depósito | ✅ |
+| Coleta do fusível | ✅ |
+| Bilhete / interações | ✅ |
+| Parede atravessável corrigida | ✅ |
+| Sem regressão HUD / player / interação | ✅ |
+
+**Fluxo validado:** trilha → pensão → quarto 102 → chave → depósito → fusível.
 
 ---
 
@@ -31,12 +39,12 @@
 
 | Teste | OK |
 |-------|-----|
-| Player nasce na trilha | ☐ |
-| Player entra na pensão | ☐ |
-| Movimento aprovado | ☐ |
-| Sprint / crouch / lean / look back | ☐ |
-| HUD funciona | ☐ |
-| Placa, livro, quarto, cozinha (interações antigas) | ☐ |
+| Player nasce na trilha | ✅ |
+| Player entra na pensão | ✅ |
+| Movimento aprovado | ✅ |
+| Sprint / crouch / lean / look back | ✅ |
+| HUD funciona | ✅ |
+| Placa, livro, quarto, cozinha (interações antigas) | ✅ |
 
 ---
 
@@ -44,22 +52,22 @@
 
 | Teste | OK |
 |-------|-----|
-| Depósito começa trancado | ☐ |
-| Sem chave: mensagem correta | ☐ |
-| Porta trancada bloqueia player | ☐ |
-| Chave visível no quarto 102 | ☐ |
-| Prompt pegar chave | ☐ |
-| E pega chave + mensagem | ☐ |
-| Chave some/desativa | ☐ |
-| Com chave: prompt "Usar chave velha" | ☐ |
-| E destranca porta | ☐ |
-| Porta não bloqueia mais | ☐ |
-| Player entra no depósito | ☐ |
-| Fusível com prompt | ☐ |
-| E pega fusível + mensagem | ☐ |
-| Fusível some/desativa | ☐ |
-| Bilhete (opcional) | ☐ |
-| Sem caixa vazia / prompt preso | ☐ |
+| Depósito começa trancado | ✅ |
+| Sem chave: mensagem correta | ✅ |
+| Porta trancada bloqueia player | ✅ |
+| Chave visível no quarto 102 | ✅ |
+| Prompt pegar chave | ✅ |
+| E pega chave + mensagem | ✅ |
+| Chave some/desativa | ✅ |
+| Com chave: prompt "Usar chave velha" | ✅ |
+| E destranca porta | ✅ |
+| Porta não bloqueia mais | ✅ |
+| Player entra no depósito | ✅ |
+| Fusível com prompt | ✅ |
+| E pega fusível + mensagem | ✅ |
+| Fusível some/desativa | ✅ |
+| Bilhete | ✅ |
+| Sem caixa vazia / prompt preso | ✅ |
 
 ---
 
@@ -67,11 +75,21 @@
 
 | Teste | OK |
 |-------|-----|
-| Não atravessa paredes principais | ☐ |
-| Não cai do mapa | ☐ |
-| Não preso na porta (aberta ou fechada) | ☐ |
-| Sai do depósito após entrar | ☐ |
-| Não atravessa área futura atrás/lateral do depósito | ☐ |
+| Não atravessa paredes principais | ✅ |
+| Não cai do mapa | ✅ |
+| Não preso na porta (aberta ou fechada) | ✅ |
+| Sai do depósito após entrar | ✅ |
+| Não atravessa área futura atrás/lateral do depósito | ✅ |
+
+---
+
+## Sprint 07 Hotfix — Parede atravessável
+
+| Item | Detalhe |
+|------|---------|
+| **Bug** | Player entrava em área futura perto do bilhete/depósito |
+| **Correção** | `Wall_StairFuture_Blocker` + tampas alcove |
+| **Status** | ✅ Aprovado |
 
 ---
 
@@ -87,6 +105,18 @@ Script: `PensaoPuzzleState.cs` (nó `PuzzleState` na cena).
 
 ---
 
-## Critério gate
+## Critério gate — ATINGIDO
 
-Fluxo completo: **quarto 102 → chave → depósito → fusível**.
+Fluxo completo: **quarto 102 → chave → depósito → fusível**. Sprint 07 fechada.
+
+**Próxima:** Sprint 08 — Escada isolada de teste.
+
+---
+
+## Log
+
+| Data | Nota |
+|------|------|
+| 2026-07-11 | **Sprint 07 aprovada** — puzzle baseline congelada |
+| 2026-07-11 | Hotfix parede área futura |
+| 2026-07-11 | Puzzle implementado |

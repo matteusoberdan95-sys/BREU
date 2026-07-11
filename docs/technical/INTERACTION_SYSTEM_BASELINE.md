@@ -157,13 +157,15 @@ Area3D ou StaticBody3D (layer 2 ou 3)
 
 **Sprint 05–06:** interactables placeholder na Pensão térreo — **mesmo** `Interactable.cs` + `PlayerInteractionRaycast`.
 
-**Sprint 07:** interações com **estado local da cena** (`PensaoPuzzleState`) — implementam `IInteractable` sem alterar o core:
+**Sprint 07 (aprovada 2026-07-11):** exemplo **validado** de interação com estado local — baseline em `DEPOSIT_PUZZLE_BASELINE.md`.
 
-| Exemplo | Comportamento |
-|---------|---------------|
-| Depósito trancado | Prompt/mensagem mudam com `HasDepositKey` |
+| Padrão | Implementação |
+|--------|---------------|
+| Porta stateful | `DepositDoorInteraction` — prompt/mensagem mudam com `HasDepositKey` |
+| Pickups simples | Chave/fusível — `Area3D` + `IInteractable`; one-shot; **sem inventário** |
+| Props narrativos | Bilhete — `Interactable` OneShot padrão |
 | Depósito destrancado | Porta oculta + colisão off; prompt vazio |
-| Chave / fusível | Pickup one-shot; props pequenos em `Area3D` |
-| Bilhete | `Interactable` OneShot padrão |
 
-**Regra:** novos puzzles de level usam scripts `IInteractable` dedicados ou `Interactable` — **não** modificar `PlayerInteractionRaycast` sem sprint de interação.
+**Regra:** não criar inventário complexo nem UI de itens sem sprint dedicada. Flags locais (`PensaoPuzzleState`) são suficientes por ora.
+
+**Regra:** novos puzzles usam `IInteractable` dedicado ou `Interactable` — **não** modificar `PlayerInteractionRaycast` sem sprint de interação.
