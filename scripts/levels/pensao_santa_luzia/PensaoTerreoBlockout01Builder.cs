@@ -2,7 +2,7 @@ namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
 /// Builds ground-floor blockout geometry under World/Exterior, PensionGroundFloor and Interactions.
-/// Sprint 05 — editable constants, no random generation.
+/// Sprint 05 — continuous floor collision (hotfix: no gaps).
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder : Node3D
 {
@@ -15,6 +15,12 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     private const float DoorWidth = 1.4f;
     private const float DoorHeight = 2.3f;
     private const float CorridorWidth = 2.4f;
+
+    private const float FloorThickness = 0.25f;
+    private const float FloorTopY = 0.0f;
+    private const float FloorCenterY = FloorTopY - FloorThickness * 0.5f;
+    private const float FloorOverlap = 0.08f;
+    private const float VisualFloorHeight = 0.04f;
 
     private StandardMaterial3D _matExteriorGround = null!;
     private StandardMaterial3D _matTrail = null!;
@@ -35,8 +41,10 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     {
         CreateMaterials();
         ResolveNodes();
-        BuildExterior();
-        BuildVaranda();
+        BuildContinuousFloors();
+        BuildFloorVisuals();
+        BuildExteriorBoundaries();
+        BuildVarandaWalls();
         BuildReception();
         BuildCorridor();
         BuildRoom102();
@@ -71,47 +79,65 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         return new StandardMaterial3D { AlbedoColor = color };
     }
 
-    private void BuildExterior()
+    /// <summary>Three overlapping collision slabs — no walkable gaps.</summary>
+    private void BuildContinuousFloors()
     {
-        AddFloor(_exterior, "ExteriorGround", new Vector3(0, -0.1f, 28), new Vector3(44, 0.2f, 52), _matExteriorGround);
-        AddFloor(_exterior, "Trail", new Vector3(0, 0.02f, 30), new Vector3(3, 0.05f, 36), _matTrail);
+        AddCollisionFloor(
+            _exterior,
+            "Exterior_MainGround",
+            new Vector3(0, FloorCenterY, 29.5f),
+            new Vector3(44, FloorThickness, 47 + FloorOverlap));
 
+        AddCollisionFloor(
+            _interior,
+            "Porch_MainFloor",
+            new Vector3(0, FloorCenterY, 8.0f),
+            new Vector3(14 + FloorOverlap, FloorThickness, 9 + FloorOverlap));
+
+        AddCollisionFloor(
+            _interior,
+            "PensionGroundFloor_MainFloor",
+            new Vector3(0, FloorCenterY, -10.75f),
+            new Vector3(14 + FloorOverlap, FloorThickness, 44.5f + FloorOverlap));
+    }
+
+    /// <summary>Visual-only floor overlays — materials only, no collision.</summary>
+    private void BuildFloorVisuals()
+    {
+        var visualY = FloorTopY + VisualFloorHeight * 0.5f;
+
+        AddVisualFloor(_exterior, "Exterior_GroundVisual", new Vector3(0, visualY, 29.5f), new Vector3(44, VisualFloorHeight, 47), _matExteriorGround);
+        AddVisualFloor(_exterior, "Exterior_PathFloor", new Vector3(0, visualY + 0.01f, 30), new Vector3(3, VisualFloorHeight, 38), _matTrail);
+        AddVisualFloor(_interior, "Porch_VisualFloor", new Vector3(0, visualY, 7), new Vector3(12, VisualFloorHeight, 6), _matVaranda);
+        AddVisualFloor(_interior, "Reception_VisualFloor", new Vector3(0, visualY, -3.5f), new Vector3(10, VisualFloorHeight, 7), _matInteriorFloor);
+        AddVisualFloor(_interior, "Corridor_VisualFloor", new Vector3(0, visualY, -17.5f), new Vector3(CorridorWidth, VisualFloorHeight, 18), _matInteriorFloor);
+        AddVisualFloor(_interior, "Room102_VisualFloor", new Vector3(-4.2f, visualY, -15.5f), new Vector3(4.5f, VisualFloorHeight, 4), _matInteriorFloor);
+        AddVisualFloor(_interior, "Kitchen_VisualFloor", new Vector3(4.2f, visualY, -20.5f), new Vector3(4.5f, VisualFloorHeight, 4), _matInteriorFloor);
+        AddVisualFloor(_interior, "Storage_VisualFloor", new Vector3(0, visualY, -29.5f), new Vector3(CorridorWidth, VisualFloorHeight, 4), _matInteriorFloor);
+    }
+
+    private void BuildExteriorBoundaries()
+    {
         AddBoundaryWall(_exterior, "BoundaryTrailEnd", new Vector3(0, 1.5f, 52), new Vector3(44, 3, WallThickness));
         AddBoundaryWall(_exterior, "BoundaryBuildingFar", new Vector3(0, 1.5f, -35), new Vector3(44, 3, WallThickness));
         AddBoundaryWall(_exterior, "BoundaryEast", new Vector3(22, 1.5f, 28), new Vector3(WallThickness, 3, 52));
         AddBoundaryWall(_exterior, "BoundaryWest", new Vector3(-22, 1.5f, 28), new Vector3(WallThickness, 3, 52));
     }
 
-    private void BuildVaranda()
+    private void BuildVarandaWalls()
     {
-        AddFloor(_interior, "VarandaFloor", new Vector3(0, 0.05f, 7), new Vector3(12, 0.1f, 6), _matVaranda);
-        AddFloor(_interior, "EntryTransitionFloor", new Vector3(0, 0, 1.5f), new Vector3(10, 0.1f, 4), _matInteriorFloor);
-
         AddWall(_interior, "VarandaWest", new Vector3(-6.1f, 1.5f, 7), new Vector3(WallThickness, WallHeight, 6), _matExteriorWall);
         AddWall(_interior, "VarandaEast", new Vector3(6.1f, 1.5f, 7), new Vector3(WallThickness, WallHeight, 6), _matExteriorWall);
     }
 
     private void BuildReception()
     {
-        AddFloor(_interior, "ReceptionFloor", new Vector3(0, 0, -3.5f), new Vector3(10, 0.1f, 7), _matInteriorFloor);
-
         AddWall(_interior, "ReceptionWest", new Vector3(-5.1f, 1.5f, -3.5f), new Vector3(WallThickness, WallHeight, 7), _matInteriorWall);
         AddWall(_interior, "ReceptionEast", new Vector3(5.1f, 1.5f, -3.5f), new Vector3(WallThickness, WallHeight, 7), _matInteriorWall);
 
         var northZ = -7.0f;
-        AddWall(
-            _interior,
-            "ReceptionNorthLeft",
-            new Vector3(-3.5f, 1.5f, northZ),
-            new Vector3(4, WallHeight, WallThickness),
-            _matInteriorWall);
-        AddWall(
-            _interior,
-            "ReceptionNorthRight",
-            new Vector3(3.5f, 1.5f, northZ),
-            new Vector3(4, WallHeight, WallThickness),
-            _matInteriorWall);
-
+        AddWall(_interior, "ReceptionNorthLeft", new Vector3(-3.5f, 1.5f, northZ), new Vector3(4, WallHeight, WallThickness), _matInteriorWall);
+        AddWall(_interior, "ReceptionNorthRight", new Vector3(3.5f, 1.5f, northZ), new Vector3(4, WallHeight, WallThickness), _matInteriorWall);
         AddWall(_interior, "ReceptionCounter", new Vector3(3.4f, 0.55f, -3.5f), new Vector3(2.4f, 1.1f, 0.6f), _matCounter);
     }
 
@@ -121,42 +147,20 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         var length = 18.0f;
         var halfWidth = CorridorWidth * 0.5f;
 
-        AddFloor(_interior, "CorridorFloor", new Vector3(0, 0, centerZ), new Vector3(CorridorWidth, 0.1f, length), _matInteriorFloor);
-
-        BuildWallWithDoorGap(
-            _interior,
-            "CorridorWest",
-            -halfWidth - WallThickness * 0.5f,
-            centerZ,
-            length,
-            -15.5f,
-            DoorWidth,
-            _matInteriorWall);
-
-        BuildWallWithDoorGap(
-            _interior,
-            "CorridorEast",
-            halfWidth + WallThickness * 0.5f,
-            centerZ,
-            length,
-            -20.5f,
-            DoorWidth,
-            _matInteriorWall);
+        BuildWallWithDoorGap(_interior, "CorridorWest", -halfWidth - WallThickness * 0.5f, centerZ, length, -15.5f, DoorWidth, _matInteriorWall);
+        BuildWallWithDoorGap(_interior, "CorridorEast", halfWidth + WallThickness * 0.5f, centerZ, length, -20.5f, DoorWidth, _matInteriorWall);
     }
 
     private void BuildRoom102()
     {
-        AddFloor(_interior, "Room102Floor", new Vector3(-4.2f, 0, -15.5f), new Vector3(4.5f, 0.1f, 4.0f), _matInteriorFloor);
         AddWall(_interior, "Room102West", new Vector3(-6.45f, 1.5f, -15.5f), new Vector3(WallThickness, WallHeight, 4.0f), _matInteriorWall);
         AddWall(_interior, "Room102North", new Vector3(-4.2f, 1.5f, -17.55f), new Vector3(4.5f, WallHeight, WallThickness), _matInteriorWall);
         AddWall(_interior, "Room102South", new Vector3(-4.2f, 1.5f, -13.45f), new Vector3(4.5f, WallHeight, WallThickness), _matInteriorWall);
-
         AddVisualOnly(_interior, "Room102Bed", new Vector3(-5.5f, 0.35f, -15.5f), new Vector3(2.0f, 0.7f, 1.8f), _matBed);
     }
 
     private void BuildKitchen()
     {
-        AddFloor(_interior, "KitchenFloor", new Vector3(4.2f, 0, -20.5f), new Vector3(4.5f, 0.1f, 4.0f), _matInteriorFloor);
         AddWall(_interior, "KitchenEast", new Vector3(6.45f, 1.5f, -20.5f), new Vector3(WallThickness, WallHeight, 4.0f), _matInteriorWall);
         AddWall(_interior, "KitchenNorth", new Vector3(4.2f, 1.5f, -22.55f), new Vector3(4.5f, WallHeight, WallThickness), _matInteriorWall);
         AddWall(_interior, "KitchenSouth", new Vector3(4.2f, 1.5f, -18.45f), new Vector3(4.5f, WallHeight, WallThickness), _matInteriorWall);
@@ -165,7 +169,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
 
     private void BuildStorage()
     {
-        AddFloor(_interior, "StorageFloor", new Vector3(0, 0, -29.5f), new Vector3(CorridorWidth, 0.1f, 4.0f), _matInteriorFloor);
         AddWall(_interior, "StorageBack", new Vector3(0, 1.5f, -31.5f), new Vector3(CorridorWidth, WallHeight, WallThickness), _matInteriorWall);
         AddWall(_interior, "StorageWest", new Vector3(-1.3f, 1.5f, -29.5f), new Vector3(WallThickness, WallHeight, 4.0f), _matInteriorWall);
         AddWall(_interior, "StorageEast", new Vector3(1.3f, 1.5f, -29.5f), new Vector3(WallThickness, WallHeight, 4.0f), _matInteriorWall);
@@ -259,9 +262,23 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         }
     }
 
-    private void AddFloor(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
+    private void AddCollisionFloor(Node3D parent, string name, Vector3 center, Vector3 size)
     {
-        AddSolid(parent, name, center, size, material, WorldLayer);
+        var body = new StaticBody3D
+        {
+            Name = name,
+            Position = center,
+            CollisionLayer = WorldLayer,
+            CollisionMask = 0
+        };
+
+        body.AddChild(CreateBoxCollision(size));
+        parent.AddChild(body);
+    }
+
+    private void AddVisualFloor(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
+    {
+        AddVisualOnly(parent, name, center, size, material);
     }
 
     private void AddWall(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
@@ -347,16 +364,14 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
 
     private static CollisionShape3D CreateBoxCollision(Vector3 size)
     {
-        var shape = new BoxShape3D { Size = size };
-        return new CollisionShape3D { Shape = shape };
+        return new CollisionShape3D { Shape = new BoxShape3D { Size = size } };
     }
 
     private static MeshInstance3D CreateBoxMesh(Vector3 size, StandardMaterial3D material)
     {
-        var mesh = new BoxMesh { Size = size };
         return new MeshInstance3D
         {
-            Mesh = mesh,
+            Mesh = new BoxMesh { Size = size },
             MaterialOverride = material
         };
     }
