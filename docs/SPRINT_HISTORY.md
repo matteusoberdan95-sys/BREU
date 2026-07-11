@@ -198,8 +198,23 @@ Registro cronológico das sprints do reboot greenfield.
 
 ---
 
+## Sprint 12 — Teto e fechamento superior
+
+**Status:** 🔄 Implementada — playtest F6 pendente  
+**Data:** 2026-07-11
+
+**Entregas:**
+- Teto/forro blockout térreo + 2º andar + poço escada
+- Cobertura externa `Roof_Blockout_Main` / `Roof_Blockout_Ridge`
+- Luzes mínimas para playtest com teto fechado
+- Baseline + playtest docs
+
+**Checkpoint:** `1dc7430` — before pension ceiling blockout
+
+---
+
 ## Próxima
 
-**Sprint 12 — Atmosfera inicial**
+**Sprint 13 — Atmosfera inicial**
 
 ---

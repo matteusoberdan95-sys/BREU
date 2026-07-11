@@ -12,7 +12,7 @@
 S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
     → S05 Pensão térreo → S06 Playtest térreo → S07 Puzzle depósito
     → S08 Escada isolada → S09A Escada na Pensão → S10 2º andar → S11 Playtest 2º andar
-    → S12 Atmosfera → S13 Teto → S14 Vertical slice → S15 Inimigo → S16 Combate → S17 Arte modular
+    → S12 Teto blockout → S13 Atmosfera → S14 Teto modular → S15 Vertical slice → S16 Inimigo → S17 Combate → S18 Arte modular
 ```
 
 ---
@@ -226,16 +226,36 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 12 — Atmosfera inicial
+## Sprint 12 — Teto e fechamento superior
+
+**Status:** ✅ Implementada — playtest F6 pendente (2026-07-11)
+
+**Objetivo:** Fechar visualmente a Pensão por cima sem arte final.
+
+**Entregas:**
+- `Ceiling_FirstFloor_Main` — varanda/frente (sem laje do 2º andar acima).
+- `Ceiling_SecondFloor_Main` + segmentos (corredor, quartos, north cap).
+- `Ceiling_StairBox_WestCap` — fechamento parcial do poço da escada.
+- `Roof_Blockout_Main` + `Roof_Blockout_Ridge` — cobertura externa simples.
+- Luzes mínimas para playtest com teto fechado.
+- `docs/technical/PENSION_CEILING_BLOCKOUT_BASELINE.md`
+- `docs/testing/PENSION_CEILING_BLOCKOUT_PLAYTEST.md`
+
+**DoD:** Interior fechado por cima; escada/navegação/puzzle intactos; sem limbo grande ao olhar para cima.
+
+**Cena alvo:** `PensaoVerticalBlockout01.tscn`
+
+---
+
+## Sprint 13 — Atmosfera inicial
 
 **Status:** 🔄 Próxima
 
 **Objetivo:** Noite legível + modo debug visual.
 
 **Entregas:**
-- Luzes omni/directional mínimas (térreo + 2º andar).
 - Fog leve + override playtest.
-- Contraste suficiente para QA ver layout blockout.
+- Contraste suficiente para QA ver layout blockout com teto fechado.
 
 **DoD:** Navegação legível com e sem fog debug; zero regressão.
 
@@ -243,9 +263,9 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 13 — Teto e câmera FPS
+## Sprint 14 — Teto modular e câmera FPS
 
-**Objetivo:** Teto modular sem clipping.
+**Objetivo:** Refinar teto blockout — peças encaixadas sem clipping.
 
 **Entregas:**
 - Peças de teto encaixadas; altura validada (≥ 2,4 m acima da cabeça).
@@ -255,7 +275,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 14 — Vertical slice da Pensão
+## Sprint 15 — Vertical slice da Pensão
 
 **Objetivo:** Experiência contínua sem inimigo.
 
@@ -265,7 +285,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 15 — Primeiro inimigo / encontro controlado
+## Sprint 16 — Primeiro inimigo / encontro controlado
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 
@@ -276,7 +296,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 16 — Combate base
+## Sprint 17 — Combate base
 
 **Objetivo:** Loop ataque → dano → feedback.
 
@@ -286,7 +306,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 16 — Arte modular inicial
+## Sprint 18 — Arte modular inicial
 
 **Objetivo:** Substituir blocos por módulos.
 

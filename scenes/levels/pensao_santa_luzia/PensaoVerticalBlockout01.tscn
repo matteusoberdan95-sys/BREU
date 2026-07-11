@@ -12,7 +12,7 @@ background_mode = 1
 background_color = Color(0.1, 0.11, 0.14, 1)
 ambient_light_source = 1
 ambient_light_color = Color(0.32, 0.3, 0.34, 1)
-ambient_light_energy = 0.58
+ambient_light_energy = 0.62
 fog_enabled = true
 fog_light_color = Color(0.5, 0.48, 0.52, 1)
 fog_density = 0.01
@@ -36,6 +36,8 @@ script = ExtResource("4_puzzle_setup")
 [node name="PensionGroundFloor" type="Node3D" parent="."]
 
 [node name="PensionSecondFloor" type="Node3D" parent="."]
+
+[node name="PensionCeiling" type="Node3D" parent="."]
 
 [node name="Collisions" type="Node3D" parent="."]
 
@@ -64,7 +66,7 @@ omni_range = 8.0
 [node name="CorridorLight" type="OmniLight3D" parent="Lighting"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -17.5)
 light_color = Color(0.85, 0.85, 0.9, 1)
-light_energy = 0.65
+light_energy = 0.72
 omni_range = 9.0
 
 [node name="DepositLight" type="OmniLight3D" parent="Lighting"]
@@ -108,6 +110,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 4.6, -17)
 light_color = Color(0.9, 0.86, 0.78, 1)
 light_energy = 0.45
 omni_range = 5.0
+
+[node name="VarandaCeilingLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 8)
+light_color = Color(0.95, 0.88, 0.75, 1)
+light_energy = 0.55
+omni_range = 8.0
+
+[node name="SecondFloorCeilingLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, -13.5)
+light_color = Color(0.9, 0.88, 0.82, 1)
+light_energy = 0.62
+omni_range = 9.0
+
+[node name="StairShaftUpperLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 4.6, -24)
+light_color = Color(0.92, 0.9, 0.84, 1)
+light_energy = 0.5
+omni_range = 7.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pensao")

@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 11 aprovada  
+**Fase:** REBOOT GREENFIELD — Sprint 12 implementada (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -22,6 +22,7 @@
 | Sprint 09B | **✅ Aprovada** — playtest escada |
 | Sprint 10 | **✅ Aprovada** — segundo andar blockout navegável |
 | Sprint 11 | **✅ Aprovada** — playtest fino 2º andar |
+| Sprint 12 | **🔄 Implementada** — teto/cobertura blockout (aguardando playtest F6) |
 
 ---
 
@@ -72,22 +73,38 @@
 | 08–09A Escada | `STAIR_RAMP_BASELINE.md` |
 | 10 Segundo andar | `PENSION_SECOND_FLOOR_BLOCKOUT_BASELINE.md` |
 | 11 Playtest 2º andar | `PENSAO_SECOND_FLOOR_FINE_PLAYTEST.md` |
+| 12 Teto blockout | `PENSION_CEILING_BLOCKOUT_BASELINE.md` |
 
 ---
 
-## Próxima sprint — Sprint 12 (Atmosfera inicial)
+## Sprint 12 — resumo (implementada)
+
+- Teto/forro blockout no térreo (varanda/frente), 2º andar (corredor + quartos) e poço da escada.
+- Cobertura externa simples (`Roof_Blockout_Main` + `Roof_Blockout_Ridge`).
+- Tetos **somente visuais** (sem colisão) para não prender player/câmera.
+- Vão central da escada permanece aberto no teto interno; telhado fecha silhueta externa.
+- Luzes mínimas adicionadas: `VarandaCeilingLight`, `SecondFloorCeilingLight`, `StairShaftUpperLight`.
+- Ambient 0.62; `CorridorLight` 0.72 — layout legível com lanterna off/on.
+- Térreo, puzzle depósito, escada, HUD, PlayerController e camera feel **não alterados**.
+
+**Baseline:** `docs/technical/PENSION_CEILING_BLOCKOUT_BASELINE.md`  
+**Playtest:** `docs/testing/PENSION_CEILING_BLOCKOUT_PLAYTEST.md`
+
+---
+
+## Próxima sprint — Sprint 13 (Atmosfera inicial)
 
 **Objetivo:** Noite legível + modo debug visual — sem alterar layout aprovado.
 
 **Entregas planejadas:**
-- Luzes omni/directional mínimas (térreo + 2º andar).
 - Fog leve + override playtest (`PlaytestDebugSettings`).
-- Contraste suficiente para QA ver layout blockout.
+- Contraste e leitura noturna refinados.
+- Validação visual com teto já fechado.
 
-**DoD:** Navegação legível com e fog debug ON/OFF; zero regressão puzzle/HUD/movimento.
+**DoD:** Navegação legível com e sem fog debug; zero regressão puzzle/HUD/movimento/teto.
 
-**Não fazer:** teto final; arte final; GLB; inimigo; refazer 2º andar.
+**Não fazer:** arte final; GLB; inimigo; refazer 2º andar ou teto.
 
-**Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 12
+**Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 13
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`

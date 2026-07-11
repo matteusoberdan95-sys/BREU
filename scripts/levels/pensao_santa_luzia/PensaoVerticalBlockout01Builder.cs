@@ -5,7 +5,7 @@ using BREU.Scripts.Levels;
 
 /// <summary>
 /// Sprint 10 — ground floor (inherited) + proportional second floor blockout.
-/// Hotfix 3 — corridor unlock, stair box, wall sealing.
+/// Sprint 12 — ceiling and roof blockout.
 /// </summary>
 public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Builder
 {
@@ -31,6 +31,15 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private const float Room202CenterZ = -17.0f;
     private const float RoomDepth = 4.0f + WallCornerOverlap;
     private const float BlockedDoorZ = -7.5f;
+
+    private const float CeilingThickness = 0.18f;
+    private const float SecondSlabSouthZ = -5.8f;
+    private const float RoofThickness = 0.28f;
+    private const float RoofRidgeLiftY = 0.42f;
+
+    private static float FirstFloorCeilingUndersideY => WallHeight - WallEmbedBelowFloor;
+
+    private static float SecondFloorCeilingUndersideY => SecondFloorTopY + WallHeight;
 
     private static float StairFootX =>
         -((CorridorWallX + (BuildingHalfWidth - WallThickness * 0.5f)) * 0.5f);
@@ -59,8 +68,12 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private StandardMaterial3D _matSecondCeiling = null!;
     private StandardMaterial3D _matSecondRail = null!;
     private StandardMaterial3D _matFurniture = null!;
+    private StandardMaterial3D _matCeilingFirst = null!;
+    private StandardMaterial3D _matCeilingSecond = null!;
+    private StandardMaterial3D _matRoof = null!;
 
     private Node3D _secondFloor = null!;
+    private Node3D _ceiling = null!;
 
     protected override bool IncludeStairUpperLanding => false;
 
@@ -70,6 +83,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     {
         _secondFloor = GetNodeOrNull<Node3D>("../../PensionSecondFloor")
             ?? throw new System.InvalidOperationException("PensionSecondFloor node missing.");
+        _ceiling = GetNodeOrNull<Node3D>("../../PensionCeiling")
+            ?? throw new System.InvalidOperationException("PensionCeiling node missing.");
         base._Ready();
     }
 
@@ -79,7 +94,11 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matSecondCeiling = Mat(new Color(0.42f, 0.4f, 0.44f));
         _matSecondRail = Mat(new Color(0.36f, 0.38f, 0.42f));
         _matFurniture = Mat(new Color(0.38f, 0.34f, 0.32f));
+        _matCeilingFirst = Mat(new Color(0.34f, 0.31f, 0.28f));
+        _matCeilingSecond = Mat(new Color(0.38f, 0.36f, 0.4f));
+        _matRoof = Mat(new Color(0.32f, 0.3f, 0.28f));
         BuildSecondFloor();
+        BuildCeilingBlockout();
     }
 
     protected override void BuildExtensionInteractions()
@@ -101,6 +120,132 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         BuildStairwellBox();
         BuildSecondFloorSouthSealing();
         BuildSecondFloorExteriorShell();
+    }
+
+    private void BuildCeilingBlockout()
+    {
+        BuildFirstFloorCeilings();
+        BuildSecondFloorCeilings();
+        BuildStairwellCeiling();
+        BuildRoofBlockout();
+    }
+
+    private void BuildFirstFloorCeilings()
+    {
+        var frontDepth = BuildingFrontZ - SecondSlabSouthZ + FloorOverlap;
+        var frontCenterZ = (BuildingFrontZ + SecondSlabSouthZ) * 0.5f;
+
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_FirstFloor_Main",
+            new Vector3(0f, FirstFloorCeilingUndersideY, frontCenterZ),
+            new Vector3(SlabWidth, CeilingThickness, frontDepth),
+            _matCeilingFirst);
+    }
+
+    private void BuildSecondFloorCeilings()
+    {
+        var corridorDepth = SecondSlabSouthZ - UpperCorridorNorthZ + FloorOverlap;
+        var corridorCenterZ = (SecondSlabSouthZ + UpperCorridorNorthZ) * 0.5f;
+
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_SecondFloor_Main",
+            new Vector3(0f, SecondFloorCeilingUndersideY, corridorCenterZ),
+            new Vector3(SlabWidth, CeilingThickness, corridorDepth),
+            _matCeilingSecond);
+
+        var eastBandWidth = SlabWidth * 0.5f - StairOpenEastX;
+        var eastBandCenterX = StairOpenEastX + eastBandWidth * 0.5f;
+        var eastBandDepth = StairOpenSouthZ - UpperCorridorNorthZ + FloorOverlap;
+        var eastBandCenterZ = (StairOpenSouthZ + UpperCorridorNorthZ) * 0.5f;
+
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_SecondFloor_StairEastBand",
+            new Vector3(eastBandCenterX, SecondFloorCeilingUndersideY, eastBandCenterZ),
+            new Vector3(eastBandWidth + FloorOverlap, CeilingThickness, eastBandDepth),
+            _matCeilingSecond);
+
+        var northEastWidth = eastBandWidth;
+        var northEastCenterX = eastBandCenterX;
+        var northEastDepth = SecondSlabSouthZ - StairOpenNorthZ + FloorOverlap;
+        var northEastCenterZ = (SecondSlabSouthZ + StairOpenNorthZ) * 0.5f;
+
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_SecondFloor_Main_NorthEast",
+            new Vector3(northEastCenterX, SecondFloorCeilingUndersideY, northEastCenterZ),
+            new Vector3(northEastWidth + FloorOverlap, CeilingThickness, northEastDepth),
+            _matCeilingSecond);
+
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_SecondFloor_Main_NorthCap",
+            new Vector3(0f, SecondFloorCeilingUndersideY, BuildingBackZ + 1.2f),
+            new Vector3(SlabWidth, CeilingThickness, 2.4f),
+            _matCeilingSecond);
+    }
+
+    private void BuildStairwellCeiling()
+    {
+        var westCapWidth = SlabWidth * 0.5f + StairOpenWestX;
+        if (westCapWidth <= 0.05f)
+        {
+            return;
+        }
+
+        var westCapCenterX = -SlabWidth * 0.5f + westCapWidth * 0.5f;
+        var northDepth = StairOpenNorthZ - BuildingBackZ + 2.6f;
+        var northCenterZ = (StairOpenNorthZ + BuildingBackZ) * 0.5f + 0.3f;
+
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_StairBox_WestCap",
+            new Vector3(westCapCenterX, SecondFloorCeilingUndersideY, northCenterZ),
+            new Vector3(westCapWidth, CeilingThickness, northDepth),
+            _matCeilingSecond);
+    }
+
+    private void BuildRoofBlockout()
+    {
+        var exterior = GetNode<Node3D>("../../Exterior");
+        var roofSpanZ = BuildingFrontZ - BuildingBackZ + 1.2f;
+        var roofCenterZ = (BuildingFrontZ + BuildingBackZ) * 0.5f;
+        var roofUndersideY = SecondFloorCeilingUndersideY + CeilingThickness + 0.08f;
+        var roofWidth = SlabWidth + WallThickness * 2f + 0.4f;
+
+        AddVisualCeilingPlate(
+            exterior,
+            "Roof_Blockout_Main",
+            new Vector3(0f, roofUndersideY + RoofThickness * 0.5f, roofCenterZ),
+            new Vector3(roofWidth, RoofThickness, roofSpanZ),
+            _matRoof);
+
+        const float upperFrontZ = -5.8f;
+        var ridgeCenterZ = (upperFrontZ + BuildingBackZ) * 0.5f;
+        AddVisualCeilingPlate(
+            exterior,
+            "Roof_Blockout_Ridge",
+            new Vector3(0f, roofUndersideY + RoofThickness + RoofRidgeLiftY * 0.5f, ridgeCenterZ),
+            new Vector3(roofWidth * 0.92f, RoofRidgeLiftY, (upperFrontZ - BuildingBackZ) + 0.8f),
+            _matRoof);
+    }
+
+    private void AddVisualCeilingPlate(
+        Node3D parent,
+        string name,
+        Vector3 center,
+        Vector3 size,
+        StandardMaterial3D material)
+    {
+        var visual = new Node3D { Name = name, Position = center };
+        visual.AddChild(new MeshInstance3D
+        {
+            Mesh = new BoxMesh { Size = size },
+            MaterialOverride = material
+        });
+        parent.AddChild(visual);
     }
 
     private void BuildFloorSecondMain()
