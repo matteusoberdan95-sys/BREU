@@ -68,7 +68,7 @@ Registro cronológico das sprints do reboot greenfield.
 **Status:** ✅ Aprovada pelo usuário  
 **Commit implementação:** `c1263c2`  
 **Commit hotfix:** `e11147f`  
-**Commit baseline:** _(ver commit desta sessão)_  
+**Commit baseline:** `ea3daed`  
 **Baseline:** `docs/technical/INTERACTION_SYSTEM_BASELINE.md`
 
 **Entregas:**
