@@ -31,10 +31,16 @@
 | LookBackAngle | 165° |
 | look_back | **Alt** + **X** (alternativo) |
 
-### Look back
+### Look back hotfix (Sprint 02.2b)
 
-- **Shift + W + Alt** (ou X) — corpo continua, câmera gira no `LookBackPivot`
-- Sprint não interrompe com Alt pressionado
+**Causa:** `PlayerLookBack.ControllerPath` apontava para `HeadBase` (`../../..`) em vez do `Player` — `_controller` era null, look back nunca ativava.
+
+**Fix:**
+- `ControllerPath = "../../../.."` (Player)
+- Rotação Y com `LerpAngle` no `LookBackPivot`
+- `IsPhysicalKeyPressed(W)` quando Alt quebra `move_forward`
+- Alt + X no input map
+- `AllowLookBackWithoutSprintForDebug = true` (validar câmera com X parado)
 
 ---
 

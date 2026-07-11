@@ -5,7 +5,7 @@ namespace BREU.Scripts.Player;
 /// </summary>
 public partial class PlayerLean : Node3D
 {
-    [Export] public NodePath BodyPath { get; set; } = new NodePath("../../..");
+    [Export] public NodePath BodyPath { get; set; } = new NodePath("../../../..");
     [Export] public float LeanOffset { get; set; } = 0.32f;
     [Export] public float LeanRollDegrees { get; set; } = 8.0f;
     [Export] public float LeanSpeed { get; set; } = 8.0f;

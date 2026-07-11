@@ -126,9 +126,20 @@ public partial class PlayerController : CharacterBody3D
     /// </summary>
     private static Vector2 ReadMoveInput()
     {
-        return new Vector2(
+        var input = new Vector2(
             Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"),
             Input.GetActionStrength("move_forward") - Input.GetActionStrength("move_backward"));
+
+        // Alt+W can fail action strength on Windows — preserve forward while look_back + sprint.
+        if (Input.IsActionPressed("look_back")
+            && (Input.IsActionPressed("sprint") || Input.IsPhysicalKeyPressed(Key.Shift))
+            && Input.IsPhysicalKeyPressed(Key.W)
+            && input.Y < 0.5f)
+        {
+            input.Y = 1.0f;
+        }
+
+        return input;
     }
 
     private static bool HasMoveIntent(Vector2 input)
@@ -137,7 +148,11 @@ public partial class PlayerController : CharacterBody3D
             || Input.IsActionPressed("move_forward")
             || Input.IsActionPressed("move_backward")
             || Input.IsActionPressed("move_left")
-            || Input.IsActionPressed("move_right");
+            || Input.IsActionPressed("move_right")
+            || Input.IsPhysicalKeyPressed(Key.W)
+            || Input.IsPhysicalKeyPressed(Key.A)
+            || Input.IsPhysicalKeyPressed(Key.S)
+            || Input.IsPhysicalKeyPressed(Key.D);
     }
 
     private Vector3 GetHorizontalMoveDirection(Vector2 input)
