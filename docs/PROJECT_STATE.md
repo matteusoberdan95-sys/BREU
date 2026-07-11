@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 02 em correção  
+**Fase:** REBOOT GREENFIELD — Sprint 02.1 em andamento  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -11,50 +11,41 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Player FPS | Recriado — **correção aplicada** |
-| Cena de teste | `res://scenes/test/PlayerMovementLab.tscn` |
-| Sprint 02 | **Em validação** — aguarda playtest manual F6 |
+| Sprint 02 | **Em andamento** (02.1 — feel + direção) |
 | Sprint 03 | **Bloqueada** |
+| Cena de teste | `res://scenes/test/PlayerMovementLab.tscn` |
 
 ---
 
-## Sprint 02 — correção
+## Sprint 02.1 — entregas
 
-**Problema:** spawn dentro de túnel baixo + movimento invertido + ambiente escuro.
+| Item | Status |
+|------|--------|
+| W/S corrigido (GetVector) | ✅ |
+| Lean Q/R estilo Outlast | ✅ implementado |
+| Look back Alt (sprint+W) | ✅ implementado |
+| Head bob / sway | ✅ `PlayerCameraEffects.cs` |
+| Reset F9 | ✅ |
+| Playtest manual completo | ⏳ pendente |
 
-**Fix:** cena mínima estática, spawn `(0,0,0)`, direção `-Z` corrigida, luz direcional clara.
+---
 
-**Validação automática:** `IsOnFloor=true`, câmera Y=1.65, build OK.
+## Player — scripts
 
-**Validação manual pendente:**
-1. Chão plano — movimento livre
-2. Parede em Z=-5 — colisão estável
-3. Rampa — subida sem jitter
+| Script | Função |
+|--------|--------|
+| `PlayerController.cs` | Movimento, stamina, yaw-based direction |
+| `PlayerLook.cs` | Mouse, lean, look-back |
+| `PlayerCameraEffects.cs` | Head bob, strafe tilt |
+| `PlayerCrouch.cs` | Agachar |
+| `PlayerStamina.cs` | Stamina sprint |
+
+---
+
+## Próximo passo
+
+1. F6 em `PlayerMovementLab.tscn` — validar checklist completo
+2. Marcar Sprint 02 concluída se todos passarem
+3. Então Sprint 03 (HUD)
 
 Ver: `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
-
----
-
-## Player
-
-| Sistema | Status |
-|---------|--------|
-| WASD + mouse | Corrigido (direção) |
-| Sprint + stamina | OK |
-| Agachar | OK |
-| Reset (R) | OK |
-| Lanterna | Off por padrão no lab |
-
----
-
-## Próxima sprint
-
-**Sprint 03 — HUD e Debug** — somente após Sprint 02 aprovada nos 3 testes.
-
----
-
-## Retomar
-
-1. `docs/HANDOFF.md`
-2. `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
-3. F6 em `PlayerMovementLab.tscn`

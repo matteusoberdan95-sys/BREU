@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://breuplayer02"]
+[gd_scene load_steps=8 format=3 uid="uid://breuplayer02"]
 
 [ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_controller"]
 [ext_resource type="Script" path="res://scripts/player/PlayerLook.cs" id="2_look"]
 [ext_resource type="Script" path="res://scripts/player/PlayerStamina.cs" id="3_stamina"]
 [ext_resource type="Script" path="res://scripts/player/PlayerCrouch.cs" id="4_crouch"]
 [ext_resource type="Script" path="res://scripts/player/PlayerFlashlight.cs" id="5_flashlight"]
+[ext_resource type="Script" path="res://scripts/player/PlayerCameraEffects.cs" id="6_effects"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.35
@@ -28,14 +29,17 @@ script = ExtResource("4_crouch")
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+
+[node name="LookOffset" type="Node3D" parent="Head"]
 script = ExtResource("2_look")
 
-[node name="Camera3D" type="Camera3D" parent="Head"]
+[node name="Camera3D" type="Camera3D" parent="Head/LookOffset"]
 current = true
 fov = 75.0
 near = 0.05
+script = ExtResource("6_effects")
 
-[node name="Flashlight" type="SpotLight3D" parent="Head"]
+[node name="Flashlight" type="SpotLight3D" parent="Head/LookOffset/Camera3D"]
 light_energy = 0.0
 shadow_enabled = false
 script = ExtResource("5_flashlight")

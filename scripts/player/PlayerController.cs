@@ -2,7 +2,7 @@ namespace BREU.Scripts.Player;
 
 /// <summary>
 /// Horizontal movement, gravity, sprint integration and floor physics for the FPS player.
-/// Mouse look and crouch are handled by sibling components.
+/// Movement uses flattened body yaw (-Basis.Z forward, Basis.X right).
 /// </summary>
 public partial class PlayerController : CharacterBody3D
 {
@@ -22,10 +22,15 @@ public partial class PlayerController : CharacterBody3D
     [Export] public NodePath CrouchPath { get; set; } = "PlayerCrouch";
 
     public bool MovementEnabled { get; set; } = true;
+    public Vector2 MoveInput { get; private set; }
+    public bool IsSprinting { get; private set; }
+    public bool IsMovingHorizontally { get; private set; }
+    public bool IsMovingForward { get; private set; }
+    public bool IsCrouching => _crouch?.IsCrouching ?? false;
+    public float HorizontalSpeed { get; private set; }
 
     private PlayerStamina? _stamina;
     private PlayerCrouch? _crouch;
-    private int _debugFramesRemaining = 3;
 
     public override void _Ready()
     {
@@ -35,57 +40,33 @@ public partial class PlayerController : CharacterBody3D
         FloorSnapLength = 0.1f;
         FloorMaxAngle = Mathf.DegToRad(46.0f);
         SafeMargin = 0.08f;
-
-        var collision = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
-        var head = GetNodeOrNull<Node3D>("Head");
-        var camera = head?.GetNodeOrNull<Camera3D>("Camera3D");
-
-        GD.Print("[PlayerController] _Ready global pos=", GlobalPosition);
-        GD.Print("[PlayerController] scene=", GetTree().CurrentScene?.SceneFilePath ?? "unknown");
-
-        if (collision != null)
-        {
-            GD.Print("[PlayerController] CollisionShape local pos=", collision.Position);
-            if (collision.Shape is CapsuleShape3D capsule)
-            {
-                GD.Print("[PlayerController] Capsule height=", capsule.Height, " radius=", capsule.Radius);
-            }
-        }
-
-        if (camera != null)
-        {
-            GD.Print("[PlayerController] Camera global pos=", camera.GlobalPosition);
-        }
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_debugFramesRemaining > 0)
-        {
-            _debugFramesRemaining--;
-            if (_debugFramesRemaining == 0)
-            {
-                GD.Print("[PlayerController] IsOnFloor(after frames)=", IsOnFloor());
-            }
-        }
-
         if (!MovementEnabled)
         {
+            MoveInput = Vector2.Zero;
+            IsSprinting = false;
+            IsMovingHorizontally = false;
+            IsMovingForward = false;
+            HorizontalSpeed = 0.0f;
             ApplyGravityOnly(delta);
             return;
         }
 
-        var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-        var inputDirection = new Vector3(input.X, 0.0f, -input.Y);
-        var direction = inputDirection.LengthSquared() > 0.001f
-            ? (GlobalTransform.Basis * inputDirection).Normalized()
-            : Vector3.Zero;
+        // Godot GetVector: (neg_x, pos_x, neg_y, pos_y) — forward must be positive_y.
+        var input = Input.GetVector("move_left", "move_right", "move_backward", "move_forward");
+        MoveInput = input;
 
-        var isCrouching = _crouch?.IsCrouching ?? false;
+        var direction = GetHorizontalMoveDirection(input);
+        var isCrouching = IsCrouching;
         var wantsSprint = Input.IsActionPressed("sprint") && input.LengthSquared() > 0.01f && !isCrouching;
         var canSprint = wantsSprint && (_stamina == null || _stamina.Current > 0.0f);
-        var isSprinting = canSprint;
-        var speed = isCrouching ? CrouchSpeed : isSprinting ? SprintSpeed : WalkSpeed;
+        IsSprinting = canSprint;
+        IsMovingForward = input.Y > 0.15f;
+
+        var speed = isCrouching ? CrouchSpeed : IsSprinting ? SprintSpeed : WalkSpeed;
 
         var velocity = Velocity;
         var onFloor = IsOnFloor();
@@ -100,6 +81,8 @@ public partial class PlayerController : CharacterBody3D
         currentHorizontal = currentHorizontal.MoveToward(targetHorizontal, rate * (float)delta);
         velocity.X = currentHorizontal.X;
         velocity.Z = currentHorizontal.Y;
+        HorizontalSpeed = currentHorizontal.Length();
+        IsMovingHorizontally = HorizontalSpeed > 0.15f;
 
         if (TryJump(ref velocity, onFloor, isCrouching))
         {
@@ -118,10 +101,38 @@ public partial class PlayerController : CharacterBody3D
         Velocity = velocity;
         MoveAndSlide();
 
-        if (isSprinting && IsOnFloor() && input.LengthSquared() > 0.01f)
+        if (IsSprinting && IsOnFloor() && input.LengthSquared() > 0.01f)
         {
             _stamina?.DrainPerSecond(SprintStaminaDrainPerSecond, delta);
         }
+    }
+
+    private Vector3 GetHorizontalMoveDirection(Vector2 input)
+    {
+        if (input.LengthSquared() <= 0.001f)
+        {
+            return Vector3.Zero;
+        }
+
+        var basis = GlobalTransform.Basis;
+        // Body yaw forward: -Z in Godot. Flatten so pitch does not affect movement.
+        var forward = -basis.Z;
+        var right = basis.X;
+        forward.Y = 0.0f;
+        right.Y = 0.0f;
+
+        if (forward.LengthSquared() > 0.0001f)
+        {
+            forward = forward.Normalized();
+        }
+
+        if (right.LengthSquared() > 0.0001f)
+        {
+            right = right.Normalized();
+        }
+
+        var direction = forward * input.Y + right * input.X;
+        return direction.LengthSquared() > 0.001f ? direction.Normalized() : Vector3.Zero;
     }
 
     private void ApplyGravityOnly(double delta)
