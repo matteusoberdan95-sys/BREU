@@ -1,9 +1,9 @@
 # Baseline — Segundo andar blockout 01
 
-**Versão:** 2.0 (rebuild limpo)  
+**Versão:** 2.1 (hotfix vedação)  
 **Sprint:** 10  
 **Data:** 2026-07-11  
-**Status:** Rebuild aplicado — playtest F6 pendente  
+**Status:** Hotfix 2 aplicado — playtest F6 pendente  
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Builder:** `PensaoVerticalBlockout01Builder.cs`
 
@@ -18,6 +18,8 @@
 3. **Abertura só na escada** — vão de `6,0 × 8,5 m` @ (-4,1, -27,4) para a escada passar; resto coberto por laje visual.
 4. **Corredor superior no eixo do térreo** — x = 0, largura 2,4 m (igual corredor térreo).
 5. **Raycast respeita parede** — `PlayerInteractionRaycast` com oclusão world-only.
+6. **Todo vão vertical precisa de guarda-corpo** — barreira 1,0–1,2 m com colisão; saída da escada permanece livre.
+7. **Teto/telhado** — sprint futura; laje superior funciona como cobertura visual básica.
 
 ---
 
@@ -29,7 +31,8 @@ Escada (x≈-4,1) → UpperLanding_Main → UpperCorridor_Main (x=0) → Room201
 
 | Área | Descrição |
 |------|-----------|
-| **Floor_Second_Main** | Laje segmentada proporcional ao térreo — cobertura visual sobre interior |
+| **Floor_Second_Main** | Laje segmentada proporcional ao térreo — único buraco = vão da escada |
+| **Stairwell_Rail_*** | Guarda-corpos 1,1 m ao redor do vão — colisão, saída sul livre |
 | **UpperLanding_Main** | Patamar 3,5 × 3,5 m @ saída da rampa — livre para +Z |
 | **UpperCorridor_Main** | Corredor 2,4 m, x = 0, z = -20 a -7,5 |
 | **Room201** | Oeste (espelha quarto 102) — cama placeholder |
@@ -74,20 +77,17 @@ Encaixe superior:
 
 ```
 PensionSecondFloor/
-  Floor_Second_Main_South
-  Floor_Second_Main_NorthEast
-  Floor_Second_Main_NorthCap
-  UpperLanding_Main
-  UpperLanding_StairBridge
-  UpperLanding_CorridorBridge
+  Floor_Second_Main_South / NorthEast / NorthCap / NorthBridge / WestEdge / EastEdge
+  UpperLanding_Main (+ StairBridge + CorridorBridge)
   UpperCorridor_Main
+  Stairwell_Rail_Left / Right / Back / Front_Side_West / Front_Side_East
   Wall_UpperCorridor_Left / Right
-  Wall_Room201_*
-  Wall_Room202_*
+  Wall_Second_SouthFlank_West / East
+  Wall_Second_CorridorNorthCap
+  Wall_Room201_* / Wall_Room202_*
   Wall_UpperBlockedDoor_*
   Wall_Second_Front / Back / Left / Right
-  Furniture_Room201_Bed
-  Furniture_Room202_Cabinet
+  Furniture_Room201_Bed / Room202_Cabinet
 ```
 
 ---

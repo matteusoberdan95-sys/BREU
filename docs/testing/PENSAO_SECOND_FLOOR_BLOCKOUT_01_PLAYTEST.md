@@ -11,7 +11,56 @@
 
 ## Status
 
-**Rebuild Sprint 10 aplicado (2026-07-11).** Segundo andar anterior removido e reconstruído. Validar com F6 antes de marcar sprint como aprovada.
+**Hotfix 2 Sprint 10 aplicado (2026-07-11).** Vedação do segundo andar + guarda-corpos da escada. Validar com F6 antes de marcar sprint como aprovada.
+
+---
+
+## Sprint 10 Hotfix 2 — Second Floor Sealing and Stairwell Guardrail
+
+### Vãos / problemas encontrados
+
+1. Laje segmentada com fresta entre `Floor_Second_Main_NorthEast` e `NorthCap` (≈ 1,45 m).
+2. Vão da escada sem proteção — player via buraco aberto para o térreo.
+3. Paredes externas superiores estendiam-se além da laje (sobre varanda), parecendo soltas.
+4. Laterais sul e norte do corredor superior sem fechamento completo.
+
+### Correções aplicadas
+
+- **Laje contínua:** `NorthBridge`, faixas `WestEdge`/`EastEdge`, `NorthWestCap`; sul estendido até parede frontal (z = -5,8).
+- **Guarda-corpos:** `Stairwell_Rail_Left/Right/Back/Front_Side_West/Front_Side_East` (1,1 m, colisão); saída sul da escada livre (~3,1 m).
+- **Vedação interna:** `Wall_Second_SouthFlank_West/East`, `Wall_Second_CorridorNorthCap` (vão para acesso da escada).
+- **Shell ajustado:** `Wall_Second_Left/Right` limitadas à profundidade real da laje superior.
+
+### Checklist final (F6)
+
+**Segundo andar**
+
+- [ ] Player sobe a escada
+- [ ] Player chega ao segundo andar
+- [ ] Player não bate em parede no topo
+- [ ] Vão da escada está protegido
+- [ ] Player não cai pelo vão da escada
+- [ ] Player anda no corredor superior
+- [ ] Player entra no Room201
+- [ ] Interação Room201 funciona
+- [ ] Player entra no Room202
+- [ ] Interação Room202 funciona
+- [ ] Player chega na porta bloqueada superior
+- [ ] Porta bloqueada superior funciona
+- [ ] Player desce a escada
+- [ ] Piso superior parece contínuo
+- [ ] Não há buracos grandes além do vão da escada
+- [ ] Paredes superiores fecham melhor a leitura
+- [ ] Não há limbo grande visível
+
+**Regressão**
+
+- [ ] Térreo continua funcionando
+- [ ] Puzzle do depósito continua funcionando
+- [ ] HUD continua funcionando
+- [ ] Movimento continua aprovado
+- [ ] Interações não quebraram
+- [ ] Player não atravessa paredes principais
 
 ---
 
