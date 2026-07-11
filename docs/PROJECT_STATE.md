@@ -1,8 +1,14 @@
 # BREU - Estado do projeto
 
-Ultima atualizacao: 2026-07-10
+Ultima atualizacao: 2026-07-11
 
 ## Resumo rapido
+
+Sprint M.3.1 consolidou a nova Pensao Santa Luzia como base oficial independente. A cena usa diretamente o novo GLB, colisoes manuais e Player/HUD existentes. A cena integrada antiga, GLB antigo e scripts-remendo foram arquivados em `_archive/old_pensao_attempts/`. O projeto continua iniciando em `TrailIntro.tscn`; a vertical slice oficial abre isoladamente por F6.
+
+A expansao M.3 adicionou `PensaoSantaLuziaVerticalSlice.tscn` como cena derivada segura. A primeira tentativa de sobrepor um segundo andar ao interior importado foi rejeitada no playtest por escada sobre o deposito, bloqueios e frestas. A cena agora oculta 65 partes da edificacao antiga e constroi uma mansao blockout unica de 14 x 20 m, fechada, com dois andares, escada separada, nove interacoes, puzzle do fusivel e marcador do inimigo futuro. Build, execucao headless, puzzle e rotas horizontais passaram; a subida da rampa ainda precisa de F6.
+
+Sprint M.3 reverteu a correcao visual ruim da M.2 em `PensaoSantaLuziaIntegratedTest.tscn`. A cena voltou a usar o GLB visual anterior, sem taludes gerados, e manteve somente colisoes manuais simples em `StaticGameplayCollisions`. Fog cards e o texto 3D da oferta ficam ocultos no Godot; a oferta usa um unico `Label3D`. TrailIntro, DemoRoom, RitualRoom e cenas antigas permanecem inalteradas.
 
 O fluxo inicial jogavel agora e:
 
@@ -108,6 +114,7 @@ Historico: `docs/SPRINT_HISTORY.md`.
 | Fachada isolada/teste | `scenes/levels/house_exterior/HouseExterior.tscn` |
 | Demo / Fase 1 | `scenes/levels/demo_room/DemoRoom.tscn` |
 | Sala dos Santos Secos | `scenes/levels/ritual_room/RitualRoom.tscn` |
+| Pensao Santa Luzia oficial | `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn` |
 
 ## Fora de escopo ainda
 
@@ -122,6 +129,10 @@ Historico: `docs/SPRINT_HISTORY.md`.
 
 ## Verificacao
 
+- Sprint M.3.1: build 0 erros/0 avisos; `PENSAO_M31_OK` confirmou puzzle, rotas horizontais e ausencia de legado runtime (2026-07-11).
+- Sprint M.3.1: cena oficial, TrailIntro, DemoRoom e RitualRoom executaram em headless; warnings preexistentes de cleanup/navmesh permanecem nas cenas antigas.
+- Sprint M.3: `dotnet build BREU.sln` - 0 erros/0 avisos (2026-07-11).
+- Sprint M.3: visual anterior restaurado; cena validada/instanciada e executada em headless. Playtest manual F6 continua pendente.
 - `dotnet build BREU.sln` - 0 erros (2026-07-10).
 - Godot headless abriu o projeto com `PlayerBodyMotion` e importou os audios de respiracao; avisos de limpeza no exit continuam aparecendo no headless (2026-07-10).
 - Sprint K: `dotnet build BREU.sln` - 0 erros (2026-07-10).

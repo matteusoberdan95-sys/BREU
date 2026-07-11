@@ -2,7 +2,59 @@
 
 Registro cronologico das sprints e alteracoes relevantes do projeto.
 
-Ultima atualizacao: 2026-07-10
+Ultima atualizacao: 2026-07-11
+
+## Sprint M.3.1 - Consolidacao da Pensao Vertical Slice
+
+**Data:** 2026-07-11 | **Status:** consolidacao tecnica concluida; subida manual da rampa pendente
+
+- Branch de backup criada antes da limpeza.
+- GLB valido recebido consolidado como asset oficial.
+- `.blend` oficial reconstruido e organizado; fonte externa vazia arquivada.
+- Nova cena Godot independente, sem instancia da cena integrada antiga.
+- Colisoes manuais para exterior, pisos, paredes, deposito, rampa, guarda-corpo e limites.
+- Cena/GLB/scripts/tools antigos movidos para `_archive/old_pensao_attempts/`.
+- Puzzle e rotas horizontais aprovados pelo validador automatizado.
+
+## Sprint M.3 - Pensao Santa Luzia: Expansao + Vertical Slice
+
+**Data:** 2026-07-11 | **Status:** base implementada; playtest manual pendente
+
+- Nova cena derivada sem sobrescrever a cena integrada estabilizada.
+- Tentativa inicial de sobrepor a expansao ao interior importado rejeitada apos playtest visual.
+- Edificacao importada ocultada na vertical slice e substituida por mansao blockout coerente de 14 x 20 m.
+- Terreo com recepcao, Quarto 102, cozinha, deposito e escada em setores separados.
+- Fundo fechado e segundo andar com corredor, gerente, banheiro, quarto trancado e vao de escada.
+- Puzzle do fusivel e eventos de tensao implementados com estado local.
+- Nove interacoes novas integradas ao HUD existente.
+- Validador confirma coleta, desbloqueio e rotas horizontais com a capsula real do Player.
+- Nenhum inimigo, Blender ou arte final entrou nesta sprint.
+
+## Sprint M.3 - Rollback tecnico e estabilizacao da Pensao
+
+**Data:** 2026-07-11 | **Status:** rollback tecnico concluido; playtest manual pendente
+
+- Removido o GLB reexportado na M.2 e restaurado o GLB visual anterior, sem nova geometria ou alteracao no Blender.
+- Removidos `cliff_left_slope_m02` e `cliff_right_slope_m02`; barrancos, props e vegetacao anteriores voltaram.
+- Seis fog cards e o texto 3D da oferta ficam ocultos na cena Godot.
+- Apenas a oferta usa `Label3D`; os quatro labels extras da M.2 foram removidos.
+- Colisoes reorganizadas em `StaticGameplayCollisions`, sem colisao automatica no GLB ou em props pequenos.
+- Build e validacao headless passaram; percurso manual F6 continua obrigatorio.
+
+## Sprint M.2 - Correcao da importacao e navegabilidade da Pensao (revertida)
+
+**Data:** 2026-07-11 | **Status:** revertida pela Sprint M.3 por regressao visual e de jogabilidade
+
+### Entregas
+
+- Export direto do `.blend` original para o GLB integrado.
+- `cliff_left_main`, `cliff_right_main`, chunks e detalhes dependentes do topo plano substituidos por dois taludes segmentados, inclinados e irregulares.
+- Textos 3D importantes removidos do GLB e recriados com `Label3D` na cena Godot.
+- Fog cards, cameras, luzes e guides excluidos da exportacao.
+- Colisoes laterais reposicionadas e inclinadas; piso, entrada, corredor, deposito e rampa permanecem manuais.
+- Validador ampliado para exigir nos de gameplay, taludes novos e ausencia dos objetos proibidos.
+- `dotnet build`: 0 erros/0 avisos; importacao, instancia e execucao headless passaram.
+- Pendente: confirmar visual e percurso completo em primeira pessoa com F6.
 
 ## Sprint 0 - Fundacao da vertical slice
 
@@ -535,3 +587,12 @@ TrailIntro/DemoRoom/RitualRoom -> cenas visiveis e jogaveis -> VisualLookdevRoom
 3. Fazer auditoria dos nomes atuais contra o padrao canonico de audio.
 4. Criar/editar pack realista v02 para ambience, player, portas, radio, interacoes, martelo e Hospede Seco.
 5. Validar escala/orientacao do Hospede Seco no editor.
+# 2026-07-11 — Sprint M.1: Pensao Santa Luzia integrada
+
+- Criada cena isolada de validacao com trilha, varanda, recepcao e corredor sem troca de cena.
+- Reexportado automaticamente o GLB recebido, removendo `fog_*` e `GUIDE_*`; o `.blend` original nao estava disponivel.
+- Reutilizados Player, HUD, lanterna, stamina, combate e depth fog existentes.
+- Adicionadas colisoes auxiliares, rampa de escada, bloqueio do segundo andar, luzes Godot e cinco interacoes placeholder.
+- `dotnet build BREU.sln`: 0 erros e 0 avisos.
+- Editor headless importou o GLB; a cena carregou, instanciou e executou por cinco segundos sem erros. Playtest de percurso ainda exige F6 manual.
+- Regressao headless: `TrailIntro`, `DemoRoom` e `RitualRoom` iniciaram com exit code 0; permaneceram apenas avisos preexistentes de cleanup/navmesh.

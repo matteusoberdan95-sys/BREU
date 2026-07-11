@@ -37,6 +37,34 @@ Ao encerrar trabalho tecnico, atualize esses mesmos arquivos se o estado do proj
 
 ## Sistemas atuais
 
+### Cena integrada da Pensao (Sprint M.1)
+
+`PensaoSantaLuziaIntegratedTest.tscn` e uma cena de validacao isolada que instancia o GLB integrado como visual e mantem gameplay em nos auxiliares Godot. Ela reutiliza `Player.tscn`, HUD, dano/morte, stamina, lanterna e combate sem alterar esses sistemas. As colisoes robustas, luzes, depth fog e interacoes placeholder ficam fora do asset importado. A porta principal e uma passagem fisica na mesma cena; nao existe trigger de loading ou teleport. O segundo andar termina em bloqueio temporario sobre uma rampa invisivel de escada.
+
+### Correcao da importacao da Pensao (Sprint M.2)
+
+O pipeline `tools/blender/export_pensao_santa_luzia.py` abre o `.blend` original, substitui barrancos verticais por duas malhas de talude reproduziveis e exporta somente o visual. Textos de sinalizacao, fog cards, cameras, lights e guides nao entram no GLB. A sinalizacao importante pertence a `WorldLabels` na cena Godot e usa `Label3D`; fisica continua exclusivamente em `StaticCollision`. Essa separacao evita colisao automatica em props e permite ajustar navegabilidade sem editar a malha importada.
+
+> Decisao revertida na Sprint M.3: o pipeline nao gera mais taludes e o GLB produzido na M.2 foi removido.
+
+### Rollback e estabilizacao da Pensao (Sprint M.3)
+
+A cena integrada referencia novamente o GLB visual anterior. O asset importado nao possui colisao automatica de gameplay; toda fisica fica em `StaticGameplayCollisions` com caixas grandes e previsiveis. Fog cards e o texto 3D da oferta sao ocultos por overrides da instancia. Somente a oferta recebe `Label3D`. Nao ha CSG, terrain patch, HeightFix adicional ou geometria gerada nesta arquitetura.
+
+### Pensao Vertical Slice expandida
+
+`PensaoSantaLuziaVerticalSlice.tscn` deriva visualmente da cena integrada estabilizada sem sobrescreve-la. A expansao do segundo andar usa blockout Godot editavel, com meshes visuais simples separados de `StaticGameplayCollisions`. `PensaoVerticalSliceController` guarda apenas o estado temporario desta cena (`HasFuse`, `DepositUnlocked`, `UpstairsUnlocked`) e `VerticalSliceInteractable` encaminha as interacoes existentes por `IInteractable`. O puzzle pode desativar blockers e alterar luzes, mas nao modifica Player, HUD, stamina, combate, inventario global ou cenas antigas.
+
+### Correcao arquitetural da vertical slice
+
+O interior importado nao e uma base confiavel para expansao: escada, deposito, paredes e fundo possuem sobreposicoes e lacunas. Na cena vertical slice, `PensaoVerticalSliceVisualFilter` oculta toda a edificacao antiga importada, preservando trilha, terreno, placa e ambiente externo. `PensaoMansionBlockoutBuilder` cria uma unica mansao coerente em blockout, com shell fechado, pavimentos, divisorias, vao de escada e colisoes manuais correspondentes. A cena integrada antiga permanece intacta. Testes estruturais nao substituem mais o playtest de percurso; navegabilidade so pode ser marcada como aprovada apos F6 com o Player real.
+
+> Arquitetura substituida na Sprint M.3.1 e movida para `_archive/old_pensao_attempts/`.
+
+### Pensao oficial consolidada (Sprint M.3.1)
+
+`PensaoSantaLuziaVerticalSlice.tscn` e agora uma cena raiz independente. Ela instancia exclusivamente `pensao_santa_luzia_vertical_slice_v01.glb` em `Visual`, instancia Player/HUD existentes e declara colisoes grandes em `StaticGameplayCollisions`. Nao existe dependencia de `PensaoSantaLuziaIntegratedTest`, filtro de nomes ou builder de mansao em runtime. O `.blend` oficial foi reconstruido do GLB valido recebido porque o `.blend` externo indicado continha apenas o cubo padrao; o exportador reproduzivel organiza collections e remove guides/cameras/lights.
+
 ### Player
 
 `PlayerController` controla deslocamento fisico com `CharacterBody3D`, usando WASD, sprint simples, gravidade e `MoveAndSlide`. `PlayerLook` controla yaw do corpo e pitch do `CameraPivot`, captura o mouse ao iniciar, libera com `pause`/Esc e recaptura com clique esquerdo. O player e adicionado ao grupo `player`.

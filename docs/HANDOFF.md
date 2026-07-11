@@ -1,6 +1,6 @@
 # BREU - Handoff
 
-Ultima atualizacao: 2026-07-10
+Ultima atualizacao: 2026-07-11
 
 ## Retomar
 
@@ -11,6 +11,77 @@ Ultima atualizacao: 2026-07-10
 5. Para direcao macro, ler `docs/design/GAME_VISION.md` e `docs/production/PHASE_01_02_SPRINT_PLAN.md`.
 
 ## Ultimas entregas
+
+### Sprint M.3.1 - Consolidacao e limpeza da Pensao
+
+- Branch de checkpoint: `codex/cleanup/pensao-vertical-slice-m31`.
+- Cena oficial independente: `PensaoSantaLuziaVerticalSlice.tscn`.
+- GLB oficial: `assets/models/levels/pensao_santa_luzia/pensao_santa_luzia_vertical_slice_v01.glb`.
+- `.blend` oficial reconstruido do GLB valido e organizado em nove collections visuais.
+- O `.blend` externo indicado tinha apenas cubo/camera/luz e foi arquivado como fonte invalida.
+- Oito guides foram removidos do GLB oficial.
+- Cena integrada antiga, GLB antigo, builder, filtro visual e ferramentas antigas foram arquivados.
+- O caminho antigo `PensaoSantaLuziaIntegratedTest.tscn` existe apenas como wrapper para a cena oficial, evitando abas/favoritos quebrados no editor.
+- TrailIntro, HouseExterior, DemoRoom, RitualRoom, Player, HUD, combate e inimigos foram mantidos.
+- Validador M.3.1 confirma ausencia de legado, puzzle e rotas horizontais; rampa ainda requer F6 manual.
+
+Como testar: abrir `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn` e pressionar F6.
+
+### Sprint M.3 - Pensao Vertical Slice expandida
+
+- Nova cena: `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn`.
+- A cena estabilizada anterior continua intacta e e instanciada como `Base`.
+- A primeira sobreposicao sobre o interior importado falhou no playtest e foi removida.
+- `PensaoVerticalSliceVisualFilter` oculta 65 partes da pensao importada quebrada, preservando trilha/exterior.
+- `PensaoMansionBlockoutBuilder` cria uma mansao unica de 14 x 20 m com fundo fechado, dois pisos e escada em ala propria.
+- Segundo andar: corredor, vao da escada, guarda-corpo, gerente, banheiro e quarto trancado.
+- Puzzle local: bilhete -> fusivel na cozinha -> deposito -> liberacao da escada/luz superior.
+- Nove interacoes novas reutilizam `IInteractable` e o HUD existente.
+- `FutureEnemySpawn` prepara o primeiro encontro sem instanciar inimigo.
+- Build, puzzle e rotas horizontais automatizadas passaram; a subida real da rampa ainda esta pendente em F6.
+
+Como testar: abrir a nova cena e usar F6. Seguir `docs/testing/PENSAO_SANTA_LUZIA_VERTICAL_SLICE_PLAYTEST.md`.
+
+### Sprint M.3 - Rollback tecnico da Pensao integrada
+
+- A M.2 foi revertida porque os taludes novos criaram cortes e objetos visualmente inconsistentes.
+- A cena voltou ao GLB anterior em `assets/blender_exports/trail_intro_pensao_integrada_v01/`.
+- O GLB ruim reexportado em `assets/models/levels/pensao_santa_luzia/` foi removido.
+- Nenhum arquivo Blender foi aberto, alterado ou reexportado nesta sprint.
+- `StaticGameplayCollisions` contem apenas colisoes grandes; GLB e props pequenos continuam somente visuais.
+- Fog cards e texto 3D da oferta ficam ocultos; um `Label3D` corrige apenas a oferta.
+- Build e validacao headless passaram. Ainda falta confirmar o percurso real com F6.
+
+Como testar: abrir `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaIntegratedTest.tscn`, pressionar F6 e caminhar em linha central ate a porta, recepcao e corredor.
+
+### Sprint M.2 - Correcao da Pensao integrada
+
+> Revertida pela Sprint M.3. As notas abaixo ficam apenas como historico da tentativa.
+
+- O `.blend` original foi localizado em `C:\Users\mober\OneDrive\Desktop\quarto-07\trail_intro_pensao_integrada_v01.blend` e usado diretamente na exportacao.
+- O arquivo fonte externo nao foi sobrescrito; o patch reproduzivel fica em `tools/blender/export_pensao_santa_luzia.py`.
+- Barrancos em bloco e detalhes apoiados no topo plano foram trocados por `cliff_left_slope_m02` e `cliff_right_slope_m02`.
+- Textos de oferta, fachada, recepcao, deposito e Quarto 102 foram retirados do GLB e refeitos como `Label3D`.
+- Colisoes continuam manuais e separadas do visual; limites laterais agora acompanham melhor a inclinacao do talude.
+- Porta principal permanece livre, corredor tem colisoes simples, deposito bloqueado e escada usa rampa invisivel com bloqueio no topo.
+- Build, importacao, validador estrutural e execucao headless por 300 frames passaram.
+- Pendente obrigatoria: percorrer com F6 da trilha ao terreo e confirmar visual/posicao das placas e da rampa em primeira pessoa.
+
+Como testar: abrir `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaIntegratedTest.tscn`, usar F6 e seguir `docs/testing/PENSAO_SANTA_LUZIA_PLAYTEST.md`.
+
+### Sprint M.1 - Pensao Santa Luzia integrada
+
+- Nova cena segura: `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaIntegratedTest.tscn`; nenhuma cena antiga foi sobrescrita.
+- Caminho continuo: trilha -> porteira -> varanda -> porta aberta -> recepcao -> corredor, sem loading/teleport.
+- GLB filtrado automaticamente a partir do GLB recebido. O `.blend` original nao foi encontrado.
+- World_Fog/fog cards e guides removidos; luzes e cameras ficam no Godot.
+- Colisoes auxiliares cobrem piso, barrancos, varanda, paredes, balcao, deposito, escada e limites.
+- Escada usa rampa invisivel e bloqueio temporario no topo.
+- Cinco interacoes usam `MessageInteractable` e o HUD existente.
+- Build: 0 erros/0 avisos. Importacao, carregamento, instancia e execucao headless por cinco segundos passaram; o playtest de percurso com F6 segue pendente.
+- Regressao: TrailIntro, DemoRoom e RitualRoom iniciaram em headless com exit code 0. Avisos preexistentes de cleanup/navmesh continuam registrados.
+
+Como testar: abrir a cena integrada e usar F6. Validar `docs/testing/PENSAO_SANTA_LUZIA_PLAYTEST.md`, principalmente porta, rampa, neblina e visibilidade interna.
 
 ### Sprint K - Direcao Visual e Pipeline Grafico
 

@@ -2,6 +2,92 @@
 
 Este documento organiza as sprints de producao para consolidar a Fase 1 e construir a Fase 2.
 
+## Sprint M.3.1 - Consolidacao da Pensao Santa Luzia Vertical Slice
+
+**Status:** consolidacao tecnica concluida; playtest manual da rampa pendente.
+
+- Cena oficial: `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn`.
+- Blender oficial: `assets/blender/trail_intro_pensao_vertical_slice_v01.blend`.
+- GLB oficial: `assets/models/levels/pensao_santa_luzia/pensao_santa_luzia_vertical_slice_v01.glb`.
+- Exportador: `tools/blender/export_pensao_vertical_slice.py`.
+- Oito guides removidos; nenhuma camera/luz importada; nenhuma colisao automatica geral.
+- Colisoes: exterior, caminho, varanda, dois pisos, paredes, balcao, deposito, rampa, guarda-corpo e bounds.
+- Segundo andar e quarto do gerente presentes; duas partitions sem abertura foram ocultadas na instancia para navegacao.
+- Legado arquivado em `_archive/old_pensao_attempts/` com README e `.gdignore`.
+- Mantidos: TrailIntro, HouseExterior, DemoRoom, RitualRoom, Player/HUD, combate, inimigos e fog aprovado.
+- Pendente: subir a rampa com o Player real em F6 e ajustar inclinacao/altura se necessario.
+
+---
+
+## Sprint M.3 - Pensao Santa Luzia: Expansao + Vertical Slice
+
+**Status:** base implementada e validada estruturalmente; playtest manual de navegacao pendente.
+
+### Objetivo
+
+Transformar a Pensao integrada em uma rota de exploracao de 15 a 20 minutos sem loading: trilha, recepcao, Quarto 102, cozinha, deposito, escada, corredor superior e quarto do gerente.
+
+### Layout
+
+- A sobreposicao inicial sobre o interior importado foi descartada por regressao visual e de navegacao.
+- A vertical slice preserva somente trilha/exterior e oculta a edificacao antiga importada.
+- Terreo: mansao blockout de 14 x 20 m, fundo fechado, recepcao, corredor central, Quarto 102, cozinha, deposito e caixa de escada separada.
+- Segundo andar: piso dividido ao redor do vao da escada, corredor, guarda-corpo, quarto do gerente, banheiro e quarto trancado.
+- Areas ainda sem conteudo ficam claramente bloqueadas; nenhum prop pequeno recebe colisao.
+
+### Puzzle e interacoes
+
+- Bilhete do Quarto 102 aponta para o fusivel na cozinha.
+- Fusivel altera `HasFuse` e dispara mensagem de tensao.
+- Deposito consome o estado do fusivel, altera `DepositUnlocked`/`UpstairsUnlocked`, remove blockers e reforca a luz superior.
+- Livro, Quarto 102, corredor superior, banheiro, quarto trancado e documentos do gerente usam o sistema `IInteractable` existente.
+
+### Navegacao e pendencias
+
+- [x] Cena antiga preservada.
+- [x] Nova cena derivada criada.
+- [x] Colisoes manuais separadas do visual.
+- [x] Puzzle validado automaticamente.
+- [x] Vao da escada presente no piso superior.
+- [x] Rotas horizontais validadas com `CharacterBody3D.test_move`.
+- [ ] Validar rota completa em primeira pessoa com F6.
+- [ ] Ajustar rampa/divisorias com base no playtest.
+- [ ] Somente depois iniciar texturas e modelagem proxima da final.
+
+---
+
+## Sprint M.2 - Correcao de importacao, colisao e navegabilidade da Pensao Santa Luzia
+
+**Status:** revertida pela Sprint M.3 devido a regressao visual e de jogabilidade.
+
+### Entregas
+
+- [x] Reexportar o GLB diretamente do `.blend` original.
+- [x] Substituir barrancos verticais por taludes inclinados e irregulares.
+- [x] Remover textos 3D importantes, fog cards, cameras, luzes e guides do GLB.
+- [x] Recriar oferta, fachada e sinalizacao interna com `Label3D`.
+- [x] Manter colisao manual separada do visual importado.
+- [x] Preservar entrada aberta, recepcao, corredor, deposito bloqueado e rampa da escada.
+- [x] Validar build, importacao, estrutura da cena e execucao headless.
+- [ ] Validar manualmente o percurso completo em primeira pessoa com F6.
+
+---
+
+## Sprint M.3 - Rollback tecnico e estabilizacao da Pensao Santa Luzia
+
+**Status:** rollback tecnico concluido; playtest manual pendente.
+
+- [x] Voltar ao GLB visual anterior sem alterar Blender.
+- [x] Remover taludes e GLB reexportado da M.2.
+- [x] Ocultar fog cards e texto 3D ruim no Godot.
+- [x] Manter apenas o `Label3D` da oferta.
+- [x] Organizar colisoes grandes em `StaticGameplayCollisions`.
+- [x] Preservar porta e corredor com largura superior a 1,4 m.
+- [x] Validar build e estrutura da cena.
+- [ ] Percorrer trilha -> recepcao -> corredor manualmente com F6.
+
+---
+
 ## Sprint A - Consolidar Quarto 07
 
 **Status:** base jogavel concluida; ajustes finos continuam.
@@ -682,3 +768,16 @@ Sprint A -> Sprint B -> Sprint C -> Sprint D -> Sprint E -> Sprint F -> Sprint G
 - `docs/audio/AUDIO_ASSET_REGISTRY.md`
 - `docs/SPRINT_HISTORY.md`
 - `docs/gameplay/NEXT_SPRINT_TASKS.md`
+# Sprint M.1 — Pensão Santa Luzia Integrada no Godot
+
+- Arquivo fonte recebido: `assets/blender_exports/trail_intro_pensao_integrada_v01/trail_intro_pensao_integrada_v01.glb`. O `.blend` citado no briefing nao estava presente.
+- GLB exportado automaticamente: `assets/models/levels/pensao_santa_luzia/pensao_santa_luzia_integrated_v01.glb`.
+- Cena Godot: `scenes/levels/pensao_santa_luzia/PensaoSantaLuziaIntegratedTest.tscn`.
+- Importado: geometria de terreno, caminho, barrancos, cerca, exterior e interior da pensao, props, vegetacao e background.
+- Excluido: `World_Fog`, `World_Cameras`, `World_Lights`, `World_Guides`; no fallback GLB, foram removidos seis objetos `fog_*` e dois `GUIDE_*`. Cameras e lights nao estavam presentes no GLB recebido.
+- Exterior: integrado da trilha ate a varanda, com porta principal livre.
+- Interior: recepcao, corredor, deposito, Quarto 102 e cozinha no mesmo level.
+- Colisao: pass robusto para base, barrancos, varanda, piso interno, paredes principais, balcao, deposito e limites.
+- Escada: rampa invisivel e barreira temporaria no topo. TODO: Segundo andar sera implementado em sprint futura.
+- Neblina: Environment e depth fog aprovados da TrailIntro; sem FogVolume, fog cards ou particulas.
+- Pendencias: playtest manual F6, ajuste fino de colisao/iluminacao e novo export direto do `.blend` quando disponivel.

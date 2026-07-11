@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn" id="1_official"]
+
+[node name="PensaoSantaLuziaIntegratedTest" type="Node3D"]
+editor_description = "Compatibilidade M.3.1: este caminho antigo abre exclusivamente a Vertical Slice oficial. Nao contem a casa antiga."
+
+[node name="OfficialVerticalSlice" parent="." instance=ExtResource("1_official")]

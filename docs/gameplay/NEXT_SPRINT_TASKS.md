@@ -1,10 +1,18 @@
 # BREU - Proximas tarefas
 
-Ultima atualizacao: 2026-07-10
+Ultima atualizacao: 2026-07-11
 
 Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 
 ## Concluido
+
+- [x] Sprint M.3.1 - cena oficial independente, Blender/GLB oficiais, colisoes manuais e legado da Pensao arquivado.
+
+- [x] Base da Sprint M.3 Vertical Slice: cena derivada, terreo aberto, segundo andar blockout, puzzle do fusivel, interacoes e marcador de inimigo futuro.
+
+- [x] Sprint M.1 - cena isolada da Pensao Santa Luzia integrada, com percurso trilha -> varanda -> recepcao -> corredor sem loading, colisoes auxiliares, luzes, depth fog e interacoes placeholder.
+- [x] Sprint M.2 - export direto do `.blend`, taludes inclinados, textos importantes em `Label3D`, GLB sem fog cards e validacao estrutural/headless.
+- [x] Sprint M.3 - rollback dos taludes M.2, retorno ao GLB visual anterior e colisoes manuais simples em `StaticGameplayCollisions`.
 
 - [x] Sprint A - porta final, interacao, fade, `RitualRoom` placeholder.
 - [x] Passos por superficie.
@@ -138,3 +146,13 @@ Plano detalhado: `docs/production/PHASE_01_02_SPRINT_PLAN.md`
 - Combate completo com combos/animacoes finais.
 - Navmesh avancado.
 - Multiplos inimigos.
+
+## Proxima validacao - Sprint M.3
+
+- [ ] Playtest manual no editor com F6 da cena integrada.
+- [ ] Percorrer `PensaoSantaLuziaVerticalSlice.tscn`: trilha -> Quarto 102 -> cozinha -> deposito -> escada -> gerente.
+- [ ] Ajustar rampa e divisorias superiores conforme o teste real do controller.
+- [ ] Testar a rampa da cena oficial M.3.1 com F6 e ajustar apenas `StairRampCollision` se necessario.
+- [ ] Confirmar em primeira pessoa o visual anterior, a placa de oferta, porta, recepcao, corredor e rampa.
+- [ ] Ajustar colisao fina da varanda, porta e rampa somente apos o playtest.
+- [ ] Liberar e produzir o segundo andar em sprint futura.
