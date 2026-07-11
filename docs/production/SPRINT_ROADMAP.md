@@ -36,6 +36,8 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 01 — Fundação mínima Godot
 
+**Status:** ✅ Concluída (2026-07-11)
+
 **Objetivo:** Projeto Godot 4.7 + C# abre e roda sem erro.
 
 **Entregas:**
@@ -50,18 +52,18 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 02 — Player Controller limpo
 
+**Status:** ✅ Concluída (2026-07-11)
+
 **Objetivo:** Movimentação FPS confiável.
 
 **Entregas:**
-- `scenes/player/Player.tscn` + `PlayerController.cs`.
-- WASD, mouse look, `CharacterBody3D` + capsule.
-- Sprint (sem stamina complexa ainda).
-- Agachar simples.
-- Cena de teste: `scenes/test/PlayerSandbox.tscn`.
+- `scenes/player/Player.tscn` + scripts modulares.
+- WASD, mouse look, sprint + stamina, agachar, lanterna base.
+- Cena de teste: `scenes/test/PlayerMovementLab.tscn`.
 
-**Não fazer:** combate, inimigos, lanterna complexa.
+**Não fazer:** combate, inimigos, lanterna complexa, pensão.
 
-**DoD:** Sandbox navegável 60s sem travar; câmera livre.
+**DoD:** Lab navegável; `dotnet build` OK; checklist em `PLAYER_MOVEMENT_LAB_PLAYTEST.md`.
 
 ---
 

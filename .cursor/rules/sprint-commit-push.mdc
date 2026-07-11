@@ -1,0 +1,57 @@
+---
+description: Ao concluir uma sprint, commitar e dar push automaticamente
+alwaysApply: true
+---
+
+# BREU — Commit e push ao concluir sprint
+
+Quando uma sprint estiver **100% concluída** (DoD atendido, `dotnet build` OK):
+
+1. Atualizar docs obrigatórios (ver `pre-commit-docs.mdc`).
+2. `git add` apenas arquivos da sprint.
+3. `git commit` com **Conventional Commits** (ver `conventional-commits.mdc`).
+4. `git push` para a branch remota atual.
+
+## Prefixos
+
+| Prefixo | Quando usar |
+|---------|-------------|
+| `feat:` | Nova funcionalidade / sprint de gameplay |
+| `fix:` | Correção de bug |
+| `docs:` | Apenas documentação (sprint doc-only) |
+| `refactor:` | Refatoração sem mudar comportamento |
+| `chore:` | Tooling, estrutura, deps |
+
+## Formato
+
+```
+feat: resumo curto no imperativo
+
+Sprint NN — objetivo em uma linha.
+```
+
+## Exemplos
+
+```
+feat: Sprint 01 Godot foundation bootstrap
+
+Sprint 01 — project.godot, csproj, BootstrapEmpty.tscn.
+```
+
+```
+feat: add clean first person player controller
+
+Sprint 02 — Player.tscn, stamina, crouch, PlayerMovementLab.
+```
+
+## Não commitar se
+
+- DoD da sprint falhou.
+- `dotnet build` com erros.
+- Testes obrigatórios da sprint não passaram.
+
+Documentar o bloqueio em `docs/HANDOFF.md` e **não** marcar sprint como concluída.
+
+## Referência completa
+
+`docs/production/SPRINT_COMMIT_POLICY.md`

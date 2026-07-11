@@ -8,3 +8,9 @@ global using Godot;
 // =============================================================================
 global using System;
 global using System.Collections.Generic;
+
+// =============================================================================
+// BREU — Player (Sprint 02+)
+// =============================================================================
+global using BREU.Scripts.Player;
+global using BREU.Scripts.Levels;

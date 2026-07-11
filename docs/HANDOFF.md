@@ -1,56 +1,62 @@
 # BREU — Handoff
 
 **Última atualização:** 2026-07-11  
-**Status:** REBOOT GREENFIELD — Sprint 00 concluída  
+**Status:** REBOOT GREENFIELD — Sprint 02 concluída  
 **Branch:** `reboot/breu-clean-start`
 
 ---
 
 ## Retomar em 60 segundos
 
-1. `docs/production/REBOOT_BASELINE_DECISION.md` — decisão Greenfield
-2. `docs/PROJECT_STATE.md` — estado real
-3. `docs/production/SPRINT_00_AUDIT_REPORT.md` — auditoria
-4. `docs/production/SPRINT_ROADMAP.md` — Sprint 01 em diante
-5. `docs/agents/AGENT_ROLES.md` — papéis dos agentes
+1. `docs/PROJECT_STATE.md`
+2. `docs/testing/PLAYER_MOVEMENT_LAB_PLAYTEST.md`
+3. `docs/production/SPRINT_ROADMAP.md` — Sprint 03
+4. `docs/production/SPRINT_COMMIT_POLICY.md` — commit/push por sprint
 
 ---
 
-## Decisão oficial (2026-07-11)
+## Como testar movimento
 
-**Opção A — Greenfield.** Recomeçar do zero no mesmo repositório. Histórico Git preservado; gameplay antiga **não** será restaurada.
+```bash
+cd BREU
+dotnet build
+```
+
+Godot 4.7 mono → abrir `scenes/test/PlayerMovementLab.tscn` → **F6**.
+
+| Tecla | Ação |
+|-------|------|
+| WASD | Mover |
+| Mouse | Olhar |
+| Shift | Sprint |
+| C / Ctrl | Agachar |
+| F | Lanterna |
+| Esc | Liberar mouse |
 
 ---
 
 ## Estado do disco
 
-- **Sem** `project.godot` — Godot não abre ainda
-- **Sem** gameplay, cenas, scripts ou assets no working tree
-- **Com** documentação de reboot completa em `docs/`
+- Player FPS recriado (`scenes/player/Player.tscn`)
+- Lab de movimento (`scenes/test/PlayerMovementLab.tscn`)
+- Sem pensão, HUD, combate, inimigos
+- Política de commit automático por sprint documentada
 
 ---
 
-## Documentos obsoletos (não usar operacionalmente)
+## Bugs conhecidos
 
-Marcados com banner ⚠️ no topo:
-
-- `docs/production/PHASE_01_02_SPRINT_PLAN.md`
-- `docs/production/CLEANUP_OLD_SCENES.md`
-- `docs/testing/PENSAO_SANTA_LUZIA_VERTICAL_SLICE_PLAYTEST.md`
-- `docs/testing/PLAYTEST_DEMO_ROOM.md`
-- `docs/testing/PLAYTEST_RITUAL_ROOM.md`
-- `docs/gameplay/NEXT_SPRINT_TASKS.md`
+Nenhum bloqueante. Playtest manual F6 recomendado para validar feel.
 
 ---
 
 ## Próxima ação
 
-**Sprint 01 — Fundação Godot mínima** (Technical Director + Build & Repo Hygiene)
+**Sprint 03 — HUD e Debug**
 
-- Recriar `project.godot` e csproj
-- Estrutura de pastas vazia
-- `BootstrapEmpty.tscn`
-- **Não** restaurar cenas antigas
+- HUD: vida, stamina, lanterna (display)
+- `PlaytestDebugSettings`: lanterna infinita, fog reduzida
+- **Não** implementar pensão ainda
 
 ---
 
