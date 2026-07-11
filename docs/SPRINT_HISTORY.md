@@ -49,6 +49,7 @@ Registro cronológico das sprints do reboot greenfield.
 
 **Data:** 2026-07-11  
 **Status:** ✅ Concluída  
+**Commit:** `765c0fb`  
 **Baseline:** `docs/technical/HUD_DEBUG_BASELINE.md`
 
 **Entregas:**
