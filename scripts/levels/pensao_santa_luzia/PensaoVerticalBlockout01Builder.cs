@@ -107,11 +107,13 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         BuildSecondFloor();
         BuildCeilingBlockout();
         BuildUpperSouthRoomPlaceholder();
+        BuildSecondFloorNarrativeReadability();
     }
 
     protected override void BuildExtensionInteractions()
     {
         BuildSecondFloorInteractions();
+        BuildSecondFloorNarrativeInteractions();
     }
 
     private static float SecondFloorCenterY => SecondFloorTopY - FloorThickness * 0.5f;
@@ -711,6 +713,27 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "Tentar abrir porta",
             "Está trancada por dentro.",
             "room_203_locked");
+    }
+
+    private void BuildSecondFloorNarrativeInteractions()
+    {
+        AddInteractableArea(
+            _interactions,
+            "Room201Note",
+            new Vector3(Room201CenterX + 0.8f, SecondFloorTopY + 0.95f, Room201CenterZ - 0.4f),
+            new Vector3(0.35f, 0.2f, 0.28f),
+            "Ler anotação",
+            "Ele bateu na porta três vezes. Depois disso, ninguém dormiu.",
+            "room_201_note");
+
+        AddInteractableArea(
+            _interactions,
+            "Room202Cabinet",
+            new Vector3(Room202CenterX - 0.7f, SecondFloorTopY + 1.1f, Room202CenterZ - 0.6f),
+            new Vector3(0.55f, 1.0f, 0.45f),
+            "Examinar armário",
+            "Algo foi trancado aqui dentro por muito tempo.",
+            "room_202_cabinet");
     }
 
     private void BuildUpperSouthRoomPlaceholder()

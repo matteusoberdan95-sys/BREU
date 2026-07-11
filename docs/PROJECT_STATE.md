@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 13 aprovada  
+**Fase:** REBOOT GREENFIELD — Sprint 14 implementada (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -25,6 +25,7 @@
 | Sprint 12 | **✅ Aprovada** — teto/cobertura blockout |
 | Sprint 12A | **✅ Aprovada** — hotfix fechamento fachada/escada/porta verde |
 | Sprint 13 | **✅ Aprovada** — atmosfera base |
+| Sprint 14 | **🔄 Implementada** — portas/quartos/leitura narrativa (playtest F6 pendente) |
 
 ---
 
@@ -78,26 +79,25 @@
 | 12 Teto blockout | `PENSION_CEILING_BLOCKOUT_BASELINE.md` |
 | 12A Hotfix fechamento | `PENSION_CEILING_HOTFIX_12A.md` |
 | 13 Atmosfera base | `PENSION_ATMOSPHERE_BASELINE.md` |
+| 14 Leitura narrativa | `PENSION_ROOM_READABILITY_BASELINE.md` |
 
 ---
 
-## Sprint 13 — resumo (aprovada)
+## Sprint 14 — resumo (implementada)
 
-Atmosfera inicial de terror na Pensão — **aprovada como base blockout**, não arte final.
+Blockout narrativo — portas/molduras, props simples e interações de texto.
 
-- **Environment:** `Pension_WorldEnvironment` — noite fria, fog suave via `Environment` (density 0.026).
-- **Neblina:** exclusivamente WorldEnvironment — **sem cubos/planos/partículas quadradas**.
-- **Iluminação:** mais assustadora; lanterna com importância real; corredores com profundidade.
-- **Interior:** mais sombrio, navegação preservada.
-- **Debug:** F10/F11 preservados (fog normal / off / debug).
-- **Regressão:** HUD, player, interação, puzzle, escada, 2º andar — OK.
+- **Portas/molduras** em entrada, recepção, quartos, cozinha, depósito, escada, 2º andar.
+- **Props:** balcão, chaves, cama, mala, fogão, prateleiras, caixas, anotação, marcas de arrasto.
+- **Interações** narrativas em recepção, quartos, cozinha, depósito, escada — puzzle **preservado**.
+- **Atmosfera S13, geometria S05–12A, player/HUD/interação** — não alterados.
 
-**Baseline:** `docs/technical/PENSION_ATMOSPHERE_BASELINE.md`  
-**Playtest:** `docs/testing/PENSION_ATMOSPHERE_BASE_PLAYTEST.md`
+**Baseline:** `docs/technical/PENSION_ROOM_READABILITY_BASELINE.md`  
+**Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md`
 
 ---
 
-## Próxima sprint — Sprint 14 (Portas, quartos e leitura narrativa)
+## Próxima sprint — Sprint 15 (Vertical slice da Pensão)
 
 **Objetivo:** Refinar leitura espacial e narrativa dos cômodos — portas, quartos e pistas — sem arte final.
 

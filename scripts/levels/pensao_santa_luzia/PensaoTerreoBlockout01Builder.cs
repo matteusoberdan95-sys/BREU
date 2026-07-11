@@ -56,6 +56,9 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     private StandardMaterial3D _matStairStringer = null!;
     private StandardMaterial3D _matStairUpper = null!;
     private StandardMaterial3D _matStairRail = null!;
+    private StandardMaterial3D _matDoorFrame = null!;
+    protected StandardMaterial3D _matPropWood = null!;
+    protected StandardMaterial3D _matDarkMark = null!;
 
     private Node3D _exterior = null!;
     protected Node3D _interior = null!;
@@ -82,6 +85,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         BuildExteriorBoundaries();
         BuildInteractions();
         BuildExtensionInteractions();
+        BuildNarrativeReadability();
     }
 
     protected virtual void BuildExtensionInteractions()
@@ -112,6 +116,9 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         _matStairStringer = Mat(new Color(0.34f, 0.32f, 0.36f));
         _matStairUpper = Mat(new Color(0.52f, 0.54f, 0.58f));
         _matStairRail = Mat(new Color(0.38f, 0.4f, 0.44f));
+        _matDoorFrame = Mat(new Color(0.28f, 0.2f, 0.14f));
+        _matPropWood = Mat(new Color(0.36f, 0.28f, 0.2f));
+        _matDarkMark = Mat(new Color(0.12f, 0.1f, 0.09f));
     }
 
     private static StandardMaterial3D Mat(Color color)
@@ -776,27 +783,27 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             _interactions,
             "ReceptionBook",
             new Vector3(3.4f, 1.05f, -4.5f),
-            new Vector3(0.75f, 0.35f, 0.55f),
-            "Examinar livro",
-            "Seu nome já está no registro.",
+            new Vector3(0.55f, 0.3f, 0.45f),
+            "Ler livro de hóspedes",
+            "A última assinatura é de ontem, mas a tinta ainda parece fresca.",
             "reception_book");
 
         AddInteractableArea(
             _interactions,
-            "Room102Inspect",
-            new Vector3(-3.4f, 1.4f, -15.5f),
-            new Vector3(1.5f, 1.4f, 1.5f),
-            "Examinar quarto",
+            "Room102Bed",
+            new Vector3(-5.2f, 0.85f, -15.8f),
+            new Vector3(1.2f, 0.8f, 1.0f),
+            "Examinar cama",
             "Parece que este quarto foi preparado para mim.",
-            "room_102");
+            "room_102_bed");
 
         AddInteractableArea(
             _interactions,
             "KitchenInspect",
-            new Vector3(3.4f, 1.4f, -20.5f),
-            new Vector3(0.9f, 1.0f, 0.9f),
+            new Vector3(4.2f, 1.05f, -20.0f),
+            new Vector3(0.75f, 0.85f, 0.75f),
             "Examinar cozinha",
-            "A cozinha está fria demais para uma pensão habitada.",
+            "O cheiro de comida velha ainda está no ar.",
             "kitchen");
     }
 
@@ -954,6 +961,13 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         body.AddChild(CreateBoxCollision(size));
         body.AddChild(CreateBoxMesh(size, material));
         parent.AddChild(body);
+    }
+
+    protected void AddVisualProp(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
+    {
+        var visual = new Node3D { Name = name, Position = center };
+        visual.AddChild(CreateBoxMesh(size, material));
+        parent.AddChild(visual);
     }
 
     private void AddVisualOnly(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)

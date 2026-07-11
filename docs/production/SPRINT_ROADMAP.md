@@ -281,6 +281,25 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 14 — Portas, quartos e leitura narrativa
 
+**Status:** ✅ Implementada — playtest F6 pendente (2026-07-11)
+
+**Objetivo:** Blockout narrativo — leitura de cômodos, portas, pistas.
+
+**Entregas:**
+- Molduras de porta + props simples (térreo + 2º andar)
+- Interações narrativas (recepção, quartos, cozinha, depósito, escada)
+- Puzzle depósito preservado
+- `docs/technical/PENSION_ROOM_READABILITY_BASELINE.md`
+- `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md`
+
+**DoD:** Cômodos identificáveis; interações OK; zero regressão.
+
+**Cena alvo:** `PensaoVerticalBlockout01.tscn`
+
+---
+
+## Sprint 15 — Vertical slice da Pensão
+
 **Status:** 🔄 Próxima
 
 **Objetivo:** Refinar leitura espacial e narrativa dos cômodos — blockout + pistas leves.
