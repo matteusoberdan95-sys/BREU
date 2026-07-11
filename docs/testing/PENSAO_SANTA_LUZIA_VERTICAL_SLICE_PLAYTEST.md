@@ -1,3 +1,6 @@
+> **⚠️ DOCUMENTO OBSOLETO — REBOOT GREENFIELD (2026-07-11)**  
+> Não usar como fonte operacional. Ver `docs/testing/PLAYTEST_PROTOCOL.md`.
+
 # Playtest - Pensao Santa Luzia Vertical Slice
 
 Cena: `res://scenes/levels/pensao_santa_luzia/PensaoSantaLuziaVerticalSlice.tscn`

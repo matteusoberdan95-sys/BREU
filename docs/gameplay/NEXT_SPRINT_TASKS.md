@@ -1,3 +1,6 @@
+> **⚠️ DOCUMENTO OBSOLETO — REBOOT GREENFIELD (2026-07-11)**  
+> Não usar como fonte operacional. Ver `docs/production/SPRINT_ROADMAP.md`.
+
 # BREU - Proximas tarefas
 
 Ultima atualizacao: 2026-07-11

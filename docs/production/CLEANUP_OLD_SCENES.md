@@ -1,3 +1,6 @@
+> **⚠️ DOCUMENTO OBSOLETO — REBOOT GREENFIELD (2026-07-11)**  
+> Não usar como fonte operacional. Ver `docs/production/BREU_REBOOT_MASTER_PLAN.md` e `docs/production/REBOOT_BASELINE_DECISION.md`.
+
 # Limpeza M.3.2 — Hard Reset da Vertical Slice
 
 **Data:** 2026-07-11  

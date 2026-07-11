@@ -1,12 +1,14 @@
+# Godot
 .godot/
-.import/
+*.import
+
+# .NET
 bin/
 obj/
+.vs/
+
+# OS / editor
 *.tmp
-*.user
-*.suo
-export_presets.cfg
-*.translation
-*.blend1
-*.blend2
-*.blend3
+*~
+.DS_Store
+Thumbs.db

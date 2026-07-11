@@ -1,3 +1,6 @@
+> **⚠️ DOCUMENTO OBSOLETO — REBOOT GREENFIELD (2026-07-11)**  
+> Não usar como fonte operacional. Ver `docs/production/SPRINT_ROADMAP.md`.
+
 # Plano de Producao - Fases 1 e 2
 
 Este documento organiza as sprints de producao para consolidar a Fase 1 e construir a Fase 2.

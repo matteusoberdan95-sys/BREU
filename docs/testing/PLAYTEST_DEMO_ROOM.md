@@ -1,3 +1,6 @@
+> **⚠️ DOCUMENTO OBSOLETO — REBOOT GREENFIELD (2026-07-11)**  
+> Não usar como fonte operacional. Ver `docs/testing/PLAYTEST_PROTOCOL.md`.
+
 # BREU - Playtest do DemoRoom
 
 ## Como executar
