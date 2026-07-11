@@ -38,8 +38,10 @@ PensionCeiling/
   Ceiling_StairBox_WestCap
 
 Exterior/
-  Roof_Blockout_Main
-  Roof_Blockout_Ridge
+  Roof_Blockout_Main              — 2º pavimento (z ≤ -5,8)
+  Roof_Blockout_LowerFront        — frente/varanda (y≈3,0)
+  Shell_FacadeUpper_*             — massa superior fachada
+  Shell_FacadeUpper_Parapet
 ```
 
 ---
@@ -47,7 +49,7 @@ Exterior/
 ## Regras
 
 1. **Tetos são visual-only** — sem colisão (evita prender câmera/player).
-2. **Vão da escada aberto no teto** — buraco alinhado ao poço; telhado fecha externamente.
+2. **Vão da escada fechado no teto interno (12A)** — `Ceiling_StairBox_Main` em y=5,8; selagens laterais.
 3. **Não duplicar** teto onde `Floor_Second_Main` já funciona como laje vista de baixo.
 4. **Blockout ≠ final** — sem telha, textura, beiral ou GLB nesta sprint.
 5. **Não refazer layout** do 2º andar sem nova sprint.

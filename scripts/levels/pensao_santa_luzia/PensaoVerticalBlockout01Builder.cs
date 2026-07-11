@@ -6,6 +6,7 @@ using BREU.Scripts.Levels;
 /// <summary>
 /// Sprint 10 — ground floor (inherited) + proportional second floor blockout.
 /// Sprint 12 — ceiling and roof blockout.
+/// Sprint 12A — ceiling gap hotfix, facade shell, stair shaft closure.
 /// </summary>
 public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Builder
 {
@@ -35,7 +36,13 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private const float CeilingThickness = 0.18f;
     private const float SecondSlabSouthZ = -5.8f;
     private const float RoofThickness = 0.28f;
-    private const float RoofRidgeLiftY = 0.42f;
+    private const float VarandaRoofThickness = 0.22f;
+    private const float UpperFrontZ = -5.8f;
+    private const float MainEntryWidth = 5.2f;
+
+    private static float FirstFloorWallTopY => WallHeight;
+
+    private static float SecondFloorWallTopY => SecondFloorTopY + WallHeight;
 
     private static float FirstFloorCeilingUndersideY => WallHeight - WallEmbedBelowFloor;
 
@@ -99,6 +106,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matRoof = Mat(new Color(0.32f, 0.3f, 0.28f));
         BuildSecondFloor();
         BuildCeilingBlockout();
+        BuildUpperSouthRoomPlaceholder();
     }
 
     protected override void BuildExtensionInteractions()
@@ -126,7 +134,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     {
         BuildFirstFloorCeilings();
         BuildSecondFloorCeilings();
-        BuildStairwellCeiling();
+        BuildStairShaftClosure();
+        BuildFrontFacadeUpperShell();
         BuildRoofBlockout();
     }
 
@@ -187,48 +196,144 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             _matCeilingSecond);
     }
 
-    private void BuildStairwellCeiling()
+    private void BuildStairShaftClosure()
     {
-        var westCapWidth = SlabWidth * 0.5f + StairOpenWestX;
-        if (westCapWidth <= 0.05f)
-        {
-            return;
-        }
-
-        var westCapCenterX = -SlabWidth * 0.5f + westCapWidth * 0.5f;
-        var northDepth = StairOpenNorthZ - BuildingBackZ + 2.6f;
-        var northCenterZ = (StairOpenNorthZ + BuildingBackZ) * 0.5f + 0.3f;
-
         AddVisualCeilingPlate(
             _ceiling,
-            "Ceiling_StairBox_WestCap",
-            new Vector3(westCapCenterX, SecondFloorCeilingUndersideY, northCenterZ),
-            new Vector3(westCapWidth, CeilingThickness, northDepth),
+            "Ceiling_StairBox_Main",
+            new Vector3(StairFootX, SecondFloorCeilingUndersideY, StairOpenCenterZ),
+            new Vector3(StairOpenWidth + FloorOverlap, CeilingThickness, StairOpenDepth + FloorOverlap),
             _matCeilingSecond);
+
+        var westCapWidth = SlabWidth * 0.5f + StairOpenWestX;
+        if (westCapWidth > 0.05f)
+        {
+            var westCapCenterX = -SlabWidth * 0.5f + westCapWidth * 0.5f;
+            var northDepth = StairOpenNorthZ - BuildingBackZ + 2.6f;
+            var northCenterZ = (StairOpenNorthZ + BuildingBackZ) * 0.5f + 0.3f;
+
+            AddVisualCeilingPlate(
+                _ceiling,
+                "Ceiling_StairBox_WestCap",
+                new Vector3(westCapCenterX, SecondFloorCeilingUndersideY, northCenterZ),
+                new Vector3(westCapWidth, CeilingThickness, northDepth),
+                _matCeilingSecond);
+        }
+
+        var eastSealWidth = BuildingInnerEastX - StairOpenEastX - WallThickness;
+        if (eastSealWidth > 0.05f)
+        {
+            var eastSealCenterX = StairOpenEastX + eastSealWidth * 0.5f;
+            AddVisualCeilingPlate(
+                _ceiling,
+                "Ceiling_StairBox_EastSeal",
+                new Vector3(eastSealCenterX, SecondFloorCeilingUndersideY, StairOpenCenterZ),
+                new Vector3(eastSealWidth + FloorOverlap, CeilingThickness, StairOpenDepth + FloorOverlap),
+                _matCeilingSecond);
+        }
+
+        const float southEastCapWidth = 1.35f;
+        const float southEastCapDepth = 2.2f;
+        var southEastCapCenterX = StairOpenEastX - southEastCapWidth * 0.5f + WallThickness;
+        var southEastCapCenterZ = StairOpenSouthZ - southEastCapDepth * 0.5f + FloorOverlap;
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_StairBox_SouthEastCap",
+            new Vector3(southEastCapCenterX, SecondFloorCeilingUndersideY, southEastCapCenterZ),
+            new Vector3(southEastCapWidth, CeilingThickness, southEastCapDepth),
+            _matCeilingSecond);
+
+        var landingSealDepth = UpperCorridorNorthZ - StairOpenSouthZ + FloorOverlap;
+        if (landingSealDepth > 0.05f)
+        {
+            var landingSealCenterZ = (UpperCorridorNorthZ + StairOpenSouthZ) * 0.5f;
+            var landingSealWidth = StairOpenWidth + WallThickness * 2f;
+            AddVisualCeilingPlate(
+                _ceiling,
+                "Ceiling_StairBox_LandingSeal",
+                new Vector3(StairFootX, SecondFloorCeilingUndersideY, landingSealCenterZ),
+                new Vector3(landingSealWidth, CeilingThickness, landingSealDepth),
+                _matCeilingSecond);
+        }
+    }
+
+    private void BuildFrontFacadeUpperShell()
+    {
+        var exterior = GetNode<Node3D>("../../Exterior");
+        var shellSpanX = BuildingHalfWidth * 2f + WallThickness + WallCornerOverlap;
+        var frontSegmentWidth = BuildingHalfWidth - MainEntryWidth * 0.5f + WallCornerOverlap;
+        var frontSegmentCenterX = BuildingHalfWidth - frontSegmentWidth * 0.5f;
+        var upperMassHeight = SecondFloorWallTopY - FirstFloorWallTopY;
+        var upperMassCenterY = FirstFloorWallTopY + upperMassHeight * 0.5f;
+
+        AddVisualCeilingPlate(
+            exterior,
+            "Shell_FacadeUpper_FrontLeft",
+            new Vector3(-frontSegmentCenterX, upperMassCenterY, BuildingFrontZ),
+            new Vector3(frontSegmentWidth, upperMassHeight, WallThickness + FloorOverlap),
+            _matExteriorWall);
+
+        AddVisualCeilingPlate(
+            exterior,
+            "Shell_FacadeUpper_FrontRight",
+            new Vector3(frontSegmentCenterX, upperMassCenterY, BuildingFrontZ),
+            new Vector3(frontSegmentWidth, upperMassHeight, WallThickness + FloorOverlap),
+            _matExteriorWall);
+
+        var sideShellDepth = BuildingFrontZ - UpperFrontZ + WallCornerOverlap;
+        var sideShellCenterZ = (BuildingFrontZ + UpperFrontZ) * 0.5f;
+
+        AddVisualCeilingPlate(
+            exterior,
+            "Shell_FacadeUpper_SideWest",
+            new Vector3(-BuildingHalfWidth - WallThickness * 0.5f, upperMassCenterY, sideShellCenterZ),
+            new Vector3(WallThickness + FloorOverlap, upperMassHeight, sideShellDepth),
+            _matExteriorWall);
+
+        AddVisualCeilingPlate(
+            exterior,
+            "Shell_FacadeUpper_SideEast",
+            new Vector3(BuildingHalfWidth + WallThickness * 0.5f, upperMassCenterY, sideShellCenterZ),
+            new Vector3(WallThickness + FloorOverlap, upperMassHeight, sideShellDepth),
+            _matExteriorWall);
+
+        var parapetHeight = 0.45f;
+        var parapetCenterY = SecondFloorWallTopY + parapetHeight * 0.5f;
+        var upperRoofDepth = UpperFrontZ - BuildingBackZ + WallCornerOverlap;
+        var upperRoofCenterZ = (UpperFrontZ + BuildingBackZ) * 0.5f;
+
+        AddVisualCeilingPlate(
+            exterior,
+            "Shell_FacadeUpper_Parapet",
+            new Vector3(0f, parapetCenterY, upperRoofCenterZ),
+            new Vector3(shellSpanX, parapetHeight, upperRoofDepth),
+            _matExteriorWall);
     }
 
     private void BuildRoofBlockout()
     {
         var exterior = GetNode<Node3D>("../../Exterior");
-        var roofSpanZ = BuildingFrontZ - BuildingBackZ + 1.2f;
-        var roofCenterZ = (BuildingFrontZ + BuildingBackZ) * 0.5f;
-        var roofUndersideY = SecondFloorCeilingUndersideY + CeilingThickness + 0.08f;
-        var roofWidth = SlabWidth + WallThickness * 2f + 0.4f;
+        var shellSpanX = BuildingHalfWidth * 2f + WallThickness + WallCornerOverlap;
+        var roofUndersideY = SecondFloorWallTopY;
+        var upperRoofDepth = UpperFrontZ - BuildingBackZ + WallCornerOverlap;
+        var upperRoofCenterZ = (UpperFrontZ + BuildingBackZ) * 0.5f;
 
         AddVisualCeilingPlate(
             exterior,
             "Roof_Blockout_Main",
-            new Vector3(0f, roofUndersideY + RoofThickness * 0.5f, roofCenterZ),
-            new Vector3(roofWidth, RoofThickness, roofSpanZ),
+            new Vector3(0f, roofUndersideY + RoofThickness * 0.5f, upperRoofCenterZ),
+            new Vector3(shellSpanX, RoofThickness, upperRoofDepth),
             _matRoof);
 
-        const float upperFrontZ = -5.8f;
-        var ridgeCenterZ = (upperFrontZ + BuildingBackZ) * 0.5f;
+        var lowerRoofDepth = BuildingFrontZ - UpperFrontZ + WallCornerOverlap;
+        var lowerRoofCenterZ = (BuildingFrontZ + UpperFrontZ) * 0.5f;
+        var lowerRoofUndersideY = FirstFloorWallTopY;
+
         AddVisualCeilingPlate(
             exterior,
-            "Roof_Blockout_Ridge",
-            new Vector3(0f, roofUndersideY + RoofThickness + RoofRidgeLiftY * 0.5f, ridgeCenterZ),
-            new Vector3(roofWidth * 0.92f, RoofRidgeLiftY, (upperFrontZ - BuildingBackZ) + 0.8f),
+            "Roof_Blockout_LowerFront",
+            new Vector3(0f, lowerRoofUndersideY + VarandaRoofThickness * 0.5f, lowerRoofCenterZ),
+            new Vector3(shellSpanX, VarandaRoofThickness, lowerRoofDepth),
             _matRoof);
     }
 
@@ -606,6 +711,34 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "Tentar abrir porta",
             "Está trancada por dentro.",
             "room_203_locked");
+    }
+
+    private void BuildUpperSouthRoomPlaceholder()
+    {
+        const float roomSouthZ = UpperFrontZ + WallThickness * 0.5f;
+        var roomDepth = roomSouthZ - BlockedDoorZ + WallCornerOverlap;
+        var roomCenterZ = (roomSouthZ + BlockedDoorZ) * 0.5f;
+
+        AddWall(
+            _secondFloor,
+            "Wall_UpperSouthRoom_Left",
+            new Vector3(-CorridorWallX, SecondWallCenterY, roomCenterZ),
+            new Vector3(WallThickness, WallHeight, roomDepth),
+            _matInteriorWall);
+
+        AddWall(
+            _secondFloor,
+            "Wall_UpperSouthRoom_Right",
+            new Vector3(CorridorWallX, SecondWallCenterY, roomCenterZ),
+            new Vector3(WallThickness, WallHeight, roomDepth),
+            _matInteriorWall);
+
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_UpperSouthRoom",
+            new Vector3(0f, SecondFloorCeilingUndersideY, roomCenterZ),
+            new Vector3(UpperCorridorWidth + WallCornerOverlap, CeilingThickness, roomDepth),
+            _matCeilingSecond);
     }
 
     private void AddSecondFloorSlab(string name, Vector3 center, Vector3 size)

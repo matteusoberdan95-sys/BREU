@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 12 implementada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 12A hotfix implementado (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -22,7 +22,8 @@
 | Sprint 09B | **✅ Aprovada** — playtest escada |
 | Sprint 10 | **✅ Aprovada** — segundo andar blockout navegável |
 | Sprint 11 | **✅ Aprovada** — playtest fino 2º andar |
-| Sprint 12 | **🔄 Implementada** — teto/cobertura blockout (aguardando playtest F6) |
+| Sprint 12 | **🔄 Implementada** — teto/cobertura blockout |
+| Sprint 12A | **🔄 Implementada** — hotfix fechamento fachada/escada/porta verde (playtest F6 pendente) |
 
 ---
 
@@ -74,21 +75,19 @@
 | 10 Segundo andar | `PENSION_SECOND_FLOOR_BLOCKOUT_BASELINE.md` |
 | 11 Playtest 2º andar | `PENSAO_SECOND_FLOOR_FINE_PLAYTEST.md` |
 | 12 Teto blockout | `PENSION_CEILING_BLOCKOUT_BASELINE.md` |
+| 12A Hotfix fechamento | `PENSION_CEILING_HOTFIX_12A.md` |
 
 ---
 
-## Sprint 12 — resumo (implementada)
+## Sprint 12A — resumo (hotfix implementado)
 
-- Teto/forro blockout no térreo (varanda/frente), 2º andar (corredor + quartos) e poço da escada.
-- Cobertura externa simples (`Roof_Blockout_Main` + `Roof_Blockout_Ridge`).
-- Tetos **somente visuais** (sem colisão) para não prender player/câmera.
-- Vão central da escada permanece aberto no teto interno; telhado fecha silhueta externa.
-- Luzes mínimas adicionadas: `VarandaCeilingLight`, `SecondFloorCeilingLight`, `StairShaftUpperLight`.
-- Ambient 0.62; `CorridorLight` 0.72 — layout legível com lanterna off/on.
-- Térreo, puzzle depósito, escada, HUD, PlayerController e camera feel **não alterados**.
+Correções pós-playtest visual da Sprint 12:
 
-**Baseline:** `docs/technical/PENSION_CEILING_BLOCKOUT_BASELINE.md`  
-**Playtest:** `docs/testing/PENSION_CEILING_BLOCKOUT_PLAYTEST.md`
+- **Fachada:** telhado em dois níveis (`Roof_Blockout_Main` + `Roof_Blockout_LowerFront`); massa superior `Shell_FacadeUpper_*`; removido cume flutuante.
+- **Escada:** teto interno `Ceiling_StairBox_Main` + selagens laterais; poço fechado sem bloquear patamar.
+- **Porta verde:** cômodo placeholder sul (`Wall_UpperSouthRoom_*`, `Ceiling_UpperSouthRoom`).
+
+**Playtest:** `docs/testing/PENSION_CEILING_HOTFIX_12A.md`
 
 ---
 
