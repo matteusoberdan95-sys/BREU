@@ -52,7 +52,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 02 — Player Controller limpo
 
-**Status:** ✅ Concluída (2026-07-11)
+**Status:** 🔄 Corrigida — aguarda playtest manual (2026-07-11)
 
 **Objetivo:** Movimentação FPS confiável.
 

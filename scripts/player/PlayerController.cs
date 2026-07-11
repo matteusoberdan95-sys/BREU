@@ -25,18 +25,50 @@ public partial class PlayerController : CharacterBody3D
 
     private PlayerStamina? _stamina;
     private PlayerCrouch? _crouch;
+    private int _debugFramesRemaining = 3;
 
     public override void _Ready()
     {
         AddToGroup("player");
         _stamina = GetNodeOrNull<PlayerStamina>(StaminaPath);
         _crouch = GetNodeOrNull<PlayerCrouch>(CrouchPath);
-        FloorSnapLength = 0.2f;
+        FloorSnapLength = 0.1f;
         FloorMaxAngle = Mathf.DegToRad(46.0f);
+        SafeMargin = 0.08f;
+
+        var collision = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
+        var head = GetNodeOrNull<Node3D>("Head");
+        var camera = head?.GetNodeOrNull<Camera3D>("Camera3D");
+
+        GD.Print("[PlayerController] _Ready global pos=", GlobalPosition);
+        GD.Print("[PlayerController] scene=", GetTree().CurrentScene?.SceneFilePath ?? "unknown");
+
+        if (collision != null)
+        {
+            GD.Print("[PlayerController] CollisionShape local pos=", collision.Position);
+            if (collision.Shape is CapsuleShape3D capsule)
+            {
+                GD.Print("[PlayerController] Capsule height=", capsule.Height, " radius=", capsule.Radius);
+            }
+        }
+
+        if (camera != null)
+        {
+            GD.Print("[PlayerController] Camera global pos=", camera.GlobalPosition);
+        }
     }
 
     public override void _PhysicsProcess(double delta)
     {
+        if (_debugFramesRemaining > 0)
+        {
+            _debugFramesRemaining--;
+            if (_debugFramesRemaining == 0)
+            {
+                GD.Print("[PlayerController] IsOnFloor(after frames)=", IsOnFloor());
+            }
+        }
+
         if (!MovementEnabled)
         {
             ApplyGravityOnly(delta);
@@ -44,7 +76,10 @@ public partial class PlayerController : CharacterBody3D
         }
 
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-        var direction = (GlobalTransform.Basis * new Vector3(input.X, 0.0f, input.Y)).Normalized();
+        var inputDirection = new Vector3(input.X, 0.0f, -input.Y);
+        var direction = inputDirection.LengthSquared() > 0.001f
+            ? (GlobalTransform.Basis * inputDirection).Normalized()
+            : Vector3.Zero;
 
         var isCrouching = _crouch?.IsCrouching ?? false;
         var wantsSprint = Input.IsActionPressed("sprint") && input.LengthSquared() > 0.01f && !isCrouching;
