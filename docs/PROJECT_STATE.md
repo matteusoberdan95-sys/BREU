@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 12A aprovada  
+**Fase:** REBOOT GREENFIELD — Sprint 13 implementada (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -24,6 +24,7 @@
 | Sprint 11 | **✅ Aprovada** — playtest fino 2º andar |
 | Sprint 12 | **✅ Aprovada** — teto/cobertura blockout |
 | Sprint 12A | **✅ Aprovada** — hotfix fechamento fachada/escada/porta verde |
+| Sprint 13 | **🔄 Implementada** — atmosfera base (playtest F6 pendente) |
 
 ---
 
@@ -76,38 +77,37 @@
 | 11 Playtest 2º andar | `PENSAO_SECOND_FLOOR_FINE_PLAYTEST.md` |
 | 12 Teto blockout | `PENSION_CEILING_BLOCKOUT_BASELINE.md` |
 | 12A Hotfix fechamento | `PENSION_CEILING_HOTFIX_12A.md` |
+| 13 Atmosfera base | `PENSION_ATMOSPHERE_BASELINE.md` |
 
 ---
 
-## Sprint 12 / 12A — resumo (aprovadas)
+## Sprint 13 — resumo (implementada)
 
-Fechamento superior blockout da Pensão Santa Luzia — **aprovado como placeholder funcional**.
+Atmosfera inicial de terror na Pensão — **sem alterar geometria aprovada**.
 
-- **Teto/cobertura:** térreo, 2º andar, poço da escada e cobertura externa em dois níveis.
-- **Casca externa:** `Shell_FacadeUpper_*`, `Roof_Blockout_Main`, `Roof_Blockout_LowerFront` — fachada lê bloco fechado.
-- **Escada:** caixa melhor fechada (`Ceiling_StairBox_Main` + selagens); navegação preservada.
-- **Porta verde:** cômodo placeholder sul fechado (`Wall_UpperSouthRoom_*`).
-- **Regressão:** térreo, puzzle depósito, HUD, lanterna, interação e movimentação — OK.
-- **Não é arte final** — telhado/texturas finais ficam para sprint futura.
+- **Environment:** `Pension_WorldEnvironment` — noite fria, ambient baixo, fog suave (density 0.026).
+- **Neblina:** exclusivamente via `Environment` fog — **sem cubos/planos/partículas**.
+- **Luzes:** MoonLight + entrada âmbar + áreas térreo/2º andar graduadas (2º mais escuro).
+- **Debug F11:** ciclo fog normal → off → debug forte.
+- **Preservado:** térreo, escada, 2º andar, teto, puzzle, HUD, player, interação.
 
-**Baseline:** `docs/technical/PENSION_CEILING_BLOCKOUT_BASELINE.md`  
-**Playtest hotfix:** `docs/testing/PENSION_CEILING_HOTFIX_12A.md`
+**Baseline:** `docs/technical/PENSION_ATMOSPHERE_BASELINE.md`  
+**Playtest:** `docs/testing/PENSION_ATMOSPHERE_BASE_PLAYTEST.md`
 
 ---
 
-## Próxima sprint — Sprint 13 (Atmosfera base da Pensão)
+## Próxima sprint — Sprint 14 (Teto modular e câmera FPS)
 
-**Objetivo:** Noite legível + modo debug visual — sem alterar layout aprovado.
+**Objetivo:** Refinar teto blockout — peças encaixadas sem clipping.
 
 **Entregas planejadas:**
-- Fog leve + override playtest (`PlaytestDebugSettings`).
-- Contraste e leitura noturna refinados.
-- Validação visual com teto já fechado.
+- Peças de teto encaixadas; altura validada (≥ 2,4 m acima da cabeça).
+- Teste escada + corredor superior.
 
-**DoD:** Navegação legível com e sem fog debug; zero regressão puzzle/HUD/movimento/teto.
+**DoD:** Zero frames com câmera dentro de geometria de teto.
 
-**Não fazer:** arte final; GLB; inimigo; refazer 2º andar ou teto.
+**Não fazer:** refazer atmosfera; arte final; inimigo.
 
-**Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 13
+**Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 14
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`

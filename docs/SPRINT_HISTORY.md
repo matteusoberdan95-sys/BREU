@@ -227,8 +227,21 @@ Registro cronológico das sprints do reboot greenfield.
 
 ---
 
+## Sprint 13 — Atmosfera base da Pensão
+
+**Status:** 🔄 Implementada — playtest F6 pendente  
+**Data:** 2026-07-11
+
+**Entregas:**
+- Environment fog suave (sem cubos/mesh de neblina)
+- Luzes MoonLight + áreas graduadas térreo/2º andar
+- F11 ciclo fog normal/off/debug
+- Baseline + playtest docs
+
+---
+
 ## Próxima
 
-**Sprint 13 — Atmosfera base da Pensão**
+**Sprint 14 — Teto modular e câmera FPS**
 
 ---

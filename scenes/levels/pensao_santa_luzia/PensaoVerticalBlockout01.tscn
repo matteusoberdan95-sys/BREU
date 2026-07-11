@@ -9,13 +9,21 @@
 
 [sub_resource type="Environment" id="Environment_pensao"]
 background_mode = 1
-background_color = Color(0.1, 0.11, 0.14, 1)
+background_color = Color(0.035, 0.045, 0.08, 1)
 ambient_light_source = 1
-ambient_light_color = Color(0.32, 0.3, 0.34, 1)
-ambient_light_energy = 0.62
+ambient_light_color = Color(0.2, 0.22, 0.3, 1)
+ambient_light_energy = 0.3
+tonemap_mode = 2
+tonemap_exposure = 0.82
+adjustment_enabled = true
+adjustment_brightness = 0.94
+adjustment_contrast = 1.1
+adjustment_saturation = 0.86
 fog_enabled = true
-fog_light_color = Color(0.5, 0.48, 0.52, 1)
-fog_density = 0.01
+fog_light_color = Color(0.26, 0.3, 0.4, 1)
+fog_density = 0.026
+fog_sky_affect = 0.12
+fog_aerial_perspective = 0.45
 
 [node name="PensaoVerticalBlockout01" type="Node3D"]
 script = ExtResource("1_controller")
@@ -45,91 +53,144 @@ script = ExtResource("4_puzzle_setup")
 
 [node name="Lighting" type="Node3D" parent="."]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting"]
-transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 14, 0)
-light_color = Color(0.72, 0.78, 0.92, 1)
-light_energy = 0.52
+[node name="MoonLight" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 18, 0)
+light_color = Color(0.58, 0.64, 0.82, 1)
+light_energy = 0.26
+light_indirect_energy = 0.35
 shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_max_distance = 48.0
 
 [node name="EntranceLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 7)
-light_color = Color(1, 0.82, 0.62, 1)
-light_energy = 1.1
-omni_range = 10.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 9.2)
+light_color = Color(1, 0.76, 0.42, 1)
+light_energy = 1.38
+light_indirect_energy = 0.2
+omni_range = 13.0
+omni_attenuation = 1.2
+
+[node name="TrailFillLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 38)
+light_color = Color(0.45, 0.5, 0.62, 1)
+light_energy = 0.14
+omni_range = 22.0
+omni_attenuation = 1.8
 
 [node name="ReceptionLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -3.5)
-light_color = Color(0.95, 0.88, 0.72, 1)
-light_energy = 0.75
-omni_range = 8.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -3.5)
+light_color = Color(0.92, 0.78, 0.52, 1)
+light_energy = 0.44
+light_indirect_energy = 0.15
+omni_range = 7.5
+omni_attenuation = 1.4
 
 [node name="CorridorLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -17.5)
-light_color = Color(0.85, 0.85, 0.9, 1)
-light_energy = 0.72
-omni_range = 9.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -17.5)
+light_color = Color(0.72, 0.76, 0.86, 1)
+light_energy = 0.36
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="CorridorDeepLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, -24.5)
+light_color = Color(0.62, 0.66, 0.78, 1)
+light_energy = 0.22
+omni_range = 6.5
+omni_attenuation = 1.6
 
 [node name="DepositLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -27)
-light_color = Color(0.88, 0.86, 0.92, 1)
-light_energy = 0.62
-omni_range = 7.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, -27)
+light_color = Color(0.58, 0.62, 0.72, 1)
+light_energy = 0.16
+omni_range = 5.5
+omni_attenuation = 1.7
 
 [node name="Room102Light" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 2.4, -15.5)
-light_color = Color(0.92, 0.88, 0.78, 1)
-light_energy = 0.48
-omni_range = 5.5
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 2.3, -15.5)
+light_color = Color(0.78, 0.72, 0.58, 1)
+light_energy = 0.26
+omni_range = 4.8
+omni_attenuation = 1.6
 
 [node name="KitchenLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 2.4, -20.5)
-light_color = Color(0.92, 0.88, 0.78, 1)
-light_energy = 0.48
-omni_range = 5.5
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 2.3, -20.5)
+light_color = Color(0.82, 0.78, 0.48, 1)
+light_energy = 0.3
+omni_range = 4.8
+omni_attenuation = 1.6
 
 [node name="StairWellLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 2.8, -27)
-light_color = Color(0.9, 0.88, 0.82, 1)
-light_energy = 0.85
-omni_range = 9.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 2.7, -27)
+light_color = Color(0.82, 0.8, 0.72, 1)
+light_energy = 0.52
+omni_range = 8.5
+omni_attenuation = 1.4
 
 [node name="UpperCorridorLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.8, -13.5)
-light_color = Color(0.88, 0.86, 0.9, 1)
-light_energy = 0.58
-omni_range = 8.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.7, -13.5)
+light_color = Color(0.68, 0.72, 0.82, 1)
+light_energy = 0.28
+omni_range = 7.0
+omni_attenuation = 1.6
+
+[node name="UpperCorridorFarLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6, -18.5)
+light_color = Color(0.58, 0.62, 0.74, 1)
+light_energy = 0.18
+omni_range = 5.5
+omni_attenuation = 1.7
 
 [node name="Room201Light" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 4.6, -14)
-light_color = Color(0.9, 0.86, 0.78, 1)
-light_energy = 0.45
-omni_range = 5.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 4.5, -14)
+light_color = Color(0.76, 0.72, 0.62, 1)
+light_energy = 0.24
+omni_range = 4.5
+omni_attenuation = 1.6
 
 [node name="Room202Light" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 4.6, -17)
-light_color = Color(0.9, 0.86, 0.78, 1)
-light_energy = 0.45
-omni_range = 5.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 4.5, -17)
+light_color = Color(0.76, 0.72, 0.62, 1)
+light_energy = 0.24
+omni_range = 4.5
+omni_attenuation = 1.6
+
+[node name="UpperBlockedDoorLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, -7.2)
+light_color = Color(0.88, 0.72, 0.46, 1)
+light_energy = 0.32
+omni_range = 4.5
+omni_attenuation = 1.5
 
 [node name="VarandaCeilingLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 8)
-light_color = Color(0.95, 0.88, 0.75, 1)
-light_energy = 0.55
-omni_range = 8.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 8)
+light_color = Color(0.88, 0.78, 0.58, 1)
+light_energy = 0.32
+omni_range = 7.0
+omni_attenuation = 1.5
 
 [node name="SecondFloorCeilingLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, -13.5)
-light_color = Color(0.9, 0.88, 0.82, 1)
-light_energy = 0.62
-omni_range = 9.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.9, -13.5)
+light_color = Color(0.72, 0.74, 0.8, 1)
+light_energy = 0.34
+omni_range = 8.0
+omni_attenuation = 1.5
 
 [node name="StairShaftUpperLight" type="OmniLight3D" parent="Lighting"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 4.6, -24)
-light_color = Color(0.92, 0.9, 0.84, 1)
-light_energy = 0.5
-omni_range = 7.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 4.5, -24)
+light_color = Color(0.78, 0.76, 0.68, 1)
+light_energy = 0.38
+omni_range = 6.5
+omni_attenuation = 1.5
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="UpperLandingLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 4.4, -21)
+light_color = Color(0.74, 0.72, 0.64, 1)
+light_energy = 0.3
+omni_range = 5.0
+omni_attenuation = 1.5
+
+[node name="Pension_WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pensao")
 
 [node name="PlayerSpawn" type="Marker3D" parent="."]

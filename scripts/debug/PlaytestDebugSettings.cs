@@ -1,21 +1,37 @@
 namespace BREU.Scripts.Debug;
 
 /// <summary>
-/// Playtest flags: infinite lantern battery, reduced fog. Autoload or scene node in Debug/PlaytestDebug.
+/// Playtest flags: infinite lantern battery, fog debug cycle (F11).
+/// Autoload or scene node in Debug/PlaytestDebug.
 /// </summary>
 public partial class PlaytestDebugSettings : Node
 {
+    public enum FogDebugMode
+    {
+        Normal,
+        Off,
+        Strong
+    }
+
     public static PlaytestDebugSettings? Instance { get; private set; }
 
     [Export] public bool InfiniteLanternBattery { get; set; } = true;
-    [Export] public bool ReducedFog { get; set; } = false;
+    [Export] public FogDebugMode FogMode { get; set; } = FogDebugMode.Normal;
 
-    [Export] public float NormalFogDensity { get; set; } = 0.045f;
-    [Export] public float ReducedFogDensity { get; set; } = 0.008f;
+    [Export] public float NormalFogDensity { get; set; } = 0.026f;
+    [Export] public float StrongFogDensity { get; set; } = 0.072f;
 
     private bool _fogDefaultsCaptured;
     private bool _storedFogEnabled;
     private float _storedFogDensity;
+
+    public string FogModeDisplayName => FogMode switch
+    {
+        FogDebugMode.Normal => "fog normal",
+        FogDebugMode.Off => "fog off",
+        FogDebugMode.Strong => "fog debug",
+        _ => "fog normal"
+    };
 
     public override void _EnterTree()
     {
@@ -45,7 +61,7 @@ public partial class PlaytestDebugSettings : Node
 
         if (@event.IsActionPressed("debug_toggle_reduced_fog"))
         {
-            SetReducedFog(!ReducedFog);
+            CycleFogMode();
         }
     }
 
@@ -58,13 +74,13 @@ public partial class PlaytestDebugSettings : Node
             2.5f);
     }
 
-    public void SetReducedFog(bool enabled)
+    public void CycleFogMode()
     {
-        ReducedFog = enabled;
+        FogMode = (FogDebugMode)(((int)FogMode + 1) % 3);
         ApplyFogOverride();
-        GD.Print($"[PlaytestDebug] Reduced fog: {(enabled ? "ON" : "OFF")}");
+        GD.Print($"[PlaytestDebug] Fog mode: {FogModeDisplayName}");
         HUDController.FindActive(GetTree())?.ShowMessage(
-            enabled ? "Debug: fog reduzida ON" : "Debug: fog normal",
+            $"Debug: {FogModeDisplayName}",
             2.5f);
     }
 
@@ -85,15 +101,20 @@ public partial class PlaytestDebugSettings : Node
             _fogDefaultsCaptured = true;
         }
 
-        if (ReducedFog)
+        switch (FogMode)
         {
-            environment.FogEnabled = true;
-            environment.FogDensity = ReducedFogDensity;
-            return;
+            case FogDebugMode.Off:
+                environment.FogEnabled = false;
+                break;
+            case FogDebugMode.Strong:
+                environment.FogEnabled = true;
+                environment.FogDensity = StrongFogDensity;
+                break;
+            default:
+                environment.FogEnabled = _storedFogEnabled;
+                environment.FogDensity = _storedFogDensity > 0.0f ? _storedFogDensity : NormalFogDensity;
+                break;
         }
-
-        environment.FogEnabled = _storedFogEnabled;
-        environment.FogDensity = _storedFogDensity > 0.0f ? _storedFogDensity : NormalFogDensity;
     }
 
     private static WorldEnvironment? FindWorldEnvironment()
@@ -105,6 +126,7 @@ public partial class PlaytestDebugSettings : Node
             return null;
         }
 
-        return root.FindChild("WorldEnvironment", true, false) as WorldEnvironment;
+        return root.FindChild("Pension_WorldEnvironment", true, false) as WorldEnvironment
+            ?? root.FindChild("WorldEnvironment", true, false) as WorldEnvironment;
     }
 }

@@ -269,7 +269,7 @@ public partial class HUDController : CanvasLayer
         }
 
         var lantern = _debugSettings.InfiniteLanternBattery ? "inf ON" : "inf OFF";
-        var fog = _debugSettings.ReducedFog ? "fog reduzida" : "fog normal";
+        var fog = _debugSettings.FogModeDisplayName;
         _debugLabel.Text = $"Debug F10: lanterna {lantern} | F11: {fog}";
     }
 }

@@ -263,21 +263,26 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 13 — Atmosfera base da Pensão
 
-**Status:** 🔄 Próxima
+**Status:** ✅ Implementada — playtest F6 pendente (2026-07-11)
 
-**Objetivo:** Noite legível + modo debug visual.
+**Objetivo:** Atmosfera inicial de terror sem alterar estrutura aprovada.
 
 **Entregas:**
-- Fog leve + override playtest.
-- Contraste suficiente para QA ver layout blockout com teto fechado.
+- `Pension_WorldEnvironment` — fog suave via Environment (anti-quadrados)
+- Iluminação exterior/interior/2º andar graduada
+- F11: ciclo fog normal / off / debug
+- `docs/technical/PENSION_ATMOSPHERE_BASELINE.md`
+- `docs/testing/PENSION_ATMOSPHERE_BASE_PLAYTEST.md`
 
-**DoD:** Navegação legível com e sem fog debug; zero regressão.
+**DoD:** Mais atmosférica; neblina sem artefatos; navegação/puzzle/HUD intactos.
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 ---
 
 ## Sprint 14 — Teto modular e câmera FPS
+
+**Status:** 🔄 Próxima
 
 **Objetivo:** Refinar teto blockout — peças encaixadas sem clipping.
 
