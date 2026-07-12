@@ -142,6 +142,21 @@ Limpeza definitiva — remover duplicatas em vez de empilhar correções.
 **Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v1.3  
 **Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14F
 
+## Sprint 14Z — reset final (executada)
+
+Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
+
+- **Placas removidas** temporariamente (entrada limpa).
+- **Portas abertas** = vão limpo + `Header_*` (sem moldura).
+- **Blockers inline** apenas: `Door_Deposit_Blocker`, `Door_UpperBalcony_Blocker`, `Door_UpperBlocked_Blocker`.
+- Prefabs/molduras de porta **não** instanciados em runtime.
+- Corredor inútil do 2º andar **permanece fechado** (14E).
+
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v2.0  
+**Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14Z
+
+Pendente: playtest F6 obrigatório antes de aprovar Sprint 14.
+
 ## Próxima sprint — Sprint 15 (Vertical slice da Pensão)
 
 **Objetivo:** Experiência contínua trilha → pensão → puzzle → escada → 2º andar — sem inimigo.

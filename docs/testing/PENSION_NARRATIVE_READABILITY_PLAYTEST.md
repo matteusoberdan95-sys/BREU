@@ -273,3 +273,46 @@ A aprovação visual permanece pendente até o playtest manual em F6.
 
 **Regressão**
 - [ ] Puzzle / escada / atmosfera intactos
+
+---
+
+## Sprint 14Z — Reset final (portas e placas)
+
+**Data:** 2026-07-11  
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v2.0
+
+### Removido (destrutivo)
+
+- Todas as placas (`Sign_Pensao_Main_Exterior` e similares)
+- Molduras mínimas (`Door_*_Frame`, `AddMinimalDoorFrame*`)
+- Prefabs `DoorLocked.tscn` / `DoorUnlockHidePanel.tscn` em runtime
+- `FinalizeLockedDoor`, folhas, infill, painéis decorativos
+
+### Padrão 14Z
+
+| Elemento | Implementação |
+|----------|----------------|
+| Porta aberta | Vão limpo + `Header_*` acima |
+| Porta trancada | `*_Blocker` inline (sem moldura) |
+| Depósito | `Door_Deposit_Blocker` |
+| Varanda | `Door_UpperBalcony_Blocker` (verde) |
+| Superior | `Door_UpperBlocked_Blocker` |
+
+### Checklist 14Z
+
+**Entrada**
+- [ ] Nenhuma placa; nenhum objeto atravessando vão
+- [ ] Sem moldura/porta decorativa; sem flicker
+- [ ] `Header_Entrance_Main` fecha buraco acima
+
+**Térreo**
+- [ ] 102 / cozinha = vão limpo + header
+- [ ] Depósito bloqueia/destranca sem piscar
+
+**2º andar**
+- [ ] 201 / 202 = vão limpo + header
+- [ ] Varanda e porta superior bloqueiam; sem flicker
+- [ ] Corredor inútil permanece fechado (14E)
+
+**Regressão**
+- [ ] Puzzle / escada / atmosfera / HUD / lanterna intactos

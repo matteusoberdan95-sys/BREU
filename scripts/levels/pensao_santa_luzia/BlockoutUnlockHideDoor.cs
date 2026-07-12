@@ -11,11 +11,11 @@ public partial class BlockoutUnlockHideDoor : Node3D, IInteractable
     public void Initialize(PensaoPuzzleState state, Node3D doorRoot)
     {
         _state = state;
-        _panel = doorRoot.GetNodeOrNull<MeshInstance3D>("Door_Deposit_Panel")
+        _panel = doorRoot.GetNodeOrNull<MeshInstance3D>("Door_Deposit_Blocker")
+            ?? doorRoot.GetNodeOrNull<MeshInstance3D>("Door_Deposit_Panel")
             ?? doorRoot.GetNodeOrNull<MeshInstance3D>("DoorPanel");
         _blockingShape = doorRoot.GetNodeOrNull<CollisionShape3D>("BlockingBody/BlockingShape");
         _area = doorRoot.GetNodeOrNull<Area3D>("InteractionArea");
-        HideFrameDecor(doorRoot);
         ApplyState();
     }
 
@@ -63,28 +63,6 @@ public partial class BlockoutUnlockHideDoor : Node3D, IInteractable
         if (_area != null)
         {
             _area.Monitorable = !open;
-        }
-    }
-
-    private static void HideFrameDecor(Node3D doorRoot)
-    {
-        if (!doorRoot.HasNode("Frame"))
-        {
-            return;
-        }
-
-        var frame = doorRoot.GetNode<Node3D>("Frame");
-        HideIfPresent(frame, "UpperWallInfill");
-        HideIfPresent(frame, "OpenDoorLeafLeft");
-        HideIfPresent(frame, "OpenDoorLeafRight");
-    }
-
-    private static void HideIfPresent(Node parent, string childName)
-    {
-        var child = parent.GetNodeOrNull<Node3D>(childName);
-        if (child != null)
-        {
-            child.Visible = false;
         }
     }
 }

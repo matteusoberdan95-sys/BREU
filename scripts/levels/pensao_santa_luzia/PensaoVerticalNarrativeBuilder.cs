@@ -1,7 +1,7 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
-/// Sprint 14F — second-floor minimal door frames only.
+/// Sprint 14Z — second-floor narrative props only (no door meshes).
 /// </summary>
 public partial class PensaoVerticalBlockout01Builder
 {
@@ -9,16 +9,6 @@ public partial class PensaoVerticalBlockout01Builder
     {
         var narrative = new Node3D { Name = "SecondFloorNarrative" };
         _secondFloor.AddChild(narrative);
-
-        var doorFrames = new Node3D
-        {
-            Name = "DoorFrames",
-            Position = new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, 0f)
-        };
-        narrative.AddChild(doorFrames);
-
-        AddMinimalDoorFrameXWall(doorFrames, "Door_Room201_Frame", new Vector3(-CorridorWallX, 0f, Room201CenterZ), DoorWidth, Mathf.Pi * 0.5f);
-        AddMinimalDoorFrameXWall(doorFrames, "Door_Room202_Frame", new Vector3(CorridorWallX, 0f, Room202CenterZ), DoorWidth, Mathf.Pi * 0.5f);
 
         BuildRoom201NarrativeProps(narrative);
         BuildRoom202NarrativeProps(narrative);

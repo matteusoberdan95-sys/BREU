@@ -71,7 +71,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         BuildFloorVisuals();
         BuildExteriorTrailEnclosure();
         BuildBuildingExteriorShell();
-        BuildMainExteriorSign();
         BuildVarandaWalls();
         BuildReception();
         BuildCorridor();
@@ -274,37 +273,13 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(frontSegmentCenterX, WallCenterY, BuildingFrontZ + WallThickness * 0.5f),
             new Vector3(frontSegmentWidth, WallHeight, WallThickness),
             _matExteriorWall);
-    }
 
-    /// <summary>Sprint 14F — single exterior pension sign, outside facade toward trail.</summary>
-    private void BuildMainExteriorSign()
-    {
-        const float signStandoff = 0.18f;
-        var signHost = new Node3D
-        {
-            Name = "Sign_Pensao_Main_Exterior",
-            Position = new Vector3(0f, 2.38f, BuildingFrontZ + WallThickness + signStandoff)
-        };
-        _exterior.AddChild(signHost);
-
-        signHost.AddChild(new MeshInstance3D
-        {
-            Name = "Sign_Board",
-            Mesh = new BoxMesh { Size = new Vector3(2.9f, 0.62f, 0.08f) },
-            MaterialOverride = _matPropWood
-        });
-
-        signHost.AddChild(new Label3D
-        {
-            Name = "Sign_Label",
-            Text = "PENSÃO SANTA LUZIA",
-            Position = new Vector3(0f, 0f, 0.044f),
-            FontSize = 46,
-            PixelSize = 0.003f,
-            Modulate = new Color(0.9f, 0.8f, 0.58f),
-            OutlineSize = 5,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
+        AddDoorHeaderZWall(
+            shell,
+            "Header_Entrance_Main",
+            new Vector3(0f, 0f, BuildingFrontZ + WallThickness * 0.5f),
+            MainEntryWidth,
+            _matExteriorWall);
     }
 
     private void BuildVarandaWalls()
@@ -443,7 +418,9 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             -15.5f,
             -25.5f,
             DoorWidth,
-            _matInteriorWall);
+            _matInteriorWall,
+            "Header_Room102",
+            "Header_CorridorBack");
 
         BuildWallWithDoorGap(
             corridor,
@@ -453,7 +430,8 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             length,
             -20.5f,
             DoorWidth,
-            _matInteriorWall);
+            _matInteriorWall,
+            "Header_Kitchen");
 
         var junctionDepth = 1.6f + WallCornerOverlap;
         var junctionCenterZ = -7.75f;
@@ -605,14 +583,14 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
 
         AddWall(
             storage,
-            "Wall_Deposit_DoorFrame_Left",
+            "Wall_Deposit_Jamb_Left",
             new Vector3(-frameCenterX, WallCenterY, depositDoorZ),
             new Vector3(frameWidth, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddWall(
             storage,
-            "Wall_Deposit_DoorFrame_Right",
+            "Wall_Deposit_Jamb_Right",
             new Vector3(frameCenterX, WallCenterY, depositDoorZ),
             new Vector3(frameWidth, WallHeight, WallThickness),
             _matInteriorWall);
@@ -627,9 +605,13 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(CorridorWidth + WallCornerOverlap, headerHeight, WallThickness),
             _matInteriorWall);
 
-        AddDoorPrefab(storage, "Door_Deposit", "res://scenes/props/doors/DoorUnlockHidePanel.tscn", new Vector3(0f, -WallEmbedBelowFloor, depositDoorZ));
-        var depositDoor = storage.GetNode<Node3D>("Door_Deposit");
-        FinalizeLockedDoor(depositDoor, "Door_Deposit_Panel", DoorWidth, panelInsetZ: -0.08f, panelMaterial: _matDoor);
+        AddDepositDoorBlocker(
+            storage,
+            "Door_Deposit",
+            "Door_Deposit_Blocker",
+            new Vector3(0f, -WallEmbedBelowFloor, depositDoorZ),
+            DoorWidth,
+            _matDoor);
 
         AddVisualFloorPlate(
             storage,
@@ -849,7 +831,10 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         float door1CenterZ,
         float door2CenterZ,
         float doorWidth,
-        StandardMaterial3D material)
+        StandardMaterial3D material,
+        string? header1Name = null,
+        string? header2Name = null,
+        float floorTopY = 0f)
     {
         var halfLength = totalLength * 0.5f;
         var southEnd = centerZ + halfLength;
@@ -893,6 +878,16 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
                 new Vector3(WallThickness, WallHeight, northSegmentLength + WallCornerOverlap),
                 material);
         }
+
+        if (header1Name != null)
+        {
+            AddDoorHeaderXWall(parent, header1Name, wallX, door1CenterZ, doorWidth, material, floorTopY);
+        }
+
+        if (header2Name != null)
+        {
+            AddDoorHeaderXWall(parent, header2Name, wallX, door2CenterZ, doorWidth, material, floorTopY);
+        }
     }
 
     protected void BuildWallWithDoorGap(
@@ -903,7 +898,9 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         float totalLength,
         float doorCenterZ,
         float doorWidth,
-        StandardMaterial3D material)
+        StandardMaterial3D material,
+        string? headerName = null,
+        float floorTopY = 0f)
     {
         var halfLength = totalLength * 0.5f;
         var doorHalf = doorWidth * 0.5f;
@@ -932,6 +929,11 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
                 new Vector3(wallX, WallCenterY, doorNorth - northSegmentLength * 0.5f),
                 new Vector3(WallThickness, WallHeight, northSegmentLength + WallCornerOverlap),
                 material);
+        }
+
+        if (headerName != null)
+        {
+            AddDoorHeaderXWall(parent, headerName, wallX, doorCenterZ, doorWidth, material, floorTopY);
         }
     }
 
@@ -962,64 +964,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     protected void AddFurniture(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material)
     {
         AddSolid(parent, name, center, size, material, WorldLayer);
-    }
-
-    protected static Node3D AddDoorPrefab(Node3D parent, string name, string scenePath, Vector3 position, float rotationY = 0f)
-    {
-        var packed = GD.Load<PackedScene>(scenePath)
-            ?? throw new System.InvalidOperationException($"Door prefab not found: {scenePath}");
-        var door = packed.Instantiate<Node3D>();
-        door.Name = name;
-        door.Position = position;
-        door.Rotation = new Vector3(0f, rotationY, 0f);
-        parent.AddChild(door);
-        return door;
-    }
-
-    protected static void FinalizeLockedDoor(
-        Node3D door,
-        string panelNodeName,
-        float openingWidth,
-        float panelInsetZ = -0.08f,
-        StandardMaterial3D? panelMaterial = null)
-    {
-        const float postWidth = 0.12f;
-        const float frameDepth = 0.12f;
-        const float standoffZ = 0.06f;
-        const float lintelHeight = 0.12f;
-        var halfOpening = openingWidth * 0.5f;
-
-        if (door.HasNode("Frame"))
-        {
-            var frame = door.GetNode<Node3D>("Frame");
-            var infill = frame.GetNodeOrNull<MeshInstance3D>("UpperWallInfill");
-            if (infill != null) infill.Visible = false;
-            var left = frame.GetNodeOrNull<MeshInstance3D>("OpenDoorLeafLeft");
-            if (left != null) left.Visible = false;
-            var right = frame.GetNodeOrNull<MeshInstance3D>("OpenDoorLeafRight");
-            if (right != null) right.Visible = false;
-
-            frame.GetNode<MeshInstance3D>("FrameLeft").Position =
-                new Vector3(-halfOpening - postWidth * 0.5f, DoorHeight * 0.5f, standoffZ);
-            frame.GetNode<MeshInstance3D>("FrameRight").Position =
-                new Vector3(halfOpening + postWidth * 0.5f, DoorHeight * 0.5f, standoffZ);
-
-            var lintel = frame.GetNode<MeshInstance3D>("FrameLintel");
-            lintel.Mesh = new BoxMesh { Size = new Vector3(openingWidth + postWidth * 2f, lintelHeight, frameDepth) };
-            lintel.Position = new Vector3(0f, DoorHeight + lintelHeight * 0.5f, standoffZ);
-        }
-
-        var panelPos = new Vector3(0f, DoorHeight * 0.5f, panelInsetZ);
-        var panel = door.GetNode<MeshInstance3D>("DoorPanel");
-        panel.Name = panelNodeName;
-        panel.Position = panelPos;
-        if (panelMaterial != null)
-        {
-            panel.MaterialOverride = panelMaterial;
-        }
-
-        door.GetNode<CollisionShape3D>("BlockingBody/BlockingShape").Position = panelPos;
-        door.GetNode<Area3D>("InteractionArea").Position = new Vector3(0f, DoorHeight * 0.5f, panelInsetZ - 0.26f);
     }
 
     /// <summary>Sprint 14B — locked door on Z-facing wall: opaque panel + world collision + local interact area.</summary>

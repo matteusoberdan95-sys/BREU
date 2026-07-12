@@ -1,103 +1,98 @@
 # Baseline — Portas blockout (Pensão)
 
-**Versão:** 1.3  
-**Sprint:** 14F  
+**Versão:** 2.0  
+**Sprint:** 14Z  
 **Data:** 2026-07-11  
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
 ---
 
-## Padrões
+## Padrão 14Z — reset destrutivo
+
+Objetivo: **estabilidade sem flicker**. Não ajustar meshes bugados — remover.
 
 ### Tipo A — Porta aberta
-- **Somente moldura** (`Door_*_Frame`)
-- Sem painel no vão
+- **Somente vão limpo** na parede (sem moldura, sem painel, sem folha)
+- `Header_*` acima da abertura fecha o buraco até o teto
 - Sem colisão bloqueando passagem
-- Player passa livremente
 
-### Tipo B — Porta trancada
-- Painel **opaco** (`_matDoor` ou `_matDoorBalcony`)
-- `StaticBody3D` com `CollisionLayer = WorldLayer` (1)
-- `CollisionShape3D` com espessura ≥ `WallThickness`
-- `Area3D` pequena na frente do painel (`*_InteractArea`)
-- Sem animação, transparência, scale ou tremor
+### Tipo B — Porta trancada (blocker)
+- Bloco opaco inline (`AddLockedDoorBlocker` / `AddDepositDoorBlocker`)
+- **Sem prefab**, **sem moldura**, **sem** `DoorFrameOpen.tscn`
+- Painel nomeado `*_Blocker`, offset `Z = -0,08 m`
+- Colisão alinhada ao painel (`BlockerDepth = 0,2 m`)
 
 ### Tipo C — Depósito (destravável)
 ```
 Door_Deposit/
-  Door_Deposit_Frame
-  Door_Deposit_Panel          — some ao destrancar
-  Door_Deposit_Blocking/
-    Door_Deposit_Collision    — desativa ao destrancar
-  Door_Deposit_InteractArea   — Area3D local
-  DepositDoorInteraction
+  Door_Deposit_Blocker     — some ao destrancar
+  BlockingBody/BlockingShape
+  InteractionArea
+  BlockoutUnlockHideDoor
 ```
 
 **Ao destrancar:**
-- `Door_Deposit_Panel.Visible = false`
-- `Door_Deposit_Collision.Disabled = true`
-- `Door_Deposit_InteractArea.Monitorable = false`
-- Moldura permanece
+- `Door_Deposit_Blocker.Visible = false`
+- `BlockingShape.Disabled = true`
+- `InteractionArea.Monitorable = false`
 
 ---
 
-## Baseline 2.0 — Sprint 14C
+## Blockers permitidos (somente 3)
 
-O sistema anterior foi substituído por três cenas reutilizáveis em `scenes/props/doors/`:
+| Nó | Uso |
+|----|-----|
+| `Door_Deposit_Blocker` | Depósito — puzzle chave |
+| `Door_UpperBalcony_Blocker` | Varanda verde — bloqueia |
+| `Door_UpperBlocked_Blocker` | Porta superior — bloqueia |
 
-| Cena | Contrato |
-|---|---|
-| `DoorFrameOpen.tscn` | Moldura, fechamento superior e folha aberta estática sem colisão bloqueadora |
-| `DoorLocked.tscn` | Painel opaco fixo, colisão alinhada e interação local |
-| `DoorUnlockHidePanel.tscn` | Ao destrancar, somente oculta o painel e desativa a colisão |
+Nenhum outro mesh de porta/painel/moldura/placa é gerado em runtime.
 
-Uma única instância é permitida por vão. A folha aberta é uma malha estática já posicionada junto à parede; não há animação, movimento, escala em runtime ou colisão bloqueando a passagem.
+---
 
-### Ajustes cirúrgicos 14D
+## Headers de vão aberto
 
-- Entrada principal: somente moldura, sem folha decorativa, painel ou blocker.
-- Folhas abertas opcionais: `0,06 m` de espessura e afastamento adicional de `0,08 m` do plano da parede.
-- Painéis fechados: visual e collider alinhados em `Z = -0,06 m`, fora do plano central da parede.
-- Porta verde oficial: `Door_UpperBalcony_Locked`.
-- Porta do depósito oculta imediatamente o prompt ao destrancar.
+| Nó | Local |
+|----|-------|
+| `Header_Entrance_Main` | Fachada principal |
+| `Header_Room102` | Corredor → quarto 102 |
+| `Header_Kitchen` | Corredor → cozinha |
+| `Header_Room201` | 2º andar → quarto 201 |
+| `Header_Room202` | 2º andar → quarto 202 |
 
-### Ajustes cirúrgicos 14E
+Altura do header: `WallHeight - DoorHeight` (0,7 m), encaixado nas laterais do vão.
 
-- `Sign_PensaoSantaLuzia`: placa da entrada centralizada, rotação 0°, offset 0,055 m da fachada.
-- `ConfigureLockedDoor`: moldura a +0,05 m; painel a -0,08 m; interação a -0,34 m.
-- `ConfigureOpenDoor`: moldura a +0,05 m; folha decorativa opcional a +0,12 m adicional.
-- Porta verde: somente `Door_UpperBalcony_Locked` no vão do corredor superior — sem duplicata na fachada da trilha.
-- Corredor inútil do 2º andar fechado com `UpperStair_BackClosureWall`, `UpperLanding_BackSeal`, `UpperStair_NorthEastSeal`.
-- Folhas decorativas instáveis: remover (`decorativeLeaf: false`) em vez de animar.
+---
 
-### Limpeza definitiva 14F
+## Placas
 
-- **Uma placa:** `Sign_Pensao_Main_Exterior` no nó `Exterior` — nunca dentro do interior.
-- **Portas abertas:** `AddMinimalDoorFrameZWall` / `AddMinimalDoorFrameXWall` — 3 peças, sem infill/folha/painel.
-- **Portas trancadas:** somente `Door_Deposit_Panel`, `Door_UpperBalcony_Panel` (e estrutural `Wall_UpperBlocked*`).
-- **Proibido:** `UpperWallInfill`, folhas decorativas, `ConfigureOpenDoor`, placa no vão da entrada.
-- **Offset padrão:** moldura +0,06 m; painel trancado -0,08 m.
-
-## Proibido (blockout)
-
-- Animar porta com `Scale`
-- Material transparente em painel de porta
-- Porta duplicada no mesmo vão (moldura + folha + painel)
-- Folha aberta (`Door_*_Leaf`) — removida na 14B
-- `AddInteractableBody` com `_matInteractable` para portas
-- Colisão fina (< 0,2 m) em porta fechada
-- Painel invisível com colisão ativa (ou vice-versa)
+**Removidas temporariamente** na 14Z (inclui `Sign_Pensao_Main_Exterior`). Arte de placa fica para sprint futura.
 
 ---
 
 ## Porta verde / varanda
 
-- Nó: `Door_UpperBalcony` + `Door_UpperBalcony_Panel`
-- Painel verde opaco (`_matDoorBalcony`)
-- Colisão ativa, não atravessável
+- Nó: `Door_UpperBalcony` + `Door_UpperBalcony_Blocker`
+- Painel verde opaco (`_matDoorBalcony`), metade esquerda do vão
 - Prompt: **Tentar abrir varanda**
-- Interior: `UpperBalcony_Placeholder` + guarda-corpos
-- Exterior (trilha): `UpperBalcony_TrailReadability` — piso e guarda-corpo apenas (sem painel verde duplicado)
+
+## Porta bloqueada superior
+
+- Nó: `Door_UpperBlocked` + `Door_UpperBlocked_Blocker`
+- Painel opaco (`_matDoor`), metade direita do vão
+- Prompt: **Tentar abrir porta**
+
+---
+
+## Proibido (blockout)
+
+- Molduras decorativas (`Door_*_Frame`, `DoorFrameOpen`)
+- Placas (`Sign_*`, `Placa_*`)
+- Folhas abertas, infill, painéis decorativos
+- Prefabs de porta com moldura embutida
+- Material transparente em painel de porta
+- Duas superfícies coplanares no mesmo vão
+- Animar porta com `Scale` ou tremor
 
 ---
 
@@ -105,14 +100,13 @@ Uma única instância é permitida por vão. A folha aberta é uma malha estáti
 
 | Método | Uso |
 |--------|-----|
-| `DoorFrameOpen.tscn` | Moldura de passagem aberta |
-| `DoorLocked.tscn` | Porta trancada opaca + interação |
-| `DoorUnlockHidePanel.tscn` | Porta do depósito ligada ao puzzle |
-| `AddMinimalDoorFrameZWall` / `AddMinimalDoorFrameXWall` | Moldura mínima (14F) |
-| `FinalizeLockedDoor` | Painel trancado nomeado + frame limpo |
+| `AddDoorHeaderXWall` / `AddDoorHeaderZWall` | Fecha vão acima da porta |
+| `AddLockedDoorBlocker` | Porta trancada inline |
+| `AddDepositDoorBlocker` | Depósito + puzzle |
+| `BuildWallWithDoorGap` | Parede com vão + header opcional |
 
 ---
 
 ## Playtest
 
-`docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seções Sprint 14A–14F
+`docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14Z

@@ -1,7 +1,7 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
-/// Sprint 14F — ground-floor narrative readability (minimal door frames + props).
+/// Sprint 14Z — ground-floor narrative readability (props only, no door meshes).
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder
 {
@@ -10,38 +10,12 @@ public partial class PensaoTerreoBlockout01Builder
         var narrative = new Node3D { Name = "NarrativeReadability" };
         _interior.AddChild(narrative);
 
-        BuildGroundFloorDoorFrames(narrative);
         BuildReceptionNarrativeProps(narrative);
         BuildRoom102NarrativeProps(narrative);
         BuildKitchenNarrativeProps(narrative);
         BuildDepositNarrativeProps(narrative);
         BuildStairNarrativeProps(narrative);
         BuildGroundFloorNarrativeInteractions();
-    }
-
-    private void BuildGroundFloorDoorFrames(Node3D parent)
-    {
-        const float varandaEntryZ = 9.8f;
-
-        AddMinimalDoorFrameZWall(
-            parent,
-            "Door_MainEntrance_Frame",
-            new Vector3(0f, -WallEmbedBelowFloor, varandaEntryZ),
-            MainEntryWidth);
-
-        AddMinimalDoorFrameXWall(
-            parent,
-            "Door_Room102_Frame",
-            new Vector3(-CorridorWallX, -WallEmbedBelowFloor, -15.5f),
-            DoorWidth,
-            Mathf.Pi * 0.5f);
-
-        AddMinimalDoorFrameXWall(
-            parent,
-            "Door_Kitchen_Frame",
-            new Vector3(CorridorWallX, -WallEmbedBelowFloor, -20.5f),
-            DoorWidth,
-            Mathf.Pi * 0.5f);
     }
 
     private void BuildReceptionNarrativeProps(Node3D parent)

@@ -486,7 +486,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             Room201CenterZ,
             DoorWidth,
             _matInteriorWall,
-            SecondWallCenterY);
+            SecondWallCenterY,
+            "Header_Room201");
 
         BuildWallWithDoorGap(
             _secondFloor,
@@ -497,7 +498,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             Room202CenterZ,
             DoorWidth,
             _matInteriorWall,
-            SecondWallCenterY);
+            SecondWallCenterY,
+            "Header_Room202");
     }
 
     private void BuildRoom201()
@@ -573,14 +575,14 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
         AddWall(
             _secondFloor,
-            "Wall_UpperBlockedDoor_Frame_Left",
+            "Wall_UpperBlockedDoor_Left",
             new Vector3(-frameCenterX, SecondWallCenterY, BlockedDoorZ),
             new Vector3(frameWidth, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddWall(
             _secondFloor,
-            "Wall_UpperBlockedDoor_Frame_Right",
+            "Wall_UpperBlockedDoor_Right",
             new Vector3(frameCenterX, SecondWallCenterY, BlockedDoorZ),
             new Vector3(frameWidth, WallHeight, WallThickness),
             _matInteriorWall);
@@ -791,15 +793,32 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "Há marcas de arrasto no chão.",
             "room_202");
 
-        var balconyDoor = AddDoorPrefab(
+        const float halfPanel = (DoorWidth - 0.1f) * 0.5f;
+        var doorPos = new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, BlockedDoorZ - 0.05f);
+
+        AddLockedDoorBlocker(
             _secondFloor,
             "Door_UpperBalcony",
-            "res://scenes/props/doors/DoorLocked.tscn",
-            new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, BlockedDoorZ - 0.05f));
-        FinalizeLockedDoor(balconyDoor, "Door_UpperBalcony_Panel", DoorWidth, panelInsetZ: -0.08f, panelMaterial: _matDoorBalcony);
-        var balconyInteraction = (BlockoutLockedDoor)balconyDoor;
-        balconyInteraction.PromptText = "Tentar abrir varanda";
-        balconyInteraction.LockedMessage = "A porta está emperrada. O vento passa pelas frestas do lado de fora.";
+            "Door_UpperBalcony_Blocker",
+            doorPos,
+            halfPanel,
+            _matDoorBalcony,
+            "Tentar abrir varanda",
+            "A porta está emperrada. O vento passa pelas frestas do lado de fora.",
+            SecondFloorTopY,
+            panelOffsetX: -0.35f);
+
+        AddLockedDoorBlocker(
+            _secondFloor,
+            "Door_UpperBlocked",
+            "Door_UpperBlocked_Blocker",
+            doorPos,
+            halfPanel,
+            _matDoor,
+            "Tentar abrir porta",
+            "Está trancada por dentro.",
+            SecondFloorTopY,
+            panelOffsetX: 0.35f);
     }
 
     private void BuildSecondFloorNarrativeInteractions()
@@ -924,7 +943,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         float doorCenterZ,
         float doorWidth,
         StandardMaterial3D material,
-        float wallCenterY)
+        float wallCenterY,
+        string? headerName = null)
     {
         var halfLength = totalLength * 0.5f;
         var doorHalf = doorWidth * 0.5f;
@@ -953,6 +973,12 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
                 new Vector3(wallX, wallCenterY, doorNorth - northSegmentLength * 0.5f),
                 new Vector3(WallThickness, WallHeight, northSegmentLength + WallCornerOverlap),
                 material);
+        }
+
+        if (headerName != null)
+        {
+            var floorTopY = wallCenterY - WallCenterY;
+            AddDoorHeaderXWall(parent, headerName, wallX, doorCenterZ, doorWidth, material, floorTopY);
         }
     }
 
