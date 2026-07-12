@@ -202,23 +202,32 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Playtest ambience:** `docs/testing/PENSION_AMBIENCE_AUDIO_PLAYTEST.md`  
 **Assets:** `docs/audio/PENSION_AUDIO_ASSET_LIST.md`
 
-## Sprint 16B — Passos + gotas + debug (implementada)
+## Sprint 16B — Passos + gotas + debug (aprovada)
 
-**Status:** 🔄 Implementada — F6 do usuário pendente para aprovação  
+**Status:** ✅ Aprovada (qualidade geral dos passos)  
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
 - `PlayerFootstepAudio` no Player (audio-only; **não** altera `PlayerController`)
 - Zonas `SurfaceAudio_*` (DirtGravel exterior / Wood interior)
-- Bancos wood / dirt / run com cadência walk/run/crouch
-- Gotas: loop −17 dB no depósito/cozinha + `RandomOneShotEmitter3D`
+- Gotas: loop + `RandomOneShotEmitter3D`
 - Debug F7 + teclas 1–8
-- Respiração ainda **não wired** (sprint futura)
-- Movimento / HUD / fog / portas / puzzle intactos
+- Respiração ainda **não wired**
 
 **Playtest funcional:** `docs/testing/PENSION_AUDIO_FUNCTIONAL_PLAYTEST.md`
 
+## Sprint 16C — Ajuste fino de passos (implementada)
+
+**Status:** 🔄 Implementada — F6 pendente  
+**Escopo:** só `PlayerFootstepAudio` (+ docs / F7 log wiring)
+
+- WalkInterval 0,55 s / Run 0,36 s / Crouch 0,78 s
+- Corrida usa o **mesmo** banco da superfície (dirt ou wood)
+- `player_run_step_*` reservado para sprint futura (não carregado)
+- Volume/pitch sutis entre walk e run; log `[Footstep]` com F7 ON
+- Sem mudança de movimento / HUD / fog / puzzle / eventos
+
 ## Próxima sprint recomendada — respiração do player (áudio-only)
 
-Após F6 da Sprint 16B aprovada (passos + gotas audíveis).
+Após F6 da Sprint 16C aprovada.
 
 **Não avançar automaticamente** para inimigo/chase.
