@@ -92,7 +92,7 @@ Uma única instância é permitida por vão. A folha aberta é uma malha estáti
 
 ## Porta verde / varanda
 
-- Nó: `Door_UpperBalcony_Locked`
+- Nó: `Door_UpperBalcony` + `Door_UpperBalcony_Panel`
 - Painel verde opaco (`_matDoorBalcony`)
 - Colisão ativa, não atravessável
 - Prompt: **Tentar abrir varanda**
@@ -115,4 +115,4 @@ Uma única instância é permitida por vão. A folha aberta é uma malha estáti
 
 ## Playtest
 
-`docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seções Sprint 14A e 14B
+`docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seções Sprint 14A–14F

@@ -28,7 +28,8 @@
 | Sprint 14 | **🔄 Em validação** — portas/quartos/leitura narrativa (playtest F6 pendente) |
 | Sprint 14A | **⏸️ Substituída** — hotfix parcial (playtest falhou) |
 | Sprint 14B | **⏸️ Substituída** — sistema prefab (14C/14D) |
-| Sprint 14E | **🔄 Executada** — hotfix final portas/placa/corredor (playtest F6 pendente) |
+| Sprint 14E | **⏸️ Substituída** — ajustes visuais parciais |
+| Sprint 14F | **🔄 Executada** — limpeza definitiva placas/portas (playtest F6 pendente) |
 
 ---
 
@@ -128,17 +129,18 @@ Sprint 14D: auditoria formal criada em `docs/testing/PENSION_DOOR_AUDIT_14D.md`;
 
 Hotfix 14D: `UpperBalcony_BackWall` estava usando altura local de primeiro andar e aparecia como um bloco diante da passagem do térreo. Reposicionado para `Y = 4,25`, no segundo andar.
 
-## Sprint 14E — resumo (executada)
+## Sprint 14F — resumo (executada)
 
-Hotfix final antes de aprovar Sprint 14.
+Limpeza definitiva — remover duplicatas em vez de empilhar correções.
 
-- **Placa:** `Sign_PensaoSantaLuzia` na fachada; `JobOfferSign` alinhada na trilha.
-- **Porta verde:** `Door_UpperBalcony_Locked` única no vão do corredor — moldura + painel com profundidade real.
-- **Corredor inútil:** fechado atrás da escada no 2º andar.
-- **Z-fighting:** `ConfigureOpenDoor` / `ConfigureLockedDoor` com offsets padronizados.
+- **Placa única** `Sign_Pensao_Main_Exterior` fora da fachada; removida placa interna que clipava a entrada.
+- **Portas abertas** = moldura mínima inline (3 peças); sem infill, folhas ou painéis.
+- **Painéis permitidos** apenas: `Door_Deposit_Panel`, `Door_UpperBalcony_Panel`.
+- **JobOfferSign** na trilha = interação sem mesh (sem placa 3D duplicada).
+- Corredor inútil do 2º andar **permanece fechado** (14E).
 
-**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v1.2  
-**Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14E
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v1.3  
+**Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14F
 
 ## Próxima sprint — Sprint 15 (Vertical slice da Pensão)
 
