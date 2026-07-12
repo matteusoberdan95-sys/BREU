@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 15 implementada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 15 aprovada; próxima: Sprint 16 (áudio ambiente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -27,7 +27,7 @@
 | Sprint 13 | **✅ Aprovada** — atmosfera base |
 | Sprint 14 | **✅ Aprovada** — blockout narrativo limpo (14Z) |
 | Sprint 14A–14F | **⏸️ Substituídas** — iterações de portas/placas absorvidas pela 14Z |
-| Sprint 15 | **🔄 Implementada** — eventos narrativos one-shot (F6 pendente) |
+| Sprint 15 | **✅ Aprovada** — eventos narrativos one-shot sem inimigo |
 
 ---
 
@@ -171,22 +171,21 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Baseline de portas:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v2.0  
 **Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md`
 
-## Sprint 15 — Eventos narrativos simples (implementada)
+## Sprint 15 — APROVADA (eventos narrativos simples)
 
-**Status:** 🔄 Implementada — playtest F6 pendente de aprovação  
+**Data de aprovação:** 2026-07-11  
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
-- Eventos one-shot: entrada, pós-chave, pós-fusível, topo da escada, presença no corredor, hint atrás da porta
-- Flicker de luz curto e reversível
-- **Sem áudio** nesta sprint (sem assets estáveis)
+- Eventos one-shot funcionando (entrada, pós-chave, pós-fusível, escada, corredor, porta)
+- Mensagens narrativas + flicker de luz; sem loop
+- Puzzle, atmosfera, HUD, player, escada e 2º andar preservados
 - **Sem inimigo / combate / chase**
-- Player, HUD, atmosfera, fog, escada, layout, portas e puzzle preservados
 
 **Baseline:** `docs/technical/PENSION_NARRATIVE_EVENTS_BASELINE.md`  
 **Playtest:** `docs/testing/PENSION_SIMPLE_NARRATIVE_EVENTS_PLAYTEST.md`
 
-## Próxima sprint recomendada — Sprint 16 (após F6 da 15)
+## Próxima sprint recomendada — Sprint 16 (Áudio ambiente base da Pensão)
 
-**Objetivo:** Primeiro inimigo / encontro controlado — só depois da Sprint 15 aprovada.
+**Objetivo:** Camada de áudio ambiente base (sem inimigo, sem combate).
 
-**Não avançar automaticamente** para combate, chase ou arte final.
+**Não avançar automaticamente** para inimigo, chase ou arte final.

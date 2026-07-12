@@ -303,7 +303,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 15 — Evento narrativo simples (sem inimigo)
 
-**Status:** 🔄 Implementada — playtest F6 pendente (2026-07-11)
+**Status:** ✅ Concluída / aprovada (2026-07-11)
 
 **Objetivo:** Tensão narrativa one-shot sem inimigo, combate ou chase.
 
@@ -314,15 +314,34 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 - `docs/technical/PENSION_NARRATIVE_EVENTS_BASELINE.md`
 - `docs/testing/PENSION_SIMPLE_NARRATIVE_EVENTS_PLAYTEST.md`
 
-**DoD:** Eventos disparam 1×; zero regressão; sem inimigo.
+**DoD:** ✅ Eventos disparam 1×; zero regressão; sem inimigo.
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 ---
 
-## Sprint 16 — Primeiro inimigo / encontro controlado
+## Sprint 16 — Áudio ambiente base da Pensão
 
-**Status:** ⏳ Após aprovação da Sprint 15
+**Status:** 🔄 Próxima
+
+**Objetivo:** Camada de áudio ambiente base (ambience + reforço sutil dos eventos), sem inimigo.
+
+**Entregas planejadas:**
+- Ambience loop da pensão / trilha
+- Hooks opcionais nos eventos narrativos existentes
+- Documentação de áudio runtime
+
+**DoD:** Áudio estável sem regressão de gameplay; sem inimigo/combat.
+
+**Não fazer:** inimigo; combate; chase; arte final de portas/placas.
+
+**Cena alvo:** `PensaoVerticalBlockout01.tscn`
+
+---
+
+## Sprint 17 — Primeiro inimigo / encontro controlado
+
+**Status:** ⏳ Após Sprint 16
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 
@@ -333,7 +352,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 17 — Combate base
+## Sprint 18 — Combate base
 
 **Objetivo:** Loop ataque → dano → feedback.
 
@@ -343,7 +362,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ---
 
-## Sprint 18 — Arte modular inicial
+## Sprint 19 — Arte modular inicial
 
 **Objetivo:** Substituir blocos por módulos.
 
@@ -358,7 +377,6 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 ## Sprints futuras (backlog)
 
 - Trilha completa com ônibus/lotação (cutscene/gameplay).
-- Audio diegético (rádio, passos, porta).
 - Checkpoint / morte / retry.
 - Streaming entre exterior e interior.
 - Inimigo “Hóspede Seco” definitivo.

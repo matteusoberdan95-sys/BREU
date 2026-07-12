@@ -9,7 +9,7 @@
 
 ## Status
 
-**Implementado** — playtest F6 pendente de aprovação do usuário.
+**✅ Sprint 15 APROVADA** (2026-07-11) — eventos narrativos one-shot sem inimigo.
 
 ---
 
@@ -28,7 +28,7 @@
 
 ## Áudio
 
-**Não usado nesta sprint.** Sem assets de áudio runtime estáveis; eventos usam apenas mensagem HUD + flicker de luz. Áudio real fica para sprint futura.
+**Não usado nesta sprint.** Sem assets de áudio runtime estáveis; eventos usam apenas mensagem HUD + flicker de luz. Áudio real fica para Sprint 16.
 
 ---
 
@@ -45,32 +45,49 @@ Flicker curto e reversível; energia original restaurada.
 
 ---
 
+## Checklist aprovado
+
+| Item | Resultado |
+|------|-----------|
+| Entrada da pensão | ✅ |
+| Pós-chave | ✅ |
+| Pós-fusível | ✅ |
+| Chegada no segundo andar | ✅ |
+| Corredor superior | ✅ |
+| Porta bloqueada / varanda | ✅ |
+| Regressão do puzzle | ✅ |
+| Regressão do HUD | ✅ |
+| Regressão da lanterna | ✅ |
+| Regressão da atmosfera | ✅ |
+
+---
+
 ## Rota de teste F6
 
-- [ ] Nascer na trilha
-- [ ] Entrar na pensão → evento entrada (1×)
-- [ ] Quarto 102 → pegar chave → evento rangido (1×)
-- [ ] Depósito → chave → fusível → evento passos (1×)
-- [ ] Subir escada → evento ar frio (1×)
-- [ ] Corredor superior → evento presença (1×)
-- [ ] Tentar varanda/porta → mensagem trancada + arranhão (1×)
-- [ ] Voltar ao térreo; eventos não repetem
-- [ ] F8 reseta eventos (opcional)
+- [x] Nascer na trilha
+- [x] Entrar na pensão → evento entrada (1×)
+- [x] Quarto 102 → pegar chave → evento rangido (1×)
+- [x] Depósito → chave → fusível → evento passos (1×)
+- [x] Subir escada → evento ar frio (1×)
+- [x] Corredor superior → evento presença (1×)
+- [x] Tentar varanda/porta → mensagem trancada + arranhão (1×)
+- [x] Voltar ao térreo; eventos não repetem
+- [x] F8 reseta eventos (opcional)
 
 ---
 
 ## Regressão
 
-- [ ] Player / HUD / lanterna / F10/F11 OK
-- [ ] Fog / atmosfera OK
-- [ ] Puzzle chave → depósito → fusível OK
-- [ ] Escada / 2º andar OK
-- [ ] Sem portas/placas novas bugadas
-- [ ] Sem inimigo / combate / chase
-- [ ] Sem crash por áudio ausente
+- [x] Player / HUD / lanterna / F10/F11 OK
+- [x] Fog / atmosfera OK
+- [x] Puzzle chave → depósito → fusível OK
+- [x] Escada / 2º andar OK
+- [x] Sem portas/placas novas bugadas
+- [x] Sem inimigo / combate / chase
+- [x] Sem crash por áudio ausente
 
 ---
 
 ## Bugs conhecidos
 
-Nenhum no momento da implementação. Registrar aqui após F6.
+Nenhum após aprovação.

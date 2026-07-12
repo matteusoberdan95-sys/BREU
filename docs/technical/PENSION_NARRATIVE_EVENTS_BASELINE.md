@@ -1,9 +1,10 @@
 # Baseline — Eventos narrativos simples (Pensão)
 
-**Versão:** 1.0  
-**Sprint:** 15  
+**Versão:** 1.1  
+**Sprint:** 15 (aprovada)  
 **Data:** 2026-07-11  
-**Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
+**Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
+**Status:** ✅ Baseline oficial pós-aprovação Sprint 15
 
 ---
 
@@ -17,7 +18,19 @@
 | `PensaoPuzzleState` eventos | `DepositKeyPickedUp` / `OldFusePickedUp` — observação apenas |
 | `BlockoutLockedDoor.NarrativeFollowUpEventId` | Follow-up one-shot após mensagem de porta trancada |
 
-**Não altera:** player, HUD base, atmosfera, fog, layout, portas estruturais, puzzle (exceto leitura de estado).
+---
+
+## Regras oficiais (pós-Sprint 15)
+
+1. **One-shot:** cada ID dispara no máximo uma vez por sessão (até F8 reset). Não repetir em loop.
+2. **Não alterar geometria** — triggers não criam paredes, portas, placas ou layout.
+3. **Não alterar player** — sem mexer em movimento, câmera, lanterna ou controles.
+4. **Não spawnar inimigo** — sem combate, chase, dano ou entidade hostil.
+5. **Próximos eventos** devem seguir este padrão (mensagem / flicker / áudio opcional / one-shot).
+6. **Sem bloqueio:** triggers não colidem com o player (`CollisionLayer = 0`).
+7. **Mensagens:** fila simples — duração 3–3,5 s; não empilhar sobrepostas.
+8. **Flicker:** curto, reversível; nunca altera `WorldEnvironment` / fog.
+9. **Áudio:** opcional. Sprint 15 sem áudio; áudio ambiente = Sprint 16.
 
 ---
 
@@ -34,17 +47,6 @@
 
 ---
 
-## Regras
-
-1. **One-shot:** cada ID dispara no máximo uma vez por sessão (até F8 reset).
-2. **Sem bloqueio:** triggers não colidem com o player (`CollisionLayer = 0`).
-3. **Mensagens:** fila simples no controlador — duração 3–3,5 s; não empilhar sobrepostas.
-4. **Flicker:** curto, reversível; nunca altera `WorldEnvironment` / fog.
-5. **Áudio:** opcional. Nesta sprint **não usado** (sem assets estáveis). Áudio real = sprint futura.
-6. **Proibido:** inimigo, combate, chase, jumpscare, porta animada, placa/moldura nova.
-
----
-
 ## Debug
 
 - **F8:** `ResetAllEvents()` — limpa IDs disparados e reativa triggers.
@@ -54,4 +56,4 @@
 
 ## Playtest
 
-`docs/testing/PENSION_SIMPLE_NARRATIVE_EVENTS_PLAYTEST.md`
+`docs/testing/PENSION_SIMPLE_NARRATIVE_EVENTS_PLAYTEST.md` — Sprint 15 **aprovada**
