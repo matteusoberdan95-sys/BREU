@@ -1,58 +1,34 @@
-# Playtest — Sprint 18
+# Playtest — Sprint 18A (laje + ala superior)
 
-**Cena:** `PensaoVerticalBlockout01.tscn`  
-**Status:** compilação e carga aprovadas; percurso F6 visual pendente.
+**Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
+**Status:** Implementada — F6 obrigatório
 
-## Rota
+## Teste da laje (binário)
 
-- [ ] fluxo depósito/fusível preservado
-- [ ] porta verde e varanda acessíveis
-- [ ] arame → ralo → chave preservado
-- [ ] quarto da proprietária e caderno preservados
-- [ ] número 203 legível e não espelhado
-- [ ] 203 permanece bloqueado
-- [ ] arranhão → passos → flicker → mensagem final
-- [ ] evento não repete integralmente
-- [ ] rouparia acessível e prompt próximo
-- [ ] Quarto 204 visível, próximo e bloqueado
-- [ ] guarda-corpo não bloqueia circulação
-- [ ] olhar para baixo somente na borda
-- [ ] sem z-fighting, limbo ou prompt através de parede
+- [ ] subir ao segundo andar
+- [ ] abrir porta verde
+- [ ] entrar na área superior
+- [ ] caminhar `Marker_UpperFloor_Start` → `Middle` → `End`
+- [ ] voltar `End` → `Start`
+- [ ] não cair para o térreo
+- [ ] não precisar pular nem agachar
+- [ ] sem collider invisível no caminho
 
-## Prioridade: circulação sem mureta
+## Cômodos / puzzle
 
-- [x] mesh da mureta lateral interna removido
-- [x] collider correspondente removido
-- [x] parede sul direita do corredor aberta para a extensão
-- [ ] confirmar em F6 que não há contato invisível na antiga barreira
-- [ ] atravessar corredor B sem pular ou contornar
-- [ ] entrar e sair do Quarto 204
-- [ ] entrar e sair do banheiro B
-- [ ] entrar e sair da rouparia
-- [ ] confirmar props fora dos eixos de entrada
-- [ ] confirmar fluxo anterior até o 203 intacto
-
-## Hotfix urgente — barreira frontal real
-
-A barreira que permanecia era `BalconyRail_Front`, em `Z=-2,2`, incluindo mesh, `StaticBody3D`, `CollisionShape3D` e o trigger `Interact_BalconyLookDown` associado.
-
-- [x] mesh removido da cena manual
-- [x] StaticBody/collider removidos
-- [x] trigger e prompt associados removidos
-- [x] criação histórica removida do builder congelado
-- [x] `UpperWing_FreeWalkableFloor` conecta no mesmo nível, sem sobreposição
-- [x] `Marker_UpperWing_PathStart` criado antes da antiga barreira
-- [x] `Marker_UpperWing_PathEnd` criado depois da antiga barreira
-- [ ] F6: caminhar PathStart → PathEnd sem pular/agachar
-- [ ] F6: retornar PathEnd → PathStart sem contato invisível
-
-O teste estrutural e a carga da cena passaram. O teste binário de gameplay permanece pendente do percurso manual.
+- [ ] Quarto 204 acessível; examinar cama e marcas
+- [ ] Banheiro coletivo; espelho
+- [ ] Rouparia; pegar segundo fusível
+- [ ] Sala técnica; instalar fusível
+- [ ] luz/corredor reage
+- [ ] Quarto 203 reage após energia; porta continua bloqueada
+- [ ] Quarto 205 bloqueado
+- [ ] varanda frontal andável; “Olhar para baixo” só na borda
 
 ## Regressão
 
-- [ ] movimento/stamina/crouch
-- [ ] HUD/lanterna/F10/F11
-- [ ] áudio/passos/respiração
-- [ ] fog/WorldEnvironment
-- [ ] escada e térreo
-- [ ] sem inimigo, combate, dano ou chase
+- [ ] movimento / HUD / lanterna / F10–F11
+- [ ] áudio / passos / respiração / fog
+- [ ] puzzle depósito/fusível térreo
+- [ ] porta verde + proprietária + caderno
+- [ ] sem inimigo / combate / chase

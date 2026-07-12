@@ -17,17 +17,17 @@ albedo_color = Color(0.22, 0.42, 0.24, 1)
 albedo_color = Color(0.25, 0.2, 0.18, 1)
 
 [sub_resource type="BoxMesh" id="FloorLanding"]
-size = Vector3(3.2, 0.18, 1.75)
+size = Vector3(3.2, 0.3, 1.75)
 [sub_resource type="BoxShape3D" id="FloorLandingShape"]
-size = Vector3(3.2, 0.18, 1.75)
+size = Vector3(3.2, 0.3, 1.75)
 [sub_resource type="BoxMesh" id="FloorBalcony"]
-size = Vector3(3.2, 0.18, 3.6)
+size = Vector3(3.2, 0.3, 3.6)
 [sub_resource type="BoxShape3D" id="FloorBalconyShape"]
-size = Vector3(3.2, 0.18, 3.6)
+size = Vector3(3.2, 0.3, 3.6)
 [sub_resource type="BoxMesh" id="FloorRooms"]
-size = Vector3(5.2, 0.18, 3.9)
+size = Vector3(5.2, 0.3, 3.9)
 [sub_resource type="BoxShape3D" id="FloorRoomsShape"]
-size = Vector3(5.2, 0.18, 3.9)
+size = Vector3(5.2, 0.3, 3.9)
 [sub_resource type="BoxMesh" id="WallLong"]
 size = Vector3(0.18, 2.8, 3.9)
 [sub_resource type="BoxShape3D" id="WallLongShape"]
@@ -45,9 +45,9 @@ size = Vector3(0.45, 0.45, 0.35)
 [sub_resource type="BoxShape3D" id="InteractDoor"]
 size = Vector3(1.25, 1.15, 0.35)
 [sub_resource type="BoxMesh" id="FreeWalkableMesh"]
-size = Vector3(3.2, 0.18, 3.4)
+size = Vector3(3.4, 0.3, 3.6)
 [sub_resource type="BoxShape3D" id="FreeWalkableShape"]
-size = Vector3(3.2, 0.18, 3.4)
+size = Vector3(3.4, 0.3, 3.6)
 [sub_resource type="BoxMesh" id="PropMesh"]
 size = Vector3(0.35, 0.08, 0.28)
 [sub_resource type="BoxMesh" id="BalconyCeilingMesh"]
@@ -60,15 +60,15 @@ script = ExtResource("1")
 
 [node name="Geometry" type="Node3D" parent="."]
 [node name="BalconyLanding" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(0, 2.84, -6.675)
+position = Vector3(0, 2.65, -6.675)
 mesh = SubResource("FloorLanding")
 material_override = SubResource("MatFloor")
 [node name="BalconyWalkable" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(0, 2.84, -4.0)
+position = Vector3(0, 2.65, -4.0)
 mesh = SubResource("FloorBalcony")
 material_override = SubResource("MatFloor")
 [node name="UpperWing_FreeWalkableFloor" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(0, 2.84, -0.5)
+position = Vector3(0, 2.65, -0.5)
 mesh = SubResource("FreeWalkableMesh")
 material_override = SubResource("MatFloor")
 [node name="BalconyRail_Right" type="Node3D" parent="Geometry"]
@@ -124,36 +124,52 @@ mesh = SubResource("WallWide")
 material_override = SubResource("MatWall")
 
 [node name="Collisions" type="Node3D" parent="."]
+[node name="UpperWing_FreeWalkableFloor" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 2.65, -0.5)
+collision_layer = 1
+collision_mask = 0
+[node name="Shape" type="CollisionShape3D" parent="Collisions/UpperWing_FreeWalkableFloor"]
+shape = SubResource("FreeWalkableShape")
 [node name="BalconyFloor" type="StaticBody3D" parent="Collisions"]
-position = Vector3(0, 2.75, -4.0)
+position = Vector3(0, 2.65, -4.0)
+collision_layer = 1
+collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/BalconyFloor"]
 shape = SubResource("FloorBalconyShape")
 [node name="LandingFloor" type="StaticBody3D" parent="Collisions"]
-position = Vector3(0, 2.75, -6.675)
+position = Vector3(0, 2.65, -6.675)
+collision_layer = 1
+collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/LandingFloor"]
 shape = SubResource("FloorLandingShape")
 [node name="RoomsFloor" type="StaticBody3D" parent="Collisions"]
-position = Vector3(4.2, 2.75, -4.3)
+position = Vector3(4.2, 2.65, -4.3)
+collision_layer = 1
+collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/RoomsFloor"]
 shape = SubResource("FloorRoomsShape")
-[node name="UpperWing_FreeWalkableFloor" type="StaticBody3D" parent="Collisions"]
-position = Vector3(0, 2.75, -0.5)
-[node name="Shape" type="CollisionShape3D" parent="Collisions/UpperWing_FreeWalkableFloor"]
-shape = SubResource("FreeWalkableShape")
 [node name="RoomEastWall" type="StaticBody3D" parent="Collisions"]
 position = Vector3(6.8, 4.2, -4.3)
+collision_layer = 1
+collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/RoomEastWall"]
 shape = SubResource("WallLongShape")
 [node name="BathroomNorthWall" type="StaticBody3D" parent="Collisions"]
 position = Vector3(4.2, 4.2, -6.25)
+collision_layer = 1
+collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/BathroomNorthWall"]
 shape = SubResource("WallWideShape")
 [node name="RoomsDividerWall" type="StaticBody3D" parent="Collisions"]
 position = Vector3(4.2, 4.2, -4.35)
+collision_layer = 1
+collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/RoomsDividerWall"]
 shape = SubResource("WallWideShape")
 [node name="OwnerSouthWall" type="StaticBody3D" parent="Collisions"]
 position = Vector3(4.2, 4.2, -2.35)
+collision_layer = 1
+collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/OwnerSouthWall"]
 shape = SubResource("WallWideShape")
 

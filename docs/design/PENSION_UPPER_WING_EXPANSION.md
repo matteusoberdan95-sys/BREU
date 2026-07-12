@@ -1,41 +1,50 @@
-# Sprint 18 — expansão da ala superior
+# Sprint 18A — Laje sólida + expansão da ala superior
 
-## Organização
+**Cena:** `PensaoVerticalBlockout01.tscn`  
+**Fontes:** `areas/BalconyWing.tscn` + `areas/UpperWingExpansion.tscn`
 
-- `BalconyWing.tscn`: varanda estreita, banheiro e quarto da proprietária, agora com cobertura simples.
-- corredor superior: destino 203 na parede esquerda; rouparia e Quarto 204 na parede direita.
-- guarda-corpos permanecem apenas nas bordas externas; nenhum novo blocker foi colocado na circulação.
+## Problema
 
-## Remoção da barreira e planta acessível
+A mureta frontal foi removida, mas o espaço liberado não tinha piso/colisão confiável — o player caía para o térreo.
 
-- removidos `BalconyRail_Left` e seu `StaticBody3D/CollisionShape3D`, que funcionavam como mureta interna;
-- a parede direita sul do corredor foi retirada entre `Z=-7,5` e `Z=-15`;
-- `UpperHall_Corridor_B` usa o piso principal existente, sem slab coplanar novo;
-- a passagem corredor → ala tem largura livre e não exige pulo;
-- nenhum prompt ou trigger foi associado à antiga barreira.
+## Laje sólida
 
-## Ambientes acessíveis
+| Node | Função |
+|------|--------|
+| `UpperWing_SolidFloor` | Laje principal (mesh + `StaticBody3D`, layer 1, espessura 0.30) |
+| `UpperWing_ConnectorFloor` | Liga a varanda/porta verde à laje |
+| `UpperWing_FreeWalkableFloor` | Reforço na `BalconyWing` (mesmo nível, layer 1) |
+| `UpperBalcony_FrontWalkway` | Faixa frontal de varanda com guarda-corpo só na borda externa |
 
-- `Room_204`: quarto aberto com identificação 204, cama, criado-mudo e leitura narrativa na cama.
-- `Room_UpperBathroom_B`: segundo banheiro antigo, aberto, estreito e com pia/vaso em blockout.
-- `Room_LinenCloset`: rouparia aberta com lençóis e caixas, útil para exploração e tensão futura.
+Markers de teste:
+- `Marker_UpperFloor_Start`
+- `Marker_UpperFloor_Middle`
+- `Marker_UpperFloor_End`
 
-Os três ambientes abrem diretamente para o corredor B. Não existem portas decorativas ou blockers impedindo entrada.
+Topo alinhado a Y≈2.80 (piso do 2º andar).
 
-## Novos pontos
+## Cômodos
 
-- `Room_LinenCloset`: nicho de rouparia com lençóis empilhados e leitura narrativa variável após o aviso 203.
-- `Door_Room204_Blocked`: porta ambiental que permanece fechada e ganha mensagem de respiração após o aviso.
-- `Door_Room203_Blocked`: destino final atual, número reorientado e porta sempre bloqueada.
+| Node | Conteúdo |
+|------|----------|
+| `Room_204` | Cama, criado, armário, marcas; interações cama/marcas |
+| `Room_UpperSharedBathroom` | Pia, vaso, espelho (reflexo atrasado) |
+| `Room_LinenCloset` | Lençóis → segundo fusível (`HasUpperFuse`) |
+| `Room_UpperGeneratorPanel` | Painel → instala fusível (`IsUpperPowerRestored`) |
+| `Door_Room205_Blocked` | Porta bloqueada (não abre) |
+| `Door_Room203_Blocked` | Mantido; reage após energia superior |
 
-## Event_Room203_FirstWarning
+## Puzzle do segundo fusível
 
-Na primeira tentativa após ler o caderno:
+```
+Rouparia → HasUpperFuse
+  → Painel superior → IsUpperPowerRestored
+  → luzes piscam + arranhão
+  → Quarto 203: "Algo bate..." / "Eu não estou sozinho aqui."
+```
 
-1. mensagem de bloqueio;
-2. `door_scratch_01`;
-3. `distant_step_01`;
-4. flicker curto apenas na luz do corredor;
-5. “Eu não estou sozinho aqui.”
+203 **não abre** nesta sprint.
 
-O evento é único. Não abre a porta, não mostra inimigo, não inicia chase e não causa dano.
+## Preservado
+
+Porta verde, banheiro/proprietária da `BalconyWing`, Quarto 203, puzzle térreo, player/HUD/áudio/fog.

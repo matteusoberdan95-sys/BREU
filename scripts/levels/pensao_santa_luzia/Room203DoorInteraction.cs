@@ -2,7 +2,9 @@ namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 using BREU.Scripts.Audio;
 
-/// <summary>Sprint 17F hook: Room 203 remains permanently blocked.</summary>
+/// <summary>
+/// Sprint 18A — Room 203 stays blocked; reacts harder after upper power restore.
+/// </summary>
 public partial class Room203DoorInteraction : Node, IInteractable
 {
     private PensaoPuzzleState? _state;
@@ -25,7 +27,19 @@ public partial class Room203DoorInteraction : Node, IInteractable
             return;
         }
 
-        if (_sequenceRunning) return;
+        if (_sequenceRunning)
+        {
+            return;
+        }
+
+        // Sprint 18A — after upper fuse installed, 203 reacts before touch.
+        if (_state.IsUpperPowerRestored)
+        {
+            _sequenceRunning = true;
+            _ = Powered203SequenceAsync();
+            return;
+        }
+
         if (_state.HasTriggeredRoom203Warning)
         {
             hud?.ShowMessage("Algo pesado bloqueia a porta pelo outro lado.", 3.2f);
@@ -37,6 +51,24 @@ public partial class Room203DoorInteraction : Node, IInteractable
         hud?.ShowMessage("Algo pesado bloqueia a porta pelo outro lado.", 3.2f);
         PensionAudioManager.Find(GetTree())?.PlayOneShot("door_scratch_01", -13f);
         _ = FinishSequenceAsync();
+    }
+
+    private async System.Threading.Tasks.Task Powered203SequenceAsync()
+    {
+        var hud = HUDController.FindActive(GetTree());
+        var audio = PensionAudioManager.Find(GetTree());
+        hud?.ShowMessage("Algo bate do outro lado antes que eu toque na maçaneta.", 3.5f);
+        audio?.PlayOneShot("door_scratch_02", -12f);
+        await ToSignal(GetTree().CreateTimer(1.1f), SceneTreeTimer.SignalName.Timeout);
+        audio?.PlayOneShot("distant_step_01", -16f);
+        await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
+        hud?.ShowMessage("Eu não estou sozinho aqui.", 3.5f);
+        if (!_state!.HasTriggeredRoom203Warning)
+        {
+            _state.TriggerRoom203Warning();
+        }
+
+        _sequenceRunning = false;
     }
 
     private async System.Threading.Tasks.Task FinishSequenceAsync()
@@ -59,6 +91,7 @@ public partial class Room203DoorInteraction : Node, IInteractable
             light.LightEnergy = i % 2 == 0 ? original * 0.35f : original;
             await ToSignal(GetTree().CreateTimer(0.16f), SceneTreeTimer.SignalName.Timeout);
         }
+
         light.LightEnergy = original;
     }
 }

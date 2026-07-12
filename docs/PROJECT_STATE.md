@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-12  
-**Fase:** REBOOT GREENFIELD — Sprint 17C (ala varanda + puzzle macabro) implementada; F6 pendente  
+**Fase:** REBOOT GREENFIELD — Sprint 18A (laje sólida + ala superior) implementada; F6 pendente  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -37,6 +37,9 @@
 | Sprint 17A | **🔄 Hotfix** — porta verde reposicionada (estava no teto) |
 | Sprint 17B | **🔄 Hotfix** — porta única + varanda real conectada |
 | Sprint 17C | **🔄 Implementada** — ala banheiro + quarto proprietária + puzzle macabro; F6 pendente |
+| Sprint 17F | **🔄 Implementada** — Quarto 203 encontrável no corredor |
+| Sprint 18 | **🔄 Parcial** — aviso 203 / expansão inicial |
+| Sprint 18A | **🔄 Implementada** — laje sólida + cômodos + 2º fusível; F6 pendente |
 
 ---
 
@@ -276,6 +279,18 @@ Sprint 17C/17D foi preservada no checkpoint `4a16478` e substituída pela Sprint
 ### Hotfix — remoção definitiva da barreira superior
 
 `BalconyRail_Front`, seu collider e o trigger “Olhar para baixo” foram removidos da cena manual e do builder histórico. Um piso simples e nivelado conecta o antigo limite ao espaço aberto, marcado por `Marker_UpperWing_PathStart` e `Marker_UpperWing_PathEnd`. Compilação e carga passaram; travessia manual F6 ainda precisa confirmar o caminho binário antes do commit final.
+
+### Sprint 18A — Laje sólida + cômodos jogáveis
+
+**Status:** 🔄 Implementada — F6 pendente
+
+- `UpperWing_SolidFloor` + connector + reforço na `BalconyWing` (colisão layer 1, espessura 0.30)
+- Faixa `UpperBalcony_FrontWalkway` com guarda-corpo só na borda externa
+- Cômodos: 204, banheiro coletivo, rouparia, sala do gerador, 205 bloqueado
+- Puzzle: `HasUpperFuse` → `IsUpperPowerRestored` → reação do Quarto 203 (sem abrir)
+- Docs: `docs/design/PENSION_UPPER_WING_EXPANSION.md`, playtest 18A
+
+**Não aprovada** até F6 confirmar que o player não cai.
 
 ## Sprint 16C — Ajuste fino de passos (aprovada)
 

@@ -378,21 +378,27 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 18 — Primeiro susto controlado sem inimigo físico
 
-**Status:** 🔄 Implementada em blockout — F6 visual final pendente
+**Status:** 🔄 Em andamento via 18A — F6 pendente
 
-- Ala superior organizada com cobertura, rouparia e porta 204 ambiental.
-- Quarto 203 permanece bloqueado e dispara aviso controlado único.
-- Sem inimigo físico, combate, dano ou chase.
+### Sprint 18A — Laje sólida + cômodos da ala superior
 
-**Status:** ⏳ Após Sprint 17C aprovada
+**Status:** 🔄 Implementada — playtest F6 pendente
 
-**Objetivo:** Susto / tensão controlada **sem** inimigo físico, combate ou chase.
+**Objetivo:** Piso sólido no espaço liberado + cômodos jogáveis + segundo fusível.
+
+**Entregas:**
+- `UpperWing_SolidFloor` com colisão real
+- Quarto 204, banheiro coletivo, rouparia, gerador, 205 bloqueado
+- Flags `HasUpperFuse` / `IsUpperPowerRestored`
+- Reação do Quarto 203 após energia (sem abrir)
+
+**DoD:** Player não cai; cômodos acessíveis; puzzle do fusível; zero regressão.
 
 ---
 
 ## Sprint 19 — Primeiro inimigo / encontro controlado
 
-**Status:** ⏳ Após Sprint 18
+**Status:** ⏳ Após Sprint 18A aprovada
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 

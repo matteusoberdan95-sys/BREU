@@ -30,6 +30,12 @@ public partial class PensaoPuzzleState : Node
     public bool HasReadOwnerLedger { get; private set; }
     public bool HasTriggeredRoom203Warning { get; private set; }
 
+    /// <summary>Sprint 18A — second fuse from linen closet.</summary>
+    public bool HasUpperFuse { get; private set; }
+
+    /// <summary>Sprint 18A — upper generator panel restored.</summary>
+    public bool IsUpperPowerRestored { get; private set; }
+
     public event Action? DepositKeyPickedUp;
     public event Action? OldFusePickedUp;
     public event Action? BalconyNoteRead;
@@ -41,6 +47,8 @@ public partial class PensaoPuzzleState : Node
     public event Action? OwnerRoomUnlocked;
     public event Action? OwnerLedgerRead;
     public event Action? Room203WarningTriggered;
+    public event Action? UpperFusePickedUp;
+    public event Action? UpperPowerRestored;
 
     public void PickupDepositKey()
     {
@@ -157,5 +165,27 @@ public partial class PensaoPuzzleState : Node
         if (HasTriggeredRoom203Warning) return;
         HasTriggeredRoom203Warning = true;
         Room203WarningTriggered?.Invoke();
+    }
+
+    public void PickupUpperFuse()
+    {
+        if (HasUpperFuse)
+        {
+            return;
+        }
+
+        HasUpperFuse = true;
+        UpperFusePickedUp?.Invoke();
+    }
+
+    public void RestoreUpperPower()
+    {
+        if (!HasUpperFuse || IsUpperPowerRestored)
+        {
+            return;
+        }
+
+        IsUpperPowerRestored = true;
+        UpperPowerRestored?.Invoke();
     }
 }
