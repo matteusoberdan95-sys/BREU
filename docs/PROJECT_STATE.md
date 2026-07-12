@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 16 implementada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 16 implementada com pack áudio v2 (F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -28,7 +28,7 @@
 | Sprint 14 | **✅ Aprovada** — blockout narrativo limpo (14Z) |
 | Sprint 14A–14F | **⏸️ Substituídas** — iterações de portas/placas absorvidas pela 14Z |
 | Sprint 15 | **✅ Aprovada** — eventos narrativos one-shot sem inimigo |
-| Sprint 16 | **🔄 Implementada** — áudio ambiente base (F6 pendente) |
+| Sprint 16 | **🔄 Implementada** — áudio ambiente pack v2 (F6 pendente) |
 
 ---
 
@@ -185,23 +185,24 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Baseline:** `docs/technical/PENSION_NARRATIVE_EVENTS_BASELINE.md`  
 **Playtest:** `docs/testing/PENSION_SIMPLE_NARRATIVE_EVENTS_PLAYTEST.md`
 
-## Sprint 16 — Áudio ambiente base (implementada)
+## Sprint 16 — Áudio ambiente base (implementada / pack v2)
 
 **Status:** 🔄 Implementada — playtest F6 pendente  
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
+- Pack v2 em `assets/audio/pensao/` (loops, one-shots, flashlight, passos/respiração)
 - `PensionAudioManager` + zonas + crossfade
-- Todos os assets em `assets/audio/pensao/` presentes
-- One-shots integrados aos eventos da Sprint 15
-- Buses: Master / Ambience / SFX / UI
-- Sem inimigo / combate / chase; gameplay e atmosfera visual preservados
+- One-shots nos eventos Sprint 15
+- Click da lanterna conectado (sem mudar lógica/bateria)
+- Passos/respiração **cadastrados para Sprint 17** (não wired)
+- Sem inimigo / combate / chase
 
 **Baseline:** `docs/technical/PENSION_AUDIO_BASELINE.md`  
 **Playtest:** `docs/testing/PENSION_AMBIENCE_AUDIO_PLAYTEST.md`  
 **Assets:** `docs/audio/PENSION_AUDIO_ASSET_LIST.md`
 
-## Próxima sprint recomendada — Sprint 17 (após F6 da 16)
+## Próxima sprint recomendada — Sprint 17 (Footsteps e respiração do player)
 
-**Objetivo:** Primeiro inimigo / encontro controlado — só depois da Sprint 16 aprovada.
+Após F6 da Sprint 16 aprovada.
 
-**Não avançar automaticamente** para combate, chase ou arte final.
+**Não avançar automaticamente** para inimigo/chase.

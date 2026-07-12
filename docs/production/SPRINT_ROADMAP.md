@@ -322,30 +322,37 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 16 — Áudio ambiente base da Pensão
 
-**Status:** 🔄 Implementada — playtest F6 pendente (2026-07-11)
+**Status:** 🔄 Implementada — playtest F6 pendente (2026-07-11) — pack v2
 
 **Objetivo:** Camada de áudio ambiente base (ambience + reforço sutil dos eventos), sem inimigo.
 
 **Entregas:**
+- Pack v2 `assets/audio/pensao/`
 - `PensionAudioManager` + `AmbienceZone3D` + `OneShotAudioTrigger3D`
 - Buses Master / Ambience / SFX / UI
-- Zonas: exterior, recepção, corredor, 102, cozinha, depósito, escada, 2º andar
-- One-shots nos eventos Sprint 15
-- `docs/technical/PENSION_AUDIO_BASELINE.md`
-- `docs/audio/PENSION_AUDIO_ASSET_LIST.md`
-- `docs/testing/PENSION_AMBIENCE_AUDIO_PLAYTEST.md`
+- Zonas + crossfade + one-shots Sprint 15 + flashlight click
+- Passos/respiração cadastrados (wired na Sprint 17)
+- Docs: baseline, asset list, playtest
 
-**DoD:** Áudio estável sem regressão de gameplay; sem inimigo/combat.
-
-**Não fazer:** inimigo; combate; chase; arte final de portas/placas.
+**DoD:** Áudio estável sem regressão; sem inimigo/combat.
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 ---
 
-## Sprint 17 — Primeiro inimigo / encontro controlado
+## Sprint 17 — Footsteps e respiração do player
 
-**Status:** ⏳ Após aprovação da Sprint 16
+**Status:** 🔄 Próxima (após F6 da 16)
+
+**Objetivo:** Conectar passos (madeira/terra/corrida) e respiração/panting ao player sem alterar feel aprovado.
+
+**Assets:** `player_footstep_*`, `player_run_step_*`, `player_breath_*`, `player_panting_loop`
+
+---
+
+## Sprint 18 — Primeiro inimigo / encontro controlado
+
+**Status:** ⏳ Após Sprint 17
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 

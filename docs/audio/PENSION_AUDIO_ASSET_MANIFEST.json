@@ -1,0 +1,652 @@
+{
+  "distant_knock_01.ogg": {
+    "path": "assets/audio/pensao/distant_knock_01.ogg",
+    "duration_s": 1.4,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -22.1,
+    "max_dBFS": -1.4,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "distant_knock_02.ogg": {
+    "path": "assets/audio/pensao/distant_knock_02.ogg",
+    "duration_s": 1.4,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -23.8,
+    "max_dBFS": -1.1,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "distant_step_01.ogg": {
+    "path": "assets/audio/pensao/distant_step_01.ogg",
+    "duration_s": 0.77,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -24.0,
+    "max_dBFS": -4.7,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "distant_step_02.ogg": {
+    "path": "assets/audio/pensao/distant_step_02.ogg",
+    "duration_s": 0.77,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -24.0,
+    "max_dBFS": -2.9,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "distant_step_03.ogg": {
+    "path": "assets/audio/pensao/distant_step_03.ogg",
+    "duration_s": 0.77,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -24.1,
+    "max_dBFS": -2.3,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "distant_step_04.ogg": {
+    "path": "assets/audio/pensao/distant_step_04.ogg",
+    "duration_s": 0.77,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -23.9,
+    "max_dBFS": -5.5,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "door_scratch_01.ogg": {
+    "path": "assets/audio/pensao/door_scratch_01.ogg",
+    "duration_s": 2.0,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -31.0,
+    "max_dBFS": -1.4,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "door_scratch_02.ogg": {
+    "path": "assets/audio/pensao/door_scratch_02.ogg",
+    "duration_s": 1.9,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -32.1,
+    "max_dBFS": -1.7,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "exterior_night_wind_loop.ogg": {
+    "path": "assets/audio/pensao/exterior_night_wind_loop.ogg",
+    "duration_s": 185.59,
+    "channels": 2,
+    "sample_rate": 48000,
+    "dBFS": -30.2,
+    "max_dBFS": -5.6,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "flashlight_click_off_01.ogg": {
+    "path": "assets/audio/pensao/flashlight_click_off_01.ogg",
+    "duration_s": 0.5,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -23.8,
+    "max_dBFS": -0.7,
+    "source_hint": "strachszydlo-turning-on-and-off-a-flashlight-click-sound-502512.mp3",
+    "role": "flashlight on/off click one-shot"
+  },
+  "flashlight_click_off_02.ogg": {
+    "path": "assets/audio/pensao/flashlight_click_off_02.ogg",
+    "duration_s": 0.85,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -26.1,
+    "max_dBFS": -0.7,
+    "source_hint": "strachszydlo-turning-on-and-off-a-flashlight-click-sound-502512.mp3",
+    "role": "flashlight on/off click one-shot"
+  },
+  "flashlight_click_on_01.ogg": {
+    "path": "assets/audio/pensao/flashlight_click_on_01.ogg",
+    "duration_s": 0.85,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -35.1,
+    "max_dBFS": -29.3,
+    "source_hint": "strachszydlo-turning-on-and-off-a-flashlight-click-sound-502512.mp3",
+    "role": "flashlight on/off click one-shot"
+  },
+  "flashlight_click_on_02.ogg": {
+    "path": "assets/audio/pensao/flashlight_click_on_02.ogg",
+    "duration_s": 1.45,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -25.9,
+    "max_dBFS": -0.6,
+    "source_hint": "strachszydlo-turning-on-and-off-a-flashlight-click-sound-502512.mp3",
+    "role": "flashlight on/off click one-shot"
+  },
+  "lamp_buzz_loop.ogg": {
+    "path": "assets/audio/pensao/lamp_buzz_loop.ogg",
+    "duration_s": 16.85,
+    "channels": 2,
+    "sample_rate": 48000,
+    "dBFS": -30.2,
+    "max_dBFS": -4.7,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "old_house_settle_01.ogg": {
+    "path": "assets/audio/pensao/old_house_settle_01.ogg",
+    "duration_s": 1.2,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -24.5,
+    "max_dBFS": -7.0,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "old_house_settle_02.ogg": {
+    "path": "assets/audio/pensao/old_house_settle_02.ogg",
+    "duration_s": 1.0,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -24.9,
+    "max_dBFS": -1.4,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "pension_deposit_room_loop.ogg": {
+    "path": "assets/audio/pensao/pension_deposit_room_loop.ogg",
+    "duration_s": 47.54,
+    "channels": 2,
+    "sample_rate": 48000,
+    "dBFS": -22.0,
+    "max_dBFS": -9.8,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "pension_ground_corridor_loop.ogg": {
+    "path": "assets/audio/pensao/pension_ground_corridor_loop.ogg",
+    "duration_s": 47.54,
+    "channels": 2,
+    "sample_rate": 48000,
+    "dBFS": -23.0,
+    "max_dBFS": -10.8,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "pension_reception_ambience_loop.ogg": {
+    "path": "assets/audio/pensao/pension_reception_ambience_loop.ogg",
+    "duration_s": 47.54,
+    "channels": 2,
+    "sample_rate": 48000,
+    "dBFS": -24.0,
+    "max_dBFS": -11.5,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "pension_second_floor_loop.ogg": {
+    "path": "assets/audio/pensao/pension_second_floor_loop.ogg",
+    "duration_s": 47.54,
+    "channels": 2,
+    "sample_rate": 48000,
+    "dBFS": -22.0,
+    "max_dBFS": -9.8,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "pension_water_drops_loop.ogg": {
+    "path": "assets/audio/pensao/pension_water_drops_loop.ogg",
+    "duration_s": 7.08,
+    "channels": 2,
+    "sample_rate": 48000,
+    "dBFS": -32.7,
+    "max_dBFS": -1.3,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "player_breath_heavy_01.ogg": {
+    "path": "assets/audio/pensao/player_breath_heavy_01.ogg",
+    "duration_s": 0.76,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -24.0,
+    "max_dBFS": -10.2,
+    "source_hint": "ribhavagrawal-heavy-breathing-sound-effect-type-02-294195.mp3",
+    "role": "player breath one-shot"
+  },
+  "player_breath_heavy_02.ogg": {
+    "path": "assets/audio/pensao/player_breath_heavy_02.ogg",
+    "duration_s": 0.64,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -24.0,
+    "max_dBFS": -10.3,
+    "source_hint": "ribhavagrawal-heavy-breathing-sound-effect-type-02-294195.mp3",
+    "role": "player breath one-shot"
+  },
+  "player_breath_heavy_03.ogg": {
+    "path": "assets/audio/pensao/player_breath_heavy_03.ogg",
+    "duration_s": 0.59,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -23.9,
+    "max_dBFS": -7.1,
+    "source_hint": "ribhavagrawal-heavy-breathing-sound-effect-type-02-294195.mp3",
+    "role": "player breath one-shot"
+  },
+  "player_breath_heavy_04.ogg": {
+    "path": "assets/audio/pensao/player_breath_heavy_04.ogg",
+    "duration_s": 0.51,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -24.1,
+    "max_dBFS": -8.7,
+    "source_hint": "ribhavagrawal-heavy-breathing-sound-effect-type-02-294195.mp3",
+    "role": "player breath one-shot"
+  },
+  "player_breath_heavy_loop.ogg": {
+    "path": "assets/audio/pensao/player_breath_heavy_loop.ogg",
+    "duration_s": 8.15,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -25.0,
+    "max_dBFS": -3.2,
+    "source_hint": "ribhavagrawal-heavy-breathing-sound-effect-type-02-294195.mp3",
+    "role": "player heavy breathing loop after sprint"
+  },
+  "player_footstep_dirt_gravel_01.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_01.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -34.9,
+    "max_dBFS": -12.4,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_02.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_02.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -37.3,
+    "max_dBFS": -14.6,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_03.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_03.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -36.4,
+    "max_dBFS": -16.1,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_04.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_04.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -35.8,
+    "max_dBFS": -10.1,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_05.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_05.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -32.9,
+    "max_dBFS": -13.1,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_06.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_06.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -31.3,
+    "max_dBFS": -6.8,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_07.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_07.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -24.6,
+    "max_dBFS": -2.9,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_08.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_08.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -33.4,
+    "max_dBFS": -13.6,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_09.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_09.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -29.8,
+    "max_dBFS": -0.9,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_10.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_10.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -33.8,
+    "max_dBFS": -11.0,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_11.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_11.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -25.9,
+    "max_dBFS": -1.1,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_dirt_gravel_12.ogg": {
+    "path": "assets/audio/pensao/player_footstep_dirt_gravel_12.ogg",
+    "duration_s": 0.54,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -30.2,
+    "max_dBFS": -6.3,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "player dirt/gravel footstep one-shot"
+  },
+  "player_footstep_wood_01.ogg": {
+    "path": "assets/audio/pensao/player_footstep_wood_01.ogg",
+    "duration_s": 0.41,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -18.9,
+    "max_dBFS": -1.0,
+    "source_hint": "dragon-studio-footsteps-on-wood-397989.mp3",
+    "role": "player wood footstep one-shot"
+  },
+  "player_footstep_wood_02.ogg": {
+    "path": "assets/audio/pensao/player_footstep_wood_02.ogg",
+    "duration_s": 0.4,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -18.9,
+    "max_dBFS": -0.9,
+    "source_hint": "dragon-studio-footsteps-on-wood-397989.mp3",
+    "role": "player wood footstep one-shot"
+  },
+  "player_footstep_wood_03.ogg": {
+    "path": "assets/audio/pensao/player_footstep_wood_03.ogg",
+    "duration_s": 0.41,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -18.9,
+    "max_dBFS": -0.9,
+    "source_hint": "dragon-studio-footsteps-on-wood-397989.mp3",
+    "role": "player wood footstep one-shot"
+  },
+  "player_footstep_wood_04.ogg": {
+    "path": "assets/audio/pensao/player_footstep_wood_04.ogg",
+    "duration_s": 0.39,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -18.9,
+    "max_dBFS": -0.8,
+    "source_hint": "dragon-studio-footsteps-on-wood-397989.mp3",
+    "role": "player wood footstep one-shot"
+  },
+  "player_footstep_wood_05.ogg": {
+    "path": "assets/audio/pensao/player_footstep_wood_05.ogg",
+    "duration_s": 0.44,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -18.9,
+    "max_dBFS": -0.9,
+    "source_hint": "dragon-studio-footsteps-on-wood-397989.mp3",
+    "role": "player wood footstep one-shot"
+  },
+  "player_footstep_wood_06.ogg": {
+    "path": "assets/audio/pensao/player_footstep_wood_06.ogg",
+    "duration_s": 0.43,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.2,
+    "max_dBFS": -0.9,
+    "source_hint": "dragon-studio-footsteps-on-wood-397989.mp3",
+    "role": "player wood footstep one-shot"
+  },
+  "player_footstep_wood_07.ogg": {
+    "path": "assets/audio/pensao/player_footstep_wood_07.ogg",
+    "duration_s": 0.41,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -18.9,
+    "max_dBFS": -0.9,
+    "source_hint": "dragon-studio-footsteps-on-wood-397989.mp3",
+    "role": "player wood footstep one-shot"
+  },
+  "player_footstep_wood_08.ogg": {
+    "path": "assets/audio/pensao/player_footstep_wood_08.ogg",
+    "duration_s": 0.53,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -21.7,
+    "max_dBFS": -1.1,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "player_footsteps_dirt_gravel_sequence.ogg": {
+    "path": "assets/audio/pensao/player_footsteps_dirt_gravel_sequence.ogg",
+    "duration_s": 35.04,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -34.7,
+    "max_dBFS": -0.9,
+    "source_hint": "freesound_community-footsteps-dirt-gravel-6823.mp3",
+    "role": "reference sequence/player footsteps dirt gravel"
+  },
+  "player_footsteps_wood_sequence.ogg": {
+    "path": "assets/audio/pensao/player_footsteps_wood_sequence.ogg",
+    "duration_s": 4.34,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -21.9,
+    "max_dBFS": -1.1,
+    "source_hint": "dragon-studio-footsteps-on-wood-397989.mp3",
+    "role": "reference sequence/player footsteps wood"
+  },
+  "player_panting_loop.ogg": {
+    "path": "assets/audio/pensao/player_panting_loop.ogg",
+    "duration_s": 13.1,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -29.4,
+    "max_dBFS": -0.7,
+    "source_hint": "freesound_community-panting-7108.mp3",
+    "role": "player exhausted panting loop"
+  },
+  "player_run_step_01.ogg": {
+    "path": "assets/audio/pensao/player_run_step_01.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.1,
+    "max_dBFS": -0.8,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_02.ogg": {
+    "path": "assets/audio/pensao/player_run_step_02.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -18.9,
+    "max_dBFS": -1.0,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_03.ogg": {
+    "path": "assets/audio/pensao/player_run_step_03.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.1,
+    "max_dBFS": -0.8,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_04.ogg": {
+    "path": "assets/audio/pensao/player_run_step_04.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.0,
+    "max_dBFS": -0.8,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_05.ogg": {
+    "path": "assets/audio/pensao/player_run_step_05.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.1,
+    "max_dBFS": -0.8,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_06.ogg": {
+    "path": "assets/audio/pensao/player_run_step_06.ogg",
+    "duration_s": 0.38,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.3,
+    "max_dBFS": -0.9,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_07.ogg": {
+    "path": "assets/audio/pensao/player_run_step_07.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.0,
+    "max_dBFS": -0.9,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_08.ogg": {
+    "path": "assets/audio/pensao/player_run_step_08.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.0,
+    "max_dBFS": -0.9,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_09.ogg": {
+    "path": "assets/audio/pensao/player_run_step_09.ogg",
+    "duration_s": 0.38,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.3,
+    "max_dBFS": -0.9,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_10.ogg": {
+    "path": "assets/audio/pensao/player_run_step_10.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.0,
+    "max_dBFS": -0.8,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_11.ogg": {
+    "path": "assets/audio/pensao/player_run_step_11.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.0,
+    "max_dBFS": -0.9,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_run_step_12.ogg": {
+    "path": "assets/audio/pensao/player_run_step_12.ogg",
+    "duration_s": 0.36,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -19.1,
+    "max_dBFS": -0.8,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "player running footstep one-shot"
+  },
+  "player_running_sequence.ogg": {
+    "path": "assets/audio/pensao/player_running_sequence.ogg",
+    "duration_s": 36.07,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -23.0,
+    "max_dBFS": -0.8,
+    "source_hint": "freesound_community-running-sounds-6003.mp3",
+    "role": "reference sequence/player running"
+  },
+  "water_drop_01.ogg": {
+    "path": "assets/audio/pensao/water_drop_01.ogg",
+    "duration_s": 0.6,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -26.5,
+    "max_dBFS": -1.4,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "water_drop_02.ogg": {
+    "path": "assets/audio/pensao/water_drop_02.ogg",
+    "duration_s": 0.7,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -25.4,
+    "max_dBFS": -2.7,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  },
+  "water_drop_03.ogg": {
+    "path": "assets/audio/pensao/water_drop_03.ogg",
+    "duration_s": 0.82,
+    "channels": 1,
+    "sample_rate": 48000,
+    "dBFS": -25.9,
+    "max_dBFS": -0.9,
+    "source_hint": "previous_pack_or_prior_upload",
+    "role": "see mapping"
+  }
+}

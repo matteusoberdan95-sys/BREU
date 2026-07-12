@@ -1,8 +1,8 @@
 namespace BREU.Scripts.Audio;
 
 /// <summary>
-/// Sprint 16 — pension ambience loops, zone crossfade, and narrative one-shots.
-/// Missing assets log a warning and never crash.
+/// Sprint 16 — pension ambience loops, zone crossfade, narrative one-shots, flashlight clicks.
+/// Missing assets log a warning and never crash. Footsteps/breath catalogued for Sprint 17.
 /// </summary>
 public partial class PensionAudioManager : Node
 {
@@ -12,6 +12,7 @@ public partial class PensionAudioManager : Node
     public const string IdDeposit = "deposit";
     public const string IdSecondFloor = "second_floor";
     public const string IdLampBuzz = "lamp_buzz";
+    public const string IdWaterDrops = "water_drops";
 
     private const string AssetRoot = "res://assets/audio/pensao/";
     private const float DefaultCrossfadeSeconds = 1.6f;
@@ -20,14 +21,18 @@ public partial class PensionAudioManager : Node
     private readonly Dictionary<string, float> _targetVolumesDb = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _fileById = new(StringComparer.Ordinal);
     private readonly HashSet<AmbienceZone3D> _activeZones = new();
-    private readonly List<AmbienceZone3D> _zones = new();
+    private readonly HashSet<string> _warnedMissing = new(StringComparer.Ordinal);
+    private readonly RandomNumberGenerator _rng = new();
 
     private AudioStreamPlayer? _oneShotPlayer;
+    private AudioStreamPlayer? _flashlightPlayer;
     private string _currentAmbienceId = string.Empty;
     private string _currentSecondaryId = string.Empty;
+    private string _currentTertiaryId = string.Empty;
     private bool _crossfading;
-    private float _ambienceBusOffsetDb;
-    private float _sfxBusOffsetDb;
+    private float _occasionalDropTimer;
+    private bool _inWetZone;
+    private int _flashClickVariant;
 
     public static PensionAudioManager? Find(SceneTree tree) =>
         tree.GetFirstNodeInGroup("pension_audio_manager") as PensionAudioManager;
@@ -35,9 +40,34 @@ public partial class PensionAudioManager : Node
     public override void _Ready()
     {
         AddToGroup("pension_audio_manager");
+        _rng.Randomize();
         RegisterCatalog();
         BuildPlayers();
+        ValidateSprint17Catalog();
         CallDeferred(nameof(DeferredSetupZones));
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!_inWetZone)
+        {
+            return;
+        }
+
+        _occasionalDropTimer -= (float)delta;
+        if (_occasionalDropTimer > 0f)
+        {
+            return;
+        }
+
+        _occasionalDropTimer = _rng.RandfRange(9f, 18f);
+        var dropId = _rng.RandiRange(1, 3) switch
+        {
+            1 => "water_drop_01",
+            2 => "water_drop_02",
+            _ => "water_drop_03"
+        };
+        PlayOneShot(dropId, -20f);
     }
 
     public void PlayAmbience(string ambienceId) => CrossfadeToAmbience(ambienceId, 0.35f);
@@ -81,7 +111,7 @@ public partial class PensionAudioManager : Node
 
         if (!_fileById.TryGetValue(soundId, out var path))
         {
-            GD.PushWarning($"[Audio] Unknown one-shot id: {soundId}");
+            WarnMissing($"Unknown one-shot id: {soundId}");
             return;
         }
 
@@ -92,7 +122,7 @@ public partial class PensionAudioManager : Node
         }
 
         _oneShotPlayer.Stream = stream;
-        _oneShotPlayer.VolumeDb = (volumeDb ?? -12f) + _sfxBusOffsetDb;
+        _oneShotPlayer.VolumeDb = volumeDb ?? -13f;
         _oneShotPlayer.Play();
         GD.Print($"[Audio] OneShot: {soundId}");
     }
@@ -102,15 +132,33 @@ public partial class PensionAudioManager : Node
         _ = PlaySequenceAsync(firstId, secondId, delaySeconds);
     }
 
-    public void SetAmbienceVolume(float volumeLinear)
+    public void PlayFlashlightClick(bool turningOn)
     {
-        _ambienceBusOffsetDb = Mathf.LinearToDb(Mathf.Clamp(volumeLinear, 0.01f, 1.5f));
-        RefreshPlayingVolumes();
-    }
+        if (_flashlightPlayer == null)
+        {
+            return;
+        }
 
-    public void SetSfxVolume(float volumeLinear)
-    {
-        _sfxBusOffsetDb = Mathf.LinearToDb(Mathf.Clamp(volumeLinear, 0.01f, 1.5f));
+        _flashClickVariant = (_flashClickVariant + 1) % 2;
+        var id = turningOn
+            ? (_flashClickVariant == 0 ? "flashlight_click_on_01" : "flashlight_click_on_02")
+            : (_flashClickVariant == 0 ? "flashlight_click_off_01" : "flashlight_click_off_02");
+
+        if (!_fileById.TryGetValue(id, out var path))
+        {
+            return;
+        }
+
+        var stream = TryLoadStream(path, loop: false);
+        if (stream == null)
+        {
+            return;
+        }
+
+        _flashlightPlayer.Stream = stream;
+        _flashlightPlayer.VolumeDb = -16f;
+        _flashlightPlayer.Play();
+        GD.Print($"[Audio] OneShot: {id}");
     }
 
     public void NotifyZoneEntered(AmbienceZone3D zone)
@@ -127,23 +175,31 @@ public partial class PensionAudioManager : Node
 
     private void RegisterCatalog()
     {
-        // Loops
         _fileById[IdExterior] = AssetRoot + "exterior_night_wind_loop.ogg";
         _fileById[IdReception] = AssetRoot + "pension_reception_ambience_loop.ogg";
         _fileById[IdGroundCorridor] = AssetRoot + "pension_ground_corridor_loop.ogg";
         _fileById[IdDeposit] = AssetRoot + "pension_deposit_room_loop.ogg";
         _fileById[IdSecondFloor] = AssetRoot + "pension_second_floor_loop.ogg";
         _fileById[IdLampBuzz] = AssetRoot + "lamp_buzz_loop.ogg";
+        _fileById[IdWaterDrops] = AssetRoot + "pension_water_drops_loop.ogg";
 
-        // One-shots
-        _fileById["wood_creak_01"] = AssetRoot + "wood_creak_01.ogg";
-        _fileById["wood_creak_02"] = AssetRoot + "wood_creak_02.ogg";
-        _fileById["distant_step_01"] = AssetRoot + "distant_step_01.ogg";
-        _fileById["distant_step_02"] = AssetRoot + "distant_step_02.ogg";
-        _fileById["distant_knock_01"] = AssetRoot + "distant_knock_01.ogg";
-        _fileById["door_scratch_01"] = AssetRoot + "door_scratch_01.ogg";
-        _fileById["old_house_settle_01"] = AssetRoot + "old_house_settle_01.ogg";
-        _fileById["old_house_settle_02"] = AssetRoot + "old_house_settle_02.ogg";
+        RegisterOneShot("distant_step_01");
+        RegisterOneShot("distant_step_02");
+        RegisterOneShot("distant_step_03");
+        RegisterOneShot("distant_step_04");
+        RegisterOneShot("distant_knock_01");
+        RegisterOneShot("distant_knock_02");
+        RegisterOneShot("door_scratch_01");
+        RegisterOneShot("door_scratch_02");
+        RegisterOneShot("old_house_settle_01");
+        RegisterOneShot("old_house_settle_02");
+        RegisterOneShot("water_drop_01");
+        RegisterOneShot("water_drop_02");
+        RegisterOneShot("water_drop_03");
+        RegisterOneShot("flashlight_click_on_01");
+        RegisterOneShot("flashlight_click_on_02");
+        RegisterOneShot("flashlight_click_off_01");
+        RegisterOneShot("flashlight_click_off_02");
 
         _targetVolumesDb[IdExterior] = -16f;
         _targetVolumesDb[IdReception] = -18f;
@@ -151,13 +207,18 @@ public partial class PensionAudioManager : Node
         _targetVolumesDb[IdDeposit] = -16f;
         _targetVolumesDb[IdSecondFloor] = -15f;
         _targetVolumesDb[IdLampBuzz] = -22f;
+        _targetVolumesDb[IdWaterDrops] = -22f;
     }
+
+    private void RegisterOneShot(string id) =>
+        _fileById[id] = AssetRoot + id + ".ogg";
 
     private void BuildPlayers()
     {
         foreach (var id in new[]
                  {
-                     IdExterior, IdReception, IdGroundCorridor, IdDeposit, IdSecondFloor, IdLampBuzz
+                     IdExterior, IdReception, IdGroundCorridor, IdDeposit, IdSecondFloor,
+                     IdLampBuzz, IdWaterDrops
                  })
         {
             var stream = TryLoadStream(_fileById[id], loop: true);
@@ -181,9 +242,61 @@ public partial class PensionAudioManager : Node
         {
             Name = "OneShotPlayer",
             Bus = "SFX",
-            VolumeDb = -12f
+            VolumeDb = -13f
         };
         AddChild(_oneShotPlayer);
+
+        _flashlightPlayer = new AudioStreamPlayer
+        {
+            Name = "FlashlightClickPlayer",
+            Bus = "SFX",
+            VolumeDb = -16f
+        };
+        AddChild(_flashlightPlayer);
+    }
+
+    private void ValidateSprint17Catalog()
+    {
+        // Footsteps / breath: validate presence only — do not wire to player this sprint.
+        var files = new[]
+        {
+            "player_footstep_wood_01.ogg", "player_footstep_wood_02.ogg", "player_footstep_wood_03.ogg",
+            "player_footstep_wood_04.ogg", "player_footstep_wood_05.ogg", "player_footstep_wood_06.ogg",
+            "player_footstep_wood_07.ogg", "player_footstep_wood_08.ogg",
+            "player_footsteps_wood_sequence.ogg",
+            "player_footstep_dirt_gravel_01.ogg", "player_footstep_dirt_gravel_02.ogg",
+            "player_footstep_dirt_gravel_03.ogg", "player_footstep_dirt_gravel_04.ogg",
+            "player_footstep_dirt_gravel_05.ogg", "player_footstep_dirt_gravel_06.ogg",
+            "player_footstep_dirt_gravel_07.ogg", "player_footstep_dirt_gravel_08.ogg",
+            "player_footstep_dirt_gravel_09.ogg", "player_footstep_dirt_gravel_10.ogg",
+            "player_footstep_dirt_gravel_11.ogg", "player_footstep_dirt_gravel_12.ogg",
+            "player_footsteps_dirt_gravel_sequence.ogg",
+            "player_run_step_01.ogg", "player_run_step_02.ogg", "player_run_step_03.ogg",
+            "player_run_step_04.ogg", "player_run_step_05.ogg", "player_run_step_06.ogg",
+            "player_run_step_07.ogg", "player_run_step_08.ogg", "player_run_step_09.ogg",
+            "player_run_step_10.ogg", "player_run_step_11.ogg", "player_run_step_12.ogg",
+            "player_running_sequence.ogg",
+            "player_breath_heavy_loop.ogg",
+            "player_breath_heavy_01.ogg", "player_breath_heavy_02.ogg",
+            "player_breath_heavy_03.ogg", "player_breath_heavy_04.ogg",
+            "player_panting_loop.ogg"
+        };
+
+        var present = 0;
+        foreach (var file in files)
+        {
+            var path = AssetRoot + file;
+            if (ResourceLoader.Exists(path))
+            {
+                present++;
+            }
+            else
+            {
+                WarnMissing(path);
+            }
+        }
+
+        GD.Print($"[Audio] Sprint17 catalog ready: {present}/{files.Length} footstep/breath assets present (not wired).");
     }
 
     private void DeferredSetupZones()
@@ -209,7 +322,8 @@ public partial class PensionAudioManager : Node
             new Vector3(4.2f, 1.4f, -20.5f), new Vector3(5.5f, 3.2f, 5.2f));
 
         AddZone(host, "AudioZone_Deposit", IdDeposit, 80,
-            new Vector3(0f, 1.4f, -29.2f), new Vector3(4.0f, 3.2f, 7.0f));
+            new Vector3(0f, 1.4f, -29.2f), new Vector3(4.0f, 3.2f, 7.0f),
+            secondaryLoopId: IdWaterDrops);
 
         AddZone(host, "AudioZone_Stairwell", IdGroundCorridor, 60,
             new Vector3(-4.1f, 2.6f, -27.0f), new Vector3(6.5f, 7.0f, 9.5f));
@@ -218,7 +332,6 @@ public partial class PensionAudioManager : Node
             new Vector3(0f, 4.2f, -13.5f), new Vector3(13f, 3.6f, 18f),
             secondaryLoopId: IdLampBuzz);
 
-        // Start exterior immediately (player spawns on trail).
         CrossfadeToAmbience(IdExterior, 0.5f);
     }
 
@@ -229,7 +342,8 @@ public partial class PensionAudioManager : Node
         int priority,
         Vector3 position,
         Vector3 size,
-        string secondaryLoopId = "")
+        string secondaryLoopId = "",
+        string tertiaryLoopId = "")
     {
         var zone = new AmbienceZone3D
         {
@@ -237,6 +351,7 @@ public partial class PensionAudioManager : Node
             AmbienceId = ambienceId,
             ZonePriority = priority,
             SecondaryLoopId = secondaryLoopId,
+            TertiaryLoopId = tertiaryLoopId,
             Position = position
         };
         zone.AddChild(new CollisionShape3D
@@ -245,7 +360,6 @@ public partial class PensionAudioManager : Node
         });
         parent.AddChild(zone);
         zone.Bind(this);
-        _zones.Add(zone);
     }
 
     private void ResolveActiveZone()
@@ -266,53 +380,64 @@ public partial class PensionAudioManager : Node
 
         if (best == null)
         {
-            // Fallback: keep last ambience, prefer exterior if nothing active.
+            _inWetZone = false;
             if (string.IsNullOrEmpty(_currentAmbienceId))
             {
                 CrossfadeToAmbience(IdExterior, DefaultCrossfadeSeconds);
             }
 
+            UpdateExtraLoops(string.Empty, string.Empty);
             return;
         }
 
-        GD.Print($"[Audio] Ambience zone: {best.AmbienceId}");
+        GD.Print($"[Audio] Zone: {best.AmbienceId}");
         CrossfadeToAmbience(best.AmbienceId, DefaultCrossfadeSeconds);
-        UpdateSecondaryLoop(best.SecondaryLoopId);
+        UpdateExtraLoops(best.SecondaryLoopId, best.TertiaryLoopId);
+        _inWetZone = best.AmbienceId == IdDeposit || best.Name.ToString().Contains("Kitchen");
+        if (_inWetZone && _occasionalDropTimer <= 0f)
+        {
+            _occasionalDropTimer = _rng.RandfRange(6f, 12f);
+        }
     }
 
-    private void UpdateSecondaryLoop(string secondaryId)
+    private void UpdateExtraLoops(string secondaryId, string tertiaryId)
     {
-        if (_currentSecondaryId == secondaryId)
+        FadeExtraLoop(ref _currentSecondaryId, secondaryId);
+        FadeExtraLoop(ref _currentTertiaryId, tertiaryId);
+    }
+
+    private void FadeExtraLoop(ref string currentId, string nextId)
+    {
+        nextId ??= string.Empty;
+        if (currentId == nextId)
         {
             return;
         }
 
-        if (!string.IsNullOrEmpty(_currentSecondaryId) &&
-            _loops.TryGetValue(_currentSecondaryId, out var oldSecondary))
+        if (!string.IsNullOrEmpty(currentId) && _loops.TryGetValue(currentId, out var oldLoop))
         {
-            _ = FadePlayerAsync(oldSecondary, oldSecondary.VolumeDb, -80f, 1.0f, stopWhenDone: true);
+            _ = FadePlayerAsync(oldLoop, oldLoop.VolumeDb, -80f, 1.0f, stopWhenDone: true);
         }
 
-        _currentSecondaryId = secondaryId ?? string.Empty;
-        if (string.IsNullOrEmpty(_currentSecondaryId) ||
-            !_loops.TryGetValue(_currentSecondaryId, out var nextSecondary))
+        currentId = nextId;
+        if (string.IsNullOrEmpty(currentId) || !_loops.TryGetValue(currentId, out var nextLoop))
         {
             return;
         }
 
-        if (nextSecondary.Stream == null)
+        if (nextLoop.Stream == null)
         {
             return;
         }
 
-        var target = GetTargetDb(_currentSecondaryId);
-        if (!nextSecondary.Playing)
+        var target = GetTargetDb(currentId);
+        if (!nextLoop.Playing)
         {
-            nextSecondary.VolumeDb = -80f;
-            nextSecondary.Play();
+            nextLoop.VolumeDb = -80f;
+            nextLoop.Play();
         }
 
-        _ = FadePlayerAsync(nextSecondary, nextSecondary.VolumeDb, target, 1.2f, stopWhenDone: false);
+        _ = FadePlayerAsync(nextLoop, nextLoop.VolumeDb, target, 1.2f, stopWhenDone: false);
     }
 
     private async System.Threading.Tasks.Task CrossfadeAsync(string nextId, float duration)
@@ -334,7 +459,6 @@ public partial class PensionAudioManager : Node
         }
 
         var fadeIn = FadePlayerAsync(next, next.VolumeDb, targetDb, duration, stopWhenDone: false);
-
         System.Threading.Tasks.Task fadeOut = System.Threading.Tasks.Task.CompletedTask;
         if (!string.IsNullOrEmpty(previousId) &&
             previousId != nextId &&
@@ -368,8 +492,7 @@ public partial class PensionAudioManager : Node
                 return;
             }
 
-            var t = i / (float)steps;
-            player.VolumeDb = Mathf.Lerp(fromDb, toDb, t);
+            player.VolumeDb = Mathf.Lerp(fromDb, toDb, i / (float)steps);
             await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
         }
 
@@ -387,51 +510,39 @@ public partial class PensionAudioManager : Node
         PlayOneShot(secondId, -13f);
     }
 
-    private float GetTargetDb(string id)
-    {
-        var baseDb = _targetVolumesDb.GetValueOrDefault(id, -18f);
-        return baseDb + _ambienceBusOffsetDb;
-    }
+    private float GetTargetDb(string id) =>
+        _targetVolumesDb.GetValueOrDefault(id, -18f);
 
-    private void RefreshPlayingVolumes()
-    {
-        if (!string.IsNullOrEmpty(_currentAmbienceId) &&
-            _loops.TryGetValue(_currentAmbienceId, out var current) &&
-            current.Playing)
-        {
-            current.VolumeDb = GetTargetDb(_currentAmbienceId);
-        }
-
-        if (!string.IsNullOrEmpty(_currentSecondaryId) &&
-            _loops.TryGetValue(_currentSecondaryId, out var secondary) &&
-            secondary.Playing)
-        {
-            secondary.VolumeDb = GetTargetDb(_currentSecondaryId);
-        }
-    }
-
-    private static AudioStream? TryLoadStream(string path, bool loop)
+    private AudioStream? TryLoadStream(string path, bool loop)
     {
         if (!ResourceLoader.Exists(path))
         {
-            GD.PushWarning($"[Audio] Missing asset: {path}");
+            WarnMissing(path);
             return null;
         }
 
         var stream = GD.Load<AudioStream>(path);
         if (stream == null)
         {
-            GD.PushWarning($"[Audio] Failed to load: {path}");
+            WarnMissing(path);
             return null;
         }
 
-        switch (stream)
+        if (stream is AudioStreamOggVorbis ogg)
         {
-            case AudioStreamOggVorbis ogg:
-                ogg.Loop = loop;
-                break;
+            ogg.Loop = loop;
         }
 
         return stream;
+    }
+
+    private void WarnMissing(string pathOrId)
+    {
+        if (!_warnedMissing.Add(pathOrId))
+        {
+            return;
+        }
+
+        GD.PushWarning($"[Audio] Missing asset: {pathOrId}");
     }
 }

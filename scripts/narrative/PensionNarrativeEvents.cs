@@ -4,7 +4,7 @@ using BREU.Scripts.Audio;
 using BREU.Scripts.Lighting;
 
 /// <summary>
-/// Sprint 15 — one-shot narrative events for PensaoVerticalBlockout01.
+/// Sprint 15 — one-shot narrative events.
 /// Sprint 16 — optional subtle audio via PensionAudioManager (safe if assets missing).
 /// </summary>
 public partial class PensionNarrativeEvents : Node
@@ -98,15 +98,9 @@ public partial class PensionNarrativeEvents : Node
         CreateSpatialTriggers();
     }
 
-    private void OnDepositKeyPickedUp()
-    {
-        _ = DelayedTriggerAsync(EventKeyTension, 3.2f);
-    }
+    private void OnDepositKeyPickedUp() => _ = DelayedTriggerAsync(EventKeyTension, 3.2f);
 
-    private void OnOldFusePickedUp()
-    {
-        _ = DelayedTriggerAsync(EventFuseFootsteps, 3.2f);
-    }
+    private void OnOldFusePickedUp() => _ = DelayedTriggerAsync(EventFuseFootsteps, 3.2f);
 
     private async System.Threading.Tasks.Task DelayedTriggerAsync(string eventId, float delaySeconds)
     {
@@ -163,7 +157,7 @@ public partial class PensionNarrativeEvents : Node
                 _flicker?.FlickerMany(
                     new[] { GetLight("CorridorLight"), GetLight("CorridorDeepLight") },
                     1.1f, 0.42f, 3);
-                _audio?.PlayOneShot("wood_creak_02", -12f);
+                _audio?.PlayOneShot("distant_knock_01", -13f);
                 break;
 
             case EventFuseFootsteps:
@@ -185,7 +179,7 @@ public partial class PensionNarrativeEvents : Node
             case EventUpperPresence:
                 QueueMessage("Por um instante, achei ter visto alguém no fim do corredor.", 3.5f);
                 _flicker?.Flicker(GetLight("UpperCorridorFarLight"), 1.0f, 0.35f, 3);
-                _audio?.PlayOneShot("distant_knock_01", -13f);
+                _audio?.PlayOneShot("distant_knock_02", -13f);
                 break;
 
             case EventLockedDoorHint:

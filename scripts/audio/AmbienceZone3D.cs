@@ -8,6 +8,7 @@ public partial class AmbienceZone3D : Area3D
     [Export] public string AmbienceId { get; set; } = string.Empty;
     [Export] public int ZonePriority { get; set; } = 0;
     [Export] public string SecondaryLoopId { get; set; } = string.Empty;
+    [Export] public string TertiaryLoopId { get; set; } = string.Empty;
 
     private PensionAudioManager? _manager;
     private bool _playerInside;
@@ -17,15 +18,14 @@ public partial class AmbienceZone3D : Area3D
         Monitoring = true;
         Monitorable = false;
         CollisionLayer = 0;
-        CollisionMask = 16; // Player layer
+        CollisionMask = 16;
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
     }
 
-    public void Bind(PensionAudioManager manager)
-    {
-        _manager = manager;
-    }
+    public void Bind(PensionAudioManager manager) => _manager = manager;
+
+    public bool IsPlayerInside => _playerInside;
 
     private void OnBodyEntered(Node3D body)
     {
@@ -50,6 +50,4 @@ public partial class AmbienceZone3D : Area3D
         _manager ??= PensionAudioManager.Find(GetTree());
         _manager?.NotifyZoneExited(this);
     }
-
-    public bool IsPlayerInside => _playerInside;
 }

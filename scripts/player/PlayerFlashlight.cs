@@ -1,7 +1,10 @@
 namespace BREU.Scripts.Player;
 
+using BREU.Scripts.Audio;
+
 /// <summary>
 /// Flashlight with battery drain. Infinite battery when PlaytestDebugSettings allows.
+/// Sprint 16 — optional click SFX via PensionAudioManager (no logic change).
 /// </summary>
 public partial class PlayerFlashlight : SpotLight3D
 {
@@ -61,6 +64,7 @@ public partial class PlayerFlashlight : SpotLight3D
             IsOn = false;
             ApplyLightState();
             EmitSignal(SignalName.LanternToggled, IsOn);
+            PensionAudioManager.Find(GetTree())?.PlayFlashlightClick(turningOn: false);
             return;
         }
 
@@ -73,6 +77,7 @@ public partial class PlayerFlashlight : SpotLight3D
         IsOn = true;
         ApplyLightState();
         EmitSignal(SignalName.LanternToggled, IsOn);
+        PensionAudioManager.Find(GetTree())?.PlayFlashlightClick(turningOn: true);
     }
 
     public void Recharge(float amount)
@@ -88,9 +93,14 @@ public partial class PlayerFlashlight : SpotLight3D
 
     private void ForceOff(string? hudMessage = null)
     {
+        var wasOn = IsOn;
         IsOn = false;
         ApplyLightState();
         EmitSignal(SignalName.LanternToggled, IsOn);
+        if (wasOn)
+        {
+            PensionAudioManager.Find(GetTree())?.PlayFlashlightClick(turningOn: false);
+        }
 
         if (!string.IsNullOrEmpty(hudMessage))
         {

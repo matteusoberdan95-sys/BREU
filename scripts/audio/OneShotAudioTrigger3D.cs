@@ -7,6 +7,7 @@ public partial class OneShotAudioTrigger3D : Area3D
 {
     [Export] public string SoundId { get; set; } = string.Empty;
     [Export] public bool OneShot { get; set; } = true;
+    [Export] public float VolumeDb { get; set; } = -14f;
 
     private bool _consumed;
     private PensionAudioManager? _manager;
@@ -20,10 +21,7 @@ public partial class OneShotAudioTrigger3D : Area3D
         BodyEntered += OnBodyEntered;
     }
 
-    public void Bind(PensionAudioManager manager)
-    {
-        _manager = manager;
-    }
+    public void Bind(PensionAudioManager manager) => _manager = manager;
 
     private void OnBodyEntered(Node3D body)
     {
@@ -38,7 +36,7 @@ public partial class OneShotAudioTrigger3D : Area3D
             return;
         }
 
-        _manager.PlayOneShot(SoundId);
+        _manager.PlayOneShot(SoundId, VolumeDb);
         if (OneShot)
         {
             _consumed = true;
