@@ -30,7 +30,7 @@
 6. **Sem bloqueio:** triggers não colidem com o player (`CollisionLayer = 0`).
 7. **Mensagens:** fila simples — duração 3–3,5 s; não empilhar sobrepostas.
 8. **Flicker:** curto, reversível; nunca altera `WorldEnvironment` / fog.
-9. **Áudio:** opcional. Sprint 15 sem áudio. Pacote Sprint 16 anterior foi removido; reabrir só com novos assets.
+9. **Áudio:** opcional nos eventos. Sprint 16 conecta one-shots reais via `PensionAudioManager`.
 
 ---
 
