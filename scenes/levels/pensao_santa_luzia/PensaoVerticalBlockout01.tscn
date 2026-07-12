@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoBalconyPuzzleSetup.cs" id="4b_balcony_puzzle"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/BalconyWing.tscn" id="4c_balcony_wing"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/Room203Door.tscn" id="4d_room203"]
+[ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/UpperWingExpansion.tscn" id="4e_upper_expansion"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="5_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="6_hud"]
 [ext_resource type="Script" path="res://scripts/narrative/PensionNarrativeEvents.cs" id="7_narrative"]
@@ -62,6 +63,8 @@ script = ExtResource("4b_balcony_puzzle")
 [node name="BalconyWing" parent="." instance=ExtResource("4c_balcony_wing")]
 
 [node name="Room203Door" parent="." instance=ExtResource("4d_room203")]
+
+[node name="UpperWingExpansion" parent="." instance=ExtResource("4e_upper_expansion")]
 
 [node name="PensionCeiling" type="Node3D" parent="."]
 

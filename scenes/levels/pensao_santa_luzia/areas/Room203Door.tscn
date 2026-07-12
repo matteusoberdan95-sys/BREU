@@ -37,7 +37,7 @@ material_override = SubResource("FrameMat")
 
 [node name="RoomNumber203" type="Label3D" parent="."]
 position = Vector3(-1.1, 4.65, -10)
-rotation = Vector3(0, -1.570796, 0)
+rotation = Vector3(0, 1.570796, 0)
 text = "203"
 font_size = 48
 outline_size = 8

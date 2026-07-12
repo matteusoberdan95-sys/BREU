@@ -57,6 +57,10 @@ size = Vector3(1.25, 1.15, 0.35)
 size = Vector3(1.25, 0.18, 0.18)
 [sub_resource type="BoxMesh" id="PropMesh"]
 size = Vector3(0.35, 0.08, 0.28)
+[sub_resource type="BoxMesh" id="BalconyCeilingMesh"]
+size = Vector3(3.2, 0.18, 5.35)
+[sub_resource type="BoxMesh" id="RoomsCeilingMesh"]
+size = Vector3(5.2, 0.18, 3.9)
 
 [node name="BalconyWing" type="Node3D"]
 script = ExtResource("1")
@@ -80,6 +84,14 @@ mesh = SubResource("RailSide")
 material_override = SubResource("MatRail")
 [node name="BalconyRail_Right" type="Node3D" parent="Geometry"]
 position = Vector3(1.6, 3.35, -4.375)
+[node name="BalconyCeiling" type="MeshInstance3D" parent="Geometry"]
+position = Vector3(0, 5.58, -4.875)
+mesh = SubResource("BalconyCeilingMesh")
+material_override = SubResource("MatWall")
+[node name="RoomsCeiling" type="MeshInstance3D" parent="Geometry"]
+position = Vector3(4.2, 5.58, -4.3)
+mesh = SubResource("RoomsCeilingMesh")
+material_override = SubResource("MatWall")
 
 [node name="Room_UpperBathroom" type="Node3D" parent="Geometry"]
 [node name="Floor" type="MeshInstance3D" parent="Geometry/Room_UpperBathroom"]

@@ -28,6 +28,7 @@ public partial class PensaoPuzzleState : Node
 
     /// <summary>Sprint 17C — owner ledger read.</summary>
     public bool HasReadOwnerLedger { get; private set; }
+    public bool HasTriggeredRoom203Warning { get; private set; }
 
     public event Action? DepositKeyPickedUp;
     public event Action? OldFusePickedUp;
@@ -39,6 +40,7 @@ public partial class PensaoPuzzleState : Node
     public event Action? OwnerRoomKeyPickedUp;
     public event Action? OwnerRoomUnlocked;
     public event Action? OwnerLedgerRead;
+    public event Action? Room203WarningTriggered;
 
     public void PickupDepositKey()
     {
@@ -148,5 +150,12 @@ public partial class PensaoPuzzleState : Node
 
         HasReadOwnerLedger = true;
         OwnerLedgerRead?.Invoke();
+    }
+
+    public void TriggerRoom203Warning()
+    {
+        if (HasTriggeredRoom203Warning) return;
+        HasTriggeredRoom203Warning = true;
+        Room203WarningTriggered?.Invoke();
     }
 }

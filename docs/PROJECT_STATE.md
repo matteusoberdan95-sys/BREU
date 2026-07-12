@@ -260,7 +260,18 @@ Sprint 17C/17D foi preservada no checkpoint `4a16478` e substituída pela Sprint
 - depois do caderno toca arranhão, informa bloqueio interno e encerra o fluxo com tensão;
 - porta permanece fechada para sprint futura.
 
-**Próxima sprint recomendada:** Sprint 18 — evento forte no Quarto 203, ainda sem combate/chase automático.
+**Próxima sprint recomendada:** Sprint 19 — Quarto 203 e primeira manifestação/inimigo, sem assumir combate/chase automaticamente.
+
+### Sprint 18 — expansão da ala superior e primeiro aviso
+
+**Status:** implementada; percurso visual F6 pendente.
+
+- número 203 reorientado;
+- varanda/ala recebeu cobertura simples para reduzir leitura de laje vazia;
+- rouparia e Quarto 204 bloqueado adicionados ao corredor superior;
+- primeiro aviso 203: arranhão, passos, flicker curto e mensagem final;
+- flag impede repetição completa do susto;
+- fluxo aprovado da varanda e puzzles anteriores preservado.
 
 ## Sprint 16C — Ajuste fino de passos (aprovada)
 

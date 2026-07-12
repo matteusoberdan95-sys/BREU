@@ -378,6 +378,12 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 18 — Primeiro susto controlado sem inimigo físico
 
+**Status:** 🔄 Implementada em blockout — F6 visual final pendente
+
+- Ala superior organizada com cobertura, rouparia e porta 204 ambiental.
+- Quarto 203 permanece bloqueado e dispara aviso controlado único.
+- Sem inimigo físico, combate, dano ou chase.
+
 **Status:** ⏳ Após Sprint 17C aprovada
 
 **Objetivo:** Susto / tensão controlada **sem** inimigo físico, combate ou chase.
