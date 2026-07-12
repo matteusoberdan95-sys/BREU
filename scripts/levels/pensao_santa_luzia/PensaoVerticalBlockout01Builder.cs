@@ -108,7 +108,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matDoorBalcony = Mat(new Color(0.32f, 0.5f, 0.3f));
         BuildSecondFloor();
         BuildCeilingBlockout();
-        BuildUpperBalconyWing();
+        OpenFrontWallForBalconyPassage();
         BuildSecondFloorNarrativeReadability();
     }
 
@@ -800,17 +800,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             Position = new Vector3(0f, SecondFloorTopY, doorZ)
         });
 
-        AddBalconyDoorBlocker(
-            _secondFloor,
-            "BalconyDoor_Green",
-            "BalconyDoor_Green_Panel",
-            new Vector3(0f, 0f, doorZ),
-            DoorWidth - 0.05f,
-            _matDoorBalcony,
-            worldFloorTopY: SecondFloorTopY,
-            panelOffsetX: 0f);
-
-        GD.Print("[BalconyAccess] Single BalconyDoor_Green; no duplicate panel or door.");
+        GD.Print("[BalconyAccess] Green door is authored once in BalconyWing.tscn.");
     }
 
     private void BuildSecondFloorNarrativeInteractions()

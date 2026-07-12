@@ -248,6 +248,8 @@ Sprint 17C/17D foi preservada no checkpoint `4a16478` e substituída pela Sprint
 
 **Correção pós-playtest:** removidos o placeholder legado que criava a pilastra no acesso e os pisos/forros coplanares que causavam flicker. O teto da recepção agora é uma peça contínua. O arame aponta para o ralo do banheiro, onde retira a chave do quarto.
 
+**Arquitetura final 17E:** `BalconyWing.tscn` é a única fonte da microárea. `BalconyWingPuzzleSetup` foi removido da cena principal e permanece desativado por padrão; o builder geral não cria mais porta/varanda/cômodos. `BalconyPuzzleSetup` ficou restrito à progressão da nota/chave e à inicialização da porta manual.
+
 ## Sprint 16C — Ajuste fino de passos (aprovada)
 
 **Status:** ✅ Aprovada — corrida = mesmo banco da superfície; `player_run_step_*` reservado.

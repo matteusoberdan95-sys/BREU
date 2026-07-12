@@ -8,8 +8,12 @@ using BREU.Scripts.Narrative;
 public partial class PensaoBalconyWingPuzzleSetup : Node
 {
     private const uint InteractableLayer = 2;
+    [Export] public bool Enabled { get; set; } = false;
 
-    public override void _Ready() => CallDeferred(nameof(Setup));
+    public override void _Ready()
+    {
+        if (Enabled) CallDeferred(nameof(Setup));
+    }
 
     private void Setup()
     {

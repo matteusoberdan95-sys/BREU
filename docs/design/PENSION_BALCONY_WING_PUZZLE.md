@@ -1,5 +1,7 @@
 # Design — Ala da Varanda + Puzzle Macabro (Sprint 17C)
 
+> Sprint 17E: a implementação autoritativa agora é a cena manual `areas/BalconyWing.tscn`. Builders antigos estão congelados; este documento preserva o fluxo do puzzle.
+
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Status:** Implementada — playtest F6 pendente  
 **Tom:** terror psicológico brasileiro; pensão úmida; sangue seco pontual; sem inimigo/combate/chase.
@@ -70,6 +72,8 @@ Flags em `PensaoPuzzleState` (17C):
 | Node | `Interact_BalconyWireHook` |
 | Prompt | Pegar arame torto |
 | Uso | Permite puxar chave do ralo |
+
+Na cena manual, o arame fica visível sobre a pia quebrada do banheiro. Ele não fica mais solto no piso escuro da varanda.
 
 ---
 

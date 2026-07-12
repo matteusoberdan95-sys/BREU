@@ -1,5 +1,7 @@
 # Playtest — Puzzle da Varanda (Sprint 17)
 
+**Arquitetura 17E:** a ala é uma cena manual única. Testar com Visible Collision Shapes; `BalconyWingPuzzleSetup` não pode aparecer ativo no Scene Tree.
+
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Data:** 2026-07-12  
 **Status:** 🔄 Implementado — aguardando F6
@@ -173,6 +175,7 @@ Sprint 17C/17D foi substituída pelo rebuild controlado da Sprint 17E.
 - teto da entrada/recepção foi substituído por uma única peça `Ceiling_Reception_Continuous`, sem liner sobreposto;
 - mensagem do arame agora orienta explicitamente o uso no ralo do banheiro;
 - o ralo usa o arame para retirar a chave do quarto da proprietária.
+- o arame foi reposicionado sobre a pia quebrada do banheiro, em altura visível e antes do ralo no fluxo do cômodo.
 
 ### Checklist emocional
 

@@ -22,7 +22,7 @@ public partial class PensaoBalconyPuzzleSetup : Node
         var state = GetNodeOrNull<PensaoPuzzleState>("../../PuzzleState");
         var interactions = GetNodeOrNull<Node3D>("../../Interactions");
         var secondFloor = GetNodeOrNull<Node3D>("../../PensionSecondFloor");
-        var balconyDoor = secondFloor?.GetNodeOrNull<Node3D>("BalconyDoor_Green");
+        var balconyDoor = GetTree().CurrentScene.FindChild("BalconyDoor_Green", recursive: true, owned: false) as Node3D;
 
         if (state == null || interactions == null || balconyDoor == null)
         {
@@ -61,7 +61,7 @@ public partial class PensaoBalconyPuzzleSetup : Node
 
         CreateOwnerNote(state, host);
         CreateBalconyKey(state, host);
-        // Wing interactions are rebuilt by PensaoBalconyWingPuzzleSetup.
+        // Wing interactions are authored statically in BalconyWing.tscn.
 
         state.OldFusePickedUp += () =>
             HUDController.FindActive(GetTree())?.ShowMessage(
