@@ -70,6 +70,14 @@ Uma única instância é permitida por vão. A folha aberta é uma malha estáti
 - Corredor inútil do 2º andar fechado com `UpperStair_BackClosureWall`, `UpperLanding_BackSeal`, `UpperStair_NorthEastSeal`.
 - Folhas decorativas instáveis: remover (`decorativeLeaf: false`) em vez de animar.
 
+### Limpeza definitiva 14F
+
+- **Uma placa:** `Sign_Pensao_Main_Exterior` no nó `Exterior` — nunca dentro do interior.
+- **Portas abertas:** `AddMinimalDoorFrameZWall` / `AddMinimalDoorFrameXWall` — 3 peças, sem infill/folha/painel.
+- **Portas trancadas:** somente `Door_Deposit_Panel`, `Door_UpperBalcony_Panel` (e estrutural `Wall_UpperBlocked*`).
+- **Proibido:** `UpperWallInfill`, folhas decorativas, `ConfigureOpenDoor`, placa no vão da entrada.
+- **Offset padrão:** moldura +0,06 m; painel trancado -0,08 m.
+
 ## Proibido (blockout)
 
 - Animar porta com `Scale`
@@ -100,7 +108,8 @@ Uma única instância é permitida por vão. A folha aberta é uma malha estáti
 | `DoorFrameOpen.tscn` | Moldura de passagem aberta |
 | `DoorLocked.tscn` | Porta trancada opaca + interação |
 | `DoorUnlockHidePanel.tscn` | Porta do depósito ligada ao puzzle |
-| `ConfigureOpenDoor` / `ConfigureLockedDoor` | Afastamento anti z-fighting |
+| `AddMinimalDoorFrameZWall` / `AddMinimalDoorFrameXWall` | Moldura mínima (14F) |
+| `FinalizeLockedDoor` | Painel trancado nomeado + frame limpo |
 
 ---
 
