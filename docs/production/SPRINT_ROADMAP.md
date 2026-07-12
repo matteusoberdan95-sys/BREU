@@ -322,14 +322,18 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 16 — Áudio ambiente base da Pensão
 
-**Status:** 🔄 Próxima
+**Status:** 🔄 Implementada — playtest F6 pendente (2026-07-11)
 
 **Objetivo:** Camada de áudio ambiente base (ambience + reforço sutil dos eventos), sem inimigo.
 
-**Entregas planejadas:**
-- Ambience loop da pensão / trilha
-- Hooks opcionais nos eventos narrativos existentes
-- Documentação de áudio runtime
+**Entregas:**
+- `PensionAudioManager` + `AmbienceZone3D` + `OneShotAudioTrigger3D`
+- Buses Master / Ambience / SFX / UI
+- Zonas: exterior, recepção, corredor, 102, cozinha, depósito, escada, 2º andar
+- One-shots nos eventos Sprint 15
+- `docs/technical/PENSION_AUDIO_BASELINE.md`
+- `docs/audio/PENSION_AUDIO_ASSET_LIST.md`
+- `docs/testing/PENSION_AMBIENCE_AUDIO_PLAYTEST.md`
 
 **DoD:** Áudio estável sem regressão de gameplay; sem inimigo/combat.
 
@@ -341,7 +345,7 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 17 — Primeiro inimigo / encontro controlado
 
-**Status:** ⏳ Após Sprint 16
+**Status:** ⏳ Após aprovação da Sprint 16
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 

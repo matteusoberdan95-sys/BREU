@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="5_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="6_hud"]
 [ext_resource type="Script" path="res://scripts/narrative/PensionNarrativeEvents.cs" id="7_narrative"]
+[ext_resource type="Script" path="res://scripts/audio/PensionAudioManager.cs" id="8_audio"]
 
 [sub_resource type="Environment" id="Environment_pensao"]
 background_mode = 1
@@ -34,6 +35,9 @@ script = ExtResource("3_puzzle_state")
 
 [node name="NarrativeEvents" type="Node" parent="."]
 script = ExtResource("7_narrative")
+
+[node name="AudioManager" type="Node" parent="."]
+script = ExtResource("8_audio")
 
 [node name="World" type="Node3D" parent="."]
 

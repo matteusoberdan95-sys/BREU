@@ -1,10 +1,11 @@
 namespace BREU.Scripts.Narrative;
 
+using BREU.Scripts.Audio;
 using BREU.Scripts.Lighting;
 
 /// <summary>
 /// Sprint 15 — one-shot narrative events for PensaoVerticalBlockout01.
-/// No enemy, combat, chase, or layout changes. Audio optional (not used without assets).
+/// Sprint 16 — optional subtle audio via PensionAudioManager (safe if assets missing).
 /// </summary>
 public partial class PensionNarrativeEvents : Node
 {
@@ -21,6 +22,7 @@ public partial class PensionNarrativeEvents : Node
     private LightFlickerOneShot? _flicker;
     private PensaoPuzzleState? _puzzle;
     private Node3D? _lighting;
+    private PensionAudioManager? _audio;
     private bool _messageBusy;
     private readonly Queue<(string Text, float Duration)> _messageQueue = new();
 
@@ -84,6 +86,8 @@ public partial class PensionNarrativeEvents : Node
         _puzzle = GetTree().Root.FindChild("PuzzleState", recursive: true, owned: false) as PensaoPuzzleState
             ?? GetParent()?.GetNodeOrNull<PensaoPuzzleState>("PuzzleState");
         _lighting = GetParent()?.GetNodeOrNull<Node3D>("Lighting");
+        _audio = PensionAudioManager.Find(GetTree())
+            ?? GetParent()?.GetNodeOrNull<PensionAudioManager>("AudioManager");
 
         if (_puzzle != null)
         {
@@ -96,7 +100,6 @@ public partial class PensionNarrativeEvents : Node
 
     private void OnDepositKeyPickedUp()
     {
-        // Let pickup HUD message show first, then tension beat.
         _ = DelayedTriggerAsync(EventKeyTension, 3.2f);
     }
 
@@ -116,15 +119,12 @@ public partial class PensionNarrativeEvents : Node
         var host = new Node3D { Name = "NarrativeTriggers" };
         AddChild(host);
 
-        // Reception first entry (after porch / into reception).
         AddTrigger(host, "Trigger_PensionEntry_FirstTime", EventPensionEntry,
             new Vector3(0f, 1.1f, -1.5f), new Vector3(4.5f, 2.2f, 3.0f));
 
-        // Upper landing at stair top.
         AddTrigger(host, "Trigger_UpperLanding_FirstTime", EventStairArrival,
             new Vector3(-2.2f, 4.0f, -21.0f), new Vector3(3.2f, 2.4f, 2.8f));
 
-        // Mid upper corridor presence.
         AddTrigger(host, "Trigger_UpperCorridor_Presence", EventUpperPresence,
             new Vector3(0f, 4.0f, -13.5f), new Vector3(2.2f, 2.4f, 2.4f));
     }
@@ -148,11 +148,14 @@ public partial class PensionNarrativeEvents : Node
 
     private void Execute(string eventId)
     {
+        _audio ??= PensionAudioManager.Find(GetTree());
+
         switch (eventId)
         {
             case EventPensionEntry:
                 QueueMessage("A recepção está vazia, mas a casa parece ter ouvido minha chegada.", 3.5f);
                 _flicker?.Flicker(GetLight("ReceptionLight"), 0.55f, 0.45f, 2);
+                _audio?.PlayOneShot("old_house_settle_01", -14f);
                 break;
 
             case EventKeyTension:
@@ -160,6 +163,7 @@ public partial class PensionNarrativeEvents : Node
                 _flicker?.FlickerMany(
                     new[] { GetLight("CorridorLight"), GetLight("CorridorDeepLight") },
                     1.1f, 0.42f, 3);
+                _audio?.PlayOneShot("wood_creak_02", -12f);
                 break;
 
             case EventFuseFootsteps:
@@ -167,6 +171,7 @@ public partial class PensionNarrativeEvents : Node
                 _flicker?.FlickerMany(
                     new[] { GetLight("CorridorLight"), GetLight("StairWellLight"), GetLight("DepositLight") },
                     1.6f, 0.38f, 4);
+                _audio?.PlayOneShotSequence("distant_step_01", "distant_step_02", 0.85f);
                 break;
 
             case EventStairArrival:
@@ -174,16 +179,19 @@ public partial class PensionNarrativeEvents : Node
                 _flicker?.FlickerMany(
                     new[] { GetLight("UpperLandingLight"), GetLight("UpperCorridorLight") },
                     1.2f, 0.4f, 3);
+                _audio?.PlayOneShot("old_house_settle_02", -14f);
                 break;
 
             case EventUpperPresence:
                 QueueMessage("Por um instante, achei ter visto alguém no fim do corredor.", 3.5f);
                 _flicker?.Flicker(GetLight("UpperCorridorFarLight"), 1.0f, 0.35f, 3);
+                _audio?.PlayOneShot("distant_knock_01", -13f);
                 break;
 
             case EventLockedDoorHint:
                 QueueMessage("Do outro lado, algo arranha a madeira.", 3.0f);
                 _flicker?.Flicker(GetLight("UpperBlockedDoorLight"), 0.9f, 0.4f, 2);
+                _audio?.PlayOneShot("door_scratch_01", -12f);
                 break;
         }
     }

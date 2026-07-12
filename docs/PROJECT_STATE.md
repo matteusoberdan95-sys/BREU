@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 15 aprovada; próxima: Sprint 16 (áudio ambiente)  
+**Fase:** REBOOT GREENFIELD — Sprint 16 implementada (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -28,6 +28,7 @@
 | Sprint 14 | **✅ Aprovada** — blockout narrativo limpo (14Z) |
 | Sprint 14A–14F | **⏸️ Substituídas** — iterações de portas/placas absorvidas pela 14Z |
 | Sprint 15 | **✅ Aprovada** — eventos narrativos one-shot sem inimigo |
+| Sprint 16 | **🔄 Implementada** — áudio ambiente base (F6 pendente) |
 
 ---
 
@@ -184,8 +185,23 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Baseline:** `docs/technical/PENSION_NARRATIVE_EVENTS_BASELINE.md`  
 **Playtest:** `docs/testing/PENSION_SIMPLE_NARRATIVE_EVENTS_PLAYTEST.md`
 
-## Próxima sprint recomendada — Sprint 16 (Áudio ambiente base da Pensão)
+## Sprint 16 — Áudio ambiente base (implementada)
 
-**Objetivo:** Camada de áudio ambiente base (sem inimigo, sem combate).
+**Status:** 🔄 Implementada — playtest F6 pendente  
+**Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
-**Não avançar automaticamente** para inimigo, chase ou arte final.
+- `PensionAudioManager` + zonas + crossfade
+- Todos os assets em `assets/audio/pensao/` presentes
+- One-shots integrados aos eventos da Sprint 15
+- Buses: Master / Ambience / SFX / UI
+- Sem inimigo / combate / chase; gameplay e atmosfera visual preservados
+
+**Baseline:** `docs/technical/PENSION_AUDIO_BASELINE.md`  
+**Playtest:** `docs/testing/PENSION_AMBIENCE_AUDIO_PLAYTEST.md`  
+**Assets:** `docs/audio/PENSION_AUDIO_ASSET_LIST.md`
+
+## Próxima sprint recomendada — Sprint 17 (após F6 da 16)
+
+**Objetivo:** Primeiro inimigo / encontro controlado — só depois da Sprint 16 aprovada.
+
+**Não avançar automaticamente** para combate, chase ou arte final.

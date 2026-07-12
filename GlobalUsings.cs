@@ -20,3 +20,4 @@ global using BREU.Scripts.Interaction;
 global using BREU.Scripts.Levels.PensaoSantaLuzia;
 global using BREU.Scripts.Narrative;
 global using BREU.Scripts.Lighting;
+global using BREU.Scripts.Audio;
