@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-12  
-**Fase:** REBOOT GREENFIELD — Sprint 17 (puzzle varanda + ala superior) implementada; F6 pendente  
+**Fase:** REBOOT GREENFIELD — Sprint 17C (ala varanda + puzzle macabro) implementada; F6 pendente  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -36,6 +36,7 @@
 | Sprint 17 | **🔄 Implementada** — puzzle varanda + ala superior (sem inimigo); F6 pendente |
 | Sprint 17A | **🔄 Hotfix** — porta verde reposicionada (estava no teto) |
 | Sprint 17B | **🔄 Hotfix** — porta única + varanda real conectada |
+| Sprint 17C | **🔄 Implementada** — ala banheiro + quarto proprietária + puzzle macabro; F6 pendente |
 
 ---
 
@@ -276,4 +277,16 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 - Porta verde única no vão
 - `Wall_Second_Front` com gap + varanda externa com guarda-corpo
 - Corredor curto da ala; trigger de presença afastado da porta  
-Sprint 17 ainda depende de playtest completo.
+
+### Sprint 17C — Ala da varanda + puzzle macabro
+
+**Status:** 🔄 Implementada — F6 pendente  
+- `Room_UpperBathroom` + `Room_OwnerBedroom` acessíveis
+- Puzzle: arame → ralo → chave → quarto da proprietária
+- Caderno → `EventOwnerLedgerReveal` (tensão sem inimigo)
+- `Door_Room203_Blocked` como gancho da próxima sprint
+- Áudio: zona banheiro com gotas; varanda/wing ajustadas
+- Docs: `docs/design/PENSION_BALCONY_WING_PUZZLE.md`
+
+Sprint 17 ainda depende de playtest completo da rota 17–17C.
+

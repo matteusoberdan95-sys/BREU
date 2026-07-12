@@ -18,6 +18,8 @@ public partial class PensionNarrativeEvents : Node
     public const string EventBalconyOpened = "balcony_opened";
     public const string EventRoom203Note = "room_203_note";
     public const string EventOwnerLedgerRead = "owner_ledger_read";
+    /// <summary>Sprint 17C — tension after reading Dona Luzia's ledger (no enemy).</summary>
+    public const string EventOwnerLedgerReveal = "owner_ledger_reveal";
 
     private readonly HashSet<string> _fired = new(StringComparer.Ordinal);
     private readonly List<NarrativeTrigger3D> _triggers = new();
@@ -207,6 +209,28 @@ public partial class PensionNarrativeEvents : Node
                 QueueMessage("As páginas rasgadas deixam uma marca escura nos meus dedos.", 3.5f);
                 _flicker?.Flicker(GetLight("BalconyWingLight"), 0.9f, 0.38f, 3);
                 _audio?.PlayOneShot("distant_knock_01", -13f);
+                break;
+
+            case EventOwnerLedgerReveal:
+                QueueMessage(
+                    "Os nomes dos hóspedes terminam sempre na mesma data. Depois disso, só páginas rasgadas.",
+                    4.0f);
+                QueueMessage(
+                    "No fim da página, há uma frase escrita com força: 'NÃO ABRA O QUARTO 203'.",
+                    4.0f);
+                _flicker?.FlickerMany(
+                    new[]
+                    {
+                        GetLight("OwnerBedroomLight"),
+                        GetLight("BathroomLight"),
+                        GetLight("BalconyWingLight")
+                    },
+                    1.6f, 0.35f, 4);
+                _audio?.PlayOneShot("distant_knock_02", -11f);
+                _audio?.PlayOneShotSequence("distant_step_01", "distant_step_02", 0.9f);
+                QueueMessage("Alguma coisa se moveu do outro lado da pensão.", 3.5f);
+                QueueMessage("Preciso voltar para o corredor.", 3.0f);
+                QueueMessage("Quarto 203...", 2.8f);
                 break;
         }
     }

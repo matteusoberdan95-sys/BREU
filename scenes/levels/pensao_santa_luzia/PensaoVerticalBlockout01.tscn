@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoPuzzleState.cs" id="3_puzzle_state"]
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoTerreoPuzzleSetup.cs" id="4_puzzle_setup"]
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoBalconyPuzzleSetup.cs" id="4b_balcony_puzzle"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/PensaoBalconyWingPuzzleSetup.cs" id="4c_wing_puzzle"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="5_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="6_hud"]
 [ext_resource type="Script" path="res://scripts/narrative/PensionNarrativeEvents.cs" id="7_narrative"]
@@ -50,6 +51,9 @@ script = ExtResource("4_puzzle_setup")
 
 [node name="BalconyPuzzleSetup" type="Node" parent="World"]
 script = ExtResource("4b_balcony_puzzle")
+
+[node name="BalconyWingPuzzleSetup" type="Node" parent="World"]
+script = ExtResource("4c_wing_puzzle")
 
 [node name="Exterior" type="Node3D" parent="."]
 

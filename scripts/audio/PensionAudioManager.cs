@@ -410,11 +410,20 @@ public partial class PensionAudioManager : Node
             secondaryLoopId: IdLampBuzz);
 
         AddZone(host, "AudioZone_UpperBalcony", IdExterior, 75,
-            new Vector3(0f, 4.0f, -6.6f), new Vector3(3.2f, 3.2f, 2.4f),
+            new Vector3(0f, 4.0f, -4.8f), new Vector3(3.2f, 3.2f, 4.2f),
             secondaryLoopId: IdSecondFloor);
 
         AddZone(host, "AudioZone_UpperBalconyWing", IdSecondFloor, 78,
-            new Vector3(4.0f, 4.0f, -6.6f), new Vector3(5.5f, 3.2f, 2.6f));
+            new Vector3(4.2f, 4.0f, -4.0f), new Vector3(5.8f, 3.2f, 3.6f));
+
+        // Sprint 17C — bathroom drip audible over wing ambience.
+        AddZone(host, "AudioZone_UpperBathroom", IdSecondFloor, 82,
+            new Vector3(2.5f, 4.0f, -4.0f), new Vector3(2.6f, 3.2f, 2.8f),
+            secondaryLoopId: IdWaterDrops);
+
+        AddZone(host, "AudioZone_OwnerBedroom", IdSecondFloor, 80,
+            new Vector3(5.2f, 4.0f, -4.1f), new Vector3(3.0f, 3.2f, 2.8f),
+            secondaryLoopId: IdLampBuzz);
 
         AddSurfaceZones(host);
         AddWaterDropEmitters(host);
@@ -463,6 +472,7 @@ public partial class PensionAudioManager : Node
     {
         AddDropEmitter(parent, "RandomDrops_Deposit", new Vector3(0f, 1.4f, -29.2f), new Vector3(4.2f, 3.2f, 7.2f));
         AddDropEmitter(parent, "RandomDrops_Kitchen", new Vector3(4.2f, 1.4f, -20.5f), new Vector3(5.5f, 3.2f, 5.2f));
+        AddDropEmitter(parent, "RandomDrops_UpperBathroom", new Vector3(2.5f, 4.0f, -4.0f), new Vector3(2.6f, 3.2f, 2.8f));
     }
 
     private static void AddDropEmitter(Node3D parent, string name, Vector3 position, Vector3 size)

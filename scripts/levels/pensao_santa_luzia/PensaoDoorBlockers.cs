@@ -225,4 +225,72 @@ public partial class PensaoTerreoBlockout01Builder
 
         return root;
     }
+
+    /// <summary>
+    /// Sprint 17C — owner bedroom door. Same unlock-hide pattern as deposit/balcony.
+    /// Root on second-floor slab; panel/Area use local Y only.
+    /// </summary>
+    protected BlockoutOwnerBedroomDoor AddOwnerBedroomDoorBlocker(
+        Node3D parent,
+        string rootName,
+        string blockerName,
+        Vector3 worldXz,
+        float openingWidth,
+        StandardMaterial3D panelMaterial,
+        float worldFloorTopY,
+        float panelOffsetX = 0f,
+        float rotationY = 0f)
+    {
+        var root = new BlockoutOwnerBedroomDoor
+        {
+            Name = rootName,
+            Position = new Vector3(worldXz.X, worldFloorTopY - WallEmbedBelowFloor, worldXz.Z),
+            Rotation = new Vector3(0f, rotationY, 0f)
+        };
+        parent.AddChild(root);
+
+        var panelCenterY = DoorHeight * 0.5f - WallEmbedBelowFloor;
+        var panelPos = new Vector3(panelOffsetX, panelCenterY, BlockerStandoffZ);
+
+        root.AddChild(new MeshInstance3D
+        {
+            Name = blockerName,
+            Mesh = new BoxMesh { Size = new Vector3(openingWidth, DoorHeight, BlockerDepth) },
+            MaterialOverride = panelMaterial,
+            Position = panelPos
+        });
+
+        var body = new StaticBody3D
+        {
+            Name = "BlockingBody",
+            CollisionLayer = WorldLayer,
+            CollisionMask = 0
+        };
+        body.AddChild(new CollisionShape3D
+        {
+            Name = "BlockingShape",
+            Position = panelPos,
+            Shape = new BoxShape3D { Size = new Vector3(openingWidth, DoorHeight, BlockerDepth) }
+        });
+        root.AddChild(body);
+
+        var area = new Area3D
+        {
+            Name = "InteractionArea",
+            Position = new Vector3(panelOffsetX, 1.45f, BlockerStandoffZ - 0.38f),
+            CollisionLayer = InteractableLayer,
+            CollisionMask = 0,
+            Monitoring = false,
+            Monitorable = true
+        };
+        area.AddChild(new CollisionShape3D
+        {
+            Shape = new BoxShape3D
+            {
+                Size = new Vector3(Mathf.Max(0.55f, openingWidth - 0.1f), 1.15f, 0.65f)
+            }
+        });
+        root.AddChild(area);
+        return root;
+    }
 }

@@ -61,7 +61,7 @@ public partial class PensaoBalconyPuzzleSetup : Node
 
         CreateOwnerNote(state, host);
         CreateBalconyKey(state, host);
-        CreateWingNotes(host);
+        // Sprint 17C: wing ledger / 203 handled by PensaoBalconyWingPuzzleSetup + Door_Room203_Blocked.
 
         state.OldFusePickedUp += () =>
             HUDController.FindActive(GetTree())?.ShowMessage(

@@ -69,3 +69,52 @@
 | Destravar → varanda externa | ☐ F6 |
 | Guarda-corpo / sem limbo | ☐ F6 |
 | Prompt presença longe da porta | ☐ F6 |
+
+---
+
+## Sprint 17C — Ala da varanda + puzzle macabro
+
+**Status:** 🔄 Implementada — aguardando F6  
+**Docs:** `docs/design/PENSION_BALCONY_WING_PUZZLE.md`
+
+### Rota completa
+
+| Check | Resultado |
+|-------|-----------|
+| Nascer na trilha | ☐ |
+| Entrar na pensão | ☐ |
+| Fluxo chave → depósito → fusível | ☐ |
+| Subir segundo andar | ☐ |
+| Abrir porta verde com chave da varanda | ☐ |
+| Acessar varanda + guarda-corpo / sem queda | ☐ |
+| Voltar da varanda | ☐ |
+| Pegar arame torto | ☐ |
+| Entrar no banheiro | ☐ |
+| Examinar espelho | ☐ |
+| Ralo sem arame = mensagem correta | ☐ |
+| Arame no ralo → chave | ☐ |
+| Abrir quarto da proprietária | ☐ |
+| Examinar caderno → evento macabro | ☐ |
+| Mensagem Quarto 203 | ☐ |
+| Quarto 203 bloqueado | ☐ |
+| Sair e voltar OK | ☐ |
+
+### Checklist técnico
+
+| Check | Resultado |
+|-------|-----------|
+| Player / stamina / HUD / lanterna / F10–F11 | ☐ |
+| Áudio / passos / respiração / fog | ☐ |
+| Puzzle antigo + porta verde | ☐ |
+| Dois cômodos acessíveis / sem limbo / sem z-fight novo | ☐ |
+| Sem porta tremendo / sem inimigo / combate / chase | ☐ |
+
+### Checklist emocional
+
+| Check | Resultado |
+|-------|-----------|
+| Varanda = descoberta | ☐ |
+| Banheiro = abandono / ralo desconfortável | ☐ |
+| Quarto + caderno = impacto | ☐ |
+| 203 prepara medo | ☐ |
+

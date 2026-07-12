@@ -358,11 +358,27 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
+### Sprint 17C — Ala da varanda + puzzle macabro da proprietária
+
+**Status:** 🔄 Implementada — playtest F6 pendente (2026-07-12)
+
+**Objetivo:** Banheiro + quarto da proprietária jogáveis; puzzle arame→ralo→chave; caderno dispara tensão; Quarto 203 como gancho.
+
+**Entregas:**
+- Geometria `Room_UpperBathroom` / `Room_OwnerBedroom` + guarda-corpo da varanda
+- Flags 17C + `PensaoBalconyWingPuzzleSetup` + `BlockoutOwnerBedroomDoor`
+- `EventOwnerLedgerReveal` + `Door_Room203_Blocked`
+- Docs design / playtest / PROJECT_STATE
+
+**DoD:** Dois cômodos acessíveis; puzzle completo; evento do caderno; 203 bloqueado; zero regressão; sem inimigo.
+
+**Cena alvo:** `PensaoVerticalBlockout01.tscn`
+
 ---
 
 ## Sprint 18 — Primeiro susto controlado sem inimigo físico
 
-**Status:** ⏳ Após Sprint 17 aprovada
+**Status:** ⏳ Após Sprint 17C aprovada
 
 **Objetivo:** Susto / tensão controlada **sem** inimigo físico, combate ou chase.
 
