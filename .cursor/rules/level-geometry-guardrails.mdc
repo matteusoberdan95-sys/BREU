@@ -33,6 +33,25 @@ Estas regras são obrigatórias para Cursor antes de qualquer alteração de cen
 18. Gameplay jogável vem antes de estética.
 19. Em dúvida, criar primeiro uma versão simples, sólida e testável.
 20. Se o teste binário falhar, a task falhou.
+21. Nenhum trigger/Area3D/DebugFallRecovery do segundo andar pode afetar o player no primeiro andar.
+22. Não criar boundary global / mureta / rail de varanda inteira; paredes virão dos cômodos.
+23. DebugFallRecovery só pode ativar abaixo de KillY real (void), nunca no corredor/recepção.
+
+## Regra de isolamento por andar
+
+Toda Area3D, trigger, interação, teleporte, recover, safe marker ou evento precisa pertencer claramente a um andar.
+
+Proibido:
+- trigger do segundo andar alcançar o primeiro andar;
+- trigger da varanda alcançar recepção/corredor térreo;
+- DebugFallRecovery teleportar player do térreo para o segundo andar durante gameplay normal;
+- Area3D com altura gigante sem justificativa;
+- boundary global de varanda;
+- collider invisível sem nome claro.
+
+Teste obrigatório:
+Depois de abrir qualquer porta/evento do segundo andar, voltar ao térreo e correr pelo corredor.
+Se o player for jogado para cima, a task falhou. Use F8 (PlayerAreaProbe) e F9 (FloorIsolation).
 
 ## Checklist obrigatório antes de commit de cenário
 
@@ -43,3 +62,6 @@ Estas regras são obrigatórias para Cursor antes de qualquer alteração de cen
 - [ ] Não há prompt fantasma nem teto/piso atravessando outro andar.
 - [ ] Entrada e recepção foram verificadas olhando para cima.
 - [ ] Escada, porta verde e Quarto 203 continuam funcionando.
+- [ ] Após abrir varanda, correr no térreo sem teleporte para o segundo andar.
+- [ ] F8 no térreo sem Area3D superior sobreposta.
+- [ ] F9 sem ERROR de isolamento / boundary.

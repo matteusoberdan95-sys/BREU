@@ -11,8 +11,11 @@ public partial class UpperWingDeckGridCheck : Node
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event is not InputEventKey { Pressed: true, Echo: false, Keycode: Key.F9 }) return;
+        // F9 is owned by LevelSanityChecker / FloorTriggerIsolationChecker.
+        // Shift+F9 keeps the deck grid audit.
+        if (@event is not InputEventKey { Pressed: true, Echo: false, Keycode: Key.F9, ShiftPressed: true }) return;
         RunGridCheck();
+        GetViewport().SetInputAsHandled();
     }
 
     public void RunGridCheck()
@@ -53,18 +56,18 @@ public partial class UpperWingDeckGridCheck : Node
             ? "[DeckGrid] PASS 49/49 points hit UpperWing_CollisionDeck"
             : $"[DeckGrid] FAIL {failures}/49 points did not hit UpperWing_CollisionDeck");
 
-        CheckBoundary("BalconyBoundary_Left", new Vector3(-1.2f, 4.2f, -4.1f), Vector3.Left * 2f);
-        CheckBoundary("BalconyBoundary_Right", new Vector3(6.3f, 4.2f, -4.1f), Vector3.Right * 2f);
-        CheckBoundary("BalconyBoundary_Front", new Vector3(2.55f, 4.2f, 2.1f), Vector3.Back * 2f);
+        AssertBoundaryAbsent(scene!, "BalconyBoundaryColliders");
+        AssertBoundaryAbsent(scene!, "BalconyBoundary_Left");
+        AssertBoundaryAbsent(scene!, "BalconyBoundary_Right");
+        AssertBoundaryAbsent(scene!, "BalconyBoundary_Front");
     }
 
-    private void CheckBoundary(string expectedName, Vector3 from, Vector3 offset)
+    private static void AssertBoundaryAbsent(Node scene, string name)
     {
-        var query = PhysicsRayQueryParameters3D.Create(from, from + offset, 1);
-        var hit = GetTree().Root.World3D.DirectSpaceState.IntersectRay(query);
-        var collider = hit.Count > 0 ? hit["collider"].AsGodotObject() as Node : null;
-        if (collider?.Name == expectedName) GD.Print($"[BoundaryCheck] OK {expectedName}");
-        else GD.PrintErr($"[BoundaryCheck] ERROR {expectedName}: hit {collider?.GetPath().ToString() ?? "nothing"}");
+        if (scene.FindChild(name, recursive: true, owned: false) != null)
+            GD.PrintErr($"[BoundaryCheck] ERROR forbidden boundary still present: {name}");
+        else
+            GD.Print($"[BoundaryCheck] OK absent: {name}");
     }
 
     private static void CollectOtherBodies(Node node, StaticBody3D expected, Godot.Collections.Array<Rid> excluded)

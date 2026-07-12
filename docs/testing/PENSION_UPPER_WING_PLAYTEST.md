@@ -1,20 +1,41 @@
 # Playtest — Saneamento 18C / ala superior
 
-## Hotfix final — colisão dos limites da varanda
+## Hotfix — varanda limpa e isolamento do térreo
 
-- o chão aprovado `UpperWing_CollisionDeck` foi preservado sem mudança de posição, tamanho, layer/mask ou shape;
-- causa restante confirmada pelo vídeo: travessia da parede/quina direita, seguida de saída da área válida;
-- container criado: `World/Level/SecondFloor/Collisions/BalconyBoundaryColliders`;
-- `BalconyBoundary_Left`: X `-1,85`, cobrindo Z `-10,80..2,60`;
-- `BalconyBoundary_Right`: X `6,95`, cobrindo Z `-10,80..2,60`;
-- `BalconyBoundary_Front`: Z `2,75`, cobrindo X `-1,90..7,00`;
-- layer/mask `1/0`, copiados das paredes funcionais criadas por `AddWall`;
-- o collider segmentado `RoomEastWall` foi removido para não competir com o limite direito contínuo;
-- nenhuma mureta interna foi criada; fundo permanece aberto para porta verde e caminho do 203.
+### Boundary da varanda removida
+- removidos: `BalconyBoundaryColliders`, `BalconyBoundary_Left`, `BalconyBoundary_Right`, `BalconyBoundary_Front` e shapes associados;
+- preservados: `UpperWing_CollisionDeck` (chão funcional), `SecondFloor_MasterSlab` (visual), porta verde, Quarto 203, escada;
+- sem mureta, rail global, placa escura ou boundary novo na varanda.
 
-Validação: [ ] compilação/carga após limites [ ] BoundaryCheck 3/3 [ ] tentativa manual de atravessar paredes [ ] tentativa de queda lateral [ ] 203 e porta verde preservados
+### Causa do teleporte térreo → segundo andar
+- script: `DebugFallRecovery.cs`;
+- bug: após visitar a ala superior (`Y >= 2,65`), qualquer posição com `Y < 1,9` dentro do AABB enorme do deck (`X=-20..30`, `Z=-10,8..20`) era tratada como queda e o player era mandado para `SafeMarker_SecondFloor`;
+- isso incluía corredor e recepção do térreo após descer a escada.
 
-O ambiente atingiu o limite de execução antes da validação; não aprovar nem criar commit final até esses itens passarem.
+### Correção
+- `DebugFallRecovery` só ativa com `playerY < KillY` (`-3,0`);
+- destino: `SafeMarker_Reception` se o último andar válido for o térreo; `SafeMarker_SecondFloor` só se a última posição válida foi segundo andar/varanda;
+- logs: `[DebugFallRecovery] CHECK ...`, `TRIGGERED reason=...`, `ignored: player is on first floor`.
+
+### Isolamento por andar
+- volumes lógicos: `FirstFloorVolume`, `SecondFloorVolume`, `UpperWingVolume`;
+- F8: `PlayerAreaProbe` — posição, andar estimado, raycasts, Area3D sobrepostas (ERROR se trigger superior pegar térreo);
+- F9: `FloorTriggerIsolationChecker` + `LevelSanityChecker` — boundary ausente, deck ativo, triggers sem invadir térreo.
+
+### Resultado esperado do playtest
+- F8 no térreo (corredor/recepção): sem Area3D superior;
+- F9: sem ERROR de isolamento / boundary;
+- correr no primeiro andar após abrir a varanda: sem teleporte;
+- varanda livre e navegável sem paredes/limites bugados.
+
+Validação manual: [ ] varanda livre [ ] F8 térreo limpo [ ] F9 OK [ ] 3× rota térreo sem teleporte [ ] Visible Collision Shapes
+
+Sem commit final até esses itens passarem.
+
+## Hotfix final — colisão dos limites da varanda (REVERTIDO)
+
+- tentativa anterior de `BalconyBoundaryColliders` poluiu a varanda com volumes/paredes;
+- rollback completo no hotfix de isolamento; não recriar boundary global.
 
 ## Hotfix — UpperWing_CollisionDeck
 

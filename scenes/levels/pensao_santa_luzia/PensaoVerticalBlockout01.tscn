@@ -16,6 +16,8 @@
 [ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
 [ext_resource type="Script" path="res://scripts/debug/DebugFallRecovery.cs" id="11_fall_recovery"]
 [ext_resource type="Script" path="res://scripts/debug/UpperWingDeckGridCheck.cs" id="12_deck_grid"]
+[ext_resource type="Script" path="res://scripts/debug/PlayerAreaProbe.cs" id="13_area_probe"]
+[ext_resource type="Script" path="res://scripts/debug/FloorTriggerIsolationChecker.cs" id="14_floor_isolation"]
 
 [sub_resource type="Environment" id="Environment_pensao"]
 background_mode = 1
@@ -38,11 +40,14 @@ fog_aerial_perspective = 0.45
 [sub_resource type="BoxShape3D" id="UpperWingCollisionDeckShape"]
 size = Vector3(50, 0.8, 30.8)
 
-[sub_resource type="BoxShape3D" id="BalconyBoundarySideShape"]
-size = Vector3(0.3, 2.8, 13.4)
+[sub_resource type="BoxShape3D" id="FirstFloorVolumeShape"]
+size = Vector3(24, 2.5, 56)
 
-[sub_resource type="BoxShape3D" id="BalconyBoundaryFrontShape"]
-size = Vector3(8.9, 2.8, 0.3)
+[sub_resource type="BoxShape3D" id="SecondFloorVolumeShape"]
+size = Vector3(16, 2.8, 22)
+
+[sub_resource type="BoxShape3D" id="UpperWingVolumeShape"]
+size = Vector3(22, 2.8, 20)
 
 [node name="PensaoVerticalBlockout01" type="Node3D"]
 script = ExtResource("1_controller")
@@ -68,6 +73,12 @@ script = ExtResource("11_fall_recovery")
 [node name="UpperWingDeckGridCheck" type="Node" parent="."]
 script = ExtResource("12_deck_grid")
 
+[node name="PlayerAreaProbe" type="Node" parent="."]
+script = ExtResource("13_area_probe")
+
+[node name="FloorTriggerIsolationChecker" type="Node" parent="."]
+script = ExtResource("14_floor_isolation")
+
 [node name="World" type="Node3D" parent="."]
 
 [node name="Level" type="Node3D" parent="World"]
@@ -89,32 +100,6 @@ collision_mask = 0
 shape = SubResource("UpperWingCollisionDeckShape")
 
 [node name="Collisions" type="Node3D" parent="World/Level/SecondFloor"]
-
-[node name="BalconyBoundaryColliders" type="Node3D" parent="World/Level/SecondFloor/Collisions"]
-
-[node name="BalconyBoundary_Left" type="StaticBody3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders" groups=["level_wall"]]
-position = Vector3(-1.85, 4.2, -4.1)
-collision_layer = 1
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders/BalconyBoundary_Left"]
-shape = SubResource("BalconyBoundarySideShape")
-
-[node name="BalconyBoundary_Right" type="StaticBody3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders" groups=["level_wall"]]
-position = Vector3(6.95, 4.2, -4.1)
-collision_layer = 1
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders/BalconyBoundary_Right"]
-shape = SubResource("BalconyBoundarySideShape")
-
-[node name="BalconyBoundary_Front" type="StaticBody3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders" groups=["level_wall"]]
-position = Vector3(2.55, 4.2, 2.75)
-collision_layer = 1
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders/BalconyBoundary_Front"]
-shape = SubResource("BalconyBoundaryFrontShape")
 
 [node name="Markers" type="Node3D" parent="World/Level/SecondFloor"]
 
@@ -156,6 +141,38 @@ position = Vector3(0, 3.2, -9.5)
 
 [node name="SafeMarker_Reception" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(0, 0.3, -3.5)
+
+[node name="FloorVolumes" type="Node3D" parent="World/Level"]
+
+[node name="FirstFloorVolume" type="Area3D" parent="World/Level/FloorVolumes" groups=["level_first_floor"]]
+position = Vector3(0, 1.25, -8)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/FloorVolumes/FirstFloorVolume"]
+shape = SubResource("FirstFloorVolumeShape")
+
+[node name="SecondFloorVolume" type="Area3D" parent="World/Level/FloorVolumes" groups=["level_second_floor"]]
+position = Vector3(0, 4.1, -14)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/FloorVolumes/SecondFloorVolume"]
+shape = SubResource("SecondFloorVolumeShape")
+
+[node name="UpperWingVolume" type="Area3D" parent="World/Level/FloorVolumes" groups=["level_upper_wing"]]
+position = Vector3(4, 4.2, -1)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/FloorVolumes/UpperWingVolume"]
+shape = SubResource("UpperWingVolumeShape")
 
 [node name="Builder" type="Node3D" parent="World"]
 script = ExtResource("2_builder")

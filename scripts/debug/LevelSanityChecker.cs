@@ -58,6 +58,8 @@ public partial class LevelSanityChecker : Node
         CheckSecondFloorInvasion(scene);
         CheckReceptionCeiling(scene);
         CheckManualWingOwnership(scene);
+        CheckBalconyBoundaryRollback(scene);
+        CheckFloorVolumes(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -392,6 +394,45 @@ public partial class LevelSanityChecker : Node
         else
         {
             Ok("single BalconyWing owner");
+        }
+    }
+
+    private void CheckBalconyBoundaryRollback(Node scene)
+    {
+        string[] forbidden =
+        {
+            "BalconyBoundaryColliders", "BalconyBoundary_Left", "BalconyBoundary_Right",
+            "BalconyBoundary_Front", "BalconyBoundary_Back", "InvisibleBoundary"
+        };
+
+        var clean = true;
+        foreach (var name in forbidden)
+        {
+            if (scene.FindChild(name, recursive: true, owned: false) != null)
+            {
+                Error($"balcony boundary leftover: {name}");
+                clean = false;
+            }
+        }
+
+        if (clean)
+        {
+            Ok("balcony boundary rollback clean");
+        }
+    }
+
+    private void CheckFloorVolumes(Node scene)
+    {
+        foreach (var name in new[] { "FirstFloorVolume", "SecondFloorVolume", "UpperWingVolume" })
+        {
+            if (scene.FindChild(name, recursive: true, owned: false) == null)
+            {
+                Error($"logical floor volume missing: {name}");
+            }
+            else
+            {
+                Ok($"{name} present");
+            }
         }
     }
 

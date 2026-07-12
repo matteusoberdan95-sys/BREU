@@ -1,8 +1,12 @@
 # BREU — Estado do projeto
 
+## Hotfix — varanda limpa + isolamento do térreo
+
+Boundary global da varanda (`BalconyBoundaryColliders` e filhos) removida; `UpperWing_CollisionDeck` permanece como chão navegável. O teleporte térreo → segundo andar vinha de `DebugFallRecovery` tratando o corredor como queda da laje; agora só ativa abaixo de KillY (`-3`). Regra de isolamento por andar documentada. Próxima sprint de cômodos/puzzle só libera se: (1) varanda livre sem placa/mureta bugada; (2) correr no térreo após abrir a varanda sem ser jogado para cima.
+
 ## Limites externos da varanda
 
-A varanda mantém `UpperWing_CollisionDeck` como chão aprovado. Foram adicionados limites contínuos esquerdo, direito e frontal para impedir travessia das paredes e saída lateral; não há nova mureta interna e o fundo permanece livre para a porta verde/203. A próxima sprint de cômodos/puzzle só é liberada após compilação, BoundaryCheck e percurso manual passarem.
+A tentativa de limites contínuos foi revertida por poluir a circulação. Não recriar boundary global; paredes futuras virão dos cômodos.
 
 ## Fonte física da ala superior
 

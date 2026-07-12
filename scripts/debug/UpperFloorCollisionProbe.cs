@@ -20,7 +20,8 @@ public partial class UpperFloorCollisionProbe : Node
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event is not InputEventKey { Pressed: true, Echo: false, Keycode: Key.F8, CtrlPressed: false }) return;
+        // F8 is owned by PlayerAreaProbe. Shift+F8 keeps the deck marker audit.
+        if (@event is not InputEventKey { Pressed: true, Echo: false, Keycode: Key.F8, ShiftPressed: true }) return;
         RunProbe();
         GetViewport().SetInputAsHandled();
     }
