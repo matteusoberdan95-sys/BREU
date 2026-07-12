@@ -33,6 +33,7 @@
 | Sprint 16C | **✅ Aprovada** — corrida usa banco da superfície |
 | Sprint 16D | **✅ Aprovada** — cadência 0,64/0,36 + cooldown anti-duplo |
 | Sprint 16E | **✅ Aprovada** — respiração normal + panting |
+| Sprint 17 | **🔄 Implementada** — puzzle varanda + ala superior (sem inimigo); F6 pendente |
 
 ---
 
@@ -243,3 +244,24 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Sprint 17 — Primeiro susto controlado sem inimigo físico**
 
 **Não avançar automaticamente** para inimigo/combate/chase físico.
+
+## Sprint 17 — Puzzle da varanda + ala superior (implementada)
+
+**Status:** 🔄 Implementada — F6 pendente  
+**Cena:** `PensaoVerticalBlockout01.tscn`
+
+- Porta verde (`Door_UpperBalcony`) faz parte do puzzle `BalconyAccess`
+- Nota 201 → chave na recepção → destravar varanda
+- `UpperBalconyWing` navegável: varanda + corredor leste + Room_203 + Room_OwnerOffice
+- Eventos sutis (abrir varanda / bilhete 203 / caderno); **sem inimigo**
+- Áudio: `AudioZone_UpperBalcony` / `AudioZone_UpperBalconyWing`
+- Sistemas 02–16 preservados (movimento, HUD, áudio, fog, depósito/fusível)
+
+**Design:** `docs/design/PENSION_BALCONY_PUZZLE_DESIGN.md`  
+**Playtest:** `docs/testing/PENSION_BALCONY_PUZZLE_PLAYTEST.md`  
+**Interação:** `docs/technical/PENSION_INTERACTION_BASELINE.md`
+
+## Após F6 da Sprint 17
+
+Se aprovada: susto controlado sem inimigo físico (roadmap) **ou** polish.  
+**Não** avançar automaticamente para inimigo/combate/chase.
