@@ -376,3 +376,7 @@ Estado do hotfix: a mureta foi removida; pisos parciais concorrentes foram subst
 ## Hotfix definitivo da laje superior
 
 O estado anterior falhou no playtest ao andar para a direita. O piso oficial foi ampliado para `X=-2,7..9,0` e `Z=-5,8..3,6`, com mesh/BoxShape idênticos e layer/mask `1/1`; ele encosta sem sobrepor o piso principal do segundo andar. `UpperFloorCollisionProbe` usa F8 e valida Start/Center/Right/FarRight/Left/End. A laje só será aprovada após o teste manual direito/esquerdo/diagonais. `AGENTS.md` e as regras Cursor são obrigatórios.
+
+### Hotfix cirúrgico posterior
+
+`Ceiling_FirstFloor_Seal` monolítico, que atravessava visualmente a escada, foi dividido em quatro placas ao redor do shaft. A laje foi ampliada para `X=-4,7..12,0` e `Z=-7,8..5,6`; o F8 agora diagnostica frente e chão. Nenhuma nova sala será criada até escada e laje passarem no teste manual de extrema direita.

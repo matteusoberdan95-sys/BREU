@@ -189,15 +189,26 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         // Sprint 18B — full opaque seal under the second-floor footprint.
         // Top of this plate stays below SecondFloorTopY so upper slabs never
         // invade the first-floor view cone (reception / entrance / corridor).
-        var fullDepth = BuildingFrontZ - BuildingBackZ + FloorOverlap;
-        var fullCenterZ = (BuildingFrontZ + BuildingBackZ) * 0.5f;
+        var seal = new Node3D { Name = "Ceiling_FirstFloor_Seal" };
+        _ceiling.AddChild(seal);
+        var fullWidth = SlabWidth + 0.4f;
+        var southDepth = BuildingFrontZ - StairOpenSouthZ;
+        var northDepth = StairOpenNorthZ - BuildingBackZ;
+        var westWidth = StairOpenWestX + fullWidth * 0.5f;
+        var eastWidth = fullWidth * 0.5f - StairOpenEastX;
 
-        AddVisualCeilingPlate(
-            _ceiling,
-            "Ceiling_FirstFloor_Seal",
-            new Vector3(0f, FirstFloorCeilingCenterY, fullCenterZ),
-            new Vector3(SlabWidth + 0.4f, FirstFloorCeilingThickness, fullDepth),
-            _matCeilingFirst);
+        AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_Seal_South",
+            new Vector3(0f, FirstFloorCeilingCenterY, (BuildingFrontZ + StairOpenSouthZ) * 0.5f),
+            new Vector3(fullWidth, FirstFloorCeilingThickness, southDepth), _matCeilingFirst);
+        AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_Seal_North",
+            new Vector3(0f, FirstFloorCeilingCenterY, (StairOpenNorthZ + BuildingBackZ) * 0.5f),
+            new Vector3(fullWidth, FirstFloorCeilingThickness, northDepth), _matCeilingFirst);
+        AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_Seal_West",
+            new Vector3(-fullWidth * 0.5f + westWidth * 0.5f, FirstFloorCeilingCenterY, StairOpenCenterZ),
+            new Vector3(westWidth, FirstFloorCeilingThickness, StairOpenDepth), _matCeilingFirst);
+        AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_Seal_East",
+            new Vector3(StairOpenEastX + eastWidth * 0.5f, FirstFloorCeilingCenterY, StairOpenCenterZ),
+            new Vector3(eastWidth, FirstFloorCeilingThickness, StairOpenDepth), _matCeilingFirst);
 
         // Extra dark soffit over entrance + reception (readability).
         const float receptionNorthZ = -7.05f;
@@ -507,7 +518,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private void BuildFloorSecondMain()
     {
-        const float southEdgeZ = -5.8f;
+        // UpperWing_SolidFloor owns Z >= -7.8; stop the main slab exactly there.
+        const float southEdgeZ = -7.8f;
         var southDepth = southEdgeZ - StairOpenSouthZ;
         var southCenterZ = (southEdgeZ + StairOpenSouthZ) * 0.5f;
 

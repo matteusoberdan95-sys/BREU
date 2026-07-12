@@ -5,9 +5,9 @@ public partial class UpperFloorCollisionProbe : Node
 {
     private static readonly string[] MarkerNames =
     {
-        "Marker_UpperWing_PathStart", "Marker_UpperWing_PathCenter",
-        "Marker_UpperWing_PathRight", "Marker_UpperWing_PathFarRight",
-        "Marker_UpperWing_PathLeft", "Marker_UpperWing_PathEnd"
+        "Marker_UpperWing_Start", "Marker_UpperWing_Center",
+        "Marker_UpperWing_Right", "Marker_UpperWing_FarRight",
+        "Marker_UpperWing_Left", "Marker_UpperWing_End"
     };
 
     public override void _Ready() => CallDeferred(nameof(RunMarkerProbe));
@@ -46,13 +46,41 @@ public partial class UpperFloorCollisionProbe : Node
             GD.Print($"[UpperFloorProbe] Floor global AABB min={floor.GlobalPosition - half} max={floor.GlobalPosition + half}");
         }
 
-        ProbePoint("Player", player.GlobalPosition, body);
+        ProbePlayerRays(player);
         foreach (var markerName in MarkerNames)
         {
             var marker = scene.FindChild(markerName, recursive: true, owned: false) as Marker3D;
             if (marker == null) GD.PrintErr($"[UpperFloorProbe] ERROR: marker missing: {markerName}");
-            else ProbePoint(markerName.Replace("Marker_UpperWing_Path", ""), marker.GlobalPosition, body);
+            else ProbePoint(markerName.Replace("Marker_UpperWing_", ""), marker.GlobalPosition, body);
         }
+    }
+
+    private void ProbePlayerRays(Node3D player)
+    {
+        GD.Print($"[Probe] Player position: {player.GlobalPosition}");
+        var camera = player.GetNodeOrNull<Camera3D>("HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot/Camera3D");
+        if (camera != null)
+        {
+            var from = camera.GlobalPosition;
+            var forward = -camera.GlobalTransform.Basis.Z.Normalized();
+            PrintGenericHit("Forward", from, from + forward * 12f);
+        }
+        else GD.PrintErr("[Probe] ERROR: Camera3D missing");
+
+        PrintGenericHit("Down", player.GlobalPosition + Vector3.Up, player.GlobalPosition + Vector3.Down * 8f);
+    }
+
+    private void PrintGenericHit(string label, Vector3 from, Vector3 to)
+    {
+        var query = PhysicsRayQueryParameters3D.Create(from, to, 1);
+        var hit = GetTree().Root.World3D.DirectSpaceState.IntersectRay(query);
+        if (hit.Count == 0)
+        {
+            GD.PrintErr($"[Probe] ERROR: no {(label == "Down" ? "floor below player" : "forward collider")}");
+            return;
+        }
+        var collider = hit["collider"].AsGodotObject() as Node;
+        GD.Print($"[Probe] {label} hit: {collider?.GetPath()} at {hit["position"].AsVector3()}");
     }
 
     private void RunMarkerProbe()
@@ -70,7 +98,7 @@ public partial class UpperFloorCollisionProbe : Node
         {
             var marker = scene.FindChild(markerName, recursive: true, owned: false) as Marker3D;
             if (marker == null) GD.PrintErr($"[UpperFloorProbe] ERROR: marker missing: {markerName}");
-            else ProbePoint(markerName.Replace("Marker_UpperWing_Path", ""), marker.GlobalPosition, body);
+            else ProbePoint(markerName.Replace("Marker_UpperWing_", ""), marker.GlobalPosition, body);
         }
     }
 

@@ -20,6 +20,31 @@
 Cômodos 204 / banheiro coletivo / rouparia / gerador / 205 foram **removidos provisoriamente** da `UpperWingExpansion` (18C) para limpar a rota. Reintroduzir só depois da cena passar F9 + F6 limpos.
 # Hotfix — queda na direita da laje superior
 
+## Hotfix — escada e laje superior
+
+- node que atravessava a escada: `Ceiling_FirstFloor_Seal` monolítico;
+- causa: placa visual de teto cobria também o retângulo do stair shaft;
+- correção: substituída por `Seal_South`, `Seal_North`, `Seal_West` e `Seal_East`, deixando o vazio central limpo;
+- piso principal do segundo andar agora termina em `Z=-7,8`, onde começa a laje oficial, sem competição;
+- `UpperWing_SolidFloor` final: centro global `(3,65; 2,65; -1,10)`;
+- limites: `X=-4,70..12,00`, `Z=-7,80..5,60`, topo `Y=2,80`;
+- mesh/shape: `16,7 × 0,30 × 13,4 m`, idênticos;
+- layer/mask: `1/1`;
+- F8 agora imprime raycast frontal da câmera e raycast inferior do player.
+
+Markers automáticos:
+
+- [x] Start → `(0; 2,80; -7,30)` → `UpperWing_SolidFloor`
+- [x] Center → `(3,65; 2,80; -1,10)` → `UpperWing_SolidFloor`
+- [x] Right → `(8,00; 2,80; -1,10)` → `UpperWing_SolidFloor`
+- [x] FarRight → `(11,20; 2,80; -1,10)` → `UpperWing_SolidFloor`
+- [x] Left → `(-4,00; 2,80; -1,10)` → `UpperWing_SolidFloor`
+- [x] End → `(3,65; 2,80; 5,00)` → `UpperWing_SolidFloor`
+
+Resultado automático: seis de seis raycasts atingiram exclusivamente o piso oficial.
+
+O teste manual continua obrigatório: escada limpa, extrema direita, diagonais e retorno.
+
 ## Hotfix — laje ainda falhava na direita
 
 O playtest confirmou que o piso preliminar de `X=-1,7..6,8` ainda era insuficiente. O F8 `UpperFloorCollisionProbe` foi criado para imprimir posição do player, collider inferior, transform, AABB, mesh, shape, layer e mask, além de testar todos os markers.

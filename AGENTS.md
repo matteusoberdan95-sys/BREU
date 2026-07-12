@@ -1,3 +1,5 @@
+ATENÇÃO: nenhuma task de cenário pode ser concluída se o player cair no limbo/direita, existir parede atravessando escada, collider invisível sem função, piso visual sem colisão, duplicata velha ou builder recriando geometria. Teste manual é obrigatório; compilar não é aprovação.
+
 # BREU — REGRA OBRIGATÓRIA PARA CENÁRIO
 
 Antes de qualquer alteração em cenário, piso, parede, teto, porta, escada, varanda, collider, blocker ou interação, Cursor, Codex e qualquer agente devem ler:
