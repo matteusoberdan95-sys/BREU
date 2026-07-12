@@ -5,14 +5,15 @@ public partial class UpperFloorCollisionProbe : Node
 {
     private static readonly string[] FloorMarkers =
     {
-        "Marker_Slab_Start", "Marker_Slab_Center", "Marker_Slab_Right",
-        "Marker_Slab_FarRight", "Marker_Slab_Left", "Marker_Slab_Back",
-        "Marker_Slab_Front", "Marker_Slab_Room203Path"
+        "Marker_MasterSlab_Start", "Marker_MasterSlab_Center", "Marker_MasterSlab_Right",
+        "Marker_MasterSlab_FarRight", "Marker_MasterSlab_Left", "Marker_MasterSlab_Back",
+        "Marker_MasterSlab_Front", "Marker_MasterSlab_Room203Path",
+        "Marker_MasterSlab_GreenDoorPath"
     };
 
     private static readonly string[] CeilingMarkers =
     {
-        "Marker_Reception_CeilingTest", "Marker_Entrance_CeilingTest"
+        "Marker_Reception_CeilingJumpTest", "Marker_Entry_CeilingJumpTest"
     };
 
     public override void _Ready() => CallDeferred(nameof(RunMarkerProbe));
@@ -31,7 +32,7 @@ public partial class UpperFloorCollisionProbe : Node
         var slab = FindSlab(scene);
         if (scene == null || player == null || slab == null)
         {
-            GD.PrintErr("[Probe] ERROR: scene, player or SecondFloor_PhysicalSlab missing");
+            GD.PrintErr("[Probe] ERROR: scene, player or SecondFloor_MasterSlab missing");
             return;
         }
 
@@ -58,7 +59,7 @@ public partial class UpperFloorCollisionProbe : Node
         var expected = slab?.GetNodeOrNull<StaticBody3D>("StaticBody3D");
         if (scene == null || slab == null || expected == null)
         {
-            GD.PrintErr("[Probe] ERROR: marker probe could not find SecondFloor_PhysicalSlab");
+            GD.PrintErr("[Probe] ERROR: marker probe could not find SecondFloor_MasterSlab");
             return;
         }
 
@@ -87,7 +88,7 @@ public partial class UpperFloorCollisionProbe : Node
         var hit = GetTree().Root.World3D.DirectSpaceState.IntersectRay(query);
         var collider = hit.Count > 0 ? hit["collider"].AsGodotObject() as Node : null;
         if (collider == expected)
-            GD.Print($"[Probe] OK {name} hit SecondFloor_PhysicalSlab at {hit["position"].AsVector3()}");
+            GD.Print($"[Probe] OK {name} hit SecondFloor_MasterSlab at {hit["position"].AsVector3()}");
         else
             GD.PrintErr($"[Probe] ERROR {name}: hit {collider?.GetPath().ToString() ?? "nothing"}");
     }
@@ -107,7 +108,7 @@ public partial class UpperFloorCollisionProbe : Node
     }
 
     private static Node3D? FindSlab(Node? scene) =>
-        scene?.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/SecondFloor_PhysicalSlab");
+        scene?.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/SecondFloor_MasterSlab");
 
     private static void PrintSlabData(Node3D slab)
     {

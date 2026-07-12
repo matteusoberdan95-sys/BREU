@@ -63,42 +63,48 @@ script = ExtResource("11_fall_recovery")
 
 [node name="Floors" type="Node3D" parent="World/Level/SecondFloor"]
 
-[node name="SecondFloor_PhysicalSlab" parent="World/Level/SecondFloor/Floors" instance=ExtResource("4e_upper_expansion")]
+[node name="SecondFloor_MasterSlab" parent="World/Level/SecondFloor/Floors" instance=ExtResource("4e_upper_expansion")]
 
 [node name="Markers" type="Node3D" parent="World/Level/SecondFloor"]
 
-[node name="Marker_Slab_Start" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_MasterSlab_Start" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(0, 3.1, -10.2)
 
-[node name="Marker_Slab_Center" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_MasterSlab_Center" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(4.15, 3.1, -1.1)
 
-[node name="Marker_Slab_Right" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_MasterSlab_Right" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(11, 3.1, -1.1)
 
-[node name="Marker_Slab_FarRight" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_MasterSlab_FarRight" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(15.3, 3.1, -1.1)
 
-[node name="Marker_Slab_Left" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_MasterSlab_Left" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(-6.4, 3.1, -1.1)
 
-[node name="Marker_Slab_Back" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_MasterSlab_Back" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(4.15, 3.1, -10.2)
 
-[node name="Marker_Slab_Front" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_MasterSlab_Front" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(4.15, 3.1, 8)
 
-[node name="Marker_Slab_Room203Path" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_MasterSlab_Room203Path" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(0, 3.1, -8.5)
 
-[node name="Marker_Reception_CeilingTest" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_MasterSlab_GreenDoorPath" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(0, 3.1, -7.55)
+
+[node name="Marker_Reception_CeilingJumpTest" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(0, 0.2, -3.5)
 
-[node name="Marker_Entrance_CeilingTest" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="Marker_Entry_CeilingJumpTest" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(0, 0.2, 6.5)
 
-[node name="SafeMarker" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+[node name="SafeMarker_SecondFloor" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
 position = Vector3(0, 3.2, -9.5)
+
+[node name="SafeMarker_Reception" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(0, 0.3, -3.5)
 
 [node name="Builder" type="Node3D" parent="World"]
 script = ExtResource("2_builder")

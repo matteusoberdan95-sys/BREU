@@ -1,5 +1,23 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Hotfix definitivo — SecondFloor_MasterSlab
+
+- problema confirmado no playtest: queda pela direita e travessia do teto da recepção ao pular;
+- `SecondFloor_PhysicalSlab`, teto sul antigo e `Ceiling_Reception_Soffit` foram substituídos, não sobrepostos;
+- peça única: `World/Level/SecondFloor/Floors/SecondFloor_MasterSlab`;
+- MeshInstance3D e BoxShape3D: `23,7 × 0,60 × 19,4 m`;
+- centro global `(4,15; 2,50; -1,10)`;
+- AABB global `X=-7,70..16,00`, `Y=2,20..2,80`, `Z=-10,80..8,60`;
+- layer/mask `1/0`, copiados do piso funcional `PensionGroundFloor_MainFloor` (`AddSolid`);
+- `DebugFallRecovery` usa `SafeMarker_SecondFloor`; `SafeMarker_Reception` também está disponível;
+- acionamento do failsafe na rota normal: pendente de teste manual.
+
+Markers automáticos: [x] Start [x] Center [x] Right [x] FarRight [x] Left [x] Front [x] Back [x] Room203Path [x] GreenDoorPath [x] ReceptionJump [x] EntryJump — os onze atingiram exclusivamente `SecondFloor_MasterSlab` em runtime; os dois testes inferiores atingiram a face em `Y=2,20`.
+
+Testes manuais: [ ] caminhada completa/diagonais/retorno [ ] pulo sob recepção/entrada [ ] failsafe não acionou na rota normal [ ] Visible Collision Shapes
+
+Não aprovado e sem commit final enquanto os itens manuais estiverem pendentes.
+
 ## Hotfix crítico — laje física única
 
 - mureta frontal, corpo físico, shape, área e prompt removidos;

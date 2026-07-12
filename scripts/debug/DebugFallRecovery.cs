@@ -17,7 +17,7 @@ public partial class DebugFallRecovery : Node
 
         var scene = GetTree().CurrentScene;
         _player = scene?.FindChild("Player", recursive: true, owned: false) as CharacterBody3D;
-        _safeMarker = scene?.FindChild("SafeMarker", recursive: true, owned: false) as Marker3D;
+        _safeMarker = scene?.FindChild("SafeMarker_SecondFloor", recursive: true, owned: false) as Marker3D;
     }
 
     public override void _Process(double delta)
@@ -26,6 +26,6 @@ public partial class DebugFallRecovery : Node
 
         _player.GlobalPosition = _safeMarker.GlobalPosition;
         _player.Velocity = Vector3.Zero;
-        GD.PushWarning("[DebugFallRecovery] Player fell out of valid area. Returned to SafeMarker.");
+        GD.PushWarning("[DebugFallRecovery] Player left valid area. Returned to safe marker.");
     }
 }

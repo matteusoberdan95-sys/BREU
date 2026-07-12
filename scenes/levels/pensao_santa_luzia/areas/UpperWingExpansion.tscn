@@ -9,7 +9,7 @@ size = Vector3(23.7, 0.6, 19.4)
 [sub_resource type="BoxShape3D" id="PhysicalSlabShape"]
 size = Vector3(23.7, 0.6, 19.4)
 
-[node name="SecondFloor_PhysicalSlab" type="Node3D" groups=["level_floor", "level_second_floor"]]
+[node name="SecondFloor_MasterSlab" type="Node3D" groups=["level_floor", "level_second_floor"]]
 position = Vector3(4.15, 2.5, -1.1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

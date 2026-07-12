@@ -57,18 +57,8 @@ public partial class PensaoVerticalBlockout01Builder
             new Vector3(0f, SecondFloorCenterY, balconyCenterZ),
             new Vector3(BalconyEastX - BalconyWestX, FloorThickness, balconyDepth));
 
-        var rails = new Node3D { Name = "BalconyRails" };
-        wing.AddChild(rails);
-        const float railHeight = 1.1f;
-        var railY = SecondFloorTopY + railHeight * 0.5f;
-
         // The east side is occupied by the two room façades; this alias documents
         // that those walls, rather than an internal rail, close the right edge.
-        rails.AddChild(new Node3D
-        {
-            Name = "BalconyRail_Right",
-            Position = new Vector3(BalconyEastX, railY, (BalconyFrontZ + BalconyBackZ) * 0.5f)
-        });
     }
 
     private void BuildBathroom(Node3D wing)

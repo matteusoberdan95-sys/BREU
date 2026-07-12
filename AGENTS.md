@@ -1,3 +1,5 @@
+REGRA BLOQUEANTE: compilar não é aprovação e carregar a cena não é aprovação. Só aprova se o player não cair no limbo, não atravessar teto pulando, andar para direita/esquerda/frente/trás/diagonais na laje, não ficar preso em parede e não encontrar piso visual sem colisão.
+
 ATENÇÃO: nenhuma task de cenário pode ser concluída se o player cair no limbo/direita, existir parede atravessando escada, collider invisível sem função, piso visual sem colisão, duplicata velha ou builder recriando geometria. Teste manual é obrigatório; compilar não é aprovação.
 
 REGRA BLOQUEANTE: nenhum agente pode considerar cenário concluído se o player cair no limbo ou do segundo para o primeiro andar, atravessar teto pulando, existir piso visual sem colisão, mureta/lixo antigo, collider parcial, piso duplicado competindo ou builder antigo recriando geometria. Compilar e carregar a cena não aprovam; o player precisa andar e pular sem atravessar ou cair.

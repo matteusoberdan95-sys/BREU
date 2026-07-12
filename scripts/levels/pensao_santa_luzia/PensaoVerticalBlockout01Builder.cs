@@ -139,7 +139,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             TagSubtree(wing, "level_upper_wing");
         }
 
-        if (GetTree().CurrentScene?.GetNodeOrNull("World/Level/SecondFloor/Floors/SecondFloor_PhysicalSlab") is Node expansion)
+        if (GetTree().CurrentScene?.GetNodeOrNull("World/Level/SecondFloor/Floors/SecondFloor_MasterSlab") is Node expansion)
         {
             TagSubtree(expansion, "level_upper_wing");
         }
@@ -193,13 +193,14 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         var seal = new Node3D { Name = "Ceiling_FirstFloor_Seal" };
         _ceiling.AddChild(seal);
         var fullWidth = SlabWidth + 0.4f;
-        var southDepth = BuildingFrontZ - StairOpenSouthZ;
+        const float masterSlabBackZ = -10.8f;
+        var southDepth = masterSlabBackZ - StairOpenSouthZ;
         var northDepth = StairOpenNorthZ - BuildingBackZ;
         var westWidth = StairOpenWestX + fullWidth * 0.5f;
         var eastWidth = fullWidth * 0.5f - StairOpenEastX;
 
-        AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_Seal_South",
-            new Vector3(0f, FirstFloorCeilingCenterY, (BuildingFrontZ + StairOpenSouthZ) * 0.5f),
+        AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_Seal_SouthNorth",
+            new Vector3(0f, FirstFloorCeilingCenterY, (masterSlabBackZ + StairOpenSouthZ) * 0.5f),
             new Vector3(fullWidth, FirstFloorCeilingThickness, southDepth), _matCeilingFirst);
         AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_Seal_North",
             new Vector3(0f, FirstFloorCeilingCenterY, (StairOpenNorthZ + BuildingBackZ) * 0.5f),
@@ -210,20 +211,6 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_Seal_East",
             new Vector3(StairOpenEastX + eastWidth * 0.5f, FirstFloorCeilingCenterY, StairOpenCenterZ),
             new Vector3(eastWidth, FirstFloorCeilingThickness, StairOpenDepth), _matCeilingFirst);
-
-        // Extra dark soffit over entrance + reception (readability).
-        const float receptionNorthZ = -7.05f;
-        var frontDepth = BuildingFrontZ - receptionNorthZ + FloorOverlap;
-        var frontCenterZ = (BuildingFrontZ + receptionNorthZ) * 0.5f;
-        var soffitThickness = 0.1f;
-        var soffitCenterY = FirstFloorCeilingTopY - soffitThickness * 0.5f - 0.02f;
-
-        AddVisualCeilingPlate(
-            _ceiling,
-            "Ceiling_Reception_Soffit",
-            new Vector3(0f, soffitCenterY, frontCenterZ),
-            new Vector3(SlabWidth, soffitThickness, frontDepth),
-            _matCeilingFirst);
 
         // Sprint 18C — fixed height markers for LevelSanityChecker / authoring.
         _ceiling.AddChild(new Marker3D
@@ -519,7 +506,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private void BuildFloorSecondMain()
     {
-        // SecondFloor_PhysicalSlab owns Z >= -10.8; stop the main slab exactly there.
+        // SecondFloor_MasterSlab owns Z >= -10.8; stop the main slab exactly there.
         const float southEdgeZ = -10.8f;
         var southDepth = southEdgeZ - StairOpenSouthZ;
         var southCenterZ = (southEdgeZ + StairOpenSouthZ) * 0.5f;

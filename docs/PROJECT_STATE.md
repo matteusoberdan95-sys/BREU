@@ -1,5 +1,9 @@
 # BREU — Estado do projeto
 
+## SecondFloor_MasterSlab
+
+A laje física anterior foi removida. O teto da recepção e o piso da varanda agora são a mesma peça física mestre, `SecondFloor_MasterSlab`; o teto visual antigo da região foi retirado. Nenhuma expansão de cômodo pode continuar até a travessia integral e os pulos contra a face inferior passarem manualmente.
+
 ## Hotfix bloqueante — laje física do segundo andar
 
 O playtest invalidou a laje anterior: o player ainda caía para o primeiro andar e atravessava o teto da recepção ao pular. A solução adotada é uma única caixa física grossa, `SecondFloor_PhysicalSlab`, substituindo `UpperWing_SolidFloor` e removendo mureta, rail e colisões associadas. Nenhuma expansão de cômodo pode continuar até caminhada, diagonais e pulos contra o teto passarem manualmente.

@@ -210,7 +210,7 @@ public partial class LevelSanityChecker : Node
     {
         string[] floorNames =
         {
-            "SecondFloor_PhysicalSlab",
+            "SecondFloor_MasterSlab",
             "UpperWing_FreeWalkableFloor",
             "UpperBalcony_FrontWalkway"
         };
@@ -336,17 +336,11 @@ public partial class LevelSanityChecker : Node
             return;
         }
 
-        if (ceiling.FindChild("Ceiling_Reception_Soffit", recursive: true, owned: false) == null)
-        {
-            Error("Ceiling_Reception_Soffit missing");
-            return;
-        }
-
         // Any upper-wing mesh whose center sits inside the reception *playable* box
         // (below the seal) is an invasion. Floors at second-floor height are OK.
         var before = _errors;
         var wingRoots = new List<Node3D>();
-        if (scene.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/SecondFloor_PhysicalSlab") is { } expansion)
+        if (scene.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/SecondFloor_MasterSlab") is { } expansion)
         {
             wingRoots.Add(expansion);
         }
