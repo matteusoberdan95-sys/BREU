@@ -273,6 +273,10 @@ Sprint 17C/17D foi preservada no checkpoint `4a16478` e substituída pela Sprint
 - flag impede repetição completa do susto;
 - fluxo aprovado da varanda e puzzles anteriores preservado.
 
+### Hotfix — remoção definitiva da barreira superior
+
+`BalconyRail_Front`, seu collider e o trigger “Olhar para baixo” foram removidos da cena manual e do builder histórico. Um piso simples e nivelado conecta o antigo limite ao espaço aberto, marcado por `Marker_UpperWing_PathStart` e `Marker_UpperWing_PathEnd`. Compilação e carga passaram; travessia manual F6 ainda precisa confirmar o caminho binário antes do commit final.
+
 ## Sprint 16C — Ajuste fino de passos (aprovada)
 
 **Status:** ✅ Aprovada — corrida = mesmo banco da superfície; `player_run_step_*` reservado.

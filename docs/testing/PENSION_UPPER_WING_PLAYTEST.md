@@ -32,6 +32,22 @@
 - [ ] confirmar props fora dos eixos de entrada
 - [ ] confirmar fluxo anterior até o 203 intacto
 
+## Hotfix urgente — barreira frontal real
+
+A barreira que permanecia era `BalconyRail_Front`, em `Z=-2,2`, incluindo mesh, `StaticBody3D`, `CollisionShape3D` e o trigger `Interact_BalconyLookDown` associado.
+
+- [x] mesh removido da cena manual
+- [x] StaticBody/collider removidos
+- [x] trigger e prompt associados removidos
+- [x] criação histórica removida do builder congelado
+- [x] `UpperWing_FreeWalkableFloor` conecta no mesmo nível, sem sobreposição
+- [x] `Marker_UpperWing_PathStart` criado antes da antiga barreira
+- [x] `Marker_UpperWing_PathEnd` criado depois da antiga barreira
+- [ ] F6: caminhar PathStart → PathEnd sem pular/agachar
+- [ ] F6: retornar PathEnd → PathStart sem contato invisível
+
+O teste estrutural e a carga da cena passaram. O teste binário de gameplay permanece pendente do percurso manual.
+
 ## Regressão
 
 - [ ] movimento/stamina/crouch

@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/BlockoutBalconyDoor.cs" id="2"]
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/BlockoutOwnerBedroomDoor.cs" id="3"]
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/ManualBalconyInteraction.cs" id="4"]
-[ext_resource type="Script" path="res://scripts/interactions/Interactable.cs" id="5"]
 
 [sub_resource type="StandardMaterial3D" id="MatFloor"]
 albedo_color = Color(0.28, 0.29, 0.34, 1)
@@ -37,10 +36,6 @@ size = Vector3(0.18, 2.8, 3.9)
 size = Vector3(5.2, 2.8, 0.18)
 [sub_resource type="BoxShape3D" id="WallWideShape"]
 size = Vector3(5.2, 2.8, 0.18)
-[sub_resource type="BoxMesh" id="RailFront"]
-size = Vector3(3.2, 1.1, 0.14)
-[sub_resource type="BoxShape3D" id="RailFrontShape"]
-size = Vector3(3.2, 1.1, 0.14)
 [sub_resource type="BoxMesh" id="DoorMesh"]
 size = Vector3(1.55, 2.2, 0.12)
 [sub_resource type="BoxShape3D" id="DoorShape"]
@@ -49,8 +44,10 @@ size = Vector3(1.55, 2.2, 0.12)
 size = Vector3(0.45, 0.45, 0.35)
 [sub_resource type="BoxShape3D" id="InteractDoor"]
 size = Vector3(1.25, 1.15, 0.35)
-[sub_resource type="BoxShape3D" id="LookDownShape"]
-size = Vector3(1.25, 0.18, 0.18)
+[sub_resource type="BoxMesh" id="FreeWalkableMesh"]
+size = Vector3(3.2, 0.18, 3.4)
+[sub_resource type="BoxShape3D" id="FreeWalkableShape"]
+size = Vector3(3.2, 0.18, 3.4)
 [sub_resource type="BoxMesh" id="PropMesh"]
 size = Vector3(0.35, 0.08, 0.28)
 [sub_resource type="BoxMesh" id="BalconyCeilingMesh"]
@@ -70,10 +67,10 @@ material_override = SubResource("MatFloor")
 position = Vector3(0, 2.84, -4.0)
 mesh = SubResource("FloorBalcony")
 material_override = SubResource("MatFloor")
-[node name="BalconyRail_Front" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(0, 3.35, -2.2)
-mesh = SubResource("RailFront")
-material_override = SubResource("MatRail")
+[node name="UpperWing_FreeWalkableFloor" type="MeshInstance3D" parent="Geometry"]
+position = Vector3(0, 2.84, -0.5)
+mesh = SubResource("FreeWalkableMesh")
+material_override = SubResource("MatFloor")
 [node name="BalconyRail_Right" type="Node3D" parent="Geometry"]
 position = Vector3(1.6, 3.35, -4.375)
 [node name="BalconyCeiling" type="MeshInstance3D" parent="Geometry"]
@@ -139,10 +136,10 @@ shape = SubResource("FloorLandingShape")
 position = Vector3(4.2, 2.75, -4.3)
 [node name="Shape" type="CollisionShape3D" parent="Collisions/RoomsFloor"]
 shape = SubResource("FloorRoomsShape")
-[node name="FrontRail" type="StaticBody3D" parent="Collisions"]
-position = Vector3(0, 3.35, -2.2)
-[node name="Shape" type="CollisionShape3D" parent="Collisions/FrontRail"]
-shape = SubResource("RailFrontShape")
+[node name="UpperWing_FreeWalkableFloor" type="StaticBody3D" parent="Collisions"]
+position = Vector3(0, 2.75, -0.5)
+[node name="Shape" type="CollisionShape3D" parent="Collisions/UpperWing_FreeWalkableFloor"]
+shape = SubResource("FreeWalkableShape")
 [node name="RoomEastWall" type="StaticBody3D" parent="Collisions"]
 position = Vector3(6.8, 4.2, -4.3)
 [node name="Shape" type="CollisionShape3D" parent="Collisions/RoomEastWall"]
@@ -161,6 +158,10 @@ position = Vector3(4.2, 4.2, -2.35)
 shape = SubResource("WallWideShape")
 
 [node name="Interactions" type="Node3D" parent="."]
+[node name="Marker_UpperWing_PathStart" type="Marker3D" parent="."]
+position = Vector3(0, 2.94, -2.8)
+[node name="Marker_UpperWing_PathEnd" type="Marker3D" parent="."]
+position = Vector3(0, 2.94, 0.4)
 [node name="BalconyDoor_Green" type="Node3D" parent="Interactions" groups=["interactable"]]
 position = Vector3(0, 2.75, -7.55)
 script = ExtResource("2")
@@ -179,20 +180,6 @@ collision_mask = 0
 monitoring = false
 [node name="Shape" type="CollisionShape3D" parent="Interactions/BalconyDoor_Green/Interact_BalconyDoor"]
 shape = SubResource("InteractDoor")
-
-[node name="Interact_BalconyLookDown" type="Node3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(0, 3.0, -2.38)
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_BalconyLookDown"]
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_BalconyLookDown/InteractionArea"]
-shape = SubResource("LookDownShape")
-[node name="Interactable" type="Node" parent="Interactions/Interact_BalconyLookDown/InteractionArea"]
-script = ExtResource("5")
-PromptText = "Olhar para baixo"
-InteractionMessage = "Está alto demais para descer por aqui."
-InteractionId = "balcony_look_down"
 
 [node name="Interact_BalconyWireHook" type="Node3D" parent="Interactions" groups=["interactable"]]
 position = Vector3(5.35, 3.48, -5.72)

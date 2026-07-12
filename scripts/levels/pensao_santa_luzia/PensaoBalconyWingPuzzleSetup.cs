@@ -48,7 +48,6 @@ public partial class PensaoBalconyWingPuzzleSetup : Node
         CreateBathroomMirror(state, host, secondFloor);
         CreateBathroomDrain(state, host, secondFloor);
         CreateOwnerLedger(state, host, secondFloor);
-        CreateBalconyEdgeHint(host);
 
         state.OwnerLedgerRead += () =>
             PensionNarrativeEvents.Find(GetTree())?.TryTrigger(PensionNarrativeEvents.EventOwnerLedgerReveal);
@@ -177,31 +176,6 @@ public partial class PensaoBalconyWingPuzzleSetup : Node
         var interact = new OwnerLedgerInteraction { Name = "OwnerLedgerInteraction" };
         area.AddChild(interact);
         interact.Initialize(state, root);
-        root.AddChild(area);
-        TagInteractable(root);
-    }
-
-    private static void CreateBalconyEdgeHint(Node3D parent)
-    {
-        var root = new Node3D
-        {
-            Name = "Interact_BalconyLookDown",
-            Position = new Vector3(0f, 3.02f, -3.42f)
-        };
-        parent.AddChild(root);
-
-        // Low and shallow: the ray only catches it while looking down at the
-        // actual outer edge, never from the green door or the circulation path.
-        var area = MakeArea(new Vector3(1.4f, 0.22f, 0.18f));
-        var interactable = new Interactable
-        {
-            Name = "BalconyEdgeHint",
-            PromptText = "Olhar para baixo",
-            InteractionMessage = "Está alto demais para descer por aqui.",
-            InteractionId = "balcony_edge",
-            OneShot = false
-        };
-        area.AddChild(interactable);
         root.AddChild(area);
         TagInteractable(root);
     }
