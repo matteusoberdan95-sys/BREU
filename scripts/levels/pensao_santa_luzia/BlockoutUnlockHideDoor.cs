@@ -42,6 +42,7 @@ public partial class BlockoutUnlockHideDoor : Node3D, IInteractable
 
         _state.UnlockDeposit();
         ApplyState();
+        hud?.HideInteractionPrompt();
         hud?.ShowMessage("A chave gira com dificuldade. A porta destranca.", 3.0f);
     }
 

@@ -28,7 +28,7 @@ public partial class PensaoTerreoBlockout01Builder
 
         const string openDoor = "res://scenes/props/doors/DoorFrameOpen.tscn";
         var mainEntrance = AddDoorPrefab(parent, "Door_MainEntrance_Frame", openDoor, new Vector3(0f, -WallEmbedBelowFloor, varandaEntryZ));
-        ConfigureOpenDoor(mainEntrance, MainEntryWidth, _matExteriorWall, doubleLeaf: true);
+        ConfigureOpenDoor(mainEntrance, MainEntryWidth, _matExteriorWall, decorativeLeaf: false);
         ConfigureOpenDoor(AddDoorPrefab(parent, "Door_ReceptionSouth_Frame", openDoor, new Vector3(0f, -WallEmbedBelowFloor, receptionSouthZ)), DoorWidth, _matInteriorWall);
         ConfigureOpenDoor(AddDoorPrefab(parent, "Door_ReceptionCorridor_Frame", openDoor, new Vector3(0f, -WallEmbedBelowFloor, corridorNorthZ)), DoorWidth, _matInteriorWall);
         ConfigureOpenDoor(AddDoorPrefab(parent, "Door_Room102_Frame", openDoor, new Vector3(-CorridorWallX, -WallEmbedBelowFloor, -15.5f), Mathf.Pi * 0.5f), DoorWidth, _matInteriorWall, leafDirection: -1f);

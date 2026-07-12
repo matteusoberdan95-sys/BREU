@@ -53,6 +53,14 @@ O sistema anterior foi substituído por três cenas reutilizáveis em `scenes/pr
 
 Uma única instância é permitida por vão. A folha aberta é uma malha estática já posicionada junto à parede; não há animação, movimento, escala em runtime ou colisão bloqueando a passagem.
 
+### Ajustes cirúrgicos 14D
+
+- Entrada principal: somente moldura, sem folha decorativa, painel ou blocker.
+- Folhas abertas opcionais: `0,06 m` de espessura e afastamento adicional de `0,08 m` do plano da parede.
+- Painéis fechados: visual e collider alinhados em `Z = -0,06 m`, fora do plano central da parede.
+- Porta verde oficial: `Door_UpperBalcony_Locked`.
+- Porta do depósito oculta imediatamente o prompt ao destrancar.
+
 ## Proibido (blockout)
 
 - Animar porta com `Scale`

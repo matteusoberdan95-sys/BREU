@@ -123,6 +123,10 @@ Pendente: executar F6 e aprovar visualmente a rota e as interações.
 
 Revisão visual posterior: corrigidos sobreposição da travessa do depósito, placa com texto fora da madeira, vão lateral da caixa da escada e prompts de porta disparados por paredes/piso distantes.
 
+Sprint 14D: auditoria formal criada em `docs/testing/PENSION_DOOR_AUDIT_14D.md`; entrada principal sem folha ou bloqueio; placa deslocada para fora do eixo da trilha; painéis fechados afastados do plano da parede; porta verde renomeada para o nó oficial.
+
+Hotfix 14D: `UpperBalcony_BackWall` estava usando altura local de primeiro andar e aparecia como um bloco diante da passagem do térreo. Reposicionado para `Y = 4,25`, no segundo andar.
+
 ## Próxima sprint — Sprint 15 (Vertical slice da Pensão)
 
 **Objetivo:** Experiência contínua trilha → pensão → puzzle → escada → 2º andar — sem inimigo.

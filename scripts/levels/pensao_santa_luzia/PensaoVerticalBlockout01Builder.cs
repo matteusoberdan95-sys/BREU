@@ -362,7 +362,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
         var greenDoor = AddDoorPrefab(
             host,
-            "Door_UpperBalcony_Green",
+            "Door_UpperBalcony_Locked",
             "res://scenes/props/doors/DoorLocked.tscn",
             new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, frontFaceZ + 0.08f));
         greenDoor.GetNode<MeshInstance3D>("DoorPanel").MaterialOverride = _matDoorBalcony;
@@ -873,7 +873,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         AddVisualProp(
             balcony,
             "UpperBalcony_BackWall",
-            new Vector3(0f, SecondWallCenterY - SecondFloorTopY, balconyFrontZ),
+            new Vector3(0f, SecondWallCenterY, balconyFrontZ),
             new Vector3(railSpanX, WallHeight * 0.55f, WallThickness),
             _matInteriorWall);
     }

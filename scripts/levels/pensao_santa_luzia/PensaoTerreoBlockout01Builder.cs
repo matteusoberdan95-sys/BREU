@@ -772,7 +772,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         AddInteractableBody(
             _interactions,
             "JobOfferSign",
-            new Vector3(1.15f, 1.25f, 37.5f),
+            new Vector3(-4.6f, 1.25f, 37.5f),
             new Vector3(3.8f, 1.7f, 0.12f),
             "Ler placa",
             "OFERTA DE TRABALHO - MINERAÇÃO - PENSÃO SANTA LUZIA.",
@@ -942,7 +942,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         return door;
     }
 
-    protected static void ConfigureOpenDoor(Node3D door, float openingWidth, StandardMaterial3D wallMaterial, bool doubleLeaf = false, float leafDirection = 1f)
+    protected static void ConfigureOpenDoor(Node3D door, float openingWidth, StandardMaterial3D wallMaterial, bool doubleLeaf = false, float leafDirection = 1f, bool decorativeLeaf = true)
     {
         const float postWidth = 0.14f;
         var halfOpening = openingWidth * 0.5f;
@@ -958,15 +958,16 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
 
         var leftLeaf = door.GetNode<MeshInstance3D>("OpenDoorLeafLeft");
         var leafDepth = doubleLeaf ? openingWidth * 0.5f - 0.12f : openingWidth - 0.12f;
-        leftLeaf.Position = new Vector3(-halfOpening, 1.1f, leafDirection * leafDepth * 0.5f);
-        leftLeaf.Mesh = new BoxMesh { Size = new Vector3(0.12f, 2.2f, leafDepth) };
+        leftLeaf.Visible = decorativeLeaf;
+        leftLeaf.Position = new Vector3(-halfOpening, 1.1f, leafDirection * (leafDepth * 0.5f + 0.08f));
+        leftLeaf.Mesh = new BoxMesh { Size = new Vector3(0.06f, 2.2f, leafDepth) };
 
         var rightLeaf = door.GetNode<MeshInstance3D>("OpenDoorLeafRight");
-        rightLeaf.Visible = doubleLeaf;
-        if (doubleLeaf)
+        rightLeaf.Visible = decorativeLeaf && doubleLeaf;
+        if (decorativeLeaf && doubleLeaf)
         {
-            rightLeaf.Position = new Vector3(halfOpening, 1.1f, leafDirection * leafDepth * 0.5f);
-            rightLeaf.Mesh = new BoxMesh { Size = new Vector3(0.12f, 2.2f, leafDepth) };
+            rightLeaf.Position = new Vector3(halfOpening, 1.1f, leafDirection * (leafDepth * 0.5f + 0.08f));
+            rightLeaf.Mesh = new BoxMesh { Size = new Vector3(0.06f, 2.2f, leafDepth) };
         }
     }
 
