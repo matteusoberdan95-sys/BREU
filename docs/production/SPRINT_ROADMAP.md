@@ -281,43 +281,29 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 14 — Portas, quartos e leitura narrativa
 
-**Status:** ✅ Implementada — playtest F6 pendente (2026-07-11)
+**Status:** ✅ Concluída / aprovada (2026-07-11) — blockout narrativo limpo
 
 **Objetivo:** Blockout narrativo — leitura de cômodos, portas, pistas.
 
 **Entregas:**
-- Molduras de porta + props simples (térreo + 2º andar)
+- Leitura de cômodos por vãos limpos + headers (portas decorativas removidas por instabilidade)
 - Interações narrativas (recepção, quartos, cozinha, depósito, escada)
 - Puzzle depósito preservado
 - `docs/technical/PENSION_ROOM_READABILITY_BASELINE.md`
+- `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v2.1
 - `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md`
 
-**DoD:** Cômodos identificáveis; interações OK; zero regressão.
+**DoD:** ✅ Cômodos identificáveis; interações OK; zero regressão; estabilidade sem z-fighting.
+
+**Nota:** Portas bonitas e placas finais ficam para sprint futura de arte. Não reabrir portas na Sprint 15.
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 ---
 
-## Sprint 15 — Vertical slice da Pensão
+## Sprint 15 — Evento narrativo simples (sem inimigo)
 
 **Status:** 🔄 Próxima
-
-**Objetivo:** Refinar leitura espacial e narrativa dos cômodos — blockout + pistas leves.
-
-**Entregas:**
-- Portas e quartos com identidade mais clara.
-- Textos/interações narrativas leves onde aplicável.
-- Circulação e leitura dos espaços reforçadas.
-
-**DoD:** Jogador entende cômodos e rotas; zero regressão dos sistemas aprovados.
-
-**Não fazer:** refazer atmosfera; arte final; inimigo; combate.
-
-**Cena alvo:** `PensaoVerticalBlockout01.tscn`
-
----
-
-## Sprint 15 — Vertical slice da Pensão
 
 **Objetivo:** Experiência contínua sem inimigo.
 

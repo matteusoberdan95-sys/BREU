@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 14 em validação final; Sprint 14F executada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 14 aprovada; próxima: Sprint 15  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -25,11 +25,8 @@
 | Sprint 12 | **✅ Aprovada** — teto/cobertura blockout |
 | Sprint 12A | **✅ Aprovada** — hotfix fechamento fachada/escada/porta verde |
 | Sprint 13 | **✅ Aprovada** — atmosfera base |
-| Sprint 14 | **🔄 Em validação** — portas/quartos/leitura narrativa (playtest F6 pendente) |
-| Sprint 14A | **⏸️ Substituída** — hotfix parcial (playtest falhou) |
-| Sprint 14B | **⏸️ Substituída** — sistema prefab (14C/14D) |
-| Sprint 14E | **⏸️ Substituída** — ajustes visuais parciais |
-| Sprint 14F | **🔄 Executada** — limpeza definitiva placas/portas (playtest F6 pendente) |
+| Sprint 14 | **✅ Aprovada** — blockout narrativo limpo (14Z) |
+| Sprint 14A–14F | **⏸️ Substituídas** — iterações de portas/placas absorvidas pela 14Z |
 
 ---
 
@@ -155,22 +152,37 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v2.0  
 **Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14Z
 
-Pendente: playtest F6 obrigatório antes de aprovar Sprint 14.
+## Sprint 14 — APROVADA (blockout narrativo limpo)
 
-## Próxima sprint — Sprint 15 (Vertical slice da Pensão)
+**Data de aprovação:** 2026-07-11  
+**Cena oficial:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
-**Objetivo:** Experiência contínua trilha → pensão → puzzle → escada → 2º andar — sem inimigo.
+**Aprovado:**
+- Pensão navegável (térreo + 2º andar + escada)
+- Atmosfera preservada
+- Puzzle chave → depósito → fusível preservado
+- Portas decorativas bugadas removidas/simplificadas (vãos limpos + headers)
+- Placas problemáticas removidas (arte de placa fica para sprint futura)
+- Cômodos com leitura básica por vãos/headers
+
+**Não avançar nesta sprint:** portas bonitas, molduras decorativas, placas finais, layout, atmosfera, player, HUD, puzzle.
+
+**Baseline de portas:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v2.0  
+**Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md`
+
+## Próxima sprint — Sprint 15 (Evento narrativo simples sem inimigo)
+
+**Objetivo:** Experiência contínua trilha → pensão → puzzle → escada → 2º andar — evento narrativo simples, sem inimigo.
 
 **Entregas planejadas:**
 - Playtest rota completa 15–20 min
+- Evento narrativo simples (sem combate)
 - Correções de soft-lock se encontrados
 
 **DoD:** Fluxo completo jogável; zero regressão dos sistemas aprovados.
 
-**Não fazer:** inimigo; combate; arte final.
+**Não fazer:** inimigo; combate; arte final de portas/placas; reabrir trabalho de molduras.
 
 **Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 15
-
-**Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 **Cena alvo:** `PensaoVerticalBlockout01.tscn`

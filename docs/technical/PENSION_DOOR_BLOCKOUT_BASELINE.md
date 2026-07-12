@@ -1,13 +1,24 @@
 # Baseline — Portas blockout (Pensão)
 
-**Versão:** 2.0  
-**Sprint:** 14Z  
+**Versão:** 2.1  
+**Sprint:** 14 (aprovada) / 14Z  
 **Data:** 2026-07-11  
-**Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
+**Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
+**Status:** ✅ Baseline oficial pós-aprovação Sprint 14
 
 ---
 
-## Padrão 14Z — reset destrutivo
+## Regra oficial (pós-Sprint 14)
+
+1. **Porta aberta em blockout** = vão limpo + `Header_*` (moldura simples só se já existir e for estável).
+2. **Porta decorativa aberta** está **proibida** até sprint futura isolada de arte/props.
+3. **Placa final** está **proibida** até sprint futura de arte.
+4. Qualquer elemento que **piscar** deve ser **removido**, não ajustado.
+5. Portas/placas finais só entram em **sprint isolada** de arte/props — não misturar com gameplay.
+
+---
+
+## Padrão 14Z — reset destrutivo (estado aprovado)
 
 Objetivo: **estabilidade sem flicker**. Não ajustar meshes bugados — remover.
 
@@ -109,4 +120,4 @@ Altura do header: `WallHeight - DoorHeight` (0,7 m), encaixado nas laterais do v
 
 ## Playtest
 
-`docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14Z
+`docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — Sprint 14 **aprovada** (seção Sprint 14Z + aprovação oficial)

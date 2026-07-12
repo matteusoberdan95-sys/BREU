@@ -9,7 +9,7 @@
 
 ## Status
 
-Implementado — validar F6 antes de aprovar.
+**✅ Sprint 14 APROVADA** (2026-07-11) — blockout narrativo limpo, sem acabamento visual final.
 
 ---
 
@@ -315,4 +315,25 @@ A aprovação visual permanece pendente até o playtest manual em F6.
 - [ ] Corredor inútil permanece fechado (14E)
 
 **Regressão**
-- [ ] Puzzle / escada / atmosfera / HUD / lanterna intactos
+- [x] Puzzle / escada / atmosfera / HUD / lanterna intactos
+
+---
+
+## Aprovação oficial — Sprint 14
+
+**Data:** 2026-07-11  
+**Resultado:** ✅ Aprovada como blockout narrativo limpo
+
+| Item | Resultado |
+|------|-----------|
+| Navegação | Validada |
+| Térreo | Validado |
+| Segundo andar | Validado |
+| Escada | Validada |
+| Puzzle chave → depósito → fusível | Validado |
+| Atmosfera | Preservada |
+| Portas | Simplificadas (vãos + headers; sem decorativa) para evitar z-fighting |
+| Placas | Removidas até sprint futura de arte |
+| Acabamento visual final | Não incluído — fora do escopo |
+
+**Regra pós-aprovação:** não reabrir portas/molduras/placas nesta fase. Arte de porta e placa só em sprint isolada futura.
