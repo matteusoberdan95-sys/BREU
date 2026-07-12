@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/player/PlayerLookBack.cs" id="8_lookback"]
 [ext_resource type="Script" path="res://scripts/player/PlayerHealth.cs" id="9_health"]
 [ext_resource type="Script" path="res://scripts/interactions/PlayerInteractionRaycast.cs" id="10_interaction"]
+[ext_resource type="Script" path="res://scripts/audio/PlayerFootstepAudio.cs" id="11_footsteps"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.35
@@ -36,6 +37,9 @@ script = ExtResource("9_health")
 
 [node name="PlayerInteractionRaycast" type="Node" parent="."]
 script = ExtResource("10_interaction")
+
+[node name="PlayerFootstepAudio" type="Node" parent="."]
+script = ExtResource("11_footsteps")
 
 [node name="HeadBase" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)

@@ -149,7 +149,7 @@ public partial class PensionNarrativeEvents : Node
             case EventPensionEntry:
                 QueueMessage("A recepção está vazia, mas a casa parece ter ouvido minha chegada.", 3.5f);
                 _flicker?.Flicker(GetLight("ReceptionLight"), 0.55f, 0.45f, 2);
-                _audio?.PlayOneShot("old_house_settle_01", -14f);
+                _audio?.PlayOneShot("old_house_settle_02", -14f);
                 break;
 
             case EventKeyTension:
@@ -157,7 +157,7 @@ public partial class PensionNarrativeEvents : Node
                 _flicker?.FlickerMany(
                     new[] { GetLight("CorridorLight"), GetLight("CorridorDeepLight") },
                     1.1f, 0.42f, 3);
-                _audio?.PlayOneShot("distant_knock_01", -13f);
+                _audio?.PlayOneShot("distant_knock_01", -12f);
                 break;
 
             case EventFuseFootsteps:
@@ -173,19 +173,19 @@ public partial class PensionNarrativeEvents : Node
                 _flicker?.FlickerMany(
                     new[] { GetLight("UpperLandingLight"), GetLight("UpperCorridorLight") },
                     1.2f, 0.4f, 3);
-                _audio?.PlayOneShot("old_house_settle_02", -14f);
+                _audio?.PlayOneShot("old_house_settle_01", -14f);
                 break;
 
             case EventUpperPresence:
                 QueueMessage("Por um instante, achei ter visto alguém no fim do corredor.", 3.5f);
                 _flicker?.Flicker(GetLight("UpperCorridorFarLight"), 1.0f, 0.35f, 3);
-                _audio?.PlayOneShot("distant_knock_02", -13f);
+                _audio?.PlayOneShot("distant_knock_02", -12f);
                 break;
 
             case EventLockedDoorHint:
                 QueueMessage("Do outro lado, algo arranha a madeira.", 3.0f);
                 _flicker?.Flicker(GetLight("UpperBlockedDoorLight"), 0.9f, 0.4f, 2);
-                _audio?.PlayOneShot("door_scratch_01", -12f);
+                _audio?.PlayOneShot("door_scratch_02", -12f);
                 break;
         }
     }

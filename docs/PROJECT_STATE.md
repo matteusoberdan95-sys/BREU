@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 16 implementada com pack áudio v2 (F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 16B (passos + gotas) implementada; F6 pendente  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---

@@ -1,8 +1,8 @@
 namespace BREU.Scripts.Audio;
 
 /// <summary>
-/// Sprint 16 — pension ambience loops, zone crossfade, narrative one-shots, flashlight clicks.
-/// Missing assets log a warning and never crash. Footsteps/breath catalogued for Sprint 17.
+/// Sprint 16/16B — ambience loops, zone crossfade, narrative one-shots, flashlight clicks,
+/// surface zones, water-drop emitters, F7 audio debug. Breath remains catalogued (not wired).
 /// </summary>
 public partial class PensionAudioManager : Node
 {
@@ -30,9 +30,8 @@ public partial class PensionAudioManager : Node
     private string _currentSecondaryId = string.Empty;
     private string _currentTertiaryId = string.Empty;
     private bool _crossfading;
-    private float _occasionalDropTimer;
-    private bool _inWetZone;
     private int _flashClickVariant;
+    private bool _audioDebugMode;
 
     public static PensionAudioManager? Find(SceneTree tree) =>
         tree.GetFirstNodeInGroup("pension_audio_manager") as PensionAudioManager;
@@ -47,28 +46,85 @@ public partial class PensionAudioManager : Node
         CallDeferred(nameof(DeferredSetupZones));
     }
 
-    public override void _Process(double delta)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        if (!_inWetZone)
+        if (@event is not InputEventKey { Pressed: true, Echo: false } key)
         {
             return;
         }
 
-        _occasionalDropTimer -= (float)delta;
-        if (_occasionalDropTimer > 0f)
+        if (key.Keycode == Key.F7)
+        {
+            _audioDebugMode = !_audioDebugMode;
+            var state = _audioDebugMode ? "ON" : "OFF";
+            GD.Print($"[AudioDebug] Mode {state}");
+            HUDController.FindActive(GetTree())?.ShowMessage($"Audio Debug {state} (F7)", 2.0f);
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+
+        if (!_audioDebugMode)
         {
             return;
         }
 
-        _occasionalDropTimer = _rng.RandfRange(9f, 18f);
-        var dropId = _rng.RandiRange(1, 3) switch
+        switch (key.Keycode)
         {
-            1 => "water_drop_01",
-            2 => "water_drop_02",
-            _ => "water_drop_03"
-        };
-        PlayOneShot(dropId, -20f);
+            case Key.Key1:
+                DebugPlayAmbienceSample();
+                break;
+            case Key.Key2:
+                PlayerFootstepAudio.Find(GetTree())?.DebugPlayBank("wood");
+                GD.Print("[AudioDebug] Playing: player_footstep_wood");
+                break;
+            case Key.Key3:
+                PlayerFootstepAudio.Find(GetTree())?.DebugPlayBank("dirt");
+                GD.Print("[AudioDebug] Playing: player_footstep_dirt_gravel");
+                break;
+            case Key.Key4:
+                PlayerFootstepAudio.Find(GetTree())?.DebugPlayBank("run");
+                GD.Print("[AudioDebug] Playing: player_run_step");
+                break;
+            case Key.Key5:
+                PlayOneShot("water_drop_01", -12f);
+                GD.Print("[AudioDebug] Playing: water_drop_01");
+                break;
+            case Key.Key6:
+                PlayOneShot("distant_step_01", -9f);
+                GD.Print("[AudioDebug] Playing: distant_step_01");
+                break;
+            case Key.Key7:
+                PlayOneShot("door_scratch_01", -11f);
+                GD.Print("[AudioDebug] Playing: door_scratch_01");
+                break;
+            case Key.Key8:
+                PlayOneShot("distant_knock_01", -11f);
+                GD.Print("[AudioDebug] Playing: distant_knock_01");
+                break;
+            default:
+                return;
+        }
+
+        GetViewport().SetInputAsHandled();
     }
+
+    private void DebugPlayAmbienceSample()
+    {
+        var id = string.IsNullOrEmpty(_currentAmbienceId) ? IdExterior : _currentAmbienceId;
+        if (_loops.TryGetValue(id, out var player) && player.Stream != null)
+        {
+            // Brief pulse: ensure audible without restarting whole ambience stack incorrectly.
+            PlayOneShot("old_house_settle_01", -12f);
+            GD.Print($"[AudioDebug] Playing ambience context: {id} (+ settle sample)");
+        }
+        else
+        {
+            PlayOneShot("old_house_settle_01", -12f);
+            GD.Print("[AudioDebug] Playing: old_house_settle_01 (no active ambience)");
+        }
+    }
+
+    // Removed wet-zone Process one-shots — RandomOneShotEmitter3D owns drops.
 
     public void PlayAmbience(string ambienceId) => CrossfadeToAmbience(ambienceId, 0.35f);
 
@@ -156,7 +212,7 @@ public partial class PensionAudioManager : Node
         }
 
         _flashlightPlayer.Stream = stream;
-        _flashlightPlayer.VolumeDb = -16f;
+        _flashlightPlayer.VolumeDb = -12f;
         _flashlightPlayer.Play();
         GD.Print($"[Audio] OneShot: {id}");
     }
@@ -206,8 +262,8 @@ public partial class PensionAudioManager : Node
         _targetVolumesDb[IdGroundCorridor] = -17f;
         _targetVolumesDb[IdDeposit] = -16f;
         _targetVolumesDb[IdSecondFloor] = -15f;
-        _targetVolumesDb[IdLampBuzz] = -22f;
-        _targetVolumesDb[IdWaterDrops] = -22f;
+        _targetVolumesDb[IdLampBuzz] = -20f;
+        _targetVolumesDb[IdWaterDrops] = -17f;
     }
 
     private void RegisterOneShot(string id) =>
@@ -257,7 +313,7 @@ public partial class PensionAudioManager : Node
 
     private void ValidateSprint17Catalog()
     {
-        // Footsteps / breath: validate presence only — do not wire to player this sprint.
+        // Footsteps wired in PlayerFootstepAudio; breath remains catalog-only for a future sprint.
         var files = new[]
         {
             "player_footstep_wood_01.ogg", "player_footstep_wood_02.ogg", "player_footstep_wood_03.ogg",
@@ -296,7 +352,7 @@ public partial class PensionAudioManager : Node
             }
         }
 
-        GD.Print($"[Audio] Sprint17 catalog ready: {present}/{files.Length} footstep/breath assets present (not wired).");
+        GD.Print($"[Audio] Footstep/breath catalog: {present}/{files.Length} assets present.");
     }
 
     private void DeferredSetupZones()
@@ -319,7 +375,8 @@ public partial class PensionAudioManager : Node
             new Vector3(-4.2f, 1.4f, -15.5f), new Vector3(5.5f, 3.2f, 5.2f));
 
         AddZone(host, "AudioZone_Kitchen", IdGroundCorridor, 45,
-            new Vector3(4.2f, 1.4f, -20.5f), new Vector3(5.5f, 3.2f, 5.2f));
+            new Vector3(4.2f, 1.4f, -20.5f), new Vector3(5.5f, 3.2f, 5.2f),
+            secondaryLoopId: IdWaterDrops);
 
         AddZone(host, "AudioZone_Deposit", IdDeposit, 80,
             new Vector3(0f, 1.4f, -29.2f), new Vector3(4.0f, 3.2f, 7.0f),
@@ -332,7 +389,70 @@ public partial class PensionAudioManager : Node
             new Vector3(0f, 4.2f, -13.5f), new Vector3(13f, 3.6f, 18f),
             secondaryLoopId: IdLampBuzz);
 
+        AddSurfaceZones(host);
+        AddWaterDropEmitters(host);
+
         CrossfadeToAmbience(IdExterior, 0.5f);
+    }
+
+    private void AddSurfaceZones(Node3D parent)
+    {
+        var surfaces = new Node3D { Name = "SurfaceAudioZones" };
+        parent.AddChild(surfaces);
+
+        AddSurface(surfaces, "SurfaceAudio_Exterior_DirtGravel", FootstepSurfaceType.DirtGravel, 20,
+            new Vector3(0f, 1.2f, 33f), new Vector3(12f, 4f, 40f));
+
+        AddSurface(surfaces, "SurfaceAudio_Pension_Wood", FootstepSurfaceType.Wood, 40,
+            new Vector3(0f, 1.5f, -10f), new Vector3(16f, 8f, 48f));
+
+        AddSurface(surfaces, "SurfaceAudio_SecondFloor_Wood", FootstepSurfaceType.Wood, 50,
+            new Vector3(0f, 4.2f, -13.5f), new Vector3(14f, 4f, 20f));
+    }
+
+    private static void AddSurface(
+        Node3D parent,
+        string name,
+        FootstepSurfaceType type,
+        int priority,
+        Vector3 position,
+        Vector3 size)
+    {
+        var zone = new SurfaceAudioZone3D
+        {
+            Name = name,
+            SurfaceType = type,
+            ZonePriority = priority,
+            Position = position
+        };
+        zone.AddChild(new CollisionShape3D
+        {
+            Shape = new BoxShape3D { Size = size }
+        });
+        parent.AddChild(zone);
+    }
+
+    private void AddWaterDropEmitters(Node3D parent)
+    {
+        AddDropEmitter(parent, "RandomDrops_Deposit", new Vector3(0f, 1.4f, -29.2f), new Vector3(4.2f, 3.2f, 7.2f));
+        AddDropEmitter(parent, "RandomDrops_Kitchen", new Vector3(4.2f, 1.4f, -20.5f), new Vector3(5.5f, 3.2f, 5.2f));
+    }
+
+    private static void AddDropEmitter(Node3D parent, string name, Vector3 position, Vector3 size)
+    {
+        var emitter = new RandomOneShotEmitter3D
+        {
+            Name = name,
+            Position = position,
+            VolumeDb = -14f,
+            MinIntervalSeconds = 6f,
+            MaxIntervalSeconds = 16f
+        };
+        emitter.AddChild(new CollisionShape3D
+        {
+            Shape = new BoxShape3D { Size = size }
+        });
+        parent.AddChild(emitter);
     }
 
     private void AddZone(
@@ -380,7 +500,6 @@ public partial class PensionAudioManager : Node
 
         if (best == null)
         {
-            _inWetZone = false;
             if (string.IsNullOrEmpty(_currentAmbienceId))
             {
                 CrossfadeToAmbience(IdExterior, DefaultCrossfadeSeconds);
@@ -393,11 +512,6 @@ public partial class PensionAudioManager : Node
         GD.Print($"[Audio] Zone: {best.AmbienceId}");
         CrossfadeToAmbience(best.AmbienceId, DefaultCrossfadeSeconds);
         UpdateExtraLoops(best.SecondaryLoopId, best.TertiaryLoopId);
-        _inWetZone = best.AmbienceId == IdDeposit || best.Name.ToString().Contains("Kitchen");
-        if (_inWetZone && _occasionalDropTimer <= 0f)
-        {
-            _occasionalDropTimer = _rng.RandfRange(6f, 12f);
-        }
     }
 
     private void UpdateExtraLoops(string secondaryId, string tertiaryId)
@@ -505,9 +619,9 @@ public partial class PensionAudioManager : Node
 
     private async System.Threading.Tasks.Task PlaySequenceAsync(string firstId, string secondId, float delay)
     {
-        PlayOneShot(firstId, -13f);
+        PlayOneShot(firstId, -9f);
         await ToSignal(GetTree().CreateTimer(Mathf.Max(0.2f, delay)), SceneTreeTimer.SignalName.Timeout);
-        PlayOneShot(secondId, -13f);
+        PlayOneShot(secondId, -9f);
     }
 
     private float GetTargetDb(string id) =>
