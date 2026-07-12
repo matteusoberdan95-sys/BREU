@@ -303,17 +303,26 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 15 — Evento narrativo simples (sem inimigo)
 
-**Status:** 🔄 Próxima
+**Status:** 🔄 Implementada — playtest F6 pendente (2026-07-11)
 
-**Objetivo:** Experiência contínua sem inimigo.
+**Objetivo:** Tensão narrativa one-shot sem inimigo, combate ou chase.
 
-**Fluxo:** trilha → pensão → térreo → puzzle → escada → 2º andar → pista principal.
+**Entregas:**
+- `PensionNarrativeEvents` + `NarrativeTrigger3D` + `LightFlickerOneShot`
+- 6 eventos one-shot (entrada, chave, fusível, escada, corredor, porta)
+- Mensagens HUD + flicker; sem áudio runtime
+- `docs/technical/PENSION_NARRATIVE_EVENTS_BASELINE.md`
+- `docs/testing/PENSION_SIMPLE_NARRATIVE_EVENTS_PLAYTEST.md`
 
-**DoD:** Playtest completo 15–20 min sem soft-lock.
+**DoD:** Eventos disparam 1×; zero regressão; sem inimigo.
+
+**Cena alvo:** `PensaoVerticalBlockout01.tscn`
 
 ---
 
 ## Sprint 16 — Primeiro inimigo / encontro controlado
+
+**Status:** ⏳ Após aprovação da Sprint 15
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 

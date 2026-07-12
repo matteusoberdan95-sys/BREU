@@ -796,7 +796,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         const float halfPanel = (DoorWidth - 0.1f) * 0.5f;
         var doorPos = new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, BlockedDoorZ - 0.05f);
 
-        AddLockedDoorBlocker(
+        var balconyDoor = AddLockedDoorBlocker(
             _secondFloor,
             "Door_UpperBalcony",
             "Door_UpperBalcony_Blocker",
@@ -807,8 +807,9 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "A porta está emperrada. O vento passa pelas frestas do lado de fora.",
             SecondFloorTopY,
             panelOffsetX: -0.35f);
+        balconyDoor.NarrativeFollowUpEventId = PensionNarrativeEvents.EventLockedDoorHint;
 
-        AddLockedDoorBlocker(
+        var blockedDoor = AddLockedDoorBlocker(
             _secondFloor,
             "Door_UpperBlocked",
             "Door_UpperBlocked_Blocker",
@@ -819,6 +820,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "Está trancada por dentro.",
             SecondFloorTopY,
             panelOffsetX: 0.35f);
+        blockedDoor.NarrativeFollowUpEventId = PensionNarrativeEvents.EventLockedDoorHint;
     }
 
     private void BuildSecondFloorNarrativeInteractions()

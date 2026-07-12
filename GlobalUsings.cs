@@ -18,3 +18,5 @@ global using BREU.Scripts.Debug;
 global using BREU.Scripts.Ui;
 global using BREU.Scripts.Interaction;
 global using BREU.Scripts.Levels.PensaoSantaLuzia;
+global using BREU.Scripts.Narrative;
+global using BREU.Scripts.Lighting;

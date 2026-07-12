@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 14 aprovada; próxima: Sprint 15  
+**Fase:** REBOOT GREENFIELD — Sprint 15 implementada (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -27,6 +27,7 @@
 | Sprint 13 | **✅ Aprovada** — atmosfera base |
 | Sprint 14 | **✅ Aprovada** — blockout narrativo limpo (14Z) |
 | Sprint 14A–14F | **⏸️ Substituídas** — iterações de portas/placas absorvidas pela 14Z |
+| Sprint 15 | **🔄 Implementada** — eventos narrativos one-shot (F6 pendente) |
 
 ---
 
@@ -170,19 +171,22 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Baseline de portas:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v2.0  
 **Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md`
 
-## Próxima sprint — Sprint 15 (Evento narrativo simples sem inimigo)
+## Sprint 15 — Eventos narrativos simples (implementada)
 
-**Objetivo:** Experiência contínua trilha → pensão → puzzle → escada → 2º andar — evento narrativo simples, sem inimigo.
+**Status:** 🔄 Implementada — playtest F6 pendente de aprovação  
+**Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
-**Entregas planejadas:**
-- Playtest rota completa 15–20 min
-- Evento narrativo simples (sem combate)
-- Correções de soft-lock se encontrados
+- Eventos one-shot: entrada, pós-chave, pós-fusível, topo da escada, presença no corredor, hint atrás da porta
+- Flicker de luz curto e reversível
+- **Sem áudio** nesta sprint (sem assets estáveis)
+- **Sem inimigo / combate / chase**
+- Player, HUD, atmosfera, fog, escada, layout, portas e puzzle preservados
 
-**DoD:** Fluxo completo jogável; zero regressão dos sistemas aprovados.
+**Baseline:** `docs/technical/PENSION_NARRATIVE_EVENTS_BASELINE.md`  
+**Playtest:** `docs/testing/PENSION_SIMPLE_NARRATIVE_EVENTS_PLAYTEST.md`
 
-**Não fazer:** inimigo; combate; arte final de portas/placas; reabrir trabalho de molduras.
+## Próxima sprint recomendada — Sprint 16 (após F6 da 15)
 
-**Roadmap:** `docs/production/SPRINT_ROADMAP.md` — Sprint 15
+**Objetivo:** Primeiro inimigo / encontro controlado — só depois da Sprint 15 aprovada.
 
-**Cena alvo:** `PensaoVerticalBlockout01.tscn`
+**Não avançar automaticamente** para combate, chase ou arte final.
