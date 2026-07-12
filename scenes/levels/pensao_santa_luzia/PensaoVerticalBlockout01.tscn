@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://scripts/debug/UpperWingDeckGridCheck.cs" id="12_deck_grid"]
 [ext_resource type="Script" path="res://scripts/debug/PlayerAreaProbe.cs" id="13_area_probe"]
 [ext_resource type="Script" path="res://scripts/debug/FloorTriggerIsolationChecker.cs" id="14_floor_isolation"]
+[ext_resource type="Script" path="res://scripts/debug/DebugGrantPuzzleItems.cs" id="15_debug_grant"]
 
 [sub_resource type="Environment" id="Environment_pensao"]
 background_mode = 1
@@ -79,6 +80,9 @@ script = ExtResource("13_area_probe")
 
 [node name="FloorTriggerIsolationChecker" type="Node" parent="."]
 script = ExtResource("14_floor_isolation")
+
+[node name="DebugGrantPuzzleItems" type="Node" parent="."]
+script = ExtResource("15_debug_grant")
 
 [node name="World" type="Node3D" parent="."]
 

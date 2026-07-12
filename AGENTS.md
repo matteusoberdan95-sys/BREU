@@ -1,3 +1,22 @@
+## REGRA CRÍTICA DA SPRINT 19B
+
+Esta sprint falha automaticamente se for criado apenas um cômodo, apenas um cubo, apenas um bloco isolado ou uma sala sem conexão.
+
+Objetivo obrigatório:
+Construir uma ala superior completa com no mínimo:
+- 1 corredor principal;
+- 4 cômodos acessíveis;
+- 1 cômodo trancado/futuro;
+- 1 sala técnica;
+- 1 puzzle funcional;
+- portas/interações testadas.
+
+Proibido considerar sprint de cômodos concluída com apenas um bloco/placeholder isolado.
+Mínimo 4 cômodos novos acessíveis para a ala superior.
+Usar AABB do `UpperWing_CollisionDeck` / MasterSlab aprovado.
+Não construir só no canto.
+Não criar placeholder isolado sem conexão ao corredor.
+
 ## ✅ VARANDA APROVADA E CONGELADA PARA GAMEPLAY
 
 Estado aprovado (2026-07-12):
@@ -20,7 +39,9 @@ Toda sala nova deve:
 - não criar boundary global;
 - não criar collider solto;
 - não criar trigger que alcance outro andar;
-- passar teste manual antes de commit.
+- passar teste manual antes de commit;
+- ocupar a maior parte da área vazia da laje (não um bloco no canto);
+- conectar-se a um corredor principal.
 
 ## REGRA CRÍTICA — Não chutar collider de parede
 

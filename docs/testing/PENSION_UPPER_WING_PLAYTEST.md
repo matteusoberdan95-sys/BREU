@@ -1,30 +1,47 @@
 # Playtest — Saneamento 18C / ala superior
 
-## Sprint 19 — Cômodos claustrofóbicos da ala superior
+## Sprint 19B — Ala superior completa
 
 **Cena:** `UpperWingRooms.tscn` → `World/Level/SecondFloor/UpperWingRooms`  
 **Deck:** `UpperWing_CollisionDeck` **não alterado** (`5, 2.4, 4.6` / `50×0,8×30,8`).  
 **Sem** boundary global / mureta / collider solto / piso físico novo.
 
-### Cômodos
-- Corridor_UpperClaustro (intro + luz fraca)
-- LaundryStorage (Fusível Superior)
-- SharedBathroom (exame + espelho)
-- Room204 (bilhete + cama)
-- TechnicalRoom (painel)
-- Room205_Locked (só mensagem)
+### Substituição da Sprint 19
+A tentativa anterior criou só um bloco/quadradinho isolado no canto. Foi removida e substituída por uma ala completa ligada ao corredor, ocupando a maior parte da área vazia da laje (MasterSlab ~X −7,7…16 / Z −10,8…8,6; construção principal a partir de ~Z −2,2 para não bloquear rota verde→203).
+
+### Layout final
+- `Corridor_MainUpper` (~1,6 m) — intro: "O ar aqui em cima parece mais pesado."
+- Esquerda: `LaundryStorage`, `SharedBathroom`
+- Direita: `Room204_Bedroom`, `TechnicalRoom`
+- Fundo: `OwnersOffice`, `Room205_Locked`
+- Props + portas + InteractionAreas pequenas + Triggers (intro / exit scare)
 
 ### Puzzle / flags
-`ReadRoom204Note` → `HasUpperFuse` → `IsUpperPowerRestored` → Room203 mensagem reforçada (não abre).
+`ReadRoom204Note` → `HasUpperFuse` → `IsUpperPowerRestored` → Room203: "Há algo arrastando…" (com bilhete; não abre).  
+Também: `ReadOwnersOfficeLog`, `BathroomScarePlayed`, `LaundryScarePlayed`, `CorridorIntroPlayed`, `Room204ExitScarePlayed`.
 
-Sustos one-shot: CorridorIntro, BathroomScare, LaundryScare, Room204ExitScare.
+### Sustos
+Corredor (estalido + flicker), banheiro (gota + arranhão + flicker), rouparia ao pegar fusível, saída do 204.
 
-### Regressão obrigatória
-[ ] varanda andável sem queda / sem parede invisível  
-[ ] térreo sem teleporte após abrir varanda  
-[ ] porta verde + 203 OK  
-[ ] rota cômodos completa sem prender  
-[ ] Visible Collision Shapes: colliders só filhos de paredes; deck igual  
+### Debug
+**F4** — concede chaves/itens de puzzle e destranca depósito / varanda / quarto da dona (Fusível Superior já no inventário; energia superior ainda precisa inserir no painel).
+
+### Regressão
+[ ] entrar pensão / escada / porta verde / varanda sem cair  
+[ ] sem teleporte térreo → segundo  
+[ ] correr no térreo OK  
+[ ] Quarto 203 + porta verde OK  
+
+### Cômodos / puzzle
+[ ] corredor + Room204 (bilhete) + banheiro + rouparia (fusível) + técnica (inserir)  
+[ ] OwnersOffice (registros) + Room205 trancado  
+[ ] UpperPowerOn / mensagem 203 alterada  
+[ ] ≥4 cômodos acessíveis; sem player preso; prompts perto  
+[ ] Visible Collision Shapes: deck intacto; colliders filhos; sem boundary/trigger gigante  
+
+## Sprint 19 — Cômodos claustrofóbicos (substituída)
+
+Tentativa rejeitada no playtest: só um bloco isolado. Ver Sprint 19B.
 
 ## ✅ CHECKPOINT — Varanda aprovada para gameplay (CONGELADA)
 

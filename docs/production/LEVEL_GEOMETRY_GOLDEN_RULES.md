@@ -96,7 +96,13 @@ Toda sala nova deve:
 - não criar boundary global;
 - não criar collider solto;
 - não criar trigger que alcance outro andar;
-- passar teste manual antes de commit.
+- passar teste manual antes de commit;
+- ocupar a maior parte da área vazia da laje (não um bloco no canto);
+- conectar-se a um corredor principal.
+
+Proibido considerar sprint de cômodos concluída com apenas um bloco/cubo/placeholder isolado.
+Mínimo 4 cômodos novos acessíveis + corredor + sala técnica + 1 trancado.
+Usar AABB do deck/MasterSlab aprovado.
 
 ## Regra anti-acúmulo
 

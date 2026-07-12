@@ -39,6 +39,9 @@ public partial class PensaoPuzzleState : Node
     /// <summary>Sprint 19 — Room 204 owner note read.</summary>
     public bool ReadRoom204Note { get; private set; }
 
+    /// <summary>Sprint 19B — owners office log read.</summary>
+    public bool ReadOwnersOfficeLog { get; private set; }
+
     /// <summary>Sprint 19 — one-shot scares / intros.</summary>
     public bool CorridorIntroPlayed { get; private set; }
     public bool BathroomScarePlayed { get; private set; }
@@ -59,6 +62,8 @@ public partial class PensaoPuzzleState : Node
     public event Action? UpperFusePickedUp;
     public event Action? UpperPowerRestored;
     public event Action? Room204NoteRead;
+    public event Action? OwnersOfficeLogRead;
+    public event Action? PlaytestItemsGranted;
 
     public void PickupDepositKey()
     {
@@ -228,5 +233,37 @@ public partial class PensaoPuzzleState : Node
     public void MarkRoom204ExitScarePlayed()
     {
         Room204ExitScarePlayed = true;
+    }
+
+    public void MarkOwnersOfficeLogRead()
+    {
+        if (ReadOwnersOfficeLog)
+        {
+            return;
+        }
+
+        ReadOwnersOfficeLog = true;
+        OwnersOfficeLogRead?.Invoke();
+    }
+
+    /// <summary>
+    /// Debug playtest helper (F4): grants keys/items and unlocks deposit + balcony + owner room.
+    /// Does not auto-complete upper wing narrative (notes/scares/power) so rooms stay testable.
+    /// </summary>
+    public void GrantAllPuzzleItemsForPlaytest()
+    {
+        HasDepositKey = true;
+        IsDepositUnlocked = true;
+        HasOldFuse = true;
+        HasReadBalconyNote = true;
+        HasBalconyKey = true;
+        IsBalconyUnlocked = true;
+        HasWireHook = true;
+        HasExaminedBathroomMirror = true;
+        HasOwnerRoomKey = true;
+        IsOwnerRoomUnlocked = true;
+        HasReadOwnerLedger = true;
+        HasUpperFuse = true;
+        PlaytestItemsGranted?.Invoke();
     }
 }

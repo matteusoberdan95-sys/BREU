@@ -35,7 +35,7 @@ public partial class UpperWingCorridorIntroTrigger : Area3D
         _state.MarkCorridorIntroPlayed();
         Monitoring = false;
         HUDController.FindActive(GetTree())?.ShowMessage(
-            "O ar aqui em cima parece parado há anos.", 3.5f);
+            "O ar aqui em cima parece mais pesado.", 3.5f);
         PensionAudioManager.Find(GetTree())?.PlayOneShot("old_house_settle_01", -14f);
 
         var light = GetTree().CurrentScene?.GetNodeOrNull<OmniLight3D>(

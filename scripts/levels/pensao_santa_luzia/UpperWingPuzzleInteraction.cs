@@ -14,7 +14,8 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
         SharedBathroomMirror,
         LinenFuse,
         GeneratorPanel,
-        Room205Blocked
+        Room205Blocked,
+        OwnersOfficeLog
     }
 
     [Export] public WingMode Mode { get; set; }
@@ -43,7 +44,7 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
         {
             WingMode.Room204Bed when !_done => "Examinar cama",
             WingMode.Room204WallMarks when !_done => "Examinar marcas",
-            WingMode.Room204Note when !_state.ReadRoom204Note => "Examinar bilhete",
+            WingMode.Room204Note when !_state.ReadRoom204Note => "Ler bilhete",
             WingMode.SharedBathroomInspect when !_done => "Examinar banheiro",
             WingMode.SharedBathroomMirror when !_done => "Examinar espelho",
             WingMode.LinenFuse when !_state.HasUpperFuse => "Examinar rouparia",
@@ -52,6 +53,7 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
             WingMode.GeneratorPanel when !_state.IsUpperPowerRestored && _state.HasUpperFuse =>
                 "Inserir fusível",
             WingMode.Room205Blocked => "Tentar abrir Quarto 205",
+            WingMode.OwnersOfficeLog when !_state.ReadOwnersOfficeLog => "Examinar registros",
             _ => string.Empty
         };
     }
@@ -96,6 +98,12 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
                 _done = true;
                 hud?.ShowMessage("A água no ralo parece escura demais.", 3.5f);
                 audio?.PlayOneShot("water_drop_01", -14f);
+                if (!_state.BathroomScarePlayed)
+                {
+                    _state.MarkBathroomScarePlayed();
+                    _ = BathroomScareAsync();
+                }
+
                 break;
 
             case WingMode.SharedBathroomMirror:
@@ -103,12 +111,6 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
                 _done = true;
                 hud?.ShowMessage("O espelho devolve o reflexo com atraso.", 3.5f);
                 audio?.PlayOneShot("water_drop_02", -14f);
-                if (!_state.BathroomScarePlayed)
-                {
-                    _state.MarkBathroomScarePlayed();
-                    _ = BathroomScareAsync();
-                }
-
                 break;
 
             case WingMode.LinenFuse:
@@ -128,7 +130,7 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
                 }
 
                 _state.RestoreUpperPower();
-                hud?.ShowMessage("O corredor estala. Alguma coisa recebeu energia.", 3.5f);
+                hud?.ShowMessage("O corredor estala. Parte da pensão recebeu energia.", 3.5f);
                 audio?.PlayOneShot("old_house_settle_01", -12f);
                 _ = OnUpperPowerRestoredAsync();
                 break;
@@ -137,6 +139,14 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
                 hud?.ShowMessage(
                     "A maçaneta gira sozinha, mas a porta não abre.", 3.5f);
                 audio?.PlayOneShot("door_scratch_01", -18f);
+                break;
+
+            case WingMode.OwnersOfficeLog:
+                if (_state.ReadOwnersOfficeLog) return;
+                _state.MarkOwnersOfficeLogRead();
+                hud?.ShowMessage(
+                    "Alguns nomes foram riscados várias vezes. O número 203 aparece repetido.", 5f);
+                audio?.PlayOneShot("old_house_settle_02", -15f);
                 break;
         }
     }
@@ -151,14 +161,15 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
             PensionAudioManager.Find(GetTree())?.PlayOneShot("distant_knock_01", -13f);
             await FlickerCorridorLightAsync(1.0f);
             HUDController.FindActive(GetTree())?.ShowMessage(
-                "Alguma coisa se moveu no andar de baixo.", 3.5f);
+                "Alguma coisa respondeu lá embaixo.", 3.5f);
         }
     }
 
     private async System.Threading.Tasks.Task BathroomScareAsync()
     {
-        await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(0.35f), SceneTreeTimer.SignalName.Timeout);
         PensionAudioManager.Find(GetTree())?.PlayOneShot("door_scratch_01", -17f);
+        await FlickerCorridorLightAsync(0.7f);
     }
 
     private async System.Threading.Tasks.Task OnUpperPowerRestoredAsync()

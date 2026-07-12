@@ -24,7 +24,7 @@ Não mexer mais no chão/deck da varanda.
 Não recriar mureta, boundary global, colliders soltos ou paredes invisíveis na área caminhável.
 Próximas paredes/colisões: só cômodos novos, collider filho da parede visual correspondente.
 
-## Regra de cômodos da ala superior
+## Regra de cômodos da ala superior (Sprint 19B)
 
 Toda sala nova deve:
 - usar o deck aprovado como piso físico;
@@ -34,6 +34,16 @@ Toda sala nova deve:
 - não criar collider solto;
 - não criar trigger que alcance outro andar;
 - passar teste manual antes de commit.
+
+Proibido:
+- considerar sprint de cômodos concluída com apenas um bloco/cubo/placeholder isolado;
+- construir só no canto da laje;
+- sala sem conexão ao corredor.
+
+Obrigatório para ala superior completa:
+- usar AABB do deck/MasterSlab aprovado;
+- mínimo 4 cômodos novos acessíveis + corredor + sala técnica + 1 trancado;
+- ocupar visualmente a maior parte da área vazia da laje (~70–85%).
 
 ## REGRA CRÍTICA — Não chutar collider de parede
 

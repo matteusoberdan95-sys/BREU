@@ -1,18 +1,23 @@
 # BREU — Estado do projeto
 
-## Sprint 19 — Cômodos claustrofóbicos da ala superior
+## Sprint 19B — Ala superior completa (refazer)
 
 **Status:** implementada (playtest F6 obrigatório)  
 **Deck:** `UpperWing_CollisionDeck` **não alterado** (congelado).
 
-Criado `areas/UpperWingRooms.tscn` instanciado em `World/Level/SecondFloor/UpperWingRooms`:
-- Corridor_UpperClaustro, LaundryStorage, SharedBathroom, Room204, TechnicalRoom, Room205_Locked;
-- puzzle Fusível Superior (`HasUpperFuse` → `IsUpperPowerRestored`);
-- bilhete 204 (`ReadRoom204Note`);
-- sustos one-shot (corredor, banheiro, rouparia, saída 204);
-- Room203 preparado (mensagem pós-energia; ainda não abre).
+A tentativa da Sprint 19 criou só um bloco isolado no canto e foi **substituída**.
 
-Próxima sprint sugerida: abrir Quarto 203 e introduzir primeiro inimigo/evento forte.
+`areas/UpperWingRooms.tscn` agora cobre a maior parte da laje vazia:
+- `Corridor_MainUpper` (estreito, intro + luzes);
+- `LaundryStorage`, `SharedBathroom`, `Room204_Bedroom`, `TechnicalRoom`, `OwnersOffice` (acessíveis);
+- `Room205_Locked` (porta visual, não abre);
+- puzzle Fusível Superior (`HasUpperFuse` → `IsUpperPowerRestored`);
+- flags: `ReadRoom204Note`, `ReadOwnersOfficeLog`, sustos one-shot;
+- Room203 muda mensagem após `ReadRoom204Note` + energia superior (ainda não abre).
+
+Debug playtest: **F4** concede chaves/itens e abre depósito + varanda + quarto da dona.
+
+Próxima sprint sugerida: abrir Quarto 203 e iniciar evento forte / primeiro inimigo.
 
 ## ✅ CHECKPOINT — Varanda aprovada para gameplay (CONGELADA)
 
