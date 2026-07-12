@@ -156,6 +156,14 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(0f, FirstFloorCeilingUndersideY, frontCenterZ),
             new Vector3(SlabWidth, CeilingThickness, frontDepth),
             _matCeilingFirst);
+
+        // Opaque reception liner hides second-floor slab seams when looking up.
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_Reception_Liner",
+            new Vector3(0f, FirstFloorCeilingUndersideY - 0.06f, -2.9f),
+            new Vector3(10.2f, 0.12f, 8.2f),
+            _matCeilingFirst);
     }
 
     private void BuildSecondFloorCeilings()

@@ -221,6 +221,19 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 - `PlayerFootstepAudio` (audio-only; **não** altera `PlayerController`)
 - Gotas + F7 debug
 
+### Sprint 17D — hotfix de navegação da ala da varanda
+
+**Status:** 🔄 Implementada e validada por compilação/carga — F6 final do usuário pendente
+- alinhado o vão do guarda-corpo ao acesso lateral real;
+- adicionado piso sólido de conexão varanda → ala;
+- liberadas as entradas do banheiro e do quarto da proprietária;
+- removido o prompt inacessível do stub do quarto 203;
+- trigger “Olhar para baixo” limitado à borda externa;
+- forro da recepção revisado com placa opaca de acabamento;
+- PlayerController, câmera, HUD, lanterna, áudio, passos, respiração, fog, escada e puzzle depósito/fusível não foram alterados.
+
+Sprint 17C/17D ainda depende do playtest final do usuário na rota completa.
+
 ## Sprint 16C — Ajuste fino de passos (aprovada)
 
 **Status:** ✅ Aprovada — corrida = mesmo banco da superfície; `player_run_step_*` reservado.

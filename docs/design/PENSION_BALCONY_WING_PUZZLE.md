@@ -109,6 +109,15 @@ Evento: `PensionNarrativeEvents.EventOwnerLedgerReveal`
 
 ---
 
+## Regras de navegação — Sprint 17D
+
+- A varanda é uma área de transição: corredor superior → porta verde → varanda → banheiro/quarto da proprietária → retorno.
+- `Room_UpperBathroom` e `Room_OwnerBedroom` devem permanecer acessíveis, com largura livre para entrar, virar e sair.
+- `Interact_BalconyEdgeHint` pertence somente à borda externa; sua área deve ser baixa e rasa para exigir que o jogador olhe para baixo junto ao guarda-corpo.
+- Objetos decorativos nunca podem ocupar a rota principal nem o espaço imediatamente após uma porta.
+- O guarda-corpo serve apenas para impedir queda: o vão lateral deve coincidir com `UpperBalconyWing_Entry` e ter piso contínuo.
+- A porta da proprietária é a única interação de porta nessa ala; painel, colisão e área de interação são desativados após destravar.
+
 ## Scripts
 
 - `PensaoUpperBalconyWingBuilder.cs` — geometria

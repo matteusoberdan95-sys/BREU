@@ -109,6 +109,35 @@
 | Dois cômodos acessíveis / sem limbo / sem z-fight novo | ☐ |
 | Sem porta tremendo / sem inimigo / combate / chase | ☐ |
 
+## Sprint 17D — hotfix de acesso e leitura
+
+**Problemas confirmados no playtest do usuário:** os dois cômodos estavam inacessíveis, objetos ocupavam a circulação, prompts apareciam deslocados, o trigger de olhar para baixo estava na leitura errada e o teto da recepção precisava de revisão.
+
+**Correções aplicadas:**
+- vão lateral do guarda-corpo alinhado ao acesso real da ala;
+- `UpperBalconyWing_EntryFloor` fecha a lacuna entre varanda e corredor;
+- pia, cama, mesa e armário afastados dos eixos de entrada;
+- removido `Door_Room203_Blocked`, que criava um terceiro prompt inacessível;
+- área de `Interact_BalconyEdgeHint` reduzida e rebaixada junto à borda externa;
+- `Door_OwnerBedroom` permanece único no vão e desativa painel, colisão e interação ao abrir;
+- forro opaco `Ceiling_Reception_Liner` cobre as emendas visíveis acima da recepção.
+
+### Checklist final 17D
+
+| Check | Resultado |
+|-------|-----------|
+| Compilação C# sem erros/avisos | ✅ 2026-07-12 |
+| Projeto carrega no Godot headless | ✅ 2026-07-12 |
+| Porta verde → varanda → retorno | ☐ F6 usuário |
+| Piso e guarda-corpos sem limbo | ☐ F6 usuário |
+| Olhar para baixo somente na borda externa | ☐ F6 usuário |
+| Entrar/sair do banheiro; espelho e ralo | ☐ F6 usuário |
+| Destravar, entrar/sair do quarto; caderno | ☐ F6 usuário |
+| Recepção mostra forro limpo ao olhar para cima | ☐ F6 usuário |
+| Movimento/HUD/lanterna/áudio/fog/puzzle antigo preservados | ☐ F6 usuário |
+
+Sprint 17C/17D permanece dependente do playtest final manual do usuário.
+
 ### Checklist emocional
 
 | Check | Resultado |

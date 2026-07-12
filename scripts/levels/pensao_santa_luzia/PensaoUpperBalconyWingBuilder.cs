@@ -93,24 +93,31 @@ public partial class PensaoVerticalBlockout01Builder
             new Vector3(0.14f, railHeight, balconyDepth),
             _matSecondRail);
 
-        var wingGapHalf = (DoorWidth + 0.05f) * 0.5f;
         var innerFrontZ = UpperFrontZ + WallThickness * 0.5f;
-        var northRailDepth = Mathf.Max(0.4f, (innerFrontZ - wingGapHalf) - BlockedDoorZ);
-        var southRailDepth = Mathf.Max(0.4f, BalconyOuterZ - (innerFrontZ + wingGapHalf));
+        var wingEntryZ = (innerFrontZ + BlockedDoorZ) * 0.5f;
+        var wingGapHalf = (DoorWidth + 0.15f) * 0.5f;
+        var northRailDepth = Mathf.Max(0f, (wingEntryZ - wingGapHalf) - BlockedDoorZ);
+        var southRailDepth = Mathf.Max(0f, BalconyOuterZ - (wingEntryZ + wingGapHalf));
 
-        AddWall(
-            walkable,
-            "UpperBalcony_GuardRail_Right_North",
-            new Vector3(CorridorWallX + 0.05f, railCenterY, BlockedDoorZ + northRailDepth * 0.5f),
-            new Vector3(0.14f, railHeight, northRailDepth),
-            _matSecondRail);
+        if (northRailDepth > 0.08f)
+        {
+            AddWall(
+                walkable,
+                "UpperBalcony_GuardRail_Right_North",
+                new Vector3(CorridorWallX + 0.05f, railCenterY, BlockedDoorZ + northRailDepth * 0.5f),
+                new Vector3(0.14f, railHeight, northRailDepth),
+                _matSecondRail);
+        }
 
-        AddWall(
-            walkable,
-            "UpperBalcony_GuardRail_Right_South",
-            new Vector3(CorridorWallX + 0.05f, railCenterY, BalconyOuterZ - southRailDepth * 0.5f),
-            new Vector3(0.14f, railHeight, southRailDepth),
-            _matSecondRail);
+        if (southRailDepth > 0.08f)
+        {
+            AddWall(
+                walkable,
+                "UpperBalcony_GuardRail_Right_South",
+                new Vector3(CorridorWallX + 0.05f, railCenterY, wingEntryZ + wingGapHalf + southRailDepth * 0.5f),
+                new Vector3(0.14f, railHeight, southRailDepth),
+                _matSecondRail);
+        }
 
         // Named alias for checklist (right rail is split around wing gap).
         walkable.AddChild(new Node3D
@@ -122,7 +129,7 @@ public partial class PensaoVerticalBlockout01Builder
         walkable.AddChild(new Node3D
         {
             Name = "UpperBalconyWing_Entry",
-            Position = new Vector3(CorridorWallX, SecondFloorTopY, innerFrontZ)
+            Position = new Vector3(CorridorWallX, SecondFloorTopY, wingEntryZ)
         });
     }
 
@@ -162,6 +169,19 @@ public partial class PensaoVerticalBlockout01Builder
         var entryCenterX = westEdge + entryHalf + 0.2f;
         var leftLen = Mathf.Max(0.2f, (entryCenterX - entryHalf) - westEdge);
         var rightLen = Mathf.Max(0.2f, eastEdge - (entryCenterX + entryHalf));
+
+        // Solid landing between the balcony's lateral opening and the wing doorway.
+        // Sprint 17C left this turn without floor, making both rooms unreachable.
+        var wingEntryZ = (UpperFrontZ + WallThickness * 0.5f + BlockedDoorZ) * 0.5f;
+        var wingGapHalf = (DoorWidth + 0.15f) * 0.5f;
+        var landingEastX = entryCenterX + entryHalf;
+        var landingNorthZ = wingEntryZ - wingGapHalf;
+        var entryLandingCenterX = (CorridorWallX + landingEastX) * 0.5f;
+        var entryLandingCenterZ = (landingNorthZ + northZ) * 0.5f;
+        AddSecondFloorSlab(
+            "UpperBalconyWing_EntryFloor",
+            new Vector3(entryLandingCenterX, SecondFloorCenterY, entryLandingCenterZ),
+            new Vector3(landingEastX - CorridorWallX, FloorThickness, northZ - landingNorthZ));
 
         if (leftLen > 0.15f)
         {
@@ -237,18 +257,6 @@ public partial class PensaoVerticalBlockout01Builder
         BuildBathroom(wing, bathroomCenterX, corridorCenterZ, dividerX, westEdge);
         BuildOwnerBedroom(wing, bedroomCenterX, corridorCenterZ, dividerX, eastEdge);
 
-        AddLockedDoorBlocker(
-            corridor,
-            "Door_Room203_Blocked",
-            "Door_Room203_Blocker",
-            new Vector3(BuildingInnerEastX - 0.12f, SecondFloorTopY - WallEmbedBelowFloor, corridorCenterZ + 0.55f),
-            1.05f,
-            _matDoor,
-            "Tentar abrir quarto 203",
-            "Algo pesado bloqueia a porta pelo outro lado.",
-            floorTopY: 0f,
-            panelOffsetX: 0f,
-            rotationY: Mathf.DegToRad(-90f));
     }
 
     private void BuildBathroom(
@@ -274,7 +282,7 @@ public partial class PensaoVerticalBlockout01Builder
         AddFurniture(
             room,
             "Bathroom_Sink",
-            new Vector3(centerX - 0.45f, SecondFloorTopY + 0.55f, roomZ - 0.65f),
+            new Vector3(centerX - 0.35f, SecondFloorTopY + 0.55f, roomZ + 0.65f),
             new Vector3(0.7f, 0.55f, 0.45f),
             _matFurniture);
 
@@ -353,22 +361,22 @@ public partial class PensaoVerticalBlockout01Builder
         AddFurniture(
             room,
             "OwnerBedroom_Bed",
-            new Vector3(centerX + 0.35f, SecondFloorTopY + 0.32f, roomZ + 0.5f),
-            new Vector3(1.6f, 0.64f, 1.0f),
+            new Vector3(centerX + 0.7f, SecondFloorTopY + 0.32f, roomZ + 0.6f),
+            new Vector3(1.25f, 0.64f, 0.9f),
             _matBed);
 
         AddFurniture(
             room,
             "OwnerBedroom_Desk",
-            new Vector3(centerX - 0.25f, SecondFloorTopY + 0.4f, roomZ - 0.75f),
-            new Vector3(1.0f, 0.8f, 0.5f),
+            new Vector3(centerX + 0.45f, SecondFloorTopY + 0.4f, roomZ - 0.8f),
+            new Vector3(0.8f, 0.8f, 0.45f),
             _matFurniture);
 
         AddFurniture(
             room,
             "OwnerBedroom_Cabinet",
-            new Vector3(centerX + 0.75f, SecondFloorTopY + 0.75f, roomZ - 0.55f),
-            new Vector3(0.6f, 1.5f, 0.45f),
+            new Vector3(centerX + 0.95f, SecondFloorTopY + 0.75f, roomZ - 0.25f),
+            new Vector3(0.45f, 1.5f, 0.4f),
             _matFurniture);
 
         AddVisualProp(
@@ -388,7 +396,7 @@ public partial class PensaoVerticalBlockout01Builder
         room.AddChild(new Marker3D
         {
             Name = "Anchor_OwnerLedger",
-            Position = new Vector3(centerX - 0.25f, SecondFloorTopY + 0.85f, roomZ - 0.75f)
+            Position = new Vector3(centerX + 0.45f, SecondFloorTopY + 0.85f, roomZ - 0.8f)
         });
     }
 

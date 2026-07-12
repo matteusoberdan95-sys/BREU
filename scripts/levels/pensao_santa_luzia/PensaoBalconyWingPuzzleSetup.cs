@@ -161,11 +161,13 @@ public partial class PensaoBalconyWingPuzzleSetup : Node
         var root = new Node3D
         {
             Name = "Interact_BalconyEdgeHint",
-            Position = new Vector3(0f, 3.6f, -3.35f)
+            Position = new Vector3(0f, 3.02f, -3.42f)
         };
         parent.AddChild(root);
 
-        var area = MakeArea(new Vector3(2.0f, 1.2f, 0.45f));
+        // Low and shallow: the ray only catches it while looking down at the
+        // actual outer edge, never from the green door or the circulation path.
+        var area = MakeArea(new Vector3(1.4f, 0.22f, 0.18f));
         var interactable = new Interactable
         {
             Name = "BalconyEdgeHint",
