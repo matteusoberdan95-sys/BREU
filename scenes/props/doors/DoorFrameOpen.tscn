@@ -27,22 +27,22 @@ transparency = 0
 [node name="DoorFrameOpen" type="Node3D"]
 
 [node name="FrameLeft" type="MeshInstance3D" parent="."]
-position = Vector3(-0.77, 1.15, 0)
+position = Vector3(-0.77, 1.15, 0.05)
 mesh = SubResource("BoxMesh_post")
 material_override = SubResource("Material_frame")
 
 [node name="FrameRight" type="MeshInstance3D" parent="."]
-position = Vector3(0.77, 1.15, 0)
+position = Vector3(0.77, 1.15, 0.05)
 mesh = SubResource("BoxMesh_post")
 material_override = SubResource("Material_frame")
 
 [node name="FrameLintel" type="MeshInstance3D" parent="."]
-position = Vector3(0, 2.23, 0)
+position = Vector3(0, 2.23, 0.05)
 mesh = SubResource("BoxMesh_lintel")
 material_override = SubResource("Material_frame")
 
 [node name="UpperWallInfill" type="MeshInstance3D" parent="."]
-position = Vector3(0, 2.65, 0)
+position = Vector3(0, 2.65, 0.05)
 mesh = SubResource("BoxMesh_infill")
 material_override = SubResource("Material_infill")
 

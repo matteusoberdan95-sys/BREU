@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 14 em validação; Sprint 14B executada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 14 em validação final; Sprint 14E executada (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -27,7 +27,8 @@
 | Sprint 13 | **✅ Aprovada** — atmosfera base |
 | Sprint 14 | **🔄 Em validação** — portas/quartos/leitura narrativa (playtest F6 pendente) |
 | Sprint 14A | **⏸️ Substituída** — hotfix parcial (playtest falhou) |
-| Sprint 14B | **🔄 Executada** — sistema de portas blockout estável (playtest F6 pendente) |
+| Sprint 14B | **⏸️ Substituída** — sistema prefab (14C/14D) |
+| Sprint 14E | **🔄 Executada** — hotfix final portas/placa/corredor (playtest F6 pendente) |
 
 ---
 
@@ -126,6 +127,18 @@ Revisão visual posterior: corrigidos sobreposição da travessa do depósito, p
 Sprint 14D: auditoria formal criada em `docs/testing/PENSION_DOOR_AUDIT_14D.md`; entrada principal sem folha ou bloqueio; placa deslocada para fora do eixo da trilha; painéis fechados afastados do plano da parede; porta verde renomeada para o nó oficial.
 
 Hotfix 14D: `UpperBalcony_BackWall` estava usando altura local de primeiro andar e aparecia como um bloco diante da passagem do térreo. Reposicionado para `Y = 4,25`, no segundo andar.
+
+## Sprint 14E — resumo (executada)
+
+Hotfix final antes de aprovar Sprint 14.
+
+- **Placa:** `Sign_PensaoSantaLuzia` na fachada; `JobOfferSign` alinhada na trilha.
+- **Porta verde:** `Door_UpperBalcony_Locked` única no vão do corredor — moldura + painel com profundidade real.
+- **Corredor inútil:** fechado atrás da escada no 2º andar.
+- **Z-fighting:** `ConfigureOpenDoor` / `ConfigureLockedDoor` com offsets padronizados.
+
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v1.2  
+**Playtest:** `docs/testing/PENSION_NARRATIVE_READABILITY_PLAYTEST.md` — seção Sprint 14E
 
 ## Próxima sprint — Sprint 15 (Vertical slice da Pensão)
 

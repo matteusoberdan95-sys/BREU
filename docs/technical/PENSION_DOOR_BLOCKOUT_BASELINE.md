@@ -1,7 +1,7 @@
 # Baseline — Portas blockout (Pensão)
 
-**Versão:** 1.1  
-**Sprint:** 14B  
+**Versão:** 1.2  
+**Sprint:** 14E  
 **Data:** 2026-07-11  
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
@@ -61,6 +61,15 @@ Uma única instância é permitida por vão. A folha aberta é uma malha estáti
 - Porta verde oficial: `Door_UpperBalcony_Locked`.
 - Porta do depósito oculta imediatamente o prompt ao destrancar.
 
+### Ajustes cirúrgicos 14E
+
+- `Sign_PensaoSantaLuzia`: placa da entrada centralizada, rotação 0°, offset 0,055 m da fachada.
+- `ConfigureLockedDoor`: moldura a +0,05 m; painel a -0,08 m; interação a -0,34 m.
+- `ConfigureOpenDoor`: moldura a +0,05 m; folha decorativa opcional a +0,12 m adicional.
+- Porta verde: somente `Door_UpperBalcony_Locked` no vão do corredor superior — sem duplicata na fachada da trilha.
+- Corredor inútil do 2º andar fechado com `UpperStair_BackClosureWall`, `UpperLanding_BackSeal`, `UpperStair_NorthEastSeal`.
+- Folhas decorativas instáveis: remover (`decorativeLeaf: false`) em vez de animar.
+
 ## Proibido (blockout)
 
 - Animar porta com `Scale`
@@ -80,7 +89,7 @@ Uma única instância é permitida por vão. A folha aberta é uma malha estáti
 - Colisão ativa, não atravessável
 - Prompt: **Tentar abrir varanda**
 - Interior: `UpperBalcony_Placeholder` + guarda-corpos
-- Exterior (trilha): `UpperBalcony_TrailReadability`
+- Exterior (trilha): `UpperBalcony_TrailReadability` — piso e guarda-corpo apenas (sem painel verde duplicado)
 
 ---
 
@@ -91,6 +100,7 @@ Uma única instância é permitida por vão. A folha aberta é uma malha estáti
 | `DoorFrameOpen.tscn` | Moldura de passagem aberta |
 | `DoorLocked.tscn` | Porta trancada opaca + interação |
 | `DoorUnlockHidePanel.tscn` | Porta do depósito ligada ao puzzle |
+| `ConfigureOpenDoor` / `ConfigureLockedDoor` | Afastamento anti z-fighting |
 
 ---
 

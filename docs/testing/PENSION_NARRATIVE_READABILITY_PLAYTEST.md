@@ -198,3 +198,35 @@ A aprovação visual permanece pendente até o playtest manual em F6.
 
 **Regressão**
 - [ ] HUD / lanterna / F10 / F11 / fog / movimento / escada / puzzle intactos
+
+---
+
+## Sprint 14E — Final door readability hotfix
+
+**Data:** 2026-07-11  
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v1.2
+
+### Correções
+
+- **Placa:** `Sign_PensaoSantaLuzia` alinhada na fachada (rotação 0°, offset 0,055 m); `JobOfferSign` redimensionada e centralizada.
+- **Porta verde:** única instância `Door_UpperBalcony_Locked` no vão interior (não coplanar na fachada); `ConfigureLockedDoor` com moldura + painel a -0,08 m.
+- **Corredor inútil:** `UpperStair_BackClosureWall`, `UpperLanding_BackSeal`, `UpperStair_NorthEastSeal` fecham pocket atrás da escada.
+- **Z-fighting:** molduras afastadas 0,05 m; folhas decorativas +0,12 m; painéis fechados a -0,08 m.
+
+### Checklist 14E
+
+**Fachada**
+- [ ] Placa PENSÃO SANTA LUZIA legível e estável
+- [ ] Varanda na trilha sem painel verde duplicado colado
+
+**Portas**
+- [ ] Porta verde parece porta real no vão com moldura
+- [ ] Nenhuma moldura/folha pisca nos vãos principais
+- [ ] Depósito continua funcionando
+
+**2º andar**
+- [ ] Corredor inútil atrás da escada fechado
+- [ ] Escada e patamar continuam navegáveis
+
+**Regressão**
+- [ ] Atmosfera / fog / HUD / puzzle / movimento intactos

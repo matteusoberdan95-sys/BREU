@@ -63,3 +63,11 @@ A cena não contém portas serializadas diretamente: a geometria é montada em r
 - Rota chave → depósito → fusível.
 - Colisão da porta verde e da porta superior.
 - Entrada, quartos e cozinha sem aprisionar o Player.
+
+## Sprint 14E — ajustes finais
+
+- `Sign_PensaoSantaLuzia` adicionada na fachada principal.
+- `Door_UpperBalcony_Locked` única no vão interior; removida da fachada da trilha.
+- `ConfigureLockedDoor` / `ConfigureOpenDoor` com offsets anti z-fighting.
+- Corredor inútil do 2º andar fechado (`UpperStair_BackClosureWall`, `UpperLanding_BackSeal`, `UpperStair_NorthEastSeal`).
+- `Door_UpperBlocked_Locked` renomeada/substituída por `Door_UpperBalcony_Locked` com prompt de varanda.

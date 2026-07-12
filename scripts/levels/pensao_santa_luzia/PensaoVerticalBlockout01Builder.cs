@@ -79,7 +79,6 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private StandardMaterial3D _matCeilingSecond = null!;
     private StandardMaterial3D _matRoof = null!;
     private StandardMaterial3D _matDoorBalcony = null!;
-    private StandardMaterial3D _matDoorLocked = null!;
 
     private Node3D _secondFloor = null!;
     private Node3D _ceiling = null!;
@@ -107,7 +106,6 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matCeilingSecond = Mat(new Color(0.38f, 0.36f, 0.4f));
         _matRoof = Mat(new Color(0.32f, 0.3f, 0.28f));
         _matDoorBalcony = Mat(new Color(0.32f, 0.5f, 0.3f));
-        _matDoorLocked = Mat(new Color(0.2f, 0.16f, 0.14f));
         BuildSecondFloor();
         BuildCeilingBlockout();
         BuildUpperSouthRoomPlaceholder();
@@ -133,6 +131,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         BuildRoom202();
         BuildUpperBlockedDoor();
         BuildStairwellBox();
+        BuildUpperStairBackClosure();
         BuildSecondFloorSouthSealing();
         BuildSecondFloorExteriorShell();
     }
@@ -359,17 +358,6 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(balconyWidth * 0.5f + 0.05f, railCenterY, balconyCenterZ),
             new Vector3(0.12f, 0.95f, balconyProtrude),
             _matSecondRail);
-
-        var greenDoor = AddDoorPrefab(
-            host,
-            "Door_UpperBalcony_Locked",
-            "res://scenes/props/doors/DoorLocked.tscn",
-            new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, frontFaceZ + 0.08f));
-        greenDoor.GetNode<MeshInstance3D>("DoorPanel").MaterialOverride = _matDoorBalcony;
-        var greenInteraction = (BlockoutLockedDoor)greenDoor;
-        greenInteraction.PromptText = "Tentar abrir varanda";
-        greenInteraction.LockedMessage = "A porta está emperrada. O vento passa pelas frestas do lado de fora.";
-
     }
 
     private void BuildRoofBlockout()
@@ -687,6 +675,41 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             _matInteriorWall);
     }
 
+    /// <summary>Sprint 14E — seal dead pocket west of stair shaft and north-east gap behind landing.</summary>
+    private void BuildUpperStairBackClosure()
+    {
+        const float edgeStripWidth = 0.35f;
+        var westEdgeCenterX = BuildingInnerWestX + edgeStripWidth * 0.5f;
+        const float southEdgeZ = -5.8f;
+        var southDepth = southEdgeZ - StairOpenSouthZ;
+        var southCenterZ = (southEdgeZ + StairOpenSouthZ) * 0.5f;
+
+        AddWall(
+            _secondFloor,
+            "UpperStair_BackClosureWall",
+            new Vector3(westEdgeCenterX, SecondWallCenterY, southCenterZ),
+            new Vector3(edgeStripWidth + WallCornerOverlap, WallHeight, southDepth + FloorOverlap),
+            _matInteriorWall);
+
+        const float northCapCenterZ = -31.4f;
+        const float northCapDepth = 2.4f;
+        AddWall(
+            _secondFloor,
+            "UpperLanding_BackSeal",
+            new Vector3(westEdgeCenterX, SecondWallCenterY, northCapCenterZ),
+            new Vector3(edgeStripWidth + WallCornerOverlap, WallHeight, northCapDepth + FloorOverlap),
+            _matInteriorWall);
+
+        var northEastWidth = SlabWidth * 0.5f - StairOpenEastX;
+        var northEastCenterX = StairOpenEastX + northEastWidth * 0.5f;
+        AddWall(
+            _secondFloor,
+            "UpperStair_NorthEastSeal",
+            new Vector3(northEastCenterX, SecondWallCenterY, StairOpenNorthZ - WallThickness * 0.5f),
+            new Vector3(northEastWidth + FloorOverlap, WallHeight, WallThickness),
+            _matInteriorWall);
+    }
+
     /// <summary>
     /// South flank only — no north cap across corridor (hotfix 3: removed CorridorNorthCap).
     /// </summary>
@@ -768,15 +791,15 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "Há marcas de arrasto no chão.",
             "room_202");
 
-        var blockedDoor = AddDoorPrefab(
+        var balconyDoor = AddDoorPrefab(
             _secondFloor,
-            "Door_UpperBlocked_Locked",
+            "Door_UpperBalcony_Locked",
             "res://scenes/props/doors/DoorLocked.tscn",
-            new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, BlockedDoorZ));
-        blockedDoor.GetNode<MeshInstance3D>("DoorPanel").MaterialOverride = _matDoorLocked;
-        var blockedInteraction = (BlockoutLockedDoor)blockedDoor;
-        blockedInteraction.PromptText = "Tentar abrir porta";
-        blockedInteraction.LockedMessage = "Está trancada por dentro.";
+            new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, BlockedDoorZ - 0.05f));
+        ConfigureLockedDoor(balconyDoor, DoorWidth, panelInsetZ: -0.08f, panelMaterial: _matDoorBalcony);
+        var balconyInteraction = (BlockoutLockedDoor)balconyDoor;
+        balconyInteraction.PromptText = "Tentar abrir varanda";
+        balconyInteraction.LockedMessage = "A porta está emperrada. O vento passa pelas frestas do lado de fora.";
     }
 
     private void BuildSecondFloorNarrativeInteractions()
