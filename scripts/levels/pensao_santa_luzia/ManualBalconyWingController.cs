@@ -14,9 +14,6 @@ public partial class ManualBalconyWingController : Node3D
             return;
         }
 
-        var ownerDoor = GetNodeOrNull<BlockoutOwnerBedroomDoor>("Interactions/Door_OwnerBedroom_Blocker");
-        ownerDoor?.Initialize(state, ownerDoor);
-
-        GD.Print("[ManualBalconyWing] Static scene initialized; no runtime geometry created.");
+        GD.Print("[ManualBalconyWing] Green-door owner initialized; legacy rooms removed.");
     }
 }

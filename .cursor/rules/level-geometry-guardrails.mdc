@@ -9,6 +9,13 @@ alwaysApply: true
 
 # BREU — Level Geometry Guardrails
 
+## Regra permanente de objetivos e fechamento
+
+- Todo objetivo de puzzle deve estar em cômodo acessível por rota real.
+- Toda parede visual acessível deve bloquear o player com collider filho compatível.
+- Todo cômodo jogável deve ser minimamente fechado por paredes/teto, sem rota para bastidor ou limbo.
+- Nunca esconder bug estrutural com collider solto no corredor.
+
 Estas regras são obrigatórias para Cursor antes de qualquer alteração de cenário.
 
 ## ✅ VARANDA APROVADA E CONGELADA PARA GAMEPLAY

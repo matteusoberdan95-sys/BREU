@@ -1,5 +1,25 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Sprint 19D — Hotfix estrutural final da ala superior
+
+- causa estrutural: os cômodos antigos de `BalconyWing.tscn` ainda coexistiam com a ala 19C em `UpperWingRooms.tscn`, produzindo paredes, tetos e interações concorrentes;
+- `BalconyWing.tscn` foi reduzido ao seu ownership válido: somente porta verde;
+- banheiro/quarto antigo, colliders, espelho, ralo, ledger e porta antiga duplicados foram removidos;
+- lavanderia/arame e banheiro/ralo permanecem exclusivamente em `UpperWingRooms.tscn`, ambos com paredes e teto;
+- sala técnica mantém entrada real em `Door_TechnicalRoom`;
+- painel foi restaurado como `TechnicalRoom/TechnicalPanel`, montado na parede norte em `(3,20; 3,95; 5,38)`;
+- `InteractionArea` é local, pequena e fica somente à frente do painel;
+- prompts preservados: `Examinar painel` e `Inserir fusível`;
+- F9 runtime: 30 paredes com mesh/shape correspondente e bloqueio físico confirmado;
+- F9 final: `0 ERROR / 0 WARNING`;
+- deck congelado: não alterado; grid continua `49/49`;
+- boundaries globais: ausentes;
+- fechamento mínimo confirmado: `Ceiling_Laundry`, `Ceiling_Bath` e `Ceiling_Tech` presentes.
+
+Playtest manual pendente: [ ] arame [ ] ralo [ ] painel/fusível [ ] tentativa de atravessar paredes [ ] zero limbo [ ] retorno ao térreo sem teleporte [ ] porta verde/203
+
+Não aprovar nem criar commit final antes do percurso manual.
+
 ## Sprint 19C — Correção estrutural da ala superior
 
 **Deck:** `UpperWing_CollisionDeck` **não alterado**.

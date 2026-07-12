@@ -1,5 +1,9 @@
 # BREU — Estado do projeto
 
+## Sprint 19D — ownership estrutural da ala superior
+
+O painel técnico voltou a ser um objeto montado e acessível dentro do `TechnicalRoom`. O quarto do arame e o banheiro/ralo estão fechados pelas paredes/tetos de `UpperWingRooms.tscn`. A geometria antiga concorrente foi removida de `BalconyWing.tscn`, que agora possui somente a porta verde. O próximo passo, após playtest manual, poderá ser refinar puzzle e ambientação em vez de corrigir a estrutura base.
+
 ## Sprint 19C — Correção estrutural da ala superior
 
 **Status:** implementada (playtest F6 obrigatório)  

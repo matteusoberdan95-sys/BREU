@@ -1,124 +1,19 @@
-[gd_scene load_steps=30 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/ManualBalconyWingController.cs" id="1"]
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/BlockoutBalconyDoor.cs" id="2"]
-[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/BlockoutOwnerBedroomDoor.cs" id="3"]
-[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/ManualBalconyInteraction.cs" id="4"]
 
-[sub_resource type="StandardMaterial3D" id="MatFloor"]
-albedo_color = Color(0.28, 0.29, 0.34, 1)
-[sub_resource type="StandardMaterial3D" id="MatWall"]
-albedo_color = Color(0.42, 0.4, 0.39, 1)
-[sub_resource type="StandardMaterial3D" id="MatRail"]
-albedo_color = Color(0.22, 0.24, 0.3, 1)
 [sub_resource type="StandardMaterial3D" id="MatDoor"]
 albedo_color = Color(0.22, 0.42, 0.24, 1)
-[sub_resource type="StandardMaterial3D" id="MatProp"]
-albedo_color = Color(0.25, 0.2, 0.18, 1)
-
-[sub_resource type="BoxMesh" id="WallLong"]
-size = Vector3(0.18, 2.8, 3.9)
-[sub_resource type="BoxShape3D" id="WallLongShape"]
-size = Vector3(0.18, 2.8, 3.9)
-[sub_resource type="BoxMesh" id="WallEastBathMesh"]
-size = Vector3(0.18, 2.8, 1.8)
-[sub_resource type="BoxShape3D" id="WallEastBathShape"]
-size = Vector3(0.18, 2.8, 1.8)
-[sub_resource type="BoxMesh" id="WallEastOwnerMesh"]
-size = Vector3(0.18, 2.8, 1.95)
-[sub_resource type="BoxShape3D" id="WallEastOwnerShape"]
-size = Vector3(0.18, 2.8, 1.95)
-[sub_resource type="BoxMesh" id="WallWide"]
-size = Vector3(5.2, 2.8, 0.18)
-[sub_resource type="BoxShape3D" id="WallWideShape"]
-size = Vector3(5.2, 2.8, 0.18)
 [sub_resource type="BoxMesh" id="DoorMesh"]
 size = Vector3(1.55, 2.2, 0.12)
 [sub_resource type="BoxShape3D" id="DoorShape"]
 size = Vector3(1.55, 2.2, 0.12)
-[sub_resource type="BoxShape3D" id="InteractSmall"]
-size = Vector3(0.45, 0.45, 0.35)
 [sub_resource type="BoxShape3D" id="InteractDoor"]
 size = Vector3(1.25, 1.15, 0.35)
-[sub_resource type="BoxMesh" id="PropMesh"]
-size = Vector3(0.35, 0.08, 0.28)
-[sub_resource type="BoxMesh" id="BalconyCeilingMesh"]
-size = Vector3(3.2, 0.18, 5.35)
-[sub_resource type="BoxMesh" id="RoomsCeilingMesh"]
-size = Vector3(5.2, 0.18, 3.9)
 
 [node name="BalconyWing" type="Node3D"]
 script = ExtResource("1")
-
-[node name="Geometry" type="Node3D" parent="."]
-[node name="BalconyCeiling" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(0, 5.58, -4.875)
-mesh = SubResource("BalconyCeilingMesh")
-material_override = SubResource("MatWall")
-[node name="RoomsCeiling" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(4.2, 5.58, -4.3)
-mesh = SubResource("RoomsCeilingMesh")
-material_override = SubResource("MatWall")
-
-[node name="Room_UpperBathroom" type="Node3D" parent="Geometry"]
-[node name="Wall_Bathroom_East" type="Node3D" parent="Geometry/Room_UpperBathroom"]
-position = Vector3(6.8, 4.2, -5.35)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Geometry/Room_UpperBathroom/Wall_Bathroom_East"]
-mesh = SubResource("WallEastBathMesh")
-material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Geometry/Room_UpperBathroom/Wall_Bathroom_East" groups=["level_wall"]]
-collision_layer = 1
-collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/Room_UpperBathroom/Wall_Bathroom_East/StaticBody3D"]
-shape = SubResource("WallEastBathShape")
-[node name="Wall_Bathroom_North" type="Node3D" parent="Geometry/Room_UpperBathroom"]
-position = Vector3(4.2, 4.2, -6.25)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Geometry/Room_UpperBathroom/Wall_Bathroom_North"]
-mesh = SubResource("WallWide")
-material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Geometry/Room_UpperBathroom/Wall_Bathroom_North" groups=["level_wall"]]
-collision_layer = 1
-collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/Room_UpperBathroom/Wall_Bathroom_North/StaticBody3D"]
-shape = SubResource("WallWideShape")
-[node name="BrokenSink" type="MeshInstance3D" parent="Geometry/Room_UpperBathroom"]
-position = Vector3(5.35, 3.2, -5.85)
-scale = Vector3(1.8, 2.2, 1.4)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatWall")
-[node name="Wall_Bathroom_Divider" type="Node3D" parent="Geometry/Room_UpperBathroom"]
-position = Vector3(4.2, 4.2, -4.35)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Geometry/Room_UpperBathroom/Wall_Bathroom_Divider"]
-mesh = SubResource("WallWide")
-material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Geometry/Room_UpperBathroom/Wall_Bathroom_Divider" groups=["level_wall"]]
-collision_layer = 1
-collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/Room_UpperBathroom/Wall_Bathroom_Divider/StaticBody3D"]
-shape = SubResource("WallWideShape")
-
-[node name="Room_OwnerBedroom" type="Node3D" parent="Geometry"]
-[node name="Wall_Owner_East" type="Node3D" parent="Geometry/Room_OwnerBedroom"]
-position = Vector3(6.8, 4.2, -3.35)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Geometry/Room_OwnerBedroom/Wall_Owner_East"]
-mesh = SubResource("WallEastOwnerMesh")
-material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Geometry/Room_OwnerBedroom/Wall_Owner_East" groups=["level_wall"]]
-collision_layer = 1
-collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/Room_OwnerBedroom/Wall_Owner_East/StaticBody3D"]
-shape = SubResource("WallEastOwnerShape")
-[node name="Wall_Owner_South" type="Node3D" parent="Geometry/Room_OwnerBedroom"]
-position = Vector3(4.2, 4.2, -2.35)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Geometry/Room_OwnerBedroom/Wall_Owner_South"]
-mesh = SubResource("WallWide")
-material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Geometry/Room_OwnerBedroom/Wall_Owner_South" groups=["level_wall"]]
-collision_layer = 1
-collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/Room_OwnerBedroom/Wall_Owner_South/StaticBody3D"]
-shape = SubResource("WallWideShape")
-
 
 [node name="Interactions" type="Node3D" parent="."]
 [node name="BalconyDoor_Green" type="Node3D" parent="Interactions" groups=["interactable"]]
@@ -129,6 +24,8 @@ position = Vector3(0, 1.1, -0.08)
 mesh = SubResource("DoorMesh")
 material_override = SubResource("MatDoor")
 [node name="BlockingBody" type="StaticBody3D" parent="Interactions/BalconyDoor_Green"]
+collision_layer = 1
+collision_mask = 0
 [node name="BlockingShape" type="CollisionShape3D" parent="Interactions/BalconyDoor_Green/BlockingBody"]
 position = Vector3(0, 1.1, -0.08)
 shape = SubResource("DoorShape")
@@ -139,68 +36,3 @@ collision_mask = 0
 monitoring = false
 [node name="Shape" type="CollisionShape3D" parent="Interactions/BalconyDoor_Green/Interact_BalconyDoor"]
 shape = SubResource("InteractDoor")
-
-[node name="Interact_BathroomMirror" type="Node3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(5.4, 4.15, -6.05)
-[node name="Mesh" type="MeshInstance3D" parent="Interactions/Interact_BathroomMirror"]
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatRail")
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_BathroomMirror"]
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_BathroomMirror/InteractionArea"]
-shape = SubResource("InteractSmall")
-[node name="BathroomMirrorInteraction" type="Node" parent="Interactions/Interact_BathroomMirror/InteractionArea"]
-script = ExtResource("4")
-Mode = 1
-
-[node name="Interact_BathroomDrain" type="Node3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(3.5, 2.94, -4.75)
-[node name="Mesh" type="MeshInstance3D" parent="Interactions/Interact_BathroomDrain"]
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatProp")
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_BathroomDrain"]
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_BathroomDrain/InteractionArea"]
-shape = SubResource("InteractSmall")
-[node name="BathroomDrainInteraction" type="Node" parent="Interactions/Interact_BathroomDrain/InteractionArea"]
-script = ExtResource("4")
-Mode = 2
-
-[node name="Door_OwnerBedroom_Blocker" type="Node3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(1.64, 2.75, -3.65)
-rotation = Vector3(0, 1.570796, 0)
-script = ExtResource("3")
-[node name="Room_OwnerDoor_Panel" type="MeshInstance3D" parent="Interactions/Door_OwnerBedroom_Blocker"]
-position = Vector3(0, 1.1, -0.08)
-mesh = SubResource("DoorMesh")
-material_override = SubResource("MatProp")
-[node name="BlockingBody" type="StaticBody3D" parent="Interactions/Door_OwnerBedroom_Blocker"]
-[node name="BlockingShape" type="CollisionShape3D" parent="Interactions/Door_OwnerBedroom_Blocker/BlockingBody"]
-position = Vector3(0, 1.1, -0.08)
-shape = SubResource("DoorShape")
-[node name="Interact_OwnerDoor" type="Area3D" parent="Interactions/Door_OwnerBedroom_Blocker"]
-position = Vector3(0, 1.45, -0.4)
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Door_OwnerBedroom_Blocker/Interact_OwnerDoor"]
-shape = SubResource("InteractDoor")
-
-[node name="Interact_OwnerLedger" type="Node3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(5.5, 3.55, -3.0)
-[node name="Mesh" type="MeshInstance3D" parent="Interactions/Interact_OwnerLedger"]
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatProp")
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_OwnerLedger"]
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_OwnerLedger/InteractionArea"]
-shape = SubResource("InteractSmall")
-[node name="OwnerLedgerInteraction" type="Node" parent="Interactions/Interact_OwnerLedger/InteractionArea"]
-script = ExtResource("4")
-Mode = 3

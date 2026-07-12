@@ -1,5 +1,11 @@
 ## REGRA CRÍTICA — SPRINT 19C
 
+## REGRA CRÍTICA — SPRINT 19D
+
+É proibido compensar bug de parede com trigger invisível, boundary global ou collider solto no corredor. Toda parede visual acessível deve ter colisão compatível. Todo cômodo do puzzle deve ter acesso por abertura real. Nenhum item, painel ou objetivo pode ficar atrás de parede atravessável. Nenhum cômodo pode ter saída para limbo ou ficar sem fechamento mínimo de paredes/teto quando isso permite fuga da área.
+
+Regras permanentes: todo objetivo de puzzle deve estar em cômodo acessível por rota real; toda parede visual acessível deve bloquear o player; todo cômodo jogável deve ser minimamente fechado; nunca esconder bug estrutural com collider solto no corredor.
+
 Nesta sprint é proibido criar novos cômodos grandes.
 O objetivo é corrigir os cômodos existentes.
 

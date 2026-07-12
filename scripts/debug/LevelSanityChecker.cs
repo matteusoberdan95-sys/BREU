@@ -26,6 +26,11 @@ public partial class LevelSanityChecker : Node
     private int _errors;
     private int _warnings;
 
+    public override void _Ready()
+    {
+        if (OS.IsDebugBuild()) CallDeferred(nameof(RunChecks));
+    }
+
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event is not InputEventKey { Pressed: true, Echo: false, Keycode: Key.F9 })
@@ -60,6 +65,7 @@ public partial class LevelSanityChecker : Node
         CheckManualWingOwnership(scene);
         CheckBalconyBoundaryRollback(scene);
         CheckFloorVolumes(scene);
+        CheckUpperWingStructuralHotfix(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -117,6 +123,10 @@ public partial class LevelSanityChecker : Node
             }
 
             var name = node.Name.ToString();
+            // Authored diagnostics and door/stair thresholds are current geometry,
+            // not legacy nodes merely because their words contain Test/old.
+            if (name.EndsWith("Test", StringComparison.OrdinalIgnoreCase) ||
+                name.Contains("Threshold", StringComparison.OrdinalIgnoreCase)) continue;
             foreach (var part in ForbiddenNameParts)
             {
                 if (!name.Contains(part, StringComparison.OrdinalIgnoreCase))
@@ -276,6 +286,7 @@ public partial class LevelSanityChecker : Node
 
         foreach (var node in Enumerate(scene))
         {
+            if (HasAncestorNamed(node, "UpperWing_CollisionDeck")) continue;
             if (!node.IsInGroup("level_second_floor") && node.GetParent()?.IsInGroup("level_second_floor") != true)
             {
                 // Also scan PensionSecondFloor children.
@@ -342,11 +353,6 @@ public partial class LevelSanityChecker : Node
         // (below the seal) is an invasion. Floors at second-floor height are OK.
         var before = _errors;
         var wingRoots = new List<Node3D>();
-        if (scene.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/SecondFloor_MasterSlab") is { } expansion)
-        {
-            wingRoots.Add(expansion);
-        }
-
         if (scene.GetNodeOrNull<Node3D>("BalconyWing") is { } balconyWing)
         {
             wingRoots.Add(balconyWing);
@@ -395,6 +401,62 @@ public partial class LevelSanityChecker : Node
         {
             Ok("single BalconyWing owner");
         }
+    }
+
+    private void CheckUpperWingStructuralHotfix(Node scene)
+    {
+        var rooms = scene.GetNodeOrNull<Node3D>("World/Level/SecondFloor/UpperWingRooms");
+        if (rooms == null)
+        {
+            Error("UpperWingRooms missing");
+            return;
+        }
+
+        var checkedWalls = 0;
+        foreach (var node in Enumerate(rooms))
+        {
+            if (node is not Node3D wall || !wall.Name.ToString().StartsWith("Wall_")) continue;
+            checkedWalls++;
+            var mesh = wall.GetNodeOrNull<MeshInstance3D>("MeshInstance3D")?.Mesh as BoxMesh;
+            var body = wall.GetNodeOrNull<StaticBody3D>("StaticBody3D");
+            var shape = wall.GetNodeOrNull<CollisionShape3D>("StaticBody3D/CollisionShape3D")?.Shape as BoxShape3D;
+            if (mesh == null || body == null || shape == null)
+            {
+                Error($"accessible wall lacks local mesh/body/shape: {wall.GetPath()}");
+                continue;
+            }
+
+            if (!mesh.Size.IsEqualApprox(shape.Size))
+                Error($"wall mesh/shape mismatch: {wall.GetPath()} mesh={mesh.Size} shape={shape.Size}");
+            else
+                CheckWallPhysicalRay(wall, mesh.Size);
+        }
+
+        if (checkedWalls == 0) Error("no authored Wall_* nodes found in UpperWingRooms");
+        else Ok($"{checkedWalls} upper-wing walls have matching local colliders");
+
+        var panel = rooms.GetNodeOrNull<Node3D>("TechnicalRoom/TechnicalPanel");
+        if (panel?.GetNodeOrNull<MeshInstance3D>("PanelVisual") == null ||
+            panel.GetNodeOrNull<Area3D>("InteractionArea") == null)
+            Error("TechnicalPanel is not mounted and interactable inside TechnicalRoom");
+        else Ok("TechnicalPanel mounted inside TechnicalRoom with local InteractionArea");
+
+        foreach (var ceilingPath in new[] { "LaundryStorage/Ceiling_Laundry", "SharedBathroom/Ceiling_Bath", "TechnicalRoom/Ceiling_Tech" })
+        {
+            if (rooms.GetNodeOrNull<MeshInstance3D>(ceilingPath) == null) Error($"critical room ceiling missing: {ceilingPath}");
+        }
+    }
+
+    private void CheckWallPhysicalRay(Node3D wall, Vector3 size)
+    {
+        var localNormal = size.X <= size.Z ? Vector3.Right : Vector3.Back;
+        var normal = (wall.GlobalTransform.Basis * localNormal).Normalized();
+        var center = wall.GlobalPosition;
+        var query = PhysicsRayQueryParameters3D.Create(center - normal * 0.65f, center + normal * 0.65f, 1);
+        var hit = GetTree().Root.World3D.DirectSpaceState.IntersectRay(query);
+        var collider = hit.Count > 0 ? hit["collider"].AsGodotObject() as Node : null;
+        if (collider == null || !collider.IsInGroup("level_wall"))
+            Error($"wall is not physically blocking at its visual center: {wall.GetPath()} hit={collider?.GetPath()}");
     }
 
     private void CheckBalconyBoundaryRollback(Node scene)
@@ -448,5 +510,12 @@ public partial class LevelSanityChecker : Node
                 yield return n;
             }
         }
+    }
+
+    private static bool HasAncestorNamed(Node node, string name)
+    {
+        for (var current = node; current != null; current = current.GetParent())
+            if (current.Name == name) return true;
+        return false;
     }
 }

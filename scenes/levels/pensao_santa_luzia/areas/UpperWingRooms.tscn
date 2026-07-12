@@ -186,6 +186,8 @@ size = Vector3(1.6, 0.9, 0.08)
 size = Vector3(0.14, 1.3, 1.2)
 [sub_resource type="BoxShape3D" id="Shape41"]
 size = Vector3(0.14, 1.3, 1.2)
+[sub_resource type="BoxMesh" id="TechnicalPanelMesh"]
+size = Vector3(1.2, 1.3, 0.12)
 [sub_resource type="BoxMesh" id="Mesh42"]
 size = Vector3(1.2, 0.5, 0.7)
 [sub_resource type="BoxShape3D" id="Shape42"]
@@ -703,11 +705,6 @@ position = Vector3(10.5, 3.8, 1.2)
 mesh = SubResource("Mesh40")
 material_override = SubResource("MatStain")
 
-[node name="Prop_Tech_Panel" type="MeshInstance3D" parent="Props"]
-position = Vector3(3.2, 3.95, 5.2)
-mesh = SubResource("Mesh41")
-material_override = SubResource("MatStain")
-
 [node name="Prop_Tech_Table" type="MeshInstance3D" parent="Props"]
 position = Vector3(2.4, 3.2, 3.2)
 mesh = SubResource("Mesh42")
@@ -1028,15 +1025,19 @@ shape = SubResource("InteractSmall")
 script = ExtResource("7_wire")
 Mode = 0
 
-[node name="Interact_TechPanel" type="Node3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(3.2, 3.85, 4.85)
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_TechPanel"]
+[node name="TechnicalPanel" type="Node3D" parent="TechnicalRoom" groups=["interactable"]]
+position = Vector3(3.2, 3.95, 5.38)
+[node name="PanelVisual" type="MeshInstance3D" parent="TechnicalRoom/TechnicalPanel"]
+mesh = SubResource("TechnicalPanelMesh")
+material_override = SubResource("MatStain")
+[node name="InteractionArea" type="Area3D" parent="TechnicalRoom/TechnicalPanel"]
+position = Vector3(0, -0.1, -0.32)
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_TechPanel/InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/TechnicalPanel/InteractionArea"]
 shape = SubResource("InteractSmall")
-[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_TechPanel/InteractionArea"]
+[node name="UpperWingPuzzleInteraction" type="Node" parent="TechnicalRoom/TechnicalPanel/InteractionArea"]
 script = ExtResource("4_puzzle")
 Mode = 6
 
