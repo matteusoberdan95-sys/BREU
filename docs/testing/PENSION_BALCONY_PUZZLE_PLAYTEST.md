@@ -50,6 +50,20 @@
 | Escada / 2º andar | ☐ |
 | Sem inimigo/combat/chase | ☐ |
 
-## Bugs encontrados
+## Hotfix 17A — Porta verde no teto
 
-_Pendente F6._
+**Diagnóstico:** `Door_UpperBalcony` e `Door_UpperBlocked` somavam `SecondFloorTopY` no root **e** de novo no `panelCenterY` / Area3D → painel e prompt ~Y 6,6 (teto).
+
+**Correção:**
+- Porta recreada com root no piso do 2º andar; painel/Area em Y local (padrão depósito).
+- Area3D na altura do peito (~1,45 m local), à frente da porta (corredor).
+- `Marker_UpperBalconyDoor_Position` no vão.
+- Porta cinza da direita também corrigida (mesmo bug de Y).
+- Prompt: *Tentar abrir varanda* olhando reto; não no teto.
+
+| Check | Resultado |
+|-------|-----------|
+| Porta verde visível na altura certa | ☐ F6 |
+| Prompt olhando reto | ☐ F6 |
+| Prompt não no teto | ☐ F6 |
+| Destravar → passagem | ☐ F6 |

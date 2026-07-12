@@ -11,8 +11,13 @@ Dar motivo para explorar a Pensão após o fusível: a porta verde deixa de ser 
 
 - Nó: `Door_UpperBalcony` + `Door_UpperBalcony_Blocker`
 - Script: `BlockoutBalconyDoor`
+- **Deve ficar no 2º andar, no vão sul do corredor, na altura do player** — nunca no teto.
+- Root no piso do 2º andar; painel/colisão/Area usam Y **local** (não somar `SecondFloorTopY` duas vezes).
 - Sem chave: prompt *Tentar abrir varanda*
 - Com chave: *Destravar varanda* → painel some + colisão desativa (padrão depósito)
+- Marker: `Marker_UpperBalconyDoor_Position`
+
+**17A:** porta bugada no teto removida/recriada; parede do vão = frames + header (não preencher o vão com parede sólida).
 
 ## Nota da proprietária
 

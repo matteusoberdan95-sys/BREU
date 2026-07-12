@@ -2,6 +2,7 @@ namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
 /// Sprint 14Z — simple opaque door blockers without frames or prefabs.
+/// Sprint 17A — balcony door uses floor-local panel Y (never double-add second-floor height).
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder
 {
@@ -31,6 +32,8 @@ public partial class PensaoTerreoBlockout01Builder
         };
         parent.AddChild(root);
 
+        // floorTopY is relative to the door root (deposit: root≈0, floorTopY=0).
+        // Do NOT pass SecondFloorTopY here if the root is already at second-floor height.
         var panelCenterY = floorTopY + DoorHeight * 0.5f - WallEmbedBelowFloor;
         var panelPos = new Vector3(panelOffsetX, panelCenterY, BlockerStandoffZ);
 
@@ -61,7 +64,7 @@ public partial class PensaoTerreoBlockout01Builder
         var area = new Area3D
         {
             Name = "InteractionArea",
-            Position = panelPos + new Vector3(0f, 0f, -0.26f),
+            Position = new Vector3(panelOffsetX, 1.45f, BlockerStandoffZ - 0.35f),
             CollisionLayer = InteractableLayer,
             CollisionMask = 0,
             Monitoring = false
@@ -71,9 +74,9 @@ public partial class PensaoTerreoBlockout01Builder
             Shape = new BoxShape3D
             {
                 Size = new Vector3(
-                    Mathf.Max(0.5f, openingWidth - 0.2f),
-                    Mathf.Max(1.0f, DoorHeight - 0.3f),
-                    0.55f)
+                    Mathf.Max(0.5f, openingWidth - 0.15f),
+                    1.2f,
+                    0.6f)
             }
         };
         area.AddChild(interactShape);
@@ -143,24 +146,29 @@ public partial class PensaoTerreoBlockout01Builder
         return root;
     }
 
+    /// <summary>
+    /// Sprint 17/17A — green balcony door. worldFloorTopY = second-floor slab top.
+    /// Root sits on that floor; panel/Area use local Y only (no double floor height).
+    /// </summary>
     protected BlockoutBalconyDoor AddBalconyDoorBlocker(
         Node3D parent,
         string rootName,
         string blockerName,
-        Vector3 worldPosition,
+        Vector3 worldXz,
         float openingWidth,
         StandardMaterial3D panelMaterial,
-        float floorTopY = 0f,
+        float worldFloorTopY,
         float panelOffsetX = 0f)
     {
         var root = new BlockoutBalconyDoor
         {
             Name = rootName,
-            Position = worldPosition
+            Position = new Vector3(worldXz.X, worldFloorTopY - WallEmbedBelowFloor, worldXz.Z)
         };
         parent.AddChild(root);
 
-        var panelCenterY = floorTopY + DoorHeight * 0.5f - WallEmbedBelowFloor;
+        // Local to floor root — same pattern as ground-floor deposit door.
+        var panelCenterY = DoorHeight * 0.5f - WallEmbedBelowFloor;
         var panelPos = new Vector3(panelOffsetX, panelCenterY, BlockerStandoffZ);
 
         var panel = new MeshInstance3D
@@ -187,26 +195,33 @@ public partial class PensaoTerreoBlockout01Builder
         body.AddChild(blockShape);
         root.AddChild(body);
 
+        // Chest-height interact volume toward corridor (local -Z), not ceiling.
         var area = new Area3D
         {
             Name = "InteractionArea",
-            Position = panelPos + new Vector3(0f, 0f, -0.26f),
+            Position = new Vector3(panelOffsetX, 1.45f, BlockerStandoffZ - 0.38f),
             CollisionLayer = InteractableLayer,
             CollisionMask = 0,
-            Monitoring = false
+            Monitoring = false,
+            Monitorable = true
         };
         var interactShape = new CollisionShape3D
         {
             Shape = new BoxShape3D
             {
                 Size = new Vector3(
-                    Mathf.Max(0.5f, openingWidth - 0.2f),
-                    Mathf.Max(1.0f, DoorHeight - 0.3f),
-                    0.55f)
+                    Mathf.Max(0.55f, openingWidth - 0.1f),
+                    1.15f,
+                    0.65f)
             }
         };
         area.AddChild(interactShape);
         root.AddChild(area);
+
+        GD.Print(
+            $"[BalconyDoor] Created {rootName} root={root.Position} " +
+            $"panelLocal={panelPos} areaLocal={area.Position} " +
+            $"worldPanelY≈{root.Position.Y + panelPos.Y:0.00}");
 
         return root;
     }

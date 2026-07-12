@@ -9,6 +9,8 @@ using BREU.Scripts.Narrative;
 public partial class PensaoBalconyPuzzleSetup : Node
 {
     private const uint InteractableLayer = 2;
+    /// <summary>Panel center should be ~3.9; anything above ~5.5 means ceiling bug returned.</summary>
+    private const float SecondFloorSanityMaxY = 5.2f;
 
     public override void _Ready()
     {
@@ -35,6 +37,20 @@ public partial class PensaoBalconyPuzzleSetup : Node
         }
 
         balcony.Initialize(state, balconyDoor);
+
+        var area = balconyDoor.GetNodeOrNull<Area3D>("InteractionArea");
+        var panel = balconyDoor.GetNodeOrNull<MeshInstance3D>("Door_UpperBalcony_Blocker");
+        GD.Print(
+            $"[BalconyPuzzle] Door_UpperBalcony global={balconyDoor.GlobalPosition} " +
+            $"panelLocal={panel?.Position} areaLocal={area?.Position} " +
+            $"areaGlobal={area?.GlobalPosition}");
+
+        if (balconyDoor.GlobalPosition.Y > SecondFloorSanityMaxY ||
+            (area != null && area.GlobalPosition.Y > SecondFloorSanityMaxY))
+        {
+            GD.PushError(
+                "[BalconyPuzzle] Door/Area still above expected second-floor height — check Y layout.");
+        }
 
         var host = interactions.GetNodeOrNull<Node3D>("BalconyPuzzleItems")
             ?? new Node3D { Name = "BalconyPuzzleItems" };

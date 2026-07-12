@@ -34,6 +34,7 @@
 | Sprint 16D | **✅ Aprovada** — cadência 0,64/0,36 + cooldown anti-duplo |
 | Sprint 16E | **✅ Aprovada** — respiração normal + panting |
 | Sprint 17 | **🔄 Implementada** — puzzle varanda + ala superior (sem inimigo); F6 pendente |
+| Sprint 17A | **🔄 Hotfix** — porta verde reposicionada (estava no teto) |
 
 ---
 
@@ -260,3 +261,10 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Design:** `docs/design/PENSION_BALCONY_PUZZLE_DESIGN.md`  
 **Playtest:** `docs/testing/PENSION_BALCONY_PUZZLE_PLAYTEST.md`  
 **Interação:** `docs/technical/PENSION_INTERACTION_BASELINE.md`
+
+### Sprint 17A — Hotfix porta verde (posição)
+
+**Status:** 🔄 Aplicada — validar no F6  
+**Causa:** Y do painel/Area somava altura do 2º andar duas vezes → porta/prompt no teto.  
+**Fix:** root no piso; painel/Area locais; Area na altura do peito; marker no vão.  
+Sprint 17 ainda depende de validação completa da varanda/ala.
