@@ -35,6 +35,7 @@
 | Sprint 16E | **✅ Aprovada** — respiração normal + panting |
 | Sprint 17 | **🔄 Implementada** — puzzle varanda + ala superior (sem inimigo); F6 pendente |
 | Sprint 17A | **🔄 Hotfix** — porta verde reposicionada (estava no teto) |
+| Sprint 17B | **🔄 Hotfix** — porta única + varanda real conectada |
 
 ---
 

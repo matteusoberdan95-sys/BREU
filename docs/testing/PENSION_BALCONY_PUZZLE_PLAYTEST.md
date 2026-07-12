@@ -50,20 +50,22 @@
 | Escada / 2º andar | ☐ |
 | Sem inimigo/combat/chase | ☐ |
 
-## Hotfix 17A — Porta verde no teto
+## Hotfix 17B — Acesso único + varanda real
 
-**Diagnóstico:** `Door_UpperBalcony` e `Door_UpperBlocked` somavam `SecondFloorTopY` no root **e** de novo no `panelCenterY` / Area3D → painel e prompt ~Y 6,6 (teto).
+**Problemas:**
+- Porta marrom `Door_UpperBlocked` duplicava o vão e pedia outra chave.
+- `Wall_Second_Front` sólida fechava a caixa atrás da porta verde (sem varanda).
 
-**Correção:**
-- Porta recreada com root no piso do 2º andar; painel/Area em Y local (padrão depósito).
-- Area3D na altura do peito (~1,45 m local), à frente da porta (corredor).
-- `Marker_UpperBalconyDoor_Position` no vão.
-- Porta cinza da direita também corrigida (mesmo bug de Y).
-- Prompt: *Tentar abrir varanda* olhando reto; não no teto.
+**Correções:**
+- Removida porta marrom / prompt *Tentar abrir porta* do vão da varanda.
+- Porta verde única, largura total do vão.
+- Gap em `Wall_Second_Front` + piso externo até `BalconyOuterZ` + guarda-corpos.
+- Corredor curto `UpperBalconyWing_Corridor` com entrada limpa; stub trancado no fim.
+- Trigger presença movido para Z≈−16,5 (longe da porta).
 
 | Check | Resultado |
 |-------|-----------|
-| Porta verde visível na altura certa | ☐ F6 |
-| Prompt olhando reto | ☐ F6 |
-| Prompt não no teto | ☐ F6 |
-| Destravar → passagem | ☐ F6 |
+| Uma só porta no vão | ☐ F6 |
+| Destravar → varanda externa | ☐ F6 |
+| Guarda-corpo / sem limbo | ☐ F6 |
+| Prompt presença longe da porta | ☐ F6 |

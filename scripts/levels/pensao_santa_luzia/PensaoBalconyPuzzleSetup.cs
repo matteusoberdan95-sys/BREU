@@ -165,7 +165,7 @@ public partial class PensaoBalconyPuzzleSetup : Node
         CreateSimpleNote(
             parent,
             "Interact_Room203_Note",
-            new Vector3(3.35f, 3.85f, -6.25f),
+            new Vector3(3.6f, 3.85f, -4.8f),
             "Ler bilhete",
             "Ele disse que ouviu alguém andando no teto. Ninguém acreditou.",
             "room_203_note",
@@ -174,7 +174,7 @@ public partial class PensaoBalconyPuzzleSetup : Node
         CreateSimpleNote(
             parent,
             "Interact_OwnerLedger",
-            new Vector3(4.4f, 3.9f, -7.05f),
+            new Vector3(4.6f, 3.9f, -5.4f),
             "Examinar caderno",
             "Os nomes dos hóspedes terminam no mesmo dia. Depois disso, só há páginas rasgadas.",
             "owner_ledger",

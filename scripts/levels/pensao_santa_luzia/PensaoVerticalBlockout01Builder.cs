@@ -788,40 +788,26 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "Há marcas de arrasto no chão.",
             "room_202");
 
-        const float halfPanel = (DoorWidth - 0.1f) * 0.5f;
         var doorZ = BlockedDoorZ - 0.05f;
-        var floorAnchorY = SecondFloorTopY - WallEmbedBelowFloor;
 
-        // Marker at floor center of the green bay (player-facing height reference).
+        // Sprint 17B: single full-width green balcony door — no brown Door_UpperBlocked twin.
         _secondFloor.AddChild(new Marker3D
         {
             Name = "Marker_UpperBalconyDoor_Position",
-            Position = new Vector3(-0.35f, SecondFloorTopY, doorZ)
+            Position = new Vector3(0f, SecondFloorTopY, doorZ)
         });
 
-        // Sprint 17A: root on second-floor slab; floorTopY local = 0 (do NOT pass SecondFloorTopY).
         AddBalconyDoorBlocker(
             _secondFloor,
             "Door_UpperBalcony",
             "Door_UpperBalcony_Blocker",
-            new Vector3(-0.35f, 0f, doorZ),
-            halfPanel,
+            new Vector3(0f, 0f, doorZ),
+            DoorWidth - 0.05f,
             _matDoorBalcony,
             worldFloorTopY: SecondFloorTopY,
             panelOffsetX: 0f);
 
-        var blockedDoor = AddLockedDoorBlocker(
-            _secondFloor,
-            "Door_UpperBlocked",
-            "Door_UpperBlocked_Blocker",
-            new Vector3(0.35f, floorAnchorY, doorZ),
-            halfPanel,
-            _matDoor,
-            "Tentar abrir porta",
-            "Está trancada por dentro.",
-            floorTopY: 0f,
-            panelOffsetX: 0f);
-        blockedDoor.NarrativeFollowUpEventId = PensionNarrativeEvents.EventLockedDoorHint;
+        GD.Print("[BalconyAccess] Single Door_UpperBalcony only (Door_UpperBlocked removed).");
     }
 
     private void BuildSecondFloorNarrativeInteractions()

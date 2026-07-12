@@ -41,7 +41,7 @@ public partial class BlockoutBalconyDoor : Node3D, IInteractable
         var hud = HUDController.FindActive(GetTree());
         if (!_state.HasBalconyKey)
         {
-            hud?.ShowMessage("A porta está emperrada. Falta alguma coisa para destravar por dentro.", 3.0f);
+            hud?.ShowMessage("A porta está emperrada. Preciso encontrar a chave certa.", 3.0f);
             if (!_hintFired)
             {
                 _hintFired = true;

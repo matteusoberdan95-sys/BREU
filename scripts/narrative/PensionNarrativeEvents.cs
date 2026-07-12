@@ -123,7 +123,7 @@ public partial class PensionNarrativeEvents : Node
             new Vector3(-2.2f, 4.0f, -21.0f), new Vector3(3.2f, 2.4f, 2.8f));
 
         AddTrigger(host, "Trigger_UpperCorridor_Presence", EventUpperPresence,
-            new Vector3(0f, 4.0f, -13.5f), new Vector3(2.2f, 2.4f, 2.4f));
+            new Vector3(0f, 4.0f, -16.5f), new Vector3(2.0f, 2.2f, 1.8f));
     }
 
     private void AddTrigger(Node3D parent, string name, string eventId, Vector3 position, Vector3 size)
