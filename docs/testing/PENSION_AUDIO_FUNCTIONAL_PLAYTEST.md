@@ -1,8 +1,7 @@
-# Playtest funcional — Áudio Pensão (Sprint 16B–16D)
+# Playtest funcional — Áudio Pensão (Sprint 16B–16E)
 
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
-**Data:** 2026-07-12  
-**Objetivo 16D:** caminhada lenta/espaçada; corrida mais rápida no mesmo banco; sem duplo trigger; sem sequence/run bank.
+**Data:** 2026-07-12
 
 ---
 
@@ -10,54 +9,58 @@
 
 | Check | Esperado | Resultado |
 |-------|----------|-----------|
-| F7 ON | Logs `[Footstep] state=… surface=… interval=… sample=…` | ☐ |
-| Walk | `interval=0.64`, sample `player_footstep_*` | ☐ |
-| Run | `interval=0.36`, **mesmo** prefixo de sample da superfície | ☐ |
-| Run nunca loga | `player_run_step` / `*_sequence` | ☐ |
-| Tecla 4 | Preview run da superfície atual | ☐ |
+| F7 ON | Logs Footstep + Breathing | ☐ |
+| Teclas 2–4 | Passos wood/dirt/run superfície | ☐ |
+| Tecla 9 | One-shot `player_breath_heavy_*` | ☐ |
+| Tecla 0 | Alterna panting de teste | ☐ |
+| F10 / F11 | Intactos | ☐ |
 
 ---
 
-## Exterior / terra
-
-| Check | Esperado | Resultado |
-|-------|----------|-----------|
-| Andar | dirt/gravel, cadência lenta (~0,64 s) | ☐ |
-| Correr | mesmos samples dirt, cadência ~0,36 s | ☐ |
-| Sem embolar / duplo disparo | Um passo por intervalo | ☐ |
-| Sem `player_run_step_*` | Confirmado no log | ☐ |
-
-## Interior / madeira
-
-| Check | Esperado | Resultado |
-|-------|----------|-----------|
-| Andar | wood, ~0,64 s | ☐ |
-| Correr | mesmos wood, ~0,36 s | ☐ |
-| Escada / 2º | wood | ☐ |
-| Sem duplo / sequence | ☐ | ☐ |
-
-## Geral / regressão
+## Passos (16D) — resumo
 
 | Check | Resultado |
 |-------|-----------|
-| Parado / no ar sem passos | ☐ |
-| Crouch mais baixo/lento | ☐ |
-| Gotas / ambience / eventos / lanterna / HUD | ☐ |
-| PlayerController não alterado | ☐ |
+| Terra walk/run mesmo banco, cadência 0,64 / 0,36 | ☐ |
+| Madeira walk/run mesmo banco | ☐ |
+| Sem `player_run_step_*` / sequence | ☐ |
+| Terra pode ser refinada depois (nota) | — |
 
 ---
 
-## Auditoria de sistemas
+## Sprint 16E — Player breathing
 
-| Sistema | Status |
-|---------|--------|
-| `PlayerFootstepAudio` | **Único** responsável pelos passos do player |
-| Head bob / outro Footstep* | Não dispara áudio de passos |
-| `*_sequence` / `player_run_step_*` | No disco, não wired |
+**Volumes alvo:** normal −32 dB; panting −18 / −14 low stamina; one-shot −16 dB.
 
-## Aprovação 16D
+| Check | Esperado | Resultado |
+|-------|----------|-----------|
+| Parado / silêncio | Respiração bem baixa | ☐ |
+| Andar | Sutil; não cobre passos | ☐ |
+| Correr ≥ 2 s | Panting fade-in audível | ☐ |
+| Parar após corrida | Panting 2–5 s depois fade-out | ☐ |
+| Stamina &lt; 35% | Panting mais intenso | ☐ |
+| One-shot | Fim de corrida longa / tecla 9; sem spam | ☐ |
+| Não irrita em loop | ☐ | ☐ |
 
-- [ ] Walk mais lento que no vídeo 16C
-- [ ] Run claramente mais rápido que Walk, mesmo timbre
-- [ ] Sem duplo disparo
-- [ ] Sem sequence / run bank
+### Bugs encontrados (16E)
+
+_Pendente F6 do usuário._
+
+---
+
+## Regressão
+
+| Check | Resultado |
+|-------|-----------|
+| Movimento / sprint / stamina / crouch / head bob | ☐ |
+| Passos terra/madeira | ☐ |
+| Gotas / ambience / eventos / HUD / lanterna | ☐ |
+| Fog / puzzle | ☐ |
+| PlayerController não alterado | ☐ |
+
+## Aprovação 16E
+
+- [ ] Respiração normal audível e sutil
+- [ ] Panting ao correr ≥ 2 s
+- [ ] Recover com fade
+- [ ] Sem alterar gameplay

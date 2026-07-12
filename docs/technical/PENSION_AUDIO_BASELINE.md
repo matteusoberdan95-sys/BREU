@@ -1,7 +1,7 @@
 # Baseline — Áudio ambiente (Pensão) v2.1
 
-**Versão:** 2.3  
-**Sprint:** 16 / 16B / 16C / 16D  
+**Versão:** 2.4  
+**Sprint:** 16 / 16B–16E  
 **Data:** 2026-07-12  
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Pack:** `assets/audio/pensao/` (v2)
@@ -16,6 +16,7 @@
 | `AmbienceZone3D` | `Area3D` mask player 16; sem colisão física |
 | `SurfaceAudioZone3D` | Tipo de superfície (Wood / DirtGravel) para passos |
 | `PlayerFootstepAudio` | Passos do player (audio-only; lê Velocity / IsOnFloor / sprint / crouch) |
+| `PlayerBreathingAudio` | Respiração normal + panting (audio-only; lê sprint/stamina/speed) |
 | `RandomOneShotEmitter3D` | Gotas one-shot aleatórias no depósito/cozinha |
 | `OneShotAudioTrigger3D` | Trigger espacial opcional |
 | Buses | Master / Ambience / SFX / UI (`default_bus_layout.tres`) |
@@ -30,11 +31,11 @@
 2. Usar arquivo real se existir (sem placeholder).
 3. Crossfade 1,0–2,5 s; prioridade deposit > second_floor > stairwell > corridor > reception > exterior.
 4. Volumes conservadores; sem jumpscare alto.
-5. **Áudio do player não altera movimento** — `PlayerFootstepAudio` só lê estado; nunca escreve `Velocity` / `Position` / stamina / câmera.
-6. Passos wired (16B). Cadência + superfície (16C). Cadência definitiva + anti-duplo (16D). Respiração **não wired**.
-7. F7 = Audio Debug Mode; teclas 1–8 testam grupos sem depender da rota.
+5. **Áudio do player não altera movimento** — `PlayerFootstepAudio` / `PlayerBreathingAudio` só leem estado; nunca escrevem `Velocity` / `Position` / stamina / câmera.
+6. Passos (16B–16D). Respiração wired (16E).
+7. F7 = Audio Debug; teclas 1–8 SFX; **9** breath one-shot; **0** toggle panting teste.
 8. Corrida usa o mesmo banco da superfície; `player_run_step_*` e `*_sequence` **não** são usados como footstep.
-9. **Um único sistema** toca passos do player: `PlayerFootstepAudio` (sem head-bob trigger).
+9. **Um único sistema** toca passos: `PlayerFootstepAudio`. Respiração: `PlayerBreathingAudio`.
 
 ---
 
@@ -84,6 +85,20 @@ Bancos:
 - Fallback → Wood
 
 Com F7 ON: `[Footstep] state=… surface=… interval=… sample=…`
+
+## Respiração — Sprint 16E
+
+`PlayerBreathingAudio` no Player (bus **SFX**, `AudioStreamPlayer` 2D).
+
+| Camada | Asset | Volume | Gatilho |
+|--------|-------|--------|---------|
+| Normal loop | `player_breath_heavy_loop` | −32 dB (walk −30) | Sempre (vivo) |
+| Panting loop | `player_panting_loop` | −18 / −14 low stamina | Sprint ≥ 2 s; recover 2–5 s |
+| One-shots | `player_breath_heavy_01`…`04` | −16 dB | Fim de corrida longa / low stamina / debug 9 |
+
+Fade in panting ~1,2 s; fade out ~3 s. Não altera `PlayerController` / stamina.
+
+Com F7 ON: `[Breathing] state=…`
 
 ---
 

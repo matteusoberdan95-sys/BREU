@@ -41,10 +41,12 @@
 | Corrida | `player_run_step_01`…`12` | Reservado (chase/pânico futuro) | Presente / **não usado** (16C) |
 | Sequences | `player_footsteps_*_sequence`, `player_running_sequence` | Reserva — **proibido** como footstep individual | Presente / **não usado** (16D) |
 
-## Respiração — sprint futura (cadastrados, não wired)
+## Respiração — wired (Sprint 16E)
 
-| Grupo | Arquivos | Status |
-|-------|----------|--------|
-| Respiração | `player_breath_heavy_loop`, `_01`…`04`, `player_panting_loop` | Presente / preparado |
+| Arquivo | Uso | Status |
+|---------|-----|--------|
+| `player_breath_heavy_loop.ogg` | Base sutil | Presente / usado |
+| `player_panting_loop.ogg` | Sprint ≥2s + recover | Presente / usado |
+| `player_breath_heavy_01`…`04.ogg` | One-shots ocasionais | Presente / usado |
 
-**Assets faltantes (runtime obrigatório):** nenhum dos loops/one-shots/passos wired.
+**Assets faltantes (runtime obrigatório):** nenhum dos loops/one-shots/passos/respiração wired.

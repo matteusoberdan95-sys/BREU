@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-12  
-**Fase:** REBOOT GREENFIELD — Sprint 16D (cadência definitiva dos passos); F6 pendente  
+**Fase:** REBOOT GREENFIELD — Sprint 16E (respiração do player); F6 pendente  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---

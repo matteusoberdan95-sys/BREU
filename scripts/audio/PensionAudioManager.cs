@@ -63,6 +63,12 @@ public partial class PensionAudioManager : Node
                 footsteps.DebugLoggingEnabled = _audioDebugMode;
             }
 
+            var breathing = PlayerBreathingAudio.Find(GetTree());
+            if (breathing != null)
+            {
+                breathing.DebugLoggingEnabled = _audioDebugMode;
+            }
+
             GD.Print($"[AudioDebug] Mode {state}");
             HUDController.FindActive(GetTree())?.ShowMessage($"Audio Debug {state} (F7)", 2.0f);
             GetViewport().SetInputAsHandled();
@@ -106,6 +112,14 @@ public partial class PensionAudioManager : Node
             case Key.Key8:
                 PlayOneShot("distant_knock_01", -11f);
                 GD.Print("[AudioDebug] Playing: distant_knock_01");
+                break;
+            case Key.Key9:
+                PlayerBreathingAudio.Find(GetTree())?.DebugPlayHeavyOneShot();
+                GD.Print("[AudioDebug] Playing: player_breath_heavy one-shot");
+                break;
+            case Key.Key0:
+                PlayerBreathingAudio.Find(GetTree())?.DebugTogglePanting();
+                GD.Print("[AudioDebug] Toggle panting loop test");
                 break;
             default:
                 return;
