@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/narrative/PensionNarrativeEvents.cs" id="7_narrative"]
 [ext_resource type="Script" path="res://scripts/audio/PensionAudioManager.cs" id="8_audio"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
+[ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
 
 [sub_resource type="Environment" id="Environment_pensao"]
 background_mode = 1
@@ -46,6 +47,9 @@ script = ExtResource("8_audio")
 
 [node name="LevelSanityChecker" type="Node" parent="."]
 script = ExtResource("9_sanity")
+
+[node name="UpperFloorCollisionProbe" type="Node" parent="."]
+script = ExtResource("10_floor_probe")
 
 [node name="World" type="Node3D" parent="."]
 

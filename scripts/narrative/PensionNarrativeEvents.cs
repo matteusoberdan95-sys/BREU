@@ -46,7 +46,7 @@ public partial class PensionNarrativeEvents : Node
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event is InputEventKey { Pressed: true, Keycode: Key.F8, Echo: false })
+        if (@event is InputEventKey { Pressed: true, Keycode: Key.F8, CtrlPressed: true, Echo: false })
         {
             ResetAllEvents();
             HUDController.FindActive(GetTree())?.ShowMessage("Eventos narrativos resetados (F8).", 2.5f);

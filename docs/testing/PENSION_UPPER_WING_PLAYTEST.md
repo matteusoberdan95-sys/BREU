@@ -20,6 +20,36 @@
 Cômodos 204 / banheiro coletivo / rouparia / gerador / 205 foram **removidos provisoriamente** da `UpperWingExpansion` (18C) para limpar a rota. Reintroduzir só depois da cena passar F9 + F6 limpos.
 # Hotfix — queda na direita da laje superior
 
+## Hotfix — laje ainda falhava na direita
+
+O playtest confirmou que o piso preliminar de `X=-1,7..6,8` ainda era insuficiente. O F8 `UpperFloorCollisionProbe` foi criado para imprimir posição do player, collider inferior, transform, AABB, mesh, shape, layer e mask, além de testar todos os markers.
+
+- coordenadas globais finais: `X=-2,70..9,00`, `Y topo=2,80`, `Z=-5,80..3,60`;
+- centro global: `(3,15; 2,65; -1,10)`;
+- MeshInstance3D: `11,7 × 0,30 × 9,4 m`;
+- CollisionShape3D: `11,7 × 0,30 × 9,4 m`;
+- layer/mask: `1/1`;
+- parent `UpperWing_Extension`: identidade, sem rotação/escala;
+- `UpperWing_SolidFloor`: sem rotação e escala global `(1,1,1)`.
+
+Raycasts automáticos ao carregar a cena:
+
+- [x] Start → `UpperWing_SolidFloor`
+- [x] Center → `UpperWing_SolidFloor`
+- [x] Right → `UpperWing_SolidFloor`
+- [x] FarRight (`X=8,5`) → `UpperWing_SolidFloor`
+- [x] Left → `UpperWing_SolidFloor`
+- [x] End → `UpperWing_SolidFloor`
+
+Topo da escada: auditoria estática encontrou somente sólidos gerados por `AddWall/AddSolid`, com mesh e collider pareados. Nenhum collider órfão foi removido sem evidência do probe. O teste manual da passagem continua obrigatório.
+
+O limite norte `Z=-5,8` encosta exatamente no piso principal funcional do segundo andar; a sobreposição anterior com esse slab foi removida.
+
+- [ ] F8 no ponto real antes da antiga queda
+- [ ] percurso manual direita/esquerda/diagonais
+- [ ] topo da escada sem contato invisível
+- [ ] confirmação final: player não cai mais
+
 ## Diagnóstico — queda para a direita da laje superior
 
 - ponto aproximado: lateral direita da área aberta, além de `X=1,7`;

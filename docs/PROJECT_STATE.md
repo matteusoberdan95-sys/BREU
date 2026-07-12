@@ -372,3 +372,7 @@ Toda alteração de cenário deve seguir `.cursor/rules/level-geometry-guardrail
 Nenhuma sprint passa com queda no limbo/direita/esquerda, piso sem colisão, duplicata, builder antigo, invasão entre andares, prompt fantasma ou collider sem função.
 
 Estado do hotfix: a mureta foi removida; pisos parciais concorrentes foram substituídos por um único `UpperWing_SolidFloor` de cobertura integral. A próxima sprint só pode criar cômodos após validação F6 completa do piso.
+
+## Hotfix definitivo da laje superior
+
+O estado anterior falhou no playtest ao andar para a direita. O piso oficial foi ampliado para `X=-2,7..9,0` e `Z=-5,8..3,6`, com mesh/BoxShape idênticos e layer/mask `1/1`; ele encosta sem sobrepor o piso principal do segundo andar. `UpperFloorCollisionProbe` usa F8 e valida Start/Center/Right/FarRight/Left/End. A laje só será aprovada após o teste manual direito/esquerdo/diagonais. `AGENTS.md` e as regras Cursor são obrigatórios.
