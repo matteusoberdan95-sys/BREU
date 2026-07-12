@@ -46,6 +46,23 @@ Proibido:
 Volumes lógicos: `FirstFloorVolume`, `SecondFloorVolume`, `UpperWingVolume`.
 Debug: F8 `PlayerAreaProbe`, F9 `FloorTriggerIsolationChecker` / `LevelSanityChecker`.
 
+## Regra da varanda aprovada
+
+A navegação da varanda foi aprovada.
+
+É proibido:
+- alterar UpperWing_CollisionDeck sem pedido explícito;
+- recriar o chão da varanda;
+- criar boundary global visual;
+- criar mureta genérica;
+- criar parede visual gigante;
+- criar collider que atravesse dois andares;
+- criar collider que afete o térreo.
+
+Paredes da varanda só podem receber colliders finos, invisíveis, alinhados às paredes visíveis existentes (`BalconyWallCollider_Left` / `_Right` / `_FrontGuard`).
+
+Antes de qualquer expansão de cômodos, a varanda precisa continuar andável, sem queda, sem teleporte, sem travamento e com paredes bloqueando o player.
+
 ## Regra anti-acúmulo
 
 Antes de nova versão, remover geometria, colliders, prompts, builders e nodes duplicados antigos. Não esconder lixo; remover lixo.

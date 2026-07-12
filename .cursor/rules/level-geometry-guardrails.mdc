@@ -36,6 +36,29 @@ Estas regras são obrigatórias para Cursor antes de qualquer alteração de cen
 21. Nenhum trigger/Area3D/DebugFallRecovery do segundo andar pode afetar o player no primeiro andar.
 22. Não criar boundary global / mureta / rail de varanda inteira; paredes virão dos cômodos.
 23. DebugFallRecovery só pode ativar abaixo de KillY real (void), nunca no corredor/recepção.
+24. Não alterar UpperWing_CollisionDeck sem pedido explícito; colliders de parede da varanda devem ser finos e invisíveis (`BalconyWallCollider_*`).
+
+## Regra da varanda aprovada
+
+A navegação da varanda foi aprovada.
+
+É proibido:
+- alterar UpperWing_CollisionDeck sem pedido explícito;
+- recriar o chão da varanda;
+- criar boundary global visual;
+- criar mureta genérica;
+- criar parede visual gigante;
+- criar collider que atravesse dois andares;
+- criar collider que afete o térreo.
+
+Paredes da varanda só podem receber colliders finos, invisíveis, alinhados às paredes visíveis existentes.
+
+Antes de qualquer expansão de cômodos, a varanda precisa continuar:
+- andável;
+- sem queda;
+- sem teleporte;
+- sem travamento;
+- com paredes bloqueando o player.
 
 ## Regra de isolamento por andar
 

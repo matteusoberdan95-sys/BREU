@@ -93,14 +93,35 @@ public partial class FloorTriggerIsolationChecker : Node
     {
         var deck = scene.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/UpperWing_CollisionDeck");
         var body = deck?.GetNodeOrNull<StaticBody3D>("StaticBody3D");
-        var shape = deck?.GetNodeOrNull<CollisionShape3D>("StaticBody3D/CollisionShape3D");
+        var shapeNode = deck?.GetNodeOrNull<CollisionShape3D>("StaticBody3D/CollisionShape3D");
+        var shape = shapeNode?.Shape as BoxShape3D;
         if (deck == null || body == null || shape == null || !body.IsInsideTree())
         {
             Error("UpperWing_CollisionDeck missing or inactive");
             return;
         }
 
-        GD.Print("[FloorIsolation] OK: UpperWing_CollisionDeck active");
+        if (deck.Position != new Vector3(5f, 2.4f, 4.6f) ||
+            shape.Size != new Vector3(50f, 0.8f, 30.8f) ||
+            body.CollisionLayer != 1 ||
+            body.CollisionMask != 0)
+        {
+            Error("UpperWing_CollisionDeck was altered (approved deck must stay frozen)");
+            return;
+        }
+
+        GD.Print("[FloorIsolation] OK: UpperWing_CollisionDeck active and unchanged");
+
+        foreach (var name in new[]
+                 {
+                     "BalconyWallCollider_Left", "BalconyWallCollider_Right", "BalconyWallCollider_FrontGuard"
+                 })
+        {
+            if (scene.FindChild(name, recursive: true, owned: false) == null)
+            {
+                Error($"missing thin balcony wall collider: {name}");
+            }
+        }
     }
 
     private void CheckFloorVolumes(Node scene)

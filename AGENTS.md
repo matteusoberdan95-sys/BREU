@@ -14,6 +14,28 @@ Compilar não aprova.
 Cena carregar não aprova.
 Só aprova com playtest manual.
 
+## Regra da varanda aprovada
+
+A navegação da varanda foi aprovada.
+
+É proibido:
+- alterar UpperWing_CollisionDeck sem pedido explícito;
+- recriar o chão da varanda;
+- criar boundary global visual;
+- criar mureta genérica;
+- criar parede visual gigante;
+- criar collider que atravesse dois andares;
+- criar collider que afete o térreo.
+
+Paredes da varanda só podem receber colliders finos, invisíveis, alinhados às paredes visíveis existentes (`BalconyWallCollider_*`).
+
+Antes de qualquer expansão de cômodos, a varanda precisa continuar:
+- andável;
+- sem queda;
+- sem teleporte;
+- sem travamento;
+- com paredes bloqueando o player.
+
 REGRA BLOQUEANTE: compilar não é aprovação e carregar a cena não é aprovação. Só aprova se o player não cair no limbo, não atravessar teto pulando, andar para direita/esquerda/frente/trás/diagonais na laje, não ficar preso em parede e não encontrar piso visual sem colisão.
 
 ATENÇÃO: nenhuma task de cenário pode ser concluída se o player cair no limbo/direita, existir parede atravessando escada, collider invisível sem função, piso visual sem colisão, duplicata velha ou builder recriando geometria. Teste manual é obrigatório; compilar não é aprovação.

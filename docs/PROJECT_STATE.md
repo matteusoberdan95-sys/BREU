@@ -1,5 +1,9 @@
 # BREU — Estado do projeto
 
+## Hotfix final — paredes da varanda
+
+Varanda navegável aprovada; teleporte térreo → segundo andar corrigido. Colliders finos invisíveis adicionados em `BalconyWallColliders` (`Left` / `Right` / `FrontGuard`) sem alterar `UpperWing_CollisionDeck`. Próxima sprint liberada após playtest: construção dos cômodos claustrofóbicos da ala superior.
+
 ## Hotfix — varanda limpa + isolamento do térreo
 
 Boundary global da varanda (`BalconyBoundaryColliders` e filhos) removida; `UpperWing_CollisionDeck` permanece como chão navegável. O teleporte térreo → segundo andar vinha de `DebugFallRecovery` tratando o corredor como queda da laje; agora só ativa abaixo de KillY (`-3`). Regra de isolamento por andar documentada. Próxima sprint de cômodos/puzzle só libera se: (1) varanda livre sem placa/mureta bugada; (2) correr no térreo após abrir a varanda sem ser jogado para cima.
