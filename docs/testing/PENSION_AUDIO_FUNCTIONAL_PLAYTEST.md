@@ -1,8 +1,8 @@
-# Playtest funcional — Áudio Pensão (Sprint 16B)
+# Playtest funcional — Áudio Pensão (Sprint 16B / 16C)
 
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Data:** 2026-07-11  
-**Objetivo:** Validar passos audíveis (terra/madeira/corrida), gotas no depósito e debug F7.
+**Objetivo:** Validar passos por superfície, gotas, debug F7 e ajuste 16C (cadência + corrida = mesmo banco).
 
 ---
 
@@ -10,78 +10,57 @@
 
 | Check | Esperado | Resultado |
 |-------|----------|-----------|
-| F7 liga Audio Debug Mode | Mensagem HUD + log `[AudioDebug] Mode ON` | ☐ |
-| Tecla 1 | Sample de contexto ambience / settle | ☐ |
-| Tecla 2 | Passo madeira | ☐ |
-| Tecla 3 | Passo terra/cascalho | ☐ |
-| Tecla 4 | Passo corrida | ☐ |
-| Tecla 5 | Gota one-shot | ☐ |
-| Tecla 6 | Distant step | ☐ |
-| Tecla 7 | Door scratch | ☐ |
-| Tecla 8 | Knock | ☐ |
-| F7 desliga | Mode OFF; teclas 1–8 param de interceptar | ☐ |
-| F6 / F10 / F11 | Continuam a funcionar | ☐ |
+| F7 liga Audio Debug Mode | HUD + log; footsteps passam a logar | ☐ |
+| Tecla 2 | Passo madeira (walk) | ☐ |
+| Tecla 3 | Passo terra (walk) | ☐ |
+| Tecla 4 | Preview corrida com **mesmo banco da superfície** (não `player_run_step_*`) | ☐ |
+| Tecla 5–8 | Gota / distant / scratch / knock | ☐ |
+| F10 / F11 | Intactos | ☐ |
+
+Com F7 ON, ao andar:
+`[Footstep] surface=DirtGravel|Wood state=Walk|Run|Crouch sample=…`
 
 ---
 
-## Exterior
+## Exterior / terra (16C)
 
 | Check | Esperado | Resultado |
 |-------|----------|-----------|
-| Caminhar na trilha | Passos dirt/gravel | ☐ |
-| Correr na trilha | Passos run | ☐ |
+| Andar na trilha | dirt/gravel | ☐ |
+| Correr na trilha | **mesmos** samples dirt/gravel | ☐ |
+| Corrida não usa `player_run_step_*` | Confirmado no log `sample=player_footstep_dirt_gravel_*` | ☐ |
+| Cadência walk | ~0,55 s (mais lenta que 16B) | ☐ |
+| Cadência run | ~0,36 s, natural | ☐ |
 | Parado | Sem passos | ☐ |
 
-## Interior
+## Interior / madeira (16C)
 
 | Check | Esperado | Resultado |
 |-------|----------|-----------|
-| Recepção / corredor | Passos madeira | ☐ |
-| Corrida interna | Passos run | ☐ |
-| Agachar | Volume/cadência menores | ☐ |
-| Escada / 2º andar | Madeira ou run conforme estado | ☐ |
+| Andar recepção/corredor | madeira | ☐ |
+| Correr recepção/corredor | **mesmos** samples madeira | ☐ |
+| Escada / 2º andar | madeira | ☐ |
+| Corrida não usa `player_run_step_*` | `sample=player_footstep_wood_*` | ☐ |
 
-## Depósito / gotas
-
-| Check | Esperado | Resultado |
-|-------|----------|-----------|
-| Ambience depósito | Loop deposit | ☐ |
-| Loop gotas | `pension_water_drops_loop` audível (~−17 dB) | ☐ |
-| One-shots gotas | `water_drop_01/02/03` a cada 6–16 s na zona | ☐ |
-| Fusível | Puzzle intacto | ☐ |
-
-## Eventos (Sprint 15 + áudio)
+## Crouch / gotas / regressão
 
 | Check | Esperado | Resultado |
 |-------|----------|-----------|
-| Entrada | `old_house_settle_02` | ☐ |
-| Pós-chave | `distant_knock_01` | ☐ |
-| Pós-fusível | `distant_step_01` + `02` | ☐ |
-| Porta bloqueada | `door_scratch_02` | ☐ |
-
-## Regressão
-
-| Check | Resultado |
-|-------|-----------|
-| Movimento / stamina / crouch / look back / lean | ☐ inalterado |
-| HUD / lanterna | ☐ |
-| Fog / atmosfera / geometria / portas | ☐ |
-| Puzzle chave → depósito → fusível | ☐ |
+| Agachar | Mais baixo e lento (−18 dB / 0,78 s) | ☐ |
+| Gotas depósito | Loop + one-shots | ☐ |
+| Movimento / sprint / stamina / HUD / lanterna | Inalterados | ☐ |
+| Fog / puzzle / eventos | Inalterados | ☐ |
 
 ---
 
 ## Bugs encontrados
 
-_Nenhum registrado na implementação 16B (pendente F6 do usuário)._
+_Pendente F6 do usuário após 16C._
 
-## Checklist de aprovação 16B
+## Aprovação
 
-- [ ] Passos audíveis
-- [ ] Terra ≠ madeira
-- [ ] Corrida própria
-- [ ] Gotas audíveis no depósito
-- [ ] Eventos one-shot
-- [ ] Debug F7
-- [ ] Sem alteração de gameplay
-- [ ] Sem crash por asset ausente
-- [ ] Volumes aceitáveis
+- [ ] Cadência walk OK
+- [ ] Run = mesmo timbre da superfície
+- [ ] `player_run_step_*` não usado
+- [ ] Superfícies corretas
+- [ ] Sem regressão de gameplay

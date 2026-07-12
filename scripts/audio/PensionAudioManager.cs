@@ -57,6 +57,12 @@ public partial class PensionAudioManager : Node
         {
             _audioDebugMode = !_audioDebugMode;
             var state = _audioDebugMode ? "ON" : "OFF";
+            var footsteps = PlayerFootstepAudio.Find(GetTree());
+            if (footsteps != null)
+            {
+                footsteps.DebugLoggingEnabled = _audioDebugMode;
+            }
+
             GD.Print($"[AudioDebug] Mode {state}");
             HUDController.FindActive(GetTree())?.ShowMessage($"Audio Debug {state} (F7)", 2.0f);
             GetViewport().SetInputAsHandled();
@@ -83,7 +89,7 @@ public partial class PensionAudioManager : Node
                 break;
             case Key.Key4:
                 PlayerFootstepAudio.Find(GetTree())?.DebugPlayBank("run");
-                GD.Print("[AudioDebug] Playing: player_run_step");
+                GD.Print("[AudioDebug] Playing: surface run (same bank as walk)");
                 break;
             case Key.Key5:
                 PlayOneShot("water_drop_01", -12f);

@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 16B (passos + gotas) implementada; F6 pendente  
+**Fase:** REBOOT GREENFIELD — Sprint 16C (cadência + corrida por superfície); F6 pendente  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -28,7 +28,9 @@
 | Sprint 14 | **✅ Aprovada** — blockout narrativo limpo (14Z) |
 | Sprint 14A–14F | **⏸️ Substituídas** — iterações de portas/placas absorvidas pela 14Z |
 | Sprint 15 | **✅ Aprovada** — eventos narrativos one-shot sem inimigo |
-| Sprint 16 | **🔄 Implementada** — áudio ambiente pack v2 (F6 pendente) |
+| Sprint 16 | **🔄 Implementada** — áudio ambiente pack v2 |
+| Sprint 16B | **✅ Aprovada** — passos audíveis + gotas + F7 debug |
+| Sprint 16C | **🔄 Implementada** — cadência mais lenta; corrida usa banco da superfície |
 
 ---
 
@@ -194,15 +196,29 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 - `PensionAudioManager` + zonas + crossfade
 - One-shots nos eventos Sprint 15
 - Click da lanterna conectado (sem mudar lógica/bateria)
-- Passos/respiração **cadastrados para Sprint 17** (não wired)
 - Sem inimigo / combate / chase
 
 **Baseline:** `docs/technical/PENSION_AUDIO_BASELINE.md`  
-**Playtest:** `docs/testing/PENSION_AMBIENCE_AUDIO_PLAYTEST.md`  
+**Playtest ambience:** `docs/testing/PENSION_AMBIENCE_AUDIO_PLAYTEST.md`  
 **Assets:** `docs/audio/PENSION_AUDIO_ASSET_LIST.md`
 
-## Próxima sprint recomendada — Sprint 17 (Footsteps e respiração do player)
+## Sprint 16B — Passos + gotas + debug (implementada)
 
-Após F6 da Sprint 16 aprovada.
+**Status:** 🔄 Implementada — F6 do usuário pendente para aprovação  
+**Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
+
+- `PlayerFootstepAudio` no Player (audio-only; **não** altera `PlayerController`)
+- Zonas `SurfaceAudio_*` (DirtGravel exterior / Wood interior)
+- Bancos wood / dirt / run com cadência walk/run/crouch
+- Gotas: loop −17 dB no depósito/cozinha + `RandomOneShotEmitter3D`
+- Debug F7 + teclas 1–8
+- Respiração ainda **não wired** (sprint futura)
+- Movimento / HUD / fog / portas / puzzle intactos
+
+**Playtest funcional:** `docs/testing/PENSION_AUDIO_FUNCTIONAL_PLAYTEST.md`
+
+## Próxima sprint recomendada — respiração do player (áudio-only)
+
+Após F6 da Sprint 16B aprovada (passos + gotas audíveis).
 
 **Não avançar automaticamente** para inimigo/chase.

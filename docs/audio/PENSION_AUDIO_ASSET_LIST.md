@@ -36,9 +36,9 @@
 
 | Grupo | Arquivos | Uso | Status |
 |-------|----------|-----|--------|
-| Madeira | `player_footstep_wood_01`…`08` | Interior / escada / 2º andar | Presente / usado |
-| Terra/cascalho | `player_footstep_dirt_gravel_01`…`12` | Exterior / trilha | Presente / usado |
-| Corrida | `player_run_step_01`…`12` | Sprint (qualquer superfície) | Presente / usado |
+| Madeira | `player_footstep_wood_01`…`08` | Interior walk **e** run | Presente / usado |
+| Terra/cascalho | `player_footstep_dirt_gravel_01`…`12` | Exterior walk **e** run | Presente / usado |
+| Corrida | `player_run_step_01`…`12` | Reservado (chase/pânico futuro) | Presente / **não usado** (16C) |
 | Sequences | `player_footsteps_*_sequence`, `player_running_sequence` | Reserva | Presente (não wired) |
 
 ## Respiração — sprint futura (cadastrados, não wired)
