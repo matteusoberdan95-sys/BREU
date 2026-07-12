@@ -108,7 +108,6 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matDoorBalcony = Mat(new Color(0.32f, 0.5f, 0.3f));
         BuildSecondFloor();
         BuildCeilingBlockout();
-        BuildUpperSouthRoomPlaceholder();
         BuildUpperBalconyWing();
         BuildSecondFloorNarrativeReadability();
     }
@@ -147,22 +146,18 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private void BuildFirstFloorCeilings()
     {
-        var frontDepth = BuildingFrontZ - SecondSlabSouthZ + FloorOverlap;
-        var frontCenterZ = (BuildingFrontZ + SecondSlabSouthZ) * 0.5f;
+        // One continuous opaque ceiling over the entrance and reception.
+        // It deliberately reaches the reception north wall, avoiding exposed
+        // second-floor slabs and the layered plates that caused the old flicker.
+        const float receptionNorthZ = -7.05f;
+        var frontDepth = BuildingFrontZ - receptionNorthZ + FloorOverlap;
+        var frontCenterZ = (BuildingFrontZ + receptionNorthZ) * 0.5f;
 
         AddVisualCeilingPlate(
             _ceiling,
-            "Ceiling_FirstFloor_Main",
+            "Ceiling_Reception_Continuous",
             new Vector3(0f, FirstFloorCeilingUndersideY, frontCenterZ),
             new Vector3(SlabWidth, CeilingThickness, frontDepth),
-            _matCeilingFirst);
-
-        // Opaque reception liner hides second-floor slab seams when looking up.
-        AddVisualCeilingPlate(
-            _ceiling,
-            "Ceiling_Reception_Liner",
-            new Vector3(0f, FirstFloorCeilingUndersideY - 0.06f, -2.9f),
-            new Vector3(10.2f, 0.12f, 8.2f),
             _matCeilingFirst);
     }
 
@@ -801,21 +796,21 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         // Sprint 17B: single full-width green balcony door — no brown Door_UpperBlocked twin.
         _secondFloor.AddChild(new Marker3D
         {
-            Name = "Marker_UpperBalconyDoor_Position",
+            Name = "Marker_BalconyDoor_Green_Position",
             Position = new Vector3(0f, SecondFloorTopY, doorZ)
         });
 
         AddBalconyDoorBlocker(
             _secondFloor,
-            "Door_UpperBalcony",
-            "Door_UpperBalcony_Blocker",
+            "BalconyDoor_Green",
+            "BalconyDoor_Green_Panel",
             new Vector3(0f, 0f, doorZ),
             DoorWidth - 0.05f,
             _matDoorBalcony,
             worldFloorTopY: SecondFloorTopY,
             panelOffsetX: 0f);
 
-        GD.Print("[BalconyAccess] Single Door_UpperBalcony only (Door_UpperBlocked removed).");
+        GD.Print("[BalconyAccess] Single BalconyDoor_Green; no duplicate panel or door.");
     }
 
     private void BuildSecondFloorNarrativeInteractions()

@@ -13,10 +13,12 @@ public partial class BlockoutOwnerBedroomDoor : Node3D, IInteractable
     public void Initialize(PensaoPuzzleState state, Node3D doorRoot)
     {
         _state = state;
-        _panel = doorRoot.GetNodeOrNull<MeshInstance3D>("Door_OwnerBedroom_Blocker")
+        _panel = doorRoot.GetNodeOrNull<MeshInstance3D>("Room_OwnerDoor_Panel")
+            ?? doorRoot.GetNodeOrNull<MeshInstance3D>("Door_OwnerBedroom_Blocker")
             ?? doorRoot.GetNodeOrNull<MeshInstance3D>("DoorPanel");
         _blockingShape = doorRoot.GetNodeOrNull<CollisionShape3D>("BlockingBody/BlockingShape");
-        _area = doorRoot.GetNodeOrNull<Area3D>("InteractionArea");
+        _area = doorRoot.GetNodeOrNull<Area3D>("Interact_OwnerDoor")
+            ?? doorRoot.GetNodeOrNull<Area3D>("InteractionArea");
         ApplyState();
     }
 

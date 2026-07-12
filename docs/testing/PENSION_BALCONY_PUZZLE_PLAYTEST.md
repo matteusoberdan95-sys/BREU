@@ -136,7 +136,43 @@
 | Recepção mostra forro limpo ao olhar para cima | ☐ F6 usuário |
 | Movimento/HUD/lanterna/áudio/fog/puzzle antigo preservados | ☐ F6 usuário |
 
-Sprint 17C/17D permanece dependente do playtest final manual do usuário.
+Sprint 17C/17D foi substituída pelo rebuild controlado da Sprint 17E.
+
+## Sprint 17E — rebuild cirúrgico da microárea
+
+**Motivo:** a ala anterior acumulava piso de conexão, rails divididos e entradas desalinhadas. Ela foi substituída por um layout único e direto.
+
+**Estrutura nova:** `BalconyDoor_Green` → `BalconyLanding` → `BalconyWalkable` → `Room_Bathroom` / `Room_OwnerBedroom`.
+
+- uma única porta verde e uma única área de interação;
+- patamar e varanda no mesmo nível, sem mureta interna;
+- banheiro aberto com porta, pia, espelho e ralo fora da entrada;
+- quarto com `Room_OwnerDoor`, cama, cômoda e caderno fora da circulação;
+- interações antigas/fantasmas não são mais instanciadas;
+- `Interact_BalconyLookDown` existe somente junto à borda externa;
+- `Ceiling_Reception_Liner` mantém o teto do térreo visualmente fechado.
+
+### Validação 17E
+
+| Check | Resultado |
+|-------|-----------|
+| Compilação C# sem erros/avisos | ✅ 2026-07-12 |
+| Cena oficial inicia e monta os puzzles | ✅ 2026-07-12 |
+| Porta → patamar → varanda → retorno | ☐ F6 manual |
+| Banheiro e quarto acessíveis | ☐ F6 manual |
+| Prompts somente diante das portas | ☐ F6 manual |
+| Olhar para baixo somente na borda | ☐ F6 manual |
+| Teto da recepção limpo | ☐ F6 manual |
+| Regressão completa da pensão | ☐ F6 manual |
+
+### Correção orientada pelos prints do playtest
+
+- removido da montagem o gerador legado `BuildUpperSouthRoomPlaceholder`, responsável pela pilastra/mureta sobre o acesso;
+- `BalconyLanding` agora reutiliza o slab principal, sem placa coplanar;
+- visual do piso do banheiro foi recortado para não sobrepor o piso principal;
+- teto da entrada/recepção foi substituído por uma única peça `Ceiling_Reception_Continuous`, sem liner sobreposto;
+- mensagem do arame agora orienta explicitamente o uso no ralo do banheiro;
+- o ralo usa o arame para retirar a chave do quarto da proprietária.
 
 ### Checklist emocional
 

@@ -22,26 +22,26 @@ public partial class PensaoBalconyPuzzleSetup : Node
         var state = GetNodeOrNull<PensaoPuzzleState>("../../PuzzleState");
         var interactions = GetNodeOrNull<Node3D>("../../Interactions");
         var secondFloor = GetNodeOrNull<Node3D>("../../PensionSecondFloor");
-        var balconyDoor = secondFloor?.GetNodeOrNull<Node3D>("Door_UpperBalcony");
+        var balconyDoor = secondFloor?.GetNodeOrNull<Node3D>("BalconyDoor_Green");
 
         if (state == null || interactions == null || balconyDoor == null)
         {
-            GD.PushError("[BalconyPuzzle] Missing PuzzleState, Interactions or Door_UpperBalcony.");
+            GD.PushError("[BalconyPuzzle] Missing PuzzleState, Interactions or BalconyDoor_Green.");
             return;
         }
 
         if (balconyDoor is not BlockoutBalconyDoor balcony)
         {
-            GD.PushError("[BalconyPuzzle] Door_UpperBalcony is not a BlockoutBalconyDoor.");
+            GD.PushError("[BalconyPuzzle] BalconyDoor_Green is not a BlockoutBalconyDoor.");
             return;
         }
 
         balcony.Initialize(state, balconyDoor);
 
-        var area = balconyDoor.GetNodeOrNull<Area3D>("InteractionArea");
-        var panel = balconyDoor.GetNodeOrNull<MeshInstance3D>("Door_UpperBalcony_Blocker");
+        var area = balconyDoor.GetNodeOrNull<Area3D>("Interact_BalconyDoor");
+        var panel = balconyDoor.GetNodeOrNull<MeshInstance3D>("BalconyDoor_Green_Panel");
         GD.Print(
-            $"[BalconyPuzzle] Door_UpperBalcony global={balconyDoor.GlobalPosition} " +
+            $"[BalconyPuzzle] BalconyDoor_Green global={balconyDoor.GlobalPosition} " +
             $"panelLocal={panel?.Position} areaLocal={area?.Position} " +
             $"areaGlobal={area?.GlobalPosition}");
 
@@ -61,7 +61,7 @@ public partial class PensaoBalconyPuzzleSetup : Node
 
         CreateOwnerNote(state, host);
         CreateBalconyKey(state, host);
-        // Sprint 17C: wing ledger / 203 handled by PensaoBalconyWingPuzzleSetup + Door_Room203_Blocked.
+        // Wing interactions are rebuilt by PensaoBalconyWingPuzzleSetup.
 
         state.OldFusePickedUp += () =>
             HUDController.FindActive(GetTree())?.ShowMessage(

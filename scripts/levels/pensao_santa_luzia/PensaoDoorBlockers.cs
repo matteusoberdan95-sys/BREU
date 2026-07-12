@@ -198,7 +198,7 @@ public partial class PensaoTerreoBlockout01Builder
         // Chest-height interact volume toward corridor (local -Z), not ceiling.
         var area = new Area3D
         {
-            Name = "InteractionArea",
+            Name = "Interact_BalconyDoor",
             Position = new Vector3(panelOffsetX, 1.45f, BlockerStandoffZ - 0.38f),
             CollisionLayer = InteractableLayer,
             CollisionMask = 0,
@@ -276,7 +276,7 @@ public partial class PensaoTerreoBlockout01Builder
 
         var area = new Area3D
         {
-            Name = "InteractionArea",
+            Name = "Interact_OwnerDoor",
             Position = new Vector3(panelOffsetX, 1.45f, BlockerStandoffZ - 0.38f),
             CollisionLayer = InteractableLayer,
             CollisionMask = 0,

@@ -232,7 +232,21 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 - forro da recepção revisado com placa opaca de acabamento;
 - PlayerController, câmera, HUD, lanterna, áudio, passos, respiração, fog, escada e puzzle depósito/fusível não foram alterados.
 
-Sprint 17C/17D ainda depende do playtest final do usuário na rota completa.
+Sprint 17C/17D foi preservada no checkpoint `4a16478` e substituída pela Sprint 17E.
+
+### Sprint 17E — rebuild cirúrgico da ala da varanda
+
+**Status:** 🔄 Rebuild implementado e cena inicializada — percurso F6 manual pendente
+- microárea antiga substituída integralmente por porta verde → patamar → varanda → dois cômodos;
+- `BalconyDoor_Green` é a única porta/painel de acesso;
+- `BalconyLanding` e `BalconyWalkable` formam piso contínuo e nivelado;
+- banheiro e quarto da proprietária têm entradas diretas, sem props na circulação;
+- interactions antigas não são instanciadas; áreas novas ficam diante dos elementos;
+- `Interact_BalconyLookDown` foi recriado na borda externa;
+- teto da recepção permanece fechado pelo acabamento opaco dedicado;
+- progressão, PlayerController, HUD, áudio, escada, fog e puzzle depósito/fusível preservados.
+
+**Correção pós-playtest:** removidos o placeholder legado que criava a pilastra no acesso e os pisos/forros coplanares que causavam flicker. O teto da recepção agora é uma peça contínua. O arame aponta para o ralo do banheiro, onde retira a chave do quarto.
 
 ## Sprint 16C — Ajuste fino de passos (aprovada)
 

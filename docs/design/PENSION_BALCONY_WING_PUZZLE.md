@@ -10,11 +10,12 @@
 
 | Node | Função |
 |------|--------|
-| `UpperBalcony_Walkable` | Piso sólido + guarda-corpos |
-| `UpperBalcony_GuardRail_Front` | Borda sul |
-| `UpperBalcony_GuardRail_Left` | Lateral oeste |
-| `UpperBalcony_GuardRail_Right*` | Lateral leste (gap para a ala) |
-| `Interact_BalconyEdgeHint` | "Está alto demais para descer por aqui." |
+| `BalconyLanding` | Patamar nivelado imediatamente após a porta verde |
+| `BalconyWalkable` | Piso sólido e contínuo da varanda |
+| `BalconyRail_Front` | Guarda-corpo da borda externa |
+| `BalconyRail_Left` | Fechamento lateral oeste |
+| `BalconyRail_Right` | Alias do fechamento leste feito pelas fachadas dos cômodos |
+| `Interact_BalconyLookDown` | "Está alto demais para descer por aqui." |
 
 Sem sistema de queda. Sem saída externa.
 
@@ -22,7 +23,7 @@ Sem sistema de queda. Sem saída externa.
 
 ## Cômodos
 
-### `Room_UpperBathroom` (aberto)
+### `Room_Bathroom` (aberto)
 
 Blockout: pia, vaso, manchas, espelho escuro.
 
@@ -35,7 +36,7 @@ Blockout: pia, vaso, manchas, espelho escuro.
 
 | Node | Função |
 |------|--------|
-| `Door_OwnerBedroom` / `Door_OwnerBedroom_Blocker` | Painel some + colisão off ao destravar |
+| `Room_OwnerDoor` / `Room_OwnerDoor_Panel` | Painel some + colisão off ao destravar |
 | `Interact_OwnerLedger` | Caderno → evento macabro |
 
 Props: cama, mesa, armário, manchas, marcas de unha.
@@ -109,13 +110,14 @@ Evento: `PensionNarrativeEvents.EventOwnerLedgerReveal`
 
 ---
 
-## Regras de navegação — Sprint 17D
+## Rebuild controlado — Sprint 17E
 
 - A varanda é uma área de transição: corredor superior → porta verde → varanda → banheiro/quarto da proprietária → retorno.
-- `Room_UpperBathroom` e `Room_OwnerBedroom` devem permanecer acessíveis, com largura livre para entrar, virar e sair.
-- `Interact_BalconyEdgeHint` pertence somente à borda externa; sua área deve ser baixa e rasa para exigir que o jogador olhe para baixo junto ao guarda-corpo.
+- A microárea anterior foi removida e refeita como uma unidade, sem corredor intermediário ou remendos de piso.
+- `Room_Bathroom` e `Room_OwnerBedroom` permanecem diretamente acoplados à varanda, com largura livre para entrar, virar e sair.
+- `Interact_BalconyLookDown` pertence somente à borda externa; sua área é baixa e rasa para exigir que o jogador olhe para baixo junto ao guarda-corpo.
 - Objetos decorativos nunca podem ocupar a rota principal nem o espaço imediatamente após uma porta.
-- O guarda-corpo serve apenas para impedir queda: o vão lateral deve coincidir com `UpperBalconyWing_Entry` e ter piso contínuo.
+- O guarda-corpo serve apenas para impedir queda; não existe rail interno entre a porta verde, o patamar e a varanda.
 - A porta da proprietária é a única interação de porta nessa ala; painel, colisão e área de interação são desativados após destravar.
 
 ## Scripts

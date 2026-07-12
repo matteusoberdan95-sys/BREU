@@ -29,17 +29,18 @@ public partial class PensaoBalconyWingPuzzleSetup : Node
             interactions.AddChild(host);
         }
 
-        var ownerDoor = secondFloor.FindChild("Door_OwnerBedroom", recursive: true, owned: false) as BlockoutOwnerBedroomDoor;
+        var ownerDoor = secondFloor.FindChild("Room_OwnerDoor", recursive: true, owned: false) as BlockoutOwnerBedroomDoor;
         if (ownerDoor != null)
         {
             ownerDoor.Initialize(state, ownerDoor);
         }
         else
         {
-            GD.PushWarning("[WingPuzzle] Door_OwnerBedroom not found.");
+            GD.PushWarning("[WingPuzzle] Room_OwnerDoor not found.");
         }
 
         CreateWireHook(state, host);
+        CreateBathroomDoor(host, secondFloor);
         CreateBathroomMirror(state, host, secondFloor);
         CreateBathroomDrain(state, host, secondFloor);
         CreateOwnerLedger(state, host, secondFloor);
@@ -108,6 +109,26 @@ public partial class PensaoBalconyWingPuzzleSetup : Node
         TagInteractable(root);
     }
 
+    private static void CreateBathroomDoor(Node3D parent, Node3D secondFloor)
+    {
+        var pos = ResolveAnchor(secondFloor, "Anchor_BathroomDoor", new Vector3(1.45f, 4.15f, -5.35f));
+        var root = new Node3D { Name = "Interact_BathroomDoor", Position = pos };
+        parent.AddChild(root);
+
+        var area = MakeArea(new Vector3(0.22f, 1.0f, 0.9f));
+        var interactable = new Interactable
+        {
+            Name = "BathroomDoorInteraction",
+            PromptText = "Entrar no banheiro",
+            InteractionMessage = "O banheiro está aberto.",
+            InteractionId = "bathroom_door",
+            OneShot = false
+        };
+        area.AddChild(interactable);
+        root.AddChild(area);
+        TagInteractable(root);
+    }
+
     private static void CreateBathroomDrain(PensaoPuzzleState state, Node3D parent, Node3D secondFloor)
     {
         var pos = ResolveAnchor(secondFloor, "Anchor_BathroomDrain", new Vector3(2.9f, 2.9f, -4.1f));
@@ -160,7 +181,7 @@ public partial class PensaoBalconyWingPuzzleSetup : Node
     {
         var root = new Node3D
         {
-            Name = "Interact_BalconyEdgeHint",
+            Name = "Interact_BalconyLookDown",
             Position = new Vector3(0f, 3.02f, -3.42f)
         };
         parent.AddChild(root);
@@ -228,7 +249,7 @@ public partial class WingWireHookInteraction : Node, IInteractable
         _taken = true;
         _state.PickupWireHook();
         HUDController.FindActive(GetTree())?.ShowMessage(
-            "Um arame torto. Pode servir para puxar algo de um vão estreito.", 3.5f);
+            "Um arame torto. Talvez alcance o objeto preso no ralo do banheiro.", 4.0f);
         if (_root != null)
         {
             _root.Visible = false;
