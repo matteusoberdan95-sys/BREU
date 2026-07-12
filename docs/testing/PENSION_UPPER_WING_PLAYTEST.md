@@ -1,5 +1,24 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Hotfix — UpperWing_CollisionDeck
+
+- problema: o player ainda caía em partes da varanda, principalmente à direita, e atravessava o teto da recepção;
+- solução: a colisão foi separada da laje visual e concentrada em `World/Level/SecondFloor/Floors/UpperWing_CollisionDeck`;
+- `SecondFloor_MasterSlab` permanece somente visual, sem `StaticBody3D` ou `CollisionShape3D`;
+- após análise do vídeo (queda na quina direita entre 30,8–32,9 s), a margem foi ampliada drasticamente;
+- BoxShape3D final: `50 × 0,80 × 30,8 m`;
+- posição global: `(5,00; 2,40; 4,60)`; topo em `Y=2,80`;
+- AABB global: `X=-20,00..30,00`, `Y=2,00..2,80`, `Z=-10,80..20,00`;
+- layer/mask `1/0`, copiados do piso funcional `PensionGroundFloor_MainFloor` (`AddSolid`);
+- F8: 9 markers superiores e 2 markers inferiores atingiram `UpperWing_CollisionDeck`;
+- F9: grade 7×7 passou `49/49`, sem buracos;
+- o grid exclui outros corpos somente para medir a existência contínua do deck; blockers continuam cobertos pelo sanity check/inspeção manual;
+- DebugFallRecovery durante rota normal: pendente de teste manual.
+
+Teste manual: [ ] caminhada completa [ ] extrema direita [ ] diagonais [ ] retorno/203/porta verde [ ] pulos na recepção/entrada [ ] recovery não acionou
+
+Sem commit final até o percurso manual passar.
+
 ## Hotfix definitivo — SecondFloor_MasterSlab
 
 - problema confirmado no playtest: queda pela direita e travessia do teto da recepção ao pular;

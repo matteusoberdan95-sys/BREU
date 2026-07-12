@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3]
 
 [sub_resource type="StandardMaterial3D" id="MatPhysicalSlab"]
 albedo_color = Color(0.3, 0.31, 0.36, 1)
@@ -6,19 +6,9 @@ albedo_color = Color(0.3, 0.31, 0.36, 1)
 [sub_resource type="BoxMesh" id="PhysicalSlabMesh"]
 size = Vector3(23.7, 0.6, 19.4)
 
-[sub_resource type="BoxShape3D" id="PhysicalSlabShape"]
-size = Vector3(23.7, 0.6, 19.4)
-
-[node name="SecondFloor_MasterSlab" type="Node3D" groups=["level_floor", "level_second_floor"]]
+[node name="SecondFloor_MasterSlab" type="Node3D" groups=["level_second_floor"]]
 position = Vector3(4.15, 2.5, -1.1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PhysicalSlabMesh")
 material_override = SubResource("MatPhysicalSlab")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="." groups=["level_floor"]]
-collision_layer = 1
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("PhysicalSlabShape")

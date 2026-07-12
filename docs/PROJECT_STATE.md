@@ -1,5 +1,9 @@
 # BREU — Estado do projeto
 
+## Fonte física da ala superior
+
+`UpperWing_CollisionDeck` é a única fonte de colisão do piso/teto na área aberta superior. A laje visual não possui collider concorrente. O deck passou a grade automática 7×7 com 49/49 impactos, mas nenhuma expansão de cômodos pode seguir antes da caminhada e dos pulos manuais confirmarem que o recovery não é acionado.
+
 ## SecondFloor_MasterSlab
 
 A laje física anterior foi removida. O teto da recepção e o piso da varanda agora são a mesma peça física mestre, `SecondFloor_MasterSlab`; o teto visual antigo da região foi retirado. Nenhuma expansão de cômodo pode continuar até a travessia integral e os pulos contra a face inferior passarem manualmente.

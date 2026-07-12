@@ -1,6 +1,6 @@
 namespace BREU.Scripts.Debug;
 
-/// <summary>F8 diagnostics for the single authoritative second-floor physical slab.</summary>
+/// <summary>F8 diagnostics for the single authoritative upper-wing collision deck.</summary>
 public partial class UpperFloorCollisionProbe : Node
 {
     private static readonly string[] FloorMarkers =
@@ -29,15 +29,15 @@ public partial class UpperFloorCollisionProbe : Node
     {
         var scene = GetTree().CurrentScene;
         var player = scene?.FindChild("Player", recursive: true, owned: false) as Node3D;
-        var slab = FindSlab(scene);
-        if (scene == null || player == null || slab == null)
+        var deck = FindDeck(scene);
+        if (scene == null || player == null || deck == null)
         {
-            GD.PrintErr("[Probe] ERROR: scene, player or SecondFloor_MasterSlab missing");
+            GD.PrintErr("[CollisionDeckProbe] ERROR: scene, player or UpperWing_CollisionDeck missing");
             return;
         }
 
-        PrintSlabData(slab);
-        GD.Print($"[Probe] Player position: {player.GlobalPosition}");
+        PrintDeckData(deck);
+        GD.Print($"[CollisionDeckProbe] Player position: {player.GlobalPosition}");
         PrintRay("Down", player.GlobalPosition + Vector3.Up, player.GlobalPosition + Vector3.Down * 10f, "no floor below player");
         PrintRay("Up", player.GlobalPosition + Vector3.Up * 0.1f, player.GlobalPosition + Vector3.Up * 10f, "no ceiling above reception jump area");
 
@@ -55,11 +55,11 @@ public partial class UpperFloorCollisionProbe : Node
     private void RunMarkerProbe()
     {
         var scene = GetTree().CurrentScene;
-        var slab = FindSlab(scene);
-        var expected = slab?.GetNodeOrNull<StaticBody3D>("StaticBody3D");
-        if (scene == null || slab == null || expected == null)
+        var deck = FindDeck(scene);
+        var expected = deck?.GetNodeOrNull<StaticBody3D>("StaticBody3D");
+        if (scene == null || deck == null || expected == null)
         {
-            GD.PrintErr("[Probe] ERROR: marker probe could not find SecondFloor_MasterSlab");
+            GD.PrintErr("[CollisionDeckProbe] ERROR: marker probe could not find UpperWing_CollisionDeck");
             return;
         }
 
@@ -88,7 +88,7 @@ public partial class UpperFloorCollisionProbe : Node
         var hit = GetTree().Root.World3D.DirectSpaceState.IntersectRay(query);
         var collider = hit.Count > 0 ? hit["collider"].AsGodotObject() as Node : null;
         if (collider == expected)
-            GD.Print($"[Probe] OK {name} hit SecondFloor_MasterSlab at {hit["position"].AsVector3()}");
+            GD.Print($"[CollisionDeckProbe] OK {name} hit UpperWing_CollisionDeck at {hit["position"].AsVector3()}");
         else
             GD.PrintErr($"[Probe] ERROR {name}: hit {collider?.GetPath().ToString() ?? "nothing"}");
     }
@@ -104,22 +104,20 @@ public partial class UpperFloorCollisionProbe : Node
         }
 
         var collider = hit["collider"].AsGodotObject() as Node;
-        GD.Print($"[Probe] {label} hit: {collider?.Name} ({collider?.GetPath()}) at {hit["position"].AsVector3()}");
+        GD.Print($"[CollisionDeckProbe] {label} hit: {collider?.GetParent()?.Name ?? collider?.Name} ({collider?.GetPath()}) at {hit["position"].AsVector3()}");
     }
 
-    private static Node3D? FindSlab(Node? scene) =>
-        scene?.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/SecondFloor_MasterSlab");
+    private static Node3D? FindDeck(Node? scene) =>
+        scene?.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/UpperWing_CollisionDeck");
 
-    private static void PrintSlabData(Node3D slab)
+    private static void PrintDeckData(Node3D deck)
     {
-        var mesh = slab.GetNodeOrNull<MeshInstance3D>("MeshInstance3D")?.Mesh as BoxMesh;
-        var body = slab.GetNodeOrNull<StaticBody3D>("StaticBody3D");
-        var shape = slab.GetNodeOrNull<CollisionShape3D>("StaticBody3D/CollisionShape3D")?.Shape as BoxShape3D;
-        GD.Print($"[Probe] Slab mesh size: {mesh?.Size}");
-        GD.Print($"[Probe] Slab shape size: {shape?.Size}");
-        GD.Print($"[Probe] Slab layer/mask: {body?.CollisionLayer}/{body?.CollisionMask}");
-        if (mesh == null) return;
-        var half = mesh.Size * 0.5f;
-        GD.Print($"[Probe] Slab AABB: min {slab.GlobalPosition - half} max {slab.GlobalPosition + half}");
+        var body = deck.GetNodeOrNull<StaticBody3D>("StaticBody3D");
+        var shape = deck.GetNodeOrNull<CollisionShape3D>("StaticBody3D/CollisionShape3D")?.Shape as BoxShape3D;
+        GD.Print($"[CollisionDeckProbe] Deck shape size: {shape?.Size}");
+        GD.Print($"[CollisionDeckProbe] Deck layer/mask: {body?.CollisionLayer}/{body?.CollisionMask}");
+        if (shape == null) return;
+        var half = shape.Size * 0.5f;
+        GD.Print($"[CollisionDeckProbe] Deck AABB min/max: {deck.GlobalPosition - half} / {deck.GlobalPosition + half}");
     }
 }

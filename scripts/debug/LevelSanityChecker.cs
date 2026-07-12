@@ -210,7 +210,7 @@ public partial class LevelSanityChecker : Node
     {
         string[] floorNames =
         {
-            "SecondFloor_MasterSlab",
+            "UpperWing_CollisionDeck",
             "UpperWing_FreeWalkableFloor",
             "UpperBalcony_FrontWalkway"
         };
