@@ -116,7 +116,8 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
             case WingMode.LinenFuse:
                 if (_state.HasUpperFuse) return;
                 hud?.ShowMessage(
-                    "Entre panos úmidos e madeira podre, há algo metálico preso no fundo.", 3.2f);
+                    "Entre panos úmidos e madeira podre, há algo metálico preso no fundo. O arame da prateleira pode ajudar no ralo.",
+                    3.8f);
                 _state.PickupUpperFuse();
                 _ = LaundryFuseSequenceAsync();
                 break;

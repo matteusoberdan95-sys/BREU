@@ -1,23 +1,18 @@
 # BREU — Estado do projeto
 
-## Sprint 19B — Ala superior completa (refazer)
+## Sprint 19C — Correção estrutural da ala superior
 
 **Status:** implementada (playtest F6 obrigatório)  
-**Deck:** `UpperWing_CollisionDeck` **não alterado** (congelado).
+**Deck:** `UpperWing_CollisionDeck` **não alterado**.
 
-A tentativa da Sprint 19 criou só um bloco isolado no canto e foi **substituída**.
+Sprint 19B criou a ala, mas o playtest mostrou paredes atravessáveis e puzzle confuso. Sprint 19C corrigiu:
+- arame torto movido da alcova/banheiro da BalconyWing (corredor fino + parede leste sem collider) para a **Rouparia**;
+- paredes leste da BalconyWing agora têm collider filho (sem saída para limbo);
+- painel técnico reposicionado perto da porta da TechnicalRoom (acessível sem atravessar parede);
+- divisor 204/Tech unificado (removida fresta de 0,5 m);
+- Room204 sul fechado com parede média.
 
-`areas/UpperWingRooms.tscn` agora cobre a maior parte da laje vazia:
-- `Corridor_MainUpper` (estreito, intro + luzes);
-- `LaundryStorage`, `SharedBathroom`, `Room204_Bedroom`, `TechnicalRoom`, `OwnersOffice` (acessíveis);
-- `Room205_Locked` (porta visual, não abre);
-- puzzle Fusível Superior (`HasUpperFuse` → `IsUpperPowerRestored`);
-- flags: `ReadRoom204Note`, `ReadOwnersOfficeLog`, sustos one-shot;
-- Room203 muda mensagem após `ReadRoom204Note` + energia superior (ainda não abre).
-
-Debug playtest: **F4** concede chaves/itens e abre depósito + varanda + quarto da dona.
-
-Próxima sprint sugerida: abrir Quarto 203 e iniciar evento forte / primeiro inimigo.
+Próxima sprint só após playtest completo do puzzle (F6 + Visible Collision Shapes).
 
 ## ✅ CHECKPOINT — Varanda aprovada para gameplay (CONGELADA)
 

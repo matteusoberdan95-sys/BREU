@@ -258,7 +258,7 @@ public partial class PensaoPuzzleState : Node
         HasReadBalconyNote = true;
         HasBalconyKey = true;
         IsBalconyUnlocked = true;
-        HasWireHook = true;
+        // HasWireHook left false so laundry wire pickup remains testable (Sprint 19C).
         HasExaminedBathroomMirror = true;
         HasOwnerRoomKey = true;
         IsOwnerRoomUnlocked = true;

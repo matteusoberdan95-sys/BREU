@@ -20,7 +20,7 @@ public partial class ManualBalconyInteraction : Node, IInteractable
         if (_done || _state == null) return string.Empty;
         return Mode switch
         {
-            InteractionMode.Wire => "Pegar arame torto",
+            InteractionMode.Wire => _state.HasWireHook ? string.Empty : "Pegar arame torto",
             InteractionMode.Mirror => "Examinar espelho",
             InteractionMode.Drain => _state.HasWireHook ? "Puxar objeto do ralo" : "Examinar ralo",
             InteractionMode.Ledger => "Examinar caderno",
@@ -35,8 +35,17 @@ public partial class ManualBalconyInteraction : Node, IInteractable
         switch (Mode)
         {
             case InteractionMode.Wire:
+                if (_state.HasWireHook)
+                {
+                    _done = true;
+                    GetParent()?.GetParent()?.SetDeferred(Node3D.PropertyName.Visible, false);
+                    return;
+                }
+
                 _state.PickupWireHook();
-                hud?.ShowMessage("Um arame torto. Talvez alcance o objeto preso no ralo do banheiro.", 4f);
+                hud?.ShowMessage(
+                    "Um arame torto, entre os panos da rouparia. Talvez alcance o objeto preso no ralo do banheiro da varanda.",
+                    4.5f);
                 _done = true;
                 GetParent()?.GetParent()?.SetDeferred(Node3D.PropertyName.Visible, false);
                 break;

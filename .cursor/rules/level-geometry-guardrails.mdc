@@ -38,12 +38,18 @@ Toda sala nova deve:
 Proibido:
 - considerar sprint de cômodos concluída com apenas um bloco/cubo/placeholder isolado;
 - construir só no canto da laje;
-- sala sem conexão ao corredor.
+- sala sem conexão ao corredor;
+- item em corredor bugado / sem saída sólida;
+- painel/interação atrás de parede;
+- parede visual acessível sem collider;
+- saída para limbo;
+- cômodo sem porta/abertura real.
 
 Obrigatório para ala superior completa:
 - usar AABB do deck/MasterSlab aprovado;
 - mínimo 4 cômodos novos acessíveis + corredor + sala técnica + 1 trancado;
-- ocupar visualmente a maior parte da área vazia da laje (~70–85%).
+- ocupar visualmente a maior parte da área vazia da laje (~70–85%);
+- toda parede visual acessível bloqueia com collider filho.
 
 ## REGRA CRÍTICA — Não chutar collider de parede
 

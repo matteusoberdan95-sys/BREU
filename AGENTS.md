@@ -1,3 +1,24 @@
+## REGRA CRÍTICA — SPRINT 19C
+
+Nesta sprint é proibido criar novos cômodos grandes.
+O objetivo é corrigir os cômodos existentes.
+
+Falha automática se:
+- o player atravessar parede visual;
+- o player sair para fora da área jogável;
+- o player precisar atravessar parede para chegar em item ou painel;
+- existir corredor falso sem saída atravessável;
+- o arame torto ficar em local bugado;
+- o painel técnico ficar atrás de parede;
+- o chão/deck da varanda for alterado.
+
+Regras permanentes derivadas:
+- item nunca pode ficar em corredor bugado;
+- painel nunca pode ficar atrás de parede;
+- parede visual acessível sempre precisa bloquear;
+- saída para limbo é bug crítico;
+- todo cômodo precisa ser acessado por porta/abertura real.
+
 ## REGRA CRÍTICA DA SPRINT 19B
 
 Esta sprint falha automaticamente se for criado apenas um cômodo, apenas um cubo, apenas um bloco isolado ou uma sala sem conexão.

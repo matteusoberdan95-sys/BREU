@@ -103,6 +103,7 @@ Toda sala nova deve:
 Proibido considerar sprint de cômodos concluída com apenas um bloco/cubo/placeholder isolado.
 Mínimo 4 cômodos novos acessíveis + corredor + sala técnica + 1 trancado.
 Usar AABB do deck/MasterSlab aprovado.
+Item nunca em corredor bugado; painel nunca atrás de parede; parede visual acessível sempre bloqueia; saída para limbo é bug crítico; cômodo só por porta/abertura real.
 
 ## Regra anti-acúmulo
 

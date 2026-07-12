@@ -28,8 +28,8 @@ public partial class DebugGrantPuzzleItems : Node
 
         var hud = HUDController.FindActive(GetTree());
         hud?.ShowMessage(
-            "[DEBUG F4] Chaves e itens liberados. Depósito, varanda e quarto da dona abertos. Fusível Superior no inventário.",
-            5f);
+            "[DEBUG F4] Chaves liberadas. Depósito/varanda/quarto da dona abertos. Fusível Superior no inventário. Pegue o arame na rouparia.",
+            5.5f);
         GD.Print("[DebugGrant] Playtest items granted; balcony/deposit/owner unlocked.");
         GetViewport().SetInputAsHandled();
     }

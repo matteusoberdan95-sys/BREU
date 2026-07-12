@@ -1,5 +1,38 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Sprint 19C — Correção estrutural da ala superior
+
+**Deck:** `UpperWing_CollisionDeck` **não alterado**.
+
+### Problema do arame
+Estava no banheiro/alcova estreita da `BalconyWing` (Z ~−5,7). A parede leste era só visual → player atravessava e saía para limbo/área escura.
+
+### Solução do arame (Opção A)
+- `Interact_BalconyWireHook` removido da BalconyWing;
+- `Interact_LaundryWire` na Rouparia (`UpperWingRooms`), sobre a prateleira;
+- prompt: Pegar arame torto;
+- mensagem orienta uso no ralo do banheiro da varanda.
+
+### Problema da sala técnica
+Painel no fundo leste (X ~13,7); sensação de atravessar parede / sala incoerente; fresta 0,5 m entre Wall_204_North e Wall_Tech_South.
+
+### Solução do painel
+- painel + InteractionArea em ~(3,2 / 4,85) — logo após a porta da TechnicalRoom;
+- Wall_204_North removida; Wall_Tech_South como divisor único;
+- props da técnica aproximados da entrada.
+
+### Paredes / limbo
+- BalconyWing: East/North/Divider/South com collider **filho** da mesh;
+- Collisions soltos da BalconyWing removidos;
+- Room204: `Wall_204_South_Mid` fecha o vão sul.
+
+### Regressão
+[ ] porta verde / varanda / térreo sem teleporte / 203 OK  
+[ ] não atravessar paredes da BalconyWing nem da ala  
+[ ] arame na rouparia sem limbo  
+[ ] painel acessível pela porta da técnica  
+[ ] Visible Collision Shapes: deck intacto; colliders filhos  
+
 ## Sprint 19B — Ala superior completa
 
 **Cena:** `UpperWingRooms.tscn` → `World/Level/SecondFloor/UpperWingRooms`  
