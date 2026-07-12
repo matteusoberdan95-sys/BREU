@@ -1,10 +1,12 @@
-# Baseline — Áudio ambiente (Pensão) v2.1
+# Baseline — Áudio ambiente (Pensão) v2.5
 
-**Versão:** 2.4  
-**Sprint:** 16 / 16B–16E  
-**Data:** 2026-07-12  
+**Versão:** 2.5  
+**Sprint:** 16 **aprovada** (16B–16E incluídas)  
+**Data aprovação:** 2026-07-12  
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Pack:** `assets/audio/pensao/` (v2)
+
+**Status:** ✅ Fundação de áudio da Pensão aprovada.
 
 ---
 
@@ -15,8 +17,8 @@
 | `PensionAudioManager` | Loops, crossfade, one-shots, flashlight, F7 debug, setup de zonas |
 | `AmbienceZone3D` | `Area3D` mask player 16; sem colisão física |
 | `SurfaceAudioZone3D` | Tipo de superfície (Wood / DirtGravel) para passos |
-| `PlayerFootstepAudio` | Passos do player (audio-only; lê Velocity / IsOnFloor / sprint / crouch) |
-| `PlayerBreathingAudio` | Respiração normal + panting (audio-only; lê sprint/stamina/speed) |
+| `PlayerFootstepAudio` | Passos do player — **base aprovada** (audio-only) |
+| `PlayerBreathingAudio` | Respiração normal + panting — **base aprovada** (audio-only) |
 | `RandomOneShotEmitter3D` | Gotas one-shot aleatórias no depósito/cozinha |
 | `OneShotAudioTrigger3D` | Trigger espacial opcional |
 | Buses | Master / Ambience / SFX / UI (`default_bus_layout.tres`) |
@@ -31,11 +33,12 @@
 2. Usar arquivo real se existir (sem placeholder).
 3. Crossfade 1,0–2,5 s; prioridade deposit > second_floor > stairwell > corridor > reception > exterior.
 4. Volumes conservadores; sem jumpscare alto.
-5. **Áudio do player não altera movimento** — `PlayerFootstepAudio` / `PlayerBreathingAudio` só leem estado; nunca escrevem `Velocity` / `Position` / stamina / câmera.
-6. Passos (16B–16D). Respiração wired (16E).
+5. **Áudio do player não altera movimento** — `PlayerFootstepAudio` / `PlayerBreathingAudio` só leem estado; nunca escrevem `Velocity` / `Position` / stamina / câmera. **Não alteram `PlayerController`.**
+6. Passos (16B–16D) e respiração (16E) **aprovados** como base.
 7. F7 = Audio Debug; teclas 1–8 SFX; **9** breath one-shot; **0** toggle panting teste.
-8. Corrida usa o mesmo banco da superfície; `player_run_step_*` e `*_sequence` **não** são usados como footstep.
+8. Corrida usa o mesmo banco da superfície; `player_run_step_*` e `*_sequence` **não** são usados como footstep (`player_run_step_*` reservado para futuro).
 9. **Um único sistema** toca passos: `PlayerFootstepAudio`. Respiração: `PlayerBreathingAudio`.
+10. **Backlog:** refinar terra/cascalho (walk/run) e avaliar novos samples — não bloqueia a Sprint 16.
 
 ---
 
@@ -99,6 +102,12 @@ Com F7 ON: `[Footstep] state=… surface=… interval=… sample=…`
 Fade in panting ~1,2 s; fade out ~3 s. Não altera `PlayerController` / stamina.
 
 Com F7 ON: `[Breathing] state=…`
+
+## Aprovação e backlog
+
+- `PlayerFootstepAudio` e `PlayerBreathingAudio` aprovados como base.
+- Madeira aprovada; terra/cascalho provisória → **backlog artístico**.
+- `player_run_step_*` permanece reservado.
 
 ---
 

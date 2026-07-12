@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-12  
-**Fase:** REBOOT GREENFIELD — Sprint 16E (respiração do player); F6 pendente  
+**Fase:** REBOOT GREENFIELD — Sprint 16 **aprovada** (áudio funcional base da Pensão)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -28,10 +28,11 @@
 | Sprint 14 | **✅ Aprovada** — blockout narrativo limpo (14Z) |
 | Sprint 14A–14F | **⏸️ Substituídas** — iterações de portas/placas absorvidas pela 14Z |
 | Sprint 15 | **✅ Aprovada** — eventos narrativos one-shot sem inimigo |
-| Sprint 16 | **🔄 Implementada** — áudio ambiente pack v2 |
+| Sprint 16 | **✅ Aprovada** — áudio funcional base (ambience, gotas, eventos, passos, respiração) |
 | Sprint 16B | **✅ Aprovada** — passos audíveis + gotas + F7 debug |
 | Sprint 16C | **✅ Aprovada** — corrida usa banco da superfície |
-| Sprint 16D | **🔄 Implementada** — cadência 0,64/0,36 + cooldown anti-duplo |
+| Sprint 16D | **✅ Aprovada** — cadência 0,64/0,36 + cooldown anti-duplo |
+| Sprint 16E | **✅ Aprovada** — respiração normal + panting |
 
 ---
 
@@ -188,53 +189,57 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Baseline:** `docs/technical/PENSION_NARRATIVE_EVENTS_BASELINE.md`  
 **Playtest:** `docs/testing/PENSION_SIMPLE_NARRATIVE_EVENTS_PLAYTEST.md`
 
-## Sprint 16 — Áudio ambiente base (implementada / pack v2)
+## Sprint 16 — Áudio funcional base da Pensão (aprovada)
 
-**Status:** 🔄 Implementada — playtest F6 pendente  
+**Status:** ✅ **Aprovada** (2026-07-12)  
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
-- Pack v2 em `assets/audio/pensao/` (loops, one-shots, flashlight, passos/respiração)
-- `PensionAudioManager` + zonas + crossfade
-- One-shots nos eventos Sprint 15
-- Click da lanterna conectado (sem mudar lógica/bateria)
-- Sem inimigo / combate / chase
+**Aprovado:**
+- Áudio ambiente + lâmpada
+- Eventos narrativos com áudio
+- Gotas / ambiência úmida
+- Passos do player (madeira aprovada)
+- Respiração normal e ofegante
+- Sistema mais realista e imersivo
+- Player movement, HUD, lanterna, atmosfera/fog, puzzle chave → depósito → fusível preservados
+
+**Ressalva (backlog — não corrigir agora):**
+- Passos na terra/cascalho andando e correndo ainda precisam de refinamento futuro
 
 **Baseline:** `docs/technical/PENSION_AUDIO_BASELINE.md`  
+**Playtest:** `docs/testing/PENSION_AUDIO_FUNCTIONAL_PLAYTEST.md`  
 **Playtest ambience:** `docs/testing/PENSION_AMBIENCE_AUDIO_PLAYTEST.md`  
 **Assets:** `docs/audio/PENSION_AUDIO_ASSET_LIST.md`
 
 ## Sprint 16B — Passos + gotas + debug (aprovada)
 
-**Status:** ✅ Aprovada (qualidade geral dos passos)  
-**Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
-
-- `PlayerFootstepAudio` no Player (audio-only; **não** altera `PlayerController`)
-- Zonas `SurfaceAudio_*` (DirtGravel exterior / Wood interior)
-- Gotas: loop + `RandomOneShotEmitter3D`
-- Debug F7 + teclas 1–8
-- Respiração ainda **não wired**
-
-**Playtest funcional:** `docs/testing/PENSION_AUDIO_FUNCTIONAL_PLAYTEST.md`
+**Status:** ✅ Aprovada  
+- `PlayerFootstepAudio` (audio-only; **não** altera `PlayerController`)
+- Gotas + F7 debug
 
 ## Sprint 16C — Ajuste fino de passos (aprovada)
 
-**Status:** ✅ Aprovada (timbre por superfície OK; cadência ainda rápida no vídeo)  
-**Escopo:** corrida = mesmo banco da superfície; `player_run_step_*` reservado.
+**Status:** ✅ Aprovada — corrida = mesmo banco da superfície; `player_run_step_*` reservado.
 
-## Sprint 16D — Cadência definitiva (implementada)
+## Sprint 16D — Cadência definitiva (aprovada)
 
-**Status:** 🔄 Implementada — F6 pendente  
-**Escopo:** só `PlayerFootstepAudio` (+ docs)
+**Status:** ✅ Aprovada (terra/cascalho em backlog)  
+- Walk 0,64 s / Run 0,36 s / Crouch 0,85 s; `MinimumStepCooldown` 0,28 s
 
-- Walk 0,64 s / Run 0,36 s / Crouch 0,85 s
-- `MinimumStepCooldown` 0,28 s — sem duplo disparo
-- Um estado por frame; um timer; um `AudioStreamPlayer`; Stop antes de Play
-- Sem sequence files; sem `player_run_step_*`
-- Auditoria: único sistema de passos do player
-- Sem mudança de movimento / HUD / fog / puzzle / eventos
+## Sprint 16E — Respiração do player (aprovada)
 
-## Próxima sprint recomendada — respiração do player (áudio-only)
+**Status:** ✅ Aprovada  
+- `PlayerBreathingAudio` — normal + panting; áudio-only
 
-Após F6 da Sprint 16D aprovada.
+## Backlog técnico/artístico (áudio)
 
-**Não avançar automaticamente** para inimigo/chase.
+- Refinar passos na terra/cascalho **andando**
+- Refinar passos na terra/cascalho **correndo**
+- Avaliar novos samples de terra mais naturais
+- `player_run_step_*` permanece reservado (chase/pânico futuro)
+
+## Próxima sprint recomendada
+
+**Sprint 17 — Primeiro susto controlado sem inimigo físico**
+
+**Não avançar automaticamente** para inimigo/combate/chase físico.
