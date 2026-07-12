@@ -72,10 +72,6 @@ public partial class PensaoVerticalBlockout01Builder
         AddWall(rails, "BalconyRail_Front",
             new Vector3(0f, railY, BalconyFrontZ - 0.06f),
             new Vector3(UpperCorridorWidth + FloorWallLip * 2f, railHeight, 0.14f), _matSecondRail);
-        AddWall(rails, "BalconyRail_Left",
-            new Vector3(BalconyWestX - 0.05f, railY, (BalconyFrontZ + BalconyBackZ) * 0.5f),
-            new Vector3(0.14f, railHeight, BalconyFrontZ - BalconyBackZ), _matSecondRail);
-
         // The east side is occupied by the two room façades; this alias documents
         // that those walls, rather than an internal rail, close the right edge.
         rails.AddChild(new Node3D

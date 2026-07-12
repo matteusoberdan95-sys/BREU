@@ -41,10 +41,6 @@ size = Vector3(5.2, 2.8, 0.18)
 size = Vector3(3.2, 1.1, 0.14)
 [sub_resource type="BoxShape3D" id="RailFrontShape"]
 size = Vector3(3.2, 1.1, 0.14)
-[sub_resource type="BoxMesh" id="RailSide"]
-size = Vector3(0.14, 1.1, 4.35)
-[sub_resource type="BoxShape3D" id="RailSideShape"]
-size = Vector3(0.14, 1.1, 4.35)
 [sub_resource type="BoxMesh" id="DoorMesh"]
 size = Vector3(1.55, 2.2, 0.12)
 [sub_resource type="BoxShape3D" id="DoorShape"]
@@ -77,10 +73,6 @@ material_override = SubResource("MatFloor")
 [node name="BalconyRail_Front" type="MeshInstance3D" parent="Geometry"]
 position = Vector3(0, 3.35, -2.2)
 mesh = SubResource("RailFront")
-material_override = SubResource("MatRail")
-[node name="BalconyRail_Left" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(-1.67, 3.35, -4.375)
-mesh = SubResource("RailSide")
 material_override = SubResource("MatRail")
 [node name="BalconyRail_Right" type="Node3D" parent="Geometry"]
 position = Vector3(1.6, 3.35, -4.375)
@@ -151,10 +143,6 @@ shape = SubResource("FloorRoomsShape")
 position = Vector3(0, 3.35, -2.2)
 [node name="Shape" type="CollisionShape3D" parent="Collisions/FrontRail"]
 shape = SubResource("RailFrontShape")
-[node name="LeftRail" type="StaticBody3D" parent="Collisions"]
-position = Vector3(-1.67, 3.35, -4.375)
-[node name="Shape" type="CollisionShape3D" parent="Collisions/LeftRail"]
-shape = SubResource("RailSideShape")
 [node name="RoomEastWall" type="StaticBody3D" parent="Collisions"]
 position = Vector3(6.8, 4.2, -4.3)
 [node name="Shape" type="CollisionShape3D" parent="Collisions/RoomEastWall"]
