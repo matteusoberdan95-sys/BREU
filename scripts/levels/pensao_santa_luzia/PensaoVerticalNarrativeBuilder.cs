@@ -1,7 +1,7 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
-/// Sprint 14B — second-floor narrative readability (door frames + props only).
+/// Sprint 14F — second-floor minimal door frames only.
 /// </summary>
 public partial class PensaoVerticalBlockout01Builder
 {
@@ -17,9 +17,8 @@ public partial class PensaoVerticalBlockout01Builder
         };
         narrative.AddChild(doorFrames);
 
-        const string openDoor = "res://scenes/props/doors/DoorFrameOpen.tscn";
-        ConfigureOpenDoor(AddDoorPrefab(doorFrames, "Door_Room201_Frame", openDoor, new Vector3(-CorridorWallX, 0f, Room201CenterZ), Mathf.Pi * 0.5f), DoorWidth, _matInteriorWall, leafDirection: -1f);
-        ConfigureOpenDoor(AddDoorPrefab(doorFrames, "Door_Room202_Frame", openDoor, new Vector3(CorridorWallX, 0f, Room202CenterZ), Mathf.Pi * 0.5f), DoorWidth, _matInteriorWall);
+        AddMinimalDoorFrameXWall(doorFrames, "Door_Room201_Frame", new Vector3(-CorridorWallX, 0f, Room201CenterZ), DoorWidth, Mathf.Pi * 0.5f);
+        AddMinimalDoorFrameXWall(doorFrames, "Door_Room202_Frame", new Vector3(CorridorWallX, 0f, Room202CenterZ), DoorWidth, Mathf.Pi * 0.5f);
 
         BuildRoom201NarrativeProps(narrative);
         BuildRoom202NarrativeProps(narrative);

@@ -11,12 +11,11 @@ public partial class BlockoutUnlockHideDoor : Node3D, IInteractable
     public void Initialize(PensaoPuzzleState state, Node3D doorRoot)
     {
         _state = state;
-        _panel = doorRoot.GetNodeOrNull<MeshInstance3D>("DoorPanel");
+        _panel = doorRoot.GetNodeOrNull<MeshInstance3D>("Door_Deposit_Panel")
+            ?? doorRoot.GetNodeOrNull<MeshInstance3D>("DoorPanel");
         _blockingShape = doorRoot.GetNodeOrNull<CollisionShape3D>("BlockingBody/BlockingShape");
         _area = doorRoot.GetNodeOrNull<Area3D>("InteractionArea");
-        doorRoot.GetNodeOrNull<MeshInstance3D>("Frame/OpenDoorLeafLeft")?.Hide();
-        doorRoot.GetNodeOrNull<MeshInstance3D>("Frame/OpenDoorLeafRight")?.Hide();
-        doorRoot.GetNodeOrNull<MeshInstance3D>("Frame/UpperWallInfill")?.Hide();
+        HideFrameDecor(doorRoot);
         ApplyState();
     }
 
@@ -31,7 +30,9 @@ public partial class BlockoutUnlockHideDoor : Node3D, IInteractable
     public void Interact(Node interactor)
     {
         if (_state == null || _state.IsDepositUnlocked)
+        {
             return;
+        }
 
         var hud = HUDController.FindActive(GetTree());
         if (!_state.HasDepositKey)
@@ -49,8 +50,41 @@ public partial class BlockoutUnlockHideDoor : Node3D, IInteractable
     public void ApplyState()
     {
         var open = _state?.IsDepositUnlocked == true;
-        if (_panel != null) _panel.Visible = !open;
-        if (_blockingShape != null) _blockingShape.Disabled = open;
-        if (_area != null) _area.Monitorable = !open;
+        if (_panel != null)
+        {
+            _panel.Visible = !open;
+        }
+
+        if (_blockingShape != null)
+        {
+            _blockingShape.Disabled = open;
+        }
+
+        if (_area != null)
+        {
+            _area.Monitorable = !open;
+        }
+    }
+
+    private static void HideFrameDecor(Node3D doorRoot)
+    {
+        if (!doorRoot.HasNode("Frame"))
+        {
+            return;
+        }
+
+        var frame = doorRoot.GetNode<Node3D>("Frame");
+        HideIfPresent(frame, "UpperWallInfill");
+        HideIfPresent(frame, "OpenDoorLeafLeft");
+        HideIfPresent(frame, "OpenDoorLeafRight");
+    }
+
+    private static void HideIfPresent(Node parent, string childName)
+    {
+        var child = parent.GetNodeOrNull<Node3D>(childName);
+        if (child != null)
+        {
+            child.Visible = false;
+        }
     }
 }

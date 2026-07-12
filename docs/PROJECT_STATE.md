@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 14 em validação final; Sprint 14E executada (playtest F6 pendente)  
+**Fase:** REBOOT GREENFIELD — Sprint 14 em validação final; Sprint 14F executada (playtest F6 pendente)  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---

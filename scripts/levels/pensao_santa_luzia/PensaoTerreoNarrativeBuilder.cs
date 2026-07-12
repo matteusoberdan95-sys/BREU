@@ -1,8 +1,7 @@
 namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 /// <summary>
-/// Sprint 14B — ground-floor narrative readability (door frames + props only).
-/// Open doors = frame only, no panel.
+/// Sprint 14F — ground-floor narrative readability (minimal door frames + props).
 /// </summary>
 public partial class PensaoTerreoBlockout01Builder
 {
@@ -22,17 +21,27 @@ public partial class PensaoTerreoBlockout01Builder
 
     private void BuildGroundFloorDoorFrames(Node3D parent)
     {
-        const float receptionSouthZ = 1.2f;
-        const float corridorNorthZ = -7.0f;
         const float varandaEntryZ = 9.8f;
 
-        const string openDoor = "res://scenes/props/doors/DoorFrameOpen.tscn";
-        var mainEntrance = AddDoorPrefab(parent, "Door_MainEntrance_Frame", openDoor, new Vector3(0f, -WallEmbedBelowFloor, varandaEntryZ));
-        ConfigureOpenDoor(mainEntrance, MainEntryWidth, _matExteriorWall, decorativeLeaf: false);
-        ConfigureOpenDoor(AddDoorPrefab(parent, "Door_ReceptionSouth_Frame", openDoor, new Vector3(0f, -WallEmbedBelowFloor, receptionSouthZ)), DoorWidth, _matInteriorWall);
-        ConfigureOpenDoor(AddDoorPrefab(parent, "Door_ReceptionCorridor_Frame", openDoor, new Vector3(0f, -WallEmbedBelowFloor, corridorNorthZ)), DoorWidth, _matInteriorWall);
-        ConfigureOpenDoor(AddDoorPrefab(parent, "Door_Room102_Frame", openDoor, new Vector3(-CorridorWallX, -WallEmbedBelowFloor, -15.5f), Mathf.Pi * 0.5f), DoorWidth, _matInteriorWall, leafDirection: -1f);
-        ConfigureOpenDoor(AddDoorPrefab(parent, "Door_Kitchen_Frame", openDoor, new Vector3(CorridorWallX, -WallEmbedBelowFloor, -20.5f), Mathf.Pi * 0.5f), DoorWidth, _matInteriorWall);
+        AddMinimalDoorFrameZWall(
+            parent,
+            "Door_MainEntrance_Frame",
+            new Vector3(0f, -WallEmbedBelowFloor, varandaEntryZ),
+            MainEntryWidth);
+
+        AddMinimalDoorFrameXWall(
+            parent,
+            "Door_Room102_Frame",
+            new Vector3(-CorridorWallX, -WallEmbedBelowFloor, -15.5f),
+            DoorWidth,
+            Mathf.Pi * 0.5f);
+
+        AddMinimalDoorFrameXWall(
+            parent,
+            "Door_Kitchen_Frame",
+            new Vector3(CorridorWallX, -WallEmbedBelowFloor, -20.5f),
+            DoorWidth,
+            Mathf.Pi * 0.5f);
     }
 
     private void BuildReceptionNarrativeProps(Node3D parent)
@@ -162,14 +171,6 @@ public partial class PensaoTerreoBlockout01Builder
         var stair = new Node3D { Name = "StairProps" };
         parent.AddChild(stair);
 
-        var stairDoor = AddDoorPrefab(
-            stair,
-            "Door_StairEntry_Frame",
-            "res://scenes/props/doors/DoorFrameOpen.tscn",
-            new Vector3(-CorridorWallX - WallThickness * 0.5f, -WallEmbedBelowFloor, -25.5f),
-            Mathf.Pi * 0.5f);
-        ConfigureOpenDoor(stairDoor, DoorWidth, _matInteriorWall, leafDirection: -1f);
-
         AddVisualProp(
             stair,
             "Stair_Handrail_Visual",
@@ -243,5 +244,4 @@ public partial class PensaoTerreoBlockout01Builder
             "Os degraus rangem mesmo quando estou parado.",
             "stair_inspect");
     }
-
 }

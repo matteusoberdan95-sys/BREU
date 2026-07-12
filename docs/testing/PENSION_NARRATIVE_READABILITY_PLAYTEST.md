@@ -230,3 +230,46 @@ A aprovação visual permanece pendente até o playtest manual em F6.
 
 **Regressão**
 - [ ] Atmosfera / fog / HUD / puzzle / movimento intactos
+
+---
+
+## Sprint 14F — Definitive sign and door cleanup
+
+**Data:** 2026-07-11  
+**Baseline:** `docs/technical/PENSION_DOOR_BLOCKOUT_BASELINE.md` v1.3
+
+### Removido (não mais gerado em runtime)
+
+- `Sign_PensaoSantaLuzia` dentro do interior (clipava a entrada)
+- `JobOfferSign` como mesh 3D com texto (virou só `Area3D` na trilha)
+- Prefab `DoorFrameOpen` com `UpperWallInfill`, folhas e painéis decorativos
+- Portas abertas extras: recepção sul/corredor, escada (`Door_Reception*`, `Door_StairEntry`)
+- `ConfigureOpenDoor` / duplicatas de moldura por prefab
+
+### Padrão mínimo 14F
+
+| Elemento | Implementação |
+|----------|----------------|
+| Placa | Única: `Sign_Pensao_Main_Exterior` no nó `Exterior`, fora da fachada |
+| Porta aberta | `AddMinimalDoorFrame*` — 3 peças opacas, offset 0,06 m |
+| Porta trancada | Prefab + `FinalizeLockedDoor` — painel nomeado `*_Panel` |
+| Depósito | `Door_Deposit_Panel` |
+| Varanda | `Door_UpperBalcony_Panel` |
+
+### Checklist 14F
+
+**Entrada**
+- [ ] Uma placa externa apenas; nada dentro do vão
+- [ ] Sem painel horizontal / infill / folha na entrada
+- [ ] Passagem livre; sem flicker
+
+**Portas**
+- [ ] 102 / cozinha / 201 / 202 = só moldura
+- [ ] Depósito e varanda = painel opaco único cada
+- [ ] Nenhuma moldura pisca
+
+**2º andar**
+- [ ] Corredor inútil permanece fechado (14E)
+
+**Regressão**
+- [ ] Puzzle / escada / atmosfera intactos

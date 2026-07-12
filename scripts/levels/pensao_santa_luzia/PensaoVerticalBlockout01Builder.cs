@@ -793,10 +793,10 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
         var balconyDoor = AddDoorPrefab(
             _secondFloor,
-            "Door_UpperBalcony_Locked",
+            "Door_UpperBalcony",
             "res://scenes/props/doors/DoorLocked.tscn",
             new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, BlockedDoorZ - 0.05f));
-        ConfigureLockedDoor(balconyDoor, DoorWidth, panelInsetZ: -0.08f, panelMaterial: _matDoorBalcony);
+        FinalizeLockedDoor(balconyDoor, "Door_UpperBalcony_Panel", DoorWidth, panelInsetZ: -0.08f, panelMaterial: _matDoorBalcony);
         var balconyInteraction = (BlockoutLockedDoor)balconyDoor;
         balconyInteraction.PromptText = "Tentar abrir varanda";
         balconyInteraction.LockedMessage = "A porta está emperrada. O vento passa pelas frestas do lado de fora.";

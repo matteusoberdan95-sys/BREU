@@ -1,7 +1,7 @@
 # Baseline — Portas blockout (Pensão)
 
-**Versão:** 1.2  
-**Sprint:** 14E  
+**Versão:** 1.3  
+**Sprint:** 14F  
 **Data:** 2026-07-11  
 **Cena:** `res://scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 

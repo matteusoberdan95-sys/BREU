@@ -8,9 +8,22 @@ public partial class BlockoutLockedDoor : Node3D, IInteractable
 
     public override void _Ready()
     {
-        GetNodeOrNull<MeshInstance3D>("Frame/OpenDoorLeafLeft")?.Hide();
-        GetNodeOrNull<MeshInstance3D>("Frame/OpenDoorLeafRight")?.Hide();
-        GetNodeOrNull<MeshInstance3D>("Frame/UpperWallInfill")?.Hide();
+        if (HasNode("Frame"))
+        {
+            var frame = GetNode<Node3D>("Frame");
+            HideIfPresent(frame, "UpperWallInfill");
+            HideIfPresent(frame, "OpenDoorLeafLeft");
+            HideIfPresent(frame, "OpenDoorLeafRight");
+        }
+    }
+
+    private static void HideIfPresent(Node parent, string childName)
+    {
+        var child = parent.GetNodeOrNull<Node3D>(childName);
+        if (child != null)
+        {
+            child.Visible = false;
+        }
     }
 
     public string GetPromptText() => PromptText;

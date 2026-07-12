@@ -1,58 +1,28 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=5 format=3]
 
 [sub_resource type="BoxMesh" id="BoxMesh_post"]
-size = Vector3(0.14, 2.3, 0.3)
+size = Vector3(0.12, 2.3, 0.12)
 
 [sub_resource type="BoxMesh" id="BoxMesh_lintel"]
-size = Vector3(1.68, 0.14, 0.3)
+size = Vector3(1.68, 0.12, 0.12)
 
 [sub_resource type="StandardMaterial3D" id="Material_frame"]
-albedo_color = Color(0.38, 0.27, 0.18, 1)
-transparency = 0
-
-[sub_resource type="BoxMesh" id="BoxMesh_infill"]
-size = Vector3(1.4, 0.7, 0.2)
-
-[sub_resource type="StandardMaterial3D" id="Material_infill"]
-albedo_color = Color(0.78, 0.74, 0.68, 1)
-transparency = 0
-
-[sub_resource type="BoxMesh" id="BoxMesh_open_leaf"]
-size = Vector3(0.06, 2.2, 1.28)
-
-[sub_resource type="StandardMaterial3D" id="Material_leaf"]
-albedo_color = Color(0.22, 0.16, 0.12, 1)
+albedo_color = Color(0.28, 0.2, 0.14, 1)
 transparency = 0
 
 [node name="DoorFrameOpen" type="Node3D"]
 
 [node name="FrameLeft" type="MeshInstance3D" parent="."]
-position = Vector3(-0.77, 1.15, 0.05)
+position = Vector3(-0.77, 1.15, 0.06)
 mesh = SubResource("BoxMesh_post")
 material_override = SubResource("Material_frame")
 
 [node name="FrameRight" type="MeshInstance3D" parent="."]
-position = Vector3(0.77, 1.15, 0.05)
+position = Vector3(0.77, 1.15, 0.06)
 mesh = SubResource("BoxMesh_post")
 material_override = SubResource("Material_frame")
 
 [node name="FrameLintel" type="MeshInstance3D" parent="."]
-position = Vector3(0, 2.23, 0.05)
+position = Vector3(0, 2.36, 0.06)
 mesh = SubResource("BoxMesh_lintel")
 material_override = SubResource("Material_frame")
-
-[node name="UpperWallInfill" type="MeshInstance3D" parent="."]
-position = Vector3(0, 2.65, 0.05)
-mesh = SubResource("BoxMesh_infill")
-material_override = SubResource("Material_infill")
-
-[node name="OpenDoorLeafLeft" type="MeshInstance3D" parent="."]
-position = Vector3(-0.7, 1.1, 0.72)
-mesh = SubResource("BoxMesh_open_leaf")
-material_override = SubResource("Material_leaf")
-
-[node name="OpenDoorLeafRight" type="MeshInstance3D" parent="."]
-visible = false
-position = Vector3(0.7, 1.1, 0.72)
-mesh = SubResource("BoxMesh_open_leaf")
-material_override = SubResource("Material_leaf")
