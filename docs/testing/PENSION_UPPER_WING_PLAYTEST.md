@@ -1,34 +1,26 @@
-# Playtest — Sprint 18A (laje + ala superior)
+# Playtest — Ala superior / saneamento
 
-**Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
-**Status:** Implementada — F6 obrigatório
+**Cena:** `PensaoVerticalBlockout01.tscn`
 
-## Teste da laje (binário)
+## Sprint 18B — saneamento (prioridade)
 
-- [ ] subir ao segundo andar
-- [ ] abrir porta verde
-- [ ] entrar na área superior
-- [ ] caminhar `Marker_UpperFloor_Start` → `Middle` → `End`
-- [ ] voltar `End` → `Start`
-- [ ] não cair para o térreo
-- [ ] não precisar pular nem agachar
-- [ ] sem collider invisível no caminho
+- [ ] F4 LevelSanityChecker sem warnings críticos
+- [ ] entrada: olhar para cima → forro limpo (sem laje do 2º)
+- [ ] recepção: olhar para cima → forro limpo
+- [ ] sem BalconyWing_Rebuilt / setup duplicado
+- [ ] porta verde preservada
+- [ ] Quarto 203 preservado
+- [ ] escada OK
+- [ ] HUD / lanterna / F9 reset / F10 / F11 / áudio
 
-## Cômodos / puzzle
+## Sprint 18A — laje (após 18B OK)
 
-- [ ] Quarto 204 acessível; examinar cama e marcas
-- [ ] Banheiro coletivo; espelho
-- [ ] Rouparia; pegar segundo fusível
-- [ ] Sala técnica; instalar fusível
-- [ ] luz/corredor reage
-- [ ] Quarto 203 reage após energia; porta continua bloqueada
-- [ ] Quarto 205 bloqueado
-- [ ] varanda frontal andável; “Olhar para baixo” só na borda
+- [ ] Start → Middle → End sem cair
+- [ ] cômodos acessíveis
+- [ ] segundo fusível / painel / 203 reage
 
 ## Regressão
 
-- [ ] movimento / HUD / lanterna / F10–F11
-- [ ] áudio / passos / respiração / fog
-- [ ] puzzle depósito/fusível térreo
-- [ ] porta verde + proprietária + caderno
+- [ ] puzzle térreo
+- [ ] varanda / proprietária / caderno
 - [ ] sem inimigo / combate / chase

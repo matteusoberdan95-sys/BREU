@@ -162,23 +162,9 @@ public partial class PensaoBalconyPuzzleSetup : Node
 
     private static void CreateWingNotes(Node3D parent)
     {
-        CreateSimpleNote(
-            parent,
-            "Interact_Room203_Note",
-            new Vector3(3.6f, 3.85f, -4.8f),
-            "Ler bilhete",
-            "Ele disse que ouviu alguém andando no teto. Ninguém acreditou.",
-            "room_203_note",
-            PensionNarrativeEvents.EventRoom203Note);
-
-        CreateSimpleNote(
-            parent,
-            "Interact_OwnerLedger",
-            new Vector3(4.6f, 3.9f, -5.4f),
-            "Examinar caderno",
-            "Os nomes dos hóspedes terminam no mesmo dia. Depois disso, só há páginas rasgadas.",
-            "owner_ledger",
-            PensionNarrativeEvents.EventOwnerLedgerRead);
+        // Sprint 18B — frozen. Wing notes/ledger owned by BalconyWing.tscn + Room203Door.
+        // Do not spawn Interact_OwnerLedger / Room203 notes here (duplicates).
+        _ = parent;
     }
 
     private static void CreateSimpleNote(

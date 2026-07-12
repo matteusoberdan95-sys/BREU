@@ -14,22 +14,15 @@ public partial class PensaoVerticalBlockout01Builder
 
     private void BuildUpperBalconyWing()
     {
-        _matBloodStain = Mat(new Color(0.28f, 0.08f, 0.08f));
-        _matDampStain = Mat(new Color(0.22f, 0.24f, 0.26f));
-
-        var wing = new Node3D { Name = "BalconyWing_Rebuilt" };
-        _secondFloor.AddChild(wing);
-
-        OpenFrontWallForBalconyPassage();
-        BuildBalconyLandingAndWalkway(wing);
-        BuildBathroom(wing);
-        BuildOwnerBedroom(wing);
-        BuildBalconyWingCeilings();
-        BuildWingLightingHints();
+        // Sprint 17E/18B — FROZEN. Manual owner: areas/BalconyWing.tscn.
+        // Do not recreate rooms, doors, floors or interactions here.
+        GD.PushWarning(
+            "[Frozen] BuildUpperBalconyWing skipped. Use BalconyWing.tscn / UpperWingExpansion.tscn.");
     }
 
     private void OpenFrontWallForBalconyPassage()
     {
+        // Allowed structural edit only: cut Wall_Second_Front so the manual green door works.
         _secondFloor.GetNodeOrNull("Wall_Second_Front")?.QueueFree();
 
         var wallZ = UpperFrontZ + WallThickness * 0.5f;

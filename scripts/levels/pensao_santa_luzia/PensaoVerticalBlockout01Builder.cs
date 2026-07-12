@@ -44,7 +44,20 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private static float SecondFloorWallTopY => SecondFloorTopY + WallHeight;
 
-    private static float FirstFloorCeilingUndersideY => WallHeight - WallEmbedBelowFloor;
+    /// <summary>
+    /// Sprint 18B — GF ceiling must sit under (and seal against) the second-floor slab
+    /// so looking up in reception never reveals upper floors.
+    /// </summary>
+    private static float FirstFloorCeilingThickness => 0.38f;
+
+    /// <summary>Top face of the GF ceiling plate (just under second-floor top).</summary>
+    private static float FirstFloorCeilingTopY => SecondFloorTopY - 0.01f;
+
+    private static float FirstFloorCeilingCenterY =>
+        FirstFloorCeilingTopY - FirstFloorCeilingThickness * 0.5f;
+
+    [Obsolete("Name lied — was used as plate center. Use FirstFloorCeilingCenterY.")]
+    private static float FirstFloorCeilingUndersideY => FirstFloorCeilingCenterY;
 
     private static float SecondFloorCeilingUndersideY => SecondFloorTopY + WallHeight;
 
@@ -102,14 +115,41 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matSecondCeiling = Mat(new Color(0.42f, 0.4f, 0.44f));
         _matSecondRail = Mat(new Color(0.36f, 0.38f, 0.42f));
         _matFurniture = Mat(new Color(0.38f, 0.34f, 0.32f));
-        _matCeilingFirst = Mat(new Color(0.34f, 0.31f, 0.28f));
+        _matCeilingFirst = Mat(new Color(0.28f, 0.26f, 0.24f));
         _matCeilingSecond = Mat(new Color(0.38f, 0.36f, 0.4f));
         _matRoof = Mat(new Color(0.32f, 0.3f, 0.28f));
         _matDoorBalcony = Mat(new Color(0.32f, 0.5f, 0.3f));
         BuildSecondFloor();
         BuildCeilingBlockout();
+        // Structural gap only — wing rooms/doors owned by BalconyWing.tscn (Sprint 17E/18B).
         OpenFrontWallForBalconyPassage();
         BuildSecondFloorNarrativeReadability();
+        TagLevelOwnershipGroups();
+    }
+
+    /// <summary>Sprint 18B — mark runtime-built containers for LevelSanityChecker.</summary>
+    private void TagLevelOwnershipGroups()
+    {
+        TagSubtree(_interior, "level_first_floor");
+        TagSubtree(_secondFloor, "level_second_floor");
+        TagSubtree(_ceiling, "level_ceiling");
+        if (GetTree().CurrentScene?.GetNodeOrNull("BalconyWing") is Node wing)
+        {
+            TagSubtree(wing, "level_upper_wing");
+        }
+
+        if (GetTree().CurrentScene?.GetNodeOrNull("UpperWingExpansion") is Node expansion)
+        {
+            TagSubtree(expansion, "level_upper_wing");
+        }
+    }
+
+    private static void TagSubtree(Node root, string group)
+    {
+        if (!root.IsInGroup(group))
+        {
+            root.AddToGroup(group);
+        }
     }
 
     protected override void BuildExtensionInteractions()
@@ -146,19 +186,49 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private void BuildFirstFloorCeilings()
     {
-        // One continuous opaque ceiling over the entrance and reception.
-        // It deliberately reaches the reception north wall, avoiding exposed
-        // second-floor slabs and the layered plates that caused the old flicker.
-        const float receptionNorthZ = -7.05f;
-        var frontDepth = BuildingFrontZ - receptionNorthZ + FloorOverlap;
-        var frontCenterZ = (BuildingFrontZ + receptionNorthZ) * 0.5f;
+        // Sprint 18B — full opaque seal under the second-floor footprint.
+        // Top of this plate stays below SecondFloorTopY so upper slabs never
+        // invade the first-floor view cone (reception / entrance / corridor).
+        var fullDepth = BuildingFrontZ - BuildingBackZ + FloorOverlap;
+        var fullCenterZ = (BuildingFrontZ + BuildingBackZ) * 0.5f;
 
         AddVisualCeilingPlate(
             _ceiling,
-            "Ceiling_Reception_Continuous",
-            new Vector3(0f, FirstFloorCeilingUndersideY, frontCenterZ),
-            new Vector3(SlabWidth, CeilingThickness, frontDepth),
+            "Ceiling_FirstFloor_Seal",
+            new Vector3(0f, FirstFloorCeilingCenterY, fullCenterZ),
+            new Vector3(SlabWidth + 0.4f, FirstFloorCeilingThickness, fullDepth),
             _matCeilingFirst);
+
+        // Extra dark soffit over entrance + reception (readability).
+        const float receptionNorthZ = -7.05f;
+        var frontDepth = BuildingFrontZ - receptionNorthZ + FloorOverlap;
+        var frontCenterZ = (BuildingFrontZ + receptionNorthZ) * 0.5f;
+        var soffitThickness = 0.08f;
+        var soffitCenterY = FirstFloorCeilingTopY - soffitThickness * 0.5f - 0.01f;
+
+        AddVisualCeilingPlate(
+            _ceiling,
+            "Ceiling_Reception_Soffit",
+            new Vector3(0f, soffitCenterY, frontCenterZ),
+            new Vector3(SlabWidth, soffitThickness, frontDepth),
+            _matCeilingFirst);
+
+        // Height reference markers for future authoring.
+        _ceiling.AddChild(new Marker3D
+        {
+            Name = "Marker_FirstFloor_CeilingHeight",
+            Position = new Vector3(0f, FirstFloorCeilingTopY, -3.5f)
+        });
+        _ceiling.AddChild(new Marker3D
+        {
+            Name = "Marker_SecondFloor_FloorHeight",
+            Position = new Vector3(0f, SecondFloorTopY, -14f)
+        });
+        _ceiling.AddChild(new Marker3D
+        {
+            Name = "Marker_UpperWing_FloorHeight",
+            Position = new Vector3(2.4f, SecondFloorTopY, 0.1f)
+        });
     }
 
     private void BuildSecondFloorCeilings()
@@ -272,8 +342,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         var shellSpanX = BuildingHalfWidth * 2f + WallThickness + WallCornerOverlap;
         var frontSegmentWidth = BuildingHalfWidth - MainEntryWidth * 0.5f + WallCornerOverlap;
         var frontSegmentCenterX = BuildingHalfWidth - frontSegmentWidth * 0.5f;
-        var upperMassHeight = SecondFloorWallTopY - FirstFloorWallTopY;
-        var upperMassCenterY = FirstFloorWallTopY + upperMassHeight * 0.5f;
+        var upperMassHeight = SecondFloorWallTopY - FirstFloorCeilingTopY;
+        var upperMassCenterY = FirstFloorCeilingTopY + upperMassHeight * 0.5f;
 
         AddVisualCeilingPlate(
             exterior,
@@ -321,45 +391,49 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         BuildTrailVisibleUpperBalcony(exterior);
     }
 
-    /// <summary>Exterior readability from trail — upper balcony placeholder above main entry.</summary>
+    /// <summary>
+    /// Exterior-only readability from the trail. Kept outside the main entry
+    /// opening so it cannot read as second-floor geometry piercing the porch ceiling.
+    /// </summary>
     private void BuildTrailVisibleUpperBalcony(Node3D exterior)
     {
         var host = new Node3D { Name = "UpperBalcony_TrailReadability" };
         exterior.AddChild(host);
 
-        const float balconyProtrude = 1.0f;
+        const float balconyProtrude = 0.85f;
         const float balconyWidth = 3.8f;
-        var frontFaceZ = BuildingFrontZ + WallThickness * 0.5f;
+        // Fully outside the front wall face (no intrusion into interior volume).
+        var frontFaceZ = BuildingFrontZ + WallThickness * 0.5f + 0.08f;
         var balconyCenterZ = frontFaceZ + balconyProtrude * 0.5f;
-        var floorCenterY = SecondFloorTopY + 0.1f;
-        var railCenterY = SecondFloorTopY + 0.62f;
+        var floorCenterY = SecondFloorTopY + 0.12f;
+        var railCenterY = SecondFloorTopY + 0.65f;
 
         AddVisualCeilingPlate(
             host,
             "UpperBalcony_Trail_Floor",
             new Vector3(0f, floorCenterY, balconyCenterZ),
-            new Vector3(balconyWidth, 0.16f, balconyProtrude),
+            new Vector3(balconyWidth, 0.14f, balconyProtrude),
             _matSecondFloor);
 
         AddVisualCeilingPlate(
             host,
             "UpperBalcony_Trail_Rail_Front",
-            new Vector3(0f, railCenterY, frontFaceZ + balconyProtrude + 0.06f),
-            new Vector3(balconyWidth + 0.14f, 0.95f, 0.12f),
+            new Vector3(0f, railCenterY, frontFaceZ + balconyProtrude + 0.05f),
+            new Vector3(balconyWidth + 0.14f, 0.9f, 0.12f),
             _matSecondRail);
 
         AddVisualCeilingPlate(
             host,
             "UpperBalcony_Trail_Rail_Left",
             new Vector3(-balconyWidth * 0.5f - 0.05f, railCenterY, balconyCenterZ),
-            new Vector3(0.12f, 0.95f, balconyProtrude),
+            new Vector3(0.12f, 0.9f, balconyProtrude),
             _matSecondRail);
 
         AddVisualCeilingPlate(
             host,
             "UpperBalcony_Trail_Rail_Right",
             new Vector3(balconyWidth * 0.5f + 0.05f, railCenterY, balconyCenterZ),
-            new Vector3(0.12f, 0.95f, balconyProtrude),
+            new Vector3(0.12f, 0.9f, balconyProtrude),
             _matSecondRail);
     }
 

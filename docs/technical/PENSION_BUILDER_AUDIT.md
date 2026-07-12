@@ -1,36 +1,24 @@
-# Auditoria de builders — ala da varanda
+# Auditoria de builders — Pensão (atualizado Sprint 18B)
 
-**Data:** 2026-07-12  
-**Cena:** `PensaoVerticalBlockout01.tscn`
+Ver também: `docs/technical/PENSION_SCENE_OWNERSHIP.md`
 
-## Resultado
+## Resultado 18B
 
-A ala era montada por geometria do `PensaoVerticalBlockout01Builder`, interações do `PensaoBalconyWingPuzzleSetup` e inicialização do `PensaoBalconyPuzzleSetup`. Essa divisão permitia que paredes, pisos, blockers e áreas antigas coexistissem com correções novas.
+| Nó / script | Geometria | Interações | Status |
+|---|---|---|---|
+| `World/Builder` | Térreo + 2º + teto | Inspect 2º | Ativo |
+| `OpenFrontWallForBalconyPassage` | Só gap estrutural | Não | Ativo (necessário) |
+| `BuildUpperBalconyWing` | — | — | **Congelado** (no-op) |
+| `PensaoBalconyWingPuzzleSetup` | — | — | Fora da cena / `Enabled=false` |
+| `PensaoBalconyPuzzleSetup` | Nota/chave | Init porta verde | Ativo |
+| `BalconyWing.tscn` | Ala varanda | Puzzle varanda | Dono manual |
+| `UpperWingExpansion.tscn` | Laje/expansão | 18A | Dono manual |
+| `Room203Door.tscn` | Porta 203 | 203 | Dono manual |
+| `LevelSanityChecker` | Não | Não | F4 debug |
 
-| Nó / script | `_Ready` | Mesh/StaticBody | Area/prompt | Situação após 17E |
-|---|---:|---:|---:|---|
-| `World/Builder` / `PensaoVerticalBlockout01Builder` | Sim | Sim, pensão geral | Interações gerais | Congelado para a ala: não cria porta, varanda ou cômodos; apenas mantém o vão estrutural |
-| `World/PuzzleSetup` / `PensaoTerreoPuzzleSetup` | Sim | Não relevante | Puzzle térreo | Preservado sem alteração |
-| `World/BalconyPuzzleSetup` / `PensaoBalconyPuzzleSetup` | Sim | Não | Nota/chave e inicialização da porta existente | Preservado como progressão; não cria geometria da ala |
-| `World/BalconyWingPuzzleSetup` / `PensaoBalconyWingPuzzleSetup` | Sim | Criava props | Criava todas as áreas da ala | Removido da cena principal e `Enabled=false` por padrão |
-| `BalconyWing` / `ManualBalconyWingController` | Sim | Não cria | Apenas inicializa nós já autorados | Ativo, sem criação runtime |
+## Critério
 
-## Cena manual
-
-`scenes/levels/pensao_santa_luzia/areas/BalconyWing.tscn` é a fonte única de:
-
-- `BalconyDoor_Green`;
-- patamar, piso e guarda-corpos;
-- `Room_UpperBathroom` e `Room_OwnerBedroom`;
-- colisões da microárea;
-- `Interact_BalconyLookDown`, espelho, ralo, arame, porta do quarto e caderno.
-
-As áreas são pequenas e posicionadas diante dos objetos. O raycast do player continua sendo a autoridade de foco e distância; nenhuma área da cena manual atravessa a parede da porta.
-
-## Critério de congelamento
-
-- `BuildUpperBalconyWing()` não é chamado.
-- A porta verde não é criada por `BuildSecondFloorInteractions()`.
-- `BalconyWingPuzzleSetup` não existe no Scene Tree.
-- O arquivo histórico permanece com `Enabled=false`.
-- A cena principal instancia `BalconyWing.tscn` exatamente uma vez.
+- Uma instância de `BalconyWing`
+- Zero `BalconyWing_Rebuilt`
+- Forro `Ceiling_FirstFloor_Seal` presente
+- Checklist: `docs/production/LEVEL_CHANGE_CHECKLIST.md`

@@ -378,27 +378,32 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprint 18 — Primeiro susto controlado sem inimigo físico
 
-**Status:** 🔄 Em andamento via 18A — F6 pendente
+**Status:** 🔄 Pausado — saneamento 18B primeiro
 
-### Sprint 18A — Laje sólida + cômodos da ala superior
+### Sprint 18A — Laje sólida + cômodos
 
-**Status:** 🔄 Implementada — playtest F6 pendente
+**Status:** 🔄 Implementada; expansão nova congelada até 18B F6 OK
 
-**Objetivo:** Piso sólido no espaço liberado + cômodos jogáveis + segundo fusível.
+### Sprint 18B — Saneamento estrutural + anti-acúmulo
+
+**Status:** 🔄 Implementada — F6 pendente
+
+**Objetivo:** limpar cena, selar teto GF, congelar builders duplicados, checklist + F4.
 
 **Entregas:**
-- `UpperWing_SolidFloor` com colisão real
-- Quarto 204, banheiro coletivo, rouparia, gerador, 205 bloqueado
-- Flags `HasUpperFuse` / `IsUpperPowerRestored`
-- Reação do Quarto 203 após energia (sem abrir)
+- `Ceiling_FirstFloor_Seal` / soffit recepção
+- `PENSION_SCENE_OWNERSHIP.md` / `PENSION_LEVEL_METRICS.md`
+- `LEVEL_CHANGE_CHECKLIST.md`
+- `LevelSanityChecker` (F4)
+- `BuildUpperBalconyWing` frozen
 
-**DoD:** Player não cai; cômodos acessíveis; puzzle do fusível; zero regressão.
+**DoD:** teto limpo na entrada/recepção; sem rebuild duplicado da ala; checklist citado no PROJECT_STATE.
 
 ---
 
 ## Sprint 19 — Primeiro inimigo / encontro controlado
 
-**Status:** ⏳ Após Sprint 18A aprovada
+**Status:** ⏳ Após 18B aprovada + ala estável
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 
