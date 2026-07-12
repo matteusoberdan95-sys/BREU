@@ -24,6 +24,17 @@ Não mexer mais no chão/deck da varanda.
 Não recriar mureta, boundary global, colliders soltos ou paredes invisíveis na área caminhável.
 Próximas paredes/colisões: só cômodos novos, collider filho da parede visual correspondente.
 
+## Regra de cômodos da ala superior
+
+Toda sala nova deve:
+- usar o deck aprovado como piso físico;
+- ter paredes próprias com colliders filhos;
+- não criar piso físico global;
+- não criar boundary global;
+- não criar collider solto;
+- não criar trigger que alcance outro andar;
+- passar teste manual antes de commit.
+
 ## REGRA CRÍTICA — Não chutar collider de parede
 
 É proibido criar collider de parede por coordenada chutada.

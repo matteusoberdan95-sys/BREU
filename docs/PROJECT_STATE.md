@@ -1,5 +1,19 @@
 # BREU — Estado do projeto
 
+## Sprint 19 — Cômodos claustrofóbicos da ala superior
+
+**Status:** implementada (playtest F6 obrigatório)  
+**Deck:** `UpperWing_CollisionDeck` **não alterado** (congelado).
+
+Criado `areas/UpperWingRooms.tscn` instanciado em `World/Level/SecondFloor/UpperWingRooms`:
+- Corridor_UpperClaustro, LaundryStorage, SharedBathroom, Room204, TechnicalRoom, Room205_Locked;
+- puzzle Fusível Superior (`HasUpperFuse` → `IsUpperPowerRestored`);
+- bilhete 204 (`ReadRoom204Note`);
+- sustos one-shot (corredor, banheiro, rouparia, saída 204);
+- Room203 preparado (mensagem pós-energia; ainda não abre).
+
+Próxima sprint sugerida: abrir Quarto 203 e introduzir primeiro inimigo/evento forte.
+
 ## ✅ CHECKPOINT — Varanda aprovada para gameplay (CONGELADA)
 
 **Data:** 2026-07-12  
@@ -61,7 +75,8 @@ O playtest invalidou a laje anterior: o player ainda caía para o primeiro andar
 | Sprint 17–17F | **✅ Varanda aprovada/congelada** — 203 acessível |
 | Sprint 18A | **⏸️ Cômodos da expansão removidos provisoriamente na 18C** |
 | Sprint 18B | **🔄 Absorvida / reforçada pela 18C** |
-| Sprint 18C | **✅ Deck/varanda aprovados** — próxima: cômodos com colliders filhos |
+| Sprint 18C | **✅ Deck/varanda aprovados** |
+| Sprint 19 | **🔄 Cômodos + fusível superior** — F6 pendente |
 
 ### Regra obrigatória (18C)
 

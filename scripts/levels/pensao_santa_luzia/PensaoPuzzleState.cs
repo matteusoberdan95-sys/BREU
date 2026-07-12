@@ -36,6 +36,15 @@ public partial class PensaoPuzzleState : Node
     /// <summary>Sprint 18A — upper generator panel restored.</summary>
     public bool IsUpperPowerRestored { get; private set; }
 
+    /// <summary>Sprint 19 — Room 204 owner note read.</summary>
+    public bool ReadRoom204Note { get; private set; }
+
+    /// <summary>Sprint 19 — one-shot scares / intros.</summary>
+    public bool CorridorIntroPlayed { get; private set; }
+    public bool BathroomScarePlayed { get; private set; }
+    public bool LaundryScarePlayed { get; private set; }
+    public bool Room204ExitScarePlayed { get; private set; }
+
     public event Action? DepositKeyPickedUp;
     public event Action? OldFusePickedUp;
     public event Action? BalconyNoteRead;
@@ -49,6 +58,7 @@ public partial class PensaoPuzzleState : Node
     public event Action? Room203WarningTriggered;
     public event Action? UpperFusePickedUp;
     public event Action? UpperPowerRestored;
+    public event Action? Room204NoteRead;
 
     public void PickupDepositKey()
     {
@@ -187,5 +197,36 @@ public partial class PensaoPuzzleState : Node
 
         IsUpperPowerRestored = true;
         UpperPowerRestored?.Invoke();
+    }
+
+    public void MarkRoom204NoteRead()
+    {
+        if (ReadRoom204Note)
+        {
+            return;
+        }
+
+        ReadRoom204Note = true;
+        Room204NoteRead?.Invoke();
+    }
+
+    public void MarkCorridorIntroPlayed()
+    {
+        CorridorIntroPlayed = true;
+    }
+
+    public void MarkBathroomScarePlayed()
+    {
+        BathroomScarePlayed = true;
+    }
+
+    public void MarkLaundryScarePlayed()
+    {
+        LaundryScarePlayed = true;
+    }
+
+    public void MarkRoom204ExitScarePlayed()
+    {
+        Room204ExitScarePlayed = true;
     }
 }

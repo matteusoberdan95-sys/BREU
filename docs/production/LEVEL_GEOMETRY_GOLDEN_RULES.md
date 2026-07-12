@@ -87,6 +87,17 @@ A navegação da varanda (chão/deck) foi aprovada. A varanda permanece aberta.
 - criar collider que atravesse dois andares;
 - criar collider que afete o térreo ou fique no meio do caminho.
 
+## Regra de cômodos da ala superior
+
+Toda sala nova deve:
+- usar o deck aprovado como piso físico;
+- ter paredes próprias com colliders filhos da mesh visual;
+- não criar piso físico global;
+- não criar boundary global;
+- não criar collider solto;
+- não criar trigger que alcance outro andar;
+- passar teste manual antes de commit.
+
 ## Regra anti-acúmulo
 
 Antes de nova versão, remover geometria, colliders, prompts, builders e nodes duplicados antigos. Não esconder lixo; remover lixo.

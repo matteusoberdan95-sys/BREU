@@ -1,5 +1,31 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Sprint 19 — Cômodos claustrofóbicos da ala superior
+
+**Cena:** `UpperWingRooms.tscn` → `World/Level/SecondFloor/UpperWingRooms`  
+**Deck:** `UpperWing_CollisionDeck` **não alterado** (`5, 2.4, 4.6` / `50×0,8×30,8`).  
+**Sem** boundary global / mureta / collider solto / piso físico novo.
+
+### Cômodos
+- Corridor_UpperClaustro (intro + luz fraca)
+- LaundryStorage (Fusível Superior)
+- SharedBathroom (exame + espelho)
+- Room204 (bilhete + cama)
+- TechnicalRoom (painel)
+- Room205_Locked (só mensagem)
+
+### Puzzle / flags
+`ReadRoom204Note` → `HasUpperFuse` → `IsUpperPowerRestored` → Room203 mensagem reforçada (não abre).
+
+Sustos one-shot: CorridorIntro, BathroomScare, LaundryScare, Room204ExitScare.
+
+### Regressão obrigatória
+[ ] varanda andável sem queda / sem parede invisível  
+[ ] térreo sem teleporte após abrir varanda  
+[ ] porta verde + 203 OK  
+[ ] rota cômodos completa sem prender  
+[ ] Visible Collision Shapes: colliders só filhos de paredes; deck igual  
+
 ## ✅ CHECKPOINT — Varanda aprovada para gameplay (CONGELADA)
 
 **Data:** 2026-07-12  

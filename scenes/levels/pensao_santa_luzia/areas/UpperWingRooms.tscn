@@ -1,0 +1,826 @@
+[gd_scene load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/UpperWingRoomsController.cs" id="1_ctrl"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/BlockoutSimpleRoomDoor.cs" id="2_simple"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/BlockoutLockedRoomDoor.cs" id="3_locked"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/UpperWingPuzzleInteraction.cs" id="4_puzzle"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/UpperWingCorridorIntroTrigger.cs" id="5_intro"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/UpperWingRoom204ExitScare.cs" id="6_exit"]
+
+[sub_resource type="StandardMaterial3D" id="MatWall"]
+albedo_color = Color(0.34, 0.32, 0.31, 1)
+[sub_resource type="StandardMaterial3D" id="MatFloor"]
+albedo_color = Color(0.24, 0.23, 0.26, 1)
+[sub_resource type="StandardMaterial3D" id="MatCeil"]
+albedo_color = Color(0.28, 0.27, 0.29, 1)
+[sub_resource type="StandardMaterial3D" id="MatProp"]
+albedo_color = Color(0.22, 0.18, 0.16, 1)
+[sub_resource type="StandardMaterial3D" id="MatDoor"]
+albedo_color = Color(0.2, 0.14, 0.11, 1)
+[sub_resource type="StandardMaterial3D" id="MatFrame"]
+albedo_color = Color(0.14, 0.12, 0.11, 1)
+[sub_resource type="StandardMaterial3D" id="MatStain"]
+albedo_color = Color(0.18, 0.12, 0.1, 1)
+
+[sub_resource type="BoxMesh" id="Mesh1"]
+size = Vector3(0.18, 2.6, 2.0)
+[sub_resource type="BoxShape3D" id="Shape1"]
+size = Vector3(0.18, 2.6, 2.0)
+[sub_resource type="BoxMesh" id="Mesh2"]
+size = Vector3(0.18, 2.6, 3.0)
+[sub_resource type="BoxShape3D" id="Shape2"]
+size = Vector3(0.18, 2.6, 3.0)
+[sub_resource type="BoxMesh" id="Mesh3"]
+size = Vector3(0.18, 2.6, 0.6)
+[sub_resource type="BoxShape3D" id="Shape3"]
+size = Vector3(0.18, 2.6, 0.6)
+[sub_resource type="BoxMesh" id="Mesh4"]
+size = Vector3(0.7, 2.6, 0.18)
+[sub_resource type="BoxShape3D" id="Shape4"]
+size = Vector3(0.7, 2.6, 0.18)
+[sub_resource type="BoxMesh" id="Mesh5"]
+size = Vector3(0.18, 2.6, 2.5)
+[sub_resource type="BoxShape3D" id="Shape5"]
+size = Vector3(0.18, 2.6, 2.5)
+[sub_resource type="BoxMesh" id="Mesh6"]
+size = Vector3(2.4, 2.6, 0.18)
+[sub_resource type="BoxShape3D" id="Shape6"]
+size = Vector3(2.4, 2.6, 0.18)
+[sub_resource type="BoxMesh" id="Mesh7"]
+size = Vector3(2.45, 2.6, 0.18)
+[sub_resource type="BoxShape3D" id="Shape7"]
+size = Vector3(2.45, 2.6, 0.18)
+[sub_resource type="BoxMesh" id="Mesh8"]
+size = Vector3(0.18, 2.6, 2.6)
+[sub_resource type="BoxShape3D" id="Shape8"]
+size = Vector3(0.18, 2.6, 2.6)
+[sub_resource type="BoxMesh" id="Mesh9"]
+size = Vector3(3.1, 2.6, 0.18)
+[sub_resource type="BoxShape3D" id="Shape9"]
+size = Vector3(3.1, 2.6, 0.18)
+[sub_resource type="BoxMesh" id="Mesh10"]
+size = Vector3(2.6, 2.6, 0.18)
+[sub_resource type="BoxShape3D" id="Shape10"]
+size = Vector3(2.6, 2.6, 0.18)
+[sub_resource type="BoxMesh" id="Mesh11"]
+size = Vector3(0.18, 2.6, 1.2)
+[sub_resource type="BoxShape3D" id="Shape11"]
+size = Vector3(0.18, 2.6, 1.2)
+[sub_resource type="BoxMesh" id="Mesh12"]
+size = Vector3(1.35, 2.6, 0.18)
+[sub_resource type="BoxShape3D" id="Shape12"]
+size = Vector3(1.35, 2.6, 0.18)
+[sub_resource type="BoxMesh" id="Mesh13"]
+size = Vector3(1.7, 0.16, 6.5)
+[sub_resource type="BoxShape3D" id="Shape13"]
+size = Vector3(1.7, 0.16, 6.5)
+[sub_resource type="BoxMesh" id="Mesh14"]
+size = Vector3(2.5, 0.16, 2.6)
+[sub_resource type="BoxShape3D" id="Shape14"]
+size = Vector3(2.5, 0.16, 2.6)
+[sub_resource type="BoxMesh" id="Mesh15"]
+size = Vector3(3.2, 0.16, 2.7)
+[sub_resource type="BoxShape3D" id="Shape15"]
+size = Vector3(3.2, 0.16, 2.7)
+[sub_resource type="BoxMesh" id="Mesh16"]
+size = Vector3(2.7, 0.16, 2.7)
+[sub_resource type="BoxShape3D" id="Shape16"]
+size = Vector3(2.7, 0.16, 2.7)
+[sub_resource type="BoxMesh" id="Mesh17"]
+size = Vector3(1.5, 0.04, 6.4)
+[sub_resource type="BoxShape3D" id="Shape17"]
+size = Vector3(1.5, 0.04, 6.4)
+[sub_resource type="BoxMesh" id="Mesh18"]
+size = Vector3(2.4, 0.04, 2.4)
+[sub_resource type="BoxShape3D" id="Shape18"]
+size = Vector3(2.4, 0.04, 2.4)
+[sub_resource type="BoxMesh" id="Mesh19"]
+size = Vector3(3.0, 0.04, 2.5)
+[sub_resource type="BoxShape3D" id="Shape19"]
+size = Vector3(3.0, 0.04, 2.5)
+[sub_resource type="BoxMesh" id="Mesh20"]
+size = Vector3(2.5, 0.04, 2.5)
+[sub_resource type="BoxShape3D" id="Shape20"]
+size = Vector3(2.5, 0.04, 2.5)
+[sub_resource type="BoxMesh" id="Mesh21"]
+size = Vector3(0.35, 1.4, 1.2)
+[sub_resource type="BoxShape3D" id="Shape21"]
+size = Vector3(0.35, 1.4, 1.2)
+[sub_resource type="BoxMesh" id="Mesh22"]
+size = Vector3(0.8, 0.5, 0.5)
+[sub_resource type="BoxShape3D" id="Shape22"]
+size = Vector3(0.8, 0.5, 0.5)
+[sub_resource type="BoxMesh" id="Mesh23"]
+size = Vector3(0.7, 0.7, 0.4)
+[sub_resource type="BoxShape3D" id="Shape23"]
+size = Vector3(0.7, 0.7, 0.4)
+[sub_resource type="BoxMesh" id="Mesh24"]
+size = Vector3(0.55, 0.55, 0.4)
+[sub_resource type="BoxShape3D" id="Shape24"]
+size = Vector3(0.55, 0.55, 0.4)
+[sub_resource type="BoxMesh" id="Mesh25"]
+size = Vector3(0.08, 0.7, 0.5)
+[sub_resource type="BoxShape3D" id="Shape25"]
+size = Vector3(0.08, 0.7, 0.5)
+[sub_resource type="BoxMesh" id="Mesh26"]
+size = Vector3(1.0, 1.5, 0.12)
+[sub_resource type="BoxShape3D" id="Shape26"]
+size = Vector3(1.0, 1.5, 0.12)
+[sub_resource type="BoxMesh" id="Mesh27"]
+size = Vector3(1.6, 0.45, 0.9)
+[sub_resource type="BoxShape3D" id="Shape27"]
+size = Vector3(1.6, 0.45, 0.9)
+[sub_resource type="BoxMesh" id="Mesh28"]
+size = Vector3(0.4, 0.5, 0.4)
+[sub_resource type="BoxShape3D" id="Shape28"]
+size = Vector3(0.4, 0.5, 0.4)
+[sub_resource type="BoxMesh" id="Mesh29"]
+size = Vector3(0.7, 0.25, 0.45)
+[sub_resource type="BoxShape3D" id="Shape29"]
+size = Vector3(0.7, 0.25, 0.45)
+[sub_resource type="BoxMesh" id="Mesh30"]
+size = Vector3(0.12, 1.2, 0.8)
+[sub_resource type="BoxShape3D" id="Shape30"]
+size = Vector3(0.12, 1.2, 0.8)
+[sub_resource type="BoxMesh" id="Mesh31"]
+size = Vector3(0.9, 0.5, 0.5)
+[sub_resource type="BoxShape3D" id="Shape31"]
+size = Vector3(0.9, 0.5, 0.5)
+[sub_resource type="BoxMesh" id="Mesh32"]
+size = Vector3(0.5, 0.4, 0.4)
+[sub_resource type="BoxShape3D" id="Shape32"]
+size = Vector3(0.5, 0.4, 0.4)
+[sub_resource type="BoxMesh" id="DoorPanelMesh"]
+size = Vector3(1.35, 2.15, 0.1)
+[sub_resource type="BoxShape3D" id="DoorBlockShape"]
+size = Vector3(1.35, 2.15, 0.1)
+[sub_resource type="BoxShape3D" id="DoorInteractShape"]
+size = Vector3(1.1, 1.2, 0.4)
+[sub_resource type="BoxMesh" id="DoorFrameSide"]
+size = Vector3(0.12, 2.35, 0.12)
+[sub_resource type="BoxMesh" id="DoorFrameTop"]
+size = Vector3(1.55, 0.12, 0.12)
+[sub_resource type="BoxShape3D" id="InteractSmall"]
+size = Vector3(0.5, 0.6, 0.4)
+[sub_resource type="BoxShape3D" id="IntroTriggerShape"]
+size = Vector3(1.2, 1.6, 1.0)
+[sub_resource type="BoxShape3D" id="ExitScareShape"]
+size = Vector3(1.4, 1.6, 0.8)
+
+[node name="UpperWingRooms" type="Node3D" groups=["level_upper_wing", "level_second_floor"]]
+script = ExtResource("1_ctrl")
+
+[node name="Corridor_UpperClaustro" type="Node3D" parent="."]
+[node name="LaundryStorage" type="Node3D" parent="."]
+[node name="SharedBathroom" type="Node3D" parent="."]
+[node name="Room204" type="Node3D" parent="."]
+[node name="TechnicalRoom" type="Node3D" parent="."]
+[node name="Room205_Locked" type="Node3D" parent="."]
+[node name="Props" type="Node3D" parent="."]
+[node name="Doors" type="Node3D" parent="."]
+[node name="Interactions" type="Node3D" parent="."]
+[node name="Triggers" type="Node3D" parent="."]
+
+[node name="Wall_Corridor_West_South" type="Node3D" parent="Corridor_UpperClaustro"]
+position = Vector3(7.75, 4.15, -0.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_UpperClaustro/Wall_Corridor_West_South"]
+mesh = SubResource("Mesh1")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_UpperClaustro/Wall_Corridor_West_South" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_UpperClaustro/Wall_Corridor_West_South/StaticBody3D"]
+shape = SubResource("Shape1")
+
+[node name="Wall_Corridor_West_North" type="Node3D" parent="Corridor_UpperClaustro"]
+position = Vector3(7.75, 4.15, 3.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_UpperClaustro/Wall_Corridor_West_North"]
+mesh = SubResource("Mesh2")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_UpperClaustro/Wall_Corridor_West_North" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_UpperClaustro/Wall_Corridor_West_North/StaticBody3D"]
+shape = SubResource("Shape2")
+
+[node name="Wall_Corridor_East_South" type="Node3D" parent="Corridor_UpperClaustro"]
+position = Vector3(9.25, 4.15, -0.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_UpperClaustro/Wall_Corridor_East_South"]
+mesh = SubResource("Mesh1")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_UpperClaustro/Wall_Corridor_East_South" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_UpperClaustro/Wall_Corridor_East_South/StaticBody3D"]
+shape = SubResource("Shape1")
+
+[node name="Wall_Corridor_East_Mid" type="Node3D" parent="Corridor_UpperClaustro"]
+position = Vector3(9.25, 4.15, 3.0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_UpperClaustro/Wall_Corridor_East_Mid"]
+mesh = SubResource("Mesh1")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_UpperClaustro/Wall_Corridor_East_Mid" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_UpperClaustro/Wall_Corridor_East_Mid/StaticBody3D"]
+shape = SubResource("Shape1")
+
+[node name="Wall_Corridor_East_NorthCap" type="Node3D" parent="Corridor_UpperClaustro"]
+position = Vector3(9.25, 4.15, 4.7)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_UpperClaustro/Wall_Corridor_East_NorthCap"]
+mesh = SubResource("Mesh3")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_UpperClaustro/Wall_Corridor_East_NorthCap" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_UpperClaustro/Wall_Corridor_East_NorthCap/StaticBody3D"]
+shape = SubResource("Shape3")
+
+[node name="Wall_Corridor_North_West" type="Node3D" parent="Corridor_UpperClaustro"]
+position = Vector3(8.05, 4.15, 5.0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_UpperClaustro/Wall_Corridor_North_West"]
+mesh = SubResource("Mesh4")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_UpperClaustro/Wall_Corridor_North_West" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_UpperClaustro/Wall_Corridor_North_West/StaticBody3D"]
+shape = SubResource("Shape4")
+
+[node name="Wall_Corridor_North_East" type="Node3D" parent="Corridor_UpperClaustro"]
+position = Vector3(9.0, 4.15, 5.0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_UpperClaustro/Wall_Corridor_North_East"]
+mesh = SubResource("Mesh4")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_UpperClaustro/Wall_Corridor_North_East" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_UpperClaustro/Wall_Corridor_North_East/StaticBody3D"]
+shape = SubResource("Shape4")
+
+[node name="Wall_Laundry_West" type="Node3D" parent="LaundryStorage"]
+position = Vector3(5.3, 4.15, 1.75)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LaundryStorage/Wall_Laundry_West"]
+mesh = SubResource("Mesh5")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="LaundryStorage/Wall_Laundry_West" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LaundryStorage/Wall_Laundry_West/StaticBody3D"]
+shape = SubResource("Shape5")
+
+[node name="Wall_Laundry_South" type="Node3D" parent="LaundryStorage"]
+position = Vector3(6.5, 4.15, 0.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LaundryStorage/Wall_Laundry_South"]
+mesh = SubResource("Mesh6")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="LaundryStorage/Wall_Laundry_South" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LaundryStorage/Wall_Laundry_South/StaticBody3D"]
+shape = SubResource("Shape6")
+
+[node name="Wall_Laundry_North" type="Node3D" parent="LaundryStorage"]
+position = Vector3(6.5, 4.15, 3.0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LaundryStorage/Wall_Laundry_North"]
+mesh = SubResource("Mesh6")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="LaundryStorage/Wall_Laundry_North" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LaundryStorage/Wall_Laundry_North/StaticBody3D"]
+shape = SubResource("Shape6")
+
+[node name="Wall_Bath_East" type="Node3D" parent="SharedBathroom"]
+position = Vector3(11.7, 4.15, 1.75)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SharedBathroom/Wall_Bath_East"]
+mesh = SubResource("Mesh5")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="SharedBathroom/Wall_Bath_East" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SharedBathroom/Wall_Bath_East/StaticBody3D"]
+shape = SubResource("Shape5")
+
+[node name="Wall_Bath_South" type="Node3D" parent="SharedBathroom"]
+position = Vector3(10.5, 4.15, 0.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SharedBathroom/Wall_Bath_South"]
+mesh = SubResource("Mesh7")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="SharedBathroom/Wall_Bath_South" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SharedBathroom/Wall_Bath_South/StaticBody3D"]
+shape = SubResource("Shape7")
+
+[node name="Wall_Bath_North" type="Node3D" parent="SharedBathroom"]
+position = Vector3(10.5, 4.15, 3.0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SharedBathroom/Wall_Bath_North"]
+mesh = SubResource("Mesh7")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="SharedBathroom/Wall_Bath_North" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SharedBathroom/Wall_Bath_North/StaticBody3D"]
+shape = SubResource("Shape7")
+
+[node name="Wall_Room204_West" type="Node3D" parent="Room204"]
+position = Vector3(7.5, 4.15, 6.3)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room204/Wall_Room204_West"]
+mesh = SubResource("Mesh8")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Room204/Wall_Room204_West" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room204/Wall_Room204_West/StaticBody3D"]
+shape = SubResource("Shape8")
+
+[node name="Wall_Room204_East" type="Node3D" parent="Room204"]
+position = Vector3(10.6, 4.15, 6.3)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room204/Wall_Room204_East"]
+mesh = SubResource("Mesh8")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Room204/Wall_Room204_East" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room204/Wall_Room204_East/StaticBody3D"]
+shape = SubResource("Shape8")
+
+[node name="Wall_Room204_North" type="Node3D" parent="Room204"]
+position = Vector3(9.05, 4.15, 7.6)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room204/Wall_Room204_North"]
+mesh = SubResource("Mesh9")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Room204/Wall_Room204_North" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room204/Wall_Room204_North/StaticBody3D"]
+shape = SubResource("Shape9")
+
+[node name="Wall_Tech_East" type="Node3D" parent="TechnicalRoom"]
+position = Vector3(13.2, 4.15, 6.1)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TechnicalRoom/Wall_Tech_East"]
+mesh = SubResource("Mesh8")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="TechnicalRoom/Wall_Tech_East" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_Tech_East/StaticBody3D"]
+shape = SubResource("Shape8")
+
+[node name="Wall_Tech_North" type="Node3D" parent="TechnicalRoom"]
+position = Vector3(11.9, 4.15, 7.4)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TechnicalRoom/Wall_Tech_North"]
+mesh = SubResource("Mesh10")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="TechnicalRoom/Wall_Tech_North" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_Tech_North/StaticBody3D"]
+shape = SubResource("Shape10")
+
+[node name="Wall_Tech_South" type="Node3D" parent="TechnicalRoom"]
+position = Vector3(12.0, 4.15, 4.8)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TechnicalRoom/Wall_Tech_South"]
+mesh = SubResource("Mesh6")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="TechnicalRoom/Wall_Tech_South" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_Tech_South/StaticBody3D"]
+shape = SubResource("Shape6")
+
+[node name="Wall_Tech_West_South" type="Node3D" parent="TechnicalRoom"]
+position = Vector3(10.6, 4.15, 5.4)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TechnicalRoom/Wall_Tech_West_South"]
+mesh = SubResource("Mesh11")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="TechnicalRoom/Wall_Tech_West_South" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_Tech_West_South/StaticBody3D"]
+shape = SubResource("Shape11")
+
+[node name="Wall_205_East" type="Node3D" parent="Room205_Locked"]
+position = Vector3(10.6, 4.15, 4.4)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room205_Locked/Wall_205_East"]
+mesh = SubResource("Mesh11")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Room205_Locked/Wall_205_East" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room205_Locked/Wall_205_East/StaticBody3D"]
+shape = SubResource("Shape11")
+
+[node name="Wall_205_North" type="Node3D" parent="Room205_Locked"]
+position = Vector3(9.9, 4.15, 5.0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room205_Locked/Wall_205_North"]
+mesh = SubResource("Mesh12")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Room205_Locked/Wall_205_North" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room205_Locked/Wall_205_North/StaticBody3D"]
+shape = SubResource("Shape12")
+
+[node name="Wall_205_South" type="Node3D" parent="Room205_Locked"]
+position = Vector3(9.9, 4.15, 3.8)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room205_Locked/Wall_205_South"]
+mesh = SubResource("Mesh12")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Room205_Locked/Wall_205_South" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room205_Locked/Wall_205_South/StaticBody3D"]
+shape = SubResource("Shape12")
+
+[node name="Ceiling_Corridor" type="MeshInstance3D" parent="Corridor_UpperClaustro"]
+position = Vector3(8.5, 5.5, 1.75)
+mesh = SubResource("Mesh13")
+material_override = SubResource("MatCeil")
+
+[node name="Ceiling_Laundry" type="MeshInstance3D" parent="LaundryStorage"]
+position = Vector3(6.5, 5.5, 1.75)
+mesh = SubResource("Mesh14")
+material_override = SubResource("MatCeil")
+
+[node name="Ceiling_Bath" type="MeshInstance3D" parent="SharedBathroom"]
+position = Vector3(10.5, 5.5, 1.75)
+mesh = SubResource("Mesh14")
+material_override = SubResource("MatCeil")
+
+[node name="Ceiling_Room204" type="MeshInstance3D" parent="Room204"]
+position = Vector3(9.05, 5.5, 6.3)
+mesh = SubResource("Mesh15")
+material_override = SubResource("MatCeil")
+
+[node name="Ceiling_Tech" type="MeshInstance3D" parent="TechnicalRoom"]
+position = Vector3(11.9, 5.5, 6.1)
+mesh = SubResource("Mesh16")
+material_override = SubResource("MatCeil")
+
+[node name="FloorVis_Corridor" type="MeshInstance3D" parent="Corridor_UpperClaustro"]
+position = Vector3(8.5, 2.82, 1.75)
+mesh = SubResource("Mesh17")
+material_override = SubResource("MatFloor")
+
+[node name="FloorVis_Laundry" type="MeshInstance3D" parent="LaundryStorage"]
+position = Vector3(6.5, 2.82, 1.75)
+mesh = SubResource("Mesh18")
+material_override = SubResource("MatFloor")
+
+[node name="FloorVis_Bath" type="MeshInstance3D" parent="SharedBathroom"]
+position = Vector3(10.5, 2.82, 1.75)
+mesh = SubResource("Mesh18")
+material_override = SubResource("MatFloor")
+
+[node name="FloorVis_Room204" type="MeshInstance3D" parent="Room204"]
+position = Vector3(9.05, 2.82, 6.3)
+mesh = SubResource("Mesh19")
+material_override = SubResource("MatFloor")
+
+[node name="FloorVis_Tech" type="MeshInstance3D" parent="TechnicalRoom"]
+position = Vector3(11.9, 2.82, 6.1)
+mesh = SubResource("Mesh20")
+material_override = SubResource("MatFloor")
+
+[node name="Prop_Laundry_Shelf" type="MeshInstance3D" parent="Props"]
+position = Vector3(5.7, 3.5, 1.2)
+mesh = SubResource("Mesh21")
+material_override = SubResource("MatProp")
+
+[node name="Prop_Laundry_Boxes" type="MeshInstance3D" parent="Props"]
+position = Vector3(6.0, 3.1, 2.5)
+mesh = SubResource("Mesh22")
+material_override = SubResource("MatProp")
+
+[node name="Prop_Laundry_Cabinet" type="MeshInstance3D" parent="Props"]
+position = Vector3(6.8, 3.2, 2.6)
+mesh = SubResource("Mesh23")
+material_override = SubResource("MatProp")
+
+[node name="Prop_Bath_Sink" type="MeshInstance3D" parent="Props"]
+position = Vector3(11.2, 3.35, 1.0)
+mesh = SubResource("Mesh24")
+material_override = SubResource("MatProp")
+
+[node name="Prop_Bath_Mirror" type="MeshInstance3D" parent="Props"]
+position = Vector3(11.55, 4.0, 1.0)
+mesh = SubResource("Mesh25")
+material_override = SubResource("MatStain")
+
+[node name="Prop_Bath_Stall" type="MeshInstance3D" parent="Props"]
+position = Vector3(10.0, 3.6, 2.4)
+mesh = SubResource("Mesh26")
+material_override = SubResource("MatProp")
+
+[node name="Prop_204_Bed" type="MeshInstance3D" parent="Props"]
+position = Vector3(8.3, 3.15, 6.5)
+mesh = SubResource("Mesh27")
+material_override = SubResource("MatProp")
+
+[node name="Prop_204_Nightstand" type="MeshInstance3D" parent="Props"]
+position = Vector3(9.4, 3.2, 6.0)
+mesh = SubResource("Mesh28")
+material_override = SubResource("MatProp")
+
+[node name="Prop_204_Suitcase" type="MeshInstance3D" parent="Props"]
+position = Vector3(9.8, 3.05, 7.0)
+mesh = SubResource("Mesh29")
+material_override = SubResource("MatProp")
+
+[node name="Prop_Tech_Panel" type="MeshInstance3D" parent="Props"]
+position = Vector3(12.9, 3.9, 6.1)
+mesh = SubResource("Mesh30")
+material_override = SubResource("MatStain")
+
+[node name="Prop_Tech_Table" type="MeshInstance3D" parent="Props"]
+position = Vector3(11.5, 3.2, 5.5)
+mesh = SubResource("Mesh31")
+material_override = SubResource("MatProp")
+
+[node name="Prop_Tech_Box" type="MeshInstance3D" parent="Props"]
+position = Vector3(12.2, 3.15, 6.8)
+mesh = SubResource("Mesh32")
+material_override = SubResource("MatProp")
+
+[node name="Door_LaundryStorage" type="Node3D" parent="Doors" groups=["interactable", "level_door"]]
+position = Vector3(7.75, 2.85, 1.25)
+rotation = Vector3(0, 1.570796, 0)
+script = ExtResource("2_simple")
+ClosedPrompt = "Abrir rouparia"
+OpenMessage = "A porta da rouparia cede."
+[node name="DoorFrame_L" type="MeshInstance3D" parent="Doors/Door_LaundryStorage"]
+position = Vector3(-0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_R" type="MeshInstance3D" parent="Doors/Door_LaundryStorage"]
+position = Vector3(0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_Top" type="MeshInstance3D" parent="Doors/Door_LaundryStorage"]
+position = Vector3(0, 2.3, 0)
+mesh = SubResource("DoorFrameTop")
+material_override = SubResource("MatFrame")
+[node name="DoorPanel_Visual" type="MeshInstance3D" parent="Doors/Door_LaundryStorage"]
+position = Vector3(0, 1.1, -0.06)
+mesh = SubResource("DoorPanelMesh")
+material_override = SubResource("MatDoor")
+[node name="Door_Blocker_StaticBody" type="StaticBody3D" parent="Doors/Door_LaundryStorage"]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_LaundryStorage/Door_Blocker_StaticBody"]
+position = Vector3(0, 1.1, -0.06)
+shape = SubResource("DoorBlockShape")
+[node name="InteractionArea" type="Area3D" parent="Doors/Door_LaundryStorage"]
+position = Vector3(0, 1.2, -0.4)
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_LaundryStorage/InteractionArea"]
+shape = SubResource("DoorInteractShape")
+
+[node name="Door_SharedBathroom" type="Node3D" parent="Doors" groups=["interactable", "level_door"]]
+position = Vector3(9.25, 2.85, 1.25)
+rotation = Vector3(0, -1.570796, 0)
+script = ExtResource("2_simple")
+ClosedPrompt = "Abrir banheiro"
+OpenMessage = "O cheiro de mofo escapa."
+[node name="DoorFrame_L" type="MeshInstance3D" parent="Doors/Door_SharedBathroom"]
+position = Vector3(-0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_R" type="MeshInstance3D" parent="Doors/Door_SharedBathroom"]
+position = Vector3(0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_Top" type="MeshInstance3D" parent="Doors/Door_SharedBathroom"]
+position = Vector3(0, 2.3, 0)
+mesh = SubResource("DoorFrameTop")
+material_override = SubResource("MatFrame")
+[node name="DoorPanel_Visual" type="MeshInstance3D" parent="Doors/Door_SharedBathroom"]
+position = Vector3(0, 1.1, -0.06)
+mesh = SubResource("DoorPanelMesh")
+material_override = SubResource("MatDoor")
+[node name="Door_Blocker_StaticBody" type="StaticBody3D" parent="Doors/Door_SharedBathroom"]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_SharedBathroom/Door_Blocker_StaticBody"]
+position = Vector3(0, 1.1, -0.06)
+shape = SubResource("DoorBlockShape")
+[node name="InteractionArea" type="Area3D" parent="Doors/Door_SharedBathroom"]
+position = Vector3(0, 1.2, -0.4)
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_SharedBathroom/InteractionArea"]
+shape = SubResource("DoorInteractShape")
+
+[node name="Door_Room204" type="Node3D" parent="Doors" groups=["interactable", "level_door"]]
+position = Vector3(8.5, 2.85, 5.0)
+rotation = Vector3(0, 0.0, 0)
+script = ExtResource("2_simple")
+ClosedPrompt = "Abrir Quarto 204"
+OpenMessage = "A porta do 204 abre com um estalo seco."
+[node name="DoorFrame_L" type="MeshInstance3D" parent="Doors/Door_Room204"]
+position = Vector3(-0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_R" type="MeshInstance3D" parent="Doors/Door_Room204"]
+position = Vector3(0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_Top" type="MeshInstance3D" parent="Doors/Door_Room204"]
+position = Vector3(0, 2.3, 0)
+mesh = SubResource("DoorFrameTop")
+material_override = SubResource("MatFrame")
+[node name="DoorPanel_Visual" type="MeshInstance3D" parent="Doors/Door_Room204"]
+position = Vector3(0, 1.1, -0.06)
+mesh = SubResource("DoorPanelMesh")
+material_override = SubResource("MatDoor")
+[node name="Door_Blocker_StaticBody" type="StaticBody3D" parent="Doors/Door_Room204"]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_Room204/Door_Blocker_StaticBody"]
+position = Vector3(0, 1.1, -0.06)
+shape = SubResource("DoorBlockShape")
+[node name="InteractionArea" type="Area3D" parent="Doors/Door_Room204"]
+position = Vector3(0, 1.2, -0.4)
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_Room204/InteractionArea"]
+shape = SubResource("DoorInteractShape")
+
+[node name="Door_TechnicalRoom" type="Node3D" parent="Doors" groups=["interactable", "level_door"]]
+position = Vector3(10.6, 2.85, 6.0)
+rotation = Vector3(0, 1.570796, 0)
+script = ExtResource("2_simple")
+ClosedPrompt = "Abrir sala técnica"
+OpenMessage = "A sala técnica cheira a fio queimado."
+[node name="DoorFrame_L" type="MeshInstance3D" parent="Doors/Door_TechnicalRoom"]
+position = Vector3(-0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_R" type="MeshInstance3D" parent="Doors/Door_TechnicalRoom"]
+position = Vector3(0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_Top" type="MeshInstance3D" parent="Doors/Door_TechnicalRoom"]
+position = Vector3(0, 2.3, 0)
+mesh = SubResource("DoorFrameTop")
+material_override = SubResource("MatFrame")
+[node name="DoorPanel_Visual" type="MeshInstance3D" parent="Doors/Door_TechnicalRoom"]
+position = Vector3(0, 1.1, -0.06)
+mesh = SubResource("DoorPanelMesh")
+material_override = SubResource("MatDoor")
+[node name="Door_Blocker_StaticBody" type="StaticBody3D" parent="Doors/Door_TechnicalRoom"]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_TechnicalRoom/Door_Blocker_StaticBody"]
+position = Vector3(0, 1.1, -0.06)
+shape = SubResource("DoorBlockShape")
+[node name="InteractionArea" type="Area3D" parent="Doors/Door_TechnicalRoom"]
+position = Vector3(0, 1.2, -0.4)
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_TechnicalRoom/InteractionArea"]
+shape = SubResource("DoorInteractShape")
+
+[node name="Door_Room205_Locked" type="Node3D" parent="Doors" groups=["interactable", "level_door"]]
+position = Vector3(9.25, 2.85, 4.4)
+rotation = Vector3(0, -1.570796, 0)
+script = ExtResource("3_locked")
+Prompt = "Tentar abrir Quarto 205"
+[node name="DoorFrame_L" type="MeshInstance3D" parent="Doors/Door_Room205_Locked"]
+position = Vector3(-0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_R" type="MeshInstance3D" parent="Doors/Door_Room205_Locked"]
+position = Vector3(0.72, 1.15, 0)
+mesh = SubResource("DoorFrameSide")
+material_override = SubResource("MatFrame")
+[node name="DoorFrame_Top" type="MeshInstance3D" parent="Doors/Door_Room205_Locked"]
+position = Vector3(0, 2.3, 0)
+mesh = SubResource("DoorFrameTop")
+material_override = SubResource("MatFrame")
+[node name="DoorPanel_Visual" type="MeshInstance3D" parent="Doors/Door_Room205_Locked"]
+position = Vector3(0, 1.1, -0.06)
+mesh = SubResource("DoorPanelMesh")
+material_override = SubResource("MatDoor")
+[node name="Door_Blocker_StaticBody" type="StaticBody3D" parent="Doors/Door_Room205_Locked"]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_Room205_Locked/Door_Blocker_StaticBody"]
+position = Vector3(0, 1.1, -0.06)
+shape = SubResource("DoorBlockShape")
+[node name="InteractionArea" type="Area3D" parent="Doors/Door_Room205_Locked"]
+position = Vector3(0, 1.2, -0.4)
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_Room205_Locked/InteractionArea"]
+shape = SubResource("DoorInteractShape")
+
+[node name="Interact_Room204Note" type="Node3D" parent="Interactions" groups=["interactable"]]
+position = Vector3(8.9, 3.55, 6.05)
+[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_Room204Note"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_Room204Note/InteractionArea"]
+shape = SubResource("InteractSmall")
+[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_Room204Note/InteractionArea"]
+script = ExtResource("4_puzzle")
+Mode = 2
+
+[node name="Interact_Room204Bed" type="Node3D" parent="Interactions" groups=["interactable"]]
+position = Vector3(8.3, 3.3, 6.5)
+[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_Room204Bed"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_Room204Bed/InteractionArea"]
+shape = SubResource("InteractSmall")
+[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_Room204Bed/InteractionArea"]
+script = ExtResource("4_puzzle")
+Mode = 0
+
+[node name="Interact_BathroomInspect" type="Node3D" parent="Interactions" groups=["interactable"]]
+position = Vector3(10.8, 3.4, 1.6)
+[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_BathroomInspect"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_BathroomInspect/InteractionArea"]
+shape = SubResource("InteractSmall")
+[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_BathroomInspect/InteractionArea"]
+script = ExtResource("4_puzzle")
+Mode = 3
+
+[node name="Interact_BathroomMirror" type="Node3D" parent="Interactions" groups=["interactable"]]
+position = Vector3(11.4, 3.9, 1.0)
+[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_BathroomMirror"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_BathroomMirror/InteractionArea"]
+shape = SubResource("InteractSmall")
+[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_BathroomMirror/InteractionArea"]
+script = ExtResource("4_puzzle")
+Mode = 4
+
+[node name="Interact_LaundryFuse" type="Node3D" parent="Interactions" groups=["interactable"]]
+position = Vector3(5.9, 3.4, 2.3)
+[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_LaundryFuse"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_LaundryFuse/InteractionArea"]
+shape = SubResource("InteractSmall")
+[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_LaundryFuse/InteractionArea"]
+script = ExtResource("4_puzzle")
+Mode = 5
+
+[node name="Interact_TechPanel" type="Node3D" parent="Interactions" groups=["interactable"]]
+position = Vector3(12.7, 3.9, 6.1)
+[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_TechPanel"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_TechPanel/InteractionArea"]
+shape = SubResource("InteractSmall")
+[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_TechPanel/InteractionArea"]
+script = ExtResource("4_puzzle")
+Mode = 6
+
+[node name="CorridorIntro" type="Area3D" parent="Triggers"]
+position = Vector3(8.5, 3.7, -1.0)
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("5_intro")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/CorridorIntro"]
+shape = SubResource("IntroTriggerShape")
+
+[node name="Room204ExitScare" type="Area3D" parent="Triggers"]
+position = Vector3(8.5, 3.7, 4.6)
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("6_exit")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/Room204ExitScare"]
+shape = SubResource("ExitScareShape")
+
+[node name="CorridorLight" type="OmniLight3D" parent="."]
+position = Vector3(8.5, 5.1, 1.5)
+light_color = Color(0.72, 0.68, 0.55, 1)
+light_energy = 0.28
+omni_range = 5.5
+omni_attenuation = 1.6
+
+[node name="CorridorEndLight" type="OmniLight3D" parent="."]
+position = Vector3(8.5, 5.0, 4.5)
+light_color = Color(0.55, 0.58, 0.65, 1)
+light_energy = 0.16
+omni_range = 4.0
+omni_attenuation = 1.7

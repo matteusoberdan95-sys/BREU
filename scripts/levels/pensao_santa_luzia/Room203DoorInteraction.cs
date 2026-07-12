@@ -3,7 +3,7 @@ namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 using BREU.Scripts.Audio;
 
 /// <summary>
-/// Sprint 18A — Room 203 stays blocked; reacts harder after upper power restore.
+/// Sprint 18A/19 — Room 203 stays blocked; reacts harder after upper power restore.
 /// </summary>
 public partial class Room203DoorInteraction : Node, IInteractable
 {
@@ -32,7 +32,7 @@ public partial class Room203DoorInteraction : Node, IInteractable
             return;
         }
 
-        // Sprint 18A — after upper fuse installed, 203 reacts before touch.
+        // Sprint 19 — after upper power (and ideally the 204 note), prepare forcing the door.
         if (_state.IsUpperPowerRestored)
         {
             _sequenceRunning = true;
@@ -57,13 +57,26 @@ public partial class Room203DoorInteraction : Node, IInteractable
     {
         var hud = HUDController.FindActive(GetTree());
         var audio = PensionAudioManager.Find(GetTree());
-        hud?.ShowMessage("Algo bate do outro lado antes que eu toque na maçaneta.", 3.5f);
-        audio?.PlayOneShot("door_scratch_02", -12f);
-        await ToSignal(GetTree().CreateTimer(1.1f), SceneTreeTimer.SignalName.Timeout);
-        audio?.PlayOneShot("distant_step_01", -16f);
-        await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
-        hud?.ShowMessage("Eu não estou sozinho aqui.", 3.5f);
-        if (!_state!.HasTriggeredRoom203Warning)
+
+        if (_state!.ReadRoom204Note)
+        {
+            hud?.ShowMessage(
+                "Há algo arrastando do outro lado. Talvez agora dê para forçar.", 4f);
+            audio?.PlayOneShot("door_scratch_02", -12f);
+            await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+            audio?.PlayOneShot("distant_step_01", -16f);
+        }
+        else
+        {
+            hud?.ShowMessage("Algo bate do outro lado antes que eu toque na maçaneta.", 3.5f);
+            audio?.PlayOneShot("door_scratch_02", -12f);
+            await ToSignal(GetTree().CreateTimer(1.1f), SceneTreeTimer.SignalName.Timeout);
+            audio?.PlayOneShot("distant_step_01", -16f);
+            await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
+            hud?.ShowMessage("Eu não estou sozinho aqui.", 3.5f);
+        }
+
+        if (!_state.HasTriggeredRoom203Warning)
         {
             _state.TriggerRoom203Warning();
         }
