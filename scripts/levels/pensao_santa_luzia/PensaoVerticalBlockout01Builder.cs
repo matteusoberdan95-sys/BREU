@@ -360,13 +360,16 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(0.12f, 0.95f, balconyProtrude),
             _matSecondRail);
 
-        var doorCenterY = FirstFloorWallTopY + (SecondFloorWallTopY - FirstFloorWallTopY) * 0.52f;
-        AddVisualCeilingPlate(
+        var greenDoor = AddDoorPrefab(
             host,
-            "UpperBalcony_Trail_DoorPanel",
-            new Vector3(0f, doorCenterY, frontFaceZ + 0.08f),
-            new Vector3(DoorWidth, DoorHeight, 0.14f),
-            _matDoorBalcony);
+            "Door_UpperBalcony_Green",
+            "res://scenes/props/doors/DoorLocked.tscn",
+            new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, frontFaceZ + 0.08f));
+        greenDoor.GetNode<MeshInstance3D>("DoorPanel").MaterialOverride = _matDoorBalcony;
+        var greenInteraction = (BlockoutLockedDoor)greenDoor;
+        greenInteraction.PromptText = "Tentar abrir varanda";
+        greenInteraction.LockedMessage = "A porta está emperrada. O vento passa pelas frestas do lado de fora.";
+
     }
 
     private void BuildRoofBlockout()
@@ -625,7 +628,10 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(WallThickness, WallHeight, StairOpenDepth + WallCornerOverlap),
             _matInteriorWall);
 
-        var eastFullDepth = StairOpenDepth * 0.58f;
+        // Extend the east shaft wall far enough down the stair flight to prevent
+        // a direct view into the unfinished shell. Keep a 2.3 m opening at the
+        // upper landing so the player can still leave the stairs.
+        var eastFullDepth = (RampTopZ - 0.9f) - StairOpenNorthZ;
         var eastFullCenterZ = StairOpenNorthZ + eastFullDepth * 0.5f;
         AddWall(
             _secondFloor,
@@ -762,16 +768,15 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             "Há marcas de arrasto no chão.",
             "room_202");
 
-        AddLockedDoorPanelZWall(
+        var blockedDoor = AddDoorPrefab(
             _secondFloor,
-            "Door_UpperBalcony_Locked",
-            new Vector3(0f, SecondFloorTopY + DoorHeight * 0.5f - WallEmbedBelowFloor, BlockedDoorZ),
-            new Vector3(DoorWidth, DoorHeight, WallThickness),
-            _matDoorBalcony,
-            -0.28f,
-            "Tentar abrir varanda",
-            "A porta está emperrada. O vento passa pelas frestas do lado de fora.",
-            "upper_balcony_locked");
+            "Door_UpperBlocked_Locked",
+            "res://scenes/props/doors/DoorLocked.tscn",
+            new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, BlockedDoorZ));
+        blockedDoor.GetNode<MeshInstance3D>("DoorPanel").MaterialOverride = _matDoorLocked;
+        var blockedInteraction = (BlockoutLockedDoor)blockedDoor;
+        blockedInteraction.PromptText = "Tentar abrir porta";
+        blockedInteraction.LockedMessage = "Está trancada por dentro.";
     }
 
     private void BuildSecondFloorNarrativeInteractions()

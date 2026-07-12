@@ -41,6 +41,18 @@ Door_Deposit/
 
 ---
 
+## Baseline 2.0 — Sprint 14C
+
+O sistema anterior foi substituído por três cenas reutilizáveis em `scenes/props/doors/`:
+
+| Cena | Contrato |
+|---|---|
+| `DoorFrameOpen.tscn` | Moldura, fechamento superior e folha aberta estática sem colisão bloqueadora |
+| `DoorLocked.tscn` | Painel opaco fixo, colisão alinhada e interação local |
+| `DoorUnlockHidePanel.tscn` | Ao destrancar, somente oculta o painel e desativa a colisão |
+
+Uma única instância é permitida por vão. A folha aberta é uma malha estática já posicionada junto à parede; não há animação, movimento, escala em runtime ou colisão bloqueando a passagem.
+
 ## Proibido (blockout)
 
 - Animar porta com `Scale`
@@ -68,9 +80,9 @@ Door_Deposit/
 
 | Método | Uso |
 |--------|-----|
-| `AddDoorFrameInZWallLocal` / `AddDoorFrameInXWallLocal` | Moldura porta aberta |
-| `AddLockedDoorPanelZWall` | Porta trancada opaca + interação |
-| `BuildDepositDoorAssembly` | Depósito puzzle |
+| `DoorFrameOpen.tscn` | Moldura de passagem aberta |
+| `DoorLocked.tscn` | Porta trancada opaca + interação |
+| `DoorUnlockHidePanel.tscn` | Porta do depósito ligada ao puzzle |
 
 ---
 

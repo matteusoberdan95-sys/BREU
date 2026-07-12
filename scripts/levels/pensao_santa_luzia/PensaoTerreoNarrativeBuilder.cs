@@ -26,11 +26,13 @@ public partial class PensaoTerreoBlockout01Builder
         const float corridorNorthZ = -7.0f;
         const float varandaEntryZ = 9.8f;
 
-        AddDoorFrameInZWall(parent, "Door_MainEntrance_Frame", 0f, varandaEntryZ, 0f, MainEntryWidth, DoorHeight);
-        AddDoorFrameInZWall(parent, "Door_ReceptionSouth_Frame", 0f, receptionSouthZ, 0f, DoorWidth, DoorHeight);
-        AddDoorFrameInZWall(parent, "Door_ReceptionCorridor_Frame", 0f, corridorNorthZ, 0f, DoorWidth, DoorHeight);
-        AddDoorFrameInXWall(parent, "Door_Room102_Frame", -CorridorWallX, -15.5f, DoorWidth, DoorHeight);
-        AddDoorFrameInXWall(parent, "Door_Kitchen_Frame", CorridorWallX, -20.5f, DoorWidth, DoorHeight);
+        const string openDoor = "res://scenes/props/doors/DoorFrameOpen.tscn";
+        var mainEntrance = AddDoorPrefab(parent, "Door_MainEntrance_Frame", openDoor, new Vector3(0f, -WallEmbedBelowFloor, varandaEntryZ));
+        ConfigureOpenDoor(mainEntrance, MainEntryWidth, _matExteriorWall, doubleLeaf: true);
+        ConfigureOpenDoor(AddDoorPrefab(parent, "Door_ReceptionSouth_Frame", openDoor, new Vector3(0f, -WallEmbedBelowFloor, receptionSouthZ)), DoorWidth, _matInteriorWall);
+        ConfigureOpenDoor(AddDoorPrefab(parent, "Door_ReceptionCorridor_Frame", openDoor, new Vector3(0f, -WallEmbedBelowFloor, corridorNorthZ)), DoorWidth, _matInteriorWall);
+        ConfigureOpenDoor(AddDoorPrefab(parent, "Door_Room102_Frame", openDoor, new Vector3(-CorridorWallX, -WallEmbedBelowFloor, -15.5f), Mathf.Pi * 0.5f), DoorWidth, _matInteriorWall, leafDirection: -1f);
+        ConfigureOpenDoor(AddDoorPrefab(parent, "Door_Kitchen_Frame", openDoor, new Vector3(CorridorWallX, -WallEmbedBelowFloor, -20.5f), Mathf.Pi * 0.5f), DoorWidth, _matInteriorWall);
     }
 
     private void BuildReceptionNarrativeProps(Node3D parent)
@@ -160,13 +162,13 @@ public partial class PensaoTerreoBlockout01Builder
         var stair = new Node3D { Name = "StairProps" };
         parent.AddChild(stair);
 
-        AddDoorFrameInXWall(
+        var stairDoor = AddDoorPrefab(
             stair,
             "Door_StairEntry_Frame",
-            -CorridorWallX - WallThickness * 0.5f,
-            -25.5f,
-            DoorWidth,
-            DoorHeight);
+            "res://scenes/props/doors/DoorFrameOpen.tscn",
+            new Vector3(-CorridorWallX - WallThickness * 0.5f, -WallEmbedBelowFloor, -25.5f),
+            Mathf.Pi * 0.5f);
+        ConfigureOpenDoor(stairDoor, DoorWidth, _matInteriorWall, leafDirection: -1f);
 
         AddVisualProp(
             stair,
@@ -242,26 +244,4 @@ public partial class PensaoTerreoBlockout01Builder
             "stair_inspect");
     }
 
-    protected void AddDoorFrameInZWall(
-        Node3D parent,
-        string name,
-        float centerX,
-        float wallZ,
-        float doorCenterZ,
-        float doorWidth,
-        float doorHeight)
-    {
-        AddDoorFrameInZWallLocal(parent, name, centerX, wallZ, doorWidth, doorHeight);
-    }
-
-    protected void AddDoorFrameInXWall(
-        Node3D parent,
-        string name,
-        float wallX,
-        float doorCenterZ,
-        float doorWidth,
-        float doorHeight)
-    {
-        AddDoorFrameInXWallLocal(parent, name, wallX, doorCenterZ, doorWidth, doorHeight);
-    }
 }

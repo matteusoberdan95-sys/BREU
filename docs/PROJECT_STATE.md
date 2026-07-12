@@ -115,6 +115,14 @@ Substituição do sistema de portas quebrado (14/14A) por padrão blockout está
 
 ---
 
+## Sprint 14C — sistema de portas reconstruído
+
+Estado técnico: implementado e compilado sem erros. Há três prefabs estáveis; as passagens abertas usam somente moldura; o depósito preserva chave e mensagens; e a porta verde possui um único painel opaco. Player, HUD, atmosfera, fog, fachada e escada não foram alterados.
+
+Pendente: executar F6 e aprovar visualmente a rota e as interações.
+
+Revisão visual posterior: corrigidos sobreposição da travessa do depósito, placa com texto fora da madeira, vão lateral da caixa da escada e prompts de porta disparados por paredes/piso distantes.
+
 ## Próxima sprint — Sprint 15 (Vertical slice da Pensão)
 
 **Objetivo:** Experiência contínua trilha → pensão → puzzle → escada → 2º andar — sem inimigo.

@@ -17,8 +17,9 @@ public partial class PensaoVerticalBlockout01Builder
         };
         narrative.AddChild(doorFrames);
 
-        AddDoorFrameInXWallLocal(doorFrames, "Door_Room201_Frame", -CorridorWallX, Room201CenterZ, DoorWidth, DoorHeight);
-        AddDoorFrameInXWallLocal(doorFrames, "Door_Room202_Frame", CorridorWallX, Room202CenterZ, DoorWidth, DoorHeight);
+        const string openDoor = "res://scenes/props/doors/DoorFrameOpen.tscn";
+        ConfigureOpenDoor(AddDoorPrefab(doorFrames, "Door_Room201_Frame", openDoor, new Vector3(-CorridorWallX, 0f, Room201CenterZ), Mathf.Pi * 0.5f), DoorWidth, _matInteriorWall, leafDirection: -1f);
+        ConfigureOpenDoor(AddDoorPrefab(doorFrames, "Door_Room202_Frame", openDoor, new Vector3(CorridorWallX, 0f, Room202CenterZ), Mathf.Pi * 0.5f), DoorWidth, _matInteriorWall);
 
         BuildRoom201NarrativeProps(narrative);
         BuildRoom202NarrativeProps(narrative);

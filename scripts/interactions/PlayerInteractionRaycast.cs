@@ -205,16 +205,22 @@ public partial class PlayerInteractionRaycast : Node
                 return fromGroup;
             }
 
-            foreach (var child in current.GetChildren())
+            // Only the collider itself may own an interactable child (the standard
+            // Area3D/StaticBody3D pattern). Scanning children after climbing to a
+            // shared level container makes unrelated sibling doors interactable.
+            if (depth == 0)
             {
-                if (child is IInteractable onChild)
+                foreach (var child in current.GetChildren())
                 {
-                    return onChild;
-                }
+                    if (child is IInteractable onChild)
+                    {
+                        return onChild;
+                    }
 
-                if (TryGetInteractableFromGroupMember(child, out fromGroup))
-                {
-                    return fromGroup;
+                    if (TryGetInteractableFromGroupMember(child, out fromGroup))
+                    {
+                        return fromGroup;
+                    }
                 }
             }
 

@@ -73,6 +73,31 @@ Trilha → entrada → recepção → quarto 102 → chave → cozinha → depó
 
 ---
 
+## Sprint 14C — reconstrução limpa das portas
+
+- [x] Compilação C# sem erros ou avisos.
+- [x] Três prefabs de porta presentes em `scenes/props/doors/`.
+- [x] Entrada, 102, cozinha, 201 e 202 sem painel bloqueador.
+- [x] Depósito: destravar somente oculta painel e desativa colisão.
+- [x] Porta verde: painel opaco único, colisão e interação local.
+- [ ] F6: confirmar visualmente os vãos, a rota e o puzzle da chave.
+- [ ] F6: confirmar HUD, lanterna, stamina, fog e escada.
+
+Correções após revisão visual dos prints:
+
+- [x] Fechamento de parede acima das molduras abertas.
+- [x] Folhas abertas estáticas adicionadas sem colisão.
+- [x] Folhas dos quartos esquerdos orientadas para fora do corredor.
+- [x] Placa de oferta deixou de ser um bloco claro sem identificação.
+- [x] Depósito expõe `Tentar abrir depósito` no nó raiz e mantém `InteractionArea` na camada 2.
+- [x] Travessa da moldura não invade mais o cabeçalho da parede do depósito.
+- [x] Placa de oferta redimensionada para conter todo o texto.
+- [x] Parede leste da caixa da escada estendida sem fechar a saída do patamar.
+- [x] Raycast não procura mais portas entre irmãos de uma parede atingida.
+- [ ] F6: confirmar ausência do prompt `Tentar abrir porta` ao mirar piso e paredes comuns do segundo andar.
+
+A aprovação visual permanece pendente até o playtest manual em F6.
+
 ## Regressão
 
 - [ ] Atmosfera Sprint 13 preservada

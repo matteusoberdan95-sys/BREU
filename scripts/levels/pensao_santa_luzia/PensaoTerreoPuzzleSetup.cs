@@ -38,18 +38,12 @@ public partial class PensaoTerreoPuzzleSetup : Node
 
     private static void SetupDepositDoor(PensaoPuzzleState state, Node3D doorRoot)
     {
-        var interactArea = doorRoot.GetNodeOrNull<Area3D>("Door_Deposit_InteractArea");
-        if (interactArea == null)
+        var interaction = doorRoot as BlockoutUnlockHideDoor;
+        if (interaction == null)
         {
-            GD.PushError("[Puzzle] Missing Door_Deposit_InteractArea.");
+            GD.PushError("[Puzzle] Door_Deposit is not a BlockoutUnlockHideDoor.");
             return;
         }
-
-        var existing = interactArea.GetNodeOrNull<DepositDoorInteraction>("DepositDoorInteraction");
-        existing?.QueueFree();
-
-        var interaction = new DepositDoorInteraction { Name = "DepositDoorInteraction" };
-        interactArea.AddChild(interaction);
         interaction.Initialize(state, doorRoot);
     }
 

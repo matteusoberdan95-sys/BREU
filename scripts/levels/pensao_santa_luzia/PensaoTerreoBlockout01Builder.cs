@@ -56,7 +56,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     private StandardMaterial3D _matStairStringer = null!;
     private StandardMaterial3D _matStairUpper = null!;
     private StandardMaterial3D _matStairRail = null!;
-    private StandardMaterial3D _matDoorFrame = null!;
     protected StandardMaterial3D _matPropWood = null!;
     protected StandardMaterial3D _matDarkMark = null!;
 
@@ -116,7 +115,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         _matStairStringer = Mat(new Color(0.34f, 0.32f, 0.36f));
         _matStairUpper = Mat(new Color(0.52f, 0.54f, 0.58f));
         _matStairRail = Mat(new Color(0.38f, 0.4f, 0.44f));
-        _matDoorFrame = Mat(new Color(0.28f, 0.2f, 0.14f));
         _matPropWood = Mat(new Color(0.36f, 0.28f, 0.2f));
         _matDarkMark = Mat(new Color(0.12f, 0.1f, 0.09f));
     }
@@ -597,7 +595,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(CorridorWidth + WallCornerOverlap, headerHeight, WallThickness),
             _matInteriorWall);
 
-        BuildDepositDoorAssembly(storage, depositDoorZ);
+        AddDoorPrefab(storage, "Door_Deposit", "res://scenes/props/doors/DoorUnlockHidePanel.tscn", new Vector3(0f, -WallEmbedBelowFloor, depositDoorZ));
 
         AddVisualFloorPlate(
             storage,
@@ -775,7 +773,7 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             _interactions,
             "JobOfferSign",
             new Vector3(1.15f, 1.25f, 37.5f),
-            new Vector3(1.4f, 1.0f, 0.08f),
+            new Vector3(3.8f, 1.7f, 0.12f),
             "Ler placa",
             "OFERTA DE TRABALHO - MINERAÇÃO - PENSÃO SANTA LUZIA.",
             "job_offer_sign");
@@ -932,169 +930,47 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         AddSolid(parent, name, center, size, material, WorldLayer);
     }
 
-    private void BuildDepositDoorAssembly(Node3D parent, float doorWorldZ)
+    protected static Node3D AddDoorPrefab(Node3D parent, string name, string scenePath, Vector3 position, float rotationY = 0f)
     {
-        var doorCenterY = DoorHeight * 0.5f - WallEmbedBelowFloor;
-        var panelDepth = WallThickness;
-        var root = new Node3D
-        {
-            Name = "Door_Deposit",
-            Position = new Vector3(0f, doorCenterY, doorWorldZ)
-        };
-        parent.AddChild(root);
-
-        AddDoorFrameInZWallLocal(
-            root,
-            "Door_Deposit_Frame",
-            0f,
-            0f,
-            DoorWidth,
-            DoorHeight);
-
-        var panel = new Node3D { Name = "Door_Deposit_Panel" };
-        panel.AddChild(CreateBoxMesh(new Vector3(DoorWidth, DoorHeight, panelDepth), _matDoor));
-        root.AddChild(panel);
-
-        var blocking = new StaticBody3D
-        {
-            Name = "Door_Deposit_Blocking",
-            CollisionLayer = WorldLayer,
-            CollisionMask = 0
-        };
-        var collision = CreateBoxCollision(new Vector3(DoorWidth, DoorHeight, panelDepth));
-        collision.Name = "Door_Deposit_Collision";
-        blocking.AddChild(collision);
-        root.AddChild(blocking);
-
-        var interactArea = new Area3D
-        {
-            Name = "Door_Deposit_InteractArea",
-            Position = new Vector3(0f, 0f, -panelDepth * 0.5f - 0.22f),
-            CollisionLayer = InteractableLayer,
-            CollisionMask = 0,
-            Monitoring = false,
-            Monitorable = true
-        };
-        interactArea.AddChild(CreateBoxCollision(new Vector3(DoorWidth * 0.85f, DoorHeight * 0.9f, 0.35f)));
-        root.AddChild(interactArea);
+        var packed = GD.Load<PackedScene>(scenePath)
+            ?? throw new System.InvalidOperationException($"Door prefab not found: {scenePath}");
+        var door = packed.Instantiate<Node3D>();
+        door.Name = name;
+        door.Position = position;
+        door.Rotation = new Vector3(0f, rotationY, 0f);
+        parent.AddChild(door);
+        return door;
     }
 
-    protected void AddDoorFrameInZWallLocal(
-        Node3D parent,
-        string name,
-        float centerX,
-        float centerZ,
-        float doorWidth,
-        float doorHeight)
+    protected static void ConfigureOpenDoor(Node3D door, float openingWidth, StandardMaterial3D wallMaterial, bool doubleLeaf = false, float leafDirection = 1f)
     {
-        const float frameTh = 0.14f;
-        const float frameDepth = 0.2f;
-        var half = doorWidth * 0.5f;
-        var frameCenterY = doorHeight * 0.5f;
-        var lintelHeight = WallHeight - doorHeight;
-        var lintelCenterY = doorHeight + lintelHeight * 0.5f;
+        const float postWidth = 0.14f;
+        var halfOpening = openingWidth * 0.5f;
+        door.GetNode<MeshInstance3D>("FrameLeft").Position = new Vector3(-halfOpening - postWidth * 0.5f, 1.15f, 0f);
+        door.GetNode<MeshInstance3D>("FrameRight").Position = new Vector3(halfOpening + postWidth * 0.5f, 1.15f, 0f);
 
-        AddVisualProp(
-            parent,
-            $"{name}_Left",
-            new Vector3(centerX - half - frameTh * 0.5f, frameCenterY, centerZ),
-            new Vector3(frameTh, doorHeight, frameDepth),
-            _matDoorFrame);
+        var lintel = door.GetNode<MeshInstance3D>("FrameLintel");
+        lintel.Mesh = new BoxMesh { Size = new Vector3(openingWidth + postWidth * 2f, postWidth, 0.3f) };
 
-        AddVisualProp(
-            parent,
-            $"{name}_Right",
-            new Vector3(centerX + half + frameTh * 0.5f, frameCenterY, centerZ),
-            new Vector3(frameTh, doorHeight, frameDepth),
-            _matDoorFrame);
+        var infill = door.GetNode<MeshInstance3D>("UpperWallInfill");
+        infill.Mesh = new BoxMesh { Size = new Vector3(openingWidth, WallHeight - DoorHeight, WallThickness) };
+        infill.MaterialOverride = wallMaterial;
 
-        AddVisualProp(
-            parent,
-            $"{name}_Lintel",
-            new Vector3(centerX, lintelCenterY, centerZ),
-            new Vector3(doorWidth + frameTh * 2f, lintelHeight, frameDepth),
-            _matDoorFrame);
-    }
+        var leftLeaf = door.GetNode<MeshInstance3D>("OpenDoorLeafLeft");
+        var leafDepth = doubleLeaf ? openingWidth * 0.5f - 0.12f : openingWidth - 0.12f;
+        leftLeaf.Position = new Vector3(-halfOpening, 1.1f, leafDirection * leafDepth * 0.5f);
+        leftLeaf.Mesh = new BoxMesh { Size = new Vector3(0.12f, 2.2f, leafDepth) };
 
-    protected void AddDoorFrameInXWallLocal(
-        Node3D parent,
-        string name,
-        float centerX,
-        float centerZ,
-        float doorWidth,
-        float doorHeight)
-    {
-        const float frameTh = 0.14f;
-        const float frameDepth = 0.2f;
-        var half = doorWidth * 0.5f;
-        var frameCenterY = doorHeight * 0.5f;
-        var lintelHeight = WallHeight - doorHeight;
-        var lintelCenterY = doorHeight + lintelHeight * 0.5f;
-
-        AddVisualProp(
-            parent,
-            $"{name}_South",
-            new Vector3(centerX, frameCenterY, centerZ + half + frameTh * 0.5f),
-            new Vector3(frameDepth, doorHeight, frameTh),
-            _matDoorFrame);
-
-        AddVisualProp(
-            parent,
-            $"{name}_North",
-            new Vector3(centerX, frameCenterY, centerZ - half - frameTh * 0.5f),
-            new Vector3(frameDepth, doorHeight, frameTh),
-            _matDoorFrame);
-
-        AddVisualProp(
-            parent,
-            $"{name}_Lintel",
-            new Vector3(centerX, lintelCenterY, centerZ),
-            new Vector3(frameDepth, lintelHeight, doorWidth + frameTh * 2f),
-            _matDoorFrame);
+        var rightLeaf = door.GetNode<MeshInstance3D>("OpenDoorLeafRight");
+        rightLeaf.Visible = doubleLeaf;
+        if (doubleLeaf)
+        {
+            rightLeaf.Position = new Vector3(halfOpening, 1.1f, leafDirection * leafDepth * 0.5f);
+            rightLeaf.Mesh = new BoxMesh { Size = new Vector3(0.12f, 2.2f, leafDepth) };
+        }
     }
 
     /// <summary>Sprint 14B — locked door on Z-facing wall: opaque panel + world collision + local interact area.</summary>
-    protected void AddLockedDoorPanelZWall(
-        Node3D parent,
-        string name,
-        Vector3 worldCenter,
-        Vector3 panelSize,
-        StandardMaterial3D panelMaterial,
-        float interactOffsetZ,
-        string prompt,
-        string message,
-        string id)
-    {
-        var root = new Node3D { Name = name, Position = worldCenter };
-        parent.AddChild(root);
-
-        var blocking = new StaticBody3D
-        {
-            Name = $"{name}_Blocking",
-            CollisionLayer = WorldLayer,
-            CollisionMask = 0
-        };
-        blocking.AddChild(CreateBoxCollision(panelSize));
-        blocking.AddChild(CreateBoxMesh(panelSize, panelMaterial));
-        root.AddChild(blocking);
-
-        var interactArea = new Area3D
-        {
-            Name = $"{name}_InteractArea",
-            Position = new Vector3(0f, 0f, interactOffsetZ),
-            CollisionLayer = InteractableLayer,
-            CollisionMask = 0,
-            Monitoring = false,
-            Monitorable = true
-        };
-        interactArea.AddChild(CreateBoxCollision(new Vector3(
-            panelSize.X * 0.85f,
-            panelSize.Y * 0.9f,
-            0.35f)));
-        interactArea.AddChild(CreateInteractable(prompt, message, id));
-        root.AddChild(interactArea);
-    }
-
     protected void AddSolid(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material, uint layer)
     {
         var body = new StaticBody3D
@@ -1155,7 +1031,18 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         };
 
         body.AddChild(CreateBoxCollision(size));
-        body.AddChild(CreateBoxMesh(size, _matInteractable));
+        body.AddChild(CreateBoxMesh(size, _matPropWood));
+        body.AddChild(new Label3D
+        {
+            Name = "ReadableSignText",
+            Text = "OFERTA DE TRABALHO\nMINERAÇÃO\nPENSÃO SANTA LUZIA",
+            Position = new Vector3(0f, 0f, size.Z * 0.5f + 0.012f),
+            FontSize = 42,
+            PixelSize = 0.004f,
+            Modulate = new Color(0.9f, 0.82f, 0.62f),
+            OutlineSize = 8,
+            NoDepthTest = false
+        });
         body.AddChild(CreateInteractable(prompt, message, id));
         parent.AddChild(body);
     }
