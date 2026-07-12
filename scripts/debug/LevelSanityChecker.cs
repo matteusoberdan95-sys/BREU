@@ -210,7 +210,7 @@ public partial class LevelSanityChecker : Node
     {
         string[] floorNames =
         {
-            "UpperWing_SolidFloor",
+            "SecondFloor_PhysicalSlab",
             "UpperWing_FreeWalkableFloor",
             "UpperBalcony_FrontWalkway"
         };
@@ -346,7 +346,7 @@ public partial class LevelSanityChecker : Node
         // (below the seal) is an invasion. Floors at second-floor height are OK.
         var before = _errors;
         var wingRoots = new List<Node3D>();
-        if (scene.GetNodeOrNull<Node3D>("UpperWingExpansion") is { } expansion)
+        if (scene.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/SecondFloor_PhysicalSlab") is { } expansion)
         {
             wingRoots.Add(expansion);
         }

@@ -43,8 +43,6 @@ size = Vector3(5.2, 0.18, 3.9)
 script = ExtResource("1")
 
 [node name="Geometry" type="Node3D" parent="."]
-[node name="BalconyRail_Right" type="Node3D" parent="Geometry"]
-position = Vector3(1.6, 3.35, -4.375)
 [node name="BalconyCeiling" type="MeshInstance3D" parent="Geometry"]
 position = Vector3(0, 5.58, -4.875)
 mesh = SubResource("BalconyCeilingMesh")

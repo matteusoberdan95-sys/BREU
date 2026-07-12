@@ -21,7 +21,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private const float StairOpenCenterZ = -27.4f;
 
     private const float UpperCorridorWidth = CorridorWidth;
-    private const float UpperCorridorSouthZ = -7.5f;
+    // Meets the authoritative physical slab exactly; no overlapping floor bodies.
+    private const float UpperCorridorSouthZ = -10.8f;
     private const float UpperCorridorNorthZ = -19.5f;
 
     private const float LandingCenterZ = -21.0f;
@@ -138,7 +139,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             TagSubtree(wing, "level_upper_wing");
         }
 
-        if (GetTree().CurrentScene?.GetNodeOrNull("UpperWingExpansion") is Node expansion)
+        if (GetTree().CurrentScene?.GetNodeOrNull("World/Level/SecondFloor/Floors/SecondFloor_PhysicalSlab") is Node expansion)
         {
             TagSubtree(expansion, "level_upper_wing");
         }
@@ -518,8 +519,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private void BuildFloorSecondMain()
     {
-        // UpperWing_SolidFloor owns Z >= -7.8; stop the main slab exactly there.
-        const float southEdgeZ = -7.8f;
+        // SecondFloor_PhysicalSlab owns Z >= -10.8; stop the main slab exactly there.
+        const float southEdgeZ = -10.8f;
         var southDepth = southEdgeZ - StairOpenSouthZ;
         var southCenterZ = (southEdgeZ + StairOpenSouthZ) * 0.5f;
 

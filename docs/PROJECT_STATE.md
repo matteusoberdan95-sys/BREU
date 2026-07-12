@@ -1,5 +1,9 @@
 # BREU — Estado do projeto
 
+## Hotfix bloqueante — laje física do segundo andar
+
+O playtest invalidou a laje anterior: o player ainda caía para o primeiro andar e atravessava o teto da recepção ao pular. A solução adotada é uma única caixa física grossa, `SecondFloor_PhysicalSlab`, substituindo `UpperWing_SolidFloor` e removendo mureta, rail e colisões associadas. Nenhuma expansão de cômodo pode continuar até caminhada, diagonais e pulos contra o teto passarem manualmente.
+
 **Última atualização:** 2026-07-12  
 **Fase:** REBOOT GREENFIELD — Sprint 18C (saneamento obrigatório); expansão pausada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`

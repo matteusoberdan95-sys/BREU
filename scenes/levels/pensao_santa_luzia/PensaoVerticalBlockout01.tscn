@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://scripts/audio/PensionAudioManager.cs" id="8_audio"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
 [ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
+[ext_resource type="Script" path="res://scripts/debug/DebugFallRecovery.cs" id="11_fall_recovery"]
 
 [sub_resource type="Environment" id="Environment_pensao"]
 background_mode = 1
@@ -51,7 +52,53 @@ script = ExtResource("9_sanity")
 [node name="UpperFloorCollisionProbe" type="Node" parent="."]
 script = ExtResource("10_floor_probe")
 
+[node name="DebugFallRecovery" type="Node" parent="."]
+script = ExtResource("11_fall_recovery")
+
 [node name="World" type="Node3D" parent="."]
+
+[node name="Level" type="Node3D" parent="World"]
+
+[node name="SecondFloor" type="Node3D" parent="World/Level"]
+
+[node name="Floors" type="Node3D" parent="World/Level/SecondFloor"]
+
+[node name="SecondFloor_PhysicalSlab" parent="World/Level/SecondFloor/Floors" instance=ExtResource("4e_upper_expansion")]
+
+[node name="Markers" type="Node3D" parent="World/Level/SecondFloor"]
+
+[node name="Marker_Slab_Start" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(0, 3.1, -10.2)
+
+[node name="Marker_Slab_Center" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(4.15, 3.1, -1.1)
+
+[node name="Marker_Slab_Right" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(11, 3.1, -1.1)
+
+[node name="Marker_Slab_FarRight" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(15.3, 3.1, -1.1)
+
+[node name="Marker_Slab_Left" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(-6.4, 3.1, -1.1)
+
+[node name="Marker_Slab_Back" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(4.15, 3.1, -10.2)
+
+[node name="Marker_Slab_Front" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(4.15, 3.1, 8)
+
+[node name="Marker_Slab_Room203Path" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(0, 3.1, -8.5)
+
+[node name="Marker_Reception_CeilingTest" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(0, 0.2, -3.5)
+
+[node name="Marker_Entrance_CeilingTest" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(0, 0.2, 6.5)
+
+[node name="SafeMarker" type="Marker3D" parent="World/Level/SecondFloor/Markers"]
+position = Vector3(0, 3.2, -9.5)
 
 [node name="Builder" type="Node3D" parent="World"]
 script = ExtResource("2_builder")
@@ -69,9 +116,6 @@ groups = ["level_upper_wing"]
 
 [node name="Room203Door" parent="." instance=ExtResource("4d_room203")]
 groups = ["level_second_floor", "level_door"]
-
-[node name="UpperWingExpansion" parent="." instance=ExtResource("4e_upper_expansion")]
-groups = ["level_upper_wing"]
 
 [node name="PensionCeiling" type="Node3D" parent="."]
 groups = ["level_ceiling"]

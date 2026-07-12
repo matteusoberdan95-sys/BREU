@@ -1,13 +1,18 @@
 namespace BREU.Scripts.Debug;
 
-/// <summary>F8 diagnostics for the authoritative upper-wing floor and test markers.</summary>
+/// <summary>F8 diagnostics for the single authoritative second-floor physical slab.</summary>
 public partial class UpperFloorCollisionProbe : Node
 {
-    private static readonly string[] MarkerNames =
+    private static readonly string[] FloorMarkers =
     {
-        "Marker_UpperWing_Start", "Marker_UpperWing_Center",
-        "Marker_UpperWing_Right", "Marker_UpperWing_FarRight",
-        "Marker_UpperWing_Left", "Marker_UpperWing_End"
+        "Marker_Slab_Start", "Marker_Slab_Center", "Marker_Slab_Right",
+        "Marker_Slab_FarRight", "Marker_Slab_Left", "Marker_Slab_Back",
+        "Marker_Slab_Front", "Marker_Slab_Room203Path"
+    };
+
+    private static readonly string[] CeilingMarkers =
+    {
+        "Marker_Reception_CeilingTest", "Marker_Entrance_CeilingTest"
     };
 
     public override void _Ready() => CallDeferred(nameof(RunMarkerProbe));
@@ -23,99 +28,97 @@ public partial class UpperFloorCollisionProbe : Node
     {
         var scene = GetTree().CurrentScene;
         var player = scene?.FindChild("Player", recursive: true, owned: false) as Node3D;
-        var floor = scene?.FindChild("UpperWing_SolidFloor", recursive: true, owned: false) as Node3D;
-        if (scene == null || player == null || floor == null)
+        var slab = FindSlab(scene);
+        if (scene == null || player == null || slab == null)
         {
-            GD.PrintErr("[UpperFloorProbe] ERROR: scene, player or UpperWing_SolidFloor missing");
+            GD.PrintErr("[Probe] ERROR: scene, player or SecondFloor_PhysicalSlab missing");
             return;
         }
 
-        var mesh = floor.GetNodeOrNull<MeshInstance3D>("MeshInstance3D");
-        var body = floor.GetNodeOrNull<StaticBody3D>("StaticBody3D");
-        var shapeNode = floor.GetNodeOrNull<CollisionShape3D>("StaticBody3D/CollisionShape3D");
-        var boxMesh = mesh?.Mesh as BoxMesh;
-        var boxShape = shapeNode?.Shape as BoxShape3D;
-        GD.Print($"[UpperFloorProbe] Player global pos: {player.GlobalPosition}");
-        GD.Print($"[UpperFloorProbe] Floor path: {floor.GetPath()} parent={floor.GetParent()?.GetPath()}");
-        GD.Print($"[UpperFloorProbe] Floor global pos={floor.GlobalPosition} parentScale={floor.GetParent<Node3D>()?.GlobalTransform.Basis.Scale} floorScale={floor.GlobalTransform.Basis.Scale}");
-        GD.Print($"[UpperFloorProbe] Floor mesh size: {boxMesh?.Size} shape size: {boxShape?.Size}");
-        GD.Print($"[UpperFloorProbe] Floor layer={body?.CollisionLayer} mask={body?.CollisionMask}");
-        if (boxMesh != null)
-        {
-            var half = boxMesh.Size * 0.5f;
-            GD.Print($"[UpperFloorProbe] Floor global AABB min={floor.GlobalPosition - half} max={floor.GlobalPosition + half}");
-        }
-
-        ProbePlayerRays(player);
-        foreach (var markerName in MarkerNames)
-        {
-            var marker = scene.FindChild(markerName, recursive: true, owned: false) as Marker3D;
-            if (marker == null) GD.PrintErr($"[UpperFloorProbe] ERROR: marker missing: {markerName}");
-            else ProbePoint(markerName.Replace("Marker_UpperWing_", ""), marker.GlobalPosition, body);
-        }
-    }
-
-    private void ProbePlayerRays(Node3D player)
-    {
+        PrintSlabData(slab);
         GD.Print($"[Probe] Player position: {player.GlobalPosition}");
+        PrintRay("Down", player.GlobalPosition + Vector3.Up, player.GlobalPosition + Vector3.Down * 10f, "no floor below player");
+        PrintRay("Up", player.GlobalPosition + Vector3.Up * 0.1f, player.GlobalPosition + Vector3.Up * 10f, "no ceiling above reception jump area");
+
         var camera = player.GetNodeOrNull<Camera3D>("HeadBase/BodyMotionPivot/LeanPivot/LookBackPivot/Camera3D");
-        if (camera != null)
+        if (camera == null) GD.PrintErr("[Probe] ERROR: Camera3D missing");
+        else
         {
             var from = camera.GlobalPosition;
-            var forward = -camera.GlobalTransform.Basis.Z.Normalized();
-            PrintGenericHit("Forward", from, from + forward * 12f);
+            PrintRay("Forward", from, from - camera.GlobalTransform.Basis.Z.Normalized() * 12f, "no forward collider");
         }
-        else GD.PrintErr("[Probe] ERROR: Camera3D missing");
 
-        PrintGenericHit("Down", player.GlobalPosition + Vector3.Up, player.GlobalPosition + Vector3.Down * 8f);
-    }
-
-    private void PrintGenericHit(string label, Vector3 from, Vector3 to)
-    {
-        var query = PhysicsRayQueryParameters3D.Create(from, to, 1);
-        var hit = GetTree().Root.World3D.DirectSpaceState.IntersectRay(query);
-        if (hit.Count == 0)
-        {
-            GD.PrintErr($"[Probe] ERROR: no {(label == "Down" ? "floor below player" : "forward collider")}");
-            return;
-        }
-        var collider = hit["collider"].AsGodotObject() as Node;
-        GD.Print($"[Probe] {label} hit: {collider?.GetPath()} at {hit["position"].AsVector3()}");
+        RunMarkerProbe();
     }
 
     private void RunMarkerProbe()
     {
         var scene = GetTree().CurrentScene;
-        var floor = scene?.FindChild("UpperWing_SolidFloor", recursive: true, owned: false) as Node3D;
-        var body = floor?.GetNodeOrNull<StaticBody3D>("StaticBody3D");
-        if (scene == null || floor == null || body == null)
+        var slab = FindSlab(scene);
+        var expected = slab?.GetNodeOrNull<StaticBody3D>("StaticBody3D");
+        if (scene == null || slab == null || expected == null)
         {
-            GD.PrintErr("[UpperFloorProbe] ERROR: static marker probe could not find official floor");
+            GD.PrintErr("[Probe] ERROR: marker probe could not find SecondFloor_PhysicalSlab");
             return;
         }
 
-        foreach (var markerName in MarkerNames)
+        foreach (var markerName in FloorMarkers)
         {
             var marker = scene.FindChild(markerName, recursive: true, owned: false) as Marker3D;
-            if (marker == null) GD.PrintErr($"[UpperFloorProbe] ERROR: marker missing: {markerName}");
-            else ProbePoint(markerName.Replace("Marker_UpperWing_", ""), marker.GlobalPosition, body);
+            ProbeMarker(markerName, marker, Vector3.Down, expected);
+        }
+
+        foreach (var markerName in CeilingMarkers)
+        {
+            var marker = scene.FindChild(markerName, recursive: true, owned: false) as Marker3D;
+            ProbeMarker(markerName, marker, Vector3.Up, expected);
         }
     }
 
-    private void ProbePoint(string label, Vector3 position, StaticBody3D? expected)
+    private void ProbeMarker(string name, Marker3D? marker, Vector3 direction, StaticBody3D expected)
     {
-        var query = PhysicsRayQueryParameters3D.Create(position + Vector3.Up * 1.0f, position + Vector3.Down * 6.0f, 1);
+        if (marker == null)
+        {
+            GD.PrintErr($"[Probe] ERROR: marker missing: {name}");
+            return;
+        }
+
+        var query = PhysicsRayQueryParameters3D.Create(marker.GlobalPosition, marker.GlobalPosition + direction * 12f, 1);
+        var hit = GetTree().Root.World3D.DirectSpaceState.IntersectRay(query);
+        var collider = hit.Count > 0 ? hit["collider"].AsGodotObject() as Node : null;
+        if (collider == expected)
+            GD.Print($"[Probe] OK {name} hit SecondFloor_PhysicalSlab at {hit["position"].AsVector3()}");
+        else
+            GD.PrintErr($"[Probe] ERROR {name}: hit {collider?.GetPath().ToString() ?? "nothing"}");
+    }
+
+    private void PrintRay(string label, Vector3 from, Vector3 to, string error)
+    {
+        var query = PhysicsRayQueryParameters3D.Create(from, to, 1);
         var hit = GetTree().Root.World3D.DirectSpaceState.IntersectRay(query);
         if (hit.Count == 0)
         {
-            GD.PrintErr($"[UpperFloorProbe] ERROR {label}: no floor collision under {position}");
+            GD.PrintErr($"[Probe] ERROR: {error}");
             return;
         }
 
         var collider = hit["collider"].AsGodotObject() as Node;
-        if (collider == expected)
-            GD.Print($"[UpperFloorProbe] OK {label} hit UpperWing_SolidFloor at {hit["position"].AsVector3()}");
-        else
-            GD.PrintErr($"[UpperFloorProbe] ERROR {label}: hit {collider?.GetPath()} instead of UpperWing_SolidFloor");
+        GD.Print($"[Probe] {label} hit: {collider?.Name} ({collider?.GetPath()}) at {hit["position"].AsVector3()}");
+    }
+
+    private static Node3D? FindSlab(Node? scene) =>
+        scene?.GetNodeOrNull<Node3D>("World/Level/SecondFloor/Floors/SecondFloor_PhysicalSlab");
+
+    private static void PrintSlabData(Node3D slab)
+    {
+        var mesh = slab.GetNodeOrNull<MeshInstance3D>("MeshInstance3D")?.Mesh as BoxMesh;
+        var body = slab.GetNodeOrNull<StaticBody3D>("StaticBody3D");
+        var shape = slab.GetNodeOrNull<CollisionShape3D>("StaticBody3D/CollisionShape3D")?.Shape as BoxShape3D;
+        GD.Print($"[Probe] Slab mesh size: {mesh?.Size}");
+        GD.Print($"[Probe] Slab shape size: {shape?.Size}");
+        GD.Print($"[Probe] Slab layer/mask: {body?.CollisionLayer}/{body?.CollisionMask}");
+        if (mesh == null) return;
+        var half = mesh.Size * 0.5f;
+        GD.Print($"[Probe] Slab AABB: min {slab.GlobalPosition - half} max {slab.GlobalPosition + half}");
     }
 }

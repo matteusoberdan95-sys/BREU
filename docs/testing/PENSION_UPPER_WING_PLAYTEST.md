@@ -1,5 +1,24 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Hotfix crítico — laje física única
+
+- mureta frontal, corpo físico, shape, área e prompt removidos;
+- `BalconyRail_Right` residual removido;
+- piso oficial: `World/Level/SecondFloor/Floors/SecondFloor_PhysicalSlab`;
+- MeshInstance3D/BoxShape3D: `23,7 × 0,60 × 19,4 m`;
+- centro `(4,15; 2,50; -1,10)`; AABB `X=-7,70..16,00`, `Y=2,20..2,80`, `Z=-10,80..8,60`;
+- layer/mask `1/0`, copiados do piso funcional `PensionGroundFloor_MainFloor` (`AddSolid`);
+- corredor e piso principal terminam na borda `Z=-10,80`, sem colisões sobrepostas;
+- `DebugFallRecovery` é exclusivo de debug e retorna o player ao `SafeMarker` abaixo de `Y=-3`.
+
+Markers da laje: [x] Start [x] Center [x] Right [x] FarRight [x] Left [x] Back [x] Front [x] Room203Path — todos atingiram exclusivamente `SecondFloor_PhysicalSlab` em runtime.
+
+Markers de teto: [x] Reception_CeilingTest [x] Entrance_CeilingTest — ambos atingiram a face inferior da laje em `Y=2,20`.
+
+Manuais: [ ] caminhada completa e diagonais [ ] pulos sob recepção/entrada [ ] Visible Collision Shapes
+
+Sem aprovação ou commit final enquanto os testes manuais estiverem pendentes.
+
 **Cena:** `PensaoVerticalBlockout01.tscn`
 
 ## Sprint 18C — obrigatório
