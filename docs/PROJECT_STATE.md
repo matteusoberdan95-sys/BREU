@@ -239,9 +239,9 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 - Avaliar novos samples de terra mais naturais
 - `player_run_step_*` permanece reservado (chase/pânico futuro)
 
-## Próxima sprint recomendada
+## Próxima sprint recomendada (após F6 da 17)
 
-**Sprint 17 — Primeiro susto controlado sem inimigo físico**
+**Sprint 18 — Primeiro susto controlado sem inimigo físico**
 
 **Não avançar automaticamente** para inimigo/combate/chase físico.
 
@@ -260,8 +260,3 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 **Design:** `docs/design/PENSION_BALCONY_PUZZLE_DESIGN.md`  
 **Playtest:** `docs/testing/PENSION_BALCONY_PUZZLE_PLAYTEST.md`  
 **Interação:** `docs/technical/PENSION_INTERACTION_BASELINE.md`
-
-## Após F6 da Sprint 17
-
-Se aprovada: susto controlado sem inimigo físico (roadmap) **ou** polish.  
-**Não** avançar automaticamente para inimigo/combate/chase.
