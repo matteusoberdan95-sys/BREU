@@ -267,5 +267,13 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 
 **Status:** 🔄 Aplicada — validar no F6  
 **Causa:** Y do painel/Area somava altura do 2º andar duas vezes → porta/prompt no teto.  
-**Fix:** root no piso; painel/Area locais; Area na altura do peito; marker no vão.  
-Sprint 17 ainda depende de validação completa da varanda/ala.
+**Fix:** root no piso; painel/Area locais; Area na altura do peito; marker no vão.
+
+### Sprint 17B — Hotfix acesso real da varanda
+
+**Status:** 🔄 Aplicada — validar no F6  
+- Removida porta marrom duplicada (`Door_UpperBlocked`)
+- Porta verde única no vão
+- `Wall_Second_Front` com gap + varanda externa com guarda-corpo
+- Corredor curto da ala; trigger de presença afastado da porta  
+Sprint 17 ainda depende de playtest completo.
