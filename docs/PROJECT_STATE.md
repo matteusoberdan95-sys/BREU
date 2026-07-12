@@ -250,6 +250,18 @@ Sprint 17C/17D foi preservada no checkpoint `4a16478` e substituída pela Sprint
 
 **Arquitetura final 17E:** `BalconyWing.tscn` é a única fonte da microárea. `BalconyWingPuzzleSetup` foi removido da cena principal e permanece desativado por padrão; o builder geral não cria mais porta/varanda/cômodos. `BalconyPuzzleSetup` ficou restrito à progressão da nota/chave e à inicialização da porta manual.
 
+### Sprint 17F — Quarto 203 encontrável
+
+**Status:** implementado; descoberta visual final depende do F6 do usuário.
+
+- porta 203 estática posicionada na parede esquerda do corredor superior;
+- prompt específico e área curta voltada para o corredor;
+- antes do caderno informa bloqueio simples;
+- depois do caderno toca arranhão, informa bloqueio interno e encerra o fluxo com tensão;
+- porta permanece fechada para sprint futura.
+
+**Próxima sprint recomendada:** Sprint 18 — evento forte no Quarto 203, ainda sem combate/chase automático.
+
 ## Sprint 16C — Ajuste fino de passos (aprovada)
 
 **Status:** ✅ Aprovada — corrida = mesmo banco da superfície; `player_run_step_*` reservado.

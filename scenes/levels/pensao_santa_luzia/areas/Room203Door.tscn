@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/Room203DoorInteraction.cs" id="1"]
+
+[sub_resource type="StandardMaterial3D" id="DoorMat"]
+albedo_color = Color(0.24, 0.15, 0.11, 1)
+[sub_resource type="StandardMaterial3D" id="FrameMat"]
+albedo_color = Color(0.12, 0.09, 0.08, 1)
+[sub_resource type="BoxMesh" id="DoorMesh"]
+size = Vector3(0.12, 2.2, 1.45)
+[sub_resource type="BoxMesh" id="FrameVertical"]
+size = Vector3(0.16, 2.5, 0.12)
+[sub_resource type="BoxMesh" id="FrameTop"]
+size = Vector3(0.16, 0.14, 1.7)
+[sub_resource type="BoxShape3D" id="AreaShape"]
+size = Vector3(0.38, 1.1, 1.15)
+
+[node name="Door_Room203_Blocked" type="Node3D"]
+
+[node name="DoorPanel" type="MeshInstance3D" parent="."]
+position = Vector3(-1.28, 3.9, -10)
+mesh = SubResource("DoorMesh")
+material_override = SubResource("DoorMat")
+
+[node name="FrameNorth" type="MeshInstance3D" parent="."]
+position = Vector3(-1.2, 4.02, -10.8)
+mesh = SubResource("FrameVertical")
+material_override = SubResource("FrameMat")
+[node name="FrameSouth" type="MeshInstance3D" parent="."]
+position = Vector3(-1.2, 4.02, -9.2)
+mesh = SubResource("FrameVertical")
+material_override = SubResource("FrameMat")
+[node name="FrameTop" type="MeshInstance3D" parent="."]
+position = Vector3(-1.2, 5.22, -10)
+mesh = SubResource("FrameTop")
+material_override = SubResource("FrameMat")
+
+[node name="RoomNumber203" type="Label3D" parent="."]
+position = Vector3(-1.1, 4.65, -10)
+rotation = Vector3(0, -1.570796, 0)
+text = "203"
+font_size = 48
+outline_size = 8
+modulate = Color(0.82, 0.72, 0.54, 1)
+
+[node name="Interact_Room203Door" type="Area3D" parent="." groups=["interactable"]]
+position = Vector3(-0.98, 4.15, -10)
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+[node name="Shape" type="CollisionShape3D" parent="Interact_Room203Door"]
+shape = SubResource("AreaShape")
+[node name="Room203DoorInteraction" type="Node" parent="Interact_Room203Door"]
+script = ExtResource("1")

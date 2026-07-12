@@ -57,6 +57,7 @@ public partial class ManualBalconyInteraction : Node, IInteractable
                 break;
             case InteractionMode.Ledger:
                 _state.ReadOwnerLedger();
+                hud?.ShowMessage("Quarto 203... preciso voltar ao corredor do segundo andar. A porta fica deste lado da pensão.", 5f);
                 PensionNarrativeEvents.Find(GetTree())?.TryTrigger(PensionNarrativeEvents.EventOwnerLedgerReveal);
                 _done = true;
                 break;

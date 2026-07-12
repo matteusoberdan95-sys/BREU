@@ -2,6 +2,21 @@
 
 **Arquitetura 17E:** a ala é uma cena manual única. Testar com Visible Collision Shapes; `BalconyWingPuzzleSetup` não pode aparecer ativo no Scene Tree.
 
+## Sprint 17F — Quarto 203 encontrável
+
+O objetivo narrativo existia, mas não havia uma porta 203 clara no corredor. A porta bloqueada foi criada como cena estática em `X=-1,48 / Z=-10`, na parede esquerda do corredor superior e visível ao retornar da varanda.
+
+- nó único `Door_Room203_Blocked`;
+- placa simples `203` e painel marrom escuro;
+- `Interact_Room203Door` curto, somente no lado do corredor;
+- antes do caderno: “A porta está bloqueada.”;
+- depois do caderno: bloqueio pelo outro lado + `door_scratch_01` + mensagem de unhas na madeira;
+- a porta não abre nesta sprint.
+
+Checklist F6 pendente: confirmar descoberta visual, alcance curto do prompt e ausência de prompt através da parede.
+
+**Hotfix visual:** o primeiro playtest mostrou apenas o prompt porque o painel estava embutido na face da parede. Porta, moldura e placa 203 foram avançadas para o lado do corredor, eliminando ocultação e z-fighting.
+
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Data:** 2026-07-12  
 **Status:** 🔄 Implementado — aguardando F6

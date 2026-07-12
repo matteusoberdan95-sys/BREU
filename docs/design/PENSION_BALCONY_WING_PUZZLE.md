@@ -2,6 +2,10 @@
 
 > Sprint 17E: a implementação autoritativa agora é a cena manual `areas/BalconyWing.tscn`. Builders antigos estão congelados; este documento preserva o fluxo do puzzle.
 
+## Gancho final — Quarto 203 (Sprint 17F)
+
+O Quarto 203 é o próximo gancho narrativo. Ele fica no corredor principal do segundo andar, é identificado visualmente e permanece bloqueado. Após o caderno, a interação produz um ruído de arranhão e reforça que algo está do outro lado, preparando a Sprint 18 sem abrir a porta, mostrar inimigo ou iniciar perseguição.
+
 **Cena:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`  
 **Status:** Implementada — playtest F6 pendente  
 **Tom:** terror psicológico brasileiro; pensão úmida; sangue seco pontual; sem inimigo/combate/chase.
