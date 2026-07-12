@@ -1,5 +1,27 @@
 # Playtest — Saneamento 18C / ala superior
 
+## ✅ CHECKPOINT — Varanda aprovada para gameplay (CONGELADA)
+
+**Data:** 2026-07-12  
+**Resultado:** APROVADA
+
+Confirmado no playtest:
+- [x] andar na varanda/laje superior;
+- [x] sem queda no limbo;
+- [x] sem teleporte do térreo para o segundo andar;
+- [x] escada funcional;
+- [x] porta verde funcional;
+- [x] Quarto 203 acessível;
+- [x] varanda aberta e navegável;
+- [x] `UpperWing_CollisionDeck` intacto e congelado.
+
+Congelado:
+- não mexer no chão/deck da varanda;
+- não recriar mureta / boundary / guarda-corpo / colliders soltos;
+- não criar paredes invisíveis na área caminhável.
+
+Próximas colisões: apenas paredes de cômodos novos, com collider filho da parede visual.
+
 ## Rollback — colliders invisíveis bugados da varanda
 
 - último hotfix criou paredes invisíveis no meio da varanda (`BalconyWallColliders`);

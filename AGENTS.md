@@ -1,3 +1,16 @@
+## ✅ VARANDA APROVADA E CONGELADA PARA GAMEPLAY
+
+Estado aprovado (2026-07-12):
+- Player anda na varanda/laje sem cair;
+- sem teleporte térreo → segundo andar;
+- escada, porta verde e Quarto 203 funcionais;
+- varanda aberta e navegável;
+- `UpperWing_CollisionDeck` é o chão oficial e está **congelado**.
+
+Não mexer mais no chão/deck da varanda.
+Não recriar mureta, boundary global, colliders soltos ou paredes invisíveis na área caminhável.
+Próximas paredes/colisões: só cômodos novos, collider filho da parede visual correspondente.
+
 ## REGRA CRÍTICA — Não chutar collider de parede
 
 É proibido criar collider de parede por coordenada chutada.

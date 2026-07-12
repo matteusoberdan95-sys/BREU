@@ -1,5 +1,27 @@
 # BREU — Estado do projeto
 
+## ✅ CHECKPOINT — Varanda aprovada para gameplay (CONGELADA)
+
+**Data:** 2026-07-12  
+**Status:** APROVADA E CONGELADA
+
+Estado aprovado:
+- Player anda na varanda/laje superior sem cair no limbo;
+- teleporte térreo → segundo andar corrigido (`DebugFallRecovery` só abaixo de KillY);
+- escada, porta verde e Quarto 203 funcionais;
+- varanda aberta e navegável;
+- chão oficial: `UpperWing_CollisionDeck` — **congelado**.
+
+Congelado / proibido mexer:
+- `UpperWing_CollisionDeck` (posição, shape, layer/mask, parent, nome);
+- mureta, boundary global, guarda-corpo ou colliders soltos na varanda;
+- paredes invisíveis na área caminhável.
+
+Próximo passo permitido:
+- cômodos novos da ala superior;
+- cada parede visual com collider **filho** da mesh correspondente;
+- nunca boundary/collider chutado no meio do caminho.
+
 ## Rollback — colliders de parede da varanda
 
 Colisão de paredes da varanda (`BalconyWallColliders` / `BalconyWallCollider_*`) foi **revertida**: ficavam no meio do caminho. Varanda permanece aberta e navegável com `UpperWing_CollisionDeck` intacto. Próxima sprint: cômodos com paredes próprias e colliders **filhos das meshes visuais**, nunca boundary/collider lateral chutado.
@@ -25,7 +47,7 @@ A laje física anterior foi removida. O teto da recepção e o piso da varanda a
 O playtest invalidou a laje anterior: o player ainda caía para o primeiro andar e atravessava o teto da recepção ao pular. A solução adotada é uma única caixa física grossa, `SecondFloor_PhysicalSlab`, substituindo `UpperWing_SolidFloor` e removendo mureta, rail e colisões associadas. Nenhuma expansão de cômodo pode continuar até caminhada, diagonais e pulos contra o teto passarem manualmente.
 
 **Última atualização:** 2026-07-12  
-**Fase:** REBOOT GREENFIELD — Sprint 18C (saneamento obrigatório); expansão pausada  
+**Fase:** REBOOT GREENFIELD — Sprint 18C; **varanda aprovada/congelada**; próxima: cômodos da ala superior  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -36,10 +58,10 @@ O playtest invalidou a laje anterior: o player ainda caía para o primeiro andar
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
 | Sprint 02–16E | **✅ Aprovadas** (ver histórico) |
-| Sprint 17–17F | **🔄 Implementadas** — varanda / 203 |
+| Sprint 17–17F | **✅ Varanda aprovada/congelada** — 203 acessível |
 | Sprint 18A | **⏸️ Cômodos da expansão removidos provisoriamente na 18C** |
 | Sprint 18B | **🔄 Absorvida / reforçada pela 18C** |
-| Sprint 18C | **🔄 Implementada** — saneamento + F9 LevelSanity; F6 pendente |
+| Sprint 18C | **✅ Deck/varanda aprovados** — próxima: cômodos com colliders filhos |
 
 ### Regra obrigatória (18C)
 
