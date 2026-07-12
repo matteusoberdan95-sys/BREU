@@ -1,5 +1,7 @@
 # Sprint 18A — Laje sólida + expansão da ala superior
 
+> **18C:** a expansão de cômodos foi removida provisoriamente. `UpperWingExpansion.tscn` ficou só com laje + walkway + rail. Reintroduzir salas só após F9 LevelSanity = 0 ERROR.
+
 **Cena:** `PensaoVerticalBlockout01.tscn`  
 **Fontes:** `areas/BalconyWing.tscn` + `areas/UpperWingExpansion.tscn`
 
