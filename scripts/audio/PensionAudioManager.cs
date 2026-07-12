@@ -409,6 +409,13 @@ public partial class PensionAudioManager : Node
             new Vector3(0f, 4.2f, -13.5f), new Vector3(13f, 3.6f, 18f),
             secondaryLoopId: IdLampBuzz);
 
+        AddZone(host, "AudioZone_UpperBalcony", IdExterior, 75,
+            new Vector3(0f, 4.0f, -6.6f), new Vector3(3.2f, 3.2f, 2.4f),
+            secondaryLoopId: IdSecondFloor);
+
+        AddZone(host, "AudioZone_UpperBalconyWing", IdSecondFloor, 78,
+            new Vector3(4.0f, 4.0f, -6.6f), new Vector3(5.5f, 3.2f, 2.6f));
+
         AddSurfaceZones(host);
         AddWaterDropEmitters(host);
 

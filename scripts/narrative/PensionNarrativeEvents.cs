@@ -15,6 +15,9 @@ public partial class PensionNarrativeEvents : Node
     public const string EventStairArrival = "stair_first_arrival";
     public const string EventUpperPresence = "upper_corridor_presence";
     public const string EventLockedDoorHint = "upper_locked_door_hint";
+    public const string EventBalconyOpened = "balcony_opened";
+    public const string EventRoom203Note = "room_203_note";
+    public const string EventOwnerLedgerRead = "owner_ledger_read";
 
     private readonly HashSet<string> _fired = new(StringComparer.Ordinal);
     private readonly List<NarrativeTrigger3D> _triggers = new();
@@ -186,6 +189,24 @@ public partial class PensionNarrativeEvents : Node
                 QueueMessage("Do outro lado, algo arranha a madeira.", 3.0f);
                 _flicker?.Flicker(GetLight("UpperBlockedDoorLight"), 0.9f, 0.4f, 2);
                 _audio?.PlayOneShot("door_scratch_02", -12f);
+                break;
+
+            case EventBalconyOpened:
+                QueueMessage("O vento entra frio, como se a casa respirasse por aquela porta.", 3.5f);
+                _flicker?.Flicker(GetLight("UpperCorridorFarLight"), 0.8f, 0.45f, 2);
+                _audio?.PlayOneShot("old_house_settle_01", -14f);
+                break;
+
+            case EventRoom203Note:
+                QueueMessage("Este quarto parece ter sido abandonado às pressas.", 3.0f);
+                _flicker?.Flicker(GetLight("Room203Light"), 0.7f, 0.4f, 2);
+                _audio?.PlayOneShot("old_house_settle_01", -15f);
+                break;
+
+            case EventOwnerLedgerRead:
+                QueueMessage("As páginas rasgadas deixam uma marca escura nos meus dedos.", 3.5f);
+                _flicker?.Flicker(GetLight("BalconyWingLight"), 0.9f, 0.38f, 3);
+                _audio?.PlayOneShot("distant_knock_01", -13f);
                 break;
         }
     }

@@ -109,7 +109,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         BuildSecondFloor();
         BuildCeilingBlockout();
         BuildUpperSouthRoomPlaceholder();
-        BuildUpperBalconyPlaceholder();
+        BuildUpperBalconyWing();
         BuildSecondFloorNarrativeReadability();
     }
 
@@ -729,12 +729,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(flankSpanX, WallHeight, flankDepth),
             _matInteriorWall);
 
-        AddWall(
-            _secondFloor,
-            "Wall_Second_SouthFlank_East",
-            new Vector3(CorridorWallX + flankSpanX * 0.5f, SecondWallCenterY, flankCenterZ),
-            new Vector3(flankSpanX, WallHeight, flankDepth),
-            _matInteriorWall);
+        // East flank opened in Sprint 17 as UpperBalconyWing (do not fill solid).
     }
 
     private void BuildSecondFloorExteriorShell()
@@ -796,18 +791,15 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         const float halfPanel = (DoorWidth - 0.1f) * 0.5f;
         var doorPos = new Vector3(0f, SecondFloorTopY - WallEmbedBelowFloor, BlockedDoorZ - 0.05f);
 
-        var balconyDoor = AddLockedDoorBlocker(
+        AddBalconyDoorBlocker(
             _secondFloor,
             "Door_UpperBalcony",
             "Door_UpperBalcony_Blocker",
             doorPos,
             halfPanel,
             _matDoorBalcony,
-            "Tentar abrir varanda",
-            "A porta está emperrada. O vento passa pelas frestas do lado de fora.",
             SecondFloorTopY,
             panelOffsetX: -0.35f);
-        balconyDoor.NarrativeFollowUpEventId = PensionNarrativeEvents.EventLockedDoorHint;
 
         var blockedDoor = AddLockedDoorBlocker(
             _secondFloor,
@@ -825,14 +817,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private void BuildSecondFloorNarrativeInteractions()
     {
-        AddInteractableArea(
-            _interactions,
-            "Room201Note",
-            new Vector3(Room201CenterX + 0.8f, SecondFloorTopY + 0.95f, Room201CenterZ - 0.4f),
-            new Vector3(0.35f, 0.2f, 0.28f),
-            "Ler anotação",
-            "Ele bateu na porta três vezes. Depois disso, ninguém dormiu.",
-            "room_201_note");
+        // Room201 balcony-owner note is created by PensaoBalconyPuzzleSetup (Sprint 17).
 
         AddInteractableArea(
             _interactions,
@@ -857,12 +842,38 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(WallThickness, WallHeight, roomDepth),
             _matInteriorWall);
 
-        AddWall(
+        // East wall with clean gap into UpperBalconyWing.
+        var doorHalf = (DoorWidth + 0.05f) * 0.5f;
+        var southLen = (roomSouthZ - (roomCenterZ + doorHalf));
+        var northLen = ((roomCenterZ - doorHalf) - BlockedDoorZ);
+        if (southLen > 0.08f)
+        {
+            AddWall(
+                _secondFloor,
+                "Wall_UpperSouthRoom_Right_South",
+                new Vector3(CorridorWallX, SecondWallCenterY, roomCenterZ + doorHalf + southLen * 0.5f),
+                new Vector3(WallThickness, WallHeight, southLen + WallCornerOverlap),
+                _matInteriorWall);
+        }
+
+        if (northLen > 0.08f)
+        {
+            AddWall(
+                _secondFloor,
+                "Wall_UpperSouthRoom_Right_North",
+                new Vector3(CorridorWallX, SecondWallCenterY, roomCenterZ - doorHalf - northLen * 0.5f),
+                new Vector3(WallThickness, WallHeight, northLen + WallCornerOverlap),
+                _matInteriorWall);
+        }
+
+        AddDoorHeaderXWall(
             _secondFloor,
-            "Wall_UpperSouthRoom_Right",
-            new Vector3(CorridorWallX, SecondWallCenterY, roomCenterZ),
-            new Vector3(WallThickness, WallHeight, roomDepth),
-            _matInteriorWall);
+            "Header_BalconyToWing",
+            CorridorWallX,
+            roomCenterZ,
+            DoorWidth + 0.05f,
+            _matInteriorWall,
+            SecondFloorTopY);
 
         AddVisualCeilingPlate(
             _ceiling,

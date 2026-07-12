@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-12  
-**Fase:** REBOOT GREENFIELD — Sprint 16 **aprovada** (áudio funcional base da Pensão)  
+**Fase:** REBOOT GREENFIELD — Sprint 17 (puzzle varanda + ala superior) implementada; F6 pendente  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
