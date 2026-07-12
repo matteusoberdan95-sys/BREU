@@ -84,12 +84,6 @@ mesh = SubResource("WallWide")
 material_override = SubResource("MatWall")
 
 [node name="Collisions" type="Node3D" parent="."]
-[node name="RoomEastWall" type="StaticBody3D" parent="Collisions"]
-position = Vector3(6.8, 4.2, -4.3)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/RoomEastWall"]
-shape = SubResource("WallLongShape")
 [node name="BathroomNorthWall" type="StaticBody3D" parent="Collisions"]
 position = Vector3(4.2, 4.2, -6.25)
 collision_layer = 1

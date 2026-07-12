@@ -1,5 +1,9 @@
 # BREU — Estado do projeto
 
+## Limites externos da varanda
+
+A varanda mantém `UpperWing_CollisionDeck` como chão aprovado. Foram adicionados limites contínuos esquerdo, direito e frontal para impedir travessia das paredes e saída lateral; não há nova mureta interna e o fundo permanece livre para a porta verde/203. A próxima sprint de cômodos/puzzle só é liberada após compilação, BoundaryCheck e percurso manual passarem.
+
 ## Fonte física da ala superior
 
 `UpperWing_CollisionDeck` é a única fonte de colisão do piso/teto na área aberta superior. A laje visual não possui collider concorrente. O deck passou a grade automática 7×7 com 49/49 impactos, mas nenhuma expansão de cômodos pode seguir antes da caminhada e dos pulos manuais confirmarem que o recovery não é acionado.

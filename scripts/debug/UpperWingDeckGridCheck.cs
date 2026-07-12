@@ -52,6 +52,19 @@ public partial class UpperWingDeckGridCheck : Node
         GD.Print(failures == 0
             ? "[DeckGrid] PASS 49/49 points hit UpperWing_CollisionDeck"
             : $"[DeckGrid] FAIL {failures}/49 points did not hit UpperWing_CollisionDeck");
+
+        CheckBoundary("BalconyBoundary_Left", new Vector3(-1.2f, 4.2f, -4.1f), Vector3.Left * 2f);
+        CheckBoundary("BalconyBoundary_Right", new Vector3(6.3f, 4.2f, -4.1f), Vector3.Right * 2f);
+        CheckBoundary("BalconyBoundary_Front", new Vector3(2.55f, 4.2f, 2.1f), Vector3.Back * 2f);
+    }
+
+    private void CheckBoundary(string expectedName, Vector3 from, Vector3 offset)
+    {
+        var query = PhysicsRayQueryParameters3D.Create(from, from + offset, 1);
+        var hit = GetTree().Root.World3D.DirectSpaceState.IntersectRay(query);
+        var collider = hit.Count > 0 ? hit["collider"].AsGodotObject() as Node : null;
+        if (collider?.Name == expectedName) GD.Print($"[BoundaryCheck] OK {expectedName}");
+        else GD.PrintErr($"[BoundaryCheck] ERROR {expectedName}: hit {collider?.GetPath().ToString() ?? "nothing"}");
     }
 
     private static void CollectOtherBodies(Node node, StaticBody3D expected, Godot.Collections.Array<Rid> excluded)

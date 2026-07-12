@@ -1,5 +1,21 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Hotfix final — colisão dos limites da varanda
+
+- o chão aprovado `UpperWing_CollisionDeck` foi preservado sem mudança de posição, tamanho, layer/mask ou shape;
+- causa restante confirmada pelo vídeo: travessia da parede/quina direita, seguida de saída da área válida;
+- container criado: `World/Level/SecondFloor/Collisions/BalconyBoundaryColliders`;
+- `BalconyBoundary_Left`: X `-1,85`, cobrindo Z `-10,80..2,60`;
+- `BalconyBoundary_Right`: X `6,95`, cobrindo Z `-10,80..2,60`;
+- `BalconyBoundary_Front`: Z `2,75`, cobrindo X `-1,90..7,00`;
+- layer/mask `1/0`, copiados das paredes funcionais criadas por `AddWall`;
+- o collider segmentado `RoomEastWall` foi removido para não competir com o limite direito contínuo;
+- nenhuma mureta interna foi criada; fundo permanece aberto para porta verde e caminho do 203.
+
+Validação: [ ] compilação/carga após limites [ ] BoundaryCheck 3/3 [ ] tentativa manual de atravessar paredes [ ] tentativa de queda lateral [ ] 203 e porta verde preservados
+
+O ambiente atingiu o limite de execução antes da validação; não aprovar nem criar commit final até esses itens passarem.
+
 ## Hotfix — UpperWing_CollisionDeck
 
 - problema: o player ainda caía em partes da varanda, principalmente à direita, e atravessava o teto da recepção;

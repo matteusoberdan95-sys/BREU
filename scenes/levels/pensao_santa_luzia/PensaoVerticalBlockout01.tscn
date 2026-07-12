@@ -38,6 +38,12 @@ fog_aerial_perspective = 0.45
 [sub_resource type="BoxShape3D" id="UpperWingCollisionDeckShape"]
 size = Vector3(50, 0.8, 30.8)
 
+[sub_resource type="BoxShape3D" id="BalconyBoundarySideShape"]
+size = Vector3(0.3, 2.8, 13.4)
+
+[sub_resource type="BoxShape3D" id="BalconyBoundaryFrontShape"]
+size = Vector3(8.9, 2.8, 0.3)
+
 [node name="PensaoVerticalBlockout01" type="Node3D"]
 script = ExtResource("1_controller")
 
@@ -81,6 +87,34 @@ collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Floors/UpperWing_CollisionDeck/StaticBody3D"]
 shape = SubResource("UpperWingCollisionDeckShape")
+
+[node name="Collisions" type="Node3D" parent="World/Level/SecondFloor"]
+
+[node name="BalconyBoundaryColliders" type="Node3D" parent="World/Level/SecondFloor/Collisions"]
+
+[node name="BalconyBoundary_Left" type="StaticBody3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders" groups=["level_wall"]]
+position = Vector3(-1.85, 4.2, -4.1)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders/BalconyBoundary_Left"]
+shape = SubResource("BalconyBoundarySideShape")
+
+[node name="BalconyBoundary_Right" type="StaticBody3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders" groups=["level_wall"]]
+position = Vector3(6.95, 4.2, -4.1)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders/BalconyBoundary_Right"]
+shape = SubResource("BalconyBoundarySideShape")
+
+[node name="BalconyBoundary_Front" type="StaticBody3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders" groups=["level_wall"]]
+position = Vector3(2.55, 4.2, 2.75)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Collisions/BalconyBoundaryColliders/BalconyBoundary_Front"]
+shape = SubResource("BalconyBoundaryFrontShape")
 
 [node name="Markers" type="Node3D" parent="World/Level/SecondFloor"]
 
