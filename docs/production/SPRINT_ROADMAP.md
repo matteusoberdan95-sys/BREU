@@ -388,6 +388,15 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ## Sprints futuras (backlog)
 
+### Backlog técnico/artístico (áudio — pós Sprint 16)
+
+- Refinar passos na terra/cascalho andando.
+- Refinar passos na terra/cascalho correndo.
+- Avaliar novos samples de terra mais naturais.
+- `player_run_step_*` reservado para chase/pânico futuro.
+
+### Outros
+
 - Trilha completa com ônibus/lotação (cutscene/gameplay).
 - Checkpoint / morte / retry.
 - Streaming entre exterior e interior.
