@@ -1,104 +1,67 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/interactions/Interactable.cs" id="1"]
-
 [sub_resource type="StandardMaterial3D" id="MatFloor"]
 albedo_color = Color(0.3, 0.31, 0.36, 1)
 [sub_resource type="StandardMaterial3D" id="MatRail"]
 albedo_color = Color(0.2, 0.22, 0.28, 1)
 [sub_resource type="BoxMesh" id="SolidFloorMesh"]
-size = Vector3(3.4, 0.3, 4.8)
+size = Vector3(8.5, 0.3, 10.2)
 [sub_resource type="BoxShape3D" id="SolidFloorShape"]
-size = Vector3(3.4, 0.3, 4.8)
-[sub_resource type="BoxMesh" id="WalkwayMesh"]
-size = Vector3(3.2, 0.28, 1.2)
-[sub_resource type="BoxShape3D" id="WalkwayShape"]
-size = Vector3(3.2, 0.28, 1.2)
+size = Vector3(8.5, 0.3, 10.2)
 [sub_resource type="BoxMesh" id="RailMesh"]
-size = Vector3(3.2, 1.05, 0.14)
+size = Vector3(8.5, 1.05, 0.14)
 [sub_resource type="BoxShape3D" id="RailShape"]
-size = Vector3(3.2, 1.05, 0.14)
-[sub_resource type="BoxMesh" id="RailSideMesh"]
-size = Vector3(0.14, 1.05, 1.2)
-[sub_resource type="BoxShape3D" id="RailSideShape"]
-size = Vector3(0.14, 1.05, 1.2)
+size = Vector3(8.5, 1.05, 0.14)
 [sub_resource type="BoxShape3D" id="LookDownShape"]
-size = Vector3(2.0, 1.0, 0.35)
+size = Vector3(1.5, 0.35, 0.3)
 
 [node name="UpperWing_Extension" type="Node3D" groups=["level_upper_wing"]]
 
-[node name="UpperWing_SolidFloor" type="MeshInstance3D" parent="." groups=["level_floor"]]
-position = Vector3(0, 2.65, -0.2)
+[node name="UpperWing_SolidFloor" type="Node3D" parent="." groups=["level_floor"]]
+position = Vector3(2.55, 2.65, -2.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="UpperWing_SolidFloor"]
 mesh = SubResource("SolidFloorMesh")
 material_override = SubResource("MatFloor")
-
-[node name="UpperBalcony_FrontWalkway" type="MeshInstance3D" parent="." groups=["level_floor"]]
-position = Vector3(0, 2.66, 2.0)
-mesh = SubResource("WalkwayMesh")
-material_override = SubResource("MatFloor")
+[node name="StaticBody3D" type="StaticBody3D" parent="UpperWing_SolidFloor" groups=["level_floor"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="UpperWing_SolidFloor/StaticBody3D"]
+shape = SubResource("SolidFloorShape")
 
 [node name="Geometry" type="Node3D" parent="."]
 [node name="UpperBalcony_GuardRail_Front" type="MeshInstance3D" parent="Geometry" groups=["level_wall"]]
-position = Vector3(0, 3.32, 2.55)
+position = Vector3(2.55, 3.32, 2.6)
 mesh = SubResource("RailMesh")
-material_override = SubResource("MatRail")
-[node name="UpperBalcony_GuardRail_Left" type="MeshInstance3D" parent="Geometry" groups=["level_wall"]]
-position = Vector3(-1.55, 3.32, 2.0)
-mesh = SubResource("RailSideMesh")
-material_override = SubResource("MatRail")
-[node name="UpperBalcony_GuardRail_Right" type="MeshInstance3D" parent="Geometry" groups=["level_wall"]]
-position = Vector3(1.55, 3.32, 2.0)
-mesh = SubResource("RailSideMesh")
 material_override = SubResource("MatRail")
 
 [node name="Collisions" type="Node3D" parent="."]
-[node name="UpperWing_SolidFloor" type="StaticBody3D" parent="Collisions" groups=["level_floor"]]
-position = Vector3(0, 2.65, -0.2)
+[node name="GuardRailFront" type="StaticBody3D" parent="Collisions" groups=["level_wall"]]
+position = Vector3(2.55, 3.32, 2.6)
 collision_layer = 1
 collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/UpperWing_SolidFloor"]
-shape = SubResource("SolidFloorShape")
-[node name="UpperBalcony_FrontWalkway" type="StaticBody3D" parent="Collisions" groups=["level_floor"]]
-position = Vector3(0, 2.66, 2.0)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/UpperBalcony_FrontWalkway"]
-shape = SubResource("WalkwayShape")
-[node name="RailFront" type="StaticBody3D" parent="Collisions" groups=["level_wall"]]
-position = Vector3(0, 3.32, 2.55)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/RailFront"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/GuardRailFront"]
 shape = SubResource("RailShape")
-[node name="RailLeft" type="StaticBody3D" parent="Collisions" groups=["level_wall"]]
-position = Vector3(-1.55, 3.32, 2.0)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/RailLeft"]
-shape = SubResource("RailSideShape")
-[node name="RailRight" type="StaticBody3D" parent="Collisions" groups=["level_wall"]]
-position = Vector3(1.55, 3.32, 2.0)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/RailRight"]
-shape = SubResource("RailSideShape")
 
-[node name="Marker_UpperFloor_Start" type="Marker3D" parent="."]
-position = Vector3(0, 2.95, -2.2)
-[node name="Marker_UpperFloor_Middle" type="Marker3D" parent="."]
-position = Vector3(0, 2.95, 0.0)
-[node name="Marker_UpperFloor_End" type="Marker3D" parent="."]
-position = Vector3(0, 2.95, 2.0)
-[node name="Marker_UpperWing_FloorY" type="Marker3D" parent="."]
-position = Vector3(0, 2.8, 0.0)
+[node name="Markers" type="Node3D" parent="."]
+[node name="Marker_UpperWing_PathStart" type="Marker3D" parent="Markers"]
+position = Vector3(0, 2.95, -7.1)
+[node name="Marker_UpperWing_PathCenter" type="Marker3D" parent="Markers"]
+position = Vector3(2.55, 2.95, -2.5)
+[node name="Marker_UpperWing_PathRight" type="Marker3D" parent="Markers"]
+position = Vector3(6.2, 2.95, -2.5)
+[node name="Marker_UpperWing_PathLeft" type="Marker3D" parent="Markers"]
+position = Vector3(-1.1, 2.95, -2.5)
+[node name="Marker_UpperWing_PathEnd" type="Marker3D" parent="Markers"]
+position = Vector3(2.55, 2.95, 2.0)
 
 [node name="Interactions" type="Node3D" parent="."]
 [node name="Interact_BalconyLookDown" type="Area3D" parent="Interactions" groups=["interactable", "gameplay_interaction"]]
-position = Vector3(0, 3.45, 2.5)
+position = Vector3(2.55, 3.0, 2.42)
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_BalconyLookDown"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_BalconyLookDown"]
 shape = SubResource("LookDownShape")
 [node name="Hint" type="Node" parent="Interactions/Interact_BalconyLookDown"]
 script = ExtResource("1")

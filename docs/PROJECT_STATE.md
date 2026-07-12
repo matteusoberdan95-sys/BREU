@@ -365,3 +365,10 @@ Sprint 17C/17D foi preservada no checkpoint `4a16478` e substituída pela Sprint
 
 Sprint 17 ainda depende de playtest completo da rota 17–17C.
 
+# Regra obrigatória de geometria
+
+Toda alteração de cenário deve seguir `.cursor/rules/level-geometry-guardrails.mdc`, `AGENTS.md` e `docs/production/LEVEL_GEOMETRY_GOLDEN_RULES.md`.
+
+Nenhuma sprint passa com queda no limbo/direita/esquerda, piso sem colisão, duplicata, builder antigo, invasão entre andares, prompt fantasma ou collider sem função.
+
+Estado do hotfix: a mureta foi removida; pisos parciais concorrentes foram substituídos por um único `UpperWing_SolidFloor` de cobertura integral. A próxima sprint só pode criar cômodos após validação F6 completa do piso.

@@ -1,0 +1,45 @@
+---
+description: Regras obrigatórias para qualquer alteração de cenário, geometria, pisos, paredes, tetos, portas, colisões e interações do BREU.
+globs:
+  - "scenes/**/*.tscn"
+  - "scripts/**/*.cs"
+  - "docs/**/*.md"
+alwaysApply: true
+---
+
+# BREU — Level Geometry Guardrails
+
+Estas regras são obrigatórias para Cursor antes de qualquer alteração de cenário.
+
+## Regras absolutas
+
+1. Não criar objeto novo por cima de objeto velho sem remover o velho.
+2. Não deixar duplicatas com a mesma função.
+3. Não deixar mesh visual sem colisão quando for piso, parede, teto, porta bloqueadora, escada, laje ou barreira.
+4. Não deixar CollisionShape3D invisível sem nome e função claros.
+5. Não deixar prompts/interações atravessando paredes.
+6. Não deixar Area3D gigante pegando interação de longe.
+7. Não criar builder/runtime setup para geometria se a área já é manual.
+8. Não recriar geometria aprovada por script.
+9. Não deixar piso do segundo andar invadir visualmente o teto do primeiro.
+10. Não deixar parede/teto/prop de um andar atravessar outro andar.
+11. Não commitar alteração de cenário sem testar F6.
+12. Não commitar piso novo sem andar sobre ele de ponta a ponta.
+13. Não commitar porta/interação sem testar perto, longe e através da parede.
+14. Não commitar se o player cair no limbo.
+15. Não deixar objeto Old, Temp, Backup, Test, Legacy ou Deprecated ativo.
+16. Ao corrigir uma área, remover restos antigos da tentativa anterior.
+17. Cena limpa vale mais que cena grande.
+18. Gameplay jogável vem antes de estética.
+19. Em dúvida, criar primeiro uma versão simples, sólida e testável.
+20. Se o teste binário falhar, a task falhou.
+
+## Checklist obrigatório antes de commit de cenário
+
+- [ ] F6 rodou.
+- [ ] Player andou sem cair: frente, trás, esquerda, direita, diagonais e ida/volta.
+- [ ] Piso tem StaticBody3D/CollisionShape3D e shape igual à mesh.
+- [ ] Não há duplicatas, colliders invisíveis sem função ou builders antigos.
+- [ ] Não há prompt fantasma nem teto/piso atravessando outro andar.
+- [ ] Entrada e recepção foram verificadas olhando para cima.
+- [ ] Escada, porta verde e Quarto 203 continuam funcionando.
