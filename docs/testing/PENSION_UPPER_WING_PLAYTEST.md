@@ -1,23 +1,24 @@
 # Playtest — Saneamento 18C / ala superior
 
-## Hotfix final — colisão das paredes da varanda
+## Rollback — colliders invisíveis bugados da varanda
 
-- varanda/laje já estava navegável; teleporte térreo → segundo andar já corrigido;
-- problema restante: paredes laterais e guarda-peito frontal sem colisão (player atravessava);
-- chão aprovado **não alterado**: `UpperWing_CollisionDeck` permanece `pos (5, 2.4, 4.6)`, shape `50×0,8×30,8`, layer/mask `1/0`;
-- `SecondFloor_MasterSlab` não tocado;
-- container: `World/Level/SecondFloor/Collisions/BalconyWallColliders`;
-- colliders invisíveis (só `StaticBody3D` + `BoxShape3D`, layer/mask `1/0`):
-  - `BalconyWallCollider_Left` — X `-1,60`, Y `4,00`, Z `-2,40`, shape `0,28×2,4×10,3` (borda oeste da varanda / teto);
-  - `BalconyWallCollider_Right` — X `6,80`, Y `4,00`, Z `-2,40`, shape `0,28×2,4×10,3` (alinhado às `EastWall` da BalconyWing);
-  - `BalconyWallCollider_FrontGuard` — X `2,60`, Y `3,35`, Z `2,75`, shape `8,4×1,1×0,28` (guarda-peito, altura de rail);
-- fundo dos sides em Y=`2,80` (topo do piso); não descem ao térreo;
-- sem MeshInstance3D/CSG/mureta/boundary visual novo;
-- não bloqueia porta verde (vão em X≈0) nem caminho ao Quarto 203 (Z≈-10 fora do span).
+- último hotfix criou paredes invisíveis no meio da varanda (`BalconyWallColliders`);
+- nodes removidos (não ajustados):
+  - `World/Level/SecondFloor/Collisions/BalconyWallColliders` (container inteiro);
+  - `BalconyWallCollider_Left`;
+  - `BalconyWallCollider_Right`;
+  - `BalconyWallCollider_FrontGuard`;
+  - shapes `BalconyWallSideShape` / `BalconyWallFrontGuardShape`;
+- F8: forward hit esperado nesses StaticBody3D quando o player batia no meio do caminho;
+- `UpperWing_CollisionDeck` **não alterado** (`pos (5, 2.4, 4.6)`, `50×0,8×30,8`, layer/mask `1/0`);
+- varanda volta ao estado aberto/navegável; sem boundary, mureta ou guarda-corpo;
+- F9/LevelSanity passam a tratar `BalconyWallCollider*` como forbidden leftover.
 
-Validação: [ ] Visible Collision Shapes [ ] tentar atravessar L/R/frente [ ] circulação livre [ ] 203/porta verde [ ] regressão térreo 3× sem teleporte
+Validação: [ ] circulação livre na varanda [ ] sem parede invisível [ ] deck intacto [ ] porta verde/203 [ ] térreo sem teleporte
 
-Sem commit final até o playtest manual passar.
+## Hotfix final — colisão das paredes da varanda (REVERTIDO)
+
+Tentativa de colliders finos por coordenada (`BalconyWallCollider_*`) bloqueou o caminho principal. Rollback completo; não recriar.
 
 ## Hotfix — varanda limpa e isolamento do térreo
 

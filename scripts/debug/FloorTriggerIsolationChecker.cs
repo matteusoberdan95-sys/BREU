@@ -10,6 +10,11 @@ public partial class FloorTriggerIsolationChecker : Node
 
     private static readonly string[] ForbiddenBoundaryNames =
     {
+        "BalconyWallColliders",
+        "BalconyWallCollider_Left",
+        "BalconyWallCollider_Right",
+        "BalconyWallCollider_FrontGuard",
+        "BalconyWallCollider",
         "BalconyBoundaryColliders",
         "BalconyBoundary_Left",
         "BalconyBoundary_Right",
@@ -111,17 +116,6 @@ public partial class FloorTriggerIsolationChecker : Node
         }
 
         GD.Print("[FloorIsolation] OK: UpperWing_CollisionDeck active and unchanged");
-
-        foreach (var name in new[]
-                 {
-                     "BalconyWallCollider_Left", "BalconyWallCollider_Right", "BalconyWallCollider_FrontGuard"
-                 })
-        {
-            if (scene.FindChild(name, recursive: true, owned: false) == null)
-            {
-                Error($"missing thin balcony wall collider: {name}");
-            }
-        }
     }
 
     private void CheckFloorVolumes(Node scene)

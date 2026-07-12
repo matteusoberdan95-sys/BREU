@@ -56,6 +56,10 @@ public partial class UpperWingDeckGridCheck : Node
             ? "[DeckGrid] PASS 49/49 points hit UpperWing_CollisionDeck"
             : $"[DeckGrid] FAIL {failures}/49 points did not hit UpperWing_CollisionDeck");
 
+        AssertBoundaryAbsent(scene!, "BalconyWallColliders");
+        AssertBoundaryAbsent(scene!, "BalconyWallCollider_Left");
+        AssertBoundaryAbsent(scene!, "BalconyWallCollider_Right");
+        AssertBoundaryAbsent(scene!, "BalconyWallCollider_FrontGuard");
         AssertBoundaryAbsent(scene!, "BalconyBoundaryColliders");
         AssertBoundaryAbsent(scene!, "BalconyBoundary_Left");
         AssertBoundaryAbsent(scene!, "BalconyBoundary_Right");

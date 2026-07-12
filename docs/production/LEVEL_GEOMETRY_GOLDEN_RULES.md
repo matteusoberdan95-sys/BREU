@@ -2,6 +2,31 @@
 
 Documento obrigatório para Cursor, Codex e agentes antes de alterações de cenário.
 
+## REGRA CRÍTICA — Não chutar collider de parede
+
+É proibido criar collider de parede por coordenada chutada.
+
+Para paredes de cômodos:
+- só criar collider como filho da parede visual correspondente;
+- o collider deve usar o AABB/tamanho da parede visual;
+- o collider não pode ficar no meio da área caminhável;
+- o collider não pode bloquear o caminho principal;
+- o collider não pode atravessar outro andar;
+- o collider não pode ser boundary global.
+
+Para varanda:
+- NÃO criar collider lateral/global por enquanto.
+- NÃO criar mureta.
+- NÃO criar guarda-corpo.
+- NÃO criar boundary.
+- A varanda deve permanecer aberta e navegável.
+- As próximas colisões serão apenas das paredes dos cômodos novos.
+
+Se o player bater em parede invisível:
+- remover o collider;
+- não tentar ajustar por cima;
+- não commitar.
+
 ## Problemas que não podem voltar
 
 - piso visual sem colisão ou piso parcial;
@@ -13,7 +38,7 @@ Documento obrigatório para Cursor, Codex e agentes antes de alterações de cen
 - blockers invisíveis, props no caminho, salas inacessíveis ou corredores com limbo;
 - teleporte do térreo para o segundo andar após abrir a varanda;
 - DebugFallRecovery ativando em gameplay normal no corredor/recepção;
-- boundary global / mureta / placa bugada na varanda.
+- boundary global / mureta / placa / collider chutado no meio da varanda.
 
 ## Ordem obrigatória
 
@@ -30,6 +55,10 @@ A ala superior usou múltiplos pisos estreitos e duplicados. A colisão central 
 ## Caso real: DebugFallRecovery jogando o player para cima
 
 Após visitar a varanda, o failsafe marcava `_enteredUpperWing` e tratava qualquer Y < 1,9 dentro do AABB enorme do deck como “queda”, teleportando o player do corredor/recepção para `SafeMarker_SecondFloor`. Recovery só pode ativar abaixo de KillY real (void). Voltar ao térreo e correr após abrir a varanda é teste obrigatório.
+
+## Caso real: colliders de parede chutados na varanda
+
+`BalconyWallCollider_Left/Right/FrontGuard` foram criados por coordenada e ficaram no meio do caminho, bloqueando a circulação antes das paredes reais. Rollback obrigatório: remover, não ajustar. Varanda fica aberta; colliders futuros só como filhos de paredes visuais de cômodos.
 
 ## Regra de isolamento por andar
 
@@ -48,20 +77,15 @@ Debug: F8 `PlayerAreaProbe`, F9 `FloorTriggerIsolationChecker` / `LevelSanityChe
 
 ## Regra da varanda aprovada
 
-A navegação da varanda foi aprovada.
+A navegação da varanda (chão/deck) foi aprovada. A varanda permanece aberta.
 
 É proibido:
 - alterar UpperWing_CollisionDeck sem pedido explícito;
 - recriar o chão da varanda;
-- criar boundary global visual;
-- criar mureta genérica;
+- criar boundary global / mureta / guarda-corpo / collider lateral chutado;
 - criar parede visual gigante;
 - criar collider que atravesse dois andares;
-- criar collider que afete o térreo.
-
-Paredes da varanda só podem receber colliders finos, invisíveis, alinhados às paredes visíveis existentes (`BalconyWallCollider_Left` / `_Right` / `_FrontGuard`).
-
-Antes de qualquer expansão de cômodos, a varanda precisa continuar andável, sem queda, sem teleporte, sem travamento e com paredes bloqueando o player.
+- criar collider que afete o térreo ou fique no meio do caminho.
 
 ## Regra anti-acúmulo
 

@@ -11,6 +11,31 @@ alwaysApply: true
 
 Estas regras são obrigatórias para Cursor antes de qualquer alteração de cenário.
 
+## REGRA CRÍTICA — Não chutar collider de parede
+
+É proibido criar collider de parede por coordenada chutada.
+
+Para paredes de cômodos:
+- só criar collider como filho da parede visual correspondente;
+- o collider deve usar o AABB/tamanho da parede visual;
+- o collider não pode ficar no meio da área caminhável;
+- o collider não pode bloquear o caminho principal;
+- o collider não pode atravessar outro andar;
+- o collider não pode ser boundary global.
+
+Para varanda:
+- NÃO criar collider lateral/global por enquanto.
+- NÃO criar mureta.
+- NÃO criar guarda-corpo.
+- NÃO criar boundary.
+- A varanda deve permanecer aberta e navegável.
+- As próximas colisões serão apenas das paredes dos cômodos novos.
+
+Se o player bater em parede invisível:
+- remover o collider;
+- não tentar ajustar por cima;
+- não commitar.
+
 ## Regras absolutas
 
 1. Não criar objeto novo por cima de objeto velho sem remover o velho.
@@ -34,31 +59,23 @@ Estas regras são obrigatórias para Cursor antes de qualquer alteração de cen
 19. Em dúvida, criar primeiro uma versão simples, sólida e testável.
 20. Se o teste binário falhar, a task falhou.
 21. Nenhum trigger/Area3D/DebugFallRecovery do segundo andar pode afetar o player no primeiro andar.
-22. Não criar boundary global / mureta / rail de varanda inteira; paredes virão dos cômodos.
+22. Não criar boundary global / mureta / rail / collider lateral chutado na varanda.
 23. DebugFallRecovery só pode ativar abaixo de KillY real (void), nunca no corredor/recepção.
-24. Não alterar UpperWing_CollisionDeck sem pedido explícito; colliders de parede da varanda devem ser finos e invisíveis (`BalconyWallCollider_*`).
+24. Não alterar UpperWing_CollisionDeck sem pedido explícito.
 
 ## Regra da varanda aprovada
 
-A navegação da varanda foi aprovada.
+A navegação da varanda (chão/deck) foi aprovada. A varanda permanece aberta.
 
 É proibido:
 - alterar UpperWing_CollisionDeck sem pedido explícito;
 - recriar o chão da varanda;
-- criar boundary global visual;
-- criar mureta genérica;
+- criar boundary global / mureta / guarda-corpo / collider lateral chutado;
 - criar parede visual gigante;
 - criar collider que atravesse dois andares;
-- criar collider que afete o térreo.
+- criar collider que afete o térreo ou fique no meio do caminho.
 
-Paredes da varanda só podem receber colliders finos, invisíveis, alinhados às paredes visíveis existentes.
-
-Antes de qualquer expansão de cômodos, a varanda precisa continuar:
-- andável;
-- sem queda;
-- sem teleporte;
-- sem travamento;
-- com paredes bloqueando o player.
+Próximas colisões: apenas paredes dos cômodos novos, filhas da mesh visual.
 
 ## Regra de isolamento por andar
 
@@ -88,3 +105,4 @@ Se o player for jogado para cima, a task falhou. Use F8 (PlayerAreaProbe) e F9 (
 - [ ] Após abrir varanda, correr no térreo sem teleporte para o segundo andar.
 - [ ] F8 no térreo sem Area3D superior sobreposta.
 - [ ] F9 sem ERROR de isolamento / boundary.
+- [ ] Nenhum BalconyWallCollider / BalconyBoundary no meio da varanda.

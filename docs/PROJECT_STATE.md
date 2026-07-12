@@ -1,8 +1,8 @@
 # BREU — Estado do projeto
 
-## Hotfix final — paredes da varanda
+## Rollback — colliders de parede da varanda
 
-Varanda navegável aprovada; teleporte térreo → segundo andar corrigido. Colliders finos invisíveis adicionados em `BalconyWallColliders` (`Left` / `Right` / `FrontGuard`) sem alterar `UpperWing_CollisionDeck`. Próxima sprint liberada após playtest: construção dos cômodos claustrofóbicos da ala superior.
+Colisão de paredes da varanda (`BalconyWallColliders` / `BalconyWallCollider_*`) foi **revertida**: ficavam no meio do caminho. Varanda permanece aberta e navegável com `UpperWing_CollisionDeck` intacto. Próxima sprint: cômodos com paredes próprias e colliders **filhos das meshes visuais**, nunca boundary/collider lateral chutado.
 
 ## Hotfix — varanda limpa + isolamento do térreo
 

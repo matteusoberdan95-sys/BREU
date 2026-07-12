@@ -401,6 +401,8 @@ public partial class LevelSanityChecker : Node
     {
         string[] forbidden =
         {
+            "BalconyWallColliders", "BalconyWallCollider_Left", "BalconyWallCollider_Right",
+            "BalconyWallCollider_FrontGuard", "BalconyWallCollider",
             "BalconyBoundaryColliders", "BalconyBoundary_Left", "BalconyBoundary_Right",
             "BalconyBoundary_Front", "BalconyBoundary_Back", "InvisibleBoundary"
         };

@@ -49,12 +49,6 @@ size = Vector3(16, 2.8, 22)
 [sub_resource type="BoxShape3D" id="UpperWingVolumeShape"]
 size = Vector3(22, 2.8, 20)
 
-[sub_resource type="BoxShape3D" id="BalconyWallSideShape"]
-size = Vector3(0.28, 2.4, 10.3)
-
-[sub_resource type="BoxShape3D" id="BalconyWallFrontGuardShape"]
-size = Vector3(8.4, 1.1, 0.28)
-
 [node name="PensaoVerticalBlockout01" type="Node3D"]
 script = ExtResource("1_controller")
 
@@ -106,32 +100,6 @@ collision_mask = 0
 shape = SubResource("UpperWingCollisionDeckShape")
 
 [node name="Collisions" type="Node3D" parent="World/Level/SecondFloor"]
-
-[node name="BalconyWallColliders" type="Node3D" parent="World/Level/SecondFloor/Collisions"]
-
-[node name="BalconyWallCollider_Left" type="StaticBody3D" parent="World/Level/SecondFloor/Collisions/BalconyWallColliders" groups=["level_wall", "level_upper_wing"]]
-position = Vector3(-1.6, 4, -2.4)
-collision_layer = 1
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Collisions/BalconyWallColliders/BalconyWallCollider_Left"]
-shape = SubResource("BalconyWallSideShape")
-
-[node name="BalconyWallCollider_Right" type="StaticBody3D" parent="World/Level/SecondFloor/Collisions/BalconyWallColliders" groups=["level_wall", "level_upper_wing"]]
-position = Vector3(6.8, 4, -2.4)
-collision_layer = 1
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Collisions/BalconyWallColliders/BalconyWallCollider_Right"]
-shape = SubResource("BalconyWallSideShape")
-
-[node name="BalconyWallCollider_FrontGuard" type="StaticBody3D" parent="World/Level/SecondFloor/Collisions/BalconyWallColliders" groups=["level_wall", "level_upper_wing"]]
-position = Vector3(2.6, 3.35, 2.75)
-collision_layer = 1
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Level/SecondFloor/Collisions/BalconyWallColliders/BalconyWallCollider_FrontGuard"]
-shape = SubResource("BalconyWallFrontGuardShape")
 
 [node name="Markers" type="Node3D" parent="World/Level/SecondFloor"]
 
