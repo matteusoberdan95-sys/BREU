@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
 **Última atualização:** 2026-07-12  
-**Fase:** REBOOT GREENFIELD — Sprint 18B (saneamento estrutural); expansão de cômodos pausada  
+**Fase:** REBOOT GREENFIELD — Sprint 18C (saneamento obrigatório); expansão pausada  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -11,35 +11,18 @@
 | Item | Status |
 |------|--------|
 | Branch | `reboot/breu-clean-start` |
-| Sprint 02 | **✅ Aprovada** — player controller |
-| Sprint 03 | **✅ Aprovada** — HUD |
-| Sprint 04 | **✅ Aprovada** — interação |
-| Sprint 05 | **✅ Aprovada** — térreo blockout |
-| Sprint 06 | **✅ Aprovada** — térreo tuning |
-| Sprint 07 | **✅ Aprovada** — puzzle depósito |
-| Sprint 08 | **✅ Aprovada** — escada lab |
-| Sprint 09A | **✅ Aprovada** — escada integrada |
-| Sprint 09B | **✅ Aprovada** — playtest escada |
-| Sprint 10 | **✅ Aprovada** — segundo andar blockout navegável |
-| Sprint 11 | **✅ Aprovada** — playtest fino 2º andar |
-| Sprint 12 | **✅ Aprovada** — teto/cobertura blockout |
-| Sprint 12A | **✅ Aprovada** — hotfix fechamento fachada/escada/porta verde |
-| Sprint 13 | **✅ Aprovada** — atmosfera base |
-| Sprint 14 | **✅ Aprovada** — blockout narrativo limpo (14Z) |
-| Sprint 14A–14F | **⏸️ Substituídas** — iterações de portas/placas absorvidas pela 14Z |
-| Sprint 15 | **✅ Aprovada** — eventos narrativos one-shot sem inimigo |
-| Sprint 16 | **✅ Aprovada** — áudio funcional base (ambience, gotas, eventos, passos, respiração) |
-| Sprint 16B | **✅ Aprovada** — passos audíveis + gotas + F7 debug |
-| Sprint 16C | **✅ Aprovada** — corrida usa banco da superfície |
-| Sprint 16D | **✅ Aprovada** — cadência 0,64/0,36 + cooldown anti-duplo |
-| Sprint 16E | **✅ Aprovada** — respiração normal + panting |
-| Sprint 17–17F | **🔄 Implementadas** — varanda / ala / 203 (F6 contínuo) |
-| Sprint 18A | **🔄 Pausada p/ limpeza** — laje/cômodos existem; expansão nova congelada |
-| Sprint 18B | **🔄 Implementada** — saneamento + anti-acúmulo; F6 pendente |
+| Sprint 02–16E | **✅ Aprovadas** (ver histórico) |
+| Sprint 17–17F | **🔄 Implementadas** — varanda / 203 |
+| Sprint 18A | **⏸️ Cômodos da expansão removidos provisoriamente na 18C** |
+| Sprint 18B | **🔄 Absorvida / reforçada pela 18C** |
+| Sprint 18C | **🔄 Implementada** — saneamento + F9 LevelSanity; F6 pendente |
 
-### Regra obrigatória (18B)
+### Regra obrigatória (18C)
 
-Antes de qualquer commit de cenário: `docs/production/LEVEL_CHANGE_CHECKLIST.md` + **F4** `LevelSanityChecker`.
+Antes de qualquer commit de cenário:
+
+1. `docs/production/LEVEL_CHANGE_CHECKLIST.md`
+2. **F9** `LevelSanityChecker` → **0 ERROR**
 
 Docs:
 - `docs/technical/PENSION_SCENE_OWNERSHIP.md`
@@ -299,15 +282,19 @@ Sprint 17C/17D foi preservada no checkpoint `4a16478` e substituída pela Sprint
 
 ### Sprint 18B — Saneamento estrutural + anti-acúmulo
 
+**Status:** reforçado / sucedido pela **18C**
+
+### Sprint 18C — Saneamento obrigatório + regra anti-lixo
+
 **Status:** 🔄 Implementada — F6 pendente
 
-- forro do térreo selado abaixo do piso do 2º (`Ceiling_FirstFloor_Seal` + soffit da recepção);
-- `BuildUpperBalconyWing` congelado; ownership documentado;
-- `LevelSanityChecker` (F4);
-- checklist obrigatório: `docs/production/LEVEL_CHANGE_CHECKLIST.md`;
-- expansão de novos cômodos **pausada** até cena limpa no playtest.
+- `UpperWingExpansion` reduzida a **laje + walkway + rail** (cômodos tortos removidos);
+- forro GF reforçado + markers de altura completos;
+- `LevelSanityChecker` no **F9** com contagem ERROR/WARNING;
+- builders da ala continuam congelados;
+- checklist F9 obrigatório no PROJECT_STATE.
 
-**Não criar** novos quartos/puzzles até F6 de 18B OK.
+**Não criar** novos cômodos até F9 = 0 ERROR e F6 limpo.
 
 ## Sprint 16C — Ajuste fino de passos (aprovada)
 

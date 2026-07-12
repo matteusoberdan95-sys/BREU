@@ -1,475 +1,107 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene load_steps=14 format=3]
 
-[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/UpperWingPuzzleInteraction.cs" id="1"]
-[ext_resource type="Script" path="res://scripts/interactions/Interactable.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/interactions/Interactable.cs" id="1"]
 
 [sub_resource type="StandardMaterial3D" id="MatFloor"]
 albedo_color = Color(0.3, 0.31, 0.36, 1)
-[sub_resource type="StandardMaterial3D" id="MatWall"]
-albedo_color = Color(0.44, 0.41, 0.38, 1)
 [sub_resource type="StandardMaterial3D" id="MatRail"]
 albedo_color = Color(0.2, 0.22, 0.28, 1)
-[sub_resource type="StandardMaterial3D" id="MatProp"]
-albedo_color = Color(0.26, 0.2, 0.17, 1)
-[sub_resource type="StandardMaterial3D" id="MatBed"]
-albedo_color = Color(0.32, 0.28, 0.34, 1)
-[sub_resource type="StandardMaterial3D" id="MatLinen"]
-albedo_color = Color(0.52, 0.48, 0.4, 1)
-[sub_resource type="StandardMaterial3D" id="MatPanel"]
-albedo_color = Color(0.18, 0.2, 0.22, 1)
-[sub_resource type="StandardMaterial3D" id="MatStain"]
-albedo_color = Color(0.28, 0.1, 0.1, 1)
-[sub_resource type="StandardMaterial3D" id="MatDoor"]
-albedo_color = Color(0.22, 0.14, 0.1, 1)
-
 [sub_resource type="BoxMesh" id="SolidFloorMesh"]
-size = Vector3(9.2, 0.3, 5.6)
+size = Vector3(3.4, 0.3, 4.8)
 [sub_resource type="BoxShape3D" id="SolidFloorShape"]
-size = Vector3(9.2, 0.3, 5.6)
-[sub_resource type="BoxMesh" id="ConnectorFloorMesh"]
-size = Vector3(3.4, 0.3, 1.2)
-[sub_resource type="BoxShape3D" id="ConnectorFloorShape"]
-size = Vector3(3.4, 0.3, 1.2)
+size = Vector3(3.4, 0.3, 4.8)
 [sub_resource type="BoxMesh" id="WalkwayMesh"]
-size = Vector3(3.2, 0.28, 1.4)
+size = Vector3(3.2, 0.28, 1.2)
 [sub_resource type="BoxShape3D" id="WalkwayShape"]
-size = Vector3(3.2, 0.28, 1.4)
+size = Vector3(3.2, 0.28, 1.2)
 [sub_resource type="BoxMesh" id="RailMesh"]
-size = Vector3(3.2, 1.1, 0.14)
+size = Vector3(3.2, 1.05, 0.14)
 [sub_resource type="BoxShape3D" id="RailShape"]
-size = Vector3(3.2, 1.1, 0.14)
+size = Vector3(3.2, 1.05, 0.14)
 [sub_resource type="BoxMesh" id="RailSideMesh"]
-size = Vector3(0.14, 1.1, 1.4)
+size = Vector3(0.14, 1.05, 1.2)
 [sub_resource type="BoxShape3D" id="RailSideShape"]
-size = Vector3(0.14, 1.1, 1.4)
-[sub_resource type="BoxMesh" id="WallXMesh"]
-size = Vector3(0.18, 2.8, 4.8)
-[sub_resource type="BoxShape3D" id="WallXShape"]
-size = Vector3(0.18, 2.8, 4.8)
-[sub_resource type="BoxMesh" id="DoorPostMesh"]
-size = Vector3(0.18, 2.8, 0.55)
-[sub_resource type="BoxShape3D" id="DoorPostShape"]
-size = Vector3(0.18, 2.8, 0.55)
-[sub_resource type="BoxMesh" id="WallZMesh"]
-size = Vector3(5.4, 2.8, 0.18)
-[sub_resource type="BoxShape3D" id="WallZShape"]
-size = Vector3(5.4, 2.8, 0.18)
-[sub_resource type="BoxMesh" id="DividerMesh"]
-size = Vector3(3.6, 2.8, 0.16)
-[sub_resource type="BoxShape3D" id="DividerShape"]
-size = Vector3(3.6, 2.8, 0.16)
-[sub_resource type="BoxMesh" id="CeilingMesh"]
-size = Vector3(9.2, 0.18, 5.6)
-[sub_resource type="BoxMesh" id="BedMesh"]
-size = Vector3(1.6, 0.55, 0.95)
-[sub_resource type="BoxMesh" id="PropMesh"]
-size = Vector3(0.55, 0.55, 0.45)
-[sub_resource type="BoxMesh" id="DoorMesh"]
-size = Vector3(0.14, 2.15, 1.2)
-[sub_resource type="BoxShape3D" id="DoorShape"]
-size = Vector3(0.14, 2.15, 1.2)
-[sub_resource type="BoxShape3D" id="InteractShape"]
-size = Vector3(0.55, 0.55, 0.5)
+size = Vector3(0.14, 1.05, 1.2)
 [sub_resource type="BoxShape3D" id="LookDownShape"]
-size = Vector3(2.2, 1.1, 0.4)
+size = Vector3(2.0, 1.0, 0.35)
 
-[node name="UpperWing_Extension" type="Node3D"]
+[node name="UpperWing_Extension" type="Node3D" groups=["level_upper_wing"]]
 
-[node name="UpperWing_SolidFloor" type="MeshInstance3D" parent="."]
-position = Vector3(2.4, 2.65, 0.1)
+[node name="UpperWing_SolidFloor" type="MeshInstance3D" parent="." groups=["level_floor"]]
+position = Vector3(0, 2.65, -0.2)
 mesh = SubResource("SolidFloorMesh")
 material_override = SubResource("MatFloor")
 
-[node name="UpperWing_ConnectorFloor" type="MeshInstance3D" parent="."]
-position = Vector3(0, 2.65, -2.6)
-mesh = SubResource("ConnectorFloorMesh")
-material_override = SubResource("MatFloor")
-
-[node name="UpperBalcony_FrontWalkway" type="MeshInstance3D" parent="."]
-position = Vector3(0, 2.66, 2.15)
+[node name="UpperBalcony_FrontWalkway" type="MeshInstance3D" parent="." groups=["level_floor"]]
+position = Vector3(0, 2.66, 2.0)
 mesh = SubResource("WalkwayMesh")
 material_override = SubResource("MatFloor")
 
 [node name="Geometry" type="Node3D" parent="."]
-[node name="Ceiling" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(2.4, 5.55, 0.1)
-mesh = SubResource("CeilingMesh")
-material_override = SubResource("MatWall")
-[node name="EastOuterWall" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(6.9, 4.15, 0.1)
-mesh = SubResource("WallXMesh")
-material_override = SubResource("MatWall")
-[node name="NorthWall" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(4.2, 4.15, -2.6)
-mesh = SubResource("WallZMesh")
-material_override = SubResource("MatWall")
-[node name="SouthWallEast" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(4.6, 4.15, 2.8)
-mesh = SubResource("WallZMesh")
-material_override = SubResource("MatWall")
-[node name="DoorPost_204_N" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(1.75, 4.15, -2.25)
-mesh = SubResource("DoorPostMesh")
-material_override = SubResource("MatWall")
-[node name="DoorPost_204_S" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(1.75, 4.15, -1.05)
-mesh = SubResource("DoorPostMesh")
-material_override = SubResource("MatWall")
-[node name="DoorPost_Bath_N" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(1.75, 4.15, -0.4)
-mesh = SubResource("DoorPostMesh")
-material_override = SubResource("MatWall")
-[node name="DoorPost_Bath_S" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(1.75, 4.15, 0.4)
-mesh = SubResource("DoorPostMesh")
-material_override = SubResource("MatWall")
-[node name="DoorPost_Linen_N" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(1.75, 4.15, 0.85)
-mesh = SubResource("DoorPostMesh")
-material_override = SubResource("MatWall")
-[node name="DoorPost_Linen_S" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(1.75, 4.15, 1.65)
-mesh = SubResource("DoorPostMesh")
-material_override = SubResource("MatWall")
-[node name="DoorPost_Gen_N" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(1.75, 4.15, 2.0)
-mesh = SubResource("DoorPostMesh")
-material_override = SubResource("MatWall")
-[node name="DoorPost_Gen_S" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(1.75, 4.15, 2.65)
-mesh = SubResource("DoorPostMesh")
-material_override = SubResource("MatWall")
-[node name="Divider_204_Bath" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(4.35, 4.15, -0.7)
-mesh = SubResource("DividerMesh")
-material_override = SubResource("MatWall")
-[node name="Divider_Bath_Linen" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(4.35, 4.15, 0.7)
-mesh = SubResource("DividerMesh")
-material_override = SubResource("MatWall")
-[node name="Divider_Linen_Gen" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(4.35, 4.15, 1.85)
-mesh = SubResource("DividerMesh")
-material_override = SubResource("MatWall")
-
-[node name="UpperBalcony_GuardRail_Front" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(0, 3.35, 2.82)
+[node name="UpperBalcony_GuardRail_Front" type="MeshInstance3D" parent="Geometry" groups=["level_wall"]]
+position = Vector3(0, 3.32, 2.55)
 mesh = SubResource("RailMesh")
 material_override = SubResource("MatRail")
-[node name="UpperBalcony_GuardRail_Left" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(-1.55, 3.35, 2.15)
+[node name="UpperBalcony_GuardRail_Left" type="MeshInstance3D" parent="Geometry" groups=["level_wall"]]
+position = Vector3(-1.55, 3.32, 2.0)
 mesh = SubResource("RailSideMesh")
 material_override = SubResource("MatRail")
-[node name="UpperBalcony_GuardRail_Right" type="MeshInstance3D" parent="Geometry"]
-position = Vector3(1.55, 3.35, 2.15)
+[node name="UpperBalcony_GuardRail_Right" type="MeshInstance3D" parent="Geometry" groups=["level_wall"]]
+position = Vector3(1.55, 3.32, 2.0)
 mesh = SubResource("RailSideMesh")
 material_override = SubResource("MatRail")
-
-[node name="Room_204" type="Node3D" parent="Geometry"]
-[node name="Door_Room204" type="Node3D" parent="Geometry/Room_204"]
-position = Vector3(1.85, 2.8, -1.65)
-[node name="Label204" type="Label3D" parent="Geometry/Room_204/Door_Room204"]
-position = Vector3(0.12, 1.55, 0)
-rotation = Vector3(0, -1.570796, 0)
-text = "204"
-font_size = 40
-outline_size = 8
-[node name="Bed" type="MeshInstance3D" parent="Geometry/Room_204"]
-position = Vector3(5.2, 3.1, -1.7)
-mesh = SubResource("BedMesh")
-material_override = SubResource("MatBed")
-[node name="Nightstand" type="MeshInstance3D" parent="Geometry/Room_204"]
-position = Vector3(3.7, 3.1, -1.9)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatProp")
-[node name="Cabinet" type="MeshInstance3D" parent="Geometry/Room_204"]
-position = Vector3(5.8, 3.55, -1.1)
-scale = Vector3(0.9, 1.8, 0.8)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatProp")
-[node name="WallStain" type="MeshInstance3D" parent="Geometry/Room_204"]
-position = Vector3(6.7, 3.9, -1.6)
-scale = Vector3(0.15, 1.4, 1.1)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatStain")
-
-[node name="Room_UpperSharedBathroom" type="Node3D" parent="Geometry"]
-[node name="Door_UpperSharedBathroom" type="Node3D" parent="Geometry/Room_UpperSharedBathroom"]
-position = Vector3(1.85, 2.8, 0.0)
-[node name="Sink" type="MeshInstance3D" parent="Geometry/Room_UpperSharedBathroom"]
-position = Vector3(5.5, 3.25, 0.0)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatWall")
-[node name="Toilet" type="MeshInstance3D" parent="Geometry/Room_UpperSharedBathroom"]
-position = Vector3(4.2, 3.05, 0.15)
-scale = Vector3(0.75, 0.85, 0.75)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatWall")
-[node name="Mirror" type="MeshInstance3D" parent="Geometry/Room_UpperSharedBathroom"]
-position = Vector3(5.55, 4.05, -0.25)
-scale = Vector3(1.2, 1.3, 0.2)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatPanel")
-[node name="DampStain" type="MeshInstance3D" parent="Geometry/Room_UpperSharedBathroom"]
-position = Vector3(4.8, 2.86, 0.05)
-scale = Vector3(1.4, 0.08, 1.0)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatStain")
-
-[node name="Room_LinenCloset" type="Node3D" parent="Geometry"]
-[node name="Door_LinenCloset" type="Node3D" parent="Geometry/Room_LinenCloset"]
-position = Vector3(1.85, 2.8, 1.25)
-[node name="ShelfLow" type="MeshInstance3D" parent="Geometry/Room_LinenCloset"]
-position = Vector3(5.4, 3.15, 1.25)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatLinen")
-[node name="ShelfHigh" type="MeshInstance3D" parent="Geometry/Room_LinenCloset"]
-position = Vector3(5.4, 3.75, 1.25)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatLinen")
-[node name="Boxes" type="MeshInstance3D" parent="Geometry/Room_LinenCloset"]
-position = Vector3(4.1, 3.1, 1.4)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatProp")
-
-[node name="Room_UpperGeneratorPanel" type="Node3D" parent="Geometry"]
-[node name="Door_UpperGeneratorPanel" type="Node3D" parent="Geometry/Room_UpperGeneratorPanel"]
-position = Vector3(1.85, 2.8, 2.3)
-[node name="PanelBox" type="MeshInstance3D" parent="Geometry/Room_UpperGeneratorPanel"]
-position = Vector3(5.5, 3.7, 2.35)
-scale = Vector3(1.3, 1.8, 0.5)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatPanel")
-[node name="Conduit" type="MeshInstance3D" parent="Geometry/Room_UpperGeneratorPanel"]
-position = Vector3(4.4, 4.4, 2.35)
-scale = Vector3(2.2, 0.25, 0.25)
-mesh = SubResource("PropMesh")
-material_override = SubResource("MatRail")
-
-[node name="Door_Room205_Blocked" type="Node3D" parent="Geometry"]
-position = Vector3(6.72, 2.8, 0.0)
-[node name="Panel" type="MeshInstance3D" parent="Geometry/Door_Room205_Blocked"]
-position = Vector3(0, 1.1, 0)
-mesh = SubResource("DoorMesh")
-material_override = SubResource("MatDoor")
-[node name="Label205" type="Label3D" parent="Geometry/Door_Room205_Blocked"]
-position = Vector3(-0.12, 1.55, 0)
-rotation = Vector3(0, -1.570796, 0)
-text = "205"
-font_size = 40
-outline_size = 8
-[node name="BlockingBody" type="StaticBody3D" parent="Geometry/Door_Room205_Blocked"]
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Geometry/Door_Room205_Blocked/BlockingBody"]
-position = Vector3(0, 1.1, 0)
-shape = SubResource("DoorShape")
 
 [node name="Collisions" type="Node3D" parent="."]
-[node name="UpperWing_SolidFloor" type="StaticBody3D" parent="Collisions"]
-position = Vector3(2.4, 2.65, 0.1)
+[node name="UpperWing_SolidFloor" type="StaticBody3D" parent="Collisions" groups=["level_floor"]]
+position = Vector3(0, 2.65, -0.2)
 collision_layer = 1
 collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/UpperWing_SolidFloor"]
 shape = SubResource("SolidFloorShape")
-[node name="UpperWing_ConnectorFloor" type="StaticBody3D" parent="Collisions"]
-position = Vector3(0, 2.65, -2.6)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/UpperWing_ConnectorFloor"]
-shape = SubResource("ConnectorFloorShape")
-[node name="UpperBalcony_FrontWalkway" type="StaticBody3D" parent="Collisions"]
-position = Vector3(0, 2.66, 2.15)
+[node name="UpperBalcony_FrontWalkway" type="StaticBody3D" parent="Collisions" groups=["level_floor"]]
+position = Vector3(0, 2.66, 2.0)
 collision_layer = 1
 collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/UpperBalcony_FrontWalkway"]
 shape = SubResource("WalkwayShape")
-[node name="RailFront" type="StaticBody3D" parent="Collisions"]
-position = Vector3(0, 3.35, 2.82)
+[node name="RailFront" type="StaticBody3D" parent="Collisions" groups=["level_wall"]]
+position = Vector3(0, 3.32, 2.55)
 collision_layer = 1
 collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/RailFront"]
 shape = SubResource("RailShape")
-[node name="RailLeft" type="StaticBody3D" parent="Collisions"]
-position = Vector3(-1.55, 3.35, 2.15)
+[node name="RailLeft" type="StaticBody3D" parent="Collisions" groups=["level_wall"]]
+position = Vector3(-1.55, 3.32, 2.0)
 collision_layer = 1
 collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/RailLeft"]
 shape = SubResource("RailSideShape")
-[node name="RailRight" type="StaticBody3D" parent="Collisions"]
-position = Vector3(1.55, 3.35, 2.15)
+[node name="RailRight" type="StaticBody3D" parent="Collisions" groups=["level_wall"]]
+position = Vector3(1.55, 3.32, 2.0)
 collision_layer = 1
 collision_mask = 0
 [node name="Shape" type="CollisionShape3D" parent="Collisions/RailRight"]
 shape = SubResource("RailSideShape")
-[node name="EastOuterWall" type="StaticBody3D" parent="Collisions"]
-position = Vector3(6.9, 4.15, 0.1)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/EastOuterWall"]
-shape = SubResource("WallXShape")
-[node name="NorthWall" type="StaticBody3D" parent="Collisions"]
-position = Vector3(4.2, 4.15, -2.6)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/NorthWall"]
-shape = SubResource("WallZShape")
-[node name="SouthWallEast" type="StaticBody3D" parent="Collisions"]
-position = Vector3(4.6, 4.15, 2.8)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/SouthWallEast"]
-shape = SubResource("WallZShape")
-[node name="DoorPost_204_N" type="StaticBody3D" parent="Collisions"]
-position = Vector3(1.75, 4.15, -2.25)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DoorPost_204_N"]
-shape = SubResource("DoorPostShape")
-[node name="DoorPost_204_S" type="StaticBody3D" parent="Collisions"]
-position = Vector3(1.75, 4.15, -1.05)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DoorPost_204_S"]
-shape = SubResource("DoorPostShape")
-[node name="DoorPost_Bath_N" type="StaticBody3D" parent="Collisions"]
-position = Vector3(1.75, 4.15, -0.4)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DoorPost_Bath_N"]
-shape = SubResource("DoorPostShape")
-[node name="DoorPost_Bath_S" type="StaticBody3D" parent="Collisions"]
-position = Vector3(1.75, 4.15, 0.4)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DoorPost_Bath_S"]
-shape = SubResource("DoorPostShape")
-[node name="DoorPost_Linen_N" type="StaticBody3D" parent="Collisions"]
-position = Vector3(1.75, 4.15, 0.85)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DoorPost_Linen_N"]
-shape = SubResource("DoorPostShape")
-[node name="DoorPost_Linen_S" type="StaticBody3D" parent="Collisions"]
-position = Vector3(1.75, 4.15, 1.65)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DoorPost_Linen_S"]
-shape = SubResource("DoorPostShape")
-[node name="DoorPost_Gen_N" type="StaticBody3D" parent="Collisions"]
-position = Vector3(1.75, 4.15, 2.0)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DoorPost_Gen_N"]
-shape = SubResource("DoorPostShape")
-[node name="DoorPost_Gen_S" type="StaticBody3D" parent="Collisions"]
-position = Vector3(1.75, 4.15, 2.65)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DoorPost_Gen_S"]
-shape = SubResource("DoorPostShape")
-[node name="Divider204Bath" type="StaticBody3D" parent="Collisions"]
-position = Vector3(4.35, 4.15, -0.7)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/Divider204Bath"]
-shape = SubResource("DividerShape")
-[node name="DividerBathLinen" type="StaticBody3D" parent="Collisions"]
-position = Vector3(4.35, 4.15, 0.7)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DividerBathLinen"]
-shape = SubResource("DividerShape")
-[node name="DividerLinenGen" type="StaticBody3D" parent="Collisions"]
-position = Vector3(4.35, 4.15, 1.85)
-collision_layer = 1
-collision_mask = 0
-[node name="Shape" type="CollisionShape3D" parent="Collisions/DividerLinenGen"]
-shape = SubResource("DividerShape")
 
 [node name="Marker_UpperFloor_Start" type="Marker3D" parent="."]
 position = Vector3(0, 2.95, -2.2)
 [node name="Marker_UpperFloor_Middle" type="Marker3D" parent="."]
-position = Vector3(2.4, 2.95, 0.1)
+position = Vector3(0, 2.95, 0.0)
 [node name="Marker_UpperFloor_End" type="Marker3D" parent="."]
-position = Vector3(0, 2.95, 2.15)
+position = Vector3(0, 2.95, 2.0)
+[node name="Marker_UpperWing_FloorY" type="Marker3D" parent="."]
+position = Vector3(0, 2.8, 0.0)
 
 [node name="Interactions" type="Node3D" parent="."]
-[node name="Interact_Room204Bed" type="Area3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(5.0, 3.45, -1.7)
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_Room204Bed"]
-shape = SubResource("InteractShape")
-[node name="Interaction" type="Node" parent="Interactions/Interact_Room204Bed"]
-script = ExtResource("1")
-Mode = 0
-
-[node name="Interact_Room204WallMarks" type="Area3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(6.4, 3.7, -1.55)
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_Room204WallMarks"]
-shape = SubResource("InteractShape")
-[node name="Interaction" type="Node" parent="Interactions/Interact_Room204WallMarks"]
-script = ExtResource("1")
-Mode = 1
-
-[node name="Interact_SharedBathroomMirror" type="Area3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(5.4, 3.9, -0.05)
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_SharedBathroomMirror"]
-shape = SubResource("InteractShape")
-[node name="Interaction" type="Node" parent="Interactions/Interact_SharedBathroomMirror"]
-script = ExtResource("1")
-Mode = 2
-
-[node name="Interact_LinenClosetFuse" type="Area3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(5.2, 3.45, 1.25)
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_LinenClosetFuse"]
-shape = SubResource("InteractShape")
-[node name="Interaction" type="Node" parent="Interactions/Interact_LinenClosetFuse"]
-script = ExtResource("1")
-Mode = 3
-
-[node name="Interact_UpperGeneratorPanel" type="Area3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(5.3, 3.7, 2.35)
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_UpperGeneratorPanel"]
-shape = SubResource("InteractShape")
-[node name="Interaction" type="Node" parent="Interactions/Interact_UpperGeneratorPanel"]
-script = ExtResource("1")
-Mode = 4
-
-[node name="Interact_Room205" type="Area3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(6.35, 3.9, 0.0)
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-[node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_Room205"]
-shape = SubResource("InteractShape")
-[node name="Interaction" type="Node" parent="Interactions/Interact_Room205"]
-script = ExtResource("1")
-Mode = 5
-
-[node name="Interact_BalconyLookDown" type="Area3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(0, 3.5, 2.75)
+[node name="Interact_BalconyLookDown" type="Area3D" parent="Interactions" groups=["interactable", "gameplay_interaction"]]
+position = Vector3(0, 3.45, 2.5)
 collision_layer = 2
 collision_mask = 0
 monitoring = false
 [node name="Shape" type="CollisionShape3D" parent="Interactions/Interact_BalconyLookDown"]
 shape = SubResource("LookDownShape")
 [node name="Hint" type="Node" parent="Interactions/Interact_BalconyLookDown"]
-script = ExtResource("2")
+script = ExtResource("1")
 PromptText = "Olhar para baixo"
 InteractionMessage = "Está alto demais para descer por aqui."
 OneShot = false

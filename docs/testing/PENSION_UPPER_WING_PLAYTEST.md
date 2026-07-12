@@ -1,26 +1,20 @@
-# Playtest — Ala superior / saneamento
+# Playtest — Saneamento 18C / ala superior
 
 **Cena:** `PensaoVerticalBlockout01.tscn`
 
-## Sprint 18B — saneamento (prioridade)
+## Sprint 18C — obrigatório
 
-- [ ] F4 LevelSanityChecker sem warnings críticos
-- [ ] entrada: olhar para cima → forro limpo (sem laje do 2º)
-- [ ] recepção: olhar para cima → forro limpo
-- [ ] sem BalconyWing_Rebuilt / setup duplicado
-- [ ] porta verde preservada
-- [ ] Quarto 203 preservado
+- [ ] **F9** LevelSanityChecker → 0 ERROR
+- [ ] entrada olhando para cima → forro limpo
+- [ ] recepção olhando para cima → forro limpo
+- [ ] sem salas tortas / divisórias da expansão antiga
+- [ ] laje superior caminhável Start→End sem cair
+- [ ] porta verde OK
+- [ ] Quarto 203 OK
 - [ ] escada OK
-- [ ] HUD / lanterna / F9 reset / F10 / F11 / áudio
+- [ ] F3 reset player OK
+- [ ] F10/F11 / HUD / lanterna / áudio OK
 
-## Sprint 18A — laje (após 18B OK)
+## Nota
 
-- [ ] Start → Middle → End sem cair
-- [ ] cômodos acessíveis
-- [ ] segundo fusível / painel / 203 reage
-
-## Regressão
-
-- [ ] puzzle térreo
-- [ ] varanda / proprietária / caderno
-- [ ] sem inimigo / combate / chase
+Cômodos 204 / banheiro coletivo / rouparia / gerador / 205 foram **removidos provisoriamente** da `UpperWingExpansion` (18C) para limpar a rota. Reintroduzir só depois da cena passar F9 + F6 limpos.

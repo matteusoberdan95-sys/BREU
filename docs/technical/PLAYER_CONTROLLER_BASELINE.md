@@ -67,7 +67,8 @@ CharacterBody3D: Player          ← PlayerController
 | `flashlight` | F |
 | `interact` | E |
 | `jump` | Space |
-| `debug_reset_player` | F9 |
+| `debug_reset_player` | F3 |
+| `LevelSanityChecker` | F9 |
 | `ui_cancel` | Esc |
 
 **Nota movimento:** input lido via `GetActionStrength` (não `GetVector` puro) — Alt+W compatível no Windows.

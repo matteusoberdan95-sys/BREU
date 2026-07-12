@@ -386,24 +386,27 @@ S00 Auditoria → S01 Fundação → S02 Player → S03 HUD → S04 Interação
 
 ### Sprint 18B — Saneamento estrutural + anti-acúmulo
 
+**Status:** sucedido pela 18C
+
+### Sprint 18C — Saneamento obrigatório + anti-lixo
+
 **Status:** 🔄 Implementada — F6 pendente
 
-**Objetivo:** limpar cena, selar teto GF, congelar builders duplicados, checklist + F4.
+**Objetivo:** limpar ala, selar teto, F9 LevelSanity com 0 ERROR, pausar expansão.
 
 **Entregas:**
-- `Ceiling_FirstFloor_Seal` / soffit recepção
-- `PENSION_SCENE_OWNERSHIP.md` / `PENSION_LEVEL_METRICS.md`
-- `LEVEL_CHANGE_CHECKLIST.md`
-- `LevelSanityChecker` (F4)
-- `BuildUpperBalconyWing` frozen
+- `UpperWingExpansion` só laje/walkway
+- Markers de altura completos
+- `LevelSanityChecker` (F9)
+- Checklist obrigatório atualizado
 
-**DoD:** teto limpo na entrada/recepção; sem rebuild duplicado da ala; checklist citado no PROJECT_STATE.
+**DoD:** F9 0 ERROR; entrada/recepção limpas; sem rebuild da ala; porta verde + 203 + escada OK.
 
 ---
 
 ## Sprint 19 — Primeiro inimigo / encontro controlado
 
-**Status:** ⏳ Após 18B aprovada + ala estável
+**Status:** ⏳ Após 18C aprovada + ala estável
 
 **Objetivo:** Tensão + fuga ou confronto simples.
 

@@ -1,70 +1,41 @@
 # Ownership da cena — Pensão Santa Luzia
 
-**Sprint:** 18B  
+**Sprint:** 18C  
 **Cena oficial:** `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`
 
 ## Regra de ouro
 
 Cada área tem **um dono**.  
-É proibido dois sistemas criarem a mesma porta/piso/prompt.
+É proibido dois sistemas criarem a mesma porta/piso/prompt.  
+**Expansão de cômodos está pausada** até LevelSanity (F9) = 0 ERROR / 0 WARNING grave.
 
 ## Mapa de ownership
 
-| Área | Dono | Cria geometria? | Cria interações? | Status |
-|------|------|-----------------|------------------|--------|
-| Térreo (shell, salas, depósito) | `PensaoVerticalBlockout01Builder` ← `PensaoTerreoBlockout01Builder` | Sim (runtime) | Via `PensaoTerreoPuzzleSetup` | Ativo — baseline |
-| Segundo andar (corredor, 201/202, escada) | `PensaoVerticalBlockout01Builder` | Sim (runtime) | Inspect areas no builder | Ativo — baseline |
-| Teto / forro / fachada | `PensaoVerticalBlockout01Builder` | Sim (runtime) | Não | Ativo — 18B selou GF |
-| Ala da varanda (porta verde, banheiro, proprietária) | `areas/BalconyWing.tscn` + `ManualBalconyWingController` | **Manual** | Manual | Ativo |
-| Expansão ala superior (laje, 204…) | `areas/UpperWingExpansion.tscn` | **Manual** | Manual | Ativo — congelar expansão até limpeza OK |
-| Quarto 203 | `areas/Room203Door.tscn` | **Manual** | Manual | Ativo |
-| Nota + chave da varanda | `PensaoBalconyPuzzleSetup` | Props mínimos | Sim | Ativo — sem geometria de ala |
-| Puzzle depósito/fusível | `PensaoTerreoPuzzleSetup` | Não relevante | Sim | Ativo — não mexer |
-| `PensaoBalconyWingPuzzleSetup` | Histórico | Criava props/areas | Sim | **Desativado** (`Enabled=false`, fora da cena) |
-| `BuildUpperBalconyWing()` | Histórico | Criaria `BalconyWing_Rebuilt` | Sim | **Congelado** (early-return + warning) |
+| Área | Dono | Status |
+|------|------|--------|
+| Térreo | `PensaoTerreoBlockout01Builder` via `World/Builder` | Ativo (baseline) |
+| 2º andar estrutural (corredor/201/202/escada) | `PensaoVerticalBlockout01Builder` | Ativo (baseline) |
+| Teto / forro GF | `BuildFirstFloorCeilings` | Ativo — selo 18B/18C |
+| Ala varanda (porta verde, banheiro, proprietária) | `areas/BalconyWing.tscn` | Manual — único dono |
+| Faixa liberada / walkway frontal | `areas/UpperWingExpansion.tscn` | Manual — **só laje + rail** (18C) |
+| Quarto 203 | `areas/Room203Door.tscn` | Manual |
+| Nota + chave varanda | `PensaoBalconyPuzzleSetup` | Ativo — sem geometria de ala |
+| Depósito/fusível | `PensaoTerreoPuzzleSetup` | Ativo — não mexer |
+| `BuildUpperBalconyWing` | Histórico | **Congelado** (no-op) |
+| `PensaoBalconyWingPuzzleSetup` | Histórico | **Fora da cena / Enabled=false** |
 
-## Builders vivos vs congelados
+## Proibido recriar em runtime
 
-**Vivos (permitidos):**
-- `World/Builder` — pensão geral + teto
-- `World/PuzzleSetup` — depósito
-- `World/BalconyPuzzleSetup` — nota/chave + init porta verde existente
+- segundo andar “extra” / `BalconyWing_Rebuilt`
+- salas da ala / varanda / portas / prompts / blockers da microárea
+- qualquer `BalconyWingPuzzleSetup` ativo
 
-**Congelados / proibidos na árvore:**
-- `BalconyWingPuzzleSetup` — não instanciar
-- `BuildUpperBalconyWing` — não chamar
-- qualquer novo builder de ala sem revisão de ownership
+## Validador
 
-## Containers da Scene Tree
+- Script: `scripts/debug/LevelSanityChecker.cs`
+- Atalho: **F9**
+- Critério de passagem: **0 ERROR** (warnings graves também devem ser zerados)
 
-```
-PensaoVerticalBlockout01
-├── PuzzleState / NarrativeEvents / AudioManager / LevelSanityChecker
-├── World/Builder + PuzzleSetup + BalconyPuzzleSetup
-├── Exterior
-├── PensionGroundFloor          [level_first_floor]
-├── PensionSecondFloor          [level_second_floor]
-├── BalconyWing                 [level_upper_wing]  ← manual
-├── UpperWingExpansion          [level_upper_wing]  ← manual
-├── Room203Door                 [level_door]
-├── PensionCeiling              [level_ceiling]
-├── Collisions / Interactions
-├── Lighting / Player / HUD
-```
+## Checklist
 
-## Grupos
-
-- `level_first_floor`
-- `level_second_floor`
-- `level_upper_wing`
-- `level_ceiling`
-- `level_door`
-- `gameplay_interaction` (usar em Area3D novas)
-- `deprecated_do_not_use` (nunca deixar ativo na cena)
-
-## Anti-acúmulo
-
-1. Não criar segundo script que spawna a mesma ala.
-2. Antes de commit: F4 → `LevelSanityChecker`.
-3. Seguir `docs/production/LEVEL_CHANGE_CHECKLIST.md`.
-4. Expansão de cômodos **pausada** até playtest confirmar cena limpa.
+`docs/production/LEVEL_CHANGE_CHECKLIST.md` — obrigatório antes de commit de cenário.

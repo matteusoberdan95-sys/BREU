@@ -115,7 +115,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matSecondCeiling = Mat(new Color(0.42f, 0.4f, 0.44f));
         _matSecondRail = Mat(new Color(0.36f, 0.38f, 0.42f));
         _matFurniture = Mat(new Color(0.38f, 0.34f, 0.32f));
-        _matCeilingFirst = Mat(new Color(0.28f, 0.26f, 0.24f));
+        _matCeilingFirst = Mat(new Color(0.22f, 0.2f, 0.19f));
         _matCeilingSecond = Mat(new Color(0.38f, 0.36f, 0.4f));
         _matRoof = Mat(new Color(0.32f, 0.3f, 0.28f));
         _matDoorBalcony = Mat(new Color(0.32f, 0.5f, 0.3f));
@@ -203,8 +203,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         const float receptionNorthZ = -7.05f;
         var frontDepth = BuildingFrontZ - receptionNorthZ + FloorOverlap;
         var frontCenterZ = (BuildingFrontZ + receptionNorthZ) * 0.5f;
-        var soffitThickness = 0.08f;
-        var soffitCenterY = FirstFloorCeilingTopY - soffitThickness * 0.5f - 0.01f;
+        var soffitThickness = 0.1f;
+        var soffitCenterY = FirstFloorCeilingTopY - soffitThickness * 0.5f - 0.02f;
 
         AddVisualCeilingPlate(
             _ceiling,
@@ -213,11 +213,26 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(SlabWidth, soffitThickness, frontDepth),
             _matCeilingFirst);
 
-        // Height reference markers for future authoring.
+        // Sprint 18C — fixed height markers for LevelSanityChecker / authoring.
+        _ceiling.AddChild(new Marker3D
+        {
+            Name = "Marker_FirstFloor_FloorY",
+            Position = new Vector3(0f, 0f, -3.5f)
+        });
+        _ceiling.AddChild(new Marker3D
+        {
+            Name = "Marker_FirstFloor_CeilingY",
+            Position = new Vector3(0f, FirstFloorCeilingTopY, -3.5f)
+        });
         _ceiling.AddChild(new Marker3D
         {
             Name = "Marker_FirstFloor_CeilingHeight",
             Position = new Vector3(0f, FirstFloorCeilingTopY, -3.5f)
+        });
+        _ceiling.AddChild(new Marker3D
+        {
+            Name = "Marker_SecondFloor_FloorY",
+            Position = new Vector3(0f, SecondFloorTopY, -14f)
         });
         _ceiling.AddChild(new Marker3D
         {
@@ -226,8 +241,18 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         });
         _ceiling.AddChild(new Marker3D
         {
+            Name = "Marker_SecondFloor_CeilingY",
+            Position = new Vector3(0f, SecondFloorCeilingUndersideY, -14f)
+        });
+        _ceiling.AddChild(new Marker3D
+        {
+            Name = "Marker_UpperWing_FloorY",
+            Position = new Vector3(0f, SecondFloorTopY, 0f)
+        });
+        _ceiling.AddChild(new Marker3D
+        {
             Name = "Marker_UpperWing_FloorHeight",
-            Position = new Vector3(2.4f, SecondFloorTopY, 0.1f)
+            Position = new Vector3(0f, SecondFloorTopY, 0f)
         });
     }
 

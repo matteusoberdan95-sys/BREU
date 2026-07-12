@@ -71,6 +71,7 @@ material_override = SubResource("MatFloor")
 position = Vector3(0, 2.65, -0.5)
 mesh = SubResource("FreeWalkableMesh")
 material_override = SubResource("MatFloor")
+groups = ["level_floor"]
 [node name="BalconyRail_Right" type="Node3D" parent="Geometry"]
 position = Vector3(1.6, 3.35, -4.375)
 [node name="BalconyCeiling" type="MeshInstance3D" parent="Geometry"]
@@ -128,6 +129,7 @@ material_override = SubResource("MatWall")
 position = Vector3(0, 2.65, -0.5)
 collision_layer = 1
 collision_mask = 0
+groups = ["level_floor"]
 [node name="Shape" type="CollisionShape3D" parent="Collisions/UpperWing_FreeWalkableFloor"]
 shape = SubResource("FreeWalkableShape")
 [node name="BalconyFloor" type="StaticBody3D" parent="Collisions"]
