@@ -1,7 +1,7 @@
 # BREU — Estado do projeto
 
-**Última atualização:** 2026-07-11  
-**Fase:** REBOOT GREENFIELD — Sprint 16C (cadência + corrida por superfície); F6 pendente  
+**Última atualização:** 2026-07-12  
+**Fase:** REBOOT GREENFIELD — Sprint 16D (cadência definitiva dos passos); F6 pendente  
 **Baseline:** `docs/production/REBOOT_BASELINE_DECISION.md`
 
 ---
@@ -30,7 +30,8 @@
 | Sprint 15 | **✅ Aprovada** — eventos narrativos one-shot sem inimigo |
 | Sprint 16 | **🔄 Implementada** — áudio ambiente pack v2 |
 | Sprint 16B | **✅ Aprovada** — passos audíveis + gotas + F7 debug |
-| Sprint 16C | **🔄 Implementada** — cadência mais lenta; corrida usa banco da superfície |
+| Sprint 16C | **✅ Aprovada** — corrida usa banco da superfície |
+| Sprint 16D | **🔄 Implementada** — cadência 0,64/0,36 + cooldown anti-duplo |
 
 ---
 
@@ -215,19 +216,25 @@ Limpeza destrutiva — remover meshes instáveis em vez de ajustar.
 
 **Playtest funcional:** `docs/testing/PENSION_AUDIO_FUNCTIONAL_PLAYTEST.md`
 
-## Sprint 16C — Ajuste fino de passos (implementada)
+## Sprint 16C — Ajuste fino de passos (aprovada)
+
+**Status:** ✅ Aprovada (timbre por superfície OK; cadência ainda rápida no vídeo)  
+**Escopo:** corrida = mesmo banco da superfície; `player_run_step_*` reservado.
+
+## Sprint 16D — Cadência definitiva (implementada)
 
 **Status:** 🔄 Implementada — F6 pendente  
-**Escopo:** só `PlayerFootstepAudio` (+ docs / F7 log wiring)
+**Escopo:** só `PlayerFootstepAudio` (+ docs)
 
-- WalkInterval 0,55 s / Run 0,36 s / Crouch 0,78 s
-- Corrida usa o **mesmo** banco da superfície (dirt ou wood)
-- `player_run_step_*` reservado para sprint futura (não carregado)
-- Volume/pitch sutis entre walk e run; log `[Footstep]` com F7 ON
+- Walk 0,64 s / Run 0,36 s / Crouch 0,85 s
+- `MinimumStepCooldown` 0,28 s — sem duplo disparo
+- Um estado por frame; um timer; um `AudioStreamPlayer`; Stop antes de Play
+- Sem sequence files; sem `player_run_step_*`
+- Auditoria: único sistema de passos do player
 - Sem mudança de movimento / HUD / fog / puzzle / eventos
 
 ## Próxima sprint recomendada — respiração do player (áudio-only)
 
-Após F6 da Sprint 16C aprovada.
+Após F6 da Sprint 16D aprovada.
 
 **Não avançar automaticamente** para inimigo/chase.

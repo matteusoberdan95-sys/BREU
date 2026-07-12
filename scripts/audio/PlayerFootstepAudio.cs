@@ -1,24 +1,35 @@
 namespace BREU.Scripts.Audio;
 
 /// <summary>
-/// Sprint 16B/16C — audible player footsteps. Reads movement state only; never writes Velocity/Position.
-/// Run uses the same surface bank as walk (player_run_step_* reserved for a future sprint).
+/// Sprint 16B–16D — player footsteps (audio-only). Reads movement state; never writes Velocity/Position.
+/// Single timer + cooldown. Surface banks only (no sequence files, no player_run_step_*).
 /// </summary>
 public partial class PlayerFootstepAudio : Node
 {
     private const string AssetRoot = "res://assets/audio/pensao/";
     private const float MinSpeed = 0.2f;
 
-    [Export] public float WalkStepInterval { get; set; } = 0.55f;
+    private enum FootstepState
+    {
+        Idle,
+        Walk,
+        Run,
+        Crouch
+    }
+
+    [Export] public float WalkStepInterval { get; set; } = 0.64f;
     [Export] public float RunStepInterval { get; set; } = 0.36f;
-    [Export] public float CrouchStepInterval { get; set; } = 0.78f;
+    [Export] public float CrouchStepInterval { get; set; } = 0.85f;
+    [Export] public float MinimumStepCooldown { get; set; } = 0.28f;
+    /// <summary>Horizontal speed at/above this counts as Run even if sprint flag flickers.</summary>
+    [Export] public float RunSpeedThreshold { get; set; } = 5.2f;
     [Export] public float WalkWoodVolumeDb { get; set; } = -12f;
     [Export] public float WalkDirtVolumeDb { get; set; } = -11f;
     [Export] public float RunWoodVolumeDb { get; set; } = -9f;
     [Export] public float RunDirtVolumeDb { get; set; } = -8f;
     [Export] public float CrouchVolumeDb { get; set; } = -18f;
 
-    /// <summary>When true, logs each footstep (surface/state/sample). Set by Audio Debug F7.</summary>
+    /// <summary>When true, logs each footstep. Set by Audio Debug F7.</summary>
     public bool DebugLoggingEnabled { get; set; }
 
     private CharacterBody3D? _body;
@@ -30,7 +41,8 @@ public partial class PlayerFootstepAudio : Node
     private readonly RandomNumberGenerator _rng = new();
     private readonly HashSet<string> _warned = new(StringComparer.Ordinal);
 
-    private float _timer;
+    private float _stepTimer;
+    private float _cooldownRemaining;
     private int _lastWood = -1;
     private int _lastDirt = -1;
 
@@ -76,31 +88,41 @@ public partial class PlayerFootstepAudio : Node
             return;
         }
 
+        var dt = (float)delta;
+        if (_cooldownRemaining > 0f)
+        {
+            _cooldownRemaining -= dt;
+        }
+
         if (!_body.IsOnFloor())
         {
-            _timer = 0f;
+            ResetStepTimer();
             return;
         }
 
         var horizontal = new Vector2(_body.Velocity.X, _body.Velocity.Z).Length();
-        if (horizontal < MinSpeed)
+        var state = ResolveState(horizontal);
+        if (state == FootstepState.Idle)
         {
-            _timer = 0f;
+            ResetStepTimer();
             return;
         }
 
-        var isCrouching = _controller?.IsCrouching == true;
-        var isSprinting = _controller?.IsSprinting == true && !isCrouching;
-        var interval = isCrouching ? CrouchStepInterval : isSprinting ? RunStepInterval : WalkStepInterval;
-
-        _timer += (float)delta;
-        if (_timer < interval)
+        var interval = GetInterval(state);
+        _stepTimer += dt;
+        if (_stepTimer < interval)
         {
             return;
         }
 
-        _timer = 0f;
-        PlayStep(isSprinting, isCrouching);
+        if (_cooldownRemaining > 0f)
+        {
+            return;
+        }
+
+        _stepTimer = 0f;
+        _cooldownRemaining = MinimumStepCooldown;
+        PlayStep(state, interval);
     }
 
     /// <summary>
@@ -108,33 +130,28 @@ public partial class PlayerFootstepAudio : Node
     /// </summary>
     public void DebugPlayBank(string bank)
     {
-        if (_player != null && _player.Playing)
-        {
-            _player.Stop();
-        }
-
         switch (bank)
         {
             case "wood":
-                PlayFromBank(_wood, ref _lastWood, WalkWoodVolumeDb, "Walk", FootstepSurfaceType.Wood,
-                    pitchMin: 0.97f, pitchMax: 1.03f, force: true);
+                PlayFromBank(_wood, ref _lastWood, WalkWoodVolumeDb, FootstepState.Walk,
+                    FootstepSurfaceType.Wood, WalkStepInterval, pitchMin: 0.98f, pitchMax: 1.03f, force: true);
                 break;
             case "dirt":
-                PlayFromBank(_dirt, ref _lastDirt, WalkDirtVolumeDb, "Walk", FootstepSurfaceType.DirtGravel,
-                    pitchMin: 0.97f, pitchMax: 1.03f, force: true);
+                PlayFromBank(_dirt, ref _lastDirt, WalkDirtVolumeDb, FootstepState.Walk,
+                    FootstepSurfaceType.DirtGravel, WalkStepInterval, pitchMin: 0.98f, pitchMax: 1.03f, force: true);
                 break;
             case "run":
             {
                 var surface = ResolveSurface();
                 if (surface == FootstepSurfaceType.DirtGravel)
                 {
-                    PlayFromBank(_dirt, ref _lastDirt, RunDirtVolumeDb, "Run", surface,
-                        pitchMin: 0.98f, pitchMax: 1.04f, force: true);
+                    PlayFromBank(_dirt, ref _lastDirt, RunDirtVolumeDb, FootstepState.Run, surface,
+                        RunStepInterval, pitchMin: 0.99f, pitchMax: 1.04f, force: true);
                 }
                 else
                 {
-                    PlayFromBank(_wood, ref _lastWood, RunWoodVolumeDb, "Run", FootstepSurfaceType.Wood,
-                        pitchMin: 0.98f, pitchMax: 1.04f, force: true);
+                    PlayFromBank(_wood, ref _lastWood, RunWoodVolumeDb, FootstepState.Run,
+                        FootstepSurfaceType.Wood, RunStepInterval, pitchMin: 0.99f, pitchMax: 1.04f, force: true);
                 }
 
                 break;
@@ -142,41 +159,70 @@ public partial class PlayerFootstepAudio : Node
         }
     }
 
-    private void PlayStep(bool isSprinting, bool isCrouching)
+    private FootstepState ResolveState(float horizontalSpeed)
+    {
+        if (horizontalSpeed < MinSpeed)
+        {
+            return FootstepState.Idle;
+        }
+
+        // Exactly one active locomotion state per frame.
+        if (_controller?.IsCrouching == true)
+        {
+            return FootstepState.Crouch;
+        }
+
+        var sprinting = _controller?.IsSprinting == true;
+        if (sprinting || horizontalSpeed >= RunSpeedThreshold)
+        {
+            return FootstepState.Run;
+        }
+
+        return FootstepState.Walk;
+    }
+
+    private float GetInterval(FootstepState state) =>
+        state switch
+        {
+            FootstepState.Run => RunStepInterval,
+            FootstepState.Crouch => CrouchStepInterval,
+            _ => WalkStepInterval
+        };
+
+    private void PlayStep(FootstepState state, float interval)
     {
         var surface = ResolveSurface();
-        var state = isCrouching ? "Crouch" : isSprinting ? "Run" : "Walk";
 
         float volumeDb;
         float pitchMin;
         float pitchMax;
 
-        if (isCrouching)
+        switch (state)
         {
-            volumeDb = CrouchVolumeDb;
-            pitchMin = 0.96f;
-            pitchMax = 1.02f;
-        }
-        else if (isSprinting)
-        {
-            volumeDb = surface == FootstepSurfaceType.DirtGravel ? RunDirtVolumeDb : RunWoodVolumeDb;
-            pitchMin = 0.98f;
-            pitchMax = 1.04f;
-        }
-        else
-        {
-            volumeDb = surface == FootstepSurfaceType.DirtGravel ? WalkDirtVolumeDb : WalkWoodVolumeDb;
-            pitchMin = 0.97f;
-            pitchMax = 1.03f;
+            case FootstepState.Crouch:
+                volumeDb = CrouchVolumeDb;
+                pitchMin = 0.96f;
+                pitchMax = 1.01f;
+                break;
+            case FootstepState.Run:
+                volumeDb = surface == FootstepSurfaceType.DirtGravel ? RunDirtVolumeDb : RunWoodVolumeDb;
+                pitchMin = 0.99f;
+                pitchMax = 1.04f;
+                break;
+            default:
+                volumeDb = surface == FootstepSurfaceType.DirtGravel ? WalkDirtVolumeDb : WalkWoodVolumeDb;
+                pitchMin = 0.98f;
+                pitchMax = 1.03f;
+                break;
         }
 
         if (surface == FootstepSurfaceType.DirtGravel)
         {
-            PlayFromBank(_dirt, ref _lastDirt, volumeDb, state, surface, pitchMin, pitchMax);
+            PlayFromBank(_dirt, ref _lastDirt, volumeDb, state, surface, interval, pitchMin, pitchMax);
             return;
         }
 
-        PlayFromBank(_wood, ref _lastWood, volumeDb, state, FootstepSurfaceType.Wood, pitchMin, pitchMax);
+        PlayFromBank(_wood, ref _lastWood, volumeDb, state, FootstepSurfaceType.Wood, interval, pitchMin, pitchMax);
     }
 
     private FootstepSurfaceType ResolveSurface()
@@ -202,18 +248,14 @@ public partial class PlayerFootstepAudio : Node
         List<NamedStream> bank,
         ref int lastIndex,
         float volumeDb,
-        string state,
+        FootstepState state,
         FootstepSurfaceType surface,
+        float interval,
         float pitchMin,
         float pitchMax,
         bool force = false)
     {
         if (_player == null || bank.Count == 0)
-        {
-            return;
-        }
-
-        if (!force && _player.Playing)
         {
             return;
         }
@@ -226,6 +268,13 @@ public partial class PlayerFootstepAudio : Node
 
         lastIndex = index;
         var sample = bank[index];
+
+        // One player only — stop any lingering playback to avoid stacked/embolados steps.
+        if (_player.Playing)
+        {
+            _player.Stop();
+        }
+
         _player.Stream = sample.Stream;
         _player.VolumeDb = volumeDb;
         _player.PitchScale = _rng.RandfRange(pitchMin, pitchMax);
@@ -233,12 +282,18 @@ public partial class PlayerFootstepAudio : Node
 
         if (DebugLoggingEnabled || force)
         {
-            GD.Print($"[Footstep] surface={surface} state={state} sample={sample.Id}");
+            GD.Print(
+                $"[Footstep] state={state} surface={surface} interval={interval:0.00} sample={sample.Id}");
         }
     }
 
+    private void ResetStepTimer() => _stepTimer = 0f;
+
     private void LoadBanks()
     {
+        // Individual one-shots only. Never load:
+        // - player_footsteps_*_sequence / player_running_sequence
+        // - player_run_step_* (reserved for future chase/panic)
         for (var i = 1; i <= 8; i++)
         {
             TryAdd($"player_footstep_wood_{i:D2}", _wood);
@@ -249,8 +304,9 @@ public partial class PlayerFootstepAudio : Node
             TryAdd($"player_footstep_dirt_gravel_{i:D2}", _dirt);
         }
 
-        // player_run_step_01..12 remain on disk for a future chase/panic sprint — not loaded here.
-        GD.Print($"[Audio] Footsteps loaded: wood={_wood.Count}, dirt={_dirt.Count} (run bank deferred)");
+        GD.Print(
+            $"[Audio] Footsteps loaded: wood={_wood.Count}, dirt={_dirt.Count} " +
+            "(sequences + run bank not used)");
     }
 
     private void TryAdd(string id, List<NamedStream> bank)
