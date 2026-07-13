@@ -22,7 +22,10 @@ public partial class WardrobeSafeZone : Area3D
     {
         if (body is not CharacterBody3D || body.GlobalPosition.Y > 1.7f ||
             _state?.EnterReusableSafeZone() != true) return;
-        GetTree().CurrentScene?.GetNodeOrNull<FirstEnemyChaseController>("FirstEnemyChase")?.StopForShelter();
+        // Keep the legacy visual shutdown limited to the original scripted
+        // chase. The Sprint 24 patrol must remain visible and resume its route.
+        if (!_state.Sprint23Completed)
+            GetTree().CurrentScene?.GetNodeOrNull<FirstEnemyChaseController>("FirstEnemyChase")?.StopForShelter();
     }
 
     private void OnBodyExited(Node3D body)

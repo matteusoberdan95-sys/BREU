@@ -7,6 +7,14 @@ globs:
 alwaysApply: true
 ---
 
+## Sprint 24 — IA básica da presença
+
+- IA não pode alterar geometria aprovada nem usar collider físico bloqueador no inimigo.
+- Percepção e audição devem permanecer no térreo e nunca alcançar outro andar.
+- Linha de visão precisa respeitar paredes; audição deve ignorar player escondido/agachado.
+- Safe zone ou `PlayerHidden` sempre cancelam detecção e busca.
+- A IA deve ser testada com o esconderijo e nunca bloquear saída, porta ou corredor.
+
 ## Sprint 23 — safe zones e esconderijos
 
 - SafeZone deve ser `Area3D`, nunca collider físico bloqueador.

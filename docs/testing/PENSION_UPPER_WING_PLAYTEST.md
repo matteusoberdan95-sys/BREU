@@ -435,3 +435,23 @@ Playtest manual aprovado em 2026-07-13: [x] perseguição ativa [x] objetivo de 
 Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING [x] deck 49/49 [x] sem alteração na varanda/ala superior
 
 Playtest manual aprovado em 2026-07-13: [x] Ctrl abaixa [x] soltar Ctrl levanta na recepção/corredor/quartos [x] teto realmente baixo mantém agachado [x] sair do móvel permite levantar [x] três móveis acessíveis [x] colliders correspondem ao visual [x] sem bloqueio de corredor [x] prompt dentro do móvel [x] esconder/soltar funciona [x] regressão completa
+
+## Sprint 24 — IA básica da presença
+
+- Ativação: somente após `Sprint23Completed`.
+- Presença reutilizada: `FirstEnemyChase/Enemy_FirstPresence`, ainda sem corpo físico ou collider bloqueador.
+- Container: `World/Gameplay/EnemyAI`; cinco pontos em linha livre no térreo: recepção `(0; -5)`, entrada `(0; -9,5)`, meio `(0; -15,5)`, fundo `(0; -22)` e retorno `(0; -11,5)`.
+- Patrulha: 1,35 m/s, pausas de 1,2–1,65 s e passos baixos; rota não entra em quartos, escada ou segundo andar.
+- Visão: 6 m, cone total aproximado de 56°, reduzido a 3,2 m com player agachado; raycast em layer de parede impede visão através da geometria.
+- Audição: corrida em movimento até 8 m; ignora agachamento, andar superior, safe zone e `PlayerHidden`.
+- Alerta: projeta a última posição conhecida no eixo seguro do corredor e aproxima-se a 2,35 m/s sem atravessar paredes.
+- Busca: espera 3,2 s; ao perder o alvo, toca passos distantes, marca `EnemyLostPlayer` e retorna à patrulha.
+- Encontro próximo: apenas mensagem “Você escapou por pouco.” e reset de alerta; sem dano, morte, teleporte ou input travado.
+- Flags: `EnemyPatrolActive`, `EnemyAlerted`, `EnemySearching`, `EnemyLostPlayer`, `EnemySawPlayerOnce`, `EnemyHeardPlayerOnce` e `Sprint24Completed`.
+- Limitação: patrulha roteirizada central, sem NavMesh, entrada em quartos, escada, combate ou IA final.
+
+Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING [x] deck 49/49 [x] nenhum collider/Area3D novo de percepção
+
+Playtest manual aprovado em 2026-07-13: [x] não ativa antes da Sprint 23 [x] patrulha ativa depois [x] cinco pontos livres [x] não atravessa parede [x] não sobe escada [x] vê somente com linha livre [x] correr alerta [x] agachar reduz visão/audição [x] balcão e guarda-roupas cancelam [x] busca termina [x] retorna à patrulha [x] não bloqueia player [x] regressão Sprints 20–23 e Hotfix 22B
+
+Hotfix validado: os esconderijos deixam de chamar o desligamento visual legado da Sprint 22 após `Sprint23Completed`; ao perder o jogador, a presença permanece visível e retoma a patrulha.

@@ -26,7 +26,10 @@ public partial class FirstSafeZone : Area3D
             _state?.EnterFirstSafeZone() != true) return;
 
         GD.Print("[SPRINT23] SafeZone_FirstShelter entered");
-        if (_state.FirstChaseFinished)
+        // The Sprint 22 chase hid its scripted enemy when the player reached
+        // this shelter. After Sprint 23 the same mesh belongs to the persistent
+        // patrol AI, which handles losing the player without disappearing.
+        if (_state.FirstChaseFinished && !_state.Sprint23Completed)
         {
             GetTree().CurrentScene?.GetNodeOrNull<FirstEnemyChaseController>("FirstEnemyChase")?.StopForShelter();
             PensionAudioManager.Find(GetTree())?.PlayOneShot("distant_step_03", -17f);

@@ -51,6 +51,13 @@ public partial class PensaoPuzzleState : Node
     public bool SafeRoomDiscovered { get; private set; }
     public bool FirstHideTutorialShown { get; private set; }
     public bool Sprint23Completed { get; private set; }
+    public bool EnemyPatrolActive { get; private set; }
+    public bool EnemyAlerted { get; private set; }
+    public bool EnemySearching { get; private set; }
+    public bool EnemyLostPlayer { get; private set; }
+    public bool EnemySawPlayerOnce { get; private set; }
+    public bool EnemyHeardPlayerOnce { get; private set; }
+    public bool Sprint24Completed { get; private set; }
     public bool Room203CanBeForced => IsUpperPowerRestored;
 
     /// <summary>Sprint 18A — second fuse from linen closet.</summary>
@@ -269,7 +276,7 @@ public partial class PensaoPuzzleState : Node
 
     public bool EnterFirstSafeZone()
     {
-        if ((!FirstChaseStarted && !FirstChaseFinished) || Sprint23Completed) return false;
+        if (!FirstChaseStarted && !FirstChaseFinished) return false;
         PlayerInSafeZone = true;
         if (!SafeRoomDiscovered)
         {
@@ -282,7 +289,7 @@ public partial class PensaoPuzzleState : Node
 
     public void ExitFirstSafeZone()
     {
-        if (!PlayerHidden) PlayerInSafeZone = false;
+        PlayerInSafeZone = false;
     }
 
     public bool ShowFirstHideTutorial()
@@ -304,7 +311,6 @@ public partial class PensaoPuzzleState : Node
     {
         if (!PlayerHidden || Sprint23Completed) return;
         PlayerHidden = false;
-        PlayerInSafeZone = false;
         Sprint23Completed = true;
         Sprint23Finished?.Invoke();
     }
@@ -328,7 +334,42 @@ public partial class PensaoPuzzleState : Node
     {
         if (!PlayerHidden) return;
         PlayerHidden = false;
-        PlayerInSafeZone = false;
+    }
+
+    public void ActivateEnemyPatrol()
+    {
+        if (!Sprint23Completed) return;
+        EnemyPatrolActive = true;
+        EnemyAlerted = false;
+        EnemySearching = false;
+    }
+
+    public void AlertEnemy(bool bySight)
+    {
+        if (!Sprint23Completed || PlayerHidden || PlayerInSafeZone) return;
+        EnemyPatrolActive = false;
+        EnemyAlerted = true;
+        EnemySearching = false;
+        if (bySight) EnemySawPlayerOnce = true;
+        else EnemyHeardPlayerOnce = true;
+    }
+
+    public void BeginEnemySearch()
+    {
+        if (!Sprint23Completed) return;
+        EnemyPatrolActive = false;
+        EnemyAlerted = false;
+        EnemySearching = true;
+    }
+
+    public void MarkEnemyLost()
+    {
+        if (!Sprint23Completed) return;
+        EnemyPatrolActive = false;
+        EnemyAlerted = false;
+        EnemySearching = false;
+        EnemyLostPlayer = true;
+        if (EnemySawPlayerOnce || EnemyHeardPlayerOnce) Sprint24Completed = true;
     }
 
     public void PickupUpperFuse()

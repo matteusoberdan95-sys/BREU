@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/FirstEnemyChase.tscn" id="22_chase"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/FirstSafeShelter.tscn" id="23_shelter"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/props/OldBrazilianWardrobe.tscn" id="24_wardrobe"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/EnemyPresenceAI.cs" id="25_enemy_ai"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
 [ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
 [ext_resource type="Script" path="res://scripts/debug/DebugFallRecovery.cs" id="11_fall_recovery"]
@@ -103,6 +104,34 @@ script = ExtResource("18_coordinate_overlay")
 
 
 [node name="World" type="Node3D" parent="."]
+
+[node name="Gameplay" type="Node3D" parent="World"]
+
+[node name="EnemyAI" type="Node3D" parent="World/Gameplay"]
+script = ExtResource("25_enemy_ai")
+
+[node name="PatrolPoints_FirstFloor" type="Node3D" parent="World/Gameplay/EnemyAI"]
+
+[node name="PatrolPoint_01_Reception" type="Marker3D" parent="World/Gameplay/EnemyAI/PatrolPoints_FirstFloor"]
+position = Vector3(0, 0, -5.0)
+
+[node name="PatrolPoint_02_CorridorEntry" type="Marker3D" parent="World/Gameplay/EnemyAI/PatrolPoints_FirstFloor"]
+position = Vector3(0, 0, -9.5)
+
+[node name="PatrolPoint_03_CorridorMid" type="Marker3D" parent="World/Gameplay/EnemyAI/PatrolPoints_FirstFloor"]
+position = Vector3(0, 0, -15.5)
+
+[node name="PatrolPoint_04_BackHall" type="Marker3D" parent="World/Gameplay/EnemyAI/PatrolPoints_FirstFloor"]
+position = Vector3(0, 0, -22.0)
+
+[node name="PatrolPoint_05_Return" type="Marker3D" parent="World/Gameplay/EnemyAI/PatrolPoints_FirstFloor"]
+position = Vector3(0, 0, -11.5)
+
+[node name="Perception" type="Node3D" parent="World/Gameplay/EnemyAI"]
+
+[node name="Audio" type="Node3D" parent="World/Gameplay/EnemyAI"]
+
+[node name="Debug" type="Node" parent="World/Gameplay/EnemyAI"]
 
 [node name="Level" type="Node3D" parent="World"]
 

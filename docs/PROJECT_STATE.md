@@ -1,5 +1,11 @@
 # BREU — Estado do projeto
 
+## Sprint 24 — IA básica da presença
+
+Após `Sprint23Completed`, a silhueta da primeira presença passa a patrulhar apenas o eixo navegável do térreo entre recepção, entrada do corredor, corredor central e fundo da pensão. A IA possui visão curta por ângulo e raycast contra paredes, audição de corrida em até 8 m, alerta, busca na última coordenada segura do corredor e retorno à patrulha. `PlayerHidden` e `PlayerInSafeZone` cancelam detecção e fazem a presença se afastar; o inimigo continua sem collider físico, dano, morte, NavMesh ou acesso ao segundo andar.
+
+Próxima sprint sugerida: segunda perseguição controlada e expansão gradual do comportamento, sem transformar esta patrulha em IA final.
+
 ## Hotfix pós-Sprint 23 — guarda-roupas e agachamento
 
 Três guarda-roupas brasileiros antigos e reutilizáveis foram colocados no térreo: recepção, Quarto 102 e cozinha. Cada móvel possui shell visual com colliders filhos correspondentes, abertura real, `WardrobeSafeZone` interna e interação de esconderijo; não há teleporte nem bloqueador invisível. O teste de teto de `PlayerCrouch` agora verifica somente o volume adicional entre a postura agachada e em pé, evitando que a laje superior mantenha o jogador agachado em todo o interior.

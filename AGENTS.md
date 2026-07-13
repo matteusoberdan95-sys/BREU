@@ -1,3 +1,7 @@
+## REGRA CRÍTICA — SPRINT 24
+
+Esta sprint é apenas de IA básica da presença. É proibido alterar a geometria aprovada, reconstruir cômodos, pisos, paredes, varanda ou térreo, criar colliders gigantes ou triggers entre andares. O inimigo protótipo não pode bloquear ou prender o player, atravessar paredes de forma absurda ou subir ao segundo andar. Safe zone e esconderijo devem sempre cancelar visão e audição da IA.
+
 ## REGRA CRÍTICA — SPRINT 23
 
 Esta sprint cria um sistema simples de esconderijo/sala segura. É proibido reconstruir mapa, pisos, paredes, varanda ou cômodos. Safe zones devem ser `Area3D` pequenas, localizadas, sem colisão física bloqueadora e sem alcançar outro andar. O esconderijo não pode prender, teleportar, empurrar ou travar o jogador e deve ser testado com a perseguição da Sprint 22 ativa.
