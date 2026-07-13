@@ -1,5 +1,18 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Sprint 26 — Eventos dinâmicos de terror ambiental
+
+- `AmbientHorrorDirector` criado sob `World/Gameplay/AmbientHorror`.
+- Eventos: porta rangendo, batidas superiores, passos distantes, flicker local, arranhão, objeto caindo, respiração atrás, sussurro do ralo e sombra rápida rara.
+- Condições: progressão pós-203/primeira presença, energia superior, chave do ralo e perseguições concluídas, conforme cada evento.
+- Sons existentes reutilizados: `old_house_settle_*`, `distant_knock_*`, `distant_step_*`, `door_scratch_02`, `player_breath_heavy_*` e `water_drop_03`.
+- Triggers pequenos: recepção, pé da escada, corredor superior, fundo do térreo, banheiro e saída do 203.
+- Cooldown global: 25–45 segundos; somente um evento por vez; raros são one-shot.
+- Chase, Search, esconderijo e safe zone bloqueiam novos eventos.
+- Não houve alteração de geometria, deck, escada, portas, PlayerController, puzzle ou core da IA.
+- Automático: build 0 erros/0 avisos; cena oficial headless; F9 0 ERROR/0 WARNING; deck 49/49.
+- Manual: aprovado pelo usuário em 2026-07-13 conforme `docs/testing/PENSION_AMBIENT_HORROR_PLAYTEST.md`.
+
 ## Sprint 19E — Rebuild limpo da ala superior
 
 - a ala anterior foi removida como ownership concorrente; `BalconyWing.tscn` permanece somente com a porta verde;

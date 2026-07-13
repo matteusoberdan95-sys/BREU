@@ -1,3 +1,7 @@
+## REGRA CRÍTICA — SPRINT 26
+
+Esta sprint é somente de eventos ambientais. É proibido alterar geometria aprovada, criar paredes, pisos, cômodos, colliders estruturais ou portas físicas novas. Eventos ambientais devem usar triggers pequenos e localizados, timers, áudio, luz e objetos visuais não bloqueantes. Nenhum evento ambiental pode prender, teleportar, empurrar ou matar o player, iniciar durante perseguição ou esconderijo, nem quebrar puzzle, perseguição, safe zone ou IA. Todo visual ambiental deve ser sem colisão por padrão.
+
 ## REGRA CRÍTICA — SPRINT 25
 
 Esta sprint é de comportamento da presença e perseguição controlada. É proibido alterar geometria aprovada, reconstruir paredes, pisos, cômodos, varanda, escada ou térreo, criar collider gigante, boundary global ou trigger atravessando andares. O inimigo não pode bloquear fisicamente o player. A safe zone deve encerrar a perseguição. Todo evento de chase deve ser one-shot, possuir começo/meio/fim e não repetir infinitamente.

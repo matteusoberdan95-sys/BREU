@@ -1,5 +1,7 @@
 namespace BREU.Scripts.Debug;
 
+using BREU.Scripts.Levels.PensaoSantaLuzia;
+
 /// <summary>
 /// Sprint 18C — structural sanity checks for PensaoVerticalBlockout01.
 /// Press F9 (does not touch F10/F11). Player reset remains on debug_reset_player (F3).
@@ -74,6 +76,7 @@ public partial class LevelSanityChecker : Node
         CheckUpperWingStructuralHotfix(scene);
         CheckRoom203Closure(scene);
         CheckStairAndTransitionHotfix(scene);
+        CheckAmbientHorrorSystem(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -627,6 +630,43 @@ public partial class LevelSanityChecker : Node
         }
 
         if (clean) Ok("stair residue absent, paired handrails valid, corridor end closed, and front slab flush");
+    }
+
+    private void CheckAmbientHorrorSystem(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/Gameplay/AmbientHorror");
+        if (root == null) { Error("Sprint 26 AmbientHorror tree missing under World/Gameplay"); return; }
+        var director = root.GetNodeOrNull<AmbientHorrorDirector>("AmbientHorrorDirector");
+        var triggers = root.GetNodeOrNull<Node3D>("AmbientEventTriggers");
+        var emitters = root.GetNodeOrNull<Node3D>("AmbientAudioEmitters");
+        var visuals = root.GetNodeOrNull<Node3D>("AmbientVisuals");
+        var debug = root.GetNodeOrNull<Node>("Debug");
+        if (director == null || triggers == null || emitters == null || visuals == null || debug == null)
+        { Error("AmbientHorror mandatory containers/director are incomplete"); return; }
+        if (Enumerate(root).Any(node => node is StaticBody3D))
+            Error("AmbientHorror contains forbidden physical StaticBody3D");
+
+        var areas = triggers.GetChildren().OfType<Area3D>().ToArray();
+        if (areas.Length < 6) Error($"AmbientHorror has only {areas.Length}/6 localized triggers");
+        foreach (var area in areas)
+        {
+            if (area.CollisionLayer != 0 || area.CollisionMask != 16)
+                Error($"ambient trigger has unsafe layer/mask: {area.GetPath()}");
+            if (area.GetNodeOrNull<CollisionShape3D>("CollisionShape3D")?.Shape is not BoxShape3D box)
+            { Error($"ambient trigger missing BoxShape3D: {area.GetPath()}"); continue; }
+            if (box.Size.Y > 1.5f || box.Size.X > 2.25f || box.Size.Z > 1.65f)
+                Error($"ambient trigger is oversized: {area.GetPath()} size={box.Size}");
+            var lower = area.GlobalPosition.Y - box.Size.Y * 0.5f;
+            var upper = area.GlobalPosition.Y + box.Size.Y * 0.5f;
+            if (area.IsInGroup("level_first_floor") && upper >= SecondFloorMinY)
+                Error($"ground ambient trigger invades second floor: {area.GetPath()} upperY={upper:0.00}");
+            if (area.IsInGroup("level_second_floor") && lower <= SecondFloorMinY)
+                Error($"upper ambient trigger invades ground floor: {area.GetPath()} lowerY={lower:0.00}");
+        }
+        if (Enumerate(visuals).Any(node => node is CollisionObject3D or CollisionShape3D))
+            Error("AmbientVisuals contains collision; Sprint 26 visuals must be non-blocking");
+        else
+            Ok("Sprint 26 ambient tree has six localized triggers and no physical blockers");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)

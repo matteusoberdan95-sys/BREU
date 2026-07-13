@@ -7,6 +7,15 @@ globs:
 alwaysApply: true
 ---
 
+## Sprint 26 — eventos ambientais
+
+- Evento ambiental não pode alterar geometria aprovada nem criar colisão estrutural.
+- Evento ambiental não pode prender, teleportar, empurrar, ferir ou matar o player.
+- Diretor ambiental deve bloquear eventos durante perseguição, busca, esconderijo, safe zone e sequências críticas.
+- Trigger ambiental deve ser pequeno, localizado, sem `StaticBody3D` e isolado por andar.
+- Evento visual ambiental deve ser sem colisão por padrão e desaparecer/restaurar seu estado com segurança.
+- Áudio e luz devem ser locais, moderados e nunca quebrar lanterna, puzzle, IA ou navegação.
+
 ## Sprint 25 — segunda perseguição controlada
 
 - Perseguição não pode alterar geometria aprovada nem adicionar colisão física ao inimigo.

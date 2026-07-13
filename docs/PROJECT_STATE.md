@@ -6,6 +6,14 @@ As placas diagonais superdimensionadas `Stair_Stringer_Left/Right`, os guias res
 
 A descida da escada usa a rampa física aprovada sob os degraus visuais. O player agora mantém velocidade constante em inclinações e usa `FloorSnapLength = 0,5 m` (antes `0,1 m`), evitando perder contato com a rampa e disparar ciclos falsos de queda/aterrissagem ao descer andando ou correndo. Pulo intencional, gravidade, velocidades de caminhada/corrida e geometria da escada permanecem inalterados.
 
+## Sprint 26 — eventos dinâmicos de terror ambiental
+
+A pensão agora possui a árvore isolada `World/Gameplay/AmbientHorror`, com diretor, seis triggers pequenos, emissores 3D, visuais sem colisão e debug. São nove eventos sutis: rangido distante, pancadas superiores, passos, flicker, arranhado, objeto caindo, respiração atrás, sussurro do ralo e uma sombra rápida rara.
+
+O sistema só habilita após o evento do Quarto 203/primeira presença, respeita progressão adicional (energia, chave do ralo e perseguições concluídas), executa somente um evento por vez e aplica cooldown global aleatório de 25–45 segundos. Chase, Search, esconderijo e safe zone bloqueiam completamente novos eventos. Não há `StaticBody3D`, dano, teleporte, empurrão, alteração de geometria, porta, IA ou puzzle.
+
+Validação automática: build C# sem erros/avisos, cena headless carregada e verificação estrutural específica adicionada ao F9. Playtest manual aprovado pelo usuário em 2026-07-13 conforme `docs/testing/PENSION_AMBIENT_HORROR_PLAYTEST.md`.
+
 ## Sprint 25 — segunda perseguição real
 
 Após a conclusão da Sprint 24, o fundo do térreo libera uma segunda perseguição one-shot. A presença interrompe a patrulha, reage ao ruído, segue a última posição conhecida somente pelo eixo central e busca o jogador sem entrar em quartos, escada ou segundo andar. Balcão e guarda-roupas encerram o fluxo após uma espera curta; a presença permanece sem collider, dano, morte ou teleporte.
