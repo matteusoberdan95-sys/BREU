@@ -6,6 +6,24 @@ As placas diagonais superdimensionadas `Stair_Stringer_Left/Right`, os guias res
 
 A descida da escada usa a rampa física aprovada sob os degraus visuais. O player agora mantém velocidade constante em inclinações e usa `FloorSnapLength = 0,5 m` (antes `0,1 m`), evitando perder contato com a rampa e disparar ciclos falsos de queda/aterrissagem ao descer andando ou correndo. Pulo intencional, gravidade, velocidades de caminhada/corrida e geometria da escada permanecem inalterados.
 
+## Sprint 27A — expansão externa e ajuste fino de janelas falsas
+
+A revisão visual removeu a janela sem função do corredor térreo e as duas janelas baixas da entrada que ficavam cortadas pelos barrancos. Quarto 102 e Quarto 201 agora mostram a janela na face interna da parede externa oeste; cozinha e Quarto 202 usam a face interna da parede externa leste. A grande parede oeste do setor superior recebeu duas janelas equilibradas, e as peças colocadas por engano nas paredes posteriores foram removidas. A varanda visual central e a entrada principal continuam livres e legíveis. O total ajustado das Sprints 27/27A é de 18 janelas falsas: 4 internas decorativas e 14 externas.
+
+As peças foram acrescentadas ao container visual já integrado à cena oficial; nenhuma cena alternativa foi criada. Cada janela externa está apoiada em parede sólida existente ou, no frontal superior, nos shells visuais autorados da fachada. Não houve abertura real, alteração de parede, sala, colisão, navegação, piso, teto, porta, varanda, escada, puzzle ou gameplay.
+
+Validação automática: build sem erros/avisos, cena oficial carregada, F9 `0 ERROR / 0 WARNING`, deck `49/49`, seis posições solicitadas presentes, três posições removidas ausentes e zero nós físicos no art pass. Inspeção visual manual interna/externa e regressão de gameplay permanecem pendentes.
+
+## Sprint 27 — janelas falsas, frestas e leitura visual
+
+Um art pass visual isolado adicionou cinco janelas falsas de madeira e vidro escuro, quatro frestas frias, cinco luzes locais fracas, cortinas/panos, umidade e sombras de grade na recepção, corredor térreo, escada, ala superior e Quarto 203. Todo o conteúdo vive em `World/VisualPolish/Sprint27_FakeWindowsLighting` e não possui colisão, navegação, interação ou física.
+
+Nenhuma parede foi aberta, cortada, removida ou reconstruída. Pisos, tetos, deck/varanda, escada, corrimão, portas físicas, puzzle, IA, perseguições, esconderijos e eventos ambientais permanecem inalterados. A lanterna continua sendo a fonte principal; as luzes novas usam energia máxima de `0,16` e alcance máximo de `3,8 m`.
+
+Validação automática: build C# sem erros/avisos, cena oficial headless, F9 `0 ERROR / 0 WARNING`, deck `49/49` e verificação específica com cinco janelas falsas/zero nós físicos. Playtest visual e regressão manual permanecem pendentes.
+
+Próxima sprint recomendada após validação: art pass modular/Blender ou refinamento gradual da IA.
+
 ## Sprint 26 — eventos dinâmicos de terror ambiental
 
 A pensão agora possui a árvore isolada `World/Gameplay/AmbientHorror`, com diretor, seis triggers pequenos, emissores 3D, visuais sem colisão e debug. São nove eventos sutis: rangido distante, pancadas superiores, passos, flicker, arranhado, objeto caindo, respiração atrás, sussurro do ralo e uma sombra rápida rara.

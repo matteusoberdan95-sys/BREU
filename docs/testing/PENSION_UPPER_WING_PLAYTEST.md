@@ -1,5 +1,36 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Sprint 27A — Expansão externa e ajuste fino de janelas falsas
+
+- 14 janelas externas permanecem no mesmo container visual da Sprint 27; nenhuma cena oficial paralela foi criada.
+- Fachada frontal térrea: as duas janelas baixas laterais foram removidas porque os barrancos as cortavam.
+- Térreo: Quarto 102 na face interna da parede oeste (com tábuas), cozinha na face interna da parede leste (com cortina) e ponta do corredor (janela alta).
+- Fachada frontal superior: duas janelas nos shells existentes, preservando a varanda visual central.
+- Segundo andar original: Quarto 201 na face interna oeste e Quarto 202 na face interna leste (com tábuas).
+- Grande parede oeste superior: duas janelas alinhadas e distribuídas ao longo da parede.
+- Ala superior nova: Quarto 204, sala técnica alta/tampada, rouparia, banheiro alto e escritório da proprietária.
+- Faces internas das paredes externas: Quarto 102, cozinha, Quarto 201 e Quarto 202 receberam uma janela centralizada cada; a parede oeste superior recebeu duas janelas distribuídas horizontalmente.
+- Corredor térreo: janela, fresta no piso e luz local associada removidas, sem resíduo visual.
+- Total do art pass 27/27A: 4 janelas internas decorativas + 14 externas de fachada.
+- Todas as janelas externas usam moldura, vidro escuro e variação discreta de cortina/tábua/altura; nenhuma abre vão real.
+- Auditoria runtime confirma apoio em parede sólida; as duas janelas frontais superiores são validadas contra `Shell_FacadeUpper_FrontLeft/Right`.
+- Nenhum `StaticBody3D`, `CollisionShape3D`, `Area3D`, navegação, trigger, prompt ou interação foi criado na 27A; a luz órfã do corredor removido também foi apagada.
+- Automático após ajuste fino: build 0 erros/0 avisos; cena oficial headless; F9 0 ERROR/0 WARNING; deck 49/49.
+- Manual pendente: conferir alinhamento, ausência de clipping/flutuação e leitura interna/externa nos seis pontos marcados.
+
+## Sprint 27 — Janelas falsas, frestas e leitura visual
+
+- Container exclusivo: `World/VisualPolish/Sprint27_FakeWindowsLighting`.
+- Janelas internas remanescentes: lateral oeste da recepção, parede alta do fundo da escada, lateral leste do corredor superior e parede interna do Quarto 203.
+- A janela do 203 recebeu duas tábuas visuais; a recepção recebeu cortina parcial; todas continuam sobre paredes sólidas existentes.
+- Frestas no piso: recepção, corredor superior e 203, com offset vertical mínimo para evitar z-fighting.
+- Luzes locais: quatro `SpotLight3D` azul-acinzentadas, energia `0,08–0,16`, alcance `2,4–3,8 m`, sem sombras dinâmicas.
+- Detalhes: três manchas de umidade, dois panos pendurados e duas sombras discretas de grade.
+- Não foram criados `StaticBody3D`, `CollisionShape3D`, `Area3D`, navegação, interação ou física no art pass.
+- Nenhuma parede foi cortada/removida e nenhuma colisão estrutural, piso, teto, porta, escada, corrimão ou deck foi alterado.
+- Automático após 27A: build 0 erros/0 avisos; cena oficial headless; F9 0 ERROR/0 WARNING; deck 49/49; verificação confirma 18 janelas totais e zero nós físicos.
+- Manual pendente: recepção, corredor, escada, ala superior, 203, banheiro, rouparia, sala técnica e varanda; conferir luz, z-fighting, lanterna e regressão completa.
+
 ## Sprint 26 — Eventos dinâmicos de terror ambiental
 
 - `AmbientHorrorDirector` criado sob `World/Gameplay/AmbientHorror`.

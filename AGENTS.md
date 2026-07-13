@@ -1,3 +1,11 @@
+## REGRA CRÍTICA — SPRINT 27A
+
+Esta expansão adiciona somente janelas falsas nas faces externas da pensão. É proibido criar vãos reais, remover/reposicionar paredes ou salas, alterar colisão, piso, teto, varanda, escada, navegação, puzzle, triggers ou gameplay. Toda janela externa deve permanecer visual, encostada em uma parede ou shell de fachada existente, sem flutuar, duplicar, piscar ou atravessar piso/teto.
+
+## REGRA CRÍTICA — SPRINT 27
+
+Esta sprint é exclusivamente visual. Janelas devem ser falsas e aplicadas sobre paredes existentes, sem abrir vão, cortar, remover ou reconstruir parede. É proibido alterar piso, teto, varanda, escada, portas físicas, navegação ou colisão estrutural. Frestas, luzes, cortinas, sombras e detalhes decorativos não podem bloquear o player e devem permanecer sem colisão por padrão. Todo art pass deve preservar integralmente puzzle, IA, perseguições, esconderijos e eventos ambientais já validados.
+
 ## REGRA CRÍTICA — SPRINT 26
 
 Esta sprint é somente de eventos ambientais. É proibido alterar geometria aprovada, criar paredes, pisos, cômodos, colliders estruturais ou portas físicas novas. Eventos ambientais devem usar triggers pequenos e localizados, timers, áudio, luz e objetos visuais não bloqueantes. Nenhum evento ambiental pode prender, teleportar, empurrar ou matar o player, iniciar durante perseguição ou esconderijo, nem quebrar puzzle, perseguição, safe zone ou IA. Todo visual ambiental deve ser sem colisão por padrão.

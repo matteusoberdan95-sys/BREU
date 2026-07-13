@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/Sprint27FakeWindowsLighting.cs" id="1_visual"]
+
+[node name="Sprint27_FakeWindowsLighting" type="Node3D" groups=["sprint27_visual_polish"]]
+script = ExtResource("1_visual")
+
+[node name="FakeWindows" type="Node3D" parent="."]
+
+[node name="LightLeaks" type="Node3D" parent="."]
+
+[node name="LocalLights" type="Node3D" parent="."]
+
+[node name="WallDetails" type="Node3D" parent="."]
+
+[node name="CurtainsAndCloth" type="Node3D" parent="."]
+
+[node name="DebugMarkers" type="Node" parent="."]

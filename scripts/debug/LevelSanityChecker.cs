@@ -77,6 +77,7 @@ public partial class LevelSanityChecker : Node
         CheckRoom203Closure(scene);
         CheckStairAndTransitionHotfix(scene);
         CheckAmbientHorrorSystem(scene);
+        CheckSprint27VisualPolish(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -667,6 +668,104 @@ public partial class LevelSanityChecker : Node
             Error("AmbientVisuals contains collision; Sprint 26 visuals must be non-blocking");
         else
             Ok("Sprint 26 ambient tree has six localized triggers and no physical blockers");
+    }
+
+    private void CheckSprint27VisualPolish(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/VisualPolish/Sprint27_FakeWindowsLighting");
+        if (root == null)
+        {
+            Error("Sprint 27 visual polish container missing");
+            return;
+        }
+
+        var required = new[] { "FakeWindows", "LightLeaks", "LocalLights", "WallDetails", "CurtainsAndCloth", "DebugMarkers" };
+        foreach (var name in required)
+            if (root.GetNodeOrNull<Node>(name) == null) Error($"Sprint 27 container missing: {name}");
+
+        var forbiddenPhysics = Enumerate(root)
+            .Where(node => node is CollisionObject3D or CollisionShape3D or NavigationRegion3D)
+            .ToArray();
+        foreach (var node in forbiddenPhysics)
+            Error($"Sprint 27 visual-only tree contains physics/navigation: {node.GetPath()}");
+
+        var windows = root.GetNodeOrNull<Node3D>("FakeWindows")?.GetChildren().OfType<Node3D>().ToArray()
+            ?? Array.Empty<Node3D>();
+        if (windows.Length != 18) Error($"Sprint 27/27A fine adjustment expected 18 fake windows, found {windows.Length}");
+        var exteriorWindows = windows.Count(window => window.Name.ToString().StartsWith("Facade", StringComparison.Ordinal));
+        if (exteriorWindows != 14) Error($"Sprint 27A fine adjustment expected 14 exterior facade windows, found {exteriorWindows}");
+        if (windows.Select(window => window.Name.ToString()).Distinct(StringComparer.Ordinal).Count() != windows.Length)
+            Error("Sprint 27 contains duplicate fake-window names");
+        var removedWindowNames = new[]
+        {
+            "FakeWindow_GroundCorridorWest",
+            "FacadeGround_ReceptionWest",
+            "FacadeGround_ReceptionEast",
+            "FacadeGround_Room102Back",
+            "FacadeGround_KitchenBack",
+            "FacadeUpper_Room201Back",
+            "FacadeUpper_Room202Back",
+            "FacadeUpper_BackWallWest",
+            "FacadeUpper_BackWallEast"
+        };
+        foreach (var removedName in removedWindowNames)
+        {
+            if (windows.Any(window => window.Name == removedName))
+                Error($"Sprint 27A removed window returned: {removedName}");
+        }
+        var requiredAdjustedWindows = new[]
+        {
+            "FacadeGround_Room102WestInterior",
+            "FacadeGround_KitchenEastInterior",
+            "FacadeUpper_WestWallPairSouth",
+            "FacadeUpper_WestWallPairNorth",
+            "FacadeUpper_Room201WestInterior",
+            "FacadeUpper_Room202EastInterior"
+        };
+        foreach (var requiredName in requiredAdjustedWindows)
+        {
+            if (!windows.Any(window => window.Name == requiredName))
+                Error($"Sprint 27A adjusted window missing: {requiredName}");
+        }
+        foreach (var window in windows)
+        {
+            if (window.GetNodeOrNull<Node3D>("Frame_Visual") == null ||
+                window.GetNodeOrNull<MeshInstance3D>("DarkGlass_Visual") == null)
+                Error($"fake window missing visual frame/glass: {window.GetPath()}");
+
+            if (window.HasMeta("visual_backing_only") && window.GetMeta("visual_backing_only").AsBool())
+            {
+                var shellName = window.GlobalPosition.X < 0f
+                    ? "Shell_FacadeUpper_FrontLeft"
+                    : "Shell_FacadeUpper_FrontRight";
+                if (scene.FindChild(shellName, recursive: true, owned: false) == null)
+                    Error($"facade window lost its authored visual shell: {window.GetPath()}");
+            }
+            else
+            {
+                var query = PhysicsRayQueryParameters3D.Create(
+                    window.GlobalPosition - window.GlobalBasis.Z * 0.55f,
+                    window.GlobalPosition + window.GlobalBasis.Z * 0.55f,
+                    collisionMask: 1);
+                query.CollideWithAreas = false;
+                var hit = GetViewport().World3D.DirectSpaceState.IntersectRay(query);
+                if (hit.Count == 0)
+                    Error($"fake window is not backed by an existing solid wall: {window.GetPath()}");
+            }
+        }
+
+        var lights = root.GetNodeOrNull<Node3D>("LocalLights")?.GetChildren().OfType<Light3D>().ToArray()
+            ?? Array.Empty<Light3D>();
+        if (lights.Length > 5) Error($"Sprint 27 has too many local lights: {lights.Length}");
+        foreach (var light in lights)
+        {
+            if (light.LightEnergy > 0.2f) Error($"Sprint 27 local light too bright: {light.GetPath()} energy={light.LightEnergy:0.00}");
+            if (light is SpotLight3D spot && spot.SpotRange > 4f)
+                Error($"Sprint 27 local light range too large: {light.GetPath()} range={spot.SpotRange:0.00}");
+        }
+
+        if (forbiddenPhysics.Length == 0 && windows.Length == 18 && exteriorWindows == 14 && lights.Length <= 5)
+            Ok("Sprint 27/27A fine adjustment has 4 interior + 14 exterior fake windows and zero collision/navigation nodes");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)

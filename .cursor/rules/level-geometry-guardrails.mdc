@@ -7,6 +7,22 @@ globs:
 alwaysApply: true
 ---
 
+## Sprint 27A — expansão externa de janelas falsas
+
+- Novas janelas desta expansão devem ocupar somente faces externas já existentes.
+- Não abrir vão, cortar parede, mover sala, duplicar shell ou criar colisão para janela.
+- Cada janela deve estar apoiada em parede/shell de fachada comprovado e não atravessar piso ou teto.
+- Distribuição precisa respeitar cômodos e leitura dos dois andares; evitar objetos aleatórios, flutuantes ou duplicados.
+- Fachada, varanda e entrada devem continuar coerentes e totalmente navegáveis.
+
+## Sprint 27 — janelas falsas e leitura visual
+
+- Janelas visuais permanecem falsas até uma sprint dedicada de modelagem; não cortar, remover ou reconstruir parede.
+- Art pass não pode alterar piso, teto, varanda, escada, porta física, navegação ou colisão estrutural.
+- Elementos decorativos, cortinas, frestas, sombras e vidros não possuem colisão por padrão.
+- Frestas e luzes devem ser fracas, locais, isoladas por andar e não podem alterar navegação ou substituir a lanterna.
+- Todo conteúdo da sprint deve permanecer agrupado em `World/VisualPolish/Sprint27_FakeWindowsLighting` e preservar o gameplay validado.
+
 ## Sprint 26 — eventos ambientais
 
 - Evento ambiental não pode alterar geometria aprovada nem criar colisão estrutural.
