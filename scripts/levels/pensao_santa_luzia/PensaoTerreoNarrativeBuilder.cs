@@ -142,15 +142,8 @@ public partial class PensaoTerreoBlockout01Builder
 
     private void BuildStairNarrativeProps(Node3D parent)
     {
-        var stair = new Node3D { Name = "StairProps" };
-        parent.AddChild(stair);
-
-        AddVisualProp(
-            stair,
-            "Stair_Handrail_Visual",
-            new Vector3(-5.0f, 1.0f, -28.0f),
-            new Vector3(0.08f, 0.08f, 3.6f),
-            _matStairRail);
+        // The old fixed-height Stair_Handrail_Visual crossed through the treads.
+        // StairRampAssembly now owns both complete sloped handrails.
     }
 
     private void BuildGroundFloorNarrativeInteractions()

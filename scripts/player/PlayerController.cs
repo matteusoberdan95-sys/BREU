@@ -14,6 +14,7 @@ public partial class PlayerController : CharacterBody3D
     [Export] public float AirControl { get; set; } = 0.35f;
     [Export] public float Gravity { get; set; } = 9.8f;
     [Export] public float JumpVelocity { get; set; } = 4.2f;
+    [Export] public float FloorSnapDistance { get; set; } = 0.5f;
     [Export] public float JumpStaminaCost { get; set; } = 15.0f;
     [Export] public float SprintStaminaDrainPerSecond { get; set; } = 18.0f;
     [Export] public bool CanJump { get; set; } = true;
@@ -41,7 +42,11 @@ public partial class PlayerController : CharacterBody3D
         AddToGroup("player");
         _stamina = GetNodeOrNull<PlayerStamina>(StaminaPath);
         _crouch = GetNodeOrNull<PlayerCrouch>(CrouchPath);
-        FloorSnapLength = 0.1f;
+        // Keep the capsule attached to authored stair ramps while descending.
+        // The previous 0.1 m snap was shorter than the per-frame drop at sprint
+        // speed, causing repeated airborne/landing cycles and downhill launches.
+        FloorSnapLength = FloorSnapDistance;
+        FloorConstantSpeed = true;
         FloorMaxAngle = Mathf.DegToRad(46.0f);
         SafeMargin = 0.08f;
         _wasOnFloor = IsOnFloor();

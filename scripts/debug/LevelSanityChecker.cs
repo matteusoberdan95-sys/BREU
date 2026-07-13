@@ -576,6 +576,30 @@ public partial class LevelSanityChecker : Node
             }
         }
 
+        if (scene.FindChild("Stair_Handrail_Visual", recursive: true, owned: false) != null)
+        {
+            Error("legacy fixed-height Stair_Handrail_Visual still crosses the stair treads");
+            clean = false;
+        }
+
+        var player = scene.FindChild("Player", recursive: true, owned: false) as CharacterBody3D;
+        if (player == null || player.FloorSnapLength < 0.49f || !player.FloorConstantSpeed)
+        {
+            Error("player stair descent adhesion is disabled or below the approved snap distance");
+            clean = false;
+        }
+
+        var corridorEndWall = scene.FindChild("Wall_Corr_North_Mid", recursive: true, owned: false);
+        var endWallMesh = corridorEndWall?.GetNodeOrNull<MeshInstance3D>("MeshInstance3D")?.Mesh as BoxMesh;
+        var endWallShape = corridorEndWall?
+            .GetNodeOrNull<CollisionShape3D>("StaticBody3D/CollisionShape3D")?.Shape as BoxShape3D;
+        if (corridorEndWall == null || endWallMesh == null || endWallShape == null ||
+            endWallMesh.Size.X < 1.59f || !endWallMesh.Size.IsEqualApprox(endWallShape.Size))
+        {
+            Error("upper corridor end wall is not fully closed with matching visual/collision width");
+            clean = false;
+        }
+
         var soffit = scene.FindChild("Ceiling_FirstFloor_TransitionFront", recursive: true, owned: false);
         if (soffit == null)
         {
@@ -602,7 +626,7 @@ public partial class LevelSanityChecker : Node
             clean &= hasMesh && !hasBody && flushWithMasterSlab;
         }
 
-        if (clean) Ok("stair plates absent, paired handrails valid, and front slab continuation flush");
+        if (clean) Ok("stair residue absent, paired handrails valid, corridor end closed, and front slab flush");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)

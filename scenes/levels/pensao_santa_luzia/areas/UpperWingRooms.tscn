@@ -37,9 +37,9 @@ size = Vector3(0.32, 2.8, 2.2)
 [sub_resource type="BoxShape3D" id="Shape3"]
 size = Vector3(0.32, 2.8, 2.2)
 [sub_resource type="BoxMesh" id="Mesh4"]
-size = Vector3(0.55, 2.8, 0.32)
+size = Vector3(1.6, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape4"]
-size = Vector3(0.55, 2.8, 0.32)
+size = Vector3(1.6, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh5"]
 size = Vector3(0.32, 2.8, 3.4)
 [sub_resource type="BoxShape3D" id="Shape5"]
