@@ -108,3 +108,11 @@ Item nunca em corredor bugado; painel nunca atrás de parede; parede visual aces
 ## Regra anti-acúmulo
 
 Antes de nova versão, remover geometria, colliders, prompts, builders e nodes duplicados antigos. Não esconder lixo; remover lixo.
+
+## Hotfix visual localizado
+
+- Nunca corrigir resíduo visual removendo uma parede válida.
+- Antes de apagar uma parede, provar se ela é estrutural, duplicada ou residual.
+- Toda geometria que corte um piso deve ser auditada pela origem e pelo AABB vertical.
+- Peça residual deve ser removida ou reposicionada sem alterar o layout jogável.
+- Parede inferior que invada a laje superior deve ter somente o topo rebaixado, preservando base e footprint.

@@ -969,6 +969,18 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
     /// <summary>Sprint 14B — locked door on Z-facing wall: opaque panel + world collision + local interact area.</summary>
     protected void AddSolid(Node3D parent, string name, Vector3 center, Vector3 size, StandardMaterial3D material, uint layer)
     {
+        // Sprint 19H: legacy ground-floor walls were 3.0 m tall with their top at
+        // Y=2.95, visibly and physically piercing the approved upper floor at Y=2.80.
+        // Preserve their footprint and bottom; cap only these lower-storey wall solids
+        // five centimetres below the upper slab so no bright strip reaches upstairs.
+        if (center.Y < 1.6f && size.Y >= 2.9f)
+        {
+            var bottom = center.Y - size.Y * 0.5f;
+            const float cappedTop = 2.75f;
+            size.Y = cappedTop - bottom;
+            center.Y = bottom + size.Y * 0.5f;
+        }
+
         var body = new StaticBody3D
         {
             Name = name,

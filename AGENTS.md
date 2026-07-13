@@ -198,3 +198,10 @@ Antes de criar uma nova versão, remover versão, colliders, prompts, builders e
 ## Teste obrigatório
 
 Toda alteração de cenário exige F6. Todo piso novo deve ser atravessado de ponta a ponta para frente, trás, esquerda, direita, diagonais e ida/volta. Se cair, a task falhou.
+
+## Regra de hotfix visual cirúrgico
+
+- Priorizar ajuste fino ou remoção localizada.
+- Proibido fazer cleanup destrutivo para esconder resíduos visuais.
+- Proibido apagar parede estrutural sem provar que o node é duplicado ou residual.
+- Parede inferior atravessando o piso superior: rebaixar somente o topo e preservar o footprint.

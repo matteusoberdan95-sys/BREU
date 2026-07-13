@@ -154,3 +154,9 @@ Se o player for jogado para cima, a task falhou. Use F8 (PlayerAreaProbe) e F9 (
 - [ ] F8 no térreo sem Area3D superior sobreposta.
 - [ ] F9 sem ERROR de isolamento / boundary.
 - [ ] Nenhum BalconyWallCollider / BalconyBoundary no meio da varanda.
+
+## Hotfix visual cirúrgico
+
+- Ajustar ou remover somente o node ofensor identificado por origem.
+- Nunca apagar parede estrutural para limpar faixa, trim ou invasão visual.
+- Geometria inferior cortando o piso superior deve ter o topo rebaixado sem mudar seu footprint.

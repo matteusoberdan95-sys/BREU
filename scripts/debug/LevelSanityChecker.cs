@@ -66,6 +66,7 @@ public partial class LevelSanityChecker : Node
         CheckInteractAreas(scene);
         CheckFloorCollisions(scene);
         CheckSecondFloorInvasion(scene);
+        CheckGroundWallTops(scene);
         CheckReceptionCeiling(scene);
         CheckManualWingOwnership(scene);
         CheckBalconyBoundaryRollback(scene);
@@ -115,6 +116,22 @@ public partial class LevelSanityChecker : Node
             Error("Room 203 is not closed by a matching visual wall/collider");
         else
             Ok("Room 203 side opening closed by authored wall");
+    }
+
+    private void CheckGroundWallTops(Node scene)
+    {
+        var ground = scene.GetNodeOrNull<Node3D>("PensionGroundFloor");
+        if (ground == null) return;
+        var offenders = 0;
+        foreach (var body in Enumerate(ground).OfType<StaticBody3D>())
+        {
+            var shape = body.GetNodeOrNull<CollisionShape3D>("CollisionShape3D")?.Shape as BoxShape3D
+                ?? body.GetChildren().OfType<CollisionShape3D>().Select(node => node.Shape).OfType<BoxShape3D>().FirstOrDefault();
+            if (shape == null || shape.Size.Y < 2.5f) continue;
+            var top = body.GlobalPosition.Y + shape.Size.Y * 0.5f;
+            if (top > 2.8f) { offenders++; Error($"ground-floor wall pierces upper floor: {body.GetPath()} topY={top:0.00}"); }
+        }
+        if (offenders == 0) Ok("ground-floor wall tops remain below upper-floor slab");
     }
 
     private void CheckForbiddenSetups(Node scene)
