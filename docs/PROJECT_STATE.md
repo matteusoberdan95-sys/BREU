@@ -1,5 +1,15 @@
 # BREU — Estado do projeto
 
+## Sprint 28 — art pass leve dos cômodos
+
+Foi criado o contêiner isolado `World/VisualPolish/Sprint28_LightArtPass`, dividido por recepção, cozinha, banheiro, sala técnica, quartos superiores, Quarto 203, corredores, manchas e panos/cortinas. Depois da revisão completa do vídeo e dos prints de playtest, o passe foi recomposto em escala maior: entrada com banco/bagagem/tapete, banheiro mais ocupado, metade leste do Quarto 204 mobiliada, escritório com arquivo lateral e sala técnica com bancada, armários, gerador e tubulação. Os dois quadros vistos de perfil, a prateleira atravessada, o banco/baú sobre o vão da escada e o conjunto apertado do escritório foram removidos pela origem.
+
+O salão de chegada superior agora ocupa exclusivamente o `UpperLanding_Main` comprovado (`X -4,75..0,65`, `Z -22,60..-19,40`): tapete, sofá na borda norte, relógio de chão no canto sólido, oratório, retrato, castiçais e lustre visual. Uma passadeira e duas luminárias apenas visuais dão continuidade ao corredor. O eixo diagonal da saída da escada até a boca do corredor permanece vazio de móveis.
+
+Nenhum `StaticBody3D`, `CollisionShape3D`, `Area3D`, corpo rígido, navegação, trigger ou luz nova foi criado. A única exceção autorizada foi mover o `TechnicalPanel` existente, junto da sua `InteractionArea` original, para a parede leste da mesma sala: isso libera visualmente a porta 205 sem alterar scripts, modos, estados ou regras do puzzle. Pisos, paredes, teto, portas, escada, deck/varanda, IA, perseguições, esconderijos e eventos permanecem inalterados.
+
+Validação automática após a correção dos prints: cena oficial headless carregada, F9 `0 ERROR / 0 WARNING`, deck `49/49`, 38 paredes superiores com colisores locais pareados, árvore Sprint 28 com 213 meshes visuais/zero nós físicos e painel técnico isolado da porta 205 por `11,00 m`. A inspeção manual completa ainda precisa ser aprovada antes do commit final `feat: add light art pass to pension rooms`.
+
 ## Hotfix de fechamento — escada e forro frontal
 
 As placas diagonais superdimensionadas `Stair_Stringer_Left/Right`, os guias residuais anteriores e o adereço legado de altura fixa `Stair_Handrail_Visual` foram removidos somente da escada da pensão. Permanecem os dois corrimãos antigos inclinados aprovados, cada um com cinco postes, barra superior e travessa intermediária, sempre com mesh e `BoxShape3D` pareados fora da faixa central da rampa. Degraus e rampa física permanecem intactos. A continuação visual `Ceiling_FirstFloor_TransitionFront` fecha a faixa entre a borda frontal da laje e a fachada com o mesmo perfil vertical de 0,6 m e a mesma cor da `SecondFloor_MasterSlab`, sem ficar pendurada abaixo do teto e sem adicionar collider ao deck congelado. O fechamento `Wall_Corr_North_Mid`, em `Z positivo`, passou de 0,55 m para 1,60 m, fechando exatamente a largura do corredor com mesh e collider pareados; as portas laterais do escritório e do Quarto 205 permanecem livres. A porta verde oficial da varanda continua no lado oposto, em `Z -7,55`. Nenhum sistema de gameplay, perseguição, puzzle, porta ou varanda foi alterado.

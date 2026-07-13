@@ -1,5 +1,32 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Sprint 28 — Art pass leve dos cômodos
+
+- [ ] Recepção: caixa registradora, papéis, pano e detalhe de parede aparecem sem bloquear balcão, chaveiro ou esconderijo.
+- [ ] Entrada: banco, bagagens, guarda-chuvas, quadros e passadeira ocupam o vazio sem estreitar a rota principal.
+- [ ] Cozinha: panelas, balde, prateleira e pano aparecem sem cobrir os prompts do fogão/armário.
+- [ ] Banheiro: ralo está mais legível e continua interagível; banheira, vaso, prateleira, espelho, balde, pano e cano deixam o centro livre.
+- [ ] Sala técnica: painel está na parede leste, prompt e dois estágios de fusível funcionam; porta 205 fica livre e legível.
+- [ ] Quarto 201: colchão, mala, papel, quadro e cortina não bloqueiam entrada nem interação.
+- [ ] Quarto 202: caixa, objeto coberto e quadro preservam cadeira, armário e rota livre.
+- [ ] Quarto 203: papéis, símbolo e cortina não cobrem a página, a cama, a porta ou o evento.
+- [ ] Quarto 204: cama, armário, cadeira, baú e tapete ocupam a metade leste sem bloquear a entrada nem a travessia.
+- [ ] Escritório: arquivo estreito permanece encostado na parede oeste; tapete e livros não cobrem o registro interagível nem se sobrepõem à mobília autorada.
+- [ ] Corredor térreo: não existem mais quadro/travessa de perfil nem prateleira atravessando a passagem.
+- [ ] Salão superior: tapete, sofá, relógio, oratório, retrato, castiçais e lustre estão apoiados em piso/parede/teto, sem móvel sobre o vão.
+- [ ] Salão superior: caminhar da saída da escada até o corredor pela diagonal sem atravessar ou encostar em móvel visual.
+- [ ] Corredor superior: passadeira e luminárias visuais ocupam o vazio sem estreitar a rota da IA/perseguição.
+- [ ] Varanda/ala superior: somente marcas e pano visual; deck, bordas e circulação permanecem exatamente iguais.
+- [ ] Lanterna revela os materiais sem z-fighting, flicker visual ou objetos flutuando.
+- [ ] Puzzle completo do ralo/painel/fusíveis/203 continua funcionando.
+- [ ] Primeira e segunda perseguições, IA, safe zone e guarda-roupas continuam funcionando.
+- [ ] F6: caminhar/correr/agachar por todos os setores; frente, trás, laterais, diagonais e ida/volta.
+- [ ] Voltar ao térreo após visitar a ala superior não causa teleporte ou trigger entre andares.
+
+Validação automática após os prints: [x] cena oficial headless [x] F9 0 ERROR/0 WARNING [x] deck 49/49 [x] 38 paredes superiores pareadas [x] árvore Sprint 28 com 213 meshes e sem física/navegação/gameplay [x] ofensores visuais antigos ausentes [x] composição nova dentro do footprint do `UpperLanding_Main` [x] painel na parede leste com 11,00 m de separação da porta 205.
+
+Não criar o commit final da Sprint 28 até todos os itens manuais acima serem aprovados.
+
 ## Sprint 27A — Expansão externa e ajuste fino de janelas falsas
 
 - 14 janelas externas permanecem no mesmo container visual da Sprint 27; nenhuma cena oficial paralela foi criada.

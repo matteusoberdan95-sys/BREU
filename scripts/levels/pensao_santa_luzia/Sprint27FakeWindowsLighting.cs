@@ -41,7 +41,7 @@ public partial class Sprint27FakeWindowsLighting : Node3D
         AddFakeWindow(windows, "FacadeUpper_Room202EastInterior", new Vector3(6.78f, 4.2f, -17f), -Mathf.Pi * 0.5f, boarded: true);
         // Both windows belong together on the broad west-wall panel north of the
         // stair-side opening. Keep the smaller south panel completely empty.
-        AddDeepWestWindow(windows, "FacadeUpper_WestWallPairSouth", -6.86f, -26.2f);
+        AddDeepWestWindow(windows, "FacadeUpper_WestWallPairSouth", -6.86f, -26.2f, curtain: true);
         AddDeepWestWindow(windows, "FacadeUpper_WestWallPairNorth", -6.86f, -29.0f, curtain: true);
 
         AddFakeWindow(windows, "FacadeUpper_Room204East", new Vector3(14.38f, 4.2f, -0.4f), -Mathf.Pi * 0.5f, curtain: true);
@@ -124,7 +124,9 @@ public partial class Sprint27FakeWindowsLighting : Node3D
         {
             var curtainVisual = new Node3D { Name = "Optional_Curtain_Visual", Position = new Vector3(0f, 0f, frontZ + 0.05f) };
             root.AddChild(curtainVisual);
-            AddBox(curtainVisual, "Curtain_Left", new Vector3(-width * 0.28f, 0.02f, 0f), new Vector3(width * 0.38f, height * 0.94f, 0.02f), _cloth, new Vector3(0f, 0f, -0.045f));
+            AddBox(curtainVisual, "Curtain_Left", new Vector3(-width * 0.31f, 0.02f, 0f), new Vector3(width * 0.32f, height * 0.98f, 0.02f), _cloth, new Vector3(0f, 0f, -0.055f));
+            AddBox(curtainVisual, "Curtain_Right", new Vector3(width * 0.31f, 0.02f, 0f), new Vector3(width * 0.32f, height * 0.98f, 0.02f), _cloth, new Vector3(0f, 0f, 0.055f));
+            AddBox(curtainVisual, "Curtain_Rod", new Vector3(0f, height * 0.58f, -0.02f), new Vector3(width + 0.28f, 0.045f, 0.045f), _wood);
         }
         AddBox(root, "Optional_LightLeak", new Vector3(width * 0.33f, 0f, frontZ + 0.025f), new Vector3(0.02f, height * 0.78f, 0.018f), _coldLeak);
     }

@@ -1113,7 +1113,8 @@ script = ExtResource("7_wire")
 Mode = 0
 
 [node name="TechnicalPanel" type="Node3D" parent="TechnicalRoom" groups=["interactable"]]
-position = Vector3(3.2, 3.95, 5.38)
+position = Vector3(13.96, 3.95, 3.7)
+rotation = Vector3(0, 1.570796, 0)
 [node name="PanelVisual" type="MeshInstance3D" parent="TechnicalRoom/TechnicalPanel"]
 mesh = SubResource("TechnicalPanelMesh")
 material_override = SubResource("MatStain")

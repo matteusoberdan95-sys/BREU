@@ -1,3 +1,9 @@
+## REGRA CRÍTICA — SPRINT 28
+
+Esta sprint é somente um art pass visual leve. É proibido alterar geometria, colisão, navegação, portas, pisos, teto, varanda, escada, puzzle, IA, perseguições, esconderijos, triggers ou prompts. Todo conteúdo deve ficar em `World/VisualPolish/Sprint28_LightArtPass`, sem `StaticBody3D`, `CollisionShape3D`, `Area3D`, `RigidBody3D` ou bloqueio de circulação. Não esconder o ralo, painel técnico, fusíveis ou bilhete do Quarto 203. Commit final somente após F9 limpo e playtest manual.
+
+Exceção cirúrgica autorizada após a revisão em vídeo: o `TechnicalPanel` existente pode ser reposicionado inteiro para a parede leste da própria sala técnica, preservando o mesmo script, modo, `InteractionArea`, puzzle e acesso. A porta 205 deve permanecer visualmente livre; nenhuma outra porta, interação ou geometria pode ser alterada por essa exceção.
+
 ## REGRA CRÍTICA — SPRINT 27A
 
 Esta expansão adiciona somente janelas falsas nas faces externas da pensão. É proibido criar vãos reais, remover/reposicionar paredes ou salas, alterar colisão, piso, teto, varanda, escada, navegação, puzzle, triggers ou gameplay. Toda janela externa deve permanecer visual, encostada em uma parede ou shell de fachada existente, sem flutuar, duplicar, piscar ou atravessar piso/teto.

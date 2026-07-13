@@ -78,6 +78,7 @@ public partial class LevelSanityChecker : Node
         CheckStairAndTransitionHotfix(scene);
         CheckAmbientHorrorSystem(scene);
         CheckSprint27VisualPolish(scene);
+        CheckSprint28LightArtPass(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -766,6 +767,102 @@ public partial class LevelSanityChecker : Node
 
         if (forbiddenPhysics.Length == 0 && windows.Length == 18 && exteriorWindows == 14 && lights.Length <= 5)
             Ok("Sprint 27/27A fine adjustment has 4 interior + 14 exterior fake windows and zero collision/navigation nodes");
+    }
+
+    private void CheckSprint28LightArtPass(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/VisualPolish/Sprint28_LightArtPass");
+        if (root == null)
+        {
+            Error("Sprint 28 light art pass container missing");
+            return;
+        }
+
+        var required = new[]
+        {
+            "Reception_Props", "Kitchen_Props", "Bathroom_Props", "TechnicalRoom_Props",
+            "UpperRooms_Props", "Room203_Props", "Corridor_Props", "Decals_Stains", "Cloths_Curtains"
+        };
+        foreach (var name in required)
+        {
+            var container = root.GetNodeOrNull<Node3D>(name);
+            if (container == null) Error($"Sprint 28 container missing: {name}");
+            else if (container.GetChildCount() == 0) Error($"Sprint 28 container is empty: {name}");
+        }
+
+        var removedVideoReviewOffenders = new[]
+        {
+            "GroundCorridor_CoatRail", "GroundHall_CrookedPicture", "UpperHall_CrookedPicture",
+            "BackHall_NarrowShelf", "UpperLanding_Bench", "UpperLanding_Trunk",
+            "UpperLanding_FamilyPortrait", "Office_ArchiveShelf", "Office_FilingCabinet",
+            "Office_VisitorChair", "Office_LedgerStack", "Office_WestArchive",
+            "Bathroom_WallShelf", "UpperArrival_Oratory", "UpperArrival_GrandfatherClock"
+        };
+        foreach (var name in removedVideoReviewOffenders)
+            if (root.FindChild(name, recursive: true, owned: false) != null)
+                Error($"Sprint 28 video-review offender still active: {name}");
+
+        var upperArrivalRequired = new[]
+        {
+            "UpperArrival_Rug", "UpperArrival_Settee",
+            "UpperArrival_FamilyPortrait", "UpperArrival_Chandelier",
+            "UpperEastLounge_Rug", "UpperEastLounge_FloorOratory",
+            "UpperEastLounge_GrandfatherClock", "UpperEastLounge_Settee",
+            "UpperEastLounge_SideTable", "UpperEastLounge_TravelTrunk",
+            "UpperEastLounge_ArmchairNorth", "UpperEastLounge_ArmchairSouth",
+            "UpperEastLounge_CardTable", "UpperEastLounge_NorthCabinet",
+            "Upper203Opposite_ReadingChair", "Upper203Opposite_Luggage",
+            "UpperCorridor_Runner", "Office_NorthLowCabinet"
+        };
+        foreach (var name in upperArrivalRequired)
+            if (root.FindChild(name, recursive: true, owned: false) == null)
+                Error($"Sprint 28 corrected upper-arrival composition missing: {name}");
+
+        var landingOnly = new[]
+        {
+            "UpperArrival_Rug", "UpperArrival_Settee",
+            "UpperArrival_FamilyPortrait", "UpperArrival_Chandelier"
+        };
+        foreach (var name in landingOnly)
+        {
+            if (root.FindChild(name, recursive: true, owned: false) is not Node3D prop) continue;
+            var p = prop.GlobalPosition;
+            if (p.X < -4.75f || p.X > 0.65f || p.Z < -22.6f || p.Z > -19.4f)
+                Error($"upper-arrival prop is outside UpperLanding_Main footprint: {name} at {p}");
+        }
+
+        var forbidden = Enumerate(root)
+            .Where(node => node is CollisionObject3D or CollisionShape3D or NavigationRegion3D or Joint3D)
+            .ToArray();
+        foreach (var node in forbidden)
+            Error($"Sprint 28 visual-only tree contains physics/navigation: {node.GetPath()}");
+
+        var nonVisual = Enumerate(root)
+            .Where(node => node != root && node is not Node3D && node is not MeshInstance3D)
+            .ToArray();
+        foreach (var node in nonVisual)
+            Error($"Sprint 28 contains unexpected non-visual node: {node.GetPath()}");
+
+        var meshes = Enumerate(root).OfType<MeshInstance3D>().ToArray();
+        if (meshes.Length < 120) Error($"Sprint 28 video-review art pass is unexpectedly sparse: {meshes.Length} meshes");
+
+        var panel = scene.FindChild("TechnicalPanel", recursive: true, owned: false) as Node3D;
+        var room205Door = scene.FindChild("Door_Room205_Locked", recursive: true, owned: false) as Node3D;
+        if (panel == null || room205Door == null)
+            Error("technical panel / Room 205 door missing after Sprint 28 video-review correction");
+        else
+        {
+            var separation = panel.GlobalPosition.DistanceTo(room205Door.GlobalPosition);
+            if (panel.GlobalPosition.X < 13.5f || separation < 4f)
+                Error($"technical panel still conflicts with Room 205 door: x={panel.GlobalPosition.X:0.00}, separation={separation:0.00}m");
+            else if (panel.GetNodeOrNull<Area3D>("InteractionArea") == null)
+                Error("technical panel lost its original InteractionArea while being repositioned");
+            else
+                Ok($"technical panel isolated on east wall; Room 205 door clearance {separation:0.00}m");
+        }
+
+        if (forbidden.Length == 0 && nonVisual.Length == 0 && meshes.Length >= 120)
+            Ok($"Sprint 28 art pass isolated: {meshes.Length} visual meshes, zero collision/navigation/gameplay nodes");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)

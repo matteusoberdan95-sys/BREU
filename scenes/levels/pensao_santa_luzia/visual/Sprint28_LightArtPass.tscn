@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/Sprint28LightArtPass.cs" id="1_art"]
+
+[node name="Sprint28_LightArtPass" type="Node3D" groups=["sprint28_visual_polish"]]
+script = ExtResource("1_art")
+
+[node name="Reception_Props" type="Node3D" parent="."]
+
+[node name="Kitchen_Props" type="Node3D" parent="."]
+
+[node name="Bathroom_Props" type="Node3D" parent="."]
+
+[node name="TechnicalRoom_Props" type="Node3D" parent="."]
+
+[node name="UpperRooms_Props" type="Node3D" parent="."]
+
+[node name="Room203_Props" type="Node3D" parent="."]
+
+[node name="Corridor_Props" type="Node3D" parent="."]
+
+[node name="Decals_Stains" type="Node3D" parent="."]
+
+[node name="Cloths_Curtains" type="Node3D" parent="."]

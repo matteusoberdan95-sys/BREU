@@ -7,6 +7,16 @@ globs:
 alwaysApply: true
 ---
 
+## Sprint 28 — art pass leve dos cômodos
+
+- Todo conteúdo novo fica em `World/VisualPolish/Sprint28_LightArtPass` e é visual-only.
+- É proibido alterar parede, piso, teto, porta, escada, varanda, deck, collider, navegação, trigger, prompt, puzzle, IA ou perseguição.
+- Props pequenos, papéis, manchas, panos, cabos e quadros não possuem colisão.
+- Nenhum adereço pode cobrir o ralo, painel técnico, fusíveis, bilhete do 203 ou qualquer prompt.
+- Nenhum adereço pode estreitar corredor, porta, escada, rota de fuga ou esconderijo.
+- A sprint só pode receber commit final após F9 limpo e playtest manual completo.
+- Exceção autorizada pela revisão em vídeo: reposicionar o `TechnicalPanel` existente, com sua árvore de interação intacta, para a parede leste da mesma sala a fim de liberar a porta 205. Não alterar a lógica do puzzle nem qualquer outra porta/interação.
+
 ## Sprint 27A — expansão externa de janelas falsas
 
 - Novas janelas desta expansão devem ocupar somente faces externas já existentes.
