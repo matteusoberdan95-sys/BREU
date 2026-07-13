@@ -1,5 +1,11 @@
 # BREU — Estado do projeto
 
+## Sprint 21 — descida e primeira presença
+
+Após concluir o evento do Quarto 203 e descer a escada, o jogador encontra a primeira presença visual/sonora no térreo. Um trigger pequeno no pé da escada executa a sequência uma única vez: sons existentes, flicker localizado da recepção e uma sombra sem colisão no corredor.
+
+Uma pista rasgada aparece na recepção depois da manifestação e aponta o jogador para o fundo da pensão. Não existe inimigo físico, IA, dano, perseguição ou teleporte. A próxima sprint recomendada é o primeiro inimigo protótipo com perseguição curta.
+
 ## Sprint 20 — clímax do Quarto 203
 
 O puzzle da ala superior agora recompensa o jogador com a abertura forçada do Quarto 203, condicionada à energia superior restaurada e à chave suja retirada do ralo. A porta possui estados bloqueado, forçável e aberto; o blocker acompanha o painel e é desativado permanentemente ao abrir.

@@ -168,3 +168,10 @@ Se o player for jogado para cima, a task falhou. Use F8 (PlayerAreaProbe) e F9 (
 - Eventos não podem teleportar, causar dano ou fechar a única saída do player.
 - Triggers devem ser pequenos, isolados no segundo andar e executar uma única vez.
 - Não criar piso novo, boundary global ou collider solto para compensar falha estrutural.
+## Sprint 21 — primeira presença
+
+- Eventos de presença não podem possuir colisão nem bloquear a circulação.
+- Triggers devem ser pequenos, locais, one-shot e não podem alcançar outro andar.
+- O evento só pode iniciar depois de `Room203EventPlayed` e da saída confirmada do Quarto 203.
+- Nenhum evento pode teleportar, empurrar, causar dano ou bloquear input.
+- Não alterar a geometria estrutural aprovada para acomodar evento, sombra ou pista.

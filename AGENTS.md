@@ -1,3 +1,7 @@
+## REGRA CRÍTICA — SPRINT 21
+
+Esta sprint é de evento e presença, não de construção estrutural. É proibido reconstruir cômodos, pisos, paredes, varanda, térreo ou ala superior. Qualquer trigger deve ser pequeno, localizado, condicionado à flag correta e one-shot. Presenças visuais não podem ter colisão nem bloquear caminho. Nenhum evento pode teleportar, empurrar, matar, causar dano ou travar o jogador.
+
 ## REGRA CRÍTICA — SPRINT 20
 
 Esta sprint só pode mexer no Quarto 203, seus eventos, suas interações e pequenos objetos internos. É proibido reconstruir a ala superior, alterar deck/varanda ou térreo, e criar paredes globais, pisos novos ou colliders soltos.

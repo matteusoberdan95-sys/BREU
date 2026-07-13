@@ -58,7 +58,7 @@ public partial class NarrativeTrigger3D : Area3D
         if (OneShot)
         {
             _consumed = true;
-            Monitoring = false;
+            SetDeferred(Area3D.PropertyName.Monitoring, false);
         }
     }
 }

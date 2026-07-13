@@ -367,3 +367,17 @@ O resultado de gameplay permanece pendente até o percurso manual. Não commitar
 Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING
 
 Playtest manual aprovado em 2026-07-13: [x] bloqueio antes do puzzle [x] prompt muda após energia+chave [x] porta abre estável [x] entrada/saída livre [x] página legível [x] evento toca uma vez [x] hint de saída toca uma vez [x] objetivo “Desça para verificar o barulho” [x] sem teleporte/dano [x] regressão completa da ala e térreo
+## Sprint 21 — Descida após Quarto 203 e primeira presença
+
+- Início: `Room203EventPlayed && FirstPresenceHintPlayed`, após o jogador sair do 203.
+- Trigger: `Trigger_After203_StairDescent`, pequeno, no pé da escada em `(-3,6; 0,8; -30,1)`; não alcança o segundo andar.
+- Sequência: madeira estala, batida distante, recepção pisca, passos tocam e `FirstPresence_Shadow` aparece por 1,35 s.
+- Sons: `old_house_settle_01`, `distant_knock_02`, `distant_step_02`.
+- Mensagem/objetivo: “Alguém passou pelo corredor. Objetivo: Verifique a recepção.”
+- Pista: `Downstairs_Clue_After203`, registro rasgado na recepção, revelado após a presença.
+- Objetivo final: “O barulho veio do fundo da pensão.”
+- Não há inimigo completo, colisão na sombra, dano, perseguição, pathfinding ou teleporte.
+
+Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING
+
+Playtest manual aprovado em 2026-07-13: [x] não dispara antes do 203 [x] dispara somente no térreo [x] sombra aparece/desaparece [x] evento não repete após subir/descer [x] pista acessível [x] objetivo final “O barulho veio do fundo da pensão” [x] sem dano/teleporte/bloqueio [x] regressão térreo/escada/ala/varanda/203
