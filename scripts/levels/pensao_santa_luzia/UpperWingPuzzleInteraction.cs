@@ -47,7 +47,7 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
             WingMode.Room204Note when !_state.ReadRoom204Note => "Ler bilhete",
             WingMode.SharedBathroomInspect when !_done => "Examinar banheiro",
             WingMode.SharedBathroomMirror when !_done => "Examinar espelho",
-            WingMode.LinenFuse when !_state.HasUpperFuse => "Examinar rouparia",
+            WingMode.LinenFuse when !_state.HasUpperFuse => "Pegar Fusível Superior",
             WingMode.GeneratorPanel when !_state.IsUpperPowerRestored && !_state.HasUpperFuse =>
                 "Examinar painel",
             WingMode.GeneratorPanel when !_state.IsUpperPowerRestored && _state.HasUpperFuse =>
@@ -115,10 +115,13 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
 
             case WingMode.LinenFuse:
                 if (_state.HasUpperFuse) return;
-                hud?.ShowMessage(
-                    "Entre panos úmidos e madeira podre, há algo metálico preso no fundo. O arame da prateleira pode ajudar no ralo.",
-                    3.8f);
                 _state.PickupUpperFuse();
+                var fuseRoot = GetParent()?.GetParent();
+                if (fuseRoot?.GetNodeOrNull<MeshInstance3D>("Fuse_Upper_Visual") is { } fuseVisual)
+                    fuseVisual.Visible = false;
+                if (GetParent() is Area3D fuseArea)
+                    fuseArea.SetDeferred(Area3D.PropertyName.Monitoring, false);
+                hud?.ShowMessage("Você pegou o Fusível Superior. Leve-o ao painel da Sala Técnica.", 4f);
                 _ = LaundryFuseSequenceAsync();
                 break;
 
@@ -126,7 +129,8 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
                 if (_state.IsUpperPowerRestored) return;
                 if (!_state.HasUpperFuse)
                 {
-                    hud?.ShowMessage("Falta um fusível. O circuito de cima está morto.", 4f);
+                    hud?.ShowMessage(
+                        "O fusível velho do depósito não encaixa. Preciso do Fusível Superior guardado na Rouparia.", 5f);
                     return;
                 }
 
@@ -154,8 +158,7 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
 
     private async System.Threading.Tasks.Task LaundryFuseSequenceAsync()
     {
-        await ToSignal(GetTree().CreateTimer(3.1f), SceneTreeTimer.SignalName.Timeout);
-        HUDController.FindActive(GetTree())?.ShowMessage("Você pegou o Fusível Superior.", 3.5f);
+        await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         if (_state is { LaundryScarePlayed: false })
         {
             _state.MarkLaundryScarePlayed();

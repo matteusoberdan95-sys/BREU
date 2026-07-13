@@ -244,6 +244,12 @@ size = Vector3(0.12, 2.35, 0.12)
 size = Vector3(1.55, 0.12, 0.12)
 [sub_resource type="BoxShape3D" id="InteractSmall"]
 size = Vector3(0.5, 0.6, 0.4)
+[sub_resource type="BoxShape3D" id="FuseInteractShape"]
+size = Vector3(1.0, 0.9, 0.8)
+[sub_resource type="BoxShape3D" id="PanelInteractShape"]
+size = Vector3(1.3, 1.4, 0.5)
+[sub_resource type="BoxMesh" id="UpperFuseVisualMesh"]
+size = Vector3(0.18, 0.38, 0.18)
 [sub_resource type="BoxShape3D" id="IntroTriggerShape"]
 size = Vector3(1.35, 1.6, 1.1)
 [sub_resource type="BoxShape3D" id="ExitScareShape"]
@@ -1077,13 +1083,16 @@ script = ExtResource("4_puzzle")
 Mode = 4
 
 [node name="Interact_LaundryFuse" type="Node3D" parent="LaundryStorage" groups=["interactable"]]
-position = Vector3(-5.5, 3.4, 0.4)
+position = Vector3(-5.5, 3.65, 0.4)
+[node name="Fuse_Upper_Visual" type="MeshInstance3D" parent="LaundryStorage/Interact_LaundryFuse"]
+mesh = SubResource("UpperFuseVisualMesh")
+material_override = SubResource("MatDrain")
 [node name="InteractionArea" type="Area3D" parent="LaundryStorage/Interact_LaundryFuse"]
 collision_layer = 2
 collision_mask = 0
 monitoring = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LaundryStorage/Interact_LaundryFuse/InteractionArea"]
-shape = SubResource("InteractSmall")
+shape = SubResource("FuseInteractShape")
 [node name="UpperWingPuzzleInteraction" type="Node" parent="LaundryStorage/Interact_LaundryFuse/InteractionArea"]
 script = ExtResource("4_puzzle")
 Mode = 5
@@ -1114,7 +1123,7 @@ collision_layer = 2
 collision_mask = 0
 monitoring = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/TechnicalPanel/InteractionArea"]
-shape = SubResource("InteractSmall")
+shape = SubResource("PanelInteractShape")
 [node name="UpperWingPuzzleInteraction" type="Node" parent="TechnicalRoom/TechnicalPanel/InteractionArea"]
 script = ExtResource("4_puzzle")
 Mode = 6

@@ -353,3 +353,17 @@ O limite norte `Z=-5,8` encosta exatamente no piso principal funcional do segund
 - [ ] diagonais e ida/volta sem queda.
 
 O resultado de gameplay permanece pendente até o percurso manual. Não commitar como concluído se houver qualquer queda.
+## Sprint 20 — Quarto 203 e evento forte
+
+- Condição de abertura: `IsUpperPowerRestored && HasOwnerRoomKey`.
+- Estados: tentar abrir/bloqueado; forçar após o puzzle; aberto permanente com blocker desativado.
+- Item: `Room203_LedgerPage`, acessível sobre a cama.
+- Evento único: estalo da casa, flicker local, arranhão de porta e passos pesados; mensagem orienta retorno ao corredor.
+- Saída: passos distantes, flicker de um segundo no corredor e objetivo para descer e verificar o barulho.
+- Sons existentes: `door_scratch_01/02`, `old_house_settle_02`, `distant_step_03/04`.
+- Não há inimigo físico, dano, perseguição ou teleporte nesta sprint.
+- `UpperWing_CollisionDeck`, corredores, térreo, escada e porta verde não foram alterados.
+
+Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING
+
+Playtest manual aprovado em 2026-07-13: [x] bloqueio antes do puzzle [x] prompt muda após energia+chave [x] porta abre estável [x] entrada/saída livre [x] página legível [x] evento toca uma vez [x] hint de saída toca uma vez [x] objetivo “Desça para verificar o barulho” [x] sem teleporte/dano [x] regressão completa da ala e térreo

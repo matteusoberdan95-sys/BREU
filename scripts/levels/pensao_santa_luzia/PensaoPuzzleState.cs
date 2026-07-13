@@ -29,6 +29,11 @@ public partial class PensaoPuzzleState : Node
     /// <summary>Sprint 17C — owner ledger read.</summary>
     public bool HasReadOwnerLedger { get; private set; }
     public bool HasTriggeredRoom203Warning { get; private set; }
+    public bool Room203Opened { get; private set; }
+    public bool Room203EventPlayed { get; private set; }
+    public bool Room203ObjectiveGiven { get; private set; }
+    public bool FirstPresenceHintPlayed { get; private set; }
+    public bool Room203CanBeForced => IsUpperPowerRestored && HasOwnerRoomKey;
 
     /// <summary>Sprint 18A — second fuse from linen closet.</summary>
     public bool HasUpperFuse { get; private set; }
@@ -59,6 +64,8 @@ public partial class PensaoPuzzleState : Node
     public event Action? OwnerRoomUnlocked;
     public event Action? OwnerLedgerRead;
     public event Action? Room203WarningTriggered;
+    public event Action? Room203OpenedChanged;
+    public event Action? Room203EventTriggered;
     public event Action? UpperFusePickedUp;
     public event Action? UpperPowerRestored;
     public event Action? Room204NoteRead;
@@ -180,6 +187,27 @@ public partial class PensaoPuzzleState : Node
         if (HasTriggeredRoom203Warning) return;
         HasTriggeredRoom203Warning = true;
         Room203WarningTriggered?.Invoke();
+    }
+
+    public void OpenRoom203()
+    {
+        if (!Room203CanBeForced || Room203Opened) return;
+        Room203Opened = true;
+        Room203OpenedChanged?.Invoke();
+    }
+
+    public void TriggerRoom203Event()
+    {
+        if (!Room203Opened || Room203EventPlayed) return;
+        Room203EventPlayed = true;
+        Room203ObjectiveGiven = true;
+        Room203EventTriggered?.Invoke();
+    }
+
+    public void MarkFirstPresenceHintPlayed()
+    {
+        if (!Room203EventPlayed || FirstPresenceHintPlayed) return;
+        FirstPresenceHintPlayed = true;
     }
 
     public void PickupUpperFuse()

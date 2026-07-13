@@ -1,3 +1,9 @@
+## REGRA CRÍTICA — SPRINT 20
+
+Esta sprint só pode mexer no Quarto 203, seus eventos, suas interações e pequenos objetos internos. É proibido reconstruir a ala superior, alterar deck/varanda ou térreo, e criar paredes globais, pisos novos ou colliders soltos.
+
+Toda geometria nova deve ser local ao Quarto 203, ter nome claro e collider alinhado apenas quando necessário. Porta de evento não pode duplicar painel ou moldura. Evento forte não pode teleportar, causar dano ou prender o player sem saída. Trigger de evento deve tocar uma única vez.
+
 ## REGRA CRÍTICA — SPRINT 19C
 
 ## REGRA CRÍTICA — SPRINT 19D

@@ -160,3 +160,11 @@ Se o player for jogado para cima, a task falhou. Use F8 (PlayerAreaProbe) e F9 (
 - Ajustar ou remover somente o node ofensor identificado por origem.
 - Nunca apagar parede estrutural para limpar faixa, trim ou invasão visual.
 - Geometria inferior cortando o piso superior deve ter o topo rebaixado sem mudar seu footprint.
+## Sprint 20 — Quarto 203
+
+- Alterações de geometria ficam locais ao Quarto 203; não reconstruir ala, deck, térreo ou corredores.
+- Porta de evento deve reutilizar um único painel e uma única moldura, sem sobreposição ou z-fighting.
+- O blocker da porta deve corresponder ao painel visual e ser desativado quando a porta abrir.
+- Eventos não podem teleportar, causar dano ou fechar a única saída do player.
+- Triggers devem ser pequenos, isolados no segundo andar e executar uma única vez.
+- Não criar piso novo, boundary global ou collider solto para compensar falha estrutural.

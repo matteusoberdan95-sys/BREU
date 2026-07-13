@@ -2,109 +2,74 @@ namespace BREU.Scripts.Levels.PensaoSantaLuzia;
 
 using BREU.Scripts.Audio;
 
-/// <summary>
-/// Sprint 18A/19 — Room 203 stays blocked; reacts harder after upper power restore.
-/// </summary>
+/// <summary>Sprint 20 — stable Room 203 door: blocked, forceable, then permanently open.</summary>
 public partial class Room203DoorInteraction : Node, IInteractable
 {
     private PensaoPuzzleState? _state;
     private bool _sequenceRunning;
+    private MeshInstance3D? _panel;
+    private CollisionShape3D? _blocker;
 
     public override void _Ready()
     {
         _state = GetTree().CurrentScene.GetNodeOrNull<PensaoPuzzleState>("PuzzleState");
-        GetParent()?.GetParent()?.AddToGroup("interactable");
+        var door = GetParent()?.GetParent();
+        door?.AddToGroup("interactable");
+        _panel = door?.GetNodeOrNull<MeshInstance3D>("DoorPanel");
+        _blocker = door?.GetNodeOrNull<CollisionShape3D>("Door_Blocker_StaticBody/CollisionShape3D");
+        ApplyOpenState();
     }
 
-    public string GetPromptText() => "Tentar abrir Quarto 203";
+    public string GetPromptText() => _state switch
+    {
+        { Room203Opened: true } => string.Empty,
+        { Room203CanBeForced: true } => "Forçar porta do Quarto 203",
+        _ => "Tentar abrir Quarto 203"
+    };
 
     public void Interact(Node interactor)
     {
         var hud = HUDController.FindActive(GetTree());
-        if (_state?.HasReadOwnerLedger != true)
+        if (_state == null || _sequenceRunning) return;
+        if (_state.Room203Opened)
         {
-            hud?.ShowMessage("A porta está bloqueada.", 3f);
+            hud?.ShowMessage("O quarto está aberto.", 2.5f);
             return;
         }
-
-        if (_sequenceRunning)
-        {
-            return;
-        }
-
-        // Sprint 19 — after upper power (and ideally the 204 note), prepare forcing the door.
-        if (_state.IsUpperPowerRestored)
+        if (_state.Room203CanBeForced)
         {
             _sequenceRunning = true;
-            _ = Powered203SequenceAsync();
+            _ = ForceOpenAsync();
             return;
         }
-
-        if (_state.HasTriggeredRoom203Warning)
-        {
-            hud?.ShowMessage("Algo pesado bloqueia a porta pelo outro lado.", 3.2f);
-            return;
-        }
-
-        _sequenceRunning = true;
         _state.TriggerRoom203Warning();
         hud?.ShowMessage("Algo pesado bloqueia a porta pelo outro lado.", 3.2f);
         PensionAudioManager.Find(GetTree())?.PlayOneShot("door_scratch_01", -13f);
-        _ = FinishSequenceAsync();
     }
 
-    private async System.Threading.Tasks.Task Powered203SequenceAsync()
+    private async System.Threading.Tasks.Task ForceOpenAsync()
     {
         var hud = HUDController.FindActive(GetTree());
         var audio = PensionAudioManager.Find(GetTree());
-
-        if (_state!.ReadRoom204Note)
-        {
-            hud?.ShowMessage(
-                "Há algo arrastando do outro lado. Talvez agora dê para forçar.", 4f);
-            audio?.PlayOneShot("door_scratch_02", -12f);
-            await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-            audio?.PlayOneShot("distant_step_01", -16f);
-        }
-        else
-        {
-            hud?.ShowMessage("Algo bate do outro lado antes que eu toque na maçaneta.", 3.5f);
-            audio?.PlayOneShot("door_scratch_02", -12f);
-            await ToSignal(GetTree().CreateTimer(1.1f), SceneTreeTimer.SignalName.Timeout);
-            audio?.PlayOneShot("distant_step_01", -16f);
-            await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
-            hud?.ShowMessage("Eu não estou sozinho aqui.", 3.5f);
-        }
-
-        if (!_state.HasTriggeredRoom203Warning)
-        {
-            _state.TriggerRoom203Warning();
-        }
-
+        hud?.ShowMessage("Há algo arrastando do outro lado. Talvez agora dê para forçar.", 4f);
+        audio?.PlayOneShot("door_scratch_02", -12f);
+        await ToSignal(GetTree().CreateTimer(0.85f), SceneTreeTimer.SignalName.Timeout);
+        audio?.PlayOneShot("old_house_settle_02", -13f);
+        _state!.OpenRoom203();
+        ApplyOpenState();
+        hud?.ShowMessage("A porta cede. Objetivo: Investigue o Quarto 203.", 4f);
         _sequenceRunning = false;
     }
 
-    private async System.Threading.Tasks.Task FinishSequenceAsync()
+    private void ApplyOpenState()
     {
-        await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
-        PensionAudioManager.Find(GetTree())?.PlayOneShot("distant_step_01", -16f);
-        await FlickerCorridorLightAsync();
-        HUDController.FindActive(GetTree())?.ShowMessage(
-            "Do outro lado, ouvi um som baixo, como unhas arrastando na madeira. Eu não estou sozinho aqui.", 5f);
-        _sequenceRunning = false;
-    }
-
-    private async System.Threading.Tasks.Task FlickerCorridorLightAsync()
-    {
-        var light = GetTree().CurrentScene.GetNodeOrNull<OmniLight3D>("Lighting/UpperCorridorLight");
-        if (light == null) return;
-        var original = light.LightEnergy;
-        for (var i = 0; i < 4; i++)
+        if (_state?.Room203Opened != true) return;
+        if (_panel != null)
         {
-            light.LightEnergy = i % 2 == 0 ? original * 0.35f : original;
-            await ToSignal(GetTree().CreateTimer(0.16f), SceneTreeTimer.SignalName.Timeout);
+            _panel.Position = new Vector3(-1.72f, 3.9f, -10.78f);
+            _panel.Rotation = new Vector3(0f, Mathf.DegToRad(78f), 0f);
         }
-
-        light.LightEnergy = original;
+        _blocker?.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+        if (GetParent() is Area3D area) area.Monitoring = false;
     }
 }
