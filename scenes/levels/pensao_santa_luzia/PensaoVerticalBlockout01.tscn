@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/After203FirstPresence.tscn" id="21_presence"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/FirstEnemyChase.tscn" id="22_chase"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/FirstSafeShelter.tscn" id="23_shelter"]
+[ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/props/OldBrazilianWardrobe.tscn" id="24_wardrobe"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
 [ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
 [ext_resource type="Script" path="res://scripts/debug/DebugFallRecovery.cs" id="11_fall_recovery"]
@@ -222,6 +223,18 @@ groups = ["level_second_floor", "level_door"]
 
 [node name="SafeZone_FirstShelter" parent="." instance=ExtResource("23_shelter")]
 position = Vector3(3.4, 0, -2.45)
+
+[node name="Wardrobe_Reception_Vintage" parent="." instance=ExtResource("24_wardrobe")]
+position = Vector3(-4.0, 0.02, -6.38)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Wardrobe_Room102_Vintage" parent="." instance=ExtResource("24_wardrobe")]
+position = Vector3(-2.45, 0.02, -16.98)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Wardrobe_Kitchen_Vintage" parent="." instance=ExtResource("24_wardrobe")]
+position = Vector3(5.5, 0.02, -21.98)
+rotation = Vector3(0, 3.14159, 0)
 
 [node name="PensionCeiling" type="Node3D" parent="."]
 groups = ["level_ceiling"]

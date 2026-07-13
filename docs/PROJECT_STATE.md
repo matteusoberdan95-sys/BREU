@@ -1,5 +1,9 @@
 # BREU — Estado do projeto
 
+## Hotfix pós-Sprint 23 — guarda-roupas e agachamento
+
+Três guarda-roupas brasileiros antigos e reutilizáveis foram colocados no térreo: recepção, Quarto 102 e cozinha. Cada móvel possui shell visual com colliders filhos correspondentes, abertura real, `WardrobeSafeZone` interna e interação de esconderijo; não há teleporte nem bloqueador invisível. O teste de teto de `PlayerCrouch` agora verifica somente o volume adicional entre a postura agachada e em pé, evitando que a laje superior mantenha o jogador agachado em todo o interior.
+
 ## Sprint 23 — primeiro esconderijo / sala segura
 
 A recepção agora possui o primeiro abrigo jogável, atrás do balcão existente. `SafeZone_FirstShelter` é uma `Area3D` térrea pequena e não bloqueadora; `Interact_FirstHidingSpot` permite esperar até os passos se afastarem sem teleporte ou perda permanente de controle. A zona integra-se ao estado da perseguição da Sprint 22, encerra uma perseguição ainda ativa, oculta a presença e conclui `Sprint23Completed` com o objetivo de investigar o que está caçando o jogador.

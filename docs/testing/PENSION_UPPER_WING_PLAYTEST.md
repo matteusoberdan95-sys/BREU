@@ -423,3 +423,15 @@ Playtest manual aprovado em 2026-07-13: [x] painel bloqueia sem chave [x] chave 
 Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING [x] safe zone térrea, pequena e sem `StaticBody3D` [x] deck preservado: 49/49
 
 Playtest manual aprovado em 2026-07-13: [x] perseguição ativa [x] objetivo de abrigo [x] zona atrás do balcão [x] prompt aparece [x] sequência completa [x] inimigo para/some [x] tutorial uma vez [x] controle preservado [x] saída livre [x] objetivo final [x] regressão Sprints 20/21/22 e Hotfix 22B
+
+## Hotfix pós-Sprint 23 — guarda-roupas reutilizáveis e Ctrl
+
+- Guarda-roupas vintage no térreo: recepção `(-4,0; -6,38)`, Quarto 102 `(-2,45; -16,98)` e cozinha `(5,5; -21,98)`.
+- Cada shell possui peças visuais e colliders filhos equivalentes; o interior é aberto, agachável e contém uma `Area3D` pequena apenas no móvel.
+- Após a primeira perseguição, entrar agachado e olhar para o fundo mostra “Se esconder no guarda-roupa”.
+- O esconderijo reutiliza `PlayerInSafeZone`/`PlayerHidden`, encerra uma perseguição ainda ativa e não teleporta nem desabilita movimento.
+- Correção do Ctrl: o clearance para levantar cobre apenas `Y=1,0…1,8 m` acima dos pés; a verificação antiga alcançava aproximadamente `Y=2,2 m` e confundia a laje com teto baixo.
+
+Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING [x] deck 49/49 [x] sem alteração na varanda/ala superior
+
+Playtest manual aprovado em 2026-07-13: [x] Ctrl abaixa [x] soltar Ctrl levanta na recepção/corredor/quartos [x] teto realmente baixo mantém agachado [x] sair do móvel permite levantar [x] três móveis acessíveis [x] colliders correspondem ao visual [x] sem bloqueio de corredor [x] prompt dentro do móvel [x] esconder/soltar funciona [x] regressão completa

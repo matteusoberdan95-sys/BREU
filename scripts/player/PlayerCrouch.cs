@@ -21,6 +21,7 @@ public partial class PlayerCrouch : Node
     private Node3D? _head;
     private CollisionShape3D? _collisionShape;
     private CapsuleShape3D? _capsuleShape;
+    private readonly BoxShape3D _standClearanceShape = new();
     private float _crouchBlend;
     private float _standingCollisionCenterY;
 
@@ -89,13 +90,27 @@ public partial class PlayerCrouch : Node
             return true;
         }
 
-        var feetY = _body.GlobalPosition.Y + _standingCollisionCenterY - CrouchingCapsuleHeight * 0.5f;
-        var from = new Vector3(_body.GlobalPosition.X, feetY + CrouchingCapsuleHeight, _body.GlobalPosition.Z);
-        var to = from + Vector3.Up * extraHeight;
-        var query = PhysicsRayQueryParameters3D.Create(from, to);
-        query.CollisionMask = _body.CollisionMask;
-        query.Exclude = [_body.GetRid()];
+        // Test only the volume added above the current crouching capsule. The old
+        // ray used the crouching center to derive the feet and overshot the real
+        // standing height, so the upper-floor slab was mistaken for a low ceiling.
+        var feetY = _body.GlobalPosition.Y + _standingCollisionCenterY - StandingCapsuleHeight * 0.5f;
+        const float clearanceInset = 0.04f;
+        var clearanceHeight = Mathf.Max(0.05f, extraHeight - clearanceInset * 2f);
+        var clearanceWidth = Mathf.Max(0.1f, _capsuleShape.Radius * 1.8f);
+        _standClearanceShape.Size = new Vector3(clearanceWidth, clearanceHeight, clearanceWidth);
 
-        return _body.GetWorld3D().DirectSpaceState.IntersectRay(query).Count == 0;
+        var clearanceCenterY = feetY + CrouchingCapsuleHeight + extraHeight * 0.5f;
+        var query = new PhysicsShapeQueryParameters3D
+        {
+            Shape = _standClearanceShape,
+            Transform = new Transform3D(Basis.Identity,
+                new Vector3(_body.GlobalPosition.X, clearanceCenterY, _body.GlobalPosition.Z)),
+            CollisionMask = _body.CollisionMask,
+            CollideWithAreas = false,
+            CollideWithBodies = true,
+            Margin = 0.01f,
+            Exclude = [_body.GetRid()]
+        };
+        return _body.GetWorld3D().DirectSpaceState.IntersectShape(query, 1).Count == 0;
     }
 }

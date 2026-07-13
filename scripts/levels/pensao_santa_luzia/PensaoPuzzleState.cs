@@ -309,6 +309,28 @@ public partial class PensaoPuzzleState : Node
         Sprint23Finished?.Invoke();
     }
 
+    public bool EnterReusableSafeZone()
+    {
+        if (!FirstChaseStarted) return false;
+        PlayerInSafeZone = true;
+        if (FirstChaseStarted && !FirstChaseFinished) EscapeFirstChase();
+        return true;
+    }
+
+    public bool BeginReusableHide()
+    {
+        if (!PlayerInSafeZone || PlayerHidden || !FirstChaseStarted) return false;
+        PlayerHidden = true;
+        return true;
+    }
+
+    public void CompleteReusableHide()
+    {
+        if (!PlayerHidden) return;
+        PlayerHidden = false;
+        PlayerInSafeZone = false;
+    }
+
     public void PickupUpperFuse()
     {
         if (HasUpperFuse)
