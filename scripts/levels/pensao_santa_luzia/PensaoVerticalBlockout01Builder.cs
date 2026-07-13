@@ -91,6 +91,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private StandardMaterial3D _matFurniture = null!;
     private StandardMaterial3D _matCeilingFirst = null!;
     private StandardMaterial3D _matCeilingSecond = null!;
+    private StandardMaterial3D _matTransitionSlab = null!;
     private StandardMaterial3D _matRoof = null!;
     private StandardMaterial3D _matDoorBalcony = null!;
 
@@ -126,6 +127,7 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matFurniture = Mat(new Color(0.38f, 0.34f, 0.32f));
         _matCeilingFirst = Mat(new Color(0.22f, 0.2f, 0.19f));
         _matCeilingSecond = Mat(new Color(0.38f, 0.36f, 0.4f));
+        _matTransitionSlab = Mat(new Color(0.3f, 0.31f, 0.36f));
         _matRoof = Mat(new Color(0.32f, 0.3f, 0.28f));
         _matDoorBalcony = Mat(new Color(0.32f, 0.5f, 0.3f));
         BuildSecondFloor();
@@ -220,17 +222,18 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(StairOpenEastX + eastWidth * 0.5f, FirstFloorCeilingCenterY, StairOpenCenterZ),
             new Vector3(eastWidth, FirstFloorCeilingThickness, StairOpenDepth), _matCeilingFirst);
 
-        // Closing soffit between the front edge of SecondFloor_MasterSlab
-        // (Z=8.6) and the entrance facade (Z=11.6). The frozen
-        // UpperWing_CollisionDeck already supplies the physical underside at
-        // Y=2.0, so this is visual-only and embedded above that collision face.
+        // Visual continuation between the front edge of SecondFloor_MasterSlab
+        // (Z=8.6) and the entrance facade (Z=11.6). Match the authored slab's
+        // 0.6 m vertical profile so its underside stays flush at Y=2.2 instead
+        // of hanging below the surrounding ceiling. The frozen collision deck
+        // already owns physics here, so this remains visual-only.
         const float masterSlabFrontZ = 8.6f;
+        const float masterSlabVisualThickness = 0.6f;
         var transitionDepth = BuildingFrontZ - masterSlabFrontZ + FloorOverlap;
         var transitionCenterZ = (BuildingFrontZ + masterSlabFrontZ) * 0.5f;
-        var frozenDeckUndersideY = SecondFloorTopY - 0.8f;
         AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_TransitionFront",
-            new Vector3(0f, frozenDeckUndersideY + CeilingThickness * 0.5f, transitionCenterZ),
-            new Vector3(fullWidth, CeilingThickness, transitionDepth), _matCeilingFirst);
+            new Vector3(0f, SecondFloorTopY - masterSlabVisualThickness * 0.5f, transitionCenterZ),
+            new Vector3(fullWidth, masterSlabVisualThickness, transitionDepth), _matTransitionSlab);
 
         // Sprint 18C — fixed height markers for LevelSanityChecker / authoring.
         _ceiling.AddChild(new Marker3D

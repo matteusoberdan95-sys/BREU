@@ -584,15 +584,25 @@ public partial class LevelSanityChecker : Node
         }
         else
         {
-            var hasMesh = soffit.FindChild("*", recursive: true, owned: false) is MeshInstance3D ||
-                          soffit.GetChildren().Any(child => child is MeshInstance3D);
+            var meshInstance = soffit.GetChildren().OfType<MeshInstance3D>().FirstOrDefault();
+            var hasMesh = meshInstance?.Mesh is BoxMesh;
             var hasBody = Enumerate(soffit).Any(child => child is StaticBody3D or CollisionShape3D);
             if (!hasMesh) Error("transition soffit has no visual mesh");
             if (hasBody) Error("transition soffit added a competing collider");
-            clean &= hasMesh && !hasBody;
+
+            var flushWithMasterSlab = soffit is Node3D soffit3D &&
+                                      meshInstance?.Mesh is BoxMesh box &&
+                                      Mathf.IsEqualApprox(soffit3D.GlobalPosition.Y, 2.5f) &&
+                                      Mathf.IsEqualApprox(box.Size.Y, 0.6f);
+            if (!flushWithMasterSlab)
+            {
+                Error("transition soffit hangs below the SecondFloor_MasterSlab profile");
+            }
+
+            clean &= hasMesh && !hasBody && flushWithMasterSlab;
         }
 
-        if (clean) Ok("stair plates absent, paired handrails valid, and front soffit restored");
+        if (clean) Ok("stair plates absent, paired handrails valid, and front slab continuation flush");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)
