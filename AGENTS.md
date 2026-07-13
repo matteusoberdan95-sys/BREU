@@ -1,3 +1,7 @@
+## REGRA CRÍTICA — HOTFIX 22B
+
+Este hotfix é somente de lógica de puzzle. É proibido alterar layout, paredes, pisos, portas físicas, varanda, navegação, cômodos ou o inimigo da Sprint 22. Item de puzzle não pode ficar sem função: a chave do ralo deve destravar claramente o painel técnico, e a energia superior exige o Fusível Velho e o Fusível Superior instalados.
+
 ## REGRA CRÍTICA — SPRINT 22
 
 Esta sprint é de evento/inimigo protótipo, não de construção estrutural. É proibido reconstruir mapa, paredes, pisos, cômodos ou varanda. O inimigo protótipo não pode possuir colisão bloqueadora nem prender o player. A perseguição deve ser curta, roteirizada, reversível e one-shot antes de qualquer IA complexa. Nenhum evento pode teleportar o player, alcançar outro andar ou criar collider gigante.

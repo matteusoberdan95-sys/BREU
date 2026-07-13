@@ -48,10 +48,15 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
             WingMode.SharedBathroomInspect when !_done => "Examinar banheiro",
             WingMode.SharedBathroomMirror when !_done => "Examinar espelho",
             WingMode.LinenFuse when !_state.HasUpperFuse => "Pegar Fusível Superior",
-            WingMode.GeneratorPanel when !_state.IsUpperPowerRestored && !_state.HasUpperFuse =>
+            WingMode.GeneratorPanel when !_state.TechnicalPanelUnlocked && !_state.HasDrainKey =>
                 "Examinar painel",
-            WingMode.GeneratorPanel when !_state.IsUpperPowerRestored && _state.HasUpperFuse =>
-                "Inserir fusível",
+            WingMode.GeneratorPanel when !_state.TechnicalPanelUnlocked && _state.HasDrainKey =>
+                "Destravar painel",
+            WingMode.GeneratorPanel when _state.TechnicalPanelUnlocked && _state.HasOldFuse && !_state.OldFuseInstalled =>
+                "Inserir Fusível Velho",
+            WingMode.GeneratorPanel when _state.TechnicalPanelUnlocked && _state.HasUpperFuse && !_state.UpperFuseInstalled =>
+                "Inserir Fusível Superior",
+            WingMode.GeneratorPanel => "Examinar painel",
             WingMode.Room205Blocked => "Tentar abrir Quarto 205",
             WingMode.OwnersOfficeLog when !_state.ReadOwnersOfficeLog => "Examinar registros",
             _ => string.Empty
@@ -126,18 +131,59 @@ public partial class UpperWingPuzzleInteraction : Node, IInteractable
                 break;
 
             case WingMode.GeneratorPanel:
-                if (_state.IsUpperPowerRestored) return;
-                if (!_state.HasUpperFuse)
+                if (_state.IsUpperPowerRestored)
                 {
-                    hud?.ShowMessage(
-                        "O fusível velho do depósito não encaixa. Preciso do Fusível Superior guardado na Rouparia.", 5f);
+                    hud?.ShowMessage("Os dois fusíveis vibram dentro da caixa.", 3.5f);
                     return;
                 }
 
-                _state.RestoreUpperPower();
-                hud?.ShowMessage("O corredor estala. Parte da pensão recebeu energia.", 3.5f);
-                audio?.PlayOneShot("old_house_settle_01", -12f);
-                _ = OnUpperPowerRestoredAsync();
+                if (!_state.TechnicalPanelUnlocked)
+                {
+                    if (!_state.HasDrainKey)
+                    {
+                        hud?.ShowMessage(
+                            "A tampa do painel está trancada. Talvez haja uma chave pequena em algum lugar úmido. Objetivo: Encontre uma forma de abrir o painel.", 6f);
+                        return;
+                    }
+                    _state.UnlockTechnicalPanel();
+                    hud?.ShowMessage(
+                        "A chave enferrujada gira com dificuldade. A tampa abre. Objetivo: Encontre os dois fusíveis.", 5f);
+                    audio?.PlayOneShot("door_scratch_01", -18f);
+                    return;
+                }
+
+                if (_state.HasOldFuse && !_state.OldFuseInstalled)
+                {
+                    _state.InstallOldFuse();
+                    if (!_state.IsUpperPowerRestored)
+                    {
+                        hud?.ShowMessage("O fusível velho encaixa no primeiro slot. Ainda falta outro fusível.", 4.5f);
+                        return;
+                    }
+                    hud?.ShowMessage("A caixa vibra. A energia voltou parcialmente ao andar de cima. Objetivo: Volte ao Quarto 203.", 5f);
+                    audio?.PlayOneShot("old_house_settle_01", -12f);
+                    _ = OnUpperPowerRestoredAsync();
+                    return;
+                }
+
+                if (_state.HasUpperFuse && !_state.UpperFuseInstalled)
+                {
+                    _state.InstallUpperFuse();
+                    if (!_state.IsUpperPowerRestored)
+                    {
+                        hud?.ShowMessage("O Fusível Superior encaixa no segundo slot. Ainda falta outro fusível.", 4.5f);
+                        return;
+                    }
+                    hud?.ShowMessage("A caixa vibra. A energia voltou parcialmente ao andar de cima. Objetivo: Volte ao Quarto 203.", 5f);
+                    audio?.PlayOneShot("old_house_settle_01", -12f);
+                    _ = OnUpperPowerRestoredAsync();
+                    return;
+                }
+
+                hud?.ShowMessage(
+                    _state.OldFuseInstalled || _state.UpperFuseInstalled
+                        ? "Um dos encaixes ainda está vazio. Ainda falta outro fusível."
+                        : "O painel tem dois encaixes vazios.", 4f);
                 break;
 
             case WingMode.Room205Blocked:

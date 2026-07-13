@@ -395,3 +395,15 @@ Playtest manual aprovado em 2026-07-13: [x] não dispara antes do 203 [x] dispar
 Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING
 
 Playtest manual obrigatório: [ ] não inicia antes da Sprint 21 [ ] reveal one-shot [ ] mensagens aparecem [ ] perseguição curta e escapável [ ] inimigo não atravessa paredes [ ] safezone encerra [ ] não reinicia [ ] sem dano/teleporte/bloqueio [ ] regressão completa
+## Hotfix 22B — Chave do ralo e dois fusíveis
+
+- Problema: chave do ralo não tinha função clara e o Fusível Velho não participava da energia superior.
+- Solução: `HasDrainKey` reutiliza a chave retirada do ralo e destrava o painel técnico.
+- Slots: `OldFuseInstalled` para o Fusível Velho do depósito e `UpperFuseInstalled` para o Fusível Superior da rouparia.
+- Condição final: `TechnicalPanelUnlocked && OldFuseInstalled && UpperFuseInstalled` → `IsUpperPowerRestored`.
+- O Quarto 203 só se torna forçável quando `IsUpperPowerRestored` é verdadeiro.
+- Nenhuma geometria, colisão, porta física, rota ou conteúdo da perseguição foi alterado.
+
+Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING [x] deck preservado: 49/49
+
+Playtest manual aprovado em 2026-07-13: [x] painel bloqueia sem chave [x] chave do ralo destrava [x] Fusível Velho instala [x] Fusível Superior instala [x] um único fusível não liga energia [x] dois fusíveis ligam energia [x] 203 muda de estado [x] regressão Sprints 20/21/22

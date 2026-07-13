@@ -61,7 +61,7 @@ public partial class ManualBalconyInteraction : Node, IInteractable
                     return;
                 }
                 _state.PickupOwnerRoomKey();
-                hud?.ShowMessage("O arame puxa uma pequena chave coberta de sujeira.", 3.5f);
+                hud?.ShowMessage("Você puxou uma chave enferrujada do ralo. Parece servir em uma fechadura pequena.", 4f);
                 _done = true;
                 break;
             case InteractionMode.Ledger:

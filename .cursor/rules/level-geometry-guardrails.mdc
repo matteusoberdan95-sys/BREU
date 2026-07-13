@@ -182,3 +182,9 @@ Se o player for jogado para cima, a task falhou. Use F8 (PlayerAreaProbe) e F9 (
 - Triggers de revelação e escape devem ser pequenos, térreos e one-shot.
 - O evento não pode alterar geometria, portas, pisos ou paredes aprovadas.
 - O inimigo não pode empurrar, teleportar, causar dano ou prender o player.
+## Hotfix 22B — coerência de puzzle
+
+- Item de puzzle não pode ficar sem função clara.
+- Chave coletável deve abrir uma trava identificável; a chave do ralo destrava o painel técnico.
+- Fusíveis coletáveis devem participar de condição real; energia superior exige ambos os fusíveis.
+- Hotfix de lógica não pode alterar geometria, colisão, portas físicas ou navegação aprovada.

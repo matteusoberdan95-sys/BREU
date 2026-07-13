@@ -8,7 +8,7 @@ using BREU.Scripts.Interaction;
 public partial class PickupFuseInteraction : Node, IInteractable
 {
     private const string Prompt = "Pegar fusível velho";
-    private const string Message = "Fusível velho adquirido.";
+    private const string Message = "Você pegou um Fusível Velho. Ainda parece utilizável.";
 
     private PensaoPuzzleState? _state;
     private Node3D? _pickupRoot;

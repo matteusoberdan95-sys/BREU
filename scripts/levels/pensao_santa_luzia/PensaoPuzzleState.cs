@@ -22,6 +22,10 @@ public partial class PensaoPuzzleState : Node
 
     /// <summary>Sprint 17C — key pulled from bathroom drain.</summary>
     public bool HasOwnerRoomKey { get; private set; }
+    public bool HasDrainKey => HasOwnerRoomKey;
+    public bool TechnicalPanelUnlocked { get; private set; }
+    public bool OldFuseInstalled { get; private set; }
+    public bool UpperFuseInstalled { get; private set; }
 
     /// <summary>Sprint 17C — owner bedroom unlocked.</summary>
     public bool IsOwnerRoomUnlocked { get; private set; }
@@ -41,7 +45,7 @@ public partial class PensaoPuzzleState : Node
     public bool FirstChaseStarted { get; private set; }
     public bool FirstChaseFinished { get; private set; }
     public bool FirstChaseEscaped { get; private set; }
-    public bool Room203CanBeForced => IsUpperPowerRestored && HasOwnerRoomKey;
+    public bool Room203CanBeForced => IsUpperPowerRestored;
 
     /// <summary>Sprint 18A — second fuse from linen closet.</summary>
     public bool HasUpperFuse { get; private set; }
@@ -265,9 +269,29 @@ public partial class PensaoPuzzleState : Node
         UpperFusePickedUp?.Invoke();
     }
 
+    public void UnlockTechnicalPanel()
+    {
+        if (!HasDrainKey || TechnicalPanelUnlocked) return;
+        TechnicalPanelUnlocked = true;
+    }
+
+    public void InstallOldFuse()
+    {
+        if (!TechnicalPanelUnlocked || !HasOldFuse || OldFuseInstalled) return;
+        OldFuseInstalled = true;
+        RestoreUpperPower();
+    }
+
+    public void InstallUpperFuse()
+    {
+        if (!TechnicalPanelUnlocked || !HasUpperFuse || UpperFuseInstalled) return;
+        UpperFuseInstalled = true;
+        RestoreUpperPower();
+    }
+
     public void RestoreUpperPower()
     {
-        if (!HasUpperFuse || IsUpperPowerRestored)
+        if (!TechnicalPanelUnlocked || !OldFuseInstalled || !UpperFuseInstalled || IsUpperPowerRestored)
         {
             return;
         }

@@ -1,5 +1,11 @@
 # BREU — Estado do projeto
 
+## Hotfix 22B — chave do ralo e dois fusíveis
+
+O puzzle de energia superior agora exige três elementos reais: Chave Enferrujada retirada do ralo, Fusível Velho encontrado no depósito térreo e Fusível Superior encontrado na rouparia. A chave destrava a tampa do painel e cada fusível ocupa um slot próprio; `IsUpperPowerRestored` só ativa com painel destravado e ambos instalados.
+
+O Quarto 203 continua dependendo da energia superior, e as progressões das Sprints 20, 21 e 22 permanecem encadeadas após o hotfix. Nenhuma geometria, colisão, porta física ou rota foi alterada.
+
 ## Sprint 22 — primeiro inimigo protótipo
 
 O fundo do corredor térreo agora revela `Enemy_FirstPresence`, uma silhueta visual sem colisão que inicia a primeira perseguição curta do jogo. O movimento segue quatro pontos autorados pelo corredor até a borda da recepção, sem NavMesh, IA final, combate, dano ou interação física com o player.
