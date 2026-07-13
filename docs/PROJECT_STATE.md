@@ -2,7 +2,7 @@
 
 ## Hotfix de fechamento — escada e forro frontal
 
-Os dois guias residuais `Stair_Guide_Left/Right`, incluindo suas colisões locais, foram desativados somente na escada da pensão; stringers, rampa física e paredes estruturais do poço permanecem intactos. O forro `Ceiling_FirstFloor_TransitionFront` fecha visualmente a faixa entre a borda frontal da laje visual e a fachada, embutido na colisão já existente do deck congelado e sem collider novo. Nenhum sistema de gameplay, perseguição, puzzle, porta, varanda ou cômodo superior foi alterado.
+As placas diagonais superdimensionadas `Stair_Stringer_Left/Right` e os guias residuais anteriores foram removidos somente da escada da pensão. Em seu lugar existem dois corrimãos antigos inclinados, cada um com cinco postes, travessa superior e intermediária, sempre com mesh e `BoxShape3D` pareados fora da faixa central da rampa. Degraus, rampa física e paredes estruturais do poço permanecem intactos. O forro `Ceiling_FirstFloor_TransitionFront` fecha visualmente a faixa entre a borda frontal da laje visual e a fachada, embutido na colisão já existente do deck congelado e sem collider novo. Nenhum sistema de gameplay, perseguição, puzzle, porta, varanda ou cômodo superior foi alterado.
 
 ## Sprint 25 — segunda perseguição real
 

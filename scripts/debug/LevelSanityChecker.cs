@@ -545,11 +545,35 @@ public partial class LevelSanityChecker : Node
     private void CheckStairAndTransitionHotfix(Node scene)
     {
         var clean = true;
-        foreach (var residual in new[] { "Stair_Guide_Left", "Stair_Guide_Right" })
+        foreach (var residual in new[]
+                 {
+                     "Stair_Guide_Left", "Stair_Guide_Right",
+                     "Stair_Stringer_Left", "Stair_Stringer_Right"
+                 })
         {
             if (scene.FindChild(residual, recursive: true, owned: false) == null) continue;
             Error($"stair side-guide residue still active: {residual}");
             clean = false;
+        }
+
+        foreach (var side in new[] { "Left", "Right" })
+        {
+            var handrail = scene.FindChild($"Stair_Handrail_{side}", recursive: true, owned: false);
+            if (handrail == null)
+            {
+                Error($"stair handrail missing: {side}");
+                clean = false;
+                continue;
+            }
+
+            var pieces = Enumerate(handrail).OfType<StaticBody3D>().ToArray();
+            if (pieces.Length != 7 || pieces.Any(piece =>
+                    piece.GetNodeOrNull<MeshInstance3D>("Visual") == null ||
+                    piece.GetNodeOrNull<CollisionShape3D>("CollisionShape3D")?.Shape is not BoxShape3D))
+            {
+                Error($"stair handrail {side} must have seven visual/collider-paired pieces");
+                clean = false;
+            }
         }
 
         var soffit = scene.FindChild("Ceiling_FirstFloor_TransitionFront", recursive: true, owned: false);
@@ -568,7 +592,7 @@ public partial class LevelSanityChecker : Node
             clean &= hasMesh && !hasBody;
         }
 
-        if (clean) Ok("stair residues absent and front transition soffit restored without new collider");
+        if (clean) Ok("stair plates absent, paired handrails valid, and front soffit restored");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)

@@ -105,6 +105,10 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     // approved stair flight. The real shaft walls and stringers remain intact.
     protected override bool IncludeStairSideGuides => false;
 
+    protected override bool IncludeStairStringers => false;
+
+    protected override bool IncludeStairSlopedHandrails => true;
+
     public override void _Ready()
     {
         _secondFloor = GetNodeOrNull<Node3D>("../../PensionSecondFloor")

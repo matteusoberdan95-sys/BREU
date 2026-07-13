@@ -31,11 +31,13 @@ public static class StairRampAssembly
         uint collisionLayer = 1,
         bool buildUpperLanding = true,
         bool buildUpperBlockers = true,
-        bool buildSideGuides = true)
+        bool buildSideGuides = true,
+        bool buildStringers = true,
+        bool buildSlopedHandrails = false)
     {
         BuildApproachPatch(root, collisionLayer);
         BuildInvisibleRamp(collisionsParent, collisionLayer);
-        BuildVisualSteps(visualStepsParent, matStep, matStringer);
+        BuildVisualSteps(visualStepsParent, matStep, matStringer, buildStringers);
         if (buildUpperLanding)
         {
             BuildUpperLanding(
@@ -51,6 +53,11 @@ public static class StairRampAssembly
         if (buildSideGuides)
         {
             BuildSideGuides(sideGuidesParent, matRail, collisionLayer);
+        }
+
+        if (buildSlopedHandrails)
+        {
+            BuildSlopedHandrails(sideGuidesParent, matStringer, collisionLayer);
         }
     }
 
@@ -91,7 +98,11 @@ public static class StairRampAssembly
         parent.AddChild(rampBody);
     }
 
-    private static void BuildVisualSteps(Node3D parent, StandardMaterial3D matStep, StandardMaterial3D matStringer)
+    private static void BuildVisualSteps(
+        Node3D parent,
+        StandardMaterial3D matStep,
+        StandardMaterial3D matStringer,
+        bool buildStringers)
     {
         const float treadThickness = 0.06f;
         const float visualWidth = StairWidth - 0.16f;
@@ -110,6 +121,11 @@ public static class StairRampAssembly
             });
         }
 
+        if (!buildStringers)
+        {
+            return;
+        }
+
         var leftStringer = new MeshInstance3D
         {
             Name = "Stair_Stringer_Left",
@@ -123,6 +139,92 @@ public static class StairRampAssembly
         rightStringer.Name = "Stair_Stringer_Right";
         rightStringer.Position = new Vector3(StairWidth * 0.5f - 0.04f, StairRise * 0.5f, StairRun * 0.5f);
         parent.AddChild(rightStringer);
+    }
+
+    private static void BuildSlopedHandrails(
+        Node3D parent,
+        StandardMaterial3D material,
+        uint collisionLayer)
+    {
+        const float railHeight = 0.9f;
+        const float midRailHeight = 0.48f;
+        const float postThickness = 0.10f;
+        const float beamThickness = 0.12f;
+        const int postCount = 5;
+        var railX = StairWidth * 0.5f + 0.08f;
+        var pitch = Mathf.Atan2(StairRise, StairRun);
+        var cos = Mathf.Cos(pitch);
+        var sin = Mathf.Sin(pitch);
+        var slopeBasis = new Basis(1f, 0f, 0f, 0f, cos, sin, 0f, -sin, cos);
+
+        BuildHandrailSide(parent, "Left", -railX, railHeight, midRailHeight,
+            postThickness, beamThickness, postCount, slopeBasis, material, collisionLayer);
+        BuildHandrailSide(parent, "Right", railX, railHeight, midRailHeight,
+            postThickness, beamThickness, postCount, slopeBasis, material, collisionLayer);
+    }
+
+    private static void BuildHandrailSide(
+        Node3D parent,
+        string side,
+        float x,
+        float railHeight,
+        float midRailHeight,
+        float postThickness,
+        float beamThickness,
+        int postCount,
+        Basis slopeBasis,
+        StandardMaterial3D material,
+        uint collisionLayer)
+    {
+        var host = new Node3D { Name = $"Stair_Handrail_{side}" };
+        parent.AddChild(host);
+
+        AddRailPiece(host, "TopRail",
+            new Vector3(x, StairRise * 0.5f + railHeight, StairRun * 0.5f),
+            new Vector3(beamThickness, beamThickness, SlopeLength() + 0.08f),
+            slopeBasis, material, collisionLayer);
+
+        AddRailPiece(host, "MidRail",
+            new Vector3(x, StairRise * 0.5f + midRailHeight, StairRun * 0.5f),
+            new Vector3(beamThickness * 0.82f, beamThickness * 0.82f, SlopeLength()),
+            slopeBasis, material, collisionLayer);
+
+        for (var i = 0; i < postCount; i++)
+        {
+            var t = i / (float)(postCount - 1);
+            var z = StairRun * t;
+            var stairY = StairRise * t;
+            AddRailPiece(host, $"Post_{i + 1:D2}",
+                new Vector3(x, stairY + railHeight * 0.5f, z),
+                new Vector3(postThickness, railHeight, postThickness),
+                Basis.Identity, material, collisionLayer);
+        }
+    }
+
+    private static void AddRailPiece(
+        Node3D parent,
+        string name,
+        Vector3 center,
+        Vector3 size,
+        Basis basis,
+        StandardMaterial3D material,
+        uint collisionLayer)
+    {
+        var body = new StaticBody3D
+        {
+            Name = name,
+            Position = center,
+            Basis = basis,
+            CollisionLayer = collisionLayer,
+            CollisionMask = 0
+        };
+        body.AddChild(new MeshInstance3D { Name = "Visual", Mesh = CreateBoxMesh(size, material) });
+        body.AddChild(new CollisionShape3D
+        {
+            Name = "CollisionShape3D",
+            Shape = new BoxShape3D { Size = size }
+        });
+        parent.AddChild(body);
     }
 
     private static void BuildUpperLanding(

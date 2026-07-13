@@ -699,6 +699,10 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
 
     protected virtual bool IncludeStairSideGuides => true;
 
+    protected virtual bool IncludeStairStringers => true;
+
+    protected virtual bool IncludeStairSlopedHandrails => false;
+
     protected virtual void BuildStairIntegration()
     {
         const float alcoveCenterX = (CorridorWallX + (BuildingHalfWidth - WallThickness * 0.5f)) * 0.5f;
@@ -767,7 +771,9 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             collisionLayer: WorldLayer,
             buildUpperLanding: IncludeStairUpperLanding,
             buildUpperBlockers: IncludeStairUpperBlockers,
-            buildSideGuides: IncludeStairSideGuides);
+            buildSideGuides: IncludeStairSideGuides,
+            buildStringers: IncludeStairStringers,
+            buildSlopedHandrails: IncludeStairSlopedHandrails);
 
         AddVisualFloorPlate(
             stairWell,
