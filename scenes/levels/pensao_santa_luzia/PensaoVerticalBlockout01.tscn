@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/FirstSafeShelter.tscn" id="23_shelter"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/props/OldBrazilianWardrobe.tscn" id="24_wardrobe"]
 [ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/EnemyPresenceAI.cs" id="25_enemy_ai"]
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/SecondChaseTrigger.cs" id="26_second_chase_trigger"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
 [ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
 [ext_resource type="Script" path="res://scripts/debug/DebugFallRecovery.cs" id="11_fall_recovery"]
@@ -58,6 +59,9 @@ size = Vector3(16, 2.8, 22)
 
 [sub_resource type="BoxShape3D" id="UpperWingVolumeShape"]
 size = Vector3(22, 2.8, 20)
+
+[sub_resource type="BoxShape3D" id="SecondChaseStartShape"]
+size = Vector3(1.8, 1.5, 1.2)
 
 [node name="PensaoVerticalBlockout01" type="Node3D"]
 script = ExtResource("1_controller")
@@ -126,6 +130,32 @@ position = Vector3(0, 0, -22.0)
 
 [node name="PatrolPoint_05_Return" type="Marker3D" parent="World/Gameplay/EnemyAI/PatrolPoints_FirstFloor"]
 position = Vector3(0, 0, -11.5)
+
+[node name="SecondChase_Path" type="Node3D" parent="World/Gameplay/EnemyAI"]
+
+[node name="SecondChasePoint_01_BackHall" type="Marker3D" parent="World/Gameplay/EnemyAI/SecondChase_Path"]
+position = Vector3(0, 0, -22.0)
+
+[node name="SecondChasePoint_02_Corridor" type="Marker3D" parent="World/Gameplay/EnemyAI/SecondChase_Path"]
+position = Vector3(0, 0, -15.5)
+
+[node name="SecondChasePoint_03_Reception" type="Marker3D" parent="World/Gameplay/EnemyAI/SecondChase_Path"]
+position = Vector3(0, 0, -9.5)
+
+[node name="SecondChasePoint_04_SafeZoneApproach" type="Marker3D" parent="World/Gameplay/EnemyAI/SecondChase_Path"]
+position = Vector3(0, 0, -4.8)
+
+[node name="SecondChasePoint_05_Stop" type="Marker3D" parent="World/Gameplay/EnemyAI/SecondChase_Path"]
+position = Vector3(0, 0, -5.5)
+
+[node name="Trigger_SecondChaseStart" type="Area3D" parent="World/Gameplay/EnemyAI"]
+position = Vector3(0, 0.8, -21.0)
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("26_second_chase_trigger")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Gameplay/EnemyAI/Trigger_SecondChaseStart"]
+shape = SubResource("SecondChaseStartShape")
 
 [node name="Perception" type="Node3D" parent="World/Gameplay/EnemyAI"]
 

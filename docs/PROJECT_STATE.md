@@ -1,5 +1,11 @@
 # BREU — Estado do projeto
 
+## Sprint 25 — segunda perseguição real
+
+Após a conclusão da Sprint 24, o fundo do térreo libera uma segunda perseguição one-shot. A presença interrompe a patrulha, reage ao ruído, segue a última posição conhecida somente pelo eixo central e busca o jogador sem entrar em quartos, escada ou segundo andar. Balcão e guarda-roupas encerram o fluxo após uma espera curta; a presença permanece sem collider, dano, morte ou teleporte.
+
+O esconderijo passa a funcionar como mecânica real de sobrevivência, e o objetivo final orienta o jogador a procurar outra saída da pensão. Próxima sprint recomendada: eventos dinâmicos leves ou um novo objetivo de saída, preservando a geometria aprovada.
+
 ## Sprint 24 — IA básica da presença
 
 Após `Sprint23Completed`, a silhueta da primeira presença passa a patrulhar apenas o eixo navegável do térreo entre recepção, entrada do corredor, corredor central e fundo da pensão. A IA possui visão curta por ângulo e raycast contra paredes, audição de corrida em até 8 m, alerta, busca na última coordenada segura do corredor e retorno à patrulha. `PlayerHidden` e `PlayerInSafeZone` cancelam detecção e fazem a presença se afastar; o inimigo continua sem collider físico, dano, morte, NavMesh ou acesso ao segundo andar.

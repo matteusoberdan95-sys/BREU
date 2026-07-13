@@ -7,6 +7,14 @@ globs:
 alwaysApply: true
 ---
 
+## Sprint 25 — segunda perseguição controlada
+
+- Perseguição não pode alterar geometria aprovada nem adicionar colisão física ao inimigo.
+- Safe zone ou esconderijo deve encerrar a perseguição após busca curta e nunca prender o player.
+- Evento e trigger de chase devem ser pequenos, térreos, one-shot e não podem atravessar andares.
+- Inimigo deve permanecer no eixo navegável, fora das safe zones, portas, escada e segundo andar.
+- Segunda perseguição precisa ter começo, meio e fim; não pode reiniciar infinitamente.
+
 ## Sprint 24 — IA básica da presença
 
 - IA não pode alterar geometria aprovada nem usar collider físico bloqueador no inimigo.

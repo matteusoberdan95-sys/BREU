@@ -455,3 +455,18 @@ Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F
 Playtest manual aprovado em 2026-07-13: [x] não ativa antes da Sprint 23 [x] patrulha ativa depois [x] cinco pontos livres [x] não atravessa parede [x] não sobe escada [x] vê somente com linha livre [x] correr alerta [x] agachar reduz visão/audição [x] balcão e guarda-roupas cancelam [x] busca termina [x] retorna à patrulha [x] não bloqueia player [x] regressão Sprints 20–23 e Hotfix 22B
 
 Hotfix validado: os esconderijos deixam de chamar o desligamento visual legado da Sprint 22 após `Sprint23Completed`; ao perder o jogador, a presença permanece visível e retoma a patrulha.
+
+## Sprint 25 — Segunda perseguição real
+
+- Condição: `Sprint24Completed`; a disponibilidade e o início são separados para impedir ativação precoce.
+- Trigger: `Trigger_SecondChaseStart`, pequeno (`1,8 × 1,5 × 1,2 m`), no fundo térreo em `(0; 0,8; -21)`, máscara exclusiva do player e one-shot.
+- Rota: cinco markers no eixo central entre fundo, corredor e aproximação da recepção; perseguição usa posição conhecida projetada em `X=0`, `Z=-23,5..-4,5`.
+- IA: pausa patrulha, aviso sonoro de 0,75 s, Chase a 3,25 m/s, visão/raycast e audição já validadas; sem linha livre passa a Search.
+- Safe zones: balcão ou guarda-roupa projetam a aproximação para o corredor externo, iniciam busca de 4 s e concluem `SecondChaseEscaped`, `SecondChaseFinished` e `Sprint25Completed`.
+- Mensagens: “Ele ouviu você.”, “Corra. Se esconda.”, “Não respire.”, “Fique quieto.”, “Os passos se afastaram.” e objetivo “Procure outra saída da pensão.”
+- Sons: `old_house_settle_01`, passos `distant_step_01/03/04` e `distant_knock_02`, todos em volume moderado; flicker curto e reversível no corredor.
+- Limitações: sem NavMesh, combate, morte, dano, teleporte ou colisão física; perseguição restrita à rota central do térreo.
+
+Validação automática: [x] build C# (0 erros/0 avisos) [x] cena oficial headless [x] F9 0 ERROR / 0 WARNING [x] trigger térreo `Y=0,05..1,55`, sem alcance do segundo andar [x] nenhum collider físico no inimigo [x] deck 49/49
+
+Playtest manual obrigatório: [ ] fluxo Sprints 20–24 [ ] Sprint 25 não ativa antes [ ] objetivo leva ao fundo [ ] trigger one-shot [ ] duas mensagens iniciais [ ] chase escapável [ ] não bloqueia player [ ] não atravessa parede [ ] não sobe escada [ ] safe zone/guarda-roupa encerra [ ] busca do lado de fora [ ] passos se afastam [ ] objetivo final [ ] não repete [ ] regressão térreo/escada/ala/varanda/203/puzzle

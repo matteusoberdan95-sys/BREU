@@ -6,13 +6,15 @@ using BREU.Scripts.Player;
 /// <summary>Sprint 24 — ground-floor-only scripted patrol with sight and sprint hearing.</summary>
 public partial class EnemyPresenceAI : Node3D
 {
-    private enum PresenceMode { Dormant, Patrol, Alert, Search, Lost }
+    private enum PresenceMode { Dormant, Patrol, Alert, SecondChaseIntro, Chase, Search, SafeRoomWait, Lost }
 
     [Export] public NodePath EnemyPath { get; set; } = "../../../FirstEnemyChase/Enemy_FirstPresence";
     [Export] public NodePath PlayerPath { get; set; } = "../../../Player";
     [Export] public NodePath PatrolRootPath { get; set; } = "PatrolPoints_FirstFloor";
+    [Export] public NodePath SecondChaseRootPath { get; set; } = "SecondChase_Path";
     [Export] public float PatrolSpeed { get; set; } = 1.35f;
     [Export] public float AlertSpeed { get; set; } = 2.35f;
+    [Export] public float ChaseSpeed { get; set; } = 3.25f;
     [Export] public float SightDistance { get; set; } = 6.0f;
     [Export] public float CrouchedSightDistance { get; set; } = 3.2f;
     [Export] public float SightHalfAngleDegrees { get; set; } = 28.0f;
@@ -23,12 +25,16 @@ public partial class EnemyPresenceAI : Node3D
     private CharacterBody3D? _player;
     private PlayerController? _playerController;
     private readonly List<Marker3D> _patrolPoints = new();
+    private readonly List<Marker3D> _secondChasePoints = new();
     private PresenceMode _mode;
     private int _patrolIndex;
     private float _waitTimer;
     private float _searchTimer;
     private float _detectionCooldown;
     private float _stepTimer;
+    private float _lostSightTimer;
+    private bool _safeRoomNearStepsPlayed;
+    private bool _secondChaseSawLogged;
     private Vector3 _lastKnownRoutePosition;
 
     public override void _Ready()
@@ -42,6 +48,11 @@ public partial class EnemyPresenceAI : Node3D
         if (patrolRoot != null)
             foreach (var child in patrolRoot.GetChildren())
                 if (child is Marker3D marker) _patrolPoints.Add(marker);
+
+        var secondChaseRoot = GetNodeOrNull<Node3D>(SecondChaseRootPath);
+        if (secondChaseRoot != null)
+            foreach (var child in secondChaseRoot.GetChildren())
+                if (child is Marker3D marker) _secondChasePoints.Add(marker);
 
         if (_enemy == null || _player == null || _patrolPoints.Count < 2)
             GD.PushError("[EnemyAI] Missing enemy, player, or patrol points.");
@@ -58,13 +69,26 @@ public partial class EnemyPresenceAI : Node3D
 
         if (_mode == PresenceMode.Dormant) StartPatrol();
 
+        if (_state.MakeSecondChaseAvailable())
+        {
+            HUDController.FindActive(GetTree())?.ShowMessage("Objetivo: Continue até o fundo da pensão.", 5f);
+            GD.Print("[SPRINT25] Second chase available");
+        }
+
         if ((_state.PlayerHidden || _state.PlayerInSafeZone) &&
+            _state.SecondChaseStarted && !_state.SecondChaseFinished &&
+            (_mode == PresenceMode.Alert || _mode == PresenceMode.Chase || _mode == PresenceMode.Search))
+        {
+            BeginSafeRoomWait();
+        }
+        else if ((_state.PlayerHidden || _state.PlayerInSafeZone) &&
             (_mode == PresenceMode.Alert || _mode == PresenceMode.Search))
         {
             LoseTarget("[EnemyAI] player hidden, losing target");
         }
 
-        if (!_state.PlayerHidden && !_state.PlayerInSafeZone && _detectionCooldown <= 0f)
+        if ((!_state.SecondChaseStarted || _state.SecondChaseFinished) &&
+            !_state.PlayerHidden && !_state.PlayerInSafeZone && _detectionCooldown <= 0f)
         {
             if (CanSeePlayer()) AlertToPlayer(true);
             else if (CanHearPlayerRunning()) AlertToPlayer(false);
@@ -78,8 +102,14 @@ public partial class EnemyPresenceAI : Node3D
             case PresenceMode.Alert:
                 ProcessAlert(dt);
                 break;
+            case PresenceMode.Chase:
+                ProcessSecondChase(dt);
+                break;
             case PresenceMode.Search:
                 ProcessSearch(dt);
+                break;
+            case PresenceMode.SafeRoomWait:
+                ProcessSafeRoomWait(dt);
                 break;
             case PresenceMode.Lost:
                 _waitTimer -= dt;
@@ -96,6 +126,32 @@ public partial class EnemyPresenceAI : Node3D
         _patrolIndex = FindNearestPatrolIndex(_enemy.GlobalPosition);
         _waitTimer = 0.8f;
         GD.Print("[EnemyAI] patrol active");
+    }
+
+    public bool TryStartSecondChase()
+    {
+        if (_state?.StartSecondChase() != true || _player == null || _enemy == null) return false;
+        _mode = PresenceMode.SecondChaseIntro;
+        _enemy.Visible = true;
+        FaceToward(_player.GlobalPosition);
+        PensionAudioManager.Find(GetTree())?.PlayOneShot("old_house_settle_01", -16f);
+        HUDController.FindActive(GetTree())?.ShowMessage("Ele ouviu você.", 2.2f);
+        GD.Print("[SPRINT25] Second chase started");
+        GD.Print("[SPRINT25] Enemy heard player");
+        _ = StartSecondChaseAfterDelayAsync();
+        _ = FlickerCorridorAsync();
+        return true;
+    }
+
+    private async System.Threading.Tasks.Task StartSecondChaseAfterDelayAsync()
+    {
+        await ToSignal(GetTree().CreateTimer(0.75f), SceneTreeTimer.SignalName.Timeout);
+        if (!IsInsideTree() || _state?.SecondChaseStarted != true || _state.SecondChaseFinished || _player == null) return;
+        _state.MarkSecondChaseTutorialShown();
+        _lastKnownRoutePosition = ProjectToCentralRoute(_player.GlobalPosition);
+        _lostSightTimer = 1.4f;
+        _mode = PresenceMode.Chase;
+        HUDController.FindActive(GetTree())?.ShowMessage("Corra. Se esconda.", 3.5f);
     }
 
     private void ProcessPatrol(float dt)
@@ -167,11 +223,130 @@ public partial class EnemyPresenceAI : Node3D
         }
     }
 
+    private void ProcessSecondChase(float dt)
+    {
+        var canSee = CanSeePlayer();
+        var canHear = CanHearPlayerRunning();
+        if (canSee || canHear)
+        {
+            _lastKnownRoutePosition = ProjectToCentralRoute(_player!.GlobalPosition);
+            _lostSightTimer = 1.4f;
+            if (canSee && !_secondChaseSawLogged)
+            {
+                _secondChaseSawLogged = true;
+                GD.Print("[SPRINT25] Enemy saw player");
+            }
+        }
+        else
+        {
+            _lostSightTimer -= dt;
+        }
+
+        if (_player!.GlobalPosition.Y <= 1.7f &&
+            _enemy!.GlobalPosition.DistanceTo(_player.GlobalPosition) < 1.15f)
+        {
+            HUDController.FindActive(GetTree())?.ShowMessage("Ela está perto demais.", 2.5f);
+            PensionAudioManager.Find(GetTree())?.PlayOneShot("distant_knock_02", -15f);
+            _mode = PresenceMode.Search;
+            _searchTimer = 1.6f;
+            _detectionCooldown = 1.5f;
+            _state!.BeginEnemySearch();
+            return;
+        }
+
+        if (_lostSightTimer <= 0f || MoveEnemyToward(_lastKnownRoutePosition, ChaseSpeed, dt))
+        {
+            _mode = PresenceMode.Search;
+            _searchTimer = 2.4f;
+            _state!.BeginEnemySearch();
+        }
+    }
+
     private void ProcessSearch(float dt)
     {
+        if (_state?.SecondChaseStarted == true && !_state.SecondChaseFinished &&
+            (CanSeePlayer() || CanHearPlayerRunning()))
+        {
+            _lastKnownRoutePosition = ProjectToCentralRoute(_player!.GlobalPosition);
+            _lostSightTimer = 1.4f;
+            _mode = PresenceMode.Chase;
+            return;
+        }
+
         _searchTimer -= dt;
         FaceToward(_lastKnownRoutePosition);
-        if (_searchTimer <= 0f) LoseTarget("[EnemyAI] returning to patrol");
+        if (_searchTimer > 0f) return;
+
+        if (_state?.SecondChaseStarted == true && !_state.SecondChaseFinished)
+        {
+            _lastKnownRoutePosition = _secondChasePoints.Count > 1
+                ? _secondChasePoints[1].GlobalPosition
+                : ProjectToCentralRoute(_enemy!.GlobalPosition);
+            _lostSightTimer = 1.4f;
+            _mode = PresenceMode.Chase;
+            return;
+        }
+
+        LoseTarget("[EnemyAI] returning to patrol");
+    }
+
+    private void BeginSafeRoomWait()
+    {
+        if (_state == null || _mode == PresenceMode.SafeRoomWait) return;
+        _mode = PresenceMode.SafeRoomWait;
+        _waitTimer = 4.0f;
+        _safeRoomNearStepsPlayed = false;
+        _lastKnownRoutePosition = ProjectToCentralRoute(_player!.GlobalPosition);
+        _state.BeginSecondChaseShelterSearch();
+        HUDController.FindActive(GetTree())?.ShowMessage("Não respire.", 3f);
+        PensionAudioManager.Find(GetTree())?.PlayOneShot("distant_step_04", -16f);
+        GD.Print("[SPRINT25] Player entered safe zone");
+    }
+
+    private void ProcessSafeRoomWait(float dt)
+    {
+        if (_state == null) return;
+        if (!_state.PlayerInSafeZone && !_state.PlayerHidden)
+        {
+            _state.ResumeSecondChase();
+            _lastKnownRoutePosition = ProjectToCentralRoute(_player!.GlobalPosition);
+            _lostSightTimer = 1.4f;
+            _mode = PresenceMode.Chase;
+            HUDController.FindActive(GetTree())?.ShowMessage("Ela ainda está perto demais.", 2.5f);
+            return;
+        }
+
+        MoveEnemyToward(_lastKnownRoutePosition, AlertSpeed, dt);
+        _waitTimer -= dt;
+        if (!_safeRoomNearStepsPlayed && _waitTimer <= 2.4f)
+        {
+            _safeRoomNearStepsPlayed = true;
+            PensionAudioManager.Find(GetTree())?.PlayOneShot("distant_step_03", -17f);
+            HUDController.FindActive(GetTree())?.ShowMessage("Fique quieto.", 2.4f);
+        }
+
+        if (_waitTimer <= 0f) FinishSecondChase();
+    }
+
+    private void FinishSecondChase()
+    {
+        if (_state?.FinishSecondChase() != true) return;
+        _mode = PresenceMode.Lost;
+        _waitTimer = 3f;
+        _detectionCooldown = 6f;
+        PensionAudioManager.Find(GetTree())?.PlayOneShot("distant_step_01", -19f);
+        HUDController.FindActive(GetTree())?.ShowMessage("Os passos se afastaram.", 3f);
+        GD.Print("[SPRINT25] Enemy lost player");
+        GD.Print("[SPRINT25] Second chase finished");
+        _ = ShowSecondChaseObjectiveAsync();
+    }
+
+    private async System.Threading.Tasks.Task ShowSecondChaseObjectiveAsync()
+    {
+        await ToSignal(GetTree().CreateTimer(3.1f), SceneTreeTimer.SignalName.Timeout);
+        if (!IsInsideTree()) return;
+        HUDController.FindActive(GetTree())?.ShowMessage(
+            "Continue explorando com cuidado. Objetivo: Procure outra saída da pensão.", 6f);
     }
 
     private void LoseTarget(string log)
@@ -240,6 +415,16 @@ public partial class EnemyPresenceAI : Node3D
         target.Y = _enemy.GlobalPosition.Y;
         if (_enemy.GlobalPosition.DistanceSquaredTo(target) > 0.001f)
             _enemy.LookAt(target, Vector3.Up);
+    }
+
+    private async System.Threading.Tasks.Task FlickerCorridorAsync()
+    {
+        var light = GetTree().CurrentScene?.GetNodeOrNull<OmniLight3D>("Lighting/CorridorDeepLight");
+        if (light == null) return;
+        var energy = light.LightEnergy;
+        light.LightEnergy = energy * 0.18f;
+        await ToSignal(GetTree().CreateTimer(0.38f), SceneTreeTimer.SignalName.Timeout);
+        if (GodotObject.IsInstanceValid(light)) light.LightEnergy = energy;
     }
 
     private int FindNearestPatrolIndex(Vector3 position)

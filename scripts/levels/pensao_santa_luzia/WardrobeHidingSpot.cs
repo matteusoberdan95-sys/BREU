@@ -22,6 +22,16 @@ public partial class WardrobeHidingSpot : Node, IInteractable
 
     public void Interact(Node interactor)
     {
+        if (_state?.SecondChaseStarted == true && !_state.SecondChaseFinished)
+        {
+            if (_state.BeginSecondChaseHide())
+            {
+                HUDController.FindActive(GetTree())?.ShowMessage("Não respire.", 2.8f);
+                PensionAudioManager.Find(GetTree())?.PlayOneShot("distant_step_04", -18f);
+            }
+            return;
+        }
+
         if (_running || _state?.BeginReusableHide() != true) return;
         _running = true;
         _ = HideAsync();

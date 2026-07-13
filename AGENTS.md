@@ -1,3 +1,7 @@
+## REGRA CRÍTICA — SPRINT 25
+
+Esta sprint é de comportamento da presença e perseguição controlada. É proibido alterar geometria aprovada, reconstruir paredes, pisos, cômodos, varanda, escada ou térreo, criar collider gigante, boundary global ou trigger atravessando andares. O inimigo não pode bloquear fisicamente o player. A safe zone deve encerrar a perseguição. Todo evento de chase deve ser one-shot, possuir começo/meio/fim e não repetir infinitamente.
+
 ## REGRA CRÍTICA — SPRINT 24
 
 Esta sprint é apenas de IA básica da presença. É proibido alterar a geometria aprovada, reconstruir cômodos, pisos, paredes, varanda ou térreo, criar colliders gigantes ou triggers entre andares. O inimigo protótipo não pode bloquear ou prender o player, atravessar paredes de forma absurda ou subir ao segundo andar. Safe zone e esconderijo devem sempre cancelar visão e audição da IA.

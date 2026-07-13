@@ -15,6 +15,8 @@ public partial class FirstHidingSpot : Node, IInteractable
 
     public string GetPromptText() => _state switch
     {
+        { SecondChaseStarted: true, SecondChaseFinished: false, PlayerInSafeZone: true, PlayerHidden: false } =>
+            "Se esconder",
         { Sprint23Completed: false, PlayerInSafeZone: true, PlayerHidden: false, FirstChaseStarted: true } =>
             "Se esconder",
         _ => string.Empty
@@ -22,6 +24,16 @@ public partial class FirstHidingSpot : Node, IInteractable
 
     public void Interact(Node interactor)
     {
+        if (_state?.SecondChaseStarted == true && !_state.SecondChaseFinished)
+        {
+            if (_state.BeginSecondChaseHide())
+            {
+                HUDController.FindActive(GetTree())?.ShowMessage("Não respire.", 2.8f);
+                PensionAudioManager.Find(GetTree())?.PlayOneShot("old_house_settle_01", -19f);
+            }
+            return;
+        }
+
         if (_sequenceRunning || _state?.BeginFirstHide() != true) return;
         _sequenceRunning = true;
         _ = HideAsync();

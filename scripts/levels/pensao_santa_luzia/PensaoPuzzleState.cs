@@ -58,6 +58,12 @@ public partial class PensaoPuzzleState : Node
     public bool EnemySawPlayerOnce { get; private set; }
     public bool EnemyHeardPlayerOnce { get; private set; }
     public bool Sprint24Completed { get; private set; }
+    public bool SecondChaseAvailable { get; private set; }
+    public bool SecondChaseStarted { get; private set; }
+    public bool SecondChaseEscaped { get; private set; }
+    public bool SecondChaseFinished { get; private set; }
+    public bool SecondChaseTutorialShown { get; private set; }
+    public bool Sprint25Completed { get; private set; }
     public bool Room203CanBeForced => IsUpperPowerRestored;
 
     /// <summary>Sprint 18A — second fuse from linen closet.</summary>
@@ -98,6 +104,8 @@ public partial class PensaoPuzzleState : Node
     public event Action? FirstShelterEntered;
     public event Action? FirstHidingStarted;
     public event Action? Sprint23Finished;
+    public event Action? SecondChaseBegan;
+    public event Action? SecondChaseEnded;
     public event Action? UpperFusePickedUp;
     public event Action? UpperPowerRestored;
     public event Action? Room204NoteRead;
@@ -370,6 +378,64 @@ public partial class PensaoPuzzleState : Node
         EnemySearching = false;
         EnemyLostPlayer = true;
         if (EnemySawPlayerOnce || EnemyHeardPlayerOnce) Sprint24Completed = true;
+    }
+
+    public bool MakeSecondChaseAvailable()
+    {
+        if (!Sprint24Completed || SecondChaseStarted || SecondChaseFinished) return false;
+        if (SecondChaseAvailable) return false;
+        SecondChaseAvailable = true;
+        return true;
+    }
+
+    public bool StartSecondChase()
+    {
+        if (!Sprint24Completed || !SecondChaseAvailable || SecondChaseStarted || SecondChaseFinished) return false;
+        SecondChaseAvailable = false;
+        SecondChaseStarted = true;
+        EnemyPatrolActive = false;
+        EnemyAlerted = true;
+        EnemySearching = false;
+        SecondChaseBegan?.Invoke();
+        return true;
+    }
+
+    public void MarkSecondChaseTutorialShown() => SecondChaseTutorialShown = true;
+
+    public bool BeginSecondChaseHide()
+    {
+        if (!SecondChaseStarted || SecondChaseFinished || !PlayerInSafeZone || PlayerHidden) return false;
+        PlayerHidden = true;
+        return true;
+    }
+
+    public void BeginSecondChaseShelterSearch()
+    {
+        if (!SecondChaseStarted || SecondChaseFinished) return;
+        EnemyAlerted = false;
+        EnemySearching = true;
+    }
+
+    public void ResumeSecondChase()
+    {
+        if (!SecondChaseStarted || SecondChaseFinished) return;
+        PlayerHidden = false;
+        EnemyAlerted = true;
+        EnemySearching = false;
+    }
+
+    public bool FinishSecondChase()
+    {
+        if (!SecondChaseStarted || SecondChaseFinished) return false;
+        PlayerHidden = false;
+        EnemyAlerted = false;
+        EnemySearching = false;
+        EnemyLostPlayer = true;
+        SecondChaseEscaped = true;
+        SecondChaseFinished = true;
+        Sprint25Completed = true;
+        SecondChaseEnded?.Invoke();
+        return true;
     }
 
     public void PickupUpperFuse()
