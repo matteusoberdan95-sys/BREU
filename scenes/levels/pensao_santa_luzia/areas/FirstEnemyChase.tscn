@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/FirstEnemyChaseController.cs" id="1"]
+[sub_resource type="BoxShape3D" id="RevealShape"]
+size = Vector3(1.7, 1.5, 1.1)
+[sub_resource type="BoxShape3D" id="EscapeShape"]
+size = Vector3(2.2, 1.5, 1.4)
+[sub_resource type="CapsuleMesh" id="BodyMesh"]
+radius = 0.38
+height = 2.1
+[sub_resource type="SphereMesh" id="HeadMesh"]
+radius = 0.32
+height = 0.64
+[sub_resource type="StandardMaterial3D" id="EnemyMaterial"]
+albedo_color = Color(0.004, 0.003, 0.006, 1)
+roughness = 1.0
+
+[node name="FirstEnemyChase" type="Node3D"]
+script = ExtResource("1")
+
+[node name="Trigger_FirstEnemyReveal" type="Area3D" parent="."]
+position = Vector3(0, 0.8, -22.8)
+collision_layer = 0
+collision_mask = 16
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trigger_FirstEnemyReveal"]
+shape = SubResource("RevealShape")
+
+[node name="Trigger_FirstChaseEscape" type="Area3D" parent="."]
+position = Vector3(0, 0.8, -7.0)
+collision_layer = 0
+collision_mask = 16
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trigger_FirstChaseEscape"]
+shape = SubResource("EscapeShape")
+
+[node name="Enemy_FirstPresence" type="Node3D" parent="."]
+[node name="Visual_Body" type="MeshInstance3D" parent="Enemy_FirstPresence"]
+position = Vector3(0, 1.05, 0)
+mesh = SubResource("BodyMesh")
+material_override = SubResource("EnemyMaterial")
+cast_shadow = 0
+[node name="Visual_Head" type="MeshInstance3D" parent="Enemy_FirstPresence"]
+position = Vector3(0, 2.15, 0)
+mesh = SubResource("HeadMesh")
+material_override = SubResource("EnemyMaterial")
+cast_shadow = 0
+
+[node name="FirstChase_Path" type="Node3D" parent="."]
+[node name="ChasePoint_01_Reveal" type="Marker3D" parent="FirstChase_Path"]
+position = Vector3(0, 0, -27.7)
+[node name="ChasePoint_02_Corridor" type="Marker3D" parent="FirstChase_Path"]
+position = Vector3(0, 0, -21.0)
+[node name="ChasePoint_03_ReceptionEdge" type="Marker3D" parent="FirstChase_Path"]
+position = Vector3(0, 0, -14.0)
+[node name="ChasePoint_04_Stop" type="Marker3D" parent="FirstChase_Path"]
+position = Vector3(0, 0, -8.5)

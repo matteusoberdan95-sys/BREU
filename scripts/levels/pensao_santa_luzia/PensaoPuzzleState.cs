@@ -37,6 +37,10 @@ public partial class PensaoPuzzleState : Node
     public bool FirstPresencePlayed { get; private set; }
     public bool DownstairsClueCollected { get; private set; }
     public bool Sprint21Completed { get; private set; }
+    public bool FirstEnemySeen { get; private set; }
+    public bool FirstChaseStarted { get; private set; }
+    public bool FirstChaseFinished { get; private set; }
+    public bool FirstChaseEscaped { get; private set; }
     public bool Room203CanBeForced => IsUpperPowerRestored && HasOwnerRoomKey;
 
     /// <summary>Sprint 18A — second fuse from linen closet.</summary>
@@ -72,6 +76,8 @@ public partial class PensaoPuzzleState : Node
     public event Action? Room203EventTriggered;
     public event Action? FirstPresenceTriggered;
     public event Action? DownstairsClueRead;
+    public event Action? FirstChaseBegan;
+    public event Action? FirstChaseEnded;
     public event Action? UpperFusePickedUp;
     public event Action? UpperPowerRestored;
     public event Action? Room204NoteRead;
@@ -230,6 +236,22 @@ public partial class PensaoPuzzleState : Node
         DownstairsClueCollected = true;
         Sprint21Completed = true;
         DownstairsClueRead?.Invoke();
+    }
+
+    public void StartFirstChase()
+    {
+        if (!Sprint21Completed || FirstChaseStarted || FirstChaseFinished) return;
+        FirstEnemySeen = true;
+        FirstChaseStarted = true;
+        FirstChaseBegan?.Invoke();
+    }
+
+    public void EscapeFirstChase()
+    {
+        if (!FirstChaseStarted || FirstChaseFinished) return;
+        FirstChaseFinished = true;
+        FirstChaseEscaped = true;
+        FirstChaseEnded?.Invoke();
     }
 
     public void PickupUpperFuse()

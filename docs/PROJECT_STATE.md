@@ -1,5 +1,11 @@
 # BREU — Estado do projeto
 
+## Sprint 22 — primeiro inimigo protótipo
+
+O fundo do corredor térreo agora revela `Enemy_FirstPresence`, uma silhueta visual sem colisão que inicia a primeira perseguição curta do jogo. O movimento segue quatro pontos autorados pelo corredor até a borda da recepção, sem NavMesh, IA final, combate, dano ou interação física com o player.
+
+A recepção funciona como zona segura e encerra o evento permanentemente, ensinando que fugir é necessário. A próxima sprint recomendada é um sistema simples de esconderijo e sala segura.
+
 ## Sprint 21 — descida e primeira presença
 
 Após concluir o evento do Quarto 203 e descer a escada, o jogador encontra a primeira presença visual/sonora no térreo. Um trigger pequeno no pé da escada executa a sequência uma única vez: sons existentes, flicker localizado da recepção e uma sombra sem colisão no corredor.

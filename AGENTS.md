@@ -1,3 +1,7 @@
+## REGRA CRÍTICA — SPRINT 22
+
+Esta sprint é de evento/inimigo protótipo, não de construção estrutural. É proibido reconstruir mapa, paredes, pisos, cômodos ou varanda. O inimigo protótipo não pode possuir colisão bloqueadora nem prender o player. A perseguição deve ser curta, roteirizada, reversível e one-shot antes de qualquer IA complexa. Nenhum evento pode teleportar o player, alcançar outro andar ou criar collider gigante.
+
 ## REGRA CRÍTICA — SPRINT 21
 
 Esta sprint é de evento e presença, não de construção estrutural. É proibido reconstruir cômodos, pisos, paredes, varanda, térreo ou ala superior. Qualquer trigger deve ser pequeno, localizado, condicionado à flag correta e one-shot. Presenças visuais não podem ter colisão nem bloquear caminho. Nenhum evento pode teleportar, empurrar, matar, causar dano ou travar o jogador.

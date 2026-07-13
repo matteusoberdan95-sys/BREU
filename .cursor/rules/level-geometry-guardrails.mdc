@@ -175,3 +175,10 @@ Se o player for jogado para cima, a task falhou. Use F8 (PlayerAreaProbe) e F9 (
 - O evento só pode iniciar depois de `Room203EventPlayed` e da saída confirmada do Quarto 203.
 - Nenhum evento pode teleportar, empurrar, causar dano ou bloquear input.
 - Não alterar a geometria estrutural aprovada para acomodar evento, sombra ou pista.
+## Sprint 22 — perseguição protótipo
+
+- O inimigo protótipo não pode possuir colisão bloqueadora.
+- A primeira perseguição deve seguir pontos roteirizados, sem NavMesh ou IA complexa.
+- Triggers de revelação e escape devem ser pequenos, térreos e one-shot.
+- O evento não pode alterar geometria, portas, pisos ou paredes aprovadas.
+- O inimigo não pode empurrar, teleportar, causar dano ou prender o player.

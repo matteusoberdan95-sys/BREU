@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://scripts/narrative/PensionNarrativeEvents.cs" id="7_narrative"]
 [ext_resource type="Script" path="res://scripts/audio/PensionAudioManager.cs" id="8_audio"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/After203FirstPresence.tscn" id="21_presence"]
+[ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/areas/FirstEnemyChase.tscn" id="22_chase"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
 [ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
 [ext_resource type="Script" path="res://scripts/debug/DebugFallRecovery.cs" id="11_fall_recovery"]
@@ -215,6 +216,8 @@ groups = ["level_upper_wing"]
 groups = ["level_second_floor", "level_door"]
 
 [node name="After203FirstPresence" parent="." instance=ExtResource("21_presence")]
+
+[node name="FirstEnemyChase" parent="." instance=ExtResource("22_chase")]
 
 [node name="PensionCeiling" type="Node3D" parent="."]
 groups = ["level_ceiling"]

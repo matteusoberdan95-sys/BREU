@@ -381,3 +381,17 @@ Playtest manual aprovado em 2026-07-13: [x] bloqueio antes do puzzle [x] prompt 
 Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING
 
 Playtest manual aprovado em 2026-07-13: [x] não dispara antes do 203 [x] dispara somente no térreo [x] sombra aparece/desaparece [x] evento não repete após subir/descer [x] pista acessível [x] objetivo final “O barulho veio do fundo da pensão” [x] sem dano/teleporte/bloqueio [x] regressão térreo/escada/ala/varanda/203
+## Sprint 22 — Primeiro inimigo protótipo e perseguição curta
+
+- Início: somente após `Sprint21Completed`/`DownstairsClueCollected`.
+- Revelação: `Trigger_FirstEnemyReveal` no corredor profundo, `(0; 0,8; -22,8)`.
+- Inimigo: `Enemy_FirstPresence`, silhueta sem collider, dano ou corpo físico.
+- Rota: reveal `Z=-27,7` → corredor `-21` → borda `-14` → parada `-8,5`, velocidade 2,65 m/s.
+- Escape: `Trigger_FirstChaseEscape` na borda da recepção, `(0; 0,8; -7)`.
+- Mensagens: “Tem alguém ali.” → “Corra.” → “Ele parou… Procure uma forma de se esconder.”
+- Sons: `old_house_settle_01`, `distant_step_04`, `distant_knock_02`.
+- Não há IA final, NavMesh, combate, dano, morte, teleporte ou colisão bloqueadora.
+
+Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING
+
+Playtest manual obrigatório: [ ] não inicia antes da Sprint 21 [ ] reveal one-shot [ ] mensagens aparecem [ ] perseguição curta e escapável [ ] inimigo não atravessa paredes [ ] safezone encerra [ ] não reinicia [ ] sem dano/teleporte/bloqueio [ ] regressão completa
