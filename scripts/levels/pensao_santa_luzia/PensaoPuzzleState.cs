@@ -45,6 +45,12 @@ public partial class PensaoPuzzleState : Node
     public bool FirstChaseStarted { get; private set; }
     public bool FirstChaseFinished { get; private set; }
     public bool FirstChaseEscaped { get; private set; }
+    public bool Sprint22Completed => FirstChaseFinished;
+    public bool PlayerInSafeZone { get; private set; }
+    public bool PlayerHidden { get; private set; }
+    public bool SafeRoomDiscovered { get; private set; }
+    public bool FirstHideTutorialShown { get; private set; }
+    public bool Sprint23Completed { get; private set; }
     public bool Room203CanBeForced => IsUpperPowerRestored;
 
     /// <summary>Sprint 18A — second fuse from linen closet.</summary>
@@ -82,6 +88,9 @@ public partial class PensaoPuzzleState : Node
     public event Action? DownstairsClueRead;
     public event Action? FirstChaseBegan;
     public event Action? FirstChaseEnded;
+    public event Action? FirstShelterEntered;
+    public event Action? FirstHidingStarted;
+    public event Action? Sprint23Finished;
     public event Action? UpperFusePickedUp;
     public event Action? UpperPowerRestored;
     public event Action? Room204NoteRead;
@@ -256,6 +265,48 @@ public partial class PensaoPuzzleState : Node
         FirstChaseFinished = true;
         FirstChaseEscaped = true;
         FirstChaseEnded?.Invoke();
+    }
+
+    public bool EnterFirstSafeZone()
+    {
+        if ((!FirstChaseStarted && !FirstChaseFinished) || Sprint23Completed) return false;
+        PlayerInSafeZone = true;
+        if (!SafeRoomDiscovered)
+        {
+            SafeRoomDiscovered = true;
+            FirstShelterEntered?.Invoke();
+        }
+        if (FirstChaseStarted && !FirstChaseFinished) EscapeFirstChase();
+        return true;
+    }
+
+    public void ExitFirstSafeZone()
+    {
+        if (!PlayerHidden) PlayerInSafeZone = false;
+    }
+
+    public bool ShowFirstHideTutorial()
+    {
+        if (FirstHideTutorialShown) return false;
+        FirstHideTutorialShown = true;
+        return true;
+    }
+
+    public bool BeginFirstHide()
+    {
+        if (!PlayerInSafeZone || PlayerHidden || Sprint23Completed || !FirstChaseStarted) return false;
+        PlayerHidden = true;
+        FirstHidingStarted?.Invoke();
+        return true;
+    }
+
+    public void CompleteFirstHide()
+    {
+        if (!PlayerHidden || Sprint23Completed) return;
+        PlayerHidden = false;
+        PlayerInSafeZone = false;
+        Sprint23Completed = true;
+        Sprint23Finished?.Invoke();
     }
 
     public void PickupUpperFuse()

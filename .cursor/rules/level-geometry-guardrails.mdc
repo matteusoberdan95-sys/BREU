@@ -7,6 +7,14 @@ globs:
 alwaysApply: true
 ---
 
+## Sprint 23 — safe zones e esconderijos
+
+- SafeZone deve ser `Area3D`, nunca collider físico bloqueador.
+- Esconderijo não pode prender, empurrar ou teleportar o player.
+- Toda zona de esconderijo deve ser pequena, localizada no cômodo e isolada por andar.
+- O fluxo precisa ser testado com a perseguição ativa e permitir saída livre.
+- Trigger de esconderijo não pode alcançar outro andar.
+
 # BREU — Level Geometry Guardrails
 
 ## Regra permanente de objetivos e fechamento

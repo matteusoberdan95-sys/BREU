@@ -1,5 +1,11 @@
 # BREU — Estado do projeto
 
+## Sprint 23 — primeiro esconderijo / sala segura
+
+A recepção agora possui o primeiro abrigo jogável, atrás do balcão existente. `SafeZone_FirstShelter` é uma `Area3D` térrea pequena e não bloqueadora; `Interact_FirstHidingSpot` permite esperar até os passos se afastarem sem teleporte ou perda permanente de controle. A zona integra-se ao estado da perseguição da Sprint 22, encerra uma perseguição ainda ativa, oculta a presença e conclui `Sprint23Completed` com o objetivo de investigar o que está caçando o jogador.
+
+Próxima sprint recomendada: IA básica de patrulha, visão e audição simples, reutilizando `PlayerHidden` e as safe zones.
+
 ## Hotfix 22B — chave do ralo e dois fusíveis
 
 O puzzle de energia superior agora exige três elementos reais: Chave Enferrujada retirada do ralo, Fusível Velho encontrado no depósito térreo e Fusível Superior encontrado na rouparia. A chave destrava a tampa do painel e cada fusível ocupa um slot próprio; `IsUpperPowerRestored` só ativa com painel destravado e ambos instalados.

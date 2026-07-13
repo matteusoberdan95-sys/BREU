@@ -407,3 +407,19 @@ Playtest manual obrigatório: [ ] não inicia antes da Sprint 21 [ ] reveal one-
 Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING [x] deck preservado: 49/49
 
 Playtest manual aprovado em 2026-07-13: [x] painel bloqueia sem chave [x] chave do ralo destrava [x] Fusível Velho instala [x] Fusível Superior instala [x] um único fusível não liga energia [x] dois fusíveis ligam energia [x] 203 muda de estado [x] regressão Sprints 20/21/22
+
+## Sprint 23 — Sistema simples de esconderijo / sala segura
+
+- Local: atrás do balcão existente da recepção, centro global aproximado `(3,4; 0,75; -2,45)`.
+- `SafeZone_FirstShelter`: `Area3D` de `2,0 × 1,5 × 1,2 m`, máscara exclusiva do player, sem corpo físico ou teleporte.
+- `Interact_FirstHidingSpot`: interação pequena na face sul do balcão; prompt “Se esconder”.
+- Integração: entrar no abrigo durante a perseguição encerra `FirstChase`, interrompe/oculta `Enemy_FirstPresence`; após a fuga normal, o abrigo continua ensinando o sistema uma única vez.
+- Tutorial: “Quando ouvir passos próximos, procure um lugar escuro.” e “Fique quieto até eles se afastarem.”
+- Sequência: “Segure a respiração...” → passos distantes → “Os passos se afastaram.” → novo objetivo.
+- Sons existentes: `old_house_settle_01`, `distant_step_03` e `distant_step_04`, em volume baixo.
+- Flags: `Sprint22Completed`, `PlayerInSafeZone`, `PlayerHidden`, `SafeRoomDiscovered`, `FirstHideTutorialShown` e `Sprint23Completed`.
+- Nenhum piso, parede, varanda, cômodo, collider físico ou rota aprovada foi modificado.
+
+Validação automática: [x] build C# (0 erros/0 avisos) [x] cena headless [x] F9: 0 ERROR / 0 WARNING [x] safe zone térrea, pequena e sem `StaticBody3D` [x] deck preservado: 49/49
+
+Playtest manual aprovado em 2026-07-13: [x] perseguição ativa [x] objetivo de abrigo [x] zona atrás do balcão [x] prompt aparece [x] sequência completa [x] inimigo para/some [x] tutorial uma vez [x] controle preservado [x] saída livre [x] objetivo final [x] regressão Sprints 20/21/22 e Hotfix 22B

@@ -1,3 +1,7 @@
+## REGRA CRÍTICA — SPRINT 23
+
+Esta sprint cria um sistema simples de esconderijo/sala segura. É proibido reconstruir mapa, pisos, paredes, varanda ou cômodos. Safe zones devem ser `Area3D` pequenas, localizadas, sem colisão física bloqueadora e sem alcançar outro andar. O esconderijo não pode prender, teleportar, empurrar ou travar o jogador e deve ser testado com a perseguição da Sprint 22 ativa.
+
 ## REGRA CRÍTICA — HOTFIX 22B
 
 Este hotfix é somente de lógica de puzzle. É proibido alterar layout, paredes, pisos, portas físicas, varanda, navegação, cômodos ou o inimigo da Sprint 22. Item de puzzle não pode ficar sem função: a chave do ralo deve destravar claramente o painel técnico, e a energia superior exige o Fusível Velho e o Fusível Superior instalados.

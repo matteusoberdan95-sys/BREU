@@ -79,14 +79,19 @@ public partial class FirstEnemyChaseController : Node3D
         if (body is not CharacterBody3D || body.GlobalPosition.Y > 1.7f ||
             _state?.FirstChaseStarted != true || _state.FirstChaseFinished) return;
         _state.EscapeFirstChase();
-        _moving = false;
-        if (_enemy != null) _enemy.Visible = false;
-        _escapeTrigger?.SetDeferred(Area3D.PropertyName.Monitoring, false);
+        StopForShelter();
         PensionAudioManager.Find(GetTree())?.PlayOneShot("distant_knock_02", -14f);
         HUDController.FindActive(GetTree())?.ShowMessage(
             "Ele parou. Objetivo: Algo está dentro da pensão. Procure uma forma de se esconder.", 6f);
         GD.Print("[SPRINT22] Chase escaped");
         GD.Print("[SPRINT22] Chase finished");
+    }
+
+    public void StopForShelter()
+    {
+        _moving = false;
+        if (_enemy != null) _enemy.Visible = false;
+        _escapeTrigger?.SetDeferred(Area3D.PropertyName.Monitoring, false);
     }
 
     private async System.Threading.Tasks.Task FlickerCorridorAsync()
