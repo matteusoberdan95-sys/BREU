@@ -1,5 +1,9 @@
 # BREU — Estado do projeto
 
+## Hotfix de fechamento — escada e forro frontal
+
+Os dois guias residuais `Stair_Guide_Left/Right`, incluindo suas colisões locais, foram desativados somente na escada da pensão; stringers, rampa física e paredes estruturais do poço permanecem intactos. O forro `Ceiling_FirstFloor_TransitionFront` fecha visualmente a faixa entre a borda frontal da laje visual e a fachada, embutido na colisão já existente do deck congelado e sem collider novo. Nenhum sistema de gameplay, perseguição, puzzle, porta, varanda ou cômodo superior foi alterado.
+
 ## Sprint 25 — segunda perseguição real
 
 Após a conclusão da Sprint 24, o fundo do térreo libera uma segunda perseguição one-shot. A presença interrompe a patrulha, reage ao ruído, segue a última posição conhecida somente pelo eixo central e busca o jogador sem entrar em quartos, escada ou segundo andar. Balcão e guarda-roupas encerram o fluxo após uma espera curta; a presença permanece sem collider, dano, morte ou teleporte.

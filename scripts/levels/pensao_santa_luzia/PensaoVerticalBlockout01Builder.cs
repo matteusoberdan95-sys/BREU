@@ -101,6 +101,10 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     protected override bool IncludeStairUpperBlockers => false;
 
+    // The old paired guide walls were visual/collision residue beside the
+    // approved stair flight. The real shaft walls and stringers remain intact.
+    protected override bool IncludeStairSideGuides => false;
+
     public override void _Ready()
     {
         _secondFloor = GetNodeOrNull<Node3D>("../../PensionSecondFloor")
@@ -211,6 +215,18 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_Seal_East",
             new Vector3(StairOpenEastX + eastWidth * 0.5f, FirstFloorCeilingCenterY, StairOpenCenterZ),
             new Vector3(eastWidth, FirstFloorCeilingThickness, StairOpenDepth), _matCeilingFirst);
+
+        // Closing soffit between the front edge of SecondFloor_MasterSlab
+        // (Z=8.6) and the entrance facade (Z=11.6). The frozen
+        // UpperWing_CollisionDeck already supplies the physical underside at
+        // Y=2.0, so this is visual-only and embedded above that collision face.
+        const float masterSlabFrontZ = 8.6f;
+        var transitionDepth = BuildingFrontZ - masterSlabFrontZ + FloorOverlap;
+        var transitionCenterZ = (BuildingFrontZ + masterSlabFrontZ) * 0.5f;
+        var frozenDeckUndersideY = SecondFloorTopY - 0.8f;
+        AddVisualCeilingPlate(seal, "Ceiling_FirstFloor_TransitionFront",
+            new Vector3(0f, frozenDeckUndersideY + CeilingThickness * 0.5f, transitionCenterZ),
+            new Vector3(fullWidth, CeilingThickness, transitionDepth), _matCeilingFirst);
 
         // Sprint 18C — fixed height markers for LevelSanityChecker / authoring.
         _ceiling.AddChild(new Marker3D

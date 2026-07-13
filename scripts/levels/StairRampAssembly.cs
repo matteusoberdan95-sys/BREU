@@ -30,7 +30,8 @@ public static class StairRampAssembly
         float upperLandingDepth = 5f,
         uint collisionLayer = 1,
         bool buildUpperLanding = true,
-        bool buildUpperBlockers = true)
+        bool buildUpperBlockers = true,
+        bool buildSideGuides = true)
     {
         BuildApproachPatch(root, collisionLayer);
         BuildInvisibleRamp(collisionsParent, collisionLayer);
@@ -47,7 +48,10 @@ public static class StairRampAssembly
                 buildUpperBlockers);
         }
 
-        BuildSideGuides(sideGuidesParent, matRail, collisionLayer);
+        if (buildSideGuides)
+        {
+            BuildSideGuides(sideGuidesParent, matRail, collisionLayer);
+        }
     }
 
     private static void BuildApproachPatch(Node3D parent, uint collisionLayer)

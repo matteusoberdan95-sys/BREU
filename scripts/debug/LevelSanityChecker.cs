@@ -73,6 +73,7 @@ public partial class LevelSanityChecker : Node
         CheckFloorVolumes(scene);
         CheckUpperWingStructuralHotfix(scene);
         CheckRoom203Closure(scene);
+        CheckStairAndTransitionHotfix(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -539,6 +540,35 @@ public partial class LevelSanityChecker : Node
                 Ok($"{name} present");
             }
         }
+    }
+
+    private void CheckStairAndTransitionHotfix(Node scene)
+    {
+        var clean = true;
+        foreach (var residual in new[] { "Stair_Guide_Left", "Stair_Guide_Right" })
+        {
+            if (scene.FindChild(residual, recursive: true, owned: false) == null) continue;
+            Error($"stair side-guide residue still active: {residual}");
+            clean = false;
+        }
+
+        var soffit = scene.FindChild("Ceiling_FirstFloor_TransitionFront", recursive: true, owned: false);
+        if (soffit == null)
+        {
+            Error("Ceiling_FirstFloor_TransitionFront missing");
+            clean = false;
+        }
+        else
+        {
+            var hasMesh = soffit.FindChild("*", recursive: true, owned: false) is MeshInstance3D ||
+                          soffit.GetChildren().Any(child => child is MeshInstance3D);
+            var hasBody = Enumerate(soffit).Any(child => child is StaticBody3D or CollisionShape3D);
+            if (!hasMesh) Error("transition soffit has no visual mesh");
+            if (hasBody) Error("transition soffit added a competing collider");
+            clean &= hasMesh && !hasBody;
+        }
+
+        if (clean) Ok("stair residues absent and front transition soffit restored without new collider");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)
