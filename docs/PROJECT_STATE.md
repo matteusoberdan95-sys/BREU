@@ -1,5 +1,9 @@
 # BREU — Estado do projeto
 
+## Sprint 19E — ala superior limpa
+
+A ala superior possui ownership único em `UpperWingRooms`, corredor principal, quatro cômodos acessíveis, sala técnica, escritório e 205 trancado. O puzzle foi reorganizado com arame/fusível na Rouparia, ralo no Banheiro e painel acessível na Sala Técnica. As paredes têm colliders filhos correspondentes; os vãos reais do Escritório e 205 foram abertos após análise do vídeo, removendo paredes sólidas que bloqueavam as portas. A próxima sprint só pode começar após aprovação manual do playtest 19E.
+
 ## Sprint 19D — ownership estrutural da ala superior
 
 O painel técnico voltou a ser um objeto montado e acessível dentro do `TechnicalRoom`. O quarto do arame e o banheiro/ralo estão fechados pelas paredes/tetos de `UpperWingRooms.tscn`. A geometria antiga concorrente foi removida de `BalconyWing.tscn`, que agora possui somente a porta verde. O próximo passo, após playtest manual, poderá ser refinar puzzle e ambientação em vez de corrigir a estrutura base.

@@ -2,6 +2,12 @@
 
 ## REGRA CRÍTICA — SPRINT 19D
 
+## REGRA CRÍTICA — SPRINT 19E
+
+Esta sprint é um rebuild limpo da ala superior. Não remendar ou manter sala bugada; não deixar parede visual sem colisão, cômodo atrás de parede sem porta, item/painel atrás de parede, cômodo acessível sem teto ou objeto antigo duplicado. F9 sem erros é obrigatório antes de commit.
+
+Regras permanentes: nunca criar cômodo atrás de parede sem porta; nunca criar parede visual sem collider; nunca deixar item/painel atrás de parede; nunca deixar cômodo acessível sem teto visual; nunca manter objetos antigos duplicados após rebuild.
+
 É proibido compensar bug de parede com trigger invisível, boundary global ou collider solto no corredor. Toda parede visual acessível deve ter colisão compatível. Todo cômodo do puzzle deve ter acesso por abertura real. Nenhum item, painel ou objetivo pode ficar atrás de parede atravessável. Nenhum cômodo pode ter saída para limbo ou ficar sem fechamento mínimo de paredes/teto quando isso permite fuga da área.
 
 Regras permanentes: todo objetivo de puzzle deve estar em cômodo acessível por rota real; toda parede visual acessível deve bloquear o player; todo cômodo jogável deve ser minimamente fechado; nunca esconder bug estrutural com collider solto no corredor.

@@ -22,7 +22,6 @@ public partial class PlayerAreaProbe : Node
         }
 
         RunProbe();
-        GetViewport().SetInputAsHandled();
     }
 
     public void RunProbe()

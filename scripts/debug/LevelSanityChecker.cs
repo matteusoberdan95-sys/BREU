@@ -17,6 +17,11 @@ public partial class LevelSanityChecker : Node
         "Old", "Temp", "Backup", "Test", "Legacy", "Deprecated", "DebugTemp", "BlockerOld", "_Rebuilt", "Placeholder"
     };
 
+    private static readonly string[] ForbiddenResidualGeometry =
+    {
+        "Shell_FacadeUpper_SideWest", "Shell_FacadeUpper_SideEast", "Roof_Blockout_LowerFront"
+    };
+
     /// <summary>Runtime wing recreators — must never appear enabled in the live tree.</summary>
     private static readonly string[] ForbiddenSetupNames =
     {
@@ -39,7 +44,6 @@ public partial class LevelSanityChecker : Node
         }
 
         RunChecks();
-        GetViewport().SetInputAsHandled();
     }
 
     public void RunChecks()
@@ -57,6 +61,7 @@ public partial class LevelSanityChecker : Node
 
         CheckForbiddenSetups(scene);
         CheckForbiddenNames(scene);
+        CheckForbiddenResidualGeometry(scene);
         CheckInvisibleColliders(scene);
         CheckInteractAreas(scene);
         CheckFloorCollisions(scene);
@@ -66,6 +71,7 @@ public partial class LevelSanityChecker : Node
         CheckBalconyBoundaryRollback(scene);
         CheckFloorVolumes(scene);
         CheckUpperWingStructuralHotfix(scene);
+        CheckRoom203Closure(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -92,6 +98,24 @@ public partial class LevelSanityChecker : Node
     }
 
     private void Ok(string message) => GD.Print($"[LevelSanity] OK: {message}");
+
+    private void CheckForbiddenResidualGeometry(Node scene)
+    {
+        foreach (var name in ForbiddenResidualGeometry)
+            if (scene.FindChild(name, recursive: true, owned: false) != null)
+                Error($"visual-only residual geometry still active: {name}");
+    }
+
+    private void CheckRoom203Closure(Node scene)
+    {
+        var closure = scene.GetNodeOrNull<Node3D>("Room203Door/Wall_Room203_Closure");
+        var mesh = closure?.GetNodeOrNull<MeshInstance3D>("MeshInstance3D")?.Mesh as BoxMesh;
+        var shape = closure?.GetNodeOrNull<CollisionShape3D>("StaticBody3D/CollisionShape3D")?.Shape as BoxShape3D;
+        if (mesh == null || shape == null || !mesh.Size.IsEqualApprox(shape.Size))
+            Error("Room 203 is not closed by a matching visual wall/collider");
+        else
+            Ok("Room 203 side opening closed by authored wall");
+    }
 
     private void CheckForbiddenSetups(Node scene)
     {

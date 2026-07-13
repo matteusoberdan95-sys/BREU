@@ -8,6 +8,25 @@ using BREU.Scripts.Levels.PensaoSantaLuzia;
 /// </summary>
 public partial class DebugGrantPuzzleItems : Node
 {
+    [Export] public bool AutoGrantBalconyKeyDuringPlaytest { get; set; } = true;
+
+    public override void _Ready()
+    {
+        if (OS.IsDebugBuild() && AutoGrantBalconyKeyDuringPlaytest)
+            CallDeferred(nameof(GrantBalconyKeyForPlaytest));
+    }
+
+    private void GrantBalconyKeyForPlaytest()
+    {
+        var scene = GetTree().CurrentScene;
+        var state = scene?.GetNodeOrNull<PensaoPuzzleState>("PuzzleState");
+        if (state == null) return;
+
+        state.PickupBalconyKey();
+        RefreshDoors(scene!);
+        GD.Print("[DebugGrant] Balcony key auto-granted for current playtest build.");
+    }
+
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event is not InputEventKey { Pressed: true, Echo: false, Keycode: Key.F4 })

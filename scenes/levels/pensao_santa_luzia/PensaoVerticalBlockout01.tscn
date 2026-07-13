@@ -20,6 +20,9 @@
 [ext_resource type="Script" path="res://scripts/debug/PlayerAreaProbe.cs" id="13_area_probe"]
 [ext_resource type="Script" path="res://scripts/debug/FloorTriggerIsolationChecker.cs" id="14_floor_isolation"]
 [ext_resource type="Script" path="res://scripts/debug/DebugGrantPuzzleItems.cs" id="15_debug_grant"]
+[ext_resource type="Script" path="res://scripts/debug/WallCollisionProbe.cs" id="16_wall_probe"]
+[ext_resource type="Script" path="res://scripts/debug/UpperWingWallAudit.cs" id="17_wall_audit"]
+[ext_resource type="Script" path="res://scripts/debug/PlayerCoordinateOverlay.cs" id="18_coordinate_overlay"]
 
 [sub_resource type="Environment" id="Environment_pensao"]
 background_mode = 1
@@ -83,6 +86,17 @@ script = ExtResource("14_floor_isolation")
 
 [node name="DebugGrantPuzzleItems" type="Node" parent="."]
 script = ExtResource("15_debug_grant")
+
+[node name="WallCollisionProbe" type="Node" parent="."]
+script = ExtResource("16_wall_probe")
+
+[node name="UpperWingWallAudit" type="Node" parent="."]
+script = ExtResource("17_wall_audit")
+
+[node name="PlayerCoordinateOverlay" type="CanvasLayer" parent="."]
+script = ExtResource("18_coordinate_overlay")
+
+
 
 [node name="World" type="Node3D" parent="."]
 

@@ -23,7 +23,6 @@ public partial class UpperFloorCollisionProbe : Node
         // F8 is owned by PlayerAreaProbe. Shift+F8 keeps the deck marker audit.
         if (@event is not InputEventKey { Pressed: true, Echo: false, Keycode: Key.F8, ShiftPressed: true }) return;
         RunProbe();
-        GetViewport().SetInputAsHandled();
     }
 
     public void RunProbe()

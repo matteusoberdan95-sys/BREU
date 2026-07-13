@@ -15,6 +15,7 @@ alwaysApply: true
 - Toda parede visual acessível deve bloquear o player com collider filho compatível.
 - Todo cômodo jogável deve ser minimamente fechado por paredes/teto, sem rota para bastidor ou limbo.
 - Nunca esconder bug estrutural com collider solto no corredor.
+- Nunca manter objetos antigos duplicados após rebuild; F9 sem erros é obrigatório antes de commit.
 
 Estas regras são obrigatórias para Cursor antes de qualquer alteração de cenário.
 

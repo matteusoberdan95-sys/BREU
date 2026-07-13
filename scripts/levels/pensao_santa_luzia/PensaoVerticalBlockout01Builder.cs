@@ -383,22 +383,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(frontSegmentWidth, upperMassHeight, WallThickness + FloorOverlap),
             _matExteriorWall);
 
-        var sideShellDepth = BuildingFrontZ - UpperFrontZ + WallCornerOverlap;
-        var sideShellCenterZ = (BuildingFrontZ + UpperFrontZ) * 0.5f;
-
-        AddVisualCeilingPlate(
-            exterior,
-            "Shell_FacadeUpper_SideWest",
-            new Vector3(-BuildingHalfWidth - WallThickness * 0.5f, upperMassCenterY, sideShellCenterZ),
-            new Vector3(WallThickness + FloorOverlap, upperMassHeight, sideShellDepth),
-            _matExteriorWall);
-
-        AddVisualCeilingPlate(
-            exterior,
-            "Shell_FacadeUpper_SideEast",
-            new Vector3(BuildingHalfWidth + WallThickness * 0.5f, upperMassCenterY, sideShellCenterZ),
-            new Vector3(WallThickness + FloorOverlap, upperMassHeight, sideShellDepth),
-            _matExteriorWall);
+        // Upper side shells were visual-only residual walls crossing the playable
+        // second-floor wing at X +/-7.1. UpperWingRooms owns this area now.
 
         var parapetHeight = 0.45f;
         var parapetCenterY = SecondFloorWallTopY + parapetHeight * 0.5f;
@@ -476,16 +462,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(shellSpanX, RoofThickness, upperRoofDepth),
             _matRoof);
 
-        var lowerRoofDepth = BuildingFrontZ - UpperFrontZ + WallCornerOverlap;
-        var lowerRoofCenterZ = (BuildingFrontZ + UpperFrontZ) * 0.5f;
-        var lowerRoofUndersideY = FirstFloorWallTopY;
-
-        AddVisualCeilingPlate(
-            exterior,
-            "Roof_Blockout_LowerFront",
-            new Vector3(0f, lowerRoofUndersideY + VarandaRoofThickness * 0.5f, lowerRoofCenterZ),
-            new Vector3(shellSpanX, VarandaRoofThickness, lowerRoofDepth),
-            _matRoof);
+        // Roof_Blockout_LowerFront was a visual-only plate at Y=3.11 cutting
+        // through the playable upper wing. The approved deck/room ceilings own it.
     }
 
     private void AddVisualCeilingPlate(

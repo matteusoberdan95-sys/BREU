@@ -14,8 +14,23 @@ size = Vector3(0.16, 2.5, 0.12)
 size = Vector3(0.16, 0.14, 1.7)
 [sub_resource type="BoxShape3D" id="AreaShape"]
 size = Vector3(0.38, 1.1, 1.15)
+[sub_resource type="BoxMesh" id="Room203SealMesh"]
+size = Vector3(0.32, 2.8, 4.0)
+[sub_resource type="BoxShape3D" id="Room203SealShape"]
+size = Vector3(0.32, 2.8, 4.0)
 
 [node name="Door_Room203_Blocked" type="Node3D"]
+
+[node name="Wall_Room203_Closure" type="Node3D" parent="."]
+position = Vector3(-1.5, 4.15, -10)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall_Room203_Closure"]
+mesh = SubResource("Room203SealMesh")
+material_override = SubResource("FrameMat")
+[node name="StaticBody3D" type="StaticBody3D" parent="Wall_Room203_Closure" groups=["level_wall", "level_second_floor"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall_Room203_Closure/StaticBody3D"]
+shape = SubResource("Room203SealShape")
 
 [node name="DoorPanel" type="MeshInstance3D" parent="."]
 position = Vector3(-1.28, 3.9, -10)

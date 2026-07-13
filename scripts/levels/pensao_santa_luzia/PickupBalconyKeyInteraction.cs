@@ -17,6 +17,12 @@ public partial class PickupBalconyKeyInteraction : Node, IInteractable
         {
             pickupRoot.AddToGroup("interactable");
         }
+
+        if (state.HasBalconyKey)
+        {
+            _pickedUp = true;
+            HidePickup();
+        }
     }
 
     public string GetPromptText()

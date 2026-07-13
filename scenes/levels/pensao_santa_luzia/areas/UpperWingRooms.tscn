@@ -10,8 +10,6 @@
 
 [sub_resource type="StandardMaterial3D" id="MatWall"]
 albedo_color = Color(0.34, 0.32, 0.31, 1)
-[sub_resource type="StandardMaterial3D" id="MatFloor"]
-albedo_color = Color(0.24, 0.23, 0.26, 1)
 [sub_resource type="StandardMaterial3D" id="MatCeil"]
 albedo_color = Color(0.28, 0.27, 0.29, 1)
 [sub_resource type="StandardMaterial3D" id="MatProp"]
@@ -22,74 +20,78 @@ albedo_color = Color(0.2, 0.14, 0.11, 1)
 albedo_color = Color(0.14, 0.12, 0.11, 1)
 [sub_resource type="StandardMaterial3D" id="MatStain"]
 albedo_color = Color(0.18, 0.12, 0.1, 1)
+[sub_resource type="StandardMaterial3D" id="MatDrain"]
+albedo_color = Color(0.38, 0.4, 0.42, 1)
+metallic = 0.65
+roughness = 0.35
 [sub_resource type="BoxMesh" id="Mesh1"]
-size = Vector3(0.16, 2.6, 1.5)
+size = Vector3(0.32, 2.8, 1.5)
 [sub_resource type="BoxShape3D" id="Shape1"]
-size = Vector3(0.16, 2.6, 1.5)
+size = Vector3(0.32, 2.8, 1.5)
 [sub_resource type="BoxMesh" id="Mesh2"]
-size = Vector3(0.16, 2.6, 1.9)
+size = Vector3(0.32, 2.8, 1.9)
 [sub_resource type="BoxShape3D" id="Shape2"]
-size = Vector3(0.16, 2.6, 1.9)
+size = Vector3(0.32, 2.8, 1.9)
 [sub_resource type="BoxMesh" id="Mesh3"]
-size = Vector3(0.16, 2.6, 2.2)
+size = Vector3(0.32, 2.8, 2.2)
 [sub_resource type="BoxShape3D" id="Shape3"]
-size = Vector3(0.16, 2.6, 2.2)
+size = Vector3(0.32, 2.8, 2.2)
 [sub_resource type="BoxMesh" id="Mesh4"]
-size = Vector3(0.55, 2.6, 0.16)
+size = Vector3(0.55, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape4"]
-size = Vector3(0.55, 2.6, 0.16)
+size = Vector3(0.55, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh5"]
-size = Vector3(0.16, 2.6, 3.4)
+size = Vector3(0.32, 2.8, 3.4)
 [sub_resource type="BoxShape3D" id="Shape5"]
-size = Vector3(0.16, 2.6, 3.4)
+size = Vector3(0.32, 2.8, 3.4)
 [sub_resource type="BoxMesh" id="Mesh6"]
-size = Vector3(6.4, 2.6, 0.16)
+size = Vector3(6.4, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape6"]
-size = Vector3(6.4, 2.6, 0.16)
+size = Vector3(6.4, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh7"]
-size = Vector3(0.16, 2.6, 3.6)
+size = Vector3(0.32, 2.8, 3.6)
 [sub_resource type="BoxShape3D" id="Shape7"]
-size = Vector3(0.16, 2.6, 3.6)
+size = Vector3(0.32, 2.8, 3.6)
 [sub_resource type="BoxMesh" id="Mesh8"]
-size = Vector3(7.3, 2.6, 0.16)
+size = Vector3(7.3, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape8"]
-size = Vector3(7.3, 2.6, 0.16)
+size = Vector3(7.3, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh9"]
-size = Vector3(13.4, 2.6, 0.16)
+size = Vector3(13.4, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape9"]
-size = Vector3(13.4, 2.6, 0.16)
+size = Vector3(13.4, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh10"]
-size = Vector3(0.8, 2.6, 0.16)
+size = Vector3(0.8, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape10"]
-size = Vector3(0.8, 2.6, 0.16)
+size = Vector3(0.8, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh11"]
-size = Vector3(0.16, 2.6, 2.5)
+size = Vector3(0.32, 2.8, 2.5)
 [sub_resource type="BoxShape3D" id="Shape11"]
-size = Vector3(0.16, 2.6, 2.5)
+size = Vector3(0.32, 2.8, 2.5)
 [sub_resource type="BoxMesh" id="Mesh12"]
-size = Vector3(7.6, 2.6, 0.16)
+size = Vector3(7.6, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape12"]
-size = Vector3(7.6, 2.6, 0.16)
+size = Vector3(7.6, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh13"]
-size = Vector3(5.4, 2.6, 0.16)
+size = Vector3(5.4, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape13"]
-size = Vector3(5.4, 2.6, 0.16)
+size = Vector3(5.4, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh14"]
-size = Vector3(0.9, 2.6, 0.16)
+size = Vector3(0.9, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape14"]
-size = Vector3(0.9, 2.6, 0.16)
+size = Vector3(0.9, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh15"]
-size = Vector3(13.2, 2.6, 0.16)
+size = Vector3(13.2, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape15"]
-size = Vector3(13.2, 2.6, 0.16)
+size = Vector3(13.2, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh16"]
-size = Vector3(2.0, 2.6, 0.16)
+size = Vector3(2.0, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape16"]
-size = Vector3(2.0, 2.6, 0.16)
+size = Vector3(2.0, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh17"]
-size = Vector3(12.4, 2.6, 0.16)
+size = Vector3(12.4, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape17"]
-size = Vector3(12.4, 2.6, 0.16)
+size = Vector3(12.4, 2.8, 0.32)
 [sub_resource type="BoxMesh" id="Mesh18"]
 size = Vector3(1.8, 0.14, 8.6)
 [sub_resource type="BoxShape3D" id="Shape18"]
@@ -114,30 +116,6 @@ size = Vector3(7.8, 0.14, 2.6)
 size = Vector3(13.4, 0.14, 2.6)
 [sub_resource type="BoxShape3D" id="Shape23"]
 size = Vector3(13.4, 0.14, 2.6)
-[sub_resource type="BoxMesh" id="Mesh24"]
-size = Vector3(1.55, 0.04, 8.4)
-[sub_resource type="BoxShape3D" id="Shape24"]
-size = Vector3(1.55, 0.04, 8.4)
-[sub_resource type="BoxMesh" id="Mesh25"]
-size = Vector3(6.3, 0.04, 3.3)
-[sub_resource type="BoxShape3D" id="Shape25"]
-size = Vector3(6.3, 0.04, 3.3)
-[sub_resource type="BoxMesh" id="Mesh26"]
-size = Vector3(6.3, 0.04, 3.5)
-[sub_resource type="BoxShape3D" id="Shape26"]
-size = Vector3(6.3, 0.04, 3.5)
-[sub_resource type="BoxMesh" id="Mesh27"]
-size = Vector3(13.2, 0.04, 3.5)
-[sub_resource type="BoxShape3D" id="Shape27"]
-size = Vector3(13.2, 0.04, 3.5)
-[sub_resource type="BoxMesh" id="Mesh28"]
-size = Vector3(7.5, 0.04, 2.4)
-[sub_resource type="BoxShape3D" id="Shape28"]
-size = Vector3(7.5, 0.04, 2.4)
-[sub_resource type="BoxMesh" id="Mesh29"]
-size = Vector3(13.0, 0.04, 2.4)
-[sub_resource type="BoxShape3D" id="Shape29"]
-size = Vector3(13.0, 0.04, 2.4)
 [sub_resource type="BoxMesh" id="Mesh30"]
 size = Vector3(0.4, 1.4, 1.8)
 [sub_resource type="BoxShape3D" id="Shape30"]
@@ -163,9 +141,9 @@ size = Vector3(1.3, 1.5, 0.14)
 [sub_resource type="BoxShape3D" id="Shape35"]
 size = Vector3(1.3, 1.5, 0.14)
 [sub_resource type="BoxMesh" id="Mesh36"]
-size = Vector3(0.35, 0.08, 0.35)
+size = Vector3(0.55, 0.08, 0.55)
 [sub_resource type="BoxShape3D" id="Shape36"]
-size = Vector3(0.35, 0.08, 0.35)
+size = Vector3(0.55, 0.08, 0.55)
 [sub_resource type="BoxMesh" id="Mesh37"]
 size = Vector3(2.0, 0.45, 1.1)
 [sub_resource type="BoxShape3D" id="Shape37"]
@@ -215,9 +193,45 @@ size = Vector3(0.45, 0.08, 0.35)
 [sub_resource type="BoxMesh" id="PropWireMesh"]
 size = Vector3(0.35, 0.08, 0.28)
 [sub_resource type="BoxMesh" id="Mesh204SouthMid"]
-size = Vector3(5.5, 2.6, 0.16)
+size = Vector3(5.5, 2.8, 0.32)
 [sub_resource type="BoxShape3D" id="Shape204SouthMid"]
-size = Vector3(5.5, 2.6, 0.16)
+size = Vector3(5.5, 2.8, 0.32)
+[sub_resource type="BoxMesh" id="MeshBathNorthLeft"]
+size = Vector3(4.925, 2.8, 0.32)
+[sub_resource type="BoxShape3D" id="ShapeBathNorthLeft"]
+size = Vector3(4.925, 2.8, 0.32)
+[sub_resource type="BoxMesh" id="MeshTechNorthLeft"]
+size = Vector3(1.625, 2.8, 0.32)
+[sub_resource type="BoxShape3D" id="ShapeTechNorthLeft"]
+size = Vector3(1.625, 2.8, 0.32)
+[sub_resource type="BoxMesh" id="MeshTechNorthRight"]
+size = Vector3(10.225, 2.8, 0.32)
+[sub_resource type="BoxShape3D" id="ShapeTechNorthRight"]
+size = Vector3(10.225, 2.8, 0.32)
+[sub_resource type="BoxMesh" id="Mesh205DoorSeal"]
+size = Vector3(1.55, 2.8, 0.32)
+[sub_resource type="BoxShape3D" id="Shape205DoorSeal"]
+size = Vector3(1.55, 2.8, 0.32)
+[sub_resource type="BoxMesh" id="MeshWestOuterJoin"]
+size = Vector3(0.32, 2.8, 0.7)
+[sub_resource type="BoxShape3D" id="ShapeWestOuterJoin"]
+size = Vector3(0.32, 2.8, 0.7)
+[sub_resource type="BoxMesh" id="MeshEastOuterJoin"]
+size = Vector3(0.32, 2.8, 0.5)
+[sub_resource type="BoxShape3D" id="ShapeEastOuterJoin"]
+size = Vector3(0.32, 2.8, 0.5)
+[sub_resource type="BoxMesh" id="MeshOuterNorthJoin"]
+size = Vector3(0.32, 2.8, 0.35)
+[sub_resource type="BoxShape3D" id="ShapeOuterNorthJoin"]
+size = Vector3(0.32, 2.8, 0.35)
+[sub_resource type="BoxMesh" id="MeshTransitionSide"]
+size = Vector3(0.32, 2.8, 5.35)
+[sub_resource type="BoxShape3D" id="ShapeTransitionSide"]
+size = Vector3(0.32, 2.8, 5.35)
+[sub_resource type="BoxMesh" id="MeshTransitionCeiling"]
+size = Vector3(1.92, 0.18, 5.35)
+[sub_resource type="BoxShape3D" id="ShapeTransitionCeiling"]
+size = Vector3(1.92, 0.18, 5.35)
 [sub_resource type="BoxMesh" id="DoorPanelMesh"]
 size = Vector3(1.35, 2.15, 0.1)
 [sub_resource type="BoxShape3D" id="DoorBlockShape"]
@@ -238,7 +252,7 @@ size = Vector3(1.4, 1.6, 0.85)
 [node name="UpperWingRooms" type="Node3D" groups=["level_upper_wing", "level_second_floor"]]
 script = ExtResource("1_ctrl")
 
-[node name="Corridor_MainUpper" type="Node3D" parent="."]
+[node name="Corridor_Main" type="Node3D" parent="."]
 [node name="Room204_Bedroom" type="Node3D" parent="."]
 [node name="Room205_Locked" type="Node3D" parent="."]
 [node name="SharedBathroom" type="Node3D" parent="."]
@@ -250,81 +264,114 @@ script = ExtResource("1_ctrl")
 [node name="Props" type="Node3D" parent="."]
 [node name="Triggers" type="Node3D" parent="."]
 
-[node name="Wall_Corr_West_A" type="Node3D" parent="Corridor_MainUpper"]
+[node name="Wall_Transition_West" type="Node3D" parent="Corridor_Main"]
+position = Vector3(-0.8, 4.15, -4.875)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Wall_Transition_West"]
+mesh = SubResource("MeshTransitionSide")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Wall_Transition_West" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Wall_Transition_West/StaticBody3D"]
+shape = SubResource("ShapeTransitionSide")
+
+[node name="Wall_Transition_East" type="Node3D" parent="Corridor_Main"]
+position = Vector3(0.8, 4.15, -4.875)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Wall_Transition_East"]
+mesh = SubResource("MeshTransitionSide")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Wall_Transition_East" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Wall_Transition_East/StaticBody3D"]
+shape = SubResource("ShapeTransitionSide")
+
+[node name="Ceiling_Transition" type="Node3D" parent="Corridor_Main"]
+position = Vector3(0, 5.5, -4.875)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Ceiling_Transition"]
+mesh = SubResource("MeshTransitionCeiling")
+material_override = SubResource("MatCeil")
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Ceiling_Transition" groups=["level_ceiling"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Ceiling_Transition/StaticBody3D"]
+shape = SubResource("ShapeTransitionCeiling")
+
+[node name="Wall_Corr_West_A" type="Node3D" parent="Corridor_Main"]
 position = Vector3(-0.8, 4.15, -1.45)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_MainUpper/Wall_Corr_West_A"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Wall_Corr_West_A"]
 mesh = SubResource("Mesh1")
 material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_MainUpper/Wall_Corr_West_A" groups=["level_wall"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Wall_Corr_West_A" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_MainUpper/Wall_Corr_West_A/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Wall_Corr_West_A/StaticBody3D"]
 shape = SubResource("Shape1")
 
-[node name="Wall_Corr_West_B" type="Node3D" parent="Corridor_MainUpper"]
+[node name="Wall_Corr_West_B" type="Node3D" parent="Corridor_Main"]
 position = Vector3(-0.8, 4.15, 1.75)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_MainUpper/Wall_Corr_West_B"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Wall_Corr_West_B"]
 mesh = SubResource("Mesh2")
 material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_MainUpper/Wall_Corr_West_B" groups=["level_wall"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Wall_Corr_West_B" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_MainUpper/Wall_Corr_West_B/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Wall_Corr_West_B/StaticBody3D"]
 shape = SubResource("Shape2")
 
-[node name="Wall_Corr_West_C" type="Node3D" parent="Corridor_MainUpper"]
+[node name="Wall_Corr_West_C" type="Node3D" parent="Corridor_Main"]
 position = Vector3(-0.8, 4.15, 5.3)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_MainUpper/Wall_Corr_West_C"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Wall_Corr_West_C"]
 mesh = SubResource("Mesh3")
 material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_MainUpper/Wall_Corr_West_C" groups=["level_wall"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Wall_Corr_West_C" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_MainUpper/Wall_Corr_West_C/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Wall_Corr_West_C/StaticBody3D"]
 shape = SubResource("Shape3")
 
-[node name="Wall_Corr_East_A" type="Node3D" parent="Corridor_MainUpper"]
+[node name="Wall_Corr_East_A" type="Node3D" parent="Corridor_Main"]
 position = Vector3(0.8, 4.15, -1.45)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_MainUpper/Wall_Corr_East_A"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Wall_Corr_East_A"]
 mesh = SubResource("Mesh1")
 material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_MainUpper/Wall_Corr_East_A" groups=["level_wall"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Wall_Corr_East_A" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_MainUpper/Wall_Corr_East_A/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Wall_Corr_East_A/StaticBody3D"]
 shape = SubResource("Shape1")
 
-[node name="Wall_Corr_East_B" type="Node3D" parent="Corridor_MainUpper"]
+[node name="Wall_Corr_East_B" type="Node3D" parent="Corridor_Main"]
 position = Vector3(0.8, 4.15, 1.75)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_MainUpper/Wall_Corr_East_B"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Wall_Corr_East_B"]
 mesh = SubResource("Mesh2")
 material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_MainUpper/Wall_Corr_East_B" groups=["level_wall"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Wall_Corr_East_B" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_MainUpper/Wall_Corr_East_B/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Wall_Corr_East_B/StaticBody3D"]
 shape = SubResource("Shape2")
 
-[node name="Wall_Corr_East_C" type="Node3D" parent="Corridor_MainUpper"]
+[node name="Wall_Corr_East_C" type="Node3D" parent="Corridor_Main"]
 position = Vector3(0.8, 4.15, 5.3)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_MainUpper/Wall_Corr_East_C"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Wall_Corr_East_C"]
 mesh = SubResource("Mesh3")
 material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_MainUpper/Wall_Corr_East_C" groups=["level_wall"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Wall_Corr_East_C" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_MainUpper/Wall_Corr_East_C/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Wall_Corr_East_C/StaticBody3D"]
 shape = SubResource("Shape3")
 
-[node name="Wall_Corr_North_Mid" type="Node3D" parent="Corridor_MainUpper"]
+[node name="Wall_Corr_North_Mid" type="Node3D" parent="Corridor_Main"]
 position = Vector3(0.0, 4.15, 6.4)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_MainUpper/Wall_Corr_North_Mid"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Corridor_Main/Wall_Corr_North_Mid"]
 mesh = SubResource("Mesh4")
 material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_MainUpper/Wall_Corr_North_Mid" groups=["level_wall"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Corridor_Main/Wall_Corr_North_Mid" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_MainUpper/Wall_Corr_North_Mid/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Corridor_Main/Wall_Corr_North_Mid/StaticBody3D"]
 shape = SubResource("Shape4")
 
 [node name="Wall_Laundry_West" type="Node3D" parent="LaundryStorage"]
@@ -360,6 +407,17 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LaundryStorage/Wall_Laundry_North/StaticBody3D"]
 shape = SubResource("Shape6")
 
+[node name="Wall_WestOuter_LaundryBathJoin" type="Node3D" parent="SharedBathroom"]
+position = Vector3(-7.2, 4.15, 1.55)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SharedBathroom/Wall_WestOuter_LaundryBathJoin"]
+mesh = SubResource("MeshWestOuterJoin")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="SharedBathroom/Wall_WestOuter_LaundryBathJoin" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SharedBathroom/Wall_WestOuter_LaundryBathJoin/StaticBody3D"]
+shape = SubResource("ShapeWestOuterJoin")
+
 [node name="Wall_Bath_West" type="Node3D" parent="SharedBathroom"]
 position = Vector3(-7.2, 4.15, 3.7)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SharedBathroom/Wall_Bath_West"]
@@ -382,16 +440,27 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SharedBathroom/Wall_Bath_South/StaticBody3D"]
 shape = SubResource("Shape6")
 
-[node name="Wall_Bath_North" type="Node3D" parent="SharedBathroom"]
-position = Vector3(-4.0, 4.15, 5.5)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SharedBathroom/Wall_Bath_North"]
-mesh = SubResource("Mesh6")
+[node name="Wall_Bath_North_LeftOfOfficeDoor" type="Node3D" parent="SharedBathroom"]
+position = Vector3(-4.7375, 4.15, 5.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SharedBathroom/Wall_Bath_North_LeftOfOfficeDoor"]
+mesh = SubResource("MeshBathNorthLeft")
 material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="SharedBathroom/Wall_Bath_North" groups=["level_wall"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="SharedBathroom/Wall_Bath_North_LeftOfOfficeDoor" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SharedBathroom/Wall_Bath_North/StaticBody3D"]
-shape = SubResource("Shape6")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SharedBathroom/Wall_Bath_North_LeftOfOfficeDoor/StaticBody3D"]
+shape = SubResource("ShapeBathNorthLeft")
+
+[node name="Wall_WestOuter_BathOfficeJoin" type="Node3D" parent="OwnersOffice"]
+position = Vector3(-7.2, 4.15, 5.575)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OwnersOffice/Wall_WestOuter_BathOfficeJoin"]
+mesh = SubResource("MeshOuterNorthJoin")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="OwnersOffice/Wall_WestOuter_BathOfficeJoin" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OwnersOffice/Wall_WestOuter_BathOfficeJoin/StaticBody3D"]
+shape = SubResource("ShapeOuterNorthJoin")
 
 [node name="Wall_204_East" type="Node3D" parent="Room204_Bedroom"]
 position = Vector3(14.2, 4.15, -0.4)
@@ -448,6 +517,17 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_Tech_East/StaticBody3D"]
 shape = SubResource("Shape7")
 
+[node name="Wall_EastOuter_204TechJoin" type="Node3D" parent="TechnicalRoom"]
+position = Vector3(14.2, 4.15, 1.65)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TechnicalRoom/Wall_EastOuter_204TechJoin"]
+mesh = SubResource("MeshEastOuterJoin")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="TechnicalRoom/Wall_EastOuter_204TechJoin" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_EastOuter_204TechJoin/StaticBody3D"]
+shape = SubResource("ShapeEastOuterJoin")
+
 [node name="Wall_Tech_South" type="Node3D" parent="TechnicalRoom"]
 position = Vector3(7.5, 4.15, 1.65)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="TechnicalRoom/Wall_Tech_South"]
@@ -459,16 +539,38 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_Tech_South/StaticBody3D"]
 shape = SubResource("Shape9")
 
-[node name="Wall_Tech_North" type="Node3D" parent="TechnicalRoom"]
-position = Vector3(7.5, 4.15, 5.5)
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TechnicalRoom/Wall_Tech_North"]
-mesh = SubResource("Mesh9")
+[node name="Wall_Tech_North_LeftOf205Door" type="Node3D" parent="TechnicalRoom"]
+position = Vector3(1.6125, 4.15, 5.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TechnicalRoom/Wall_Tech_North_LeftOf205Door"]
+mesh = SubResource("MeshTechNorthLeft")
 material_override = SubResource("MatWall")
-[node name="StaticBody3D" type="StaticBody3D" parent="TechnicalRoom/Wall_Tech_North" groups=["level_wall"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="TechnicalRoom/Wall_Tech_North_LeftOf205Door" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_Tech_North/StaticBody3D"]
-shape = SubResource("Shape9")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_Tech_North_LeftOf205Door/StaticBody3D"]
+shape = SubResource("ShapeTechNorthLeft")
+
+[node name="Wall_Tech_North_RightOf205Door" type="Node3D" parent="TechnicalRoom"]
+position = Vector3(9.0875, 4.15, 5.5)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TechnicalRoom/Wall_Tech_North_RightOf205Door"]
+mesh = SubResource("MeshTechNorthRight")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="TechnicalRoom/Wall_Tech_North_RightOf205Door" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TechnicalRoom/Wall_Tech_North_RightOf205Door/StaticBody3D"]
+shape = SubResource("ShapeTechNorthRight")
+
+[node name="Wall_EastOuter_Tech205Join" type="Node3D" parent="Room205_Locked"]
+position = Vector3(14.2, 4.15, 5.575)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room205_Locked/Wall_EastOuter_Tech205Join"]
+mesh = SubResource("MeshOuterNorthJoin")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Room205_Locked/Wall_EastOuter_Tech205Join" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room205_Locked/Wall_EastOuter_Tech205Join/StaticBody3D"]
+shape = SubResource("ShapeOuterNorthJoin")
 
 [node name="Wall_Office_West" type="Node3D" parent="OwnersOffice"]
 position = Vector3(-7.2, 4.15, 6.9)
@@ -580,7 +682,18 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Room205_Locked/Wall_205_South_R/StaticBody3D"]
 shape = SubResource("Shape17")
 
-[node name="Ceiling_Corr" type="MeshInstance3D" parent="Corridor_MainUpper"]
+[node name="Wall_205_DoorSeal" type="Node3D" parent="Room205_Locked"]
+position = Vector3(3.2, 4.15, 5.78)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room205_Locked/Wall_205_DoorSeal"]
+mesh = SubResource("Mesh205DoorSeal")
+material_override = SubResource("MatWall")
+[node name="StaticBody3D" type="StaticBody3D" parent="Room205_Locked/Wall_205_DoorSeal" groups=["level_wall"]]
+collision_layer = 1
+collision_mask = 0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room205_Locked/Wall_205_DoorSeal/StaticBody3D"]
+shape = SubResource("Shape205DoorSeal")
+
+[node name="Ceiling_Corr" type="MeshInstance3D" parent="Corridor_Main"]
 position = Vector3(0.0, 5.5, 2.1)
 mesh = SubResource("Mesh18")
 material_override = SubResource("MatCeil")
@@ -615,41 +728,6 @@ position = Vector3(7.6, 5.5, 6.9)
 mesh = SubResource("Mesh23")
 material_override = SubResource("MatCeil")
 
-[node name="FloorVis_Corr" type="MeshInstance3D" parent="Corridor_MainUpper"]
-position = Vector3(0.0, 2.82, 2.1)
-mesh = SubResource("Mesh24")
-material_override = SubResource("MatFloor")
-
-[node name="FloorVis_Laundry" type="MeshInstance3D" parent="LaundryStorage"]
-position = Vector3(-4.0, 2.82, -0.5)
-mesh = SubResource("Mesh25")
-material_override = SubResource("MatFloor")
-
-[node name="FloorVis_Bath" type="MeshInstance3D" parent="SharedBathroom"]
-position = Vector3(-4.0, 2.82, 3.7)
-mesh = SubResource("Mesh26")
-material_override = SubResource("MatFloor")
-
-[node name="FloorVis_204" type="MeshInstance3D" parent="Room204_Bedroom"]
-position = Vector3(7.5, 2.82, -0.4)
-mesh = SubResource("Mesh27")
-material_override = SubResource("MatFloor")
-
-[node name="FloorVis_Tech" type="MeshInstance3D" parent="TechnicalRoom"]
-position = Vector3(7.5, 2.82, 3.7)
-mesh = SubResource("Mesh27")
-material_override = SubResource("MatFloor")
-
-[node name="FloorVis_Office" type="MeshInstance3D" parent="OwnersOffice"]
-position = Vector3(-3.4, 2.82, 6.9)
-mesh = SubResource("Mesh28")
-material_override = SubResource("MatFloor")
-
-[node name="FloorVis_205" type="MeshInstance3D" parent="Room205_Locked"]
-position = Vector3(7.6, 2.82, 6.9)
-mesh = SubResource("Mesh29")
-material_override = SubResource("MatFloor")
-
 [node name="Prop_Laundry_Shelf" type="MeshInstance3D" parent="Props"]
 position = Vector3(-6.5, 3.5, -1.2)
 mesh = SubResource("Mesh30")
@@ -680,10 +758,10 @@ position = Vector3(-2.8, 3.6, 4.4)
 mesh = SubResource("Mesh35")
 material_override = SubResource("MatProp")
 
-[node name="Prop_Bath_Drain" type="MeshInstance3D" parent="Props"]
+[node name="Prop_Bath_Drain" type="MeshInstance3D" parent="SharedBathroom"]
 position = Vector3(-4.5, 2.9, 3.5)
 mesh = SubResource("Mesh36")
-material_override = SubResource("MatProp")
+material_override = SubResource("MatDrain")
 
 [node name="Prop_204_Bed" type="MeshInstance3D" parent="Props"]
 position = Vector3(4.5, 3.15, -0.5)
@@ -936,7 +1014,7 @@ material_override = SubResource("MatFrame")
 position = Vector3(0, 1.1, -0.06)
 mesh = SubResource("DoorPanelMesh")
 material_override = SubResource("MatDoor")
-[node name="Door_Blocker_StaticBody" type="StaticBody3D" parent="Doors/Door_Room205_Locked"]
+[node name="Door_Blocker_StaticBody" type="StaticBody3D" parent="Doors/Door_Room205_Locked" groups=["level_wall"]]
 collision_layer = 1
 collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_Room205_Locked/Door_Blocker_StaticBody"]
@@ -950,78 +1028,78 @@ monitoring = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Doors/Door_Room205_Locked/InteractionArea"]
 shape = SubResource("DoorInteractShape")
 
-[node name="Interact_Room204Note" type="Node3D" parent="Interactions" groups=["interactable"]]
+[node name="Interact_Room204Note" type="Node3D" parent="Room204_Bedroom" groups=["interactable"]]
 position = Vector3(6.0, 3.55, -1.1)
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_Room204Note"]
+[node name="InteractionArea" type="Area3D" parent="Room204_Bedroom/Interact_Room204Note"]
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_Room204Note/InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room204_Bedroom/Interact_Room204Note/InteractionArea"]
 shape = SubResource("InteractSmall")
-[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_Room204Note/InteractionArea"]
+[node name="UpperWingPuzzleInteraction" type="Node" parent="Room204_Bedroom/Interact_Room204Note/InteractionArea"]
 script = ExtResource("4_puzzle")
 Mode = 2
 
-[node name="Interact_Room204Bed" type="Node3D" parent="Interactions" groups=["interactable"]]
+[node name="Interact_Room204Bed" type="Node3D" parent="Room204_Bedroom" groups=["interactable"]]
 position = Vector3(4.5, 3.3, -0.5)
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_Room204Bed"]
+[node name="InteractionArea" type="Area3D" parent="Room204_Bedroom/Interact_Room204Bed"]
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_Room204Bed/InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room204_Bedroom/Interact_Room204Bed/InteractionArea"]
 shape = SubResource("InteractSmall")
-[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_Room204Bed/InteractionArea"]
+[node name="UpperWingPuzzleInteraction" type="Node" parent="Room204_Bedroom/Interact_Room204Bed/InteractionArea"]
 script = ExtResource("4_puzzle")
 Mode = 0
 
-[node name="Interact_BathroomInspect" type="Node3D" parent="Interactions" groups=["interactable"]]
-position = Vector3(-4.5, 3.4, 3.3)
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_BathroomInspect"]
+[node name="Interact_BathroomInspect" type="Node3D" parent="SharedBathroom" groups=["interactable"]]
+position = Vector3(-4.5, 3.18, 3.5)
+[node name="InteractionArea" type="Area3D" parent="SharedBathroom/Interact_BathroomInspect"]
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_BathroomInspect/InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SharedBathroom/Interact_BathroomInspect/InteractionArea"]
 shape = SubResource("InteractSmall")
-[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_BathroomInspect/InteractionArea"]
-script = ExtResource("4_puzzle")
-Mode = 3
+[node name="ManualBalconyInteraction" type="Node" parent="SharedBathroom/Interact_BathroomInspect/InteractionArea"]
+script = ExtResource("7_wire")
+Mode = 2
 
-[node name="Interact_BathroomMirror" type="Node3D" parent="Interactions" groups=["interactable"]]
+[node name="Interact_BathroomMirror" type="Node3D" parent="SharedBathroom" groups=["interactable"]]
 position = Vector3(-6.7, 3.9, 2.7)
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_BathroomMirror"]
+[node name="InteractionArea" type="Area3D" parent="SharedBathroom/Interact_BathroomMirror"]
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_BathroomMirror/InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SharedBathroom/Interact_BathroomMirror/InteractionArea"]
 shape = SubResource("InteractSmall")
-[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_BathroomMirror/InteractionArea"]
+[node name="UpperWingPuzzleInteraction" type="Node" parent="SharedBathroom/Interact_BathroomMirror/InteractionArea"]
 script = ExtResource("4_puzzle")
 Mode = 4
 
-[node name="Interact_LaundryFuse" type="Node3D" parent="Interactions" groups=["interactable"]]
+[node name="Interact_LaundryFuse" type="Node3D" parent="LaundryStorage" groups=["interactable"]]
 position = Vector3(-5.5, 3.4, 0.4)
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_LaundryFuse"]
+[node name="InteractionArea" type="Area3D" parent="LaundryStorage/Interact_LaundryFuse"]
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_LaundryFuse/InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LaundryStorage/Interact_LaundryFuse/InteractionArea"]
 shape = SubResource("InteractSmall")
-[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_LaundryFuse/InteractionArea"]
+[node name="UpperWingPuzzleInteraction" type="Node" parent="LaundryStorage/Interact_LaundryFuse/InteractionArea"]
 script = ExtResource("4_puzzle")
 Mode = 5
 
-[node name="Interact_LaundryWire" type="Node3D" parent="Interactions" groups=["interactable"]]
+[node name="Interact_LaundryWire" type="Node3D" parent="LaundryStorage" groups=["interactable"]]
 position = Vector3(-6.15, 3.45, -0.95)
-[node name="Mesh" type="MeshInstance3D" parent="Interactions/Interact_LaundryWire"]
+[node name="Mesh" type="MeshInstance3D" parent="LaundryStorage/Interact_LaundryWire"]
 mesh = SubResource("PropWireMesh")
 material_override = SubResource("MatProp")
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_LaundryWire"]
+[node name="InteractionArea" type="Area3D" parent="LaundryStorage/Interact_LaundryWire"]
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_LaundryWire/InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LaundryStorage/Interact_LaundryWire/InteractionArea"]
 shape = SubResource("InteractSmall")
-[node name="ManualBalconyInteraction" type="Node" parent="Interactions/Interact_LaundryWire/InteractionArea"]
+[node name="ManualBalconyInteraction" type="Node" parent="LaundryStorage/Interact_LaundryWire/InteractionArea"]
 script = ExtResource("7_wire")
 Mode = 0
 
@@ -1041,15 +1119,15 @@ shape = SubResource("InteractSmall")
 script = ExtResource("4_puzzle")
 Mode = 6
 
-[node name="Interact_OwnersOfficeLog" type="Node3D" parent="Interactions" groups=["interactable"]]
+[node name="Interact_OwnersOfficeLog" type="Node3D" parent="OwnersOffice" groups=["interactable"]]
 position = Vector3(-3.5, 3.5, 7.0)
-[node name="InteractionArea" type="Area3D" parent="Interactions/Interact_OwnersOfficeLog"]
+[node name="InteractionArea" type="Area3D" parent="OwnersOffice/Interact_OwnersOfficeLog"]
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactions/Interact_OwnersOfficeLog/InteractionArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OwnersOffice/Interact_OwnersOfficeLog/InteractionArea"]
 shape = SubResource("InteractSmall")
-[node name="UpperWingPuzzleInteraction" type="Node" parent="Interactions/Interact_OwnersOfficeLog/InteractionArea"]
+[node name="UpperWingPuzzleInteraction" type="Node" parent="OwnersOffice/Interact_OwnersOfficeLog/InteractionArea"]
 script = ExtResource("4_puzzle")
 Mode = 8
 

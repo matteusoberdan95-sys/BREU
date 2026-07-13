@@ -1,5 +1,30 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Sprint 19E — Rebuild limpo da ala superior
+
+- a ala anterior foi removida como ownership concorrente; `BalconyWing.tscn` permanece somente com a porta verde;
+- container oficial reconstruído/consolidado: `World/Level/SecondFloor/UpperWingRooms`;
+- layout: `Corridor_Main`, `Room204_Bedroom`, `SharedBathroom`, `LaundryStorage`, `TechnicalRoom`, `OwnersOffice`, `Room205_Locked`, `Doors`, `Props`, `Interactions`, `Triggers`;
+- removidos: banheiro/quarto do proprietário antigos, paredes/colliders/tetos antigos, ralo/espelho/ledger e porta antiga duplicados;
+- análise do vídeo/áudio de 19:25 confirmou portas desenhadas diante de paredes sólidas completas;
+- Escritório: `Wall_Bath_North` foi substituída por segmento que deixa vão real para `Door_OwnersOffice`;
+- 205: `Wall_Tech_North` foi dividida em segmentos esquerdo/direito, deixando vão real para `Door_Room205_Locked`;
+- 31 segmentos de parede modulares autorados; 31 colliders filhos correspondentes;
+- seis portas reais: 204, banheiro, rouparia, sala técnica, escritório e 205 trancado;
+- tetos visuais: corredor, 204, banheiro, rouparia, sala técnica, escritório e 205;
+- ownership: arame/fusível em `LaundryStorage`; ralo/espelho em `SharedBathroom`; painel em `TechnicalRoom`;
+- painel montado na parede interna norte, com InteractionArea pequena à frente;
+- F8 `WallCollisionProbe`: implementado; execução em pontos manuais pendente;
+- F9 `UpperWingWallAudit`: `0 ERROR`, todos os 31 segmentos aprovados;
+- `LevelSanityChecker`: `0 ERROR / 0 WARNING`;
+- duplicados/Old/Temp/Debug/Legacy: nenhum na ala viva;
+- `UpperWing_CollisionDeck`: não alterado; grid preservado em `49/49`;
+- compilação: 0 erros e 0 avisos.
+
+Playtest manual pendente: [ ] todas as paredes [ ] seis portas [ ] arame [ ] ralo [ ] fusível/painel [ ] 203 [ ] retorno ao térreo [ ] zero limbo/teleporte
+
+Não criar commit final antes da aprovação manual.
+
 ## Sprint 19D — Hotfix estrutural final da ala superior
 
 - causa estrutural: os cômodos antigos de `BalconyWing.tscn` ainda coexistiam com a ala 19C em `UpperWingRooms.tscn`, produzindo paredes, tetos e interações concorrentes;
