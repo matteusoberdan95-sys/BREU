@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/systems/AmbientHorror.tscn" id="26_ambient_horror"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint27_FakeWindowsLighting.tscn" id="27_visual_polish"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint28_LightArtPass.tscn" id="28_light_art"]
+[ext_resource type="PackedScene" path="res://scenes/props/pensao/PropSingleBedOld01.tscn" id="30a_bed_prop"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
 [ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
 [ext_resource type="Script" path="res://scripts/debug/DebugFallRecovery.cs" id="11_fall_recovery"]
@@ -117,6 +118,18 @@ script = ExtResource("18_coordinate_overlay")
 [node name="Sprint27_FakeWindowsLighting" parent="World/VisualPolish" instance=ExtResource("27_visual_polish")]
 
 [node name="Sprint28_LightArtPass" parent="World/VisualPolish" instance=ExtResource("28_light_art")]
+
+[node name="Sprint30A_BlenderAssetPilot" type="Node3D" parent="World/VisualPolish"]
+metadata/pilot_asset = "res://assets/models/props/pensao/prop_single_bed_old_01.glb"
+metadata/pilot_room = "Room201"
+metadata/collision_mode = "none"
+
+[node name="PropSingleBedOld01_Instance_Room201" parent="World/VisualPolish/Sprint30A_BlenderAssetPilot" instance=ExtResource("30a_bed_prop")]
+position = Vector3(-4.15, 2.8, -14)
+
+[node name="Backup_Placeholders_Sprint30A" type="Node3D" parent="World/VisualPolish/Sprint30A_BlenderAssetPilot"]
+visible = false
+metadata/replaced_nodes = PackedStringArray("Furniture_Room201_Bed", "Room201_ThinMattress")
 
 [node name="Gameplay" type="Node3D" parent="World"]
 

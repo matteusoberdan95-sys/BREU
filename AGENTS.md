@@ -1,3 +1,7 @@
+## REGRA CRÍTICA — SPRINT 30A
+
+Esta sprint é apenas importação piloto de asset Blender. É proibido alterar geometria estrutural, puzzle, IA, perseguição, safe zone ou triggers, e é proibido substituir todos os placeholders de uma vez. Importar apenas `prop_single_bed_old_01.glb` e testar escala, material, colisão e navegação antes de expandir para outros assets.
+
 ## REGRA CRÍTICA — SPRINT 28
 
 Esta sprint é somente um art pass visual leve. É proibido alterar geometria, colisão, navegação, portas, pisos, teto, varanda, escada, puzzle, IA, perseguições, esconderijos, triggers ou prompts. Todo conteúdo deve ficar em `World/VisualPolish/Sprint28_LightArtPass`, sem `StaticBody3D`, `CollisionShape3D`, `Area3D`, `RigidBody3D` ou bloqueio de circulação. Não esconder o ralo, painel técnico, fusíveis ou bilhete do Quarto 203. Commit final somente após F9 limpo e playtest manual.

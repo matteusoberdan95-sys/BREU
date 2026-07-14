@@ -1,5 +1,17 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Sprint 30A — cama Blender piloto no Quarto 201
+
+- [ ] Cama nova aparece uma única vez no Quarto 201, com escala/material corretos e apoiada no piso.
+- [ ] Não atravessa parede, teto, porta, janela ou prompt e não há placeholder duplicado.
+- [ ] Player entra, circula e sai do Quarto 201 sem prender.
+- [ ] Visible Collision Shapes: cama sem collider e nenhuma colisão estrutural nova.
+- [ ] Piso, escada, porta verde, varanda/deck e Quarto 203 permanecem intactos.
+- [ ] Puzzle de energia, IA, perseguições, safe zone e eventos ambientais continuam funcionando.
+- [ ] Retorno ao térreo sem teleporte entre andares e sem crash.
+
+Não criar o commit final da Sprint 30A antes da aprovação manual completa.
+
 ## Sprint 28 — Art pass leve dos cômodos
 
 - [ ] Recepção: caixa registradora, papéis, pano e detalhe de parede aparecem sem bloquear balcão, chaveiro ou esconderijo.

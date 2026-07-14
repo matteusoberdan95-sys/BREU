@@ -100,8 +100,17 @@ public partial class Sprint28LightArtPass : Node3D
 
     private void BuildUpperRooms(Node3D root)
     {
-        // Room 201: accents around the already authored furniture, leaving its centre clear.
-        AddBox(root, "Room201_ThinMattress", new(-4.15f, 3.32f, -14.0f), new(1.55f, 0.16f, 1.05f), _cloth, new(0f, 0.07f, 0f));
+        // Room 201: Sprint 30A replaces the complete two-piece placeholder bed.
+        // Keep this old overlay in the explicit hidden rollback container.
+        var sprint30ABackup = GetNodeOrNull<Node3D>(
+            "../Sprint30A_BlenderAssetPilot/Backup_Placeholders_Sprint30A");
+        AddBox(
+            sprint30ABackup ?? root,
+            "Room201_ThinMattress",
+            new(-4.15f, 3.32f, -14.0f),
+            new(1.55f, 0.16f, 1.05f),
+            _cloth,
+            new(0f, 0.07f, 0f));
         AddBox(root, "Room201_Suitcase", new(-5.7f, 3.08f, -12.65f), new(0.62f, 0.32f, 0.42f), _darkWood, new(0f, -0.18f, 0f));
         AddPaper(root, "Room201_FloorPaper", new(-3.0f, 2.9f, -15.25f), 0.22f, floor: true);
         AddPicture(root, "Room201_CrookedPicture", new(-3.7f, 4.3f, -12.08f), 0f, 0.62f, 0.45f, -0.09f);

@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/props/pensao/prop_single_bed_old_01.glb" id="1_bed_glb"]
+
+[node name="PropSingleBedOld01" type="Node3D"]
+metadata/asset_path = "res://assets/models/props/pensao/prop_single_bed_old_01.glb"
+metadata/source_dimensions_m = Vector3(1.04, 0.95, 1.99)
+metadata/wrapper_scale_factor = 1.0
+metadata/collision_mode = "none"
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="prop_single_bed_old_01" parent="Visual" instance=ExtResource("1_bed_glb")]
+
+[node name="OptionalCollision" type="Node3D" parent="."]
+metadata/enabled = false
+metadata/reason = "The replaced Room 201 placeholder was visual-only; pilot starts without collision."
+
+[node name="Metadata" type="Node" parent="."]
+metadata/source = "Blender GLB pilot"
+metadata/expected_width_m = 0.9
+metadata/expected_length_m = 1.9
+metadata/expected_height_range_m = Vector2(0.7, 1.0)
+metadata/validated_dimensions_m = Vector3(1.04, 1.99, 0.95)

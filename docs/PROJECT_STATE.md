@@ -1,5 +1,13 @@
 # BREU — Estado do projeto
 
+## Sprint 30A — primeiro asset Blender (piloto)
+
+O primeiro asset Blender foi integrado de forma controlada: `prop_single_bed_old_01.glb` ganhou a cena reutilizável `PropSingleBedOld01.tscn` e uma única instância visual no Quarto 201, sob `World/VisualPolish/Sprint30A_BlenderAssetPilot`. O GLB mede aproximadamente `1,04 × 1,99 × 0,95 m`, usa escala `1:1`, contém 18 meshes/5 materiais e não trouxe câmera ou luz.
+
+O piloto começa sem colisão, como o placeholder que substitui. As duas peças visuais antigas da cama permanecem ocultas no container de rollback `Backup_Placeholders_Sprint30A`; nenhum outro móvel do kit foi instanciado. Piso, parede, teto, porta, deck/varanda, puzzle, Quarto 203, IA, perseguições, safe zones, triggers e eventos não foram alterados.
+
+Validação automática concluída: build `0 erro / 0 aviso`, importação e carga das duas cenas sem falha, F9 `0 ERROR / 0 WARNING`, deck `49/49` e auditoria do piloto com 18 meshes e nenhuma colisão ativa/câmera/luz. O playtest manual permanece obrigatório antes do commit final `feat: import blender bed prop pilot`. Próxima sprint somente após aprovação: substituição gradual de outras camas ou importação de um segundo tipo de prop.
+
 ## Sprint 28 — art pass leve dos cômodos
 
 Foi criado o contêiner isolado `World/VisualPolish/Sprint28_LightArtPass`, dividido por recepção, cozinha, banheiro, sala técnica, quartos superiores, Quarto 203, corredores, manchas e panos/cortinas. Depois da revisão completa do vídeo e dos prints de playtest, o passe foi recomposto em escala maior: entrada com banco/bagagem/tapete, banheiro mais ocupado, metade leste do Quarto 204 mobiliada, escritório com arquivo lateral e sala técnica com bancada, armários, gerador e tubulação. Os dois quadros vistos de perfil, a prateleira atravessada, o banco/baú sobre o vão da escada e o conjunto apertado do escritório foram removidos pela origem.

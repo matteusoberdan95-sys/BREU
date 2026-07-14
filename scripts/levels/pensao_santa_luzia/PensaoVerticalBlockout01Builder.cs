@@ -630,12 +630,25 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(roomSpanX, WallHeight, WallThickness),
             _matInteriorWall);
 
+        // Sprint 30A keeps the approved placeholder available for rollback, but
+        // removes it from the live composition before the Blender pilot is shown.
+        var sprint30ABackup = GetTree().CurrentScene?.GetNodeOrNull<Node3D>(
+            "World/VisualPolish/Sprint30A_BlenderAssetPilot/Backup_Placeholders_Sprint30A");
+        var oldBedParent = sprint30ABackup ?? _secondFloor;
         AddFurniture(
-            _secondFloor,
+            oldBedParent,
             "Furniture_Room201_Bed",
             new Vector3(Room201CenterX + 0.5f, SecondFloorTopY + 0.35f, Room201CenterZ),
             new Vector3(2.0f, 0.7f, 1.8f),
             _matFurniture);
+
+        if (sprint30ABackup?.GetNodeOrNull<StaticBody3D>("Furniture_Room201_Bed") is { } oldBed)
+        {
+            oldBed.CollisionLayer = 0;
+            oldBed.CollisionMask = 0;
+            foreach (var child in oldBed.GetChildren())
+                if (child is CollisionShape3D shape) shape.Disabled = true;
+        }
     }
 
     private void BuildRoom202()

@@ -79,6 +79,7 @@ public partial class LevelSanityChecker : Node
         CheckAmbientHorrorSystem(scene);
         CheckSprint27VisualPolish(scene);
         CheckSprint28LightArtPass(scene);
+        CheckSprint30ABlenderAssetPilot(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -170,6 +171,9 @@ public partial class LevelSanityChecker : Node
             }
 
             var name = node.Name.ToString();
+            // Sprint 30A owns one explicit, hidden rollback subtree. The imported
+            // Blender hierarchy also legitimately uses "old" in authored names.
+            if (HasAncestorNamed(node, "Sprint30A_BlenderAssetPilot")) continue;
             // Authored diagnostics and door/stair thresholds are current geometry,
             // not legacy nodes merely because their words contain Test/old.
             if (name.EndsWith("Test", StringComparison.OrdinalIgnoreCase) ||
@@ -863,6 +867,62 @@ public partial class LevelSanityChecker : Node
 
         if (forbidden.Length == 0 && nonVisual.Length == 0 && meshes.Length >= 120)
             Ok($"Sprint 28 art pass isolated: {meshes.Length} visual meshes, zero collision/navigation/gameplay nodes");
+    }
+
+    private void CheckSprint30ABlenderAssetPilot(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/VisualPolish/Sprint30A_BlenderAssetPilot");
+        if (root == null)
+        {
+            Error("Sprint 30A Blender asset pilot container missing");
+            return;
+        }
+
+        var bed = root.GetNodeOrNull<Node3D>("PropSingleBedOld01_Instance_Room201");
+        var backup = root.GetNodeOrNull<Node3D>("Backup_Placeholders_Sprint30A");
+        if (bed == null) Error("Sprint 30A Room 201 bed instance missing");
+        if (backup == null) Error("Sprint 30A placeholder backup container missing");
+
+        var forbidden = Enumerate(root)
+            .Where(node => !HasAncestorNamed(node, "Backup_Placeholders_Sprint30A"))
+            .Where(node => node is CollisionObject3D or CollisionShape3D or NavigationRegion3D or Joint3D or Camera3D or Light3D)
+            .ToArray();
+        foreach (var node in forbidden)
+            Error($"Sprint 30A pilot contains forbidden physics/navigation/camera/light node: {node.GetPath()}");
+
+        if (bed != null)
+        {
+            var bedMeshes = Enumerate(bed).OfType<MeshInstance3D>().Count();
+            if (bedMeshes != 18)
+                Error($"Sprint 30A bed import expected 18 authored meshes, found {bedMeshes}");
+            if (!bed.Scale.IsEqualApprox(Vector3.One))
+                Error($"Sprint 30A bed wrapper scale changed unexpectedly: {bed.Scale}");
+            if (bed.Position.DistanceTo(new Vector3(-4.15f, 2.8f, -14f)) > 0.02f)
+                Error($"Sprint 30A bed moved outside the approved Room 201 pilot position: {bed.Position}");
+        }
+
+        if (backup != null)
+        {
+            if (backup.Visible) Error("Sprint 30A placeholder backup is visible in the live composition");
+
+            var expectedBackup = new[] { "Furniture_Room201_Bed", "Room201_ThinMattress" };
+            foreach (var name in expectedBackup)
+            {
+                var oldPart = backup.GetNodeOrNull<Node3D>(name);
+                if (oldPart == null) Error($"Sprint 30A rollback placeholder missing: {name}");
+                else if (oldPart.IsVisibleInTree()) Error($"Sprint 30A rollback placeholder is still visible: {name}");
+            }
+
+            foreach (var oldBody in Enumerate(backup).OfType<CollisionObject3D>())
+                if (oldBody.CollisionLayer != 0 || oldBody.CollisionMask != 0)
+                    Error($"Sprint 30A rollback body still participates in physics: {oldBody.GetPath()}");
+            foreach (var oldShape in Enumerate(backup).OfType<CollisionShape3D>())
+                if (!oldShape.Disabled)
+                    Error($"Sprint 30A rollback collision shape is still enabled: {oldShape.GetPath()}");
+        }
+
+        if (forbidden.Length == 0 && bed != null && backup != null)
+            Ok("Sprint 30A Blender bed pilot isolated in Room 201: scale 1:1, no active collision/camera/light, placeholders hidden");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)
