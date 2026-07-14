@@ -1,3 +1,14 @@
+## REGRA CRÍTICA — SPRINT 30B
+
+Esta sprint substitui apenas props visuais por assets Blender.
+É proibido alterar geometria estrutural.
+É proibido alterar navegação, puzzle, IA, perseguições, safe zone ou triggers.
+É proibido substituir todos os objetos cegamente.
+Cada substituição deve preservar posição, rotação aproximada e função do placeholder antigo.
+Props pequenos não devem ter colisão.
+Props grandes só podem receber BoxShape3D simples, se necessário.
+Nunca usar colisão trimesh/complexa importada do Blender nesta sprint.
+
 ## REGRA CRÍTICA — SPRINT 30A
 
 Esta sprint é apenas importação piloto de asset Blender. É proibido alterar geometria estrutural, puzzle, IA, perseguição, safe zone ou triggers, e é proibido substituir todos os placeholders de uma vez. Importar apenas `prop_single_bed_old_01.glb` e testar escala, material, colisão e navegação antes de expandir para outros assets.

@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/ceilings/T_Terreo_TetoRebocoInfiltrado_Albedo.png" id="1_albedo"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/ceilings/T_Terreo_TetoRebocoInfiltrado_Roughness.png" id="2_roughness"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/ceilings/T_Terreo_TetoRebocoInfiltrado_Normal.png" id="3_normal"]
+
+[resource]
+resource_name = "M_Terreo_TetoRebocoInfiltrado_Master"
+albedo_color = Color(0.72, 0.69, 0.61, 1)
+albedo_texture = ExtResource("1_albedo")
+roughness = 0.98
+roughness_texture = ExtResource("2_roughness")
+normal_enabled = true
+normal_scale = 1.18
+normal_texture = ExtResource("3_normal")
+uv1_scale = Vector3(0.38, 0.38, 0.38)
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv1_triplanar_sharpness = 2.0
+

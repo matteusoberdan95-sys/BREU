@@ -18,6 +18,7 @@ public partial class Sprint28LightArtPass : Node3D
     private StandardMaterial3D _fadedRed = null!;
     private StandardMaterial3D _brass = null!;
     private StandardMaterial3D _upholstery = null!;
+    private StandardMaterial3D _trashPlastic = null!;
 
     public override void _Ready()
     {
@@ -37,13 +38,37 @@ public partial class Sprint28LightArtPass : Node3D
     private void BuildReception(Node3D root)
     {
         AddRug(root, "Entrance_Runner", new(0f, 0.031f, 8.6f), new(2.2f, 0.008f, 4.5f), _fadedRed);
-        AddBench(root, "Entrance_WaitingBench", new(-5.55f, 0.34f, 8.9f), 2.15f, 0f);
+        AddBench(root, "Entrance_WaitingBench", new(-6.28f, 0.34f, 8.9f), 2.15f, Mathf.Pi * 0.5f);
         AddCrateStack(root, "Entrance_LuggageStack", new(5.55f, 0.08f, 9.25f), 0.15f);
         AddCylinder(root, "Entrance_UmbrellaStand", new(5.7f, 0.32f, 7.55f), 0.22f, 0.62f, _metal);
         AddBox(root, "Entrance_Umbrella_A", new(5.7f, 0.82f, 7.55f), new(0.035f, 1.05f, 0.035f), _darkWood, new(0f, 0f, 0.12f));
         AddBox(root, "Entrance_Umbrella_B", new(5.62f, 0.78f, 7.55f), new(0.035f, 0.95f, 0.035f), _darkWood, new(0f, 0f, -0.09f));
         AddPicture(root, "Entrance_HouseRules", new(-6.82f, 1.45f, 7.3f), Mathf.Pi * 0.5f, 0.78f, 1.05f, -0.03f, _paper);
         AddPicture(root, "Entrance_FadedPortrait", new(6.82f, 1.55f, 6.85f), -Mathf.Pi * 0.5f, 0.72f, 0.92f, 0.04f);
+
+        // Dense first-impression dressing for the entrance hall. Everything
+        // stays visual-only and hugs the side walls/corners so the central
+        // 3.6 m circulation route between the main door and reception remains
+        // completely clear.
+        AddBench(root, "Entrance_WestWaitingBench", new(-6.28f, 0.34f, 4.85f), 2.35f, Mathf.Pi * 0.5f);
+        AddChair(root, "Entrance_EastChair_A", new(6.22f, 0.4f, 5.45f), -Mathf.Pi * 0.5f + 0.08f);
+        AddChair(root, "Entrance_EastChair_B", new(6.2f, 0.4f, 6.55f), -Mathf.Pi * 0.5f - 0.1f);
+        AddCabinet(root, "Entrance_EastLowCabinet", new(6.42f, 0.62f, 3.55f), new(1.15f, 1.18f, 0.38f), -Mathf.Pi * 0.5f);
+        AddCrateStack(root, "Entrance_WestAbandonedBoxes", new(-5.72f, 0.08f, 2.55f), -0.12f);
+
+        AddPicture(root, "Entrance_WestFamilyPortrait", new(-6.87f, 1.62f, 4.2f), Mathf.Pi * 0.5f, 0.76f, 0.96f, -0.08f);
+        AddPicture(root, "Entrance_WestReligiousPrint", new(-6.87f, 1.52f, 6.0f), Mathf.Pi * 0.5f, 0.58f, 0.78f, 0.06f, _paper);
+        AddPicture(root, "Entrance_EastPensionPhoto", new(6.87f, 1.58f, 4.65f), -Mathf.Pi * 0.5f, 0.82f, 0.62f, 0.05f);
+        AddPicture(root, "Entrance_EastMissingPortrait", new(6.87f, 1.66f, 8.15f), -Mathf.Pi * 0.5f, 0.66f, 0.9f, -0.1f);
+
+        AddPaper(root, "Entrance_FloorPaper_West_A", new(-4.65f, 0.042f, 5.75f), 0.38f, floor: true);
+        AddPaper(root, "Entrance_FloorPaper_West_B", new(-4.32f, 0.043f, 5.5f), -0.18f, floor: true);
+        AddPaper(root, "Entrance_FloorPaper_East_A", new(4.72f, 0.042f, 7.65f), -0.42f, floor: true);
+        AddPaper(root, "Entrance_FloorPaper_East_B", new(4.38f, 0.043f, 7.82f), 0.16f, floor: true);
+        AddFloorStain(root, "Entrance_DampStain_West", new(-5.0f, 0.038f, 7.35f), new(1.5f, 0.006f, 0.72f), 0.18f, _mold);
+        AddFloorStain(root, "Entrance_Grime_East", new(5.05f, 0.038f, 4.7f), new(1.35f, 0.006f, 0.62f), -0.22f, _stain);
+        AddTrashBag(root, "Entrance_TrashBag_West", new(-5.82f, 0.03f, 3.45f), 0.88f);
+        AddTrashBag(root, "Entrance_TrashBag_East", new(5.72f, 0.03f, 8.5f), 0.72f);
 
         AddBox(root, "CashRegister_Base", new(3.25f, 1.14f, -3.48f), new(0.42f, 0.2f, 0.3f), _metal);
         AddBox(root, "CashRegister_Keys", new(3.25f, 1.255f, -3.39f), new(0.32f, 0.025f, 0.12f), _paper, new(-0.12f, 0f, 0f));
@@ -228,6 +253,7 @@ public partial class Sprint28LightArtPass : Node3D
         _fadedRed = Material(new(0.215f, 0.068f, 0.045f, 0.88f), transparent: true);
         _brass = Material(new(0.38f, 0.26f, 0.09f), metallic: 0.5f);
         _upholstery = Material(new(0.19f, 0.205f, 0.145f));
+        _trashPlastic = Material(new(0.022f, 0.024f, 0.021f));
     }
 
     private void AddRug(Node3D root, string name, Vector3 position, Vector3 size, Material material) =>
@@ -425,6 +451,28 @@ public partial class Sprint28LightArtPass : Node3D
     {
         AddCylinder(root, $"{name}_Body", position, 0.25f, 0.36f, _metal);
         AddCylinder(root, $"{name}_Rim", position + new Vector3(0f, 0.19f, 0f), 0.285f, 0.035f, _metal);
+    }
+
+    private void AddTrashBag(Node3D root, string name, Vector3 floorPosition, float scale)
+    {
+        var holder = AddHolder(root, name, floorPosition, 0f);
+        var body = new MeshInstance3D
+        {
+            Name = "BagBody",
+            Position = new Vector3(0f, 0.28f * scale, 0f),
+            Scale = new Vector3(0.72f * scale, 0.58f * scale, 0.62f * scale),
+            Mesh = new SphereMesh
+            {
+                Radius = 0.5f,
+                Height = 1.0f,
+                RadialSegments = 12,
+                Rings = 6,
+                Material = _trashPlastic
+            },
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        };
+        holder.AddChild(body);
+        AddBox(holder, "TiedTop", new(0.04f, 0.59f * scale, 0f), new Vector3(0.13f, 0.18f, 0.11f) * scale, _trashPlastic, new(0f, 0f, 0.16f));
     }
 
     private void AddPicture(Node3D root, string name, Vector3 position, float yaw, float width, float height, float roll, Material? face = null)

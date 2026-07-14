@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/Sprint31CPbrMaterialPass.cs" id="1_script"]
+
+[node name="Sprint31C_PBRMaterials" type="Node3D"]
+script = ExtResource("1_script")
+metadata/scope = "materials_textures_decals_lighting_only"
+metadata/collision_nodes = 0
+metadata/navigation_nodes = 0
+metadata/gameplay_nodes = 0
+metadata/structural_geometry_changed = false
+metadata/frozen_upper_deck_changed = false
+metadata/ground_floor_only_extension = false
+metadata/second_floor_material_profile_preserved = false
+metadata/stair_upper_landing_extension = true
+
+[node name="WallDecals" type="Node3D" parent="."]
+
+[node name="FloorDecals" type="Node3D" parent="."]
+
+[node name="CeilingDecals" type="Node3D" parent="."]

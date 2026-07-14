@@ -23,6 +23,10 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint27_FakeWindowsLighting.tscn" id="27_visual_polish"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint28_LightArtPass.tscn" id="28_light_art"]
 [ext_resource type="PackedScene" path="res://scenes/props/pensao/PropSingleBedOld01.tscn" id="30a_bed_prop"]
+[ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint30B_BlenderProps.tscn" id="30b_blender_props"]
+[ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint31_Materials.tscn" id="31_materials"]
+[ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint31B_HeavyDegradation.tscn" id="31b_heavy_degradation"]
+[ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint31C_PBRMaterials.tscn" id="31c_pbr_materials"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
 [ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
 [ext_resource type="Script" path="res://scripts/debug/DebugFallRecovery.cs" id="11_fall_recovery"]
@@ -39,9 +43,9 @@ background_mode = 1
 background_color = Color(0.035, 0.045, 0.08, 1)
 ambient_light_source = 1
 ambient_light_color = Color(0.2, 0.22, 0.3, 1)
-ambient_light_energy = 0.3
+ambient_light_energy = 0.34
 tonemap_mode = 2
-tonemap_exposure = 0.82
+tonemap_exposure = 0.9
 adjustment_enabled = true
 adjustment_brightness = 0.94
 adjustment_contrast = 1.1
@@ -130,6 +134,14 @@ position = Vector3(-4.15, 2.8, -14)
 [node name="Backup_Placeholders_Sprint30A" type="Node3D" parent="World/VisualPolish/Sprint30A_BlenderAssetPilot"]
 visible = false
 metadata/replaced_nodes = PackedStringArray("Furniture_Room201_Bed", "Room201_ThinMattress")
+
+[node name="Sprint30B_BlenderProps" parent="World/VisualPolish" instance=ExtResource("30b_blender_props")]
+
+[node name="Sprint31_Materials" parent="World/VisualPolish" instance=ExtResource("31_materials")]
+
+[node name="Sprint31B_HeavyDegradation" parent="World/VisualPolish" instance=ExtResource("31b_heavy_degradation")]
+
+[node name="Sprint31C_PBRMaterials" parent="World/VisualPolish" instance=ExtResource("31c_pbr_materials")]
 
 [node name="Gameplay" type="Node3D" parent="World"]
 

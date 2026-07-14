@@ -71,7 +71,6 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         BuildFloorVisuals();
         BuildExteriorTrailEnclosure();
         BuildBuildingExteriorShell();
-        BuildVarandaWalls();
         BuildReception();
         BuildCorridor();
         BuildRoom102();
@@ -210,8 +209,13 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
 
         const float bermHeight = 2.4f;
         const float bermCenterY = bermHeight * 0.5f - WallEmbedBelowFloor;
-        const float bermLength = 40f;
-        const float bermCenterZ = 31f;
+        // Keep the exterior berms outside the pension facade. Their former
+        // rear edge ended at Z=11 and pierced the front wall at Z=11.6,
+        // leaving two bright vertical blocks visible from the entrance hall.
+        // Preserve the trail-end edge at Z=51 while pulling only the building
+        // edge forward to Z=12.2.
+        const float bermLength = 38.8f;
+        const float bermCenterZ = 31.6f;
         const float bermOffsetX = 4.2f;
 
         AddBoundaryWall(
@@ -280,70 +284,27 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(0f, 0f, BuildingFrontZ + WallThickness * 0.5f),
             MainEntryWidth,
             _matExteriorWall);
-    }
 
-    private void BuildVarandaWalls()
-    {
-        var varanda = new Node3D { Name = "VarandaWalls" };
-        _interior.AddChild(varanda);
-
-        const float varandaDepth = 6.2f;
-        const float varandaCenterZ = 8.2f;
+        // The original 5.2 m facade opening exposed two generic side gaps.
+        // Keep the authored central entrance at DoorWidth and close only the
+        // unused lateral bands. AddWall owns both the visible BoxMesh and its
+        // matching child collider, so there is no detached/invisible blocker.
+        var entranceInfillWidth = (MainEntryWidth - DoorWidth) * 0.5f;
+        var entranceInfillCenterX = DoorWidth * 0.5f + entranceInfillWidth * 0.5f;
+        var entranceInfillCenterY = DoorHeight * 0.5f - WallEmbedBelowFloor;
 
         AddWall(
-            varanda,
-            "Wall_Varanda_Left",
-            new Vector3(-6.1f, WallCenterY, varandaCenterZ),
-            new Vector3(WallThickness, WallHeight, varandaDepth + WallCornerOverlap),
+            shell,
+            "Wall_Exterior_Entrance_Infill_Left",
+            new Vector3(-entranceInfillCenterX, entranceInfillCenterY, BuildingFrontZ + WallThickness * 0.5f),
+            new Vector3(entranceInfillWidth + WallCornerOverlap * 0.5f, DoorHeight, WallThickness),
             _matExteriorWall);
 
         AddWall(
-            varanda,
-            "Wall_Varanda_Right",
-            new Vector3(6.1f, WallCenterY, varandaCenterZ),
-            new Vector3(WallThickness, WallHeight, varandaDepth + WallCornerOverlap),
-            _matExteriorWall);
-
-        AddWall(
-            varanda,
-            "Wall_Varanda_FrontLeft",
-            new Vector3(-4.8f, WallCenterY, BuildingFrontZ - 0.4f),
-            new Vector3(2.4f + WallCornerOverlap, WallHeight, WallThickness),
-            _matExteriorWall);
-
-        AddWall(
-            varanda,
-            "Wall_Varanda_FrontRight",
-            new Vector3(4.8f, WallCenterY, BuildingFrontZ - 0.4f),
-            new Vector3(2.4f + WallCornerOverlap, WallHeight, WallThickness),
-            _matExteriorWall);
-
-        AddWall(
-            varanda,
-            "Wall_Varanda_BackLeft",
-            new Vector3(-4.05f, WallCenterY, 5.15f),
-            new Vector3(2.1f + WallCornerOverlap, WallHeight, WallThickness),
-            _matExteriorWall);
-
-        AddWall(
-            varanda,
-            "Wall_Varanda_BackRight",
-            new Vector3(4.05f, WallCenterY, 5.15f),
-            new Vector3(2.1f + WallCornerOverlap, WallHeight, WallThickness),
-            _matExteriorWall);
-
-        AddWall(
-            varanda,
-            "Wall_Varanda_CornerWest",
-            new Vector3(-5.6f, WallCenterY, 6.6f),
-            new Vector3(1.1f + WallCornerOverlap, WallHeight, WallThickness),
-            _matExteriorWall);
-
-        AddWall(
-            varanda,
-            "Wall_Varanda_CornerEast",
-            new Vector3(5.6f, WallCenterY, 6.6f),
-            new Vector3(1.1f + WallCornerOverlap, WallHeight, WallThickness),
+            shell,
+            "Wall_Exterior_Entrance_Infill_Right",
+            new Vector3(entranceInfillCenterX, entranceInfillCenterY, BuildingFrontZ + WallThickness * 0.5f),
+            new Vector3(entranceInfillWidth + WallCornerOverlap * 0.5f, DoorHeight, WallThickness),
             _matExteriorWall);
     }
 
@@ -352,21 +313,25 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
         var reception = new Node3D { Name = "ReceptionWalls" };
         _interior.AddChild(reception);
 
+        const float receptionNorthZ = -7.0f;
+        const float receptionSouthZ = 1.2f;
+        var receptionSideDepth = receptionSouthZ - receptionNorthZ + WallCornerOverlap;
+        var receptionSideCenterZ = (receptionSouthZ + receptionNorthZ) * 0.5f;
+
         AddWall(
             reception,
             "Wall_Reception_Left",
-            new Vector3(-ReceptionHalfWidth - WallThickness * 0.5f, WallCenterY, -0.9f),
-            new Vector3(WallThickness, WallHeight, 12.2f + WallCornerOverlap),
+            new Vector3(-ReceptionHalfWidth - WallThickness * 0.5f, WallCenterY, receptionSideCenterZ),
+            new Vector3(WallThickness, WallHeight, receptionSideDepth),
             _matInteriorWall);
 
         AddWall(
             reception,
             "Wall_Reception_Right",
-            new Vector3(ReceptionHalfWidth + WallThickness * 0.5f, WallCenterY, -0.9f),
-            new Vector3(WallThickness, WallHeight, 12.2f + WallCornerOverlap),
+            new Vector3(ReceptionHalfWidth + WallThickness * 0.5f, WallCenterY, receptionSideCenterZ),
+            new Vector3(WallThickness, WallHeight, receptionSideDepth),
             _matInteriorWall);
 
-        const float receptionNorthZ = -7.0f;
         const float northSegmentWidth = ReceptionHalfWidth - DoorWidth * 0.5f + WallCornerOverlap;
 
         AddWall(
@@ -383,20 +348,23 @@ public partial class PensaoTerreoBlockout01Builder : Node3D
             new Vector3(northSegmentWidth, WallHeight, WallThickness),
             _matInteriorWall);
 
-        const float receptionSouthZ = 1.2f;
-        const float southSegmentWidth = ReceptionHalfWidth - DoorWidth * 0.5f + WallCornerOverlap;
+        // Close the two side gaps all the way to the exterior shell. The old
+        // panels stopped at ReceptionHalfWidth while the side walls projected
+        // four metres toward the entrance, producing two pointed wall shards.
+        // The central opening remains exactly DoorWidth wide.
+        const float southSegmentWidth = BuildingHalfWidth - DoorWidth * 0.5f;
 
         AddWall(
             reception,
             "Wall_Reception_SouthLeft",
-            new Vector3(-ReceptionHalfWidth + southSegmentWidth * 0.5f, WallCenterY, receptionSouthZ),
+            new Vector3(-BuildingHalfWidth + southSegmentWidth * 0.5f, WallCenterY, receptionSouthZ),
             new Vector3(southSegmentWidth, WallHeight, WallThickness),
             _matInteriorWall);
 
         AddWall(
             reception,
             "Wall_Reception_SouthRight",
-            new Vector3(ReceptionHalfWidth - southSegmentWidth * 0.5f, WallCenterY, receptionSouthZ),
+            new Vector3(BuildingHalfWidth - southSegmentWidth * 0.5f, WallCenterY, receptionSouthZ),
             new Vector3(southSegmentWidth, WallHeight, WallThickness),
             _matInteriorWall);
     }

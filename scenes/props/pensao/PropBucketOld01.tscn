@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/props/pensao/prop_bucket_old_01.glb" id="1_glb"]
+
+[node name="PropBucketOld01" type="Node3D"]
+metadata/asset_path = "res://assets/models/props/pensao/prop_bucket_old_01.glb"
+metadata/validated_dimensions_m = Vector3(0.36, 0.472, 0.372)
+metadata/collision_mode = "none"
+[node name="Visual" type="Node3D" parent="."]
+[node name="prop_bucket_old_01" parent="Visual" instance=ExtResource("1_glb")]
+[node name="OptionalCollision" type="Node3D" parent="."]
+metadata/enabled = false
+[node name="Metadata" type="Node" parent="."]
+metadata/source = "Blender GLB"
+

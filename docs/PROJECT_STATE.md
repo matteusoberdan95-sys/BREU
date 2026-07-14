@@ -1,5 +1,91 @@
 # BREU — Estado do projeto
 
+## CHECKPOINT ATUAL — 2026-07-14
+
+**Commit de continuidade autorizado pelo usuário.** Este checkpoint reúne as Sprints 30B, 31, 31B e 31C e os hotfixes visuais feitos durante a revisão em vídeo. Ele serve para retomada em outro computador; não significa que o playtest manual final foi concluído.
+
+### Estado funcional preservado
+
+- cena oficial: `scenes/levels/pensao_santa_luzia/PensaoVerticalBlockout01.tscn`;
+- deck oficial da varanda: `UpperWing_CollisionDeck`, congelado e fora do passe visual;
+- puzzle do ralo, painel, dois fusíveis e Quarto 203 preservados;
+- IA, perseguições, safe zones, esconderijos, portas, escada física e triggers não foram redesenhados;
+- último build C# deste checkpoint: **0 erros / 0 avisos** em 2026-07-14.
+
+### Conteúdo incluído no checkpoint
+
+- props Blender 30B organizados por setor, sem física nova e com placeholders substituídos ocultos;
+- passes visuais 31/31B com desgaste, sujeira, dressing leve e iluminação contida;
+- materiais PBR 31C para reboco seco, reboco úmido/mofado, madeira velha e teto infiltrado;
+- extensão brasileira do térreo: parede mofada contínua, assoalho antigo, teto de reboco infiltrado e entrepiso com faces visuais diferentes;
+- entrada/recepção retificada, paredes residuais de `VarandaWalls` removidas, barrancos externos recuados e salão de entrada ambientado;
+- poço da escada com perfil mais úmido, escuro e opressivo;
+- chegada ao segundo andar com perfil mais seco, frio e desbotado, evitando repetição direta do térreo.
+
+### Validação ainda pendente após abrir em outro computador
+
+1. Abrir o projeto no Godot Mono 4.7 e aguardar a importação dos PNGs/GLBs.
+2. Rodar `dotnet build` e confirmar 0 erros / 0 avisos.
+3. Rodar a cena oficial e executar o diagnóstico F9; confirmar 0 ERROR / 0 WARNING.
+4. Fazer F6 manual completo usando `docs/testing/PENSION_UPPER_WING_PLAYTEST.md`.
+5. Conferir especialmente: materiais no poço da escada, paredes/piso/teto do patamar superior, iluminação legível, ausência de emendas e ausência de objetos cobrindo prompts.
+6. Só depois da aprovação visual decidir se serão criadas texturas hero novas ou refinamentos no Blender.
+
+**Próximo passo recomendado:** validar visualmente a transição térreo → escada → segundo andar. Se a repetição ainda for perceptível, criar variações hero localizadas; não substituir toda a família PBR nem alterar geometria estrutural.
+
+## Sprint 31C-1 — materiais mestres PBR
+
+**Status:** incluída no checkpoint de continuidade; build C# aprovado, diagnóstico F9 e playtest manual da extensão escada/patamar ainda obrigatórios.
+
+- Quatro materiais PBR mestres para reboco seco, reboco úmido/mofado, madeira velha e teto infiltrado.
+- Bases visuais próprias do projeto, com mapas de normal e roughness derivados localmente; nenhum download externo.
+- Aplicação triplanar em paredes, pisos e tetos existentes, sem alterar transforms ou geometria.
+- Seis texturas-fonte de decals preservadas; as 14 instâncias-caixa foram desativadas após o vídeo revelar placas opacas e travessas brancas.
+- Aplicação isolada em `World/VisualPolish/Sprint31C_PBRMaterials`; deck físico da varanda explicitamente excluído.
+- Ambiente recalibrado para destacar relevo/roughness sem perder legibilidade.
+- Documentação: `docs/production/SPRINT31C_PBR_MATERIAL_PASS.md`.
+- Hotfix prioritário: projeção triplanar global para continuidade entre blocos e quatro contêineres antigos de manchas rígidas ocultos.
+- Extensão visual exclusiva do térreo: reboco mofado brasileiro sem emenda horizontal, assoalho largo e muito gasto, teto de reboco infiltrado sem madeira e material de duas faces no entrepiso; segundo andar preservado.
+- Build `0 erro / 0 aviso`, cena oficial, F9 `0 ERROR / 0 WARNING`, deck `49/49`, 38 paredes superiores pareadas e aplicação registrada em 104 paredes, 6 pisos e 16 tetos.
+- Validação do térreo brasileiro: 50 paredes, 10 pisos, 5 placas de teto e 1 laje de duas faces. Fachada frontal superior texturizada, duas sobras laterais da entrada fechadas por paredes com colliders filhos pareados, soleiras integradas ao assoalho e depósito texturizado; jogabilidade e andar superior preservados.
+- Entrada interna da recepção retificada: as paredes laterais não avançam mais além da linha frontal, os painéis frontais fecham os dois buracos até a casca externa e a passagem central mantém 1,40 m. As quatro paredes possuem BoxMesh/BoxShape3D locais e pareados; F9 permanece em `0 ERROR / 0 WARNING`.
+- Revisão em vídeo do térreo: removido o builder legado `VarandaWalls`, responsável por oito paredes pontudas e corredores inúteis logo após a porta. Ambiente recuperado para background `1,00`, energia ambiente `0,34` e exposição `0,90`; aplicação PBR atual em 42 paredes térreas, 10 pisos, 5 tetos e 1 laje de duas faces.
+
+O checkpoint pode ser compartilhado para continuidade, mas a Sprint 31C só deve ser marcada como visualmente aprovada após F9 limpo e playtest manual.
+
+## Sprint 31B — degradação ambiental pesada
+
+**Status:** implementação e validação automática concluídas; playtest manual pendente.
+
+- Camada visual removível em `World/VisualPolish/Sprint31B_HeavyDegradation`.
+- Mofo pesado, reboco gasto, fuligem, escorridos verticais, rachaduras, halos de teto, marcas de arrasto, sujeira de borda e vidros escurecidos.
+- Dressing Blender leve nas bordas: panos, papéis, garrafas, caixas, tábuas e cortinas rasgadas.
+- Pátina transparente aplicada aos móveis Blender e janelas falsas, preservando textura e função.
+- Quatro luzes locais contidas: duas quentes fracas e duas frias; flicker sutil somente na recepção.
+- Ambiente reduzido de `0,30` para `0,27` e exposição de `0,82` para `0,79`, mantendo legibilidade.
+- Zero colisão, navegação, interação, trigger ou alteração estrutural; deck da varanda preservado.
+- Build `0 erro / 0 aviso`, cena oficial, F9 `0 ERROR / 0 WARNING`, deck `49/49` e 38 paredes superiores pareadas.
+
+O commit final permanece bloqueado até F9 limpo e playtest manual completo.
+
+## Sprint 31 — material pass visual
+
+**Status:** implementação e validação automática concluídas; F6 manual pendente.
+
+- Materiais compartilhados de reboco envelhecido, piso gasto, teto úmido, rodapé e manchas.
+- Aplicação visual em 95 paredes, 6 pisos e 16 tetos existentes.
+- Acabamentos isolados em `World/VisualPolish/Sprint31_Materials`.
+- Zero colisão, trigger, navegação ou gameplay novo; `UpperWing_CollisionDeck` preservado.
+- Build 0/0, F9 0/0 e deck 49/49.
+
+## Sprint 30B — props Blender principais por setor
+
+Os 13 GLBs principais solicitados receberam cenas reutilizáveis e 15 instâncias visuais controladas em `World/VisualPolish/Sprint30B_BlenderProps`. A recepção recebeu balcão/cadeira; a cozinha, mesa/fogão/pia/balde; o banheiro, ralo/espelho/balde; a sala técnica, o visual Blender do painel; os quartos, mala/criado-mudo; e duas janelas falsas aprovadas foram substituídas, com cortina no Quarto 201. O Quarto 203 foi deliberadamente ignorado.
+
+Não foi criada colisão nova. Balcão, cadeira, mesa e fogão preservam os `BoxShape3D` simples dos placeholders; painel e ralo preservam integralmente seus nodes funcionais, scripts e `Area3D`. Vinte e sete visuais antigos são ocultados após os builders, sem apagar lógica ou geometria estrutural.
+
+Validação automática concluída: build `0 erro / 0 aviso`, cena oficial carregada, F9 `0 ERROR / 0 WARNING`, deck `49/49`, 38 paredes superiores pareadas e árvore 30B com zero física/gameplay. O playtest manual completo e Visible Collision Shapes continuam obrigatórios antes do commit final `feat: replace main pension placeholders with blender props`. Próxima sprint recomendada após aprovação: substituição gradual dos props restantes ou refinamento de materiais/texturas.
+
 ## Sprint 30A — primeiro asset Blender (piloto)
 
 O primeiro asset Blender foi integrado de forma controlada: `prop_single_bed_old_01.glb` ganhou a cena reutilizável `PropSingleBedOld01.tscn` e uma única instância visual no Quarto 201, sob `World/VisualPolish/Sprint30A_BlenderAssetPilot`. O GLB mede aproximadamente `1,04 × 1,99 × 0,95 m`, usa escala `1:1`, contém 18 meshes/5 materiais e não trouxe câmera ou luz.

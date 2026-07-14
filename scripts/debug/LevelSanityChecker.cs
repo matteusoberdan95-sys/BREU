@@ -70,6 +70,7 @@ public partial class LevelSanityChecker : Node
         CheckSecondFloorInvasion(scene);
         CheckGroundWallTops(scene);
         CheckReceptionCeiling(scene);
+        CheckEntranceTrailBermClearance(scene);
         CheckManualWingOwnership(scene);
         CheckBalconyBoundaryRollback(scene);
         CheckFloorVolumes(scene);
@@ -80,6 +81,10 @@ public partial class LevelSanityChecker : Node
         CheckSprint27VisualPolish(scene);
         CheckSprint28LightArtPass(scene);
         CheckSprint30ABlenderAssetPilot(scene);
+        CheckSprint30BBlenderProps(scene);
+        CheckSprint31MaterialPass(scene);
+        CheckSprint31BHeavyDegradation(scene);
+        CheckSprint31CPbrMaterialPass(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -173,7 +178,8 @@ public partial class LevelSanityChecker : Node
             var name = node.Name.ToString();
             // Sprint 30A owns one explicit, hidden rollback subtree. The imported
             // Blender hierarchy also legitimately uses "old" in authored names.
-            if (HasAncestorNamed(node, "Sprint30A_BlenderAssetPilot")) continue;
+            if (HasAncestorNamed(node, "Sprint30A_BlenderAssetPilot") ||
+                HasAncestorNamed(node, "Sprint30B_BlenderProps")) continue;
             // Authored diagnostics and door/stair thresholds are current geometry,
             // not legacy nodes merely because their words contain Test/old.
             if (name.EndsWith("Test", StringComparison.OrdinalIgnoreCase) ||
@@ -452,6 +458,38 @@ public partial class LevelSanityChecker : Node
         {
             Ok("single BalconyWing owner");
         }
+    }
+
+    private void CheckEntranceTrailBermClearance(Node scene)
+    {
+        const float minimumRearEdgeZ = 12.0f;
+        var enclosure = scene.GetNodeOrNull<Node3D>("Exterior/TrailEnclosure");
+        if (enclosure == null)
+        {
+            Error("Exterior TrailEnclosure missing");
+            return;
+        }
+
+        foreach (var name in new[] { "TrailBermWest", "TrailBermEast" })
+        {
+            var berm = enclosure.GetNodeOrNull<StaticBody3D>(name);
+            var mesh = berm?.GetChildren().OfType<MeshInstance3D>().SingleOrDefault()?.Mesh as BoxMesh;
+            var shape = berm?.GetChildren().OfType<CollisionShape3D>().SingleOrDefault()?.Shape as BoxShape3D;
+            if (berm == null || mesh == null || shape == null)
+            {
+                Error($"Exterior trail berm is missing paired visual/collision geometry: {name}");
+                continue;
+            }
+
+            if (!mesh.Size.IsEqualApprox(shape.Size))
+                Error($"Exterior trail berm mesh/collider mismatch: {berm.GetPath()}");
+
+            var rearEdgeZ = berm.Position.Z - mesh.Size.Z * 0.5f;
+            if (rearEdgeZ < minimumRearEdgeZ)
+                Error($"Exterior trail berm still pierces the pension facade: {berm.GetPath()} rearZ={rearEdgeZ:0.00}");
+        }
+
+        Ok("exterior trail berms stop outside the pension facade");
     }
 
     private void CheckUpperWingStructuralHotfix(Node scene)
@@ -822,6 +860,19 @@ public partial class LevelSanityChecker : Node
             if (root.FindChild(name, recursive: true, owned: false) == null)
                 Error($"Sprint 28 corrected upper-arrival composition missing: {name}");
 
+        var entranceHallRequired = new[]
+        {
+            "Entrance_WestWaitingBench", "Entrance_EastChair_A", "Entrance_EastChair_B",
+            "Entrance_EastLowCabinet", "Entrance_WestAbandonedBoxes",
+            "Entrance_WestFamilyPortrait", "Entrance_WestReligiousPrint",
+            "Entrance_EastPensionPhoto", "Entrance_EastMissingPortrait",
+            "Entrance_TrashBag_West", "Entrance_TrashBag_East",
+            "Entrance_DampStain_West", "Entrance_Grime_East"
+        };
+        foreach (var name in entranceHallRequired)
+            if (root.FindChild(name, recursive: true, owned: false) == null)
+                Error($"Sprint 28 entrance-hall dressing missing: {name}");
+
         var landingOnly = new[]
         {
             "UpperArrival_Rug", "UpperArrival_Settee",
@@ -923,6 +974,347 @@ public partial class LevelSanityChecker : Node
 
         if (forbidden.Length == 0 && bed != null && backup != null)
             Ok("Sprint 30A Blender bed pilot isolated in Room 201: scale 1:1, no active collision/camera/light, placeholders hidden");
+    }
+
+    private void CheckSprint30BBlenderProps(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/VisualPolish/Sprint30B_BlenderProps");
+        if (root == null)
+        {
+            Error("Sprint 30B Blender props container missing");
+            return;
+        }
+
+        var requiredSectors = new[]
+        {
+            "Reception", "Kitchen", "Bathroom", "TechnicalRoom", "Bedrooms", "Windows",
+            "Backup_Placeholders_Sprint30B", "DebugMarkers"
+        };
+        foreach (var sector in requiredSectors)
+            if (root.GetNodeOrNull<Node3D>(sector) == null)
+                Error($"Sprint 30B sector missing: {sector}");
+
+        var forbidden = Enumerate(root)
+            .Where(node => node is CollisionObject3D or CollisionShape3D or Area3D or
+                NavigationRegion3D or Joint3D or Camera3D or Light3D or RigidBody3D)
+            .ToArray();
+        foreach (var node in forbidden)
+            Error($"Sprint 30B visual container contains forbidden gameplay/physics node: {node.GetPath()}");
+
+        var expectedInstances = new[]
+        {
+            "PropReceptionCounter01_Instance_Reception",
+            "PropBrokenChair01_Instance_Reception",
+            "PropKitchenTableOld01_Instance_Kitchen",
+            "PropKitchenStoveOld01_Instance_Kitchen",
+            "PropSinkOld01_Instance_Kitchen",
+            "PropBucketOld01_Instance_Kitchen",
+            "PropDrainOld01_Instance_SharedBathroom",
+            "PropBrokenMirror01_Instance_SharedBathroom",
+            "PropBucketOld01_Instance_SharedBathroom",
+            "PropElectricPanelOld01_Instance_TechnicalRoom",
+            "PropOldSuitcase01_Instance_Room201",
+            "PropNightstandOld01_Instance_Room204",
+            "PropWindowOld01_Instance_Room201",
+            "PropTornCurtain01_Instance_Room201",
+            "PropWindowOld01_Instance_Room202"
+        };
+        foreach (var instance in expectedInstances)
+            if (root.FindChild(instance, recursive: true, owned: false) == null)
+                Error($"Sprint 30B Blender prop instance missing: {instance}");
+
+        var floorAligned = new (string Name, float ExpectedY)[]
+        {
+            ("PropReceptionCounter01_Instance_Reception", 0.02f),
+            ("PropBrokenChair01_Instance_Reception", 0.02f),
+            ("PropKitchenTableOld01_Instance_Kitchen", 0.02f),
+            ("PropKitchenStoveOld01_Instance_Kitchen", 0.02f),
+            ("PropSinkOld01_Instance_Kitchen", 0.02f),
+            ("PropBucketOld01_Instance_Kitchen", 0.02f),
+            ("PropDrainOld01_Instance_SharedBathroom", 2.82f),
+            ("PropBucketOld01_Instance_SharedBathroom", 2.82f),
+            ("PropOldSuitcase01_Instance_Room201", 2.82f),
+            ("PropNightstandOld01_Instance_Room204", 2.82f)
+        };
+        foreach (var (name, expectedY) in floorAligned)
+        {
+            if (root.FindChild(name, recursive: true, owned: false) is Node3D prop &&
+                !Mathf.IsEqualApprox(prop.GlobalPosition.Y, expectedY))
+                Error($"Sprint 30B floor prop is not seated on approved floor: {name} Y={prop.GlobalPosition.Y:0.###}, expected {expectedY:0.##}");
+        }
+
+        if (root.FindChild("PropKitchenStoveOld01_Instance_Kitchen", recursive: true, owned: false) is Node3D stove)
+        {
+            const float stoveHalfWidth = 0.37f;
+            const float wardrobeWestEdge = 4.64f;
+            if (stove.GlobalPosition.X + stoveHalfWidth >= wardrobeWestEdge)
+                Error("Sprint 30B Blender stove still intersects Wardrobe_Kitchen_Vintage");
+
+            var stoveInteraction = scene.GetNodeOrNull<Node3D>("Interactions/KitchenStove");
+            if (stoveInteraction == null ||
+                stove.GlobalPosition.DistanceTo(stoveInteraction.GlobalPosition) > 1.2f)
+                Error("Sprint 30B Blender stove is no longer aligned with its preserved interaction prompt");
+        }
+
+        var backup = root.GetNodeOrNull<Node3D>("Backup_Placeholders_Sprint30B");
+        if (backup?.Visible != false)
+            Error("Sprint 30B placeholder backup marker must remain hidden");
+
+        if (Enumerate(root).Any(node => node.Name.ToString().Contains("Room203", StringComparison.OrdinalIgnoreCase)))
+            Error("Sprint 30B modified Room 203 despite its protected event scope");
+
+        var panel = scene.GetNodeOrNull<Node3D>(
+            "World/Level/SecondFloor/UpperWingRooms/TechnicalRoom/TechnicalPanel");
+        if (panel?.GetNodeOrNull<Area3D>("InteractionArea") == null)
+            Error("Sprint 30B replacement lost the functional technical-panel InteractionArea");
+
+        var drain = scene.GetNodeOrNull<Node3D>(
+            "World/Level/SecondFloor/UpperWingRooms/SharedBathroom/Interact_BathroomInspect");
+        if (drain?.GetNodeOrNull<Area3D>("InteractionArea") == null)
+            Error("Sprint 30B replacement lost the functional drain InteractionArea");
+
+        if (forbidden.Length == 0 && expectedInstances.All(name =>
+                root.FindChild(name, recursive: true, owned: false) != null))
+            Ok("Sprint 30B Blender props isolated and floor-aligned by sector: 15 visual instances, stove clear of wardrobe, zero new collision/gameplay nodes; panel and drain logic preserved");
+    }
+
+    private void CheckSprint31MaterialPass(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/VisualPolish/Sprint31_Materials");
+        if (root == null)
+        {
+            Error("Sprint 31 material-pass container missing");
+            return;
+        }
+
+        var expectedContainers = new[]
+        {
+            "Baseboards", "DampPatches", "FloorStains", "CeilingStains", "Room203DragMarks"
+        };
+        foreach (var name in expectedContainers)
+            if (root.GetNodeOrNull<Node3D>(name) == null)
+                Error($"Sprint 31 visual container missing: {name}");
+
+        var forbidden = Enumerate(root)
+            .Where(node => node is CollisionObject3D or CollisionShape3D or Area3D or
+                NavigationRegion3D or Joint3D or Camera3D or Light3D or RigidBody3D)
+            .ToArray();
+        foreach (var node in forbidden)
+            Error($"Sprint 31 material pass contains forbidden physics/gameplay node: {node.GetPath()}");
+
+        if (root.GetMeta("new_collision_count", -1).AsInt32() != 0)
+            Error("Sprint 31 reports a non-zero collision count");
+        if (root.GetMeta("frozen_balcony_deck_modified", true).AsBool())
+            Error("Sprint 31 modified the frozen balcony collision deck");
+
+        if (forbidden.Length == 0)
+            Ok("Sprint 31 material pass isolated under VisualPolish: shared aged palette, visual-only stains/baseboards, frozen balcony deck untouched");
+    }
+
+    private void CheckSprint31BHeavyDegradation(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/VisualPolish/Sprint31B_HeavyDegradation");
+        if (root == null)
+        {
+            Error("Sprint 31B heavy-degradation container missing");
+            return;
+        }
+
+        var expectedContainers = new[]
+        {
+            "WallDecay", "FloorDecay", "CeilingDecay", "AbandonmentProps", "WindowGrime", "LightingMood"
+        };
+        foreach (var name in expectedContainers)
+            if (root.GetNodeOrNull<Node3D>(name) == null)
+                Error($"Sprint 31B visual container missing: {name}");
+
+        var forbidden = Enumerate(root)
+            .Where(node => node is CollisionObject3D or CollisionShape3D or Area3D or
+                NavigationRegion3D or Joint3D or Camera3D or RigidBody3D)
+            .ToArray();
+        foreach (var node in forbidden)
+            Error($"Sprint 31B contains forbidden physics/gameplay node: {node.GetPath()}");
+
+        var lights = Enumerate(root).OfType<Light3D>().ToArray();
+        if (lights.Length > 4)
+            Error($"Sprint 31B exceeds the approved local-light budget: {lights.Length}/4");
+        foreach (var light in lights)
+        {
+            if (light.ShadowEnabled)
+                Error($"Sprint 31B decorative light must not cast dynamic shadows: {light.GetPath()}");
+            if (light.LightEnergy > 0.4f)
+                Error($"Sprint 31B decorative light is too strong: {light.GetPath()} energy={light.LightEnergy:0.00}");
+            if (light is OmniLight3D omni && omni.OmniRange > 7f)
+                Error($"Sprint 31B decorative light range is too large: {light.GetPath()} range={omni.OmniRange:0.00}");
+        }
+
+        if (root.GetMeta("collision_nodes", -1).AsInt32() != 0 ||
+            root.GetMeta("navigation_nodes", -1).AsInt32() != 0 ||
+            root.GetMeta("gameplay_nodes", -1).AsInt32() != 0)
+            Error("Sprint 31B reports physics, navigation or gameplay nodes");
+        if (root.GetMeta("structural_geometry_changed", true).AsBool() ||
+            root.GetMeta("frozen_upper_deck_changed", true).AsBool())
+            Error("Sprint 31B reports structural geometry or frozen deck changes");
+
+        if (forbidden.Length == 0 && lights.Length <= 4)
+            Ok("Sprint 31B isolated under VisualPolish: heavy decay, safe edge dressing and four restrained local lights; zero physics/gameplay nodes, frozen deck untouched");
+    }
+
+    private void CheckSprint31CPbrMaterialPass(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/VisualPolish/Sprint31C_PBRMaterials");
+        if (root == null)
+        {
+            Error("Sprint 31C PBR-material container missing");
+            return;
+        }
+
+        foreach (var name in new[] { "WallDecals", "FloorDecals", "CeilingDecals" })
+            if (root.GetNodeOrNull<Node3D>(name) == null)
+                Error($"Sprint 31C visual container missing: {name}");
+
+        var forbidden = Enumerate(root)
+            .Where(node => node is CollisionObject3D or CollisionShape3D or Area3D or
+                NavigationRegion3D or Joint3D or Camera3D or Light3D or RigidBody3D)
+            .ToArray();
+        foreach (var node in forbidden)
+            Error($"Sprint 31C contains forbidden physics/gameplay/light node: {node.GetPath()}");
+
+        if (root.GetMeta("collision_nodes", -1).AsInt32() != 0 ||
+            root.GetMeta("navigation_nodes", -1).AsInt32() != 0 ||
+            root.GetMeta("gameplay_nodes", -1).AsInt32() != 0)
+            Error("Sprint 31C reports physics, navigation or gameplay nodes");
+        if (root.GetMeta("structural_geometry_changed", true).AsBool() ||
+            root.GetMeta("frozen_upper_deck_changed", true).AsBool())
+            Error("Sprint 31C reports structural geometry or frozen deck changes");
+        if (!root.GetMeta("stair_upper_landing_extension", false).AsBool())
+            Error("Sprint 31C stair/upper-landing material extension metadata is missing");
+        if (root.GetMeta("stair_surface_material_count", 0).AsInt32() <= 0)
+            Error("Sprint 31C did not apply the dedicated damp stair-shaft material profile");
+        if (root.GetMeta("upper_landing_surface_material_count", 0).AsInt32() <= 0)
+            Error("Sprint 31C did not apply the dedicated dry/cold upper-arrival material profile");
+
+        var exteriorShell = scene.GetNodeOrNull<Node3D>("PensionGroundFloor/BuildingExteriorShell");
+        foreach (var wallName in new[]
+                 {
+                     "Wall_Exterior_Entrance_Infill_Left",
+                     "Wall_Exterior_Entrance_Infill_Right"
+                 })
+        {
+            var wall = exteriorShell?.GetNodeOrNull<StaticBody3D>(wallName);
+            if (wall == null)
+            {
+                Error($"Ground-floor entrance infill missing: {wallName}");
+                continue;
+            }
+
+            var visual = wall.GetChildren().OfType<MeshInstance3D>().SingleOrDefault();
+            var collision = wall.GetChildren().OfType<CollisionShape3D>().SingleOrDefault();
+            if (visual?.Mesh is not BoxMesh wallMesh || collision?.Shape is not BoxShape3D wallShape)
+            {
+                Error($"Ground-floor entrance infill must own exactly one visual mesh and one matching child collider: {wall.GetPath()}");
+                continue;
+            }
+
+            if (!wallMesh.Size.IsEqualApprox(wallShape.Size))
+                Error($"Ground-floor entrance infill mesh/collider size mismatch: {wall.GetPath()}");
+        }
+
+        var receptionWalls = scene.GetNodeOrNull<Node3D>("PensionGroundFloor/ReceptionWalls");
+        var legacyVarandaWalls = scene.GetNodeOrNull<Node3D>("PensionGroundFloor/VarandaWalls");
+        if (legacyVarandaWalls != null)
+            Error("Legacy ground-floor VarandaWalls still rebuilds malformed wall shards inside the reception entrance");
+
+        var receptionWallNames = new[]
+        {
+            "Wall_Reception_Left",
+            "Wall_Reception_Right",
+            "Wall_Reception_SouthLeft",
+            "Wall_Reception_SouthRight"
+        };
+        foreach (var wallName in receptionWallNames)
+        {
+            var wall = receptionWalls?.GetNodeOrNull<StaticBody3D>(wallName);
+            if (wall == null)
+            {
+                Error($"Ground-floor reception entrance wall missing: {wallName}");
+                continue;
+            }
+
+            var visuals = wall.GetChildren().OfType<MeshInstance3D>().ToArray();
+            var collisions = wall.GetChildren().OfType<CollisionShape3D>().ToArray();
+            if (visuals.Length != 1 || collisions.Length != 1 ||
+                visuals[0].Mesh is not BoxMesh wallMesh || collisions[0].Shape is not BoxShape3D wallShape)
+            {
+                Error($"Reception entrance wall must own exactly one BoxMesh and one matching child BoxShape3D: {wall.GetPath()}");
+                continue;
+            }
+
+            if (!wallMesh.Size.IsEqualApprox(wallShape.Size))
+                Error($"Reception entrance wall mesh/collider size mismatch: {wall.GetPath()}");
+        }
+
+        var receptionLeft = receptionWalls?.GetNodeOrNull<StaticBody3D>("Wall_Reception_Left");
+        var receptionRight = receptionWalls?.GetNodeOrNull<StaticBody3D>("Wall_Reception_Right");
+        var southLeft = receptionWalls?.GetNodeOrNull<StaticBody3D>("Wall_Reception_SouthLeft");
+        var southRight = receptionWalls?.GetNodeOrNull<StaticBody3D>("Wall_Reception_SouthRight");
+        if (receptionLeft != null && receptionRight != null && southLeft != null && southRight != null)
+        {
+            const float receptionSouthZ = 1.2f;
+            const float expectedDoorWidth = 1.4f;
+            const float tolerance = 0.06f;
+
+            foreach (var side in new[] { receptionLeft, receptionRight })
+            {
+                if (side.GetChildren().OfType<MeshInstance3D>().FirstOrDefault()?.Mesh is not BoxMesh sideMesh)
+                    continue;
+
+                var forwardEdge = side.Position.Z + sideMesh.Size.Z * 0.5f;
+                if (Mathf.Abs(forwardEdge - (receptionSouthZ + 0.04f)) > tolerance)
+                    Error($"Reception side wall still projects past the straight entrance plane: {side.GetPath()} edgeZ={forwardEdge:0.00}");
+            }
+
+            if (southLeft.GetChildren().OfType<MeshInstance3D>().FirstOrDefault()?.Mesh is BoxMesh southLeftMesh &&
+                southRight.GetChildren().OfType<MeshInstance3D>().FirstOrDefault()?.Mesh is BoxMesh southRightMesh)
+            {
+                var leftOpeningEdge = southLeft.Position.X + southLeftMesh.Size.X * 0.5f;
+                var rightOpeningEdge = southRight.Position.X - southRightMesh.Size.X * 0.5f;
+                var openingWidth = rightOpeningEdge - leftOpeningEdge;
+                if (Mathf.Abs(openingWidth - expectedDoorWidth) > tolerance)
+                    Error($"Reception entrance central opening changed unexpectedly: width={openingWidth:0.00}");
+            }
+        }
+
+        var materials = new[]
+        {
+            "M_RebocoSeco_Master.tres",
+            "M_RebocoUmidoMofado_Master.tres",
+            "M_MadeiraVelha_Master.tres",
+            "M_TetoInfiltrado_Master.tres",
+            "M_Terreo_RebocoMofadoBR_Master.tres",
+            "M_Terreo_AssoalhoBR_Master.tres",
+            "M_Terreo_TetoRebocoInfiltrado_Master.tres",
+            "M_Entrepiso_TerreoTeto_SuperiorAssoalho.tres"
+        };
+        foreach (var material in materials)
+            if (ResourceLoader.Load<Material>($"res://assets/materials/pensao/{material}") == null)
+                Error($"Sprint 31C master material could not be loaded: {material}");
+
+        var decals = new[]
+        {
+            "Decal_Mofo_Rodape_01.png",
+            "Decal_Umidade_Canto_01.png",
+            "Decal_Reboco_Descascado_01.png",
+            "Decal_Infiltracao_Vertical_01.png",
+            "Decal_Teto_Mancha_Agua_01.png",
+            "Decal_Piso_Sujeira_Canto_01.png"
+        };
+        foreach (var decal in decals)
+            if (ResourceLoader.Load<Texture2D>($"res://assets/decals/pensao/{decal}") == null)
+                Error($"Sprint 31C decal texture could not be loaded: {decal}");
+
+        if (forbidden.Length == 0)
+            Ok("Sprint 31C isolated under VisualPolish: Brazilian ground-floor materials plus distinct damp stair and dry/cold upper-arrival profiles; legacy reception shards absent, paired entrance walls preserved, no detached blockers, frozen collision deck untouched");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)

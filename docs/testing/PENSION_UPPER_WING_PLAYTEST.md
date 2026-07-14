@@ -1,5 +1,69 @@
 # Playtest — Saneamento 18C / ala superior
 
+## Checkpoint 2026-07-14 — transição escada e chegada superior
+
+Automático neste checkpoint: [x] build C# 0 erro / 0 aviso [x] materiais dedicados registrados no sanity checker [x] degraus/corrimãos/deck excluídos do passe visual
+
+Ao abrir em outro computador: [ ] importação Godot concluída [ ] F9 0 ERROR / 0 WARNING
+
+Poço da escada: [ ] parede oeste texturizada [ ] fechamentos do poço texturizados [ ] piso visual envelhecido [ ] teto de transição infiltrado [ ] sem material aplicado aos degraus [ ] corrimãos intactos [ ] descida continua natural [ ] iluminação legível
+
+Chegada superior: [ ] paredes leste/oeste e fundo com reboco frio/desbotado [ ] piso do patamar com madeira envelhecida [ ] teto acinzentado/infiltrado [ ] diferença visual clara em relação ao térreo [ ] sem repetição ou emenda evidente [ ] móveis continuam apoiados [ ] corredor e portas livres
+
+Regressão: [ ] player sobe e desce sem prender [ ] sem queda no limbo [ ] varanda/deck intactos [ ] retorno ao térreo sem teleporte [ ] prompts, painel, ralo, fusíveis e Quarto 203 funcionais [ ] IA, perseguições e esconderijos funcionais [ ] sem crash
+
+Este commit é um checkpoint de continuidade. Não marcar o art pass como aprovado enquanto os itens manuais acima estiverem pendentes.
+
+## Sprint 31C-1 — materiais mestres PBR
+
+Automático: [x] recursos importados [x] build 0/0 [x] cena oficial [x] F9 0/0 [x] deck 49/49 [x] 38 paredes pareadas [x] zero física/gameplay/luz própria na árvore 31C [x] 104 paredes/6 pisos/16 tetos [x] triplanar global [x] 0 decals-caixa ativos [x] 4 overlays rígidos antigos ocultos
+
+Materiais: [ ] reboco seco velho e não uniforme [ ] mofo/umidade forte em cozinha, banheiro e rodapés [ ] madeira velha com tábuas/frestas visíveis [ ] teto infiltrado visível [ ] varanda visual fria sem mudança no deck físico [ ] resposta da lanterna revela normal/roughness [ ] ambiente escuro mas legível
+
+Prioridade do vídeo: [ ] nenhuma linha horizontal dividindo a mesma parede [ ] nenhuma placa/retângulo opaco [ ] nenhuma travessa branca no piso/teto [ ] nenhuma sujeira cobrindo porta/prompt [ ] piso sem mudança abrupta entre peças vizinhas
+
+Gameplay: [ ] portas e prompts [ ] banheiro/ralo/arame/chave [ ] painel e fusíveis [ ] Quarto 203 e bilhete [ ] primeira perseguição [ ] IA [ ] segunda perseguição [ ] safe zones/guarda-roupas [ ] retorno ao térreo sem teleporte [ ] sem player preso [ ] sem crash
+
+Não criar o commit final da Sprint 31C antes da aprovação manual completa.
+
+## Sprint 31B — degradação ambiental pesada
+
+Automático: [x] build 0/0 [x] cena oficial [x] F9 0/0 [x] deck 49/49 [x] paredes superiores pareadas [x] zero física/gameplay na árvore 31B [x] quatro luzes locais contidas
+
+Visual e circulação: [ ] mofo/reboco/fuligem/escorridos sem z-fighting [ ] marcas e sujeira de borda apoiadas [ ] rachaduras/halos no teto sem flutuar [ ] pátina dos móveis preserva texturas [ ] vidro e cortinas alinhados [ ] iluminação escura mas navegável [ ] nenhum prop atravessando parede/móvel [ ] recepção livre [ ] corredor térreo livre [ ] salão superior livre [ ] corredor superior livre [ ] escada e varanda intactas
+
+Gameplay: [ ] portas e prompts livres [ ] ralo/arame/chave funcional [ ] painel e fusíveis funcionais [ ] Quarto 203 e bilhete funcionais [ ] primeira perseguição [ ] IA [ ] segunda perseguição [ ] safe zones/guarda-roupas [ ] retorno ao térreo sem teleporte [ ] sem player preso [ ] sem crash
+
+Não criar o commit final da Sprint 31B antes da aprovação manual completa.
+
+## Sprint 31 — passe de materiais
+
+Validação automática: [x] build 0/0 [x] cena oficial [x] F9 0 ERROR / 0 WARNING [x] deck 49/49 [x] 38 paredes pareadas [x] zero colisão/gameplay novo [x] deck físico congelado intacto
+
+Playtest manual obrigatório: [ ] recepção/corredor legíveis [ ] quartos navegáveis [ ] cozinha sem bloqueio [ ] banheiro/ralo funcional [ ] lavanderia e painel funcional [ ] tetos sem manchas flutuando [ ] rodapés sem cobrir portas [ ] Quarto 203 completo [ ] primeira perseguição [ ] IA [ ] segunda perseguição [ ] safe zones/guarda-roupas [ ] retorno ao térreo sem teleporte [ ] sem player preso [ ] sem crash
+
+## Sprint 30B — props Blender principais
+
+- [ ] Recepção: balcão e cadeira aparecem uma vez, apoiados no piso, sem bloquear entrada, corredor, balcão interativo ou esconderijo.
+- [ ] Cozinha: mesa, fogão, pia e balde aparecem com escala/material corretos; entrada e rota central permanecem livres.
+- [ ] Prompt `Examinar cozinha` e interação do fogão continuam aparecendo perto e não através de parede.
+- [ ] Banheiro: ralo, espelho e balde aparecem sem duplicata; entrada e centro do cômodo permanecem livres.
+- [ ] Ralo continua visível e interativo; arame retira a chave normalmente.
+- [ ] Sala técnica: painel Blender está alinhado à parede; prompt, chave do ralo e dois fusíveis continuam funcionando.
+- [ ] Quarto 201: mala, janela e cortina não atravessam cama, parede, teto, porta ou prompt.
+- [ ] Quarto 202: janela nova substitui a falsa antiga sem z-fighting ou abertura real.
+- [ ] Criado-mudo do 204 fica apoiado e fora da passagem.
+- [ ] Quarto 203, porta, página, trigger e evento permanecem idênticos e funcionais.
+- [ ] Visible Collision Shapes: zero collider novo na 30B; colliders antigos de balcão/cadeira/mesa/fogão continuam simples e alinhados.
+- [ ] Player não fica preso em nenhum prop, quarto, cozinha, recepção ou banheiro.
+- [ ] IA, primeira e segunda perseguições, safe zone, guarda-roupas e eventos ambientais continuam funcionando.
+- [ ] Escada, porta verde, varanda/deck, circulação nos dois andares e retorno ao térreo continuam sem queda ou teleporte.
+- [ ] Sem crash, mesh gigante/minúscula, material ausente, duplicata ou placeholder por cima.
+
+Automático: [x] build 0 erro/0 aviso [x] cena oficial headless [x] F9 0 ERROR/0 WARNING [x] deck 49/49 [x] 38 paredes superiores pareadas [x] 15 instâncias Blender [x] zero física/gameplay novo [x] painel/ralo funcionais preservados.
+
+Não criar o commit final da Sprint 30B antes da aprovação manual completa.
+
 ## Sprint 30A — cama Blender piloto no Quarto 201
 
 - [ ] Cama nova aparece uma única vez no Quarto 201, com escala/material corretos e apoiada no piso.

@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/Sprint31BHeavyDegradation.cs" id="1_script"]
+
+[node name="Sprint31B_HeavyDegradation" type="Node3D"]
+script = ExtResource("1_script")
+metadata/scope = "visual_only_heavy_degradation"
+metadata/collision_nodes = 0
+metadata/navigation_nodes = 0
+metadata/gameplay_nodes = 0
+metadata/structural_geometry_changed = false
+metadata/frozen_upper_deck_changed = false
+
+[node name="WallDecay" type="Node3D" parent="."]
+
+[node name="FloorDecay" type="Node3D" parent="."]
+
+[node name="CeilingDecay" type="Node3D" parent="."]
+
+[node name="AbandonmentProps" type="Node3D" parent="."]
+
+[node name="WindowGrime" type="Node3D" parent="."]
+
+[node name="LightingMood" type="Node3D" parent="."]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/Sprint31MaterialPass.cs" id="1_material_pass"]
+
+[node name="Sprint31_Materials" type="Node3D" groups=["sprint31_visual_polish"]]
+script = ExtResource("1_material_pass")
+metadata/scope = "visual_only"
+metadata/new_collision_count = 0
+metadata/structural_geometry_modified = false
+metadata/frozen_balcony_deck_modified = false
+
+[node name="Baseboards" type="Node3D" parent="."]
+
+[node name="DampPatches" type="Node3D" parent="."]
+
+[node name="FloorStains" type="Node3D" parent="."]
+
+[node name="CeilingStains" type="Node3D" parent="."]
+
+[node name="Room203DragMarks" type="Node3D" parent="."]

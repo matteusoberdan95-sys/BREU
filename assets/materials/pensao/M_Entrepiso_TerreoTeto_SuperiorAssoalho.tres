@@ -1,0 +1,22 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3]
+
+[ext_resource type="Shader" path="res://assets/materials/pensao/M_Entrepiso_TerreoTeto_SuperiorAssoalho.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/floors/T_MadeiraVelha_Albedo.png" id="2_top_albedo"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/floors/T_MadeiraVelha_Roughness.png" id="3_top_roughness"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/floors/T_MadeiraVelha_Normal.png" id="4_top_normal"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/ceilings/T_Terreo_TetoRebocoInfiltrado_Albedo.png" id="5_bottom_albedo"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/ceilings/T_Terreo_TetoRebocoInfiltrado_Roughness.png" id="6_bottom_roughness"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/ceilings/T_Terreo_TetoRebocoInfiltrado_Normal.png" id="7_bottom_normal"]
+
+[resource]
+resource_name = "M_Entrepiso_TerreoTeto_SuperiorAssoalho"
+shader = ExtResource("1_shader")
+shader_parameter/top_albedo = ExtResource("2_top_albedo")
+shader_parameter/top_roughness = ExtResource("3_top_roughness")
+shader_parameter/top_normal = ExtResource("4_top_normal")
+shader_parameter/bottom_albedo = ExtResource("5_bottom_albedo")
+shader_parameter/bottom_roughness = ExtResource("6_bottom_roughness")
+shader_parameter/bottom_normal = ExtResource("7_bottom_normal")
+shader_parameter/top_tint = Color(0.39, 0.43, 0.46, 1)
+shader_parameter/bottom_tint = Color(0.72, 0.69, 0.61, 1)
+shader_parameter/texture_scale = 0.42
