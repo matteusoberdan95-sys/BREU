@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/pensao_santa_luzia/Sprint33UpperFloorAtmosphere.cs" id="1_script"]
+
+[node name="Sprint33_UpperFloorAtmosphere" type="Node3D"]
+script = ExtResource("1_script")
+metadata/scope = "second_floor_visual_only"
+metadata/collision_nodes = 0
+metadata/navigation_nodes = 0
+metadata/gameplay_nodes = 0
+metadata/structural_geometry_changed = false
+metadata/frozen_upper_deck_changed = false
+metadata/first_floor_material_count = 0
+metadata/materials_applied = 89
+metadata/decal_count = 0
+metadata/dual_face_floor_count = 10
+metadata/ground_ceiling_face_preserved = true
+metadata/room_201_202_header_material_count = 2
+metadata/perimeter_floor_edge_corrected_count = 2
+metadata/stair_guard_material_count = 4
+metadata/obsolete_stair_platform_nodes_removed = 6
+metadata/stair_bridge_overlap_removed = true
+metadata/floor_side_faces_hidden = true
+
+[node name="UpperFloor_Walls" type="Node3D" parent="."]
+
+[node name="UpperFloor_Floors" type="Node3D" parent="."]
+
+[node name="UpperFloor_Ceilings" type="Node3D" parent="."]
+
+[node name="UpperFloor_Decals" type="Node3D" parent="."]
+
+[node name="WallDecals" type="Node3D" parent="UpperFloor_Decals"]
+
+[node name="FloorDecals" type="Node3D" parent="UpperFloor_Decals"]
+
+[node name="CeilingDecals" type="Node3D" parent="UpperFloor_Decals"]
+
+[node name="UpperFloor_Lighting" type="Node3D" parent="."]
+
+[node name="Corridor_Upper_Fill" type="OmniLight3D" parent="UpperFloor_Lighting"]
+position = Vector3(0, 4.58, 2.15)
+light_color = Color(0.58, 0.66, 0.72, 1)
+light_energy = 0.16
+shadow_enabled = false
+omni_range = 4.2
+distance_fade_enabled = true
+distance_fade_begin = 9.0
+distance_fade_length = 2.0
+
+[node name="RearRooms_Upper_Fill" type="OmniLight3D" parent="UpperFloor_Lighting"]
+position = Vector3(0, 4.62, -14.7)
+light_color = Color(0.53, 0.61, 0.68, 1)
+light_energy = 0.12
+shadow_enabled = false
+omni_range = 4.6
+distance_fade_enabled = true
+distance_fade_begin = 9.0
+distance_fade_length = 2.0
+
+[node name="UpperFloor_DeprecatedOldTextures" type="Node3D" parent="."]
+visible = false
+metadata/status = "empty_reserved_container_no_hidden_geometry"

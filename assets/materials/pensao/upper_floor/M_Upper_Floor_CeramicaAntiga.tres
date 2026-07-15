@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3]
+
+[ext_resource type="Shader" path="res://assets/materials/pensao/upper_floor/M_Upper_Floor_CeramicaAntiga_DualFace.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/upper_floor/upper_floor_ceramica_anos80_albedo.png" id="2_top"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/ceilings/T_Terreo_TetoRebocoInfiltrado_Albedo.png" id="3_bottom"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/ceilings/T_Terreo_TetoRebocoInfiltrado_Roughness.png" id="4_bottom_roughness"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/ceilings/T_Terreo_TetoRebocoInfiltrado_Normal.png" id="5_bottom_normal"]
+
+[resource]
+resource_name = "M_Upper_Floor_CeramicaAntiga_DualFace"
+shader = ExtResource("1_shader")
+shader_parameter/top_albedo = ExtResource("2_top")
+shader_parameter/bottom_albedo = ExtResource("3_bottom")
+shader_parameter/bottom_roughness = ExtResource("4_bottom_roughness")
+shader_parameter/bottom_normal = ExtResource("5_bottom_normal")
+shader_parameter/top_tint = Color(0.63, 0.56, 0.46, 1)
+shader_parameter/bottom_tint = Color(0.72, 0.69, 0.61, 1)
+shader_parameter/ceramic_scale = 0.72
+shader_parameter/ceiling_scale = 0.42

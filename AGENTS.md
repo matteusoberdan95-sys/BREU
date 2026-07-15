@@ -1,3 +1,12 @@
+## REGRA CRÍTICA — SPRINT 33
+
+Esta sprint altera somente materiais, texturas, decals e luzes visuais do segundo andar.
+É proibido alterar o primeiro andar.
+É proibido alterar colisões, layout, navegação, IA, puzzle, portas, triggers ou perseguições.
+Texturas antigas/cortadas do segundo andar devem ser removidas ou substituídas por materiais novos coerentes.
+Exceção cirúrgica autorizada na revisão de 2026-07-15: remover os pares visual/colisão `Floor_Second_Main_NorthCap` e `Floor_Second_Main_NorthWestCap`, que formavam uma plataforma física indevida atrás da escada, e remover o par duplicado `UpperLanding_Main`, comprovadamente sobreposto ao `Floor_Second_Main_South`. Não ampliar essa exceção para qualquer outro piso, deck ou colisão.
+O primeiro andar está aprovado e deve permanecer intacto.
+
 ## REGRA CRÍTICA — SPRINT 32B
 
 O telhado é apenas casca visual externa.

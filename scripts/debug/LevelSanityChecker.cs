@@ -85,6 +85,7 @@ public partial class LevelSanityChecker : Node
         CheckSprint31MaterialPass(scene);
         CheckSprint31BHeavyDegradation(scene);
         CheckSprint31CPbrMaterialPass(scene);
+        CheckSprint33UpperFloorAtmosphere(scene);
         CheckSprint32DFinalRoof(scene);
 
         if (_errors == 0 && _warnings == 0)
@@ -182,6 +183,9 @@ public partial class LevelSanityChecker : Node
             if (HasAncestorNamed(node, "Sprint30A_BlenderAssetPilot") ||
                 HasAncestorNamed(node, "Sprint30B_BlenderProps") ||
                 HasAncestorNamed(node, "Sprint32D_FinalRoof")) continue;
+            // Sprint 33 requires this exact empty organizational container in
+            // the production brief; it owns no hidden mesh or legacy resource.
+            if (name.Equals("UpperFloor_DeprecatedOldTextures", StringComparison.Ordinal)) continue;
             // Authored diagnostics and door/stair thresholds are current geometry,
             // not legacy nodes merely because their words contain Test/old.
             if (name.EndsWith("Test", StringComparison.OrdinalIgnoreCase) ||
@@ -1317,6 +1321,116 @@ public partial class LevelSanityChecker : Node
 
         if (forbidden.Length == 0)
             Ok("Sprint 31C isolated under VisualPolish: Brazilian ground-floor materials plus distinct damp stair and dry/cold upper-arrival profiles; legacy reception shards absent, paired entrance walls preserved, no detached blockers, frozen collision deck untouched");
+    }
+
+    private void CheckSprint33UpperFloorAtmosphere(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/VisualPolish/Sprint33_UpperFloorAtmosphere");
+        if (root == null)
+        {
+            Error("Sprint 33 upper-floor atmosphere container missing");
+            return;
+        }
+
+        foreach (var name in new[]
+                 {
+                     "UpperFloor_Walls",
+                     "UpperFloor_Floors",
+                     "UpperFloor_Ceilings",
+                     "UpperFloor_Decals",
+                     "UpperFloor_Lighting",
+                     "UpperFloor_DeprecatedOldTextures"
+                 })
+            if (root.GetNodeOrNull<Node3D>(name) == null)
+                Error($"Sprint 33 visual container missing: {name}");
+
+        var forbidden = Enumerate(root)
+            .Where(node => node is CollisionObject3D or CollisionShape3D or Area3D or
+                NavigationRegion3D or Joint3D or Camera3D or RigidBody3D)
+            .ToArray();
+        foreach (var node in forbidden)
+            Error($"Sprint 33 contains forbidden physics/gameplay/navigation node: {node.GetPath()}");
+
+        var lights = Enumerate(root).OfType<Light3D>().ToArray();
+        if (lights.Length > 2)
+            Error($"Sprint 33 exceeds restrained upper-floor light budget: {lights.Length}/2");
+        if (lights.Any(light => light.ShadowEnabled))
+            Error("Sprint 33 fill lights must remain shadowless and visual-only");
+
+        if (root.GetMeta("collision_nodes", -1).AsInt32() != 0 ||
+            root.GetMeta("navigation_nodes", -1).AsInt32() != 0 ||
+            root.GetMeta("gameplay_nodes", -1).AsInt32() != 0)
+            Error("Sprint 33 reports physics, navigation or gameplay nodes");
+        if (root.GetMeta("structural_geometry_changed", true).AsBool() ||
+            root.GetMeta("frozen_upper_deck_changed", true).AsBool())
+            Error("Sprint 33 reports structural geometry or frozen deck changes");
+        if (root.GetMeta("first_floor_material_count", -1).AsInt32() != 0)
+            Error("Sprint 33 material pass reached the approved first floor");
+        if (root.GetMeta("materials_applied", 0).AsInt32() <= 0)
+            Error("Sprint 33 did not apply any second-floor materials");
+        if (root.GetMeta("decal_count", -1).AsInt32() != 0)
+            Error("Sprint 33 legacy overlay boxes are active and may render as gray artifacts");
+        if (!root.GetMeta("ground_ceiling_face_preserved", false).AsBool())
+            Error("Sprint 33 ceramic floor does not report the approved ground-floor ceiling face as preserved");
+        if (root.GetMeta("dual_face_floor_count", 0).AsInt32() <= 0)
+            Error("Sprint 33 dual-face ceramic floor coverage is missing");
+        if (root.GetMeta("room_201_202_header_material_count", 0).AsInt32() != 2)
+            Error("Sprint 33 did not cover both Room 201/202 door headers with upper-wall plaster");
+        if (root.GetMeta("perimeter_floor_edge_corrected_count", 0).AsInt32() != 2)
+            Error("Sprint 33 did not blend both exposed floor-edge strips into the upper walls");
+        if (root.GetMeta("stair_guard_material_count", 0).AsInt32() != 4)
+            Error("Sprint 33 did not replace all four gray stair-guard blockout materials");
+        if (root.GetMeta("obsolete_stair_platform_nodes_removed", 0).AsInt32() != 6)
+            Error("Sprint 33 stair-platform hotfix metadata is incomplete");
+        if (!root.GetMeta("stair_bridge_overlap_removed", false).AsBool())
+            Error("Sprint 33 stair bridge still reports a coplanar overlap with the main floor");
+        if (!root.GetMeta("floor_side_faces_hidden", false).AsBool())
+            Error("Sprint 33 ceramic floor side faces may still render as stair-shaft frames");
+
+        foreach (var removedNode in new[]
+                 {
+                     "Floor_Second_Main_NorthCap", "Floor_Second_Main_NorthCap_Visual",
+                     "Floor_Second_Main_NorthWestCap", "Floor_Second_Main_NorthWestCap_Visual",
+                     "UpperLanding_Main", "UpperLanding_Main_Visual"
+                 })
+        {
+            if (scene.FindChild(removedNode, recursive: true, owned: false) != null)
+                Error($"obsolete stair platform or overlapping landing floor is still active: {removedNode}");
+        }
+
+        foreach (var material in new[]
+                 {
+                     "M_Upper_Wall_RebocoMofado.tres",
+                     "M_Upper_Floor_CeramicaAntiga.tres",
+                     "M_Upper_Ceiling_Infiltrado.tres",
+                     "M_Upper_Varanda_Mureta_RebocoPodre.tres"
+                 })
+            if (ResourceLoader.Load<Material>($"res://assets/materials/pensao/upper_floor/{material}") == null)
+                Error($"Sprint 33 material could not be loaded: {material}");
+
+        var ceramic = ResourceLoader.Load<ShaderMaterial>(
+            "res://assets/materials/pensao/upper_floor/M_Upper_Floor_CeramicaAntiga.tres");
+        if (ceramic?.Shader == null ||
+            ceramic.GetShaderParameter("top_albedo").AsGodotObject() is not Texture2D ||
+            ceramic.GetShaderParameter("bottom_albedo").AsGodotObject() is not Texture2D)
+            Error("Sprint 33 ceramic floor must keep distinct top ceramic and bottom plaster textures");
+
+        foreach (var decal in new[]
+                 {
+                     "Decal_Upper_Mofo_Rodape_01.png",
+                     "Decal_Upper_Mofo_Canto_01.png",
+                     "Decal_Upper_Reboco_Descascado_Grande_01.png",
+                     "Decal_Upper_Infiltracao_Vertical_01.png",
+                     "Decal_Upper_Mancha_Teto_01.png",
+                     "Decal_Upper_Poeira_Canto_Chao_01.png",
+                     "Decal_Upper_Marca_Arrasto_Quarto203_01.png",
+                     "Decal_Upper_Janela_Umidade_01.png"
+                 })
+            if (ResourceLoader.Load<Texture2D>($"res://assets/decals/pensao/upper_floor/{decal}") == null)
+                Error($"Sprint 33 decal texture could not be loaded: {decal}");
+
+        if (forbidden.Length == 0 && lights.Length <= 2)
+            Ok("Sprint 33 isolated under VisualPolish: second-floor-only PBR materials, old ceramic floor and two restrained fill lights; artifact overlays disabled, first floor and frozen deck untouched");
     }
 
     private void CheckSprint32DFinalRoof(Node scene)

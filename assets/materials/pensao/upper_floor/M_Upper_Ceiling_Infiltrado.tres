@@ -1,0 +1,19 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/upper_floor/upper_ceiling_infiltrado_albedo.png" id="1_albedo"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/upper_floor/upper_ceiling_infiltrado_roughness.png" id="2_roughness"]
+[ext_resource type="Texture2D" path="res://assets/textures/pensao/upper_floor/upper_ceiling_infiltrado_normal.png" id="3_normal"]
+
+[resource]
+resource_name = "M_Upper_Ceiling_Infiltrado"
+albedo_color = Color(0.43, 0.44, 0.39, 1)
+albedo_texture = ExtResource("1_albedo")
+roughness = 0.99
+roughness_texture = ExtResource("2_roughness")
+normal_enabled = true
+normal_scale = 1.75
+normal_texture = ExtResource("3_normal")
+uv1_scale = Vector3(0.63, 0.63, 0.63)
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv1_triplanar_sharpness = 2.1

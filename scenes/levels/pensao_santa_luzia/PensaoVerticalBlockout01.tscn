@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint31_Materials.tscn" id="31_materials"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint31B_HeavyDegradation.tscn" id="31b_heavy_degradation"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint31C_PBRMaterials.tscn" id="31c_pbr_materials"]
+[ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint33_UpperFloorAtmosphere.tscn" id="33_upper_atmosphere"]
 [ext_resource type="PackedScene" path="res://scenes/architecture/pensao/roof/roof_pensao_santa_luzia_colonial_final_01.tscn" id="32d_final_roof"]
 [ext_resource type="Material" path="res://assets/materials/pensao/M_MadeiraVelha_Master.tres" id="32d_old_wood"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
@@ -204,6 +205,8 @@ metadata/replaced_nodes = PackedStringArray("Furniture_Room201_Bed", "Room201_Th
 [node name="Sprint31B_HeavyDegradation" parent="World/VisualPolish" instance=ExtResource("31b_heavy_degradation")]
 
 [node name="Sprint31C_PBRMaterials" parent="World/VisualPolish" instance=ExtResource("31c_pbr_materials")]
+
+[node name="Sprint33_UpperFloorAtmosphere" parent="World/VisualPolish" instance=ExtResource("33_upper_atmosphere")]
 
 [node name="Gameplay" type="Node3D" parent="World"]
 

@@ -25,9 +25,6 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private const float UpperCorridorSouthZ = -10.8f;
     private const float UpperCorridorNorthZ = -19.5f;
 
-    private const float LandingCenterZ = -21.0f;
-    private const float LandingDepth = 3.2f;
-    private const float LandingWidth = 5.4f;
 
     private const float Room201CenterZ = -14.0f;
     private const float Room202CenterZ = -17.0f;
@@ -83,7 +80,6 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
 
     private static float Room202CenterX => (CorridorWallX + BuildingInnerEastX) * 0.5f;
 
-    private static float LandingCenterX => (StairFootX + 0f) * 0.5f;
 
     private StandardMaterial3D _matSecondFloor = null!;
     private StandardMaterial3D _matSecondCeiling = null!;
@@ -508,22 +504,9 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(northEastCenterX, SecondFloorCenterY, StairOpenCenterZ),
             new Vector3(northEastWidth + FloorOverlap, FloorThickness, StairOpenDepth + FloorOverlap));
 
-        const float northCapCenterZ = -31.4f;
-        const float northCapDepth = 2.4f;
-        AddSecondFloorSlab(
-            "Floor_Second_Main_NorthCap",
-            new Vector3(0f, SecondFloorCenterY, northCapCenterZ),
-            new Vector3(SlabWidth, FloorThickness, northCapDepth));
-
-        var northBridgeSouthZ = northCapCenterZ + northCapDepth * 0.5f;
-        var northBridgeDepth = StairOpenNorthZ - northBridgeSouthZ + FloorOverlap;
-        if (northBridgeDepth > 0.05f)
-        {
-            AddSecondFloorSlab(
-                "Floor_Second_Main_NorthBridge",
-                new Vector3(northEastCenterX, SecondFloorCenterY, northBridgeSouthZ + northBridgeDepth * 0.5f),
-                new Vector3(northEastWidth + FloorOverlap, FloorThickness, northBridgeDepth));
-        }
+        // Video-review hotfix (2026-07-15): do not rebuild the obsolete north cap.
+        // It sat behind the stair-box wall, protruded into the shaft and gave the
+        // player a physical ledge to jump onto. The closed north wall remains intact.
 
         const float edgeStripWidth = 0.35f;
         var westEdgeCenterX = BuildingInnerWestX + edgeStripWidth * 0.5f;
@@ -537,23 +520,26 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
             new Vector3(BuildingInnerEastX - edgeStripWidth * 0.5f, SecondFloorCenterY, southCenterZ),
             new Vector3(edgeStripWidth, FloorThickness, southDepth + FloorOverlap));
 
-        AddSecondFloorSlab(
-            "Floor_Second_Main_NorthWestCap",
-            new Vector3(westEdgeCenterX, SecondFloorCenterY, northCapCenterZ),
-            new Vector3(edgeStripWidth, FloorThickness, northCapDepth + FloorOverlap));
+        // The matching north-west cap was part of the same obsolete ledge and is
+        // intentionally absent together with its visual and collision node.
     }
 
     private void BuildUpperLandingAndCorridor()
     {
+        // Join the ramp to Floor_Second_Main_South without coplanar overlap.
+        // The former 2.4 m plate extended 0.79 m into the main slab and flickered
+        // between its old wood material and the Sprint 33 ceramic.
+        var bridgeNorthZ = RampTopZ - 0.3f;
+        var bridgeSouthZ = StairOpenSouthZ - FloorOverlap * 0.5f;
+        var bridgeDepth = bridgeSouthZ - bridgeNorthZ;
         AddSecondFloorSlab(
             "UpperLanding_StairBridge",
-            new Vector3(StairFootX, SecondFloorCenterY, RampTopZ + 0.9f),
-            new Vector3(StairRampAssembly.StairWidth + 1.2f, FloorThickness, 2.4f));
+            new Vector3(StairFootX, SecondFloorCenterY, (bridgeNorthZ + bridgeSouthZ) * 0.5f),
+            new Vector3(StairRampAssembly.StairWidth + 1.2f, FloorThickness, bridgeDepth));
 
-        AddSecondFloorSlab(
-            "UpperLanding_Main",
-            new Vector3(LandingCenterX, SecondFloorCenterY, LandingCenterZ),
-            new Vector3(LandingWidth, FloorThickness, LandingDepth));
+        // Floor_Second_Main_South already covers the complete validated landing
+        // footprint. The former UpperLanding_Main duplicated it at the same height,
+        // producing the flashing texture captured in the 2026-07-15 review video.
 
         var corridorLength = UpperCorridorSouthZ - UpperCorridorNorthZ;
         var corridorCenterZ = (UpperCorridorSouthZ + UpperCorridorNorthZ) * 0.5f;

@@ -13,6 +13,8 @@ metadata/frozen_upper_deck_changed = false
 metadata/ground_floor_only_extension = false
 metadata/second_floor_material_profile_preserved = false
 metadata/stair_upper_landing_extension = true
+metadata/stair_surface_material_count = 5
+metadata/upper_landing_surface_material_count = 5
 
 [node name="WallDecals" type="Node3D" parent="."]
 

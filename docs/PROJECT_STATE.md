@@ -1,5 +1,23 @@
 # BREU — Estado do projeto
 
+## Sprint 33 — ambientação pesada do segundo andar
+
+**Status em 2026-07-14:** implementação visual concluída; build, importação e carga headless com `0 ERROR / 0 WARNING` aprovados; inspeção visual e playtest manual ainda obrigatórios antes do commit final.
+
+**Hotfix de revisão em 2026-07-15:** removida a plataforma física residual `NorthCap/NorthWestCap` atrás da caixa da escada e removido o piso duplicado `UpperLanding_Main`, que estava coplanar ao `Floor_Second_Main_South` e causava a textura piscando. O piso principal que sustenta a chegada, a escada e o `UpperWing_CollisionDeck` permanecem intactos.
+
+**Revisão complementar em vídeo:** a ponte da escada foi encurtada para terminar exatamente na borda do piso principal e recebeu a mesma cerâmica do segundo andar. As faces laterais das caixas de piso deixaram de renderizar, eliminando as molduras claras do poço sem alterar colisões ou as faces caminháveis.
+
+- Passe isolado em `World/VisualPolish/Sprint33_UpperFloorAtmosphere`, limitado a materiais e duas luzes fracas do segundo andar; overlays-caixa removidos após revisão visual.
+- Primeiro andar preservado: o filtro da sprint não alcança nenhuma superfície térrea e nenhum material compartilhado foi editado.
+- Segundo andar recebeu famílias PBR exclusivas de reboco/cal mofado brasileiro, cerâmica antiga bege/caramelo, teto infiltrado e reboco podre da muretinha superior.
+- Corredor, quartos 201/202/203, banheiro, lavanderia, sala técnica e varanda receberam variações de umidade; dez placas de piso usam cerâmica brasileira antiga e podre somente na face superior. A face inferior mantém o teto de reboco infiltrado aprovado no térreo.
+- Quarto 203 usa parede mais escura, marca de arrasto e teto manchado, sem cobrir puzzle ou interações.
+- Gameplay preservada: zero colisões, navegação, triggers, portas, IA, perseguições, safe room ou puzzle adicionados/alterados.
+- Documentação completa: `docs/production/SPRINT33_UPPER_FLOOR_ATMOSPHERE.md`.
+
+**Próxima trava:** executar F9 até `0 ERROR / 0 WARNING` e fazer o playtest manual completo do térreo, escada, varanda e ala superior. Não criar o commit `feat: add heavy upper floor atmosphere pass` sem essa aprovação.
+
 ## Sprint 32B — telhado colonial externo visual
 
 **Status em 2026-07-14:** casca visual implementada e validação automática específica aprovada; playtest manual externo/interno e F9 final ainda obrigatórios antes do commit da sprint.
