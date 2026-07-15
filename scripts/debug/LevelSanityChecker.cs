@@ -85,6 +85,7 @@ public partial class LevelSanityChecker : Node
         CheckSprint31MaterialPass(scene);
         CheckSprint31BHeavyDegradation(scene);
         CheckSprint31CPbrMaterialPass(scene);
+        CheckSprint32DFinalRoof(scene);
 
         if (_errors == 0 && _warnings == 0)
         {
@@ -179,7 +180,8 @@ public partial class LevelSanityChecker : Node
             // Sprint 30A owns one explicit, hidden rollback subtree. The imported
             // Blender hierarchy also legitimately uses "old" in authored names.
             if (HasAncestorNamed(node, "Sprint30A_BlenderAssetPilot") ||
-                HasAncestorNamed(node, "Sprint30B_BlenderProps")) continue;
+                HasAncestorNamed(node, "Sprint30B_BlenderProps") ||
+                HasAncestorNamed(node, "Sprint32D_FinalRoof")) continue;
             // Authored diagnostics and door/stair thresholds are current geometry,
             // not legacy nodes merely because their words contain Test/old.
             if (name.EndsWith("Test", StringComparison.OrdinalIgnoreCase) ||
@@ -1315,6 +1317,48 @@ public partial class LevelSanityChecker : Node
 
         if (forbidden.Length == 0)
             Ok("Sprint 31C isolated under VisualPolish: Brazilian ground-floor materials plus distinct damp stair and dry/cold upper-arrival profiles; legacy reception shards absent, paired entrance walls preserved, no detached blockers, frozen collision deck untouched");
+    }
+
+    private void CheckSprint32DFinalRoof(Node scene)
+    {
+        var root = scene.GetNodeOrNull<Node3D>("World/ExteriorShell/Sprint32D_FinalRoof");
+        if (root == null)
+        {
+            Error("Sprint 32D final-roof container missing");
+            return;
+        }
+
+        if (root.GetNodeOrNull<Node3D>("FinalColonialRoof") == null)
+            Error("Sprint 32D final colonial roof instance missing");
+
+        var forbidden = Enumerate(root)
+            .Where(node => node is CollisionObject3D or CollisionShape3D or Area3D or
+                NavigationRegion3D or Joint3D or Camera3D or Light3D or RigidBody3D)
+            .ToArray();
+        foreach (var node in forbidden)
+            Error($"Sprint 32D roof contains forbidden physics/gameplay node: {node.GetPath()}");
+
+        if (!root.GetMeta("visual_only", false).AsBool())
+            Error("Sprint 32D roof is not marked visual-only");
+        if (root.GetMeta("collision_nodes", -1).AsInt32() != 0)
+            Error("Sprint 32D roof reports a non-zero collision count");
+        if (root.GetMeta("structural_geometry_changed", true).AsBool() ||
+            root.GetMeta("frozen_upper_deck_changed", true).AsBool())
+            Error("Sprint 32D roof reports structural geometry or frozen deck changes");
+
+        foreach (var legacyName in new[]
+                 {
+                     "Sprint32B_RoofVisualShell", "Roof_Main_Colonial", "Roof_Front_Porch",
+                     "Roof_Damage_Tiles", "Roof_Moss_Patches", "Roof_Blockout_Main"
+                 })
+        {
+            var legacy = scene.FindChild(legacyName, recursive: true, owned: false);
+            if (legacy != null)
+                Error($"Sprint 32D legacy roof remains active: {legacy.GetPath()}");
+        }
+
+        if (forbidden.Length == 0)
+            Ok("Sprint 32D isolated under ExteriorShell: one final colonial roof, zero collision/gameplay nodes, legacy roofs absent, interior geometry and frozen upper deck untouched");
     }
 
     private static IEnumerable<Node> Enumerate(Node root)

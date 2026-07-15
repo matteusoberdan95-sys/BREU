@@ -27,6 +27,8 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint31_Materials.tscn" id="31_materials"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint31B_HeavyDegradation.tscn" id="31b_heavy_degradation"]
 [ext_resource type="PackedScene" path="res://scenes/levels/pensao_santa_luzia/visual/Sprint31C_PBRMaterials.tscn" id="31c_pbr_materials"]
+[ext_resource type="PackedScene" path="res://scenes/architecture/pensao/roof/roof_pensao_santa_luzia_colonial_final_01.tscn" id="32d_final_roof"]
+[ext_resource type="Material" path="res://assets/materials/pensao/M_MadeiraVelha_Master.tres" id="32d_old_wood"]
 [ext_resource type="Script" path="res://scripts/debug/LevelSanityChecker.cs" id="9_sanity"]
 [ext_resource type="Script" path="res://scripts/debug/UpperFloorCollisionProbe.cs" id="10_floor_probe"]
 [ext_resource type="Script" path="res://scripts/debug/DebugFallRecovery.cs" id="11_fall_recovery"]
@@ -55,6 +57,23 @@ fog_light_color = Color(0.26, 0.3, 0.4, 1)
 fog_density = 0.026
 fog_sky_affect = 0.12
 fog_aerial_perspective = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Mat32DColonialSideRoof"]
+albedo_color = Color(0.245, 0.105, 0.055, 1)
+metallic = 0.0
+roughness = 0.96
+
+[sub_resource type="BoxMesh" id="Mesh32DMainFrontBeam"]
+size = Vector3(15.2, 0.28, 0.24)
+
+[sub_resource type="BoxMesh" id="Mesh32DSideRoofPanel"]
+size = Vector3(4.687, 0.16, 9.3)
+
+[sub_resource type="BoxMesh" id="Mesh32DSideRoofRidge"]
+size = Vector3(0.24, 0.22, 9.42)
+
+[sub_resource type="BoxMesh" id="Mesh32DSideRoofFascia"]
+size = Vector3(9.4, 0.24, 0.2)
 
 [sub_resource type="BoxShape3D" id="UpperWingCollisionDeckShape"]
 size = Vector3(50, 0.8, 30.8)
@@ -116,6 +135,49 @@ script = ExtResource("18_coordinate_overlay")
 
 
 [node name="World" type="Node3D" parent="."]
+
+[node name="ExteriorShell" type="Node3D" parent="World"]
+
+[node name="Sprint32D_FinalRoof" type="Node3D" parent="World/ExteriorShell"]
+metadata/visual_only = true
+metadata/collision_nodes = 0
+metadata/structural_geometry_changed = false
+metadata/frozen_upper_deck_changed = false
+metadata/source_glb = "res://assets/models/architecture/pensao/roof/roof_pensao_santa_luzia_colonial_final_01.glb"
+
+[node name="FinalColonialRoof" parent="World/ExteriorShell/Sprint32D_FinalRoof" instance=ExtResource("32d_final_roof")]
+position = Vector3(0, 0.63, -21.025)
+
+[node name="MainRoof_FrontSupportBeam" type="MeshInstance3D" parent="World/ExteriorShell/Sprint32D_FinalRoof"]
+position = Vector3(0, 5.72, 12.02)
+mesh = SubResource("Mesh32DMainFrontBeam")
+material_override = ExtResource("32d_old_wood")
+
+[node name="RightWing_SmallColonialRoof" type="Node3D" parent="World/ExteriorShell/Sprint32D_FinalRoof"]
+metadata/visual_only = true
+metadata/collision_nodes = 0
+
+[node name="LeftSlope" type="MeshInstance3D" parent="World/ExteriorShell/Sprint32D_FinalRoof/RightWing_SmallColonialRoof"]
+position = Vector3(8.3, 6.18, 1.65)
+rotation = Vector3(0, 0, 0.193211)
+mesh = SubResource("Mesh32DSideRoofPanel")
+material_override = SubResource("Mat32DColonialSideRoof")
+
+[node name="RightSlope" type="MeshInstance3D" parent="World/ExteriorShell/Sprint32D_FinalRoof/RightWing_SmallColonialRoof"]
+position = Vector3(12.9, 6.18, 1.65)
+rotation = Vector3(0, 0, -0.193211)
+mesh = SubResource("Mesh32DSideRoofPanel")
+material_override = SubResource("Mat32DColonialSideRoof")
+
+[node name="Ridge" type="MeshInstance3D" parent="World/ExteriorShell/Sprint32D_FinalRoof/RightWing_SmallColonialRoof"]
+position = Vector3(10.6, 6.63, 1.65)
+mesh = SubResource("Mesh32DSideRoofRidge")
+material_override = SubResource("Mat32DColonialSideRoof")
+
+[node name="FrontFascia" type="MeshInstance3D" parent="World/ExteriorShell/Sprint32D_FinalRoof/RightWing_SmallColonialRoof"]
+position = Vector3(10.6, 5.74, 6.32)
+mesh = SubResource("Mesh32DSideRoofFascia")
+material_override = ExtResource("32d_old_wood")
 
 [node name="VisualPolish" type="Node3D" parent="World"]
 

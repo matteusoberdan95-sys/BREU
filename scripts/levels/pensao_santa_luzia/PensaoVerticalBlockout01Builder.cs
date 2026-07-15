@@ -92,8 +92,8 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
     private StandardMaterial3D _matCeilingFirst = null!;
     private StandardMaterial3D _matCeilingSecond = null!;
     private StandardMaterial3D _matTransitionSlab = null!;
-    private StandardMaterial3D _matRoof = null!;
     private StandardMaterial3D _matDoorBalcony = null!;
+    private StandardMaterial3D _matVarandaLowWall = null!;
 
     private Node3D _secondFloor = null!;
     private Node3D _ceiling = null!;
@@ -128,8 +128,9 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         _matCeilingFirst = Mat(new Color(0.22f, 0.2f, 0.19f));
         _matCeilingSecond = Mat(new Color(0.38f, 0.36f, 0.4f));
         _matTransitionSlab = Mat(new Color(0.3f, 0.31f, 0.36f));
-        _matRoof = Mat(new Color(0.32f, 0.3f, 0.28f));
         _matDoorBalcony = Mat(new Color(0.32f, 0.5f, 0.3f));
+        _matVarandaLowWall = GD.Load<StandardMaterial3D>(
+            "res://assets/materials/pensao/exterior/M_Varanda_LowWall_Moldy_Plaster.tres");
         BuildSecondFloor();
         BuildCeilingBlockout();
         // Structural gap only — wing rooms/doors owned by BalconyWing.tscn (Sprint 17E/18B).
@@ -192,7 +193,6 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         BuildSecondFloorCeilings();
         BuildStairShaftClosure();
         BuildFrontFacadeUpperShell();
-        BuildRoofBlockout();
     }
 
     private void BuildFirstFloorCeilings()
@@ -433,60 +433,43 @@ public partial class PensaoVerticalBlockout01Builder : PensaoTerreoBlockout01Bui
         var host = new Node3D { Name = "UpperBalcony_TrailReadability" };
         exterior.AddChild(host);
 
-        const float balconyProtrude = 0.85f;
-        const float balconyWidth = 3.8f;
+        const float balconyProtrude = 0.52f;
+        const float balconyWidth = 5.0f;
         // Fully outside the front wall face (no intrusion into interior volume).
         var frontFaceZ = BuildingFrontZ + WallThickness * 0.5f + 0.08f;
         var balconyCenterZ = frontFaceZ + balconyProtrude * 0.5f;
-        var floorCenterY = SecondFloorTopY + 0.12f;
+        // The visual slab overlaps the low wall by a few centimeters so the
+        // trail-facing facade never exposes a bright seam between both pieces.
+        var floorCenterY = SecondFloorTopY + 0.16f;
         var railCenterY = SecondFloorTopY + 0.65f;
 
         AddVisualCeilingPlate(
             host,
             "UpperBalcony_Trail_Floor",
             new Vector3(0f, floorCenterY, balconyCenterZ),
-            new Vector3(balconyWidth, 0.14f, balconyProtrude),
-            _matSecondFloor);
+            new Vector3(balconyWidth, 0.18f, balconyProtrude),
+            _matVarandaLowWall);
 
         AddVisualCeilingPlate(
             host,
             "UpperBalcony_Trail_Rail_Front",
-            new Vector3(0f, railCenterY, frontFaceZ + balconyProtrude + 0.05f),
-            new Vector3(balconyWidth + 0.14f, 0.9f, 0.12f),
-            _matSecondRail);
+            new Vector3(0f, railCenterY, frontFaceZ + 0.48f),
+            new Vector3(balconyWidth + 0.2f, 0.9f, 0.14f),
+            _matVarandaLowWall);
 
         AddVisualCeilingPlate(
             host,
             "UpperBalcony_Trail_Rail_Left",
             new Vector3(-balconyWidth * 0.5f - 0.05f, railCenterY, balconyCenterZ),
             new Vector3(0.12f, 0.9f, balconyProtrude),
-            _matSecondRail);
+            _matVarandaLowWall);
 
         AddVisualCeilingPlate(
             host,
             "UpperBalcony_Trail_Rail_Right",
             new Vector3(balconyWidth * 0.5f + 0.05f, railCenterY, balconyCenterZ),
             new Vector3(0.12f, 0.9f, balconyProtrude),
-            _matSecondRail);
-    }
-
-    private void BuildRoofBlockout()
-    {
-        var exterior = GetNode<Node3D>("../../Exterior");
-        var shellSpanX = BuildingHalfWidth * 2f + WallThickness + WallCornerOverlap;
-        var roofUndersideY = SecondFloorWallTopY;
-        var upperRoofDepth = UpperFrontZ - BuildingBackZ + WallCornerOverlap;
-        var upperRoofCenterZ = (UpperFrontZ + BuildingBackZ) * 0.5f;
-
-        AddVisualCeilingPlate(
-            exterior,
-            "Roof_Blockout_Main",
-            new Vector3(0f, roofUndersideY + RoofThickness * 0.5f, upperRoofCenterZ),
-            new Vector3(shellSpanX, RoofThickness, upperRoofDepth),
-            _matRoof);
-
-        // Roof_Blockout_LowerFront was a visual-only plate at Y=3.11 cutting
-        // through the playable upper wing. The approved deck/room ceilings own it.
+            _matVarandaLowWall);
     }
 
     private void AddVisualCeilingPlate(

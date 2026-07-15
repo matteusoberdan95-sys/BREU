@@ -1,3 +1,12 @@
+## REGRA CRÍTICA — SPRINT 32B
+
+O telhado é apenas casca visual externa.
+É proibido alterar a geometria interna validada.
+É proibido alterar colisão estrutural.
+É proibido criar colisão no telhado nesta sprint.
+É proibido mexer na varanda, escada, pisos, tetos internos, portas, puzzle, IA ou triggers.
+Se o telhado invadir visualmente o interior, mover o telhado para cima/fora ou ajustar escala/posição do Node3D. Nunca editar o interior para caber o telhado.
+
 ## REGRA CRÍTICA — SPRINT 30B
 
 Esta sprint substitui apenas props visuais por assets Blender.

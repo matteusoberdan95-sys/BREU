@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/architecture/pensao/roof/roof_pensao_santa_luzia_colonial_final_01.glb" id="1_roof"]
+
+[node name="roof_pensao_santa_luzia_colonial_final_01" type="Node3D"]
+metadata/visual_only = true
+metadata/collision_nodes = 0
+metadata/source_glb = "res://assets/models/architecture/pensao/roof/roof_pensao_santa_luzia_colonial_final_01.glb"
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="roof_pensao_santa_luzia_colonial_final_01.glb" parent="Visual" instance=ExtResource("1_roof")]

@@ -1,5 +1,20 @@
 # BREU — Estado do projeto
 
+## Sprint 32B — telhado colonial externo visual
+
+**Status em 2026-07-14:** casca visual implementada e validação automática específica aprovada; playtest manual externo/interno e F9 final ainda obrigatórios antes do commit da sprint.
+
+- Quatro GLBs do kit colonial foram encapsulados em cenas reutilizáveis e instanciados exclusivamente em `World/ExteriorShell/Sprint32B_RoofVisualShell`.
+- Após o primeiro vídeo externo, a pequena cobertura frontal que parecia uma placa flutuante foi ocultada; o telhado principal foi ampliado para `15,12 m`, ganhou beiral nas duas laterais e avançou até cobrir corretamente a linha frontal.
+- Telhado principal, cobertura frontal, telhas quebradas e musgo usam apenas meshes visuais; não existe colisão, física, navegação, câmera, luz ou gameplay novo no container.
+- Materiais incorporados de barro antigo, madeira velha, sujeira e musgo foram preservados por já terem metalicidade zero e roughness alta.
+- Interior, paredes, pisos, tetos internos, escada, varanda, portas, `UpperWing_CollisionDeck`, puzzle, IA, perseguições, safe room e triggers não foram alterados.
+- Importação Godot e carga headless concluídas; build com 0 erros; auditoria 32B limpa, deck `49/49` e 38 paredes superiores pareadas.
+- A primeira auditoria F9 da carga ficou em `0 ERROR / 0 WARNING`; uma repetição diferida no encerramento apontou dois erros preexistentes de ordem de aplicação dos perfis visuais 31C da escada/patamar. Repetir F9 no editor antes do commit.
+- Documentação completa: `docs/production/SPRINT32B_ROOF_VISUAL_SHELL.md`.
+
+**Próximo passo imediato:** inspecionar o telhado da trilha e de dentro da pensão, ativar Visible Collision Shapes, validar sombras/entrada/varanda e repetir F9. Após aprovação, criar o commit `feat: add external colonial roof visual shell to pension`.
+
 ## CHECKPOINT ATUAL — 2026-07-14
 
 **Commit de continuidade autorizado pelo usuário.** Este checkpoint reúne as Sprints 30B, 31, 31B e 31C e os hotfixes visuais feitos durante a revisão em vídeo. Ele serve para retomada em outro computador; não significa que o playtest manual final foi concluído.
